@@ -269,6 +269,24 @@ Deno.test("xml syntax CDATA", () => assertEquals(parse(`
   }
 }))
 
+Deno.test("xml syntax mixed content with CDATA", () => assertEquals(parse(`
+  <?xml version="1.0" encoding="UTF-8"?>
+  <root>
+    <script type="text/javascript">this is a <b>test</b> <![CDATA[function matchwo(a,b) {
+      if (a < b && a < 0) { return 1; }
+      else { return 0; }
+  }]]></script>
+  </root>
+`), {
+  root:{
+    script:{
+      "@type":"text/javascript",
+      b:"test"
+    }
+  }
+}))
+
+
 //Errors checks
 
 Deno.test("xml syntax unique root", () => void assertThrows(() => parse(`

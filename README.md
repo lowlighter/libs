@@ -15,10 +15,10 @@ Follow [XML.com's **Converting between XML and JSON**](https://www.xml.com/pub/a
 ### Limitations
 
 - Comments are stripped and cannot be recovered
+- When using mixed content of texts and child nodes, text node will be stripped and cannot be recovered
 - When using mixed group of nodes, `XML.stringify(XML.parse()))` may result in different order
   - *Example: `<a><b/><c/><b/></a>` will result in `<a><b/><b/><c/></a>`*
   - *This may or may not be acceptable depending on your use case*
-
 
 Not implemented yet:
 - [ ] XML.stringify

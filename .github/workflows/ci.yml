@@ -1,0 +1,40 @@
+name: Continuous integration
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+jobs:
+
+  lint:
+    name: Lint code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Deno
+        uses: denolib/setup-deno@v2
+      - name: Run linter
+        run: deno lint --unstable
+
+  format:
+    name: Format code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Deno
+        uses: denolib/setup-deno@v2
+      - name: Run formatter
+        run: deno fmt --check
+
+  tests:
+    name: Run tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Deno
+        uses: denolib/setup-deno@v2
+      - name: Run tests
+        run: deno test --unstable --coverage=coverage
+      - name: Print coverage
+        run: deno coverage --unstable coverage

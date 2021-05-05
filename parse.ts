@@ -154,9 +154,9 @@ function parseNode(document:Document) {
 function parseText(document:Document) {
   let content = ""
   while (true) {
-    content += consume(document, TAG_CONTENT).content ?? ""
+    content += consume(document, TAG_CONTENT).content
     if (peek(document, CDATA)) {
-      content += consume(document, CDATA).content ?? ""
+      content += consume(document, CDATA).content
       continue
     }
     break
@@ -199,7 +199,7 @@ function format(result:{[key:string]:unknown}, options:ParserOptions) {
 
       // Remove content key from node with child nodes
       if (keys.filter(k => k.charAt(0) !== "@").length > 1)
-        delete (value as any).$
+        delete (value as {[key:string]:unknown}).$
 
       result[key] = format(value as {[key:string]:unknown}, options)
     }
@@ -227,7 +227,7 @@ function revive(value:string, {reviveBooleans = true, reviveNumbers = true, empt
       value = value
         .replace(ENTITIES_DEC, (_, code) => String.fromCharCode(parseInt(code, 10)))
         .replace(ENTITIES_HEX, (_, code) => String.fromCharCode(parseInt(code, 16)))
-      for (let entity in ENTITIES)
+      for (const entity in ENTITIES)
         value = value.replaceAll(entity, ENTITIES[entity as keyof typeof ENTITIES])
       return value
   }
