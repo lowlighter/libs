@@ -17,6 +17,8 @@ patterns.
 - Auto-group nodes into arrays when same tag is used
 - Auto-unwrap nodes when it only has text content
 
+How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and [stringify tests](/stringify_test.ts) 🧪
+
 ### Limitations
 
 - Comments are stripped and cannot be recovered
