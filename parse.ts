@@ -8,71 +8,57 @@ const DECLARATION_CLOSE = /^[?]>/
 /** CDATA (<![CDATA[ ]]) */
 const CDATA = /^<!\[CDATA\[(?<content>[\s\S]*)\]\]>/m
 
-/** Tags (<name attr="value">content</name>) */
-const TAG_OPEN = /^<(?<name>[\w-:.]+)/
+/** Tags (<tag attr="value">content</tag>) */
+const TAG_OPEN = /^<(?<tag>[\w-:.]+)/
 const TAG_SELFCLOSE = /^(?<selfclosed>\/?)>/
-const TAG_CLOSE = (name:string) => new RegExp(`^<\/\\s*${name}\\s*>`, "i")
-const TAG_ATTRIBUTES = /^(?<name>[\w:-]+)\s*=\s*(?<quote>["']?)(?<value>[\s\S]+?)\k<quote>/
+const TAG_CLOSE = (tag:string) => new RegExp(`^<\/\\s*${tag}\\s*>`)
+const TAG_ATTRIBUTES = /^(?<name>[\w:-]+)\s*=\s*(?<quote>["'])(?<value>[\s\S]+?)\k<quote>/
 const TAG_CONTENT = /^(?<content>[^<]*?)(?=<)/
 
-/** Tag name (using a symbol to avoid collision with user data) */
-const $NAME = Symbol.for("name")
+/** XML entities */
+const ENTITIES = {"&lt;":"<", "&gt;":">", "&apos;":"'", "&quot;":'"', "&amp;":"&"}
+const ENTITIES_DEC = /&#(?<code>\d+);/g
+const ENTITIES_HEX = /&#x(?<code>\d+);/g
 
 /** XML document */
 type Document = {xml:string}
 
 /** XML node */
-type Node = {[$NAME]:string, $:unknown, [key:string]:unknown}
+type Node = {$tag:string, $:string, [key:string]:unknown}
 
-/** Parser */
-export function parse(xml:string) {
-  return format(parseXML({xml}), defaultReviver)
+/** Parser options */
+type ParserOptions = {
+  includeDeclaration?:boolean
+  includeDoctype?:boolean
+  reviveBooleans?:boolean
+  reviveNumbers?:boolean
+  emptyToNull?:boolean
+  reviver?:(key:string, value:string, tag:string) => unknown
 }
 
-/** SHITTY : TO IMPROVE */
-function format(result:{[key:string]:unknown}, reviver:(value:string) => unknown = defaultReviver) {
-  for (const [key, value] of Object.entries(result)) {
-    if (typeof value === "object") {
-      const keys = Object.keys(value as any)
-      //console.log(keys)
-      if (!keys.length) {
-        result[key] = null
-        continue
-      }
-      if ((keys.length === 1)&&(keys[0] === "$")) {
-        result[key] = reviver((value as any).$)
-        continue
-      }
-      if (keys.filter(key => key.charAt(0) !== "@").length > 1) {
-        delete (value as any).$
-      }
-      result[key] = format(value as {[key:string]:unknown}, reviver)
-    }
-    else {
-      result[key] = reviver(value as any)
-    }
-  }
-  return result
+/** Parser */
+export function parse(xml:string, options = {}) {
+  return format({xml:parseXML({xml}, options)}, options).xml
 }
 
 /** Parse a XML document */
-function parseXML(document:Document, {includeDeclaration = false} = {}) {
-  const parsed = {} as {[key:string]:unknown}
+function parseXML(document:Document, {includeDeclaration = false}:ParserOptions) {
 
   // Trim and remove comments
+  const parsed = {} as {[key:string]:unknown}
   document.xml = document.xml.trim().replace(COMMENTS, "")
 
-  // Handle XML declaration
+  // Handle XML declaration (optional as per spec)
   if (peek(document, DECLARATION_OPEN)) {
 
     // Handle XML opening declaration
     consume(document, DECLARATION_OPEN)
 
-    // Extract tag attributes
+    // Extract XML declaration attributes
     while (peek(document, TAG_ATTRIBUTES)) {
       const {name, value} = consume(document, TAG_ATTRIBUTES)
-      if ((name)&&(includeDeclaration))
-        parsed[`@${name.toLocaleLowerCase()}`] = value
+      if (includeDeclaration)
+        parsed[`@${name}`] = value
     }
 
     // Handle XML closing declaration
@@ -80,8 +66,12 @@ function parseXML(document:Document, {includeDeclaration = false} = {}) {
   }
 
   // Parse root node
-  const {[$NAME]:name, ...properties} = parseNode(document) as Node
-  parsed[name] = properties
+  const {$tag:tag, ...properties} = parseNode(document) as Node
+  parsed[tag] = properties
+
+  // Handle multiple root nodes
+  if (peek(document, TAG_OPEN))
+    throw new Error(`Failed to parse XML, multiple root nodes are not supported`)
 
   return parsed
 }
@@ -89,24 +79,19 @@ function parseXML(document:Document, {includeDeclaration = false} = {}) {
 /** Parse a single node */
 function parseNode(document:Document) {
 
+  // Handle opening tag
   if (!peek(document, TAG_OPEN))
     return null
-  const node = {} as Node
-
-  // Handle opening tag
-  const {name} = consume(document, TAG_OPEN)
-  node[$NAME] = name
+  const node = {$tag:consume(document, TAG_OPEN).tag, $:""} as Node
 
   // Extract tag attributes
   while (peek(document, TAG_ATTRIBUTES)) {
     const {name, value} = consume(document, TAG_ATTRIBUTES)
-    if (name)
-      node[`@${name.toLocaleLowerCase()}`] = value
+    node[`@${name}`] = value
   }
 
   // Handle self-closing tag
-  const {selfclosed} = consume(document, TAG_SELFCLOSE)
-  if (selfclosed)
+  if (consume(document, TAG_SELFCLOSE).selfclosed)
     return node
 
   // Extract content
@@ -119,30 +104,22 @@ function parseNode(document:Document) {
     }
     break
   }
-  node.$ = content
+  node.$ = content.trim()
 
   // Extract child nodes
-  if (!peek(document, TAG_CLOSE(name))) {
+  if (!peek(document, TAG_CLOSE(node.$tag))) {
     while (true) {
-      // Extract next child node
       const child = parseNode(document)
       if (!child)
         break
-      const {[$NAME]:name, ...properties} = child
-      // Group children of same name in array
-      if (name in node) {
-        if (!Array.isArray(node[name]))
-          node[name] = [node[name]]
-        ;(node[name] as unknown[]).push(properties)
-      }
-      else
-        node[name] = properties
+      const {$tag:tag, ...properties} = child
+      node[tag] ??= []
+      ;(node[tag] as unknown[]).push(properties)
     }
   }
 
   // Handle closing tag
-  consume(document, TAG_CLOSE(name))
-
+  consume(document, TAG_CLOSE(node.$tag))
   return node
 }
 
@@ -153,24 +130,64 @@ function peek(document:Document, regex:RegExp) {
 
 /** Consume next token and extract matching groups */
 function consume(document:Document, regex:RegExp) {
-  //console.log(`at: ${document.xml.split("\n")?.[0]?.substring(0, 20) ?? ""}, expect: ${regex.source}`)
   const matched = document.xml.match(regex)
   if (!matched)
-    throw new Error(`Failed to parse XML, expected: ${regex.source}`)
+    throw new Error(`Failed to parse XML, expected token: ${regex.source}`)
   document.xml = document.xml.replace(regex, "").trimStart()
   return matched.groups ?? {}
 }
 
+/** Format resulting document */
+function format(result:{[key:string]:unknown}, options:ParserOptions) {
+  for (let [key, value] of Object.entries(result)) {
+    //Un-array single nodes
+    if ((Array.isArray(value))&&(value.length === 1))
+      result[key] = value = value.shift()
+
+    //Handle node objects
+    if (typeof value === "object") {
+      const node = value as Node
+      const keys = Object.keys(node)
+
+      // Un-object single key objects
+      if ((keys.length === 1)&&(keys[0] === "$")) {
+        result[key] = revive(node.$, options)
+        continue
+      }
+
+      //
+      if (keys.filter(k => k.charAt(0) !== "@").length > 1) {
+        delete (value as any).$
+      }
+
+      result[key] = format(value as {[key:string]:unknown}, options)
+    }
+    //Handle terminal values
+    else
+      result[key] = revive(value as string, options)
+  }
+  return result
+}
+
 /** Default reviver */
-function defaultReviver(value:string) {
+function revive(value:string, {reviveBooleans = true, reviveNumbers = true, emptyToNull = true}:ParserOptions) {
   switch (true) {
-    case /^\s*$/.test(value):
+    // Convert empty values to null
+    case emptyToNull && /^\s*$/.test(value):
       return null
-    case /^(?:true|false)$/i.test(value):
-      return value.toLocaleLowerCase() === "true"
-    case Number.isFinite(Number(value)):
+    // Revive booleans
+    case reviveBooleans && /^(?:true|false)$/i.test(value):
+      return /^true$/i.test(value)
+    // Revive numbers
+    case reviveNumbers && Number.isFinite(Number(value)):
       return Number.parseFloat(value)
+    // Unescape XML entities
     default:
+      value = value
+        .replace(ENTITIES_DEC, (_, code) => String.fromCharCode(parseInt(code, 10)))
+        .replace(ENTITIES_HEX, (_, code) => String.fromCharCode(parseInt(code, 16)))
+      for (let entity in ENTITIES)
+        value = value.replaceAll(entity, ENTITIES[entity as keyof typeof ENTITIES])
       return value
   }
 }
