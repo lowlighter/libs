@@ -2,8 +2,6 @@
 
 ## Features
 
-> ⚠️ Still in development
-
 Follow
 [XML.com's **Converting between XML and
 JSON**](https://www.xml.com/pub/a/2006/05/31/converting-between-xml-and-json.html)
@@ -29,9 +27,7 @@ patterns.
   - _Example: `<a><b/><c/><b/></a>` will result in `<a><b/><b/><c/></a>`_
   - _This may or may not be acceptable depending on your use case_
 
-Not implemented yet:
-
-- [ ] XML.stringify
+> ⚠️ `XML.stringify` is not implemented yet
 
 ## Basic usage
 
