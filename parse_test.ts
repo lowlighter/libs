@@ -4,7 +4,7 @@ import {
   assertThrows,
 } from "https://deno.land/std@0.95.0/testing/asserts.ts";
 
-Deno.test("xml syntax tag", () =>
+Deno.test("parse: xml syntax tag", () =>
   assertEquals(
     parse(`
   <root>hello world</root>
@@ -14,7 +14,7 @@ Deno.test("xml syntax tag", () =>
     },
   ));
 
-Deno.test("xml syntax tag with attributes", () =>
+Deno.test("parse: xml syntax tag with attributes", () =>
   assertEquals(
     parse(`
   <root lang="en" type="greeting">hello world</root>
@@ -28,7 +28,7 @@ Deno.test("xml syntax tag with attributes", () =>
     },
   ));
 
-Deno.test("xml syntax self-closing tag", () =>
+Deno.test("parse: xml syntax self-closing tag", () =>
   assertEquals(
     parse(`
   <root/>
@@ -38,7 +38,7 @@ Deno.test("xml syntax self-closing tag", () =>
     },
   ));
 
-Deno.test("xml syntax self-closing with attributes", () =>
+Deno.test("parse: xml syntax self-closing with attributes", () =>
   assertEquals(
     parse(`
   <root lang="en" type="greeting" text="hello world"></root>
@@ -53,7 +53,7 @@ Deno.test("xml syntax self-closing with attributes", () =>
     },
   ));
 
-Deno.test("xml syntax empty tag", () =>
+Deno.test("parse: xml syntax empty tag", () =>
   assertEquals(
     parse(`
   <root></root>
@@ -63,7 +63,7 @@ Deno.test("xml syntax empty tag", () =>
     },
   ));
 
-Deno.test("xml syntax empty tag with attributes", () =>
+Deno.test("parse: xml syntax empty tag with attributes", () =>
   assertEquals(
     parse(`
   <root type="test"></root>
@@ -76,7 +76,7 @@ Deno.test("xml syntax empty tag with attributes", () =>
     },
   ));
 
-Deno.test("xml syntax simple tree", () =>
+Deno.test("parse: xml syntax simple tree", () =>
   assertEquals(
     parse(`
   <root>
@@ -94,7 +94,7 @@ Deno.test("xml syntax simple tree", () =>
     },
   ));
 
-Deno.test("xml syntax simple tree with same tags", () =>
+Deno.test("parse: xml syntax simple tree with same tags", () =>
   assertEquals(
     parse(`
   <root>
@@ -111,7 +111,7 @@ Deno.test("xml syntax simple tree with same tags", () =>
     },
   ));
 
-Deno.test("xml syntax simple tree with same tags and attributes", () =>
+Deno.test("parse: xml syntax simple tree with same tags and attributes", () =>
   assertEquals(
     parse(`
   <root>
@@ -133,7 +133,7 @@ Deno.test("xml syntax simple tree with same tags and attributes", () =>
     },
   ));
 
-Deno.test("xml syntax simple tree with nested tags of same name", () =>
+Deno.test("parse: xml syntax simple tree with nested tags of same name", () =>
   assertEquals(
     parse(`
   <root>
@@ -153,7 +153,7 @@ Deno.test("xml syntax simple tree with nested tags of same name", () =>
     },
   ));
 
-Deno.test("xml syntax mixed content", () =>
+Deno.test("parse: xml syntax mixed content", () =>
   assertEquals(
     parse(`
   <root>some <b>bold</b> text</root>
@@ -165,7 +165,7 @@ Deno.test("xml syntax mixed content", () =>
     },
   ));
 
-Deno.test("xml syntax nested mixed content", () =>
+Deno.test("parse: xml syntax nested mixed content", () =>
   assertEquals(
     parse(`
   <root>some <b>bold <i>italic</i> </b> text</root>
@@ -179,7 +179,7 @@ Deno.test("xml syntax nested mixed content", () =>
     },
   ));
 
-Deno.test("xml syntax xml prolog", () =>
+Deno.test("parse: xml syntax xml prolog", () =>
   assertEquals(
     parse(
       `
@@ -195,7 +195,7 @@ Deno.test("xml syntax xml prolog", () =>
     },
   ));
 
-Deno.test("xml syntax doctype", () =>
+Deno.test("parse: xml syntax doctype", () =>
   assertEquals(
     parse(
       `
@@ -213,7 +213,7 @@ Deno.test("xml syntax doctype", () =>
     },
   ));
 
-Deno.test("xml syntax doctype with element", () =>
+Deno.test("parse: xml syntax doctype with element", () =>
   assertEquals(
     parse(
       `
@@ -244,7 +244,7 @@ Deno.test("xml syntax doctype with element", () =>
     },
   ));
 
-Deno.test("xml syntax case sensitive", () =>
+Deno.test("parse: xml syntax case sensitive", () =>
   assertEquals(
     parse(`
   <root>
@@ -273,7 +273,7 @@ Deno.test("xml syntax case sensitive", () =>
     },
   ));
 
-Deno.test("xml syntax defined entities", () =>
+Deno.test("parse: xml syntax defined entities", () =>
   assertEquals(
     parse(`
   <root>
@@ -285,7 +285,7 @@ Deno.test("xml syntax defined entities", () =>
     },
   ));
 
-Deno.test("xml syntax decimal entity reference", () =>
+Deno.test("parse: xml syntax decimal entity reference", () =>
   assertEquals(
     parse(`
   <root>
@@ -297,7 +297,7 @@ Deno.test("xml syntax decimal entity reference", () =>
     },
   ));
 
-Deno.test("xml syntax hexadecimal entity reference", () =>
+Deno.test("parse: xml syntax hexadecimal entity reference", () =>
   assertEquals(
     parse(`
   <root>
@@ -309,7 +309,7 @@ Deno.test("xml syntax hexadecimal entity reference", () =>
     },
   ));
 
-Deno.test("xml syntax comments", () =>
+Deno.test("parse: xml syntax comments", () =>
   assertEquals(
     parse(`
   <?xml version="1.0" encoding="UTF-8"?>
@@ -329,7 +329,7 @@ Deno.test("xml syntax comments", () =>
     },
   ));
 
-Deno.test("xml syntax white spaces preserved", () =>
+Deno.test("parse: xml syntax white spaces preserved", () =>
   assertEquals(
     parse(`
   <?xml version="1.0" encoding="UTF-8"?>
@@ -344,7 +344,7 @@ are   you?`,
     },
   ));
 
-Deno.test("xml syntax CDATA", () =>
+Deno.test("parse: xml syntax CDATA", () =>
   assertEquals(
     parse(`
   <?xml version="1.0" encoding="UTF-8"?>
@@ -368,7 +368,7 @@ Deno.test("xml syntax CDATA", () =>
     },
   ));
 
-Deno.test("xml syntax mixed content with CDATA", () =>
+Deno.test("parse: xml syntax mixed content with CDATA", () =>
   assertEquals(
     parse(`
   <?xml version="1.0" encoding="UTF-8"?>
@@ -391,7 +391,7 @@ Deno.test("xml syntax mixed content with CDATA", () =>
 
 //Errors checks
 
-Deno.test("xml syntax unique root", () =>
+Deno.test("parse: xml syntax unique root", () =>
   void assertThrows(() =>
     parse(`
   <root>
@@ -407,7 +407,7 @@ Deno.test("xml syntax unique root", () =>
 `)
   ));
 
-Deno.test("xml syntax closing tag", () =>
+Deno.test("parse: xml syntax closing tag", () =>
   void assertThrows(() =>
     parse(`
   <root>
@@ -416,7 +416,7 @@ Deno.test("xml syntax closing tag", () =>
 `)
   ));
 
-Deno.test("xml syntax closing properly nested", () =>
+Deno.test("parse: xml syntax closing properly nested", () =>
   void assertThrows(() =>
     parse(`
   <root>
@@ -425,7 +425,7 @@ Deno.test("xml syntax closing properly nested", () =>
 `)
   ));
 
-Deno.test("xml syntax attributes quoted", () =>
+Deno.test("parse: xml syntax attributes quoted", () =>
   void assertThrows(() =>
     parse(`
   <root>
@@ -434,7 +434,7 @@ Deno.test("xml syntax attributes quoted", () =>
 `)
   ));
 
-Deno.test("xml syntax attributes properly quoted", () =>
+Deno.test("parse: xml syntax attributes properly quoted", () =>
   void assertThrows(() =>
     parse(`
   <root>
@@ -445,7 +445,7 @@ Deno.test("xml syntax attributes properly quoted", () =>
 
 //Example below were taken from https://www.w3schools.com/xml/default.asp
 
-Deno.test("xml example w3schools.com#1", () =>
+Deno.test("parse: xml example w3schools.com#1", () =>
   assertEquals(
     parse(`
   <note>
@@ -465,7 +465,7 @@ Deno.test("xml example w3schools.com#1", () =>
     },
   ));
 
-Deno.test("xml example w3schools.com#2", () =>
+Deno.test("parse: xml example w3schools.com#2", () =>
   assertEquals(
     parse(`
   <note>
@@ -487,7 +487,7 @@ Deno.test("xml example w3schools.com#2", () =>
     },
   ));
 
-Deno.test("xml example w3schools.com#3", () =>
+Deno.test("parse: xml example w3schools.com#3", () =>
   assertEquals(
     parse(`
   <bookstore>
@@ -569,7 +569,7 @@ Deno.test("xml example w3schools.com#3", () =>
     },
   ));
 
-Deno.test("xml example w3schools.com#4", () =>
+Deno.test("parse: xml example w3schools.com#4", () =>
   assertEquals(
     parse(`
   <nitf>
@@ -611,7 +611,7 @@ Deno.test("xml example w3schools.com#4", () =>
     },
   ));
 
-Deno.test("xml example w3schools.com#5", () =>
+Deno.test("parse: xml example w3schools.com#5", () =>
   assertEquals(
     parse(`
   <current_observation>
@@ -692,7 +692,7 @@ Deno.test("xml example w3schools.com#5", () =>
     },
   ));
 
-Deno.test("xml example w3schools.com#6", () =>
+Deno.test("parse: xml example w3schools.com#6", () =>
   assertEquals(
     parse(`
   <breakfast_menu>
@@ -782,7 +782,7 @@ Deno.test("xml example w3schools.com#6", () =>
 
 // Parser options
 
-Deno.test("xml parser option revive", () =>
+Deno.test("parse: xml parser option revive", () =>
   assertEquals(
     parse(`
   <?xml version="1.0" encoding="UTF-8"?>
@@ -803,7 +803,7 @@ Deno.test("xml parser option revive", () =>
     },
   ));
 
-Deno.test("xml parser option no-revive", () =>
+Deno.test("parse: xml parser option no-revive", () =>
   assertEquals(
     parse(
       `
