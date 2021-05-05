@@ -17,7 +17,8 @@ patterns.
 - Auto-group nodes into arrays when same tag is used
 - Auto-unwrap nodes when it only has text content
 
-How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and [stringify tests](/stringify_test.ts) 🧪
+How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and
+[stringify tests](/stringify_test.ts) 🧪
 
 ### Limitations
 
@@ -29,24 +30,55 @@ How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and [stri
   - _Example: `<a><b/><c/><b/></a>` will result in `<a><b/><b/><c/></a>`_
   - _This may or may not be acceptable depending on your use case_
 
-> ⚠️ `XML.stringify` is not implemented yet
-
 ## Basic usage
 
 ```ts
-import { parse, stringify } from "https://deno.land/x/xml/mod.ts";
+import { parse } from "https://deno.land/x/xml/mod.ts";
 
-const data = parse(`<hello lang="en" charset="utf8">world</hello>`);
-console.log(data);
+console.log(parse(`
+  <root>
+    <text>hello</text>
+    <array>world</array>
+    <array>monde</array>
+    <array>世界</array>
+    <array>🌏</array>
+    <number>42</number>
+    <boolean>true</boolean>
+    <complex attribute="value">content</complex>
+  </root>
+`));
 /*
-{
-  hello:{
-    "@lang":"en",
-    "@charset":"utf8",
-    $:"world",
+  Same nodes are grouped into arrays, while numbers and booleans are auto-parsed (can be disabled)
+  Nodes with attributes will not be flattened and you'll be able to access them with "@" prefix while
+  text nodes are available through "$" key
+  {
+    text:"hello",
+    array:["world", "monde", "世界", "🌏"],
+    number:42,
+    boolean:true,
+    complex:{
+      "@attribute":"value",
+      $:"content",
+    }
   }
-}
 */
+```
+
+```ts
+import { stringify } from "https://deno.land/x/xml/mod.ts";
+
+console.log(stringify({
+  root: {
+    text: "hello",
+    array: ["world", "monde", "世界", "🌏"],
+    number: 42,
+    boolean: true,
+    complex: {
+      "@attribute": "value",
+      $: "content",
+    },
+  },
+}));
 ```
 
 ### Revivers
