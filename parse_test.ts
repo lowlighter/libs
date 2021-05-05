@@ -111,6 +111,24 @@ Deno.test("xml syntax simple tree with nested tags of same name", () => assertEq
   }
 }))
 
+Deno.test("xml syntax mixed content", () => assertEquals(parse(`
+  <root>some <b>bold</b> text</root>
+`), {
+  root:{
+    b:"bold",
+  }
+}))
+
+Deno.test("xml syntax nested mixed content", () => assertEquals(parse(`
+  <root>some <b>bold <i>italic</i> </b> text</root>
+`), {
+  root:{
+    b:{
+      i:"italic"
+    },
+  }
+}))
+
 Deno.test("xml syntax xml prolog", () => assertEquals(parse(`
   <?xml version="1.0" encoding="UTF-8"?>
   <root></root>
@@ -120,8 +138,42 @@ Deno.test("xml syntax xml prolog", () => assertEquals(parse(`
   root:null
 }))
 
+Deno.test("xml syntax doctype", () => assertEquals(parse(`
+  <!DOCTYPE type "quoted attribute">
+  <root></root>
+`, {includeDoctype:true}), {
+  $doctype:{
+    "@type":true,
+    "@quoted attribute":true
+  },
+  root:null
+}))
+
+Deno.test("xml syntax doctype with element", () => assertEquals(parse(`
+  <!DOCTYPE type "quoted attribute"
+    [
+      <!ELEMENT note (to,from,heading,body)>
+      <!ELEMENT to (#PCDATA)>
+      <!ELEMENT from (#PCDATA)>
+      <!ELEMENT heading (#PCDATA)>
+      <!ELEMENT body (#PCDATA)>
+    ]
+  >
+  <root></root>
+`, {includeDoctype:true}), {
+  $doctype:{
+    "@type":true,
+    "@quoted attribute":true,
+    note:"(to,from,heading,body)",
+    to:"(#PCDATA)",
+    from:"(#PCDATA)",
+    heading:"(#PCDATA)",
+    body:"(#PCDATA)",
+  },
+  root:null
+}))
+
 Deno.test("xml syntax case sensitive", () => assertEquals(parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
     <child>
       <subchild>1</subchild>

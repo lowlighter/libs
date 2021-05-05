@@ -5,6 +5,15 @@ const COMMENTS = /<!--[\s\S]*?-->/g
 const DECLARATION_OPEN = /^<[?]xml /
 const DECLARATION_CLOSE = /^[?]>/
 
+/** Doctype declaration <!DOCTYPE [ <!ELEMENT > ]> */
+const DOCTYPE_OPEN = /^<!DOCTYPE /
+const DOCTYPE_ATTRIBUTES = /^(?<quote>["'])(?<value>[\s\S]+?)\k<quote>/
+const DOCTYPE_ATTRIBUTES_UNQUOTED = /^(?<value>[\w-:.]+)/
+const DOCTYPE_CLOSE = /^>/
+const DOCTYPE_ELEMENTS_OPEN = /^\[/
+const DOCTYPE_ELEMENT = /^<!ELEMENT (?<element>[\w-:.]+) (?<attributes>[^<]*?)>/
+const DOCTYPE_ELEMENTS_CLOSE = /^\]/
+
 /** CDATA (<![CDATA[ ]]) */
 const CDATA = /^<!\[CDATA\[(?<content>[\s\S]*)\]\]>/m
 
@@ -42,7 +51,7 @@ export function parse(xml:string, options = {}) {
 }
 
 /** Parse a XML document */
-function parseXML(document:Document, {includeDeclaration = false}:ParserOptions) {
+function parseXML(document:Document, {includeDeclaration = false, includeDoctype = false}:ParserOptions) {
 
   // Trim and remove comments
   const parsed = {} as {[key:string]:unknown}
@@ -50,8 +59,6 @@ function parseXML(document:Document, {includeDeclaration = false}:ParserOptions)
 
   // Handle XML declaration (optional as per spec)
   if (peek(document, DECLARATION_OPEN)) {
-
-    // Handle XML opening declaration
     consume(document, DECLARATION_OPEN)
 
     // Extract XML declaration attributes
@@ -63,6 +70,34 @@ function parseXML(document:Document, {includeDeclaration = false}:ParserOptions)
 
     // Handle XML closing declaration
     consume(document, DECLARATION_CLOSE)
+  }
+
+  // Handle Doctype declaration (optional as per spec)
+  if (peek(document, DOCTYPE_OPEN)) {
+    consume(document, DOCTYPE_OPEN)
+
+    // Extract doctype attributes
+    if (includeDoctype)
+      parsed.$doctype = {}
+    while ((peek(document, DOCTYPE_ATTRIBUTES))||(peek(document, DOCTYPE_ATTRIBUTES_UNQUOTED))) {
+      const {value} = peek(document, DOCTYPE_ATTRIBUTES) ? consume(document, DOCTYPE_ATTRIBUTES) : consume(document, DOCTYPE_ATTRIBUTES_UNQUOTED)
+      if (includeDoctype)
+        (parsed.$doctype as {[key:string]:unknown})[`@${value}`] = true
+    }
+
+    //Extract doctype elements
+    if (peek(document, DOCTYPE_ELEMENTS_OPEN)) {
+      consume(document, DOCTYPE_ELEMENTS_OPEN)
+      while (peek(document, DOCTYPE_ELEMENT)) {
+        const {element, attributes} = consume(document, DOCTYPE_ELEMENT)
+        if (includeDoctype)
+          (parsed.$doctype as {[key:string]:unknown})[element] = attributes
+      }
+      consume(document, DOCTYPE_ELEMENTS_CLOSE)
+    }
+
+    // Handle Doctype closing declaration
+    consume(document, DOCTYPE_CLOSE)
   }
 
   // Parse root node
@@ -94,21 +129,13 @@ function parseNode(document:Document) {
   if (consume(document, TAG_SELFCLOSE).selfclosed)
     return node
 
-  // Extract content
-  let content = ""
-  while (true) {
-    content += consume(document, TAG_CONTENT).content ?? ""
-    if (peek(document, CDATA)) {
-      content += consume(document, CDATA).content ?? ""
-      continue
-    }
-    break
-  }
-  node.$ = content.trim()
+  // Extract text nodes
+  node.$ = parseText(document)
 
   // Extract child nodes
   if (!peek(document, TAG_CLOSE(node.$tag))) {
     while (true) {
+      parseText(document)
       const child = parseNode(document)
       if (!child)
         break
@@ -123,6 +150,20 @@ function parseNode(document:Document) {
   return node
 }
 
+/** Parse text nodes */
+function parseText(document:Document) {
+  let content = ""
+  while (true) {
+    content += consume(document, TAG_CONTENT).content ?? ""
+    if (peek(document, CDATA)) {
+      content += consume(document, CDATA).content ?? ""
+      continue
+    }
+    break
+  }
+  return content.trim()
+}
+
 /** Check next token */
 function peek(document:Document, regex:RegExp) {
   return regex.test(document.xml)
@@ -132,7 +173,7 @@ function peek(document:Document, regex:RegExp) {
 function consume(document:Document, regex:RegExp) {
   const matched = document.xml.match(regex)
   if (!matched)
-    throw new Error(`Failed to parse XML, expected token: ${regex.source}`)
+    throw new Error(`Failed to parse XML, expected token: ${regex.source} (got: ${document.xml.substring(0, 6)}...)`)
   document.xml = document.xml.replace(regex, "").trimStart()
   return matched.groups ?? {}
 }
@@ -140,6 +181,7 @@ function consume(document:Document, regex:RegExp) {
 /** Format resulting document */
 function format(result:{[key:string]:unknown}, options:ParserOptions) {
   for (let [key, value] of Object.entries(result)) {
+
     //Un-array single nodes
     if ((Array.isArray(value))&&(value.length === 1))
       result[key] = value = value.shift()
@@ -155,10 +197,9 @@ function format(result:{[key:string]:unknown}, options:ParserOptions) {
         continue
       }
 
-      //
-      if (keys.filter(k => k.charAt(0) !== "@").length > 1) {
+      // Remove content key from node with child nodes
+      if (keys.filter(k => k.charAt(0) !== "@").length > 1)
         delete (value as any).$
-      }
 
       result[key] = format(value as {[key:string]:unknown}, options)
     }

@@ -4,6 +4,8 @@
 
 > ⚠️ Still in development
 
+Follow [XML.com's **Converting between XML and JSON**](https://www.xml.com/pub/a/2006/05/31/converting-between-xml-and-json.html) patterns.
+
 - Support `XML.parse` and `XML.stringify`
 - Support `<![CDATA[ ]]` string
 - Support `reviver`s for custom parsing
@@ -13,12 +15,13 @@
 ### Limitations
 
 - Comments are stripped and cannot be recovered
-- `XML.stringify(XML.parse()))` may result in different order when using grouped mixed nodes (e.g. `<a><b/><c/><b/></a>` will result in `<a><b/><b/><c/></a>`)
+- When using mixed group of nodes, `XML.stringify(XML.parse()))` may result in different order
+  - *Example: `<a><b/><c/><b/></a>` will result in `<a><b/><b/><c/></a>`*
+  - *This may or may not be acceptable depending on your use case*
+
 
 Not implemented yet:
 - [ ] XML.stringify
-- [ ] Mixed node content parsing
-- [ ] Doctype support
 
 ## Basic usage
 
