@@ -16,7 +16,7 @@ const DOCTYPE_ELEMENT =
 const DOCTYPE_ELEMENTS_CLOSE = /^\]/;
 
 /** CDATA (<![CDATA[ ]]) */
-const CDATA = /^<!\[CDATA\[(?<content>[\s\S]*)\]\]>/m;
+const CDATA = /^<!\[CDATA\[(?<content>[\s\S]*?)\]\]>/m;
 
 /** Tags (<tag attr="value">content</tag>) */
 const TAG_OPEN = /^<(?<tag>[\w-:.]+)/;
