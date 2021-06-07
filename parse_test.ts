@@ -389,6 +389,22 @@ Deno.test("parse: xml syntax mixed content with CDATA", () =>
     },
   ));
 
+Deno.test("parse: xml syntax with multiple CDATA's", () =>
+  assertEquals(parse(`
+    <root>
+      <text><![CDATA[ ]]></text>
+      <text><![CDATA[ ]]></text>
+    </root>`),
+    {
+      root: {
+        text: [
+          null,
+          null
+        ]
+      },
+    },
+  ));
+
 //Errors checks
 
 Deno.test("parse: xml syntax unique root", () =>
