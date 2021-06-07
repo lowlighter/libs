@@ -390,7 +390,8 @@ Deno.test("parse: xml syntax mixed content with CDATA", () =>
   ));
 
 Deno.test("parse: xml syntax with multiple CDATA's", () =>
-  assertEquals(parse(`
+  assertEquals(
+    parse(`
     <root>
       <text><![CDATA[ ]]></text>
       <text><![CDATA[ ]]></text>
@@ -399,8 +400,8 @@ Deno.test("parse: xml syntax with multiple CDATA's", () =>
       root: {
         text: [
           null,
-          null
-        ]
+          null,
+        ],
       },
     },
   ));
