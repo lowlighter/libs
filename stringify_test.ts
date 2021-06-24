@@ -121,3 +121,35 @@ Deno.test("stringify: xml example w3schools.com#3", () =>
       },
     },
   ));
+
+Deno.test("stringify: xml types", () =>
+  assertEquals(
+    check(
+      `
+  <types>
+    <boolean>true</boolean>
+    <null></null>
+    <string>hello</string>
+  </types>
+`,
+    ),
+    {
+      types: {
+        boolean: true,
+        null: null,
+        string: "hello",
+      },
+    },
+  ));
+
+Deno.test("stringify: xml entities", () =>
+  assertEquals(
+    check(
+      `
+    <string>&quot; &lt; &gt; &amp; &apos;</string>
+`,
+    ),
+    {
+      string: `" < > & '`,
+    },
+  ));
