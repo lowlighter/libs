@@ -32,7 +32,7 @@ const ENTITIES = {
   "&gt;": ">",
   "&apos;": "'",
   "&quot;": '"',
-  "&amp;": "&",
+  "&amp;": "&", //Keep last
 };
 const ENTITIES_DEC = /&#(?<code>\d+);/g;
 const ENTITIES_HEX = /&#x(?<code>\d+);/g;
