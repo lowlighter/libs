@@ -13,7 +13,7 @@ patterns.
 - Support `<!DOCTYPE>` declaration
 - Support `<![CDATA[ ]]` strings
 - Support XML entities (`&amp;`, `&#38;`, `&#x26;`, ...)
-- Support `reviver`s for custom parsing
+- Support auto-conversion of primitives (strings, booleans, numbers, null, ...)
 - Auto-group nodes into arrays when same tag is used
 - Auto-unwrap nodes when it only has text content
 
@@ -92,6 +92,3 @@ By default, node contents will be converted to:
 
 XML entities (e.g. `&amp;`, `&#38;`, `&#x26;`, ...) will be unescaped
 automatically.
-
-You can also provide a custom reviver that will receive `key`, `value` and
-`tag`.
