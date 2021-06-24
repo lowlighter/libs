@@ -13,7 +13,11 @@ type Node = {
 
 /** XML entities */
 const ENTITIES = {
+  "&": "&amp;", //Keep first
   '"': "&quot;",
+  "<": "&lt;",
+  ">": "&gt;",
+  "'": "&apos;",
 };
 
 /** Stringifier options */
@@ -21,6 +25,7 @@ type StringifierOptions = {
   includeDeclaration?: boolean;
   includeDoctype?: boolean;
   indentSize?: number;
+  nullToEmpty?: boolean;
   replacer?: (key: string, value: string, tag: string) => unknown;
 };
 
@@ -37,6 +42,7 @@ export function stringifyXML(
     indentSize = 2,
     includeDeclaration = false,
     includeDoctype = false,
+    nullToEmpty = true,
   }: StringifierOptions,
   { tag = "", depth = -2 } = {},
 ) {
@@ -88,7 +94,7 @@ export function stringifyXML(
 
   // Handle text nodes
   if (content) {
-    const lines = content.split("\n") as string[];
+    const lines = replace(content, { nullToEmpty }).split("\n") as string[];
     if (lines.length > 1) {
       document.string += `\n${
         lines.map((line) => `${indent}${line}`).join("\n")
@@ -155,5 +161,26 @@ function extract(node: Node | null) {
     }
     default:
       return { content: `${node}` };
+  }
+}
+
+/** Default replacer */
+function replace(
+  value: string,
+  { nullToEmpty = true }: StringifierOptions,
+) {
+  switch (true) {
+    // Convert empty values to null
+    case nullToEmpty && (value === null):
+      return "";
+    // Escape XML entities
+    default:
+      for (const entity in ENTITIES) {
+        value = `${value}`.replaceAll(
+          entity,
+          ENTITIES[entity as keyof typeof ENTITIES],
+        );
+      }
+      return value;
   }
 }
