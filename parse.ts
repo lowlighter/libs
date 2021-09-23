@@ -55,7 +55,10 @@ type ParserOptions = {
 
 /** Parser */
 export function parse(xml: string, options = {}) {
-  return format({ xml: parseXML({ xml }, options) }, options).xml as Record<PropertyKey, unknown>;
+  return format({ xml: parseXML({ xml }, options) }, options).xml as Record<
+    PropertyKey,
+    unknown
+  >;
 }
 
 /** Parse a XML document */

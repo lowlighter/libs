@@ -30,7 +30,10 @@ type StringifierOptions = {
 };
 
 /** Stringifier */
-export function stringify(xml: Record<PropertyKey, unknown>, options: StringifierOptions = {}) {
+export function stringify(
+  xml: Record<PropertyKey, unknown>,
+  options: StringifierOptions = {},
+) {
   return stringifyXML({ string: "" }, xml as Node, options) as string;
 }
 
