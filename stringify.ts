@@ -35,7 +35,7 @@ export function stringify(xml: Record<PropertyKey, unknown>, options: Stringifie
 }
 
 /** XML node strigifier */
-export function stringifyXML(
+function stringifyXML(
   document: Document,
   node: Node,
   {
