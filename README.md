@@ -1,35 +1,5 @@
 # XML parser for Deno
 
-## Features
-
-Follow
-[XML.com's **Converting between XML and
-JSON**](https://www.xml.com/pub/a/2006/05/31/converting-between-xml-and-json.html)
-patterns.
-
-- Support basic XML (tags, self-closed tags, nested tags, attributes, ...)
-- Support `XML.parse` and `XML.stringify`
-- Support `<?xml ?>` prolog declaration
-- Support `<!DOCTYPE>` declaration
-- Support `<![CDATA[ ]]` strings
-- Support XML entities (`&amp;`, `&#38;`, `&#x26;`, ...)
-- Support auto-conversion of primitives (strings, booleans, numbers, null, ...)
-- Auto-group nodes into arrays when same tag is used
-- Auto-unwrap nodes when it only has text content
-
-How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and
-[stringify tests](/stringify_test.ts) 🧪
-
-### Limitations
-
-- Comments are stripped and cannot be recovered
-- When using mixed content of texts and child nodes, text node will be stripped
-  and cannot be recovered
-- When using mixed group of nodes, `XML.stringify(XML.parse()))` may result in
-  different order
-  - _Example: `<a><b/><c/><b/></a>` will result in `<a><b/><b/><c/></a>`_
-  - _This may or may not be acceptable depending on your use case_
-
 ## Basic usage
 
 ```ts
@@ -80,6 +50,36 @@ console.log(stringify({
   },
 }));
 ```
+
+## Features
+
+Follow
+[XML.com's **Converting between XML and
+JSON**](https://www.xml.com/pub/a/2006/05/31/converting-between-xml-and-json.html)
+patterns.
+
+- Support basic XML (tags, self-closed tags, nested tags, attributes, ...)
+- Support `XML.parse` and `XML.stringify`
+- Support `<?xml ?>` prolog declaration
+- Support `<!DOCTYPE>` declaration
+- Support `<![CDATA[ ]]` strings
+- Support XML entities (`&amp;`, `&#38;`, `&#x26;`, ...)
+- Support auto-conversion of primitives (strings, booleans, numbers, null, ...)
+- Auto-group nodes into arrays when same tag is used
+- Auto-unwrap nodes when it only has text content
+
+How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and
+[stringify tests](/stringify_test.ts) 🧪
+
+### Limitations
+
+- Comments are stripped and cannot be recovered
+- When using mixed content of texts and child nodes, text node will be stripped
+  and cannot be recovered
+- When using mixed group of nodes, `XML.stringify(XML.parse()))` may result in
+  different order
+  - _Example: `<a><b/><c/><b/></a>` will result in `<a><b/><b/><c/></a>`_
+  - _This may or may not be acceptable depending on your use case_
 
 ### Revivers
 
