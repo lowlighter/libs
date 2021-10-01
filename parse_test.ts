@@ -2,7 +2,7 @@ import { parse } from "./mod.ts";
 import {
   assertEquals,
   assertThrows,
-} from "https://deno.land/std@0.95.0/testing/asserts.ts";
+} from "https://deno.land/std@0.107.0/testing/asserts.ts";
 
 Deno.test("parse: xml syntax tag", () =>
   assertEquals(
@@ -21,8 +21,8 @@ Deno.test("parse: xml syntax tag with attributes", () =>
 `),
     {
       root: {
-        "@lang": "en",
-        "@type": "greeting",
+        $lang: "en",
+        $type: "greeting",
         $: "hello world",
       },
     },
@@ -46,9 +46,9 @@ Deno.test("parse: xml syntax self-closing with attributes", () =>
     {
       root: {
         $: null,
-        "@lang": "en",
-        "@type": "greeting",
-        "@text": "hello world",
+        $lang: "en",
+        $type: "greeting",
+        $text: "hello world",
       },
     },
   ));
@@ -71,7 +71,7 @@ Deno.test("parse: xml syntax empty tag with attributes", () =>
     {
       root: {
         $: null,
-        "@type": "test",
+        $type: "test",
       },
     },
   ));
@@ -124,10 +124,10 @@ Deno.test("parse: xml syntax simple tree with same tags and attributes", () =>
     {
       root: {
         child: [
-          { "@lang": "en", $: "world" },
-          { "@lang": "fr", $: "monde" },
-          { "@lang": "zh", $: "世界" },
-          { "@lang": "🦕", $: "🌏" },
+          { $lang: "en", $: "world" },
+          { $lang: "fr", $: "monde" },
+          { $lang: "zh", $: "世界" },
+          { $lang: "🦕", $: "🌏" },
         ],
       },
     },
@@ -186,11 +186,10 @@ Deno.test("parse: xml syntax xml prolog", () =>
   <?xml version="1.0" encoding="UTF-8"?>
   <root></root>
 `,
-      { includeDeclaration: true },
     ),
     {
-      "@version": 1,
-      "@encoding": "UTF-8",
+      $version: 1,
+      $encoding: "UTF-8",
       root: null,
     },
   ));
@@ -202,12 +201,11 @@ Deno.test("parse: xml syntax doctype", () =>
   <!DOCTYPE type "quoted attribute">
   <root></root>
 `,
-      { includeDoctype: true },
     ),
     {
       $doctype: {
-        "@type": true,
-        "@quoted attribute": true,
+        $type: true,
+        "$quoted attribute": true,
       },
       root: null,
     },
@@ -228,12 +226,11 @@ Deno.test("parse: xml syntax doctype with element", () =>
   >
   <root></root>
 `,
-      { includeDoctype: true },
     ),
     {
       $doctype: {
-        "@type": true,
-        "@quoted attribute": true,
+        $type: true,
+        "$quoted attribute": true,
         note: "(to,from,heading,body)",
         to: "(#PCDATA)",
         from: "(#PCDATA)",
@@ -322,7 +319,7 @@ Deno.test("parse: xml syntax comments", () =>
     {
       root: {
         child: {
-          "@type": "test",
+          $type: "test",
           $: null,
         },
       },
@@ -358,7 +355,7 @@ Deno.test("parse: xml syntax CDATA", () =>
     {
       root: {
         script: {
-          "@type": "text/javascript",
+          $type: "text/javascript",
           $: `function matchwo(a,b) {
       if (a < b && a < 0) { return 1; }
       else { return 0; }
@@ -382,7 +379,7 @@ Deno.test("parse: xml syntax mixed content with CDATA", () =>
     {
       root: {
         script: {
-          "@type": "text/javascript",
+          $type: "text/javascript",
           b: "test",
         },
       },
@@ -547,22 +544,22 @@ Deno.test("parse: xml example w3schools.com#3", () =>
       bookstore: {
         book: [
           {
-            "@category": "cooking",
-            title: { "@lang": "en", $: "Everyday Italian" },
+            $category: "cooking",
+            title: { $lang: "en", $: "Everyday Italian" },
             author: "Giada De Laurentiis",
             year: 2005,
             price: 30,
           },
           {
-            "@category": "children",
-            title: { "@lang": "en", $: "Harry Potter" },
+            $category: "children",
+            title: { $lang: "en", $: "Harry Potter" },
             author: "J K. Rowling",
             year: 2005,
             price: 29.99,
           },
           {
-            "@category": "web",
-            title: { "@lang": "en", $: "XQuery Kick Start" },
+            $category: "web",
+            title: { $lang: "en", $: "XQuery Kick Start" },
             author: [
               "James McGovern",
               "Per Bothner",
@@ -574,9 +571,9 @@ Deno.test("parse: xml example w3schools.com#3", () =>
             price: 49.99,
           },
           {
-            "@category": "web",
-            "@cover": "paperback",
-            title: { "@lang": "en", $: "Learning XML" },
+            $category: "web",
+            $cover: "paperback",
+            title: { $lang: "en", $: "Learning XML" },
             author: "Erik T. Ray",
             year: 2003,
             price: 39.95,
