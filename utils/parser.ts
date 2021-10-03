@@ -383,7 +383,6 @@ export class Parser {
 
   /** Peek and validate against tokens */
   #peeks(tokens: string[]) {
-    this.#debug(["(stream)"], `expecting ${JSON.stringify(tokens)}`);
     let offset = 0;
     for (let i = 0; i < tokens.length; i++) {
       const token = tokens[i];
@@ -400,10 +399,6 @@ export class Parser {
         }
         return false;
       }
-      this.#debug(
-        ["(stream)"],
-        `found token ${1 + i}/${tokens.length}: "${token}"`,
-      );
     }
     return true;
   }
