@@ -98,3 +98,23 @@ By default, node contents will be converted to:
 
 XML entities (e.g. `&amp;`, `&#38;`, `&#x26;`, ...) will be unescaped
 automatically.
+
+### Parsing large files
+
+Parsing large files of several mega bytes can take some time.
+You can use `progress` option to pass a callback each time a node has been parsed.
+
+```ts
+import { parse } from "./mod.ts";
+const file = await Deno.open("my.xml");
+const { size } = await file.stat();
+console.log(parse(file, {
+  progress(bytes) {
+    Deno.stdout.writeSync(
+      new TextEncoder().encode(
+        `Parsing document: ${(bytes / size).toFixed(2)}%\r`,
+      ),
+    );
+  },
+}));
+```

@@ -19,10 +19,15 @@ export class Stream {
   /** Content */
   readonly #content: Flux;
 
+  /** Cursor position */
+  get cursor() {
+    return this.#content.seekSync(0, Deno.SeekMode.Current);
+  }
+
   /** Peek next bytes (cursor is replaced at current position after reading) */
   peek(bytes = 1, offset = 0) {
     const buffer = new Uint8Array(bytes);
-    const cursor = this.#content.seekSync(0, Deno.SeekMode.Current);
+    const cursor = this.cursor;
     if (offset) {
       this.#content.seekSync(offset, Deno.SeekMode.Current);
     }

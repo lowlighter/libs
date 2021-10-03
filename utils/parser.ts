@@ -7,6 +7,7 @@ export type ParserOptions = {
   reviveNumbers?: boolean;
   emptyToNull?: boolean;
   debug?: boolean;
+  progress?: (bytes: number) => void;
 };
 
 /**
@@ -64,6 +65,9 @@ export class Parser {
 
   /** Node parser */
   #node({ path }: { path: string[] }) {
+    if (this.#options.progress) {
+      this.#options.progress(this.#stream.cursor);
+    }
     if (this.#peek(Parser.tokens.comment.start)) {
       return { [Parser.schema.comment]: this.#comment({ path }) };
     }
