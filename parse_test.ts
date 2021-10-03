@@ -21,9 +21,9 @@ Deno.test("parse: xml syntax tag with attributes", () =>
 `),
     {
       root: {
-        $lang: "en",
-        $type: "greeting",
-        $: "hello world",
+        "@lang": "en",
+        "@type": "greeting",
+        "#text": "hello world",
       },
     },
   ));
@@ -45,10 +45,10 @@ Deno.test("parse: xml syntax self-closing with attributes", () =>
 `),
     {
       root: {
-        $: null,
-        $lang: "en",
-        $type: "greeting",
-        $text: "hello world",
+        "#text": null,
+        "@lang": "en",
+        "@type": "greeting",
+        "@text": "hello world",
       },
     },
   ));
@@ -70,8 +70,8 @@ Deno.test("parse: xml syntax empty tag with attributes", () =>
 `),
     {
       root: {
-        $: null,
-        $type: "test",
+        "#text": null,
+        "@type": "test",
       },
     },
   ));
@@ -124,10 +124,10 @@ Deno.test("parse: xml syntax simple tree with same tags and attributes", () =>
     {
       root: {
         child: [
-          { $lang: "en", $: "world" },
-          { $lang: "fr", $: "monde" },
-          { $lang: "zh", $: "世界" },
-          { $lang: "🦕", $: "🌏" },
+          { "@lang": "en", "#text": "world" },
+          { "@lang": "fr", "#text": "monde" },
+          { "@lang": "zh", "#text": "世界" },
+          { "@lang": "🦕", "#text": "🌏" },
         ],
       },
     },
@@ -159,9 +159,7 @@ Deno.test("parse: xml syntax mixed content", () =>
   <root>some <b>bold</b> text</root>
 `),
     {
-      root: {
-        b: "bold",
-      },
+      root: "some <b>bold</b> text",
     },
   ));
 
@@ -171,11 +169,7 @@ Deno.test("parse: xml syntax nested mixed content", () =>
   <root>some <b>bold <i>italic</i> </b> text</root>
 `),
     {
-      root: {
-        b: {
-          i: "italic",
-        },
-      },
+      root: "some <b>bold <i>italic</i> </b> text",
     },
   ));
 
@@ -188,8 +182,10 @@ Deno.test("parse: xml syntax xml prolog", () =>
 `,
     ),
     {
-      $version: 1,
-      $encoding: "UTF-8",
+      xml: {
+        "@version": 1,
+        "@encoding": "UTF-8",
+      },
       root: null,
     },
   ));
@@ -203,9 +199,9 @@ Deno.test("parse: xml syntax doctype", () =>
 `,
     ),
     {
-      $doctype: {
-        $type: true,
-        "$quoted attribute": true,
+      doctype: {
+        "@type": true,
+        "@quoted attribute": true,
       },
       root: null,
     },
@@ -228,14 +224,14 @@ Deno.test("parse: xml syntax doctype with element", () =>
 `,
     ),
     {
-      $doctype: {
-        $type: true,
-        "$quoted attribute": true,
-        note: "(to,from,heading,body)",
-        to: "(#PCDATA)",
-        from: "(#PCDATA)",
-        heading: "(#PCDATA)",
-        body: "(#PCDATA)",
+      doctype: {
+        "@type": true,
+        "@quoted attribute": true,
+        note: "to,from,heading,body",
+        to: "#PCDATA",
+        from: "#PCDATA",
+        heading: "#PCDATA",
+        body: "#PCDATA",
       },
       root: null,
     },
@@ -309,18 +305,18 @@ Deno.test("parse: xml syntax hexadecimal entity reference", () =>
 Deno.test("parse: xml syntax comments", () =>
   assertEquals(
     parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
-    <!-- IGNORE ME -->
+    <!-- COMMENT 1 -->
     <child type="test" />
-    <!-- IGNORE ME -->
+    <!-- COMMENT 2 -->
   </root>
 `),
     {
       root: {
+        "#comment": ["COMMENT 1", "COMMENT 2"],
         child: {
-          $type: "test",
-          $: null,
+          "@type": "test",
+          "#text": null,
         },
       },
     },
@@ -329,7 +325,6 @@ Deno.test("parse: xml syntax comments", () =>
 Deno.test("parse: xml syntax white spaces preserved", () =>
   assertEquals(
     parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
     Hello     world   how
 are   you?
@@ -344,9 +339,8 @@ are   you?`,
 Deno.test("parse: xml syntax CDATA", () =>
   assertEquals(
     parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
-    <script type="text/javascript"><![CDATA[function matchwo(a,b) {
+    <script type="text/javascript"><![CDATA[function match(a,b) {
       if (a < b && a < 0) { return 1; }
       else { return 0; }
   }]]></script>
@@ -355,8 +349,8 @@ Deno.test("parse: xml syntax CDATA", () =>
     {
       root: {
         script: {
-          $type: "text/javascript",
-          $: `function matchwo(a,b) {
+          "@type": "text/javascript",
+          "#text": `function match(a,b) {
       if (a < b && a < 0) { return 1; }
       else { return 0; }
   }`,
@@ -368,9 +362,8 @@ Deno.test("parse: xml syntax CDATA", () =>
 Deno.test("parse: xml syntax mixed content with CDATA", () =>
   assertEquals(
     parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
-    <script type="text/javascript">this is a <b>test</b> <![CDATA[function matchwo(a,b) {
+    <script type="text/javascript">this is a <b>test</b> <![CDATA[function match(a,b) {
       if (a < b && a < 0) { return 1; }
       else { return 0; }
   }]]></script>
@@ -379,8 +372,11 @@ Deno.test("parse: xml syntax mixed content with CDATA", () =>
     {
       root: {
         script: {
-          $type: "text/javascript",
-          b: "test",
+          "@type": "text/javascript",
+          "#text": `this is a <b>test</b> function match(a,b) {
+      if (a < b && a < 0) { return 1; }
+      else { return 0; }
+  }`,
         },
       },
     },
@@ -544,22 +540,22 @@ Deno.test("parse: xml example w3schools.com#3", () =>
       bookstore: {
         book: [
           {
-            $category: "cooking",
-            title: { $lang: "en", $: "Everyday Italian" },
+            "@category": "cooking",
+            title: { "@lang": "en", "#text": "Everyday Italian" },
             author: "Giada De Laurentiis",
             year: 2005,
             price: 30,
           },
           {
-            $category: "children",
-            title: { $lang: "en", $: "Harry Potter" },
+            "@category": "children",
+            title: { "@lang": "en", "#text": "Harry Potter" },
             author: "J K. Rowling",
             year: 2005,
             price: 29.99,
           },
           {
-            $category: "web",
-            title: { $lang: "en", $: "XQuery Kick Start" },
+            "@category": "web",
+            title: { "@lang": "en", "#text": "XQuery Kick Start" },
             author: [
               "James McGovern",
               "Per Bothner",
@@ -571,9 +567,9 @@ Deno.test("parse: xml example w3schools.com#3", () =>
             price: 49.99,
           },
           {
-            $category: "web",
-            $cover: "paperback",
-            title: { $lang: "en", $: "Learning XML" },
+            "@category": "web",
+            "@cover": "paperback",
+            title: { "@lang": "en", "#text": "Learning XML" },
             author: "Erik T. Ray",
             year: 2003,
             price: 39.95,
@@ -799,7 +795,6 @@ Deno.test("parse: xml example w3schools.com#6", () =>
 Deno.test("parse: xml parser option revive", () =>
   assertEquals(
     parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
     <empty></empty>
     <number>1</number>
@@ -821,7 +816,6 @@ Deno.test("parse: xml parser option no-revive", () =>
   assertEquals(
     parse(
       `
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
     <empty></empty>
     <number>1</number>

@@ -7,6 +7,7 @@ import { parse } from "https://deno.land/x/xml/mod.ts";
 
 console.log(parse(`
   <root>
+    <!-- This is a comment -->
     <text>hello</text>
     <array>world</array>
     <array>monde</array>
@@ -20,15 +21,18 @@ console.log(parse(`
 /*
   Same nodes are grouped into arrays, while numbers and booleans are auto-parsed (can be disabled)
   Nodes with attributes will not be flattened and you'll be able to access them with "@" prefix while
-  text nodes are available through "$" key
+  text nodes are available through "#text" key and comment nodes are available through "#comment" key
   {
-    text:"hello",
-    array:["world", "monde", "世界", "🌏"],
-    number:42,
-    boolean:true,
-    complex:{
-      "@attribute":"value",
-      $:"content",
+    root: {
+      "#comment": "This is a comment",
+      text: "hello",
+      array: ["world", "monde", "世界", "🌏"],
+      number: 42,
+      boolean: true,
+      complex: {
+        "@attribute": "value",
+        "#text": "content",
+      }
     }
   }
 */
@@ -39,13 +43,14 @@ import { stringify } from "https://deno.land/x/xml/mod.ts";
 
 console.log(stringify({
   root: {
+    "#comment": "This is a comment",
     text: "hello",
     array: ["world", "monde", "世界", "🌏"],
     number: 42,
     boolean: true,
     complex: {
       "@attribute": "value",
-      $: "content",
+      "#text": "content",
     },
   },
 }));
@@ -63,8 +68,10 @@ patterns.
 - Support `<?xml ?>` prolog declaration
 - Support `<!DOCTYPE>` declaration
 - Support `<![CDATA[ ]]` strings
+- Support `<!-- -->` comments
 - Support XML entities (`&amp;`, `&#38;`, `&#x26;`, ...)
 - Support auto-conversion of primitives (strings, booleans, numbers, null, ...)
+- Support strings or streams (`Deno.ReaderSync & Deno.SeekerSync`) inputs
 - Auto-group nodes into arrays when same tag is used
 - Auto-unwrap nodes when it only has text content
 
@@ -73,10 +80,9 @@ How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and
 
 ### Limitations
 
-- Comments are stripped and cannot be recovered
-- When using mixed content of texts and child nodes, text node will be stripped
-  and cannot be recovered
-- When using mixed group of nodes, `XML.stringify(XML.parse()))` may result in
+- When using mixed content of texts and child nodes, it will be parsed as a text
+  node
+- When using mixed group of nodes, `XML.stringify(XML.parse()))` may result in a
   different order
   - _Example: `<a><b/><c/><b/></a>` will result in `<a><b/><b/><c/></a>`_
   - _This may or may not be acceptable depending on your use case_
