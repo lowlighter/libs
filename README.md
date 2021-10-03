@@ -101,8 +101,8 @@ automatically.
 
 ### Parsing large files
 
-Parsing large files of several mega bytes can take some time.
-You can use `progress` option to pass a callback each time a node has been parsed.
+Parsing large files of several mega bytes can take some time. You can use
+`progress` option to pass a callback each time a node has been parsed.
 
 ```ts
 import { parse } from "./mod.ts";
@@ -112,7 +112,7 @@ console.log(parse(file, {
   progress(bytes) {
     Deno.stdout.writeSync(
       new TextEncoder().encode(
-        `Parsing document: ${(bytes / size).toFixed(2)}%\r`,
+        `Parsing document: ${(100 * bytes / size).toFixed(2)}%\r`,
       ),
     );
   },
