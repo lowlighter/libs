@@ -1,5 +1,5 @@
 import { $XML, parse } from "./mod.ts";
-import { assertEquals, assertThrows, assert } from "https://deno.land/std@0.107.0/testing/asserts.ts";
+import { assert, assertEquals, assertThrows } from "https://deno.land/std@0.111.0/testing/asserts.ts";
 
 // deno-lint-ignore no-explicit-any
 type test = any;
@@ -789,36 +789,39 @@ Deno.test("parse: xml example w3schools.com#6", () =>
 // Parser options
 
 Deno.test("parse: xml parser option progress", () => {
-  let called = false
+  let called = false;
   assertEquals(
     parse(
       `<root></root>`,
-      { progress() {  called = true } },
+      {
+        progress() {
+          called = true;
+        },
+      },
     ),
     {
       root: null,
     },
-  )
-  assert(called)
+  );
+  assert(called);
 });
 
 Deno.test("parse: xml parser option debug", () => {
-  let called = false
-  const debug = console.debug
-  console.debug = () => called = true
+  let called = false;
+  const debug = console.debug;
+  console.debug = () => called = true;
   assertEquals(
     parse(
       `<root></root>`,
-      { debug:true },
+      { debug: true },
     ),
     {
       root: null,
     },
-  )
-  assert(called)
-  console.debug = debug
+  );
+  assert(called);
+  console.debug = debug;
 });
-
 
 Deno.test("parse: xml parser option no flatten", () =>
   assertEquals(
@@ -901,7 +904,7 @@ Deno.test("parse: xml parser reviver", () =>
             return !value;
           }
           if (tag === "delete") {
-            return undefined
+            return undefined;
           }
           return value;
         },
@@ -913,7 +916,6 @@ Deno.test("parse: xml parser reviver", () =>
       },
     },
   ));
-
 
 Deno.test("parse: xml parser reviver (properties are accessibles except within attributes)", () =>
   assertEquals(

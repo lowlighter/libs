@@ -1,31 +1,7 @@
 //Imports
 import { Stream } from "./stream.ts";
-import { $XML } from "./symbols.ts";
-
-/** Parser options */
-export type ParserOptions = {
-  reviveBooleans?: boolean;
-  reviveNumbers?: boolean;
-  emptyToNull?: boolean;
-  debug?: boolean;
-  flatten?: boolean;
-  progress?: (bytes: number) => void;
-  reviver?: (
-    this: node,
-    options: {
-      key: string;
-      value: unknown;
-      tag: string;
-      properties: null | node;
-    },
-  ) => unknown;
-};
-
-/** Node type */
-type node = {
-  [$XML]: { name: string; parent: null | node };
-  [key: PropertyKey]: unknown;
-};
+import { $XML, entities, schema, tokens } from "./types.ts";
+import type { node, ParserOptions } from "./types.ts";
 
 /**
  * XML parser helper
@@ -59,29 +35,62 @@ export class Parser {
   #document() {
     const document = {} as node;
     const path = [] as node[];
+    const comments = [];
+    let root = false;
+    let clean = true;
     this.#trim();
 
-    //Extract prolog and doctype
-    if (this.#peek(Parser.tokens.prolog.start)) {
-      Object.assign(document, this.#prolog({ path }));
-    }
-    if (this.#peek(Parser.tokens.doctype.start)) {
-      Object.assign(document, this.#doctype({ path }));
-    }
-
-    //Extract root node
-    Object.assign(document, this.#node({ path }));
-    this.#trim();
-
-    //Ensure we reached end
+    //Parse document
     try {
-      this.#stream.peek();
+      while (true) {
+        clean = true;
+
+        //Comments
+        if (this.#peek(tokens.comment.start)) {
+          clean = false;
+          comments.push(this.#comment({ path }));
+          continue;
+        }
+
+        //Extract prolog and doctype
+        if (this.#peek(tokens.prolog.start)) {
+          if (document.xml) {
+            throw new SyntaxError("Multiple prolog declaration found");
+          }
+          clean = false;
+          Object.assign(document, this.#prolog({ path }));
+          continue;
+        }
+        if (this.#peek(tokens.doctype.start)) {
+          if (document.doctype) {
+            throw new SyntaxError("Multiple doctype declaration found");
+          }
+          clean = false;
+          Object.assign(document, this.#doctype({ path }));
+          continue;
+        }
+
+        //Extract root node
+        if (this.#peek(tokens.tag.start)) {
+          if (root) {
+            throw new SyntaxError("Multiple root elements found");
+          }
+          clean = false;
+          Object.assign(document, this.#node({ path }));
+          this.#trim();
+          root = true;
+          continue;
+        }
+      }
     } catch (error) {
-      if (error instanceof Deno.errors.UnexpectedEof) {
+      if ((error instanceof Deno.errors.UnexpectedEof) && (clean)) {
+        if (comments.length) {
+          document[schema.comment] = comments;
+        }
         return document;
       }
+      throw error;
     }
-    throw new SyntaxError("XML documents should only have a single root element");
   }
 
   /** Node parser */
@@ -89,8 +98,8 @@ export class Parser {
     if (this.#options.progress) {
       this.#options.progress(this.#stream.cursor);
     }
-    if (this.#peek(Parser.tokens.comment.start)) {
-      return { [Parser.schema.comment]: this.#comment({ path }) };
+    if (this.#peek(tokens.comment.start)) {
+      return { [schema.comment]: this.#comment({ path }) };
     }
     return this.#tag({ path });
   }
@@ -99,15 +108,15 @@ export class Parser {
   #prolog({ path }: { path: node[] }) {
     this.#debug(path, "parsing prolog");
     const prolog = this.#make.node({ name: "xml", path });
-    this.#consume(Parser.tokens.prolog.start);
+    this.#consume(tokens.prolog.start);
 
     //Tag attributes
-    while (!/\/?>/.test(this.#stream.peek(2))) {
+    while (!tokens.tag.close.regex.end.test(this.#stream.peek(2))) {
       Object.assign(prolog, this.#attribute({ path: [...path, prolog] }));
     }
 
     //Result
-    this.#consume(Parser.tokens.prolog.end);
+    this.#consume(tokens.prolog.end);
     return { xml: prolog };
   }
 
@@ -116,23 +125,23 @@ export class Parser {
     this.#debug(path, "parsing doctype");
     const doctype = this.#make.node({ name: "doctype", path });
     Object.defineProperty(doctype, $XML, { enumerable: false, writable: true });
-    this.#consume(Parser.tokens.doctype.start);
+    this.#consume(tokens.doctype.start);
 
     //Tag attributes
-    while (!this.#peek(Parser.tokens.doctype.end)) {
-      if (this.#peek(Parser.tokens.doctype.elements.start)) {
-        this.#consume(Parser.tokens.doctype.elements.start);
-        while (!this.#peek(Parser.tokens.doctype.elements.end)) {
+    while (!this.#peek(tokens.doctype.end)) {
+      if (this.#peek(tokens.doctype.elements.start)) {
+        this.#consume(tokens.doctype.elements.start);
+        while (!this.#peek(tokens.doctype.elements.end)) {
           Object.assign(doctype, this.#doctypeElement({ path }));
         }
-        this.#consume(Parser.tokens.doctype.elements.end);
+        this.#consume(tokens.doctype.elements.end);
       } else {
         Object.assign(doctype, this.#property({ path }));
       }
     }
 
     //Result
-    this.#stream.consume({ content: Parser.tokens.doctype.end });
+    this.#stream.consume({ content: tokens.doctype.end });
     return { doctype };
   }
 
@@ -141,18 +150,18 @@ export class Parser {
     this.#debug(path, "parsing doctype element");
 
     //Element name
-    this.#consume(Parser.tokens.doctype.element.start);
-    const element = Object.keys(this.#property({ path })).shift()!.substring(Parser.schema.property.prefix.length);
+    this.#consume(tokens.doctype.element.start);
+    const element = Object.keys(this.#property({ path })).shift()!.substring(schema.property.prefix.length);
     this.#debug(path, `found doctype element "${element}"`);
 
     //Element value
-    this.#consume(Parser.tokens.doctype.element.value.start);
-    const value = this.#capture(Parser.tokens.doctype.element.value.regex.end);
-    this.#consume(Parser.tokens.doctype.element.value.end);
+    this.#consume(tokens.doctype.element.value.start);
+    const value = this.#capture(tokens.doctype.element.value.regex.end);
+    this.#consume(tokens.doctype.element.value.end);
     this.#debug(path, `found doctype element value "${value}"`);
 
     //Result
-    this.#consume(Parser.tokens.doctype.element.end);
+    this.#consume(tokens.doctype.element.end);
     return { [element]: value };
   }
 
@@ -162,32 +171,32 @@ export class Parser {
     const tag = this.#make.node({ path });
 
     //Tag name
-    this.#consume(Parser.tokens.tag.start);
-    const name = this.#capture(Parser.tokens.tag.regex.name);
+    this.#consume(tokens.tag.start);
+    const name = this.#capture(tokens.tag.regex.name);
     Object.assign(tag[$XML], { name });
     this.#debug(path, `found tag "${name}"`);
 
     //Tag attributes
-    while (!/\/?>/.test(this.#stream.peek(2))) {
+    while (!tokens.tag.close.regex.end.test(this.#stream.peek(2))) {
       Object.assign(tag, this.#attribute({ path: [...path, tag] }));
     }
 
     //Self-closed tag
-    const selfclosed = this.#peek(Parser.tokens.tag.close.self);
+    const selfclosed = this.#peek(tokens.tag.close.self);
     if (selfclosed) {
       this.#debug(path, `tag "${name}" is self-closed`);
-      this.#consume(Parser.tokens.tag.close.self);
+      this.#consume(tokens.tag.close.self);
     }
-    this.#consume(Parser.tokens.tag.end);
+    this.#consume(tokens.tag.end);
 
     //Pair-closed tag
     if (!selfclosed) {
       //Text node
-      if ((this.#peek(Parser.tokens.cdata.start)) || (!this.#peek(Parser.tokens.tag.start))) {
+      if ((this.#peek(tokens.cdata.start)) || (!this.#peek(tokens.tag.start))) {
         Object.assign(tag, this.#text({ close: name, path: [...path, tag] }));
       } //Child nodes
       else {
-        while (!/<\//.test(this.#stream.peek(2))) {
+        while (!tokens.tag.close.regex.start.test(this.#stream.peek(2))) {
           const child = this.#node({ path: [...path, tag] });
           const [key, value] = Object.entries(child).shift()!;
           if (Array.isArray(tag[key])) {
@@ -209,9 +218,9 @@ export class Parser {
       }
 
       //Closing tag
-      this.#consume(Parser.tokens.tag.close.start);
+      this.#consume(tokens.tag.close.start);
       this.#consume(name);
-      this.#consume(Parser.tokens.tag.close.end);
+      this.#consume(tokens.tag.close.end);
       this.#debug(path, `found closing tag for "${name}"`);
     }
 
@@ -219,23 +228,23 @@ export class Parser {
     for (const [key] of Object.entries(tag).filter(([_, value]) => typeof value === "undefined")) {
       delete tag[key];
     }
-    if (!Object.keys(tag).includes(Parser.schema.text)) {
+    if (!Object.keys(tag).includes(schema.text)) {
       const children = Object.keys(tag).filter((key) =>
-        (!key.startsWith(Parser.schema.attribute.prefix)) &&
-        (key !== Parser.schema.text)
+        (!key.startsWith(schema.attribute.prefix)) &&
+        (key !== schema.text)
       );
       if (!children.length) {
         this.#debug(path, `tag "${name}" has implictely obtained a text node as it has no children but has attributes`);
-        tag[Parser.schema.text] = this.#revive({ key: Parser.schema.text, value: "", tag });
+        tag[schema.text] = this.#revive({ key: schema.text, value: "", tag });
       }
     }
     if (
       (this.#options.flatten ?? true) &&
-      (Object.keys(tag).includes(Parser.schema.text)) &&
+      (Object.keys(tag).includes(schema.text)) &&
       (Object.keys(tag).length === 1)
     ) {
       this.#debug(path, `tag "${name}" has been implicitely flattened as it only has a text node`);
-      return { [name]: tag[Parser.schema.text] };
+      return { [name]: tag[schema.text] };
     }
     return { [name]: tag };
   }
@@ -245,7 +254,7 @@ export class Parser {
     this.#debug(path, "parsing attribute");
 
     //Attribute name
-    const attribute = this.#capture(Parser.tokens.tag.attribute.regex.name);
+    const attribute = this.#capture(tokens.tag.attribute.regex.name);
     this.#debug(path, `found attribute "${attribute}"`);
 
     //Attribute value
@@ -258,8 +267,8 @@ export class Parser {
 
     //Result
     return {
-      [`${Parser.schema.attribute.prefix}${attribute}`]: this.#revive({
-        key: `${Parser.schema.attribute.prefix}${attribute}`,
+      [`${schema.attribute.prefix}${attribute}`]: this.#revive({
+        key: `${schema.attribute.prefix}${attribute}`,
         value,
         tag: path.at(-1)!,
       }),
@@ -283,39 +292,39 @@ export class Parser {
     }
 
     //Result
-    return { [`${Parser.schema.property.prefix}${property}`]: true };
+    return { [`${schema.property.prefix}${property}`]: true };
   }
 
   /** Text parser */
   #text({ close, path }: { close: string; path: node[] }) {
     this.#debug(path, "parsing text");
-    const tag = this.#make.node({ name: Parser.schema.text, path });
+    const tag = this.#make.node({ name: schema.text, path });
     let text = "";
     const comments = [];
 
     //Content
     while (
-      (this.#peek(Parser.tokens.cdata.start)) ||
-      (!this.#peeks([Parser.tokens.tag.close.start, close, Parser.tokens.tag.close.end]))
+      (this.#peek(tokens.cdata.start)) ||
+      (!this.#peeks([tokens.tag.close.start, close, tokens.tag.close.end]))
     ) {
       //CDATA
-      if (this.#peek(Parser.tokens.cdata.start)) {
+      if (this.#peek(tokens.cdata.start)) {
         text += this.#cdata({ path: [...path, tag] });
       } //Comments
-      else if (this.#peek(Parser.tokens.comment.start)) {
+      else if (this.#peek(tokens.comment.start)) {
         comments.push(this.#comment({ path: [...path, tag] }));
       } //Raw text
       else {
-        text += this.#capture(Parser.tokens.text.regex.end);
+        text += this.#capture(tokens.text.regex.end);
         if (
-          (this.#peek(Parser.tokens.cdata.start)) ||
-          (this.#peek(Parser.tokens.comment.start))
+          (this.#peek(tokens.cdata.start)) ||
+          (this.#peek(tokens.comment.start))
         ) {
           continue;
         }
-        if (!this.#peeks([Parser.tokens.tag.close.start, close, Parser.tokens.tag.close.end])) {
-          text += Parser.tokens.tag.close.start;
-          this.#consume(Parser.tokens.tag.close.start);
+        if (!this.#peeks([tokens.tag.close.start, close, tokens.tag.close.end])) {
+          text += tokens.tag.close.start;
+          this.#consume(tokens.tag.close.start);
         }
       }
     }
@@ -326,8 +335,8 @@ export class Parser {
 
     //Result
     Object.assign(tag, {
-      [Parser.schema.text]: this.#revive({ key: Parser.schema.text, value: text.trim(), tag: path.at(-1)! }),
-      ...(comments.length ? { [Parser.schema.comment]: comments } : {}),
+      [schema.text]: this.#revive({ key: schema.text, value: text.trim(), tag: path.at(-1)! }),
+      ...(comments.length ? { [schema.comment]: comments } : {}),
     });
     return tag;
   }
@@ -335,18 +344,18 @@ export class Parser {
   /** CDATA parser */
   #cdata({ path }: { path: node[] }) {
     this.#debug(path, "parsing cdata");
-    this.#consume(Parser.tokens.cdata.start);
-    const data = this.#capture(Parser.tokens.cdata.regex.end);
-    this.#consume(Parser.tokens.cdata.end);
+    this.#consume(tokens.cdata.start);
+    const data = this.#capture(tokens.cdata.regex.end);
+    this.#consume(tokens.cdata.end);
     return data;
   }
 
   /** Comment parser */
   #comment({ path }: { path: node[] }) {
     this.#debug(path, "parsing comment");
-    this.#consume(Parser.tokens.comment.start);
-    const comment = this.#capture(Parser.tokens.comment.regex.end);
-    this.#consume(Parser.tokens.comment.end);
+    this.#consume(tokens.comment.start);
+    const comment = this.#capture(tokens.comment.regex.end);
+    this.#consume(tokens.comment.end);
     return comment;
   }
 
@@ -357,8 +366,8 @@ export class Parser {
     return this.#options.reviver!.call(tag, {
       key,
       tag: tag[$XML].name,
-      properties: !(key.startsWith(Parser.schema.attribute.prefix) ||
-          key.startsWith(Parser.schema.property.prefix))
+      properties: !(key.startsWith(schema.attribute.prefix) ||
+          key.startsWith(schema.property.prefix))
         ? { ...tag }
         : null,
       value: (() => {
@@ -376,10 +385,10 @@ export class Parser {
           default:
             //Unescape XML entities
             value = value.replace(
-              /&#(?<hex>x?)(?<code>\d+);/g,
+              tokens.entity.regex.entities,
               (_, hex, code) => String.fromCharCode(parseInt(code, hex ? 16 : 10)),
             );
-            for (const [entity, character] of Object.entries(Parser.entities)) {
+            for (const [entity, character] of Object.entries(entities.xml)) {
               value = value.replaceAll(entity, character);
             }
             return value;
@@ -446,94 +455,4 @@ export class Parser {
   #trim() {
     return this.#stream.trim();
   }
-
-  //================================================================================
-
-  /** Schemas */
-  private static readonly schema = {
-    comment: "#comment",
-    text: "#text",
-    attribute: {
-      prefix: "@",
-    },
-    property: {
-      prefix: "@",
-    },
-  } as const;
-
-  /** Tokens */
-  private static readonly tokens = {
-    prolog: {
-      start: "<?xml",
-      end: "?>",
-    },
-    doctype: {
-      start: "<!DOCTYPE",
-      end: ">",
-      elements: {
-        start: "[",
-        end: "]",
-      },
-      element: {
-        start: "<!ELEMENT",
-        end: ">",
-        value: {
-          start: "(",
-          end: ")",
-          regex: {
-            end: { until: /\)/, bytes: 1 },
-          },
-        },
-      },
-    },
-    comment: {
-      start: "<!--",
-      end: "-->",
-      regex: {
-        end: { until: /(?<!-)-->/, bytes: 4 },
-      },
-    },
-    cdata: {
-      start: "<![CDATA[",
-      end: "]]>",
-      regex: {
-        end: {
-          until: /\]\]>/,
-          bytes: 3,
-        },
-      },
-    },
-    tag: {
-      start: "<",
-      end: ">",
-      close: {
-        start: "</",
-        end: ">",
-        self: "/",
-      },
-      attribute: {
-        regex: {
-          name: { until: /=/, bytes: 1 },
-        },
-      },
-      regex: {
-        name: { until: /[\s\/>]/, bytes: 1 },
-        start: { until: /</, bytes: 1 },
-      },
-    },
-    text: {
-      regex: {
-        end: { until: /(<\/)|(<!)/, bytes: 2 },
-      },
-    },
-  } as const;
-
-  /** Entities */
-  private static readonly entities = {
-    "&lt;": "<",
-    "&gt;": ">",
-    "&apos;": "'",
-    "&quot;": '"',
-    "&amp;": "&", //Keep last
-  } as const;
 }

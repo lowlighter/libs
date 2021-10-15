@@ -145,6 +145,51 @@ console.log(parse(
 */
 ```
 
+### Replacers
+
+By default, /// will be converted to:
+
+- `""` when `null`, unless `nullToEmpty = false`
+
+XML entities (e.g. `&;`, `<`, `>`, `"`, `'` ...) will be escaped automatically.
+
+It is also possible to provide a custom replacer for complex transformations:
+
+```ts
+import { stringify } from "./mod.ts";
+console.log(stringify({
+  prices: {
+    product: "dakimakura",
+    price: ["10.5$", "10.5€", "10.5¥"],
+  },
+}, {
+  reviver({ value, key, tag, properties }) {
+    //Apply special processing for tag, attributes and properties
+    if (tag === "price") {
+      if (key === "@currency") {
+        return { usd: "$", eur: "€", yen: "¥" }[value as string] ?? "?";
+      }
+      if (key === "#text") {
+        delete this["@currency"];
+        return `${value}${properties?.["@currency"]}`;
+      }
+    }
+    return value;
+  },
+}));
+/*
+  Like JSON.parse's replacer, value can be transformed before being returned.
+  - `this` will
+  - `properties` can be accessed except when processing node's properties
+  {
+    prices: {
+      product: "dakimakura",
+      price: [ "10.5$", "10.5€", "10.5¥" ]
+    }
+  }
+*/
+```
+
 ### XML metadata
 
 It is possible to access several metadata properties using `$XML` symbol, like parent node, name, etc.
@@ -202,3 +247,9 @@ console.log(parse(file, {
   },
 }));
 ```
+
+### Why does this use synchronous API ?
+
+While there are no official specs for `XML.parse` and `XML.stringify`, it is intended to look like
+[native JSON handler](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON), hence why
+it is synchronous, and contains replacers and revivers.

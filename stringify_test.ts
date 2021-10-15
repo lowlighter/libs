@@ -1,9 +1,9 @@
 import { parse, stringify } from "./mod.ts";
-import { assertEquals } from "https://deno.land/std@0.95.0/testing/asserts.ts";
+import { assertEquals } from "https://deno.land/std@0.111.0/testing/asserts.ts";
 
 /** This operation ensure that reforming a parsed XML will still yield same data */
 //deno-lint-ignore no-explicit-any
-const check = (xml: string, options: any = {}) => parse(stringify(parse(xml, options), options), options);
+const check = (xml: string, options: any = {}) => parse(stringify(parse(xml, options) as any, options), options);
 
 Deno.test("stringify: xml syntax xml prolog", () =>
   assertEquals(
@@ -146,4 +146,22 @@ Deno.test("stringify: xml entities", () =>
     {
       string: `" < > & '`,
     },
+  ));
+
+Deno.test("stringify: xml replacer", () =>
+  assertEquals(
+    stringify({ root: { not: true, yes: true } }, {
+      replacer({ tag, key, value }) {
+        if ((tag === "not") && (key === "#text")) {
+          return !value;
+        }
+        return value;
+      },
+    }),
+    `
+<root>
+  <not>false</not>
+  <yes>true</yes>
+</root>
+`.trim(),
   ));
