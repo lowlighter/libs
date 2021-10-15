@@ -1,8 +1,8 @@
-import { parse } from "./mod.ts";
-import {
-  assertEquals,
-  assertThrows,
-} from "https://deno.land/std@0.95.0/testing/asserts.ts";
+import { $XML, parse } from "./mod.ts";
+import { assert, assertEquals, assertThrows } from "https://deno.land/std@0.111.0/testing/asserts.ts";
+
+// deno-lint-ignore no-explicit-any
+type test = any;
 
 Deno.test("parse: xml syntax tag", () =>
   assertEquals(
@@ -23,7 +23,7 @@ Deno.test("parse: xml syntax tag with attributes", () =>
       root: {
         "@lang": "en",
         "@type": "greeting",
-        $: "hello world",
+        "#text": "hello world",
       },
     },
   ));
@@ -45,7 +45,7 @@ Deno.test("parse: xml syntax self-closing with attributes", () =>
 `),
     {
       root: {
-        $: null,
+        "#text": null,
         "@lang": "en",
         "@type": "greeting",
         "@text": "hello world",
@@ -70,7 +70,7 @@ Deno.test("parse: xml syntax empty tag with attributes", () =>
 `),
     {
       root: {
-        $: null,
+        "#text": null,
         "@type": "test",
       },
     },
@@ -124,10 +124,10 @@ Deno.test("parse: xml syntax simple tree with same tags and attributes", () =>
     {
       root: {
         child: [
-          { "@lang": "en", $: "world" },
-          { "@lang": "fr", $: "monde" },
-          { "@lang": "zh", $: "世界" },
-          { "@lang": "🦕", $: "🌏" },
+          { "@lang": "en", "#text": "world" },
+          { "@lang": "fr", "#text": "monde" },
+          { "@lang": "zh", "#text": "世界" },
+          { "@lang": "🦕", "#text": "🌏" },
         ],
       },
     },
@@ -159,9 +159,7 @@ Deno.test("parse: xml syntax mixed content", () =>
   <root>some <b>bold</b> text</root>
 `),
     {
-      root: {
-        b: "bold",
-      },
+      root: "some <b>bold</b> text",
     },
   ));
 
@@ -171,11 +169,7 @@ Deno.test("parse: xml syntax nested mixed content", () =>
   <root>some <b>bold <i>italic</i> </b> text</root>
 `),
     {
-      root: {
-        b: {
-          i: "italic",
-        },
-      },
+      root: "some <b>bold <i>italic</i> </b> text",
     },
   ));
 
@@ -186,11 +180,12 @@ Deno.test("parse: xml syntax xml prolog", () =>
   <?xml version="1.0" encoding="UTF-8"?>
   <root></root>
 `,
-      { includeDeclaration: true },
     ),
     {
-      "@version": 1,
-      "@encoding": "UTF-8",
+      xml: {
+        "@version": 1,
+        "@encoding": "UTF-8",
+      },
       root: null,
     },
   ));
@@ -202,10 +197,9 @@ Deno.test("parse: xml syntax doctype", () =>
   <!DOCTYPE type "quoted attribute">
   <root></root>
 `,
-      { includeDoctype: true },
     ),
     {
-      $doctype: {
+      doctype: {
         "@type": true,
         "@quoted attribute": true,
       },
@@ -228,17 +222,16 @@ Deno.test("parse: xml syntax doctype with element", () =>
   >
   <root></root>
 `,
-      { includeDoctype: true },
     ),
     {
-      $doctype: {
+      doctype: {
         "@type": true,
         "@quoted attribute": true,
-        note: "(to,from,heading,body)",
-        to: "(#PCDATA)",
-        from: "(#PCDATA)",
-        heading: "(#PCDATA)",
-        body: "(#PCDATA)",
+        note: "to,from,heading,body",
+        to: "#PCDATA",
+        from: "#PCDATA",
+        heading: "#PCDATA",
+        body: "#PCDATA",
       },
       root: null,
     },
@@ -312,18 +305,18 @@ Deno.test("parse: xml syntax hexadecimal entity reference", () =>
 Deno.test("parse: xml syntax comments", () =>
   assertEquals(
     parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
-    <!-- IGNORE ME -->
+    <!-- COMMENT 1 -->
     <child type="test" />
-    <!-- IGNORE ME -->
+    <!-- COMMENT 2 -->
   </root>
 `),
     {
       root: {
+        "#comment": ["COMMENT 1", "COMMENT 2"],
         child: {
           "@type": "test",
-          $: null,
+          "#text": null,
         },
       },
     },
@@ -332,7 +325,6 @@ Deno.test("parse: xml syntax comments", () =>
 Deno.test("parse: xml syntax white spaces preserved", () =>
   assertEquals(
     parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
     Hello     world   how
 are   you?
@@ -347,9 +339,8 @@ are   you?`,
 Deno.test("parse: xml syntax CDATA", () =>
   assertEquals(
     parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
-    <script type="text/javascript"><![CDATA[function matchwo(a,b) {
+    <script type="text/javascript"><![CDATA[function match(a,b) {
       if (a < b && a < 0) { return 1; }
       else { return 0; }
   }]]></script>
@@ -359,7 +350,7 @@ Deno.test("parse: xml syntax CDATA", () =>
       root: {
         script: {
           "@type": "text/javascript",
-          $: `function matchwo(a,b) {
+          "#text": `function match(a,b) {
       if (a < b && a < 0) { return 1; }
       else { return 0; }
   }`,
@@ -371,9 +362,8 @@ Deno.test("parse: xml syntax CDATA", () =>
 Deno.test("parse: xml syntax mixed content with CDATA", () =>
   assertEquals(
     parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
-    <script type="text/javascript">this is a <b>test</b> <![CDATA[function matchwo(a,b) {
+    <script type="text/javascript">this is a <b>test</b> <![CDATA[function match(a,b) {
       if (a < b && a < 0) { return 1; }
       else { return 0; }
   }]]></script>
@@ -383,7 +373,10 @@ Deno.test("parse: xml syntax mixed content with CDATA", () =>
       root: {
         script: {
           "@type": "text/javascript",
-          b: "test",
+          "#text": `this is a <b>test</b> function match(a,b) {
+      if (a < b && a < 0) { return 1; }
+      else { return 0; }
+  }`,
         },
       },
     },
@@ -548,21 +541,21 @@ Deno.test("parse: xml example w3schools.com#3", () =>
         book: [
           {
             "@category": "cooking",
-            title: { "@lang": "en", $: "Everyday Italian" },
+            title: { "@lang": "en", "#text": "Everyday Italian" },
             author: "Giada De Laurentiis",
             year: 2005,
             price: 30,
           },
           {
             "@category": "children",
-            title: { "@lang": "en", $: "Harry Potter" },
+            title: { "@lang": "en", "#text": "Harry Potter" },
             author: "J K. Rowling",
             year: 2005,
             price: 29.99,
           },
           {
             "@category": "web",
-            title: { "@lang": "en", $: "XQuery Kick Start" },
+            title: { "@lang": "en", "#text": "XQuery Kick Start" },
             author: [
               "James McGovern",
               "Per Bothner",
@@ -576,7 +569,7 @@ Deno.test("parse: xml example w3schools.com#3", () =>
           {
             "@category": "web",
             "@cover": "paperback",
-            title: { "@lang": "en", $: "Learning XML" },
+            title: { "@lang": "en", "#text": "Learning XML" },
             author: "Erik T. Ray",
             year: 2003,
             price: 39.95,
@@ -761,22 +754,19 @@ Deno.test("parse: xml example w3schools.com#6", () =>
           {
             name: "Belgian Waffles",
             price: "$5.95",
-            description:
-              "Two of our famous Belgian Waffles with plenty of real maple syrup",
+            description: "Two of our famous Belgian Waffles with plenty of real maple syrup",
             calories: 650,
           },
           {
             name: "Strawberry Belgian Waffles",
             price: "$7.95",
-            description:
-              "Light Belgian waffles covered with strawberries and whipped cream",
+            description: "Light Belgian waffles covered with strawberries and whipped cream",
             calories: 900,
           },
           {
             name: "Berry-Berry Belgian Waffles",
             price: "$8.95",
-            description:
-              "Belgian waffles covered with assorted fresh berries and whipped cream",
+            description: "Belgian waffles covered with assorted fresh berries and whipped cream",
             calories: 900,
           },
           {
@@ -788,8 +778,7 @@ Deno.test("parse: xml example w3schools.com#6", () =>
           {
             name: "Homestyle Breakfast",
             price: "$6.95",
-            description:
-              "Two eggs, bacon or sausage, toast, and our ever-popular hash browns",
+            description: "Two eggs, bacon or sausage, toast, and our ever-popular hash browns",
             calories: 950,
           },
         ],
@@ -799,10 +788,67 @@ Deno.test("parse: xml example w3schools.com#6", () =>
 
 // Parser options
 
+Deno.test("parse: xml parser option progress", () => {
+  let called = false;
+  assertEquals(
+    parse(
+      `<root></root>`,
+      {
+        progress() {
+          called = true;
+        },
+      },
+    ),
+    {
+      root: null,
+    },
+  );
+  assert(called);
+});
+
+Deno.test("parse: xml parser option debug", () => {
+  let called = false;
+  const debug = console.debug;
+  console.debug = () => called = true;
+  assertEquals(
+    parse(
+      `<root></root>`,
+      { debug: true },
+    ),
+    {
+      root: null,
+    },
+  );
+  assert(called);
+  console.debug = debug;
+});
+
+Deno.test("parse: xml parser option no flatten", () =>
+  assertEquals(
+    parse(
+      `
+<root>
+  <child>
+    <grand-child></grand-child>
+  </child>
+</root>
+`,
+      { flatten: false },
+    ),
+    {
+      root: {
+        child: {
+          "grand-child": {
+            "#text": null,
+          },
+        },
+      },
+    },
+  ));
+
 Deno.test("parse: xml parser option revive", () =>
   assertEquals(
     parse(`
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
     <empty></empty>
     <number>1</number>
@@ -824,7 +870,6 @@ Deno.test("parse: xml parser option no-revive", () =>
   assertEquals(
     parse(
       `
-  <?xml version="1.0" encoding="UTF-8"?>
   <root>
     <empty></empty>
     <number>1</number>
@@ -843,3 +888,118 @@ Deno.test("parse: xml parser option no-revive", () =>
       },
     },
   ));
+
+Deno.test("parse: xml parser reviver", () =>
+  assertEquals(
+    parse(
+      `
+  <root>
+    <not>true</not>
+    <delete/>
+  </root>
+`,
+      {
+        reviver({ tag, value }) {
+          if (tag === "not") {
+            return !value;
+          }
+          if (tag === "delete") {
+            return undefined;
+          }
+          return value;
+        },
+      },
+    ),
+    {
+      root: {
+        not: false,
+      },
+    },
+  ));
+
+Deno.test("parse: xml parser reviver (properties are accessibles except within attributes)", () =>
+  assertEquals(
+    parse(
+      `
+  <root>
+    <child attr="test">true</child>
+  </root>
+`,
+      {
+        reviver({ properties }) {
+          return `${properties}`;
+        },
+      },
+    ),
+    {
+      root: {
+        child: {
+          "#text": "[object Object]",
+          "@attr": "null",
+        },
+      },
+    },
+  ));
+
+Deno.test("parse: xml parser reviver (tag node can be edited)", () =>
+  assertEquals(
+    parse(
+      `
+  <root>
+    <x2>10</x2>
+    <x4 fp="1">10</x4>
+    <x6 fp="2">10</x6>
+  </root>
+`,
+      {
+        reviver({ key, tag, value, properties }) {
+          if ((/^x\d+$/.test(tag)) && (key === "#text")) {
+            delete this["@fp"];
+            return ((value as number) *
+              (Number(tag.match(/(?<x>\d+)/)?.groups?.x) ?? 1)).toFixed(
+                Number(properties?.["@fp"]) ?? 1,
+              );
+          }
+          return value;
+        },
+      },
+    ),
+    {
+      root: {
+        x2: "20",
+        x4: "40.0",
+        x6: "60.00",
+      },
+    },
+  ));
+
+// Metadata
+
+Deno.test("parse: xml parser option metadata", () => {
+  const xml = parse(
+    `
+  <root>
+    <child>
+      <grand-child></grand-child>
+    </child>
+    <sibling>A</sibling>
+    <sibling>B</sibling>
+    <sibling>C</sibling>
+    <sibling>D</sibling>
+  </root>
+  `,
+    { flatten: false },
+  ) as test;
+
+  assertEquals(
+    xml.root?.child?.["grand-child"]?.[$XML]?.parent,
+    xml.root.child,
+  );
+  assertEquals(xml.root?.child?.["grand-child"]?.[$XML]?.name, "grand-child");
+  assertEquals(xml.root?.child?.[$XML]?.parent, xml.root);
+  assertEquals(xml.root?.child?.[$XML]?.name, "child");
+  assertEquals(xml.root?.[$XML]?.parent, null);
+  assertEquals(xml.root?.[$XML]?.name, "root");
+  assertEquals(xml.root?.sibling?.[$XML]?.parent, xml.root);
+  assertEquals(xml.root?.sibling?.[$XML]?.name, "sibling");
+});
