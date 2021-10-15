@@ -155,41 +155,6 @@ XML entities (e.g. `&;`, `<`, `>`, `"`, `'` ...) will be escaped automatically.
 
 It is also possible to provide a custom replacer for complex transformations:
 
-```ts
-import { stringify } from "./mod.ts";
-console.log(stringify({
-  prices: {
-    product: "dakimakura",
-    price: ["10.5$", "10.5€", "10.5¥"],
-  },
-}, {
-  reviver({ value, key, tag, properties }) {
-    //Apply special processing for tag, attributes and properties
-    if (tag === "price") {
-      if (key === "@currency") {
-        return { usd: "$", eur: "€", yen: "¥" }[value as string] ?? "?";
-      }
-      if (key === "#text") {
-        delete this["@currency"];
-        return `${value}${properties?.["@currency"]}`;
-      }
-    }
-    return value;
-  },
-}));
-/*
-  Like JSON.parse's replacer, value can be transformed before being returned.
-  - `this` will
-  - `properties` can be accessed except when processing node's properties
-  {
-    prices: {
-      product: "dakimakura",
-      price: [ "10.5$", "10.5€", "10.5¥" ]
-    }
-  }
-*/
-```
-
 ### XML metadata
 
 It is possible to access several metadata properties using `$XML` symbol, like parent node, name, etc.
