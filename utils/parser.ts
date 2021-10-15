@@ -21,6 +21,7 @@ export type ParserOptions = {
   ) => unknown;
 };
 
+/** Node type */
 type node = {
   [$XML]: { name: string; parent: null | node };
   [key: PropertyKey]: unknown;
@@ -50,9 +51,7 @@ export class Parser {
   /** Debugger */
   #debug(path: node[], string: string) {
     if (this.#options.debug) {
-      console.debug(
-        `${path.map((node) => node[$XML].name).join(" > ")} | ${string}`.trim(),
-      );
+      console.debug(`${path.map((node) => node[$XML].name).join(" > ")} | ${string}`.trim());
     }
   }
 
@@ -82,9 +81,7 @@ export class Parser {
         return document;
       }
     }
-    throw new SyntaxError(
-      "XML documents should only have a single root element",
-    );
+    throw new SyntaxError("XML documents should only have a single root element");
   }
 
   /** Node parser */
@@ -106,10 +103,7 @@ export class Parser {
 
     //Tag attributes
     while (!/\/?>/.test(this.#stream.peek(2))) {
-      Object.assign(
-        prolog,
-        this.#attribute({ path: [...path, prolog] }),
-      );
+      Object.assign(prolog, this.#attribute({ path: [...path, prolog] }));
     }
 
     //Result
@@ -129,10 +123,7 @@ export class Parser {
       if (this.#peek(Parser.tokens.doctype.elements.start)) {
         this.#consume(Parser.tokens.doctype.elements.start);
         while (!this.#peek(Parser.tokens.doctype.elements.end)) {
-          Object.assign(
-            doctype,
-            this.#doctypeElement({ path }),
-          );
+          Object.assign(doctype, this.#doctypeElement({ path }));
         }
         this.#consume(Parser.tokens.doctype.elements.end);
       } else {
@@ -151,8 +142,7 @@ export class Parser {
 
     //Element name
     this.#consume(Parser.tokens.doctype.element.start);
-    const element = Object.keys(this.#property({ path }))
-      .shift()!.substring(Parser.schema.property.prefix.length);
+    const element = Object.keys(this.#property({ path })).shift()!.substring(Parser.schema.property.prefix.length);
     this.#debug(path, `found doctype element "${element}"`);
 
     //Element value
@@ -193,14 +183,8 @@ export class Parser {
     //Pair-closed tag
     if (!selfclosed) {
       //Text node
-      if (
-        (this.#peek(Parser.tokens.cdata.start)) ||
-        (!this.#peek(Parser.tokens.tag.start))
-      ) {
-        Object.assign(
-          tag,
-          this.#text({ close: name, path: [...path, tag] }),
-        );
+      if ((this.#peek(Parser.tokens.cdata.start)) || (!this.#peek(Parser.tokens.tag.start))) {
+        Object.assign(tag, this.#text({ close: name, path: [...path, tag] }));
       } //Child nodes
       else {
         while (!/<\//.test(this.#stream.peek(2))) {
@@ -211,18 +195,12 @@ export class Parser {
             this.#debug([...path, tag], `add new child "${key}" to array`);
           } else if (key in tag) {
             const array = [tag[key], value];
-            Object.defineProperty(array, $XML, {
-              enumerable: false,
-              writable: true,
-            });
+            Object.defineProperty(array, $XML, { enumerable: false, writable: true });
             if ((tag[key] as node)?.[$XML]) {
               Object.assign(array, { [$XML]: (tag[key] as node)[$XML] });
             }
             tag[key] = array;
-            this.#debug(
-              [...path, tag],
-              `multiple children named "${key}", using array notation`,
-            );
+            this.#debug([...path, tag], `multiple children named "${key}", using array notation`);
           } else {
             Object.assign(tag, child);
             this.#debug([...path, tag], `add new child "${key}"`);
@@ -238,11 +216,7 @@ export class Parser {
     }
 
     //Result
-    for (
-      const [key] of Object.entries(tag).filter(([_, value]) =>
-        typeof value === "undefined"
-      )
-    ) {
+    for (const [key] of Object.entries(tag).filter(([_, value]) => typeof value === "undefined")) {
       delete tag[key];
     }
     if (!Object.keys(tag).includes(Parser.schema.text)) {
@@ -251,15 +225,8 @@ export class Parser {
         (key !== Parser.schema.text)
       );
       if (!children.length) {
-        this.#debug(
-          path,
-          `tag "${name}" has implictely obtained a text node as it has no children but has attributes`,
-        );
-        tag[Parser.schema.text] = this.#revive({
-          key: Parser.schema.text,
-          value: "",
-          tag,
-        });
+        this.#debug(path, `tag "${name}" has implictely obtained a text node as it has no children but has attributes`);
+        tag[Parser.schema.text] = this.#revive({ key: Parser.schema.text, value: "", tag });
       }
     }
     if (
@@ -267,19 +234,14 @@ export class Parser {
       (Object.keys(tag).includes(Parser.schema.text)) &&
       (Object.keys(tag).length === 1)
     ) {
-      this.#debug(
-        path,
-        `tag "${name}" has been implicitely flattened as it only has a text node`,
-      );
+      this.#debug(path, `tag "${name}" has been implicitely flattened as it only has a text node`);
       return { [name]: tag[Parser.schema.text] };
     }
     return { [name]: tag };
   }
 
   /** Attribute parser */
-  #attribute(
-    { path }: { path: node[] },
-  ) {
+  #attribute({ path }: { path: node[] }) {
     this.#debug(path, "parsing attribute");
 
     //Attribute name
@@ -290,10 +252,7 @@ export class Parser {
     this.#consume("=");
     const quote = this.#stream.peek();
     this.#consume(quote);
-    const value = this.#capture({
-      until: new RegExp(quote),
-      bytes: quote.length,
-    });
+    const value = this.#capture({ until: new RegExp(quote), bytes: quote.length });
     this.#consume(quote);
     this.#debug(path, `found attribute value "${value}"`);
 
@@ -317,10 +276,7 @@ export class Parser {
     if (delimiter.trim().length) {
       this.#consume(delimiter);
     }
-    const property = this.#capture({
-      until: new RegExp(delimiter),
-      bytes: delimiter.length,
-    });
+    const property = this.#capture({ until: new RegExp(delimiter), bytes: delimiter.length });
     this.#debug(path, `found property ${property}`);
     if (delimiter.trim().length) {
       this.#consume(delimiter);
@@ -331,12 +287,7 @@ export class Parser {
   }
 
   /** Text parser */
-  #text(
-    { close, path }: {
-      close: string;
-      path: node[];
-    },
-  ) {
+  #text({ close, path }: { close: string; path: node[] }) {
     this.#debug(path, "parsing text");
     const tag = this.#make.node({ name: Parser.schema.text, path });
     let text = "";
@@ -345,11 +296,7 @@ export class Parser {
     //Content
     while (
       (this.#peek(Parser.tokens.cdata.start)) ||
-      (!this.#peeks([
-        Parser.tokens.tag.close.start,
-        close,
-        Parser.tokens.tag.close.end,
-      ]))
+      (!this.#peeks([Parser.tokens.tag.close.start, close, Parser.tokens.tag.close.end]))
     ) {
       //CDATA
       if (this.#peek(Parser.tokens.cdata.start)) {
@@ -366,13 +313,7 @@ export class Parser {
         ) {
           continue;
         }
-        if (
-          !this.#peeks([
-            Parser.tokens.tag.close.start,
-            close,
-            Parser.tokens.tag.close.end,
-          ])
-        ) {
+        if (!this.#peeks([Parser.tokens.tag.close.start, close, Parser.tokens.tag.close.end])) {
           text += Parser.tokens.tag.close.start;
           this.#consume(Parser.tokens.tag.close.start);
         }
@@ -385,11 +326,7 @@ export class Parser {
 
     //Result
     Object.assign(tag, {
-      [Parser.schema.text]: this.#revive({
-        key: Parser.schema.text,
-        value: text.trim(),
-        tag: path.at(-1)!,
-      }),
+      [Parser.schema.text]: this.#revive({ key: Parser.schema.text, value: text.trim(), tag: path.at(-1)! }),
       ...(comments.length ? { [Parser.schema.comment]: comments } : {}),
     });
     return tag;
@@ -416,13 +353,7 @@ export class Parser {
   //================================================================================
 
   /** Reviver */
-  #revive(
-    { key, value, tag }: {
-      key: string;
-      value: string;
-      tag: node;
-    },
-  ) {
+  #revive({ key, value, tag }: { key: string; value: string; tag: node }) {
     return this.#options.reviver!.call(tag, {
       key,
       tag: tag[$XML].name,
@@ -436,20 +367,17 @@ export class Parser {
           case (this.#options.emptyToNull ?? true) && /^\s*$/.test(value):
             return null;
           //Revive booleans
-          case (this.#options.reviveBooleans ?? true) &&
-            /^(?:true|false)$/i.test(value):
+          case (this.#options.reviveBooleans ?? true) && /^(?:true|false)$/i.test(value):
             return /^true$/i.test(value);
           //Revive numbers
-          case (this.#options.reviveNumbers ?? true) &&
-            Number.isFinite(Number(value)):
+          case (this.#options.reviveNumbers ?? true) && Number.isFinite(Number(value)):
             return Number.parseFloat(value);
           //Strings
           default:
             //Unescape XML entities
             value = value.replace(
               /&#(?<hex>x?)(?<code>\d+);/g,
-              (_, hex, code) =>
-                String.fromCharCode(parseInt(code, hex ? 16 : 10)),
+              (_, hex, code) => String.fromCharCode(parseInt(code, hex ? 16 : 10)),
             );
             for (const [entity, character] of Object.entries(Parser.entities)) {
               value = value.replaceAll(entity, character);

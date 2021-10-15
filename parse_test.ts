@@ -1,8 +1,5 @@
 import { $XML, parse } from "./mod.ts";
-import {
-  assertEquals,
-  assertThrows,
-} from "https://deno.land/std@0.107.0/testing/asserts.ts";
+import { assertEquals, assertThrows, assert } from "https://deno.land/std@0.107.0/testing/asserts.ts";
 
 // deno-lint-ignore no-explicit-any
 type test = any;
@@ -757,22 +754,19 @@ Deno.test("parse: xml example w3schools.com#6", () =>
           {
             name: "Belgian Waffles",
             price: "$5.95",
-            description:
-              "Two of our famous Belgian Waffles with plenty of real maple syrup",
+            description: "Two of our famous Belgian Waffles with plenty of real maple syrup",
             calories: 650,
           },
           {
             name: "Strawberry Belgian Waffles",
             price: "$7.95",
-            description:
-              "Light Belgian waffles covered with strawberries and whipped cream",
+            description: "Light Belgian waffles covered with strawberries and whipped cream",
             calories: 900,
           },
           {
             name: "Berry-Berry Belgian Waffles",
             price: "$8.95",
-            description:
-              "Belgian waffles covered with assorted fresh berries and whipped cream",
+            description: "Belgian waffles covered with assorted fresh berries and whipped cream",
             calories: 900,
           },
           {
@@ -784,8 +778,7 @@ Deno.test("parse: xml example w3schools.com#6", () =>
           {
             name: "Homestyle Breakfast",
             price: "$6.95",
-            description:
-              "Two eggs, bacon or sausage, toast, and our ever-popular hash browns",
+            description: "Two eggs, bacon or sausage, toast, and our ever-popular hash browns",
             calories: 950,
           },
         ],
@@ -794,6 +787,38 @@ Deno.test("parse: xml example w3schools.com#6", () =>
   ));
 
 // Parser options
+
+Deno.test("parse: xml parser option progress", () => {
+  let called = false
+  assertEquals(
+    parse(
+      `<root></root>`,
+      { progress() {  called = true } },
+    ),
+    {
+      root: null,
+    },
+  )
+  assert(called)
+});
+
+Deno.test("parse: xml parser option debug", () => {
+  let called = false
+  const debug = console.debug
+  console.debug = () => called = true
+  assertEquals(
+    parse(
+      `<root></root>`,
+      { debug:true },
+    ),
+    {
+      root: null,
+    },
+  )
+  assert(called)
+  console.debug = debug
+});
+
 
 Deno.test("parse: xml parser option no flatten", () =>
   assertEquals(
@@ -867,12 +892,16 @@ Deno.test("parse: xml parser reviver", () =>
       `
   <root>
     <not>true</not>
+    <delete/>
   </root>
 `,
       {
         reviver({ tag, value }) {
           if (tag === "not") {
             return !value;
+          }
+          if (tag === "delete") {
+            return undefined
           }
           return value;
         },
@@ -884,6 +913,7 @@ Deno.test("parse: xml parser reviver", () =>
       },
     },
   ));
+
 
 Deno.test("parse: xml parser reviver (properties are accessibles except within attributes)", () =>
   assertEquals(
@@ -968,7 +998,6 @@ Deno.test("parse: xml parser option metadata", () => {
   assertEquals(xml.root?.child?.[$XML]?.name, "child");
   assertEquals(xml.root?.[$XML]?.parent, null);
   assertEquals(xml.root?.[$XML]?.name, "root");
-
   assertEquals(xml.root?.sibling?.[$XML]?.parent, xml.root);
   assertEquals(xml.root?.sibling?.[$XML]?.name, "sibling");
 });

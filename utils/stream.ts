@@ -48,13 +48,7 @@ export class Stream {
   }
 
   /** Capture next bytes until matching regex sequence */
-  capture(
-    { until, bytes, trim = true }: {
-      until: RegExp;
-      bytes: number;
-      trim?: boolean;
-    },
-  ) {
+  capture({ until, bytes, trim = true }: { until: RegExp; bytes: number; trim?: boolean }) {
     if (trim) {
       this.trim();
     }
@@ -81,11 +75,7 @@ export class Stream {
       }
       return;
     }
-    throw new SyntaxError(
-      `Expected next sequence to be "${content}", got "${
-        this.peek(bytes)
-      }" instead`,
-    );
+    throw new SyntaxError(`Expected next sequence to be "${content}", got "${this.peek(bytes)}" instead`);
   }
 
   /** Trim content */

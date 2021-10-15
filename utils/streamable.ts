@@ -18,10 +18,7 @@ export class Streamable implements Flux {
 
   /** Read bytes */
   readSync(buffer: Uint8Array) {
-    const bytes = this.#buffer.slice(
-      this.#cursor,
-      this.#cursor + buffer.length,
-    );
+    const bytes = this.#buffer.slice(this.#cursor, this.#cursor + buffer.length);
     buffer.set(bytes);
     this.#cursor = Math.min(this.#cursor + bytes.length, this.#buffer.length);
     return bytes.length || null;
@@ -37,7 +34,7 @@ export class Streamable implements Flux {
         this.#cursor += offset;
         break;
       case Deno.SeekMode.End:
-        this.#cursor = this.#buffer.length - 1 + offset;
+        this.#cursor = this.#buffer.length + offset;
         break;
     }
     return this.#cursor;

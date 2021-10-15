@@ -60,9 +60,7 @@ function stringifyXML(
 
   // Handle XML prolog declaration (if enabled)
   if (xml) {
-    document.string += `${indent}<?xml${
-      stringifyAttributes(xml as Node, Object.keys(xml))
-    }?>`;
+    document.string += `${indent}<?xml${stringifyAttributes(xml as Node, Object.keys(xml))}?>`;
     attributes.splice(0);
   }
 
@@ -71,9 +69,7 @@ function stringifyXML(
     const { attributes = [], children: elements = [] } = extract(
       doctype as Node,
     );
-    document.string += `<!DOCTYPE ${
-      attributes.map((name) => quoteIfNeeded(`${name.substring(1)}`)).join(" ")
-    }`;
+    document.string += `<!DOCTYPE ${attributes.map((name) => quoteIfNeeded(`${name.substring(1)}`)).join(" ")}`;
     if (elements.length) {
       const indent2 = indent + " ".repeat(indentSize);
       document.string += `\n${indent2}[\n${
@@ -88,9 +84,7 @@ function stringifyXML(
 
   // Handle tag opening (except for grouped nodes)
   if ((!isArray) && (tag)) {
-    document.string += `${indent}<${tag}${
-      stringifyAttributes(node, attributes)
-    }${selfclosed ? "/" : ""}>`;
+    document.string += `${indent}<${tag}${stringifyAttributes(node, attributes)}${selfclosed ? "/" : ""}>`;
   }
 
   // Handle content-less nodes as self-closed
@@ -104,9 +98,7 @@ function stringifyXML(
       "\n",
     ) as string[];
     if (lines.length > 1) {
-      document.string += `\n${
-        lines.map((line) => `${indent}${line}`).join("\n")
-      }\n`;
+      document.string += `\n${lines.map((line) => `${indent}${line}`).join("\n")}\n`;
     } else {
       document.string += `${lines.shift()}</${tag}>\n`;
       return;
@@ -142,9 +134,7 @@ function stringifyXML(
 function stringifyAttributes(node: Node, attributes: string[]) {
   return [
     "",
-    ...attributes.map((name) =>
-      `${name.substring(1)}="${`${node[name]}`.replace(/"/g, ENTITIES['"'])}"`
-    ),
+    ...attributes.map((name) => `${name.substring(1)}="${`${node[name]}`.replace(/"/g, ENTITIES['"'])}"`),
   ].join(" ");
 }
 
@@ -164,9 +154,7 @@ function extract(node: Node | null) {
       return {
         content: node?.["#text"] ?? null,
         attributes: keys.filter((key) => key.charAt(0) === "@"),
-        children: keys.filter((key) =>
-          !/^(@)|(#text)|(xml)|(doctype)/.test(key)
-        ),
+        children: keys.filter((key) => !/^(@)|(#text)|(xml)|(doctype)/.test(key)),
         xml: node?.xml ?? null,
         doctype: node?.doctype ?? null,
       };

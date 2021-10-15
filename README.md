@@ -59,12 +59,10 @@ console.log(stringify({
 ## Features
 
 Follow
-[XML.com's **Converting between XML and
-JSON**](https://www.xml.com/pub/a/2006/05/31/converting-between-xml-and-json.html)
+[XML.com's **Converting between XML and JSON**](https://www.xml.com/pub/a/2006/05/31/converting-between-xml-and-json.html)
 patterns.
 
-- Support basic XML features (tags, self-closed tags, nested tags, attributes,
-  ...)
+- Support basic XML features (tags, self-closed tags, nested tags, attributes, ...)
 - Support `XML.parse` and `XML.stringify`
 - Support `<?xml ?>` prolog declaration
 - Support `<!DOCTYPE>` declaration
@@ -78,15 +76,12 @@ patterns.
 - Auto-group nodes into arrays when same tag is used
 - Auto-unwrap nodes when it only has text content
 
-How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and
-[stringify tests](/stringify_test.ts) 🧪
+How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and [stringify tests](/stringify_test.ts) 🧪
 
 ### Limitations
 
-- When using mixed content of texts and child nodes, it will be parsed as a text
-  node
-- When using mixed group of nodes, `XML.stringify(XML.parse()))` may result in a
-  different order
+- When using mixed content of texts and child nodes, it will be parsed as a text node
+- When using mixed group of nodes, `XML.stringify(XML.parse()))` may result in a different order
   - _Example: `<a><b/><c/><b/></a>` will result in `<a><b/><b/><c/></a>`_
   - _This may or may not be acceptable depending on your use case_
 
@@ -96,11 +91,9 @@ By default, node contents will be converted to:
 
 - `null` when empty, unless `emptyToNull = false`
 - `number` when matching finite numbers, unless `reviveNumbers = false`
-- `boolean` when matching `true` or `false` (case insensitive), unless
-  `reviveBooleans = false`
+- `boolean` when matching `true` or `false` (case insensitive), unless `reviveBooleans = false`
 
-XML entities (e.g. `&amp;`, `&#38;`, `&#x26;`, ...) will be unescaped
-automatically.
+XML entities (e.g. `&amp;`, `&#38;`, `&#x26;`, ...) will be unescaped automatically.
 
 It is also possible to provide a custom reviver for complex transformations:
 
@@ -154,8 +147,7 @@ console.log(parse(
 
 ### XML metadata
 
-It is possible to access several metadata properties using `$XML` symbol (which
-can be im)
+It is possible to access several metadata properties using `$XML` symbol, like parent node, name, etc.
 
 ```ts
 import { $XML, parse } from "./mod.ts";
@@ -193,8 +185,8 @@ console.log(Deno.inspect(
 
 ### Parsing large files
 
-Parsing large files of several mega bytes can take some time. You can use
-`progress` option to pass a callback each time a node has been parsed.
+Parsing large files of several mega bytes can take some time. You can use `progress` option to pass a callback each time
+a node has been parsed.
 
 ```ts
 import { parse } from "./mod.ts";

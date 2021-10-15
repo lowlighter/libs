@@ -1,0 +1,24 @@
+name: XML
+description: A XML parser/stringifier for Deno written in typescript and with no dependencies
+author: lowlighter (Simon Lecoq)
+repository: https://github.com/lowlighter/xml
+license:
+  name: MIT License
+  link: https://github.com/lowlighter/xml/blob/main/LICENSE
+
+scripts:
+  bundle:
+    desc: Bundle app
+    cmd: deno bundle mod.ts
+  test:
+    desc: Run tests
+    cmd:
+      - deno eval "Deno.remove('.coverage', {recursive: true})"
+      - deno test --coverage=.coverage --doc
+      - deno coverage .coverage
+  lint:
+    desc: Lint code
+    cmd: deno lint
+  fmt:
+    desc: Format code
+    cmd: deno fmt --options-line-width 120
