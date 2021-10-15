@@ -46,18 +46,3 @@ jobs:
         uses: jurassiscripts/setup-velociraptor@v1
       - name: Run tests
         run: vr test
-
-  benchmark:
-    name: Run benchmark
-    runs-on: ubuntu-latest
-    needs:
-      - tests
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Deno
-        uses: denoland/setup-deno@v1
-      - name: Setup Velociraptor
-        uses: jurassiscripts/setup-velociraptor@v1
-      - name: Run benchmark
-        run: vr benchmark
