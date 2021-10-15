@@ -63,7 +63,8 @@ Follow
 JSON**](https://www.xml.com/pub/a/2006/05/31/converting-between-xml-and-json.html)
 patterns.
 
-- Support basic XML (tags, self-closed tags, nested tags, attributes, ...)
+- Support basic XML features (tags, self-closed tags, nested tags, attributes,
+  ...)
 - Support `XML.parse` and `XML.stringify`
 - Support `<?xml ?>` prolog declaration
 - Support `<!DOCTYPE>` declaration
@@ -72,6 +73,8 @@ patterns.
 - Support XML entities (`&amp;`, `&#38;`, `&#x26;`, ...)
 - Support auto-conversion of primitives (strings, booleans, numbers, null, ...)
 - Support strings or streams (`Deno.ReaderSync & Deno.SeekerSync`) inputs
+- Support custom revivers and replacers
+- Support metadata (parent, name, ...) hidden in a non-enumerable property
 - Auto-group nodes into arrays when same tag is used
 - Auto-unwrap nodes when it only has text content
 
@@ -98,6 +101,95 @@ By default, node contents will be converted to:
 
 XML entities (e.g. `&amp;`, `&#38;`, `&#x26;`, ...) will be unescaped
 automatically.
+
+It is also possible to provide a custom reviver for complex transformations:
+
+```ts
+import { parse } from "./mod.ts";
+console.log(parse(
+  `
+  <prices>
+    <product>dakimakura</product>
+    <price currency="usd">10.5</price>
+    <price currency="eur">10.5</price>
+    <price currency="yen">10.5</price>
+    <useless/>
+  </prices>
+`,
+  {
+    reviver({ value, key, tag, properties }) {
+      //Apply special processing for tag, attributes and properties
+      if (tag === "price") {
+        if (key === "@currency") {
+          return { usd: "$", eur: "€", yen: "¥" }[value as string] ?? "?";
+        }
+        if (key === "#text") {
+          delete this["@currency"];
+          return `${value}${properties?.["@currency"]}`;
+        }
+      }
+      //Filter out useless elements
+      if (tag === "useless") {
+        return undefined;
+      }
+      return value;
+    },
+  },
+));
+/*
+  Like JSON.parse's reviver, computed value can be transformed before being returned.
+  - `this` will refer to the node being edited, meaning that any edition will reflect
+    on final parsed value.
+  - `properties` can be accessed only after all other node's properties have been
+    parsed
+  - returning `undefined` (or nothing) will filter out current value
+  {
+    prices: {
+      product: "dakimakura",
+      price: [ "10.5$", "10.5€", "10.5¥" ]
+    }
+  }
+*/
+```
+
+### XML metadata
+
+It is possible to access several metadata properties using `$XML` symbol (which
+can be im)
+
+```ts
+import { $XML, parse } from "./mod.ts";
+console.log($XML);
+console.log(Deno.inspect(
+  parse(
+    `
+  <root>
+    <child>hello world</child>
+  </root>
+`,
+    { flatten: false },
+  ),
+  { showHidden: true, compact: false },
+));
+/*
+  Symbol("x/xml")
+  {
+    root: {
+      child: {
+        "#text": "hello world",
+        [Symbol("x/xml")]: {
+          name: "child",
+          parent: [Circular]
+        }
+      },
+      [Symbol("x/xml")]: {
+        name: "root",
+        parent: null
+      }
+    }
+  }
+*/
+```
 
 ### Parsing large files
 

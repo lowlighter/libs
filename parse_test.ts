@@ -1,8 +1,11 @@
-import { parse } from "./mod.ts";
+import { $XML, parse } from "./mod.ts";
 import {
   assertEquals,
   assertThrows,
 } from "https://deno.land/std@0.107.0/testing/asserts.ts";
+
+// deno-lint-ignore no-explicit-any
+type test = any;
 
 Deno.test("parse: xml syntax tag", () =>
   assertEquals(
@@ -792,6 +795,29 @@ Deno.test("parse: xml example w3schools.com#6", () =>
 
 // Parser options
 
+Deno.test("parse: xml parser option no flatten", () =>
+  assertEquals(
+    parse(
+      `
+<root>
+  <child>
+    <grand-child></grand-child>
+  </child>
+</root>
+`,
+      { flatten: false },
+    ),
+    {
+      root: {
+        child: {
+          "grand-child": {
+            "#text": null,
+          },
+        },
+      },
+    },
+  ));
+
 Deno.test("parse: xml parser option revive", () =>
   assertEquals(
     parse(`
@@ -834,3 +860,115 @@ Deno.test("parse: xml parser option no-revive", () =>
       },
     },
   ));
+
+Deno.test("parse: xml parser reviver", () =>
+  assertEquals(
+    parse(
+      `
+  <root>
+    <not>true</not>
+  </root>
+`,
+      {
+        reviver({ tag, value }) {
+          if (tag === "not") {
+            return !value;
+          }
+          return value;
+        },
+      },
+    ),
+    {
+      root: {
+        not: false,
+      },
+    },
+  ));
+
+Deno.test("parse: xml parser reviver (properties are accessibles except within attributes)", () =>
+  assertEquals(
+    parse(
+      `
+  <root>
+    <child attr="test">true</child>
+  </root>
+`,
+      {
+        reviver({ properties }) {
+          return `${properties}`;
+        },
+      },
+    ),
+    {
+      root: {
+        child: {
+          "#text": "[object Object]",
+          "@attr": "null",
+        },
+      },
+    },
+  ));
+
+Deno.test("parse: xml parser reviver (tag node can be edited)", () =>
+  assertEquals(
+    parse(
+      `
+  <root>
+    <x2>10</x2>
+    <x4 fp="1">10</x4>
+    <x6 fp="2">10</x6>
+  </root>
+`,
+      {
+        reviver({ key, tag, value, properties }) {
+          if ((/^x\d+$/.test(tag)) && (key === "#text")) {
+            delete this["@fp"];
+            return ((value as number) *
+              (Number(tag.match(/(?<x>\d+)/)?.groups?.x) ?? 1)).toFixed(
+                Number(properties?.["@fp"]) ?? 1,
+              );
+          }
+          return value;
+        },
+      },
+    ),
+    {
+      root: {
+        x2: "20",
+        x4: "40.0",
+        x6: "60.00",
+      },
+    },
+  ));
+
+// Metadata
+
+Deno.test("parse: xml parser option metadata", () => {
+  const xml = parse(
+    `
+  <root>
+    <child>
+      <grand-child></grand-child>
+    </child>
+    <sibling>A</sibling>
+    <sibling>B</sibling>
+    <sibling>C</sibling>
+    <sibling>D</sibling>
+  </root>
+  `,
+    { flatten: false },
+  ) as test;
+
+  assertEquals(
+    xml.root?.child?.["grand-child"]?.[$XML]?.parent,
+    xml.root.child,
+  );
+  assertEquals(xml.root?.child?.["grand-child"]?.[$XML]?.name, "grand-child");
+  assertEquals(xml.root?.child?.[$XML]?.parent, xml.root);
+  assertEquals(xml.root?.child?.[$XML]?.name, "child");
+  assertEquals(xml.root?.[$XML]?.parent, null);
+  assertEquals(xml.root?.[$XML]?.name, "root");
+
+  assertEquals(xml.root?.sibling?.[$XML]?.parent, xml.root);
+  assertEquals(xml.root?.sibling?.[$XML]?.name, "sibling");
+});
