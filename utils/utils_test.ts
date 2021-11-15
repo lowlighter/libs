@@ -1,10 +1,11 @@
 import { Streamable } from "./streamable.ts";
 import { Stream } from "./stream.ts";
+import { SeekMode } from "./types.ts";
 import { assertEquals, assertThrows } from "https://deno.land/std@0.111.0/testing/asserts.ts";
 
 Deno.test("streamable: readSync", () => {
   const stream = new Streamable("hello world");
-  assertEquals(stream.seekSync(0, Deno.SeekMode.Current), 0);
+  assertEquals(stream.seekSync(0, SeekMode.Current), 0);
   const buffer = new Uint8Array(5);
   stream.readSync(buffer);
   assertEquals(new TextDecoder().decode(buffer), "hello");
@@ -12,18 +13,18 @@ Deno.test("streamable: readSync", () => {
 
 Deno.test("streamable: seekSync", () => {
   const stream = new Streamable("hello world");
-  assertEquals(stream.seekSync(5, Deno.SeekMode.Start), 5);
-  assertEquals(stream.seekSync(-2, Deno.SeekMode.Current), 3);
-  assertEquals(stream.seekSync(+2, Deno.SeekMode.Current), 5);
-  assertEquals(stream.seekSync(-1, Deno.SeekMode.End), 10);
+  assertEquals(stream.seekSync(5, SeekMode.Start), 5);
+  assertEquals(stream.seekSync(-2, SeekMode.Current), 3);
+  assertEquals(stream.seekSync(+2, SeekMode.Current), 5);
+  assertEquals(stream.seekSync(-1, SeekMode.End), 10);
 });
 
 Deno.test("streamable: seekSync", () => {
   const stream = new Streamable("hello world");
-  assertEquals(stream.seekSync(5, Deno.SeekMode.Start), 5);
-  assertEquals(stream.seekSync(-2, Deno.SeekMode.Current), 3);
-  assertEquals(stream.seekSync(+2, Deno.SeekMode.Current), 5);
-  assertEquals(stream.seekSync(-1, Deno.SeekMode.End), 10);
+  assertEquals(stream.seekSync(5, SeekMode.Start), 5);
+  assertEquals(stream.seekSync(-2, SeekMode.Current), 3);
+  assertEquals(stream.seekSync(+2, SeekMode.Current), 5);
+  assertEquals(stream.seekSync(-1, SeekMode.End), 10);
 });
 
 Deno.test("stream: cursor", () => {
