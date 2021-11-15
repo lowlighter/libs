@@ -37,7 +37,7 @@ export class Parser {
     const path = [] as node[];
     const comments = [];
     let root = false;
-    let clean = true;
+    let clean;
     this.#trim();
 
     //Parse document
@@ -111,7 +111,7 @@ export class Parser {
     this.#consume(tokens.prolog.start);
 
     //Tag attributes
-    while (!tokens.tag.close.regex.end.test(this.#stream.peek(2))) {
+    while (!this.#peek(tokens.prolog.end)) {
       Object.assign(prolog, this.#attribute({ path: [...path, prolog] }));
     }
 

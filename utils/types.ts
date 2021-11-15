@@ -94,6 +94,13 @@ export const schema = {
   },
 } as const;
 
+/** Seek mode */
+export const SeekMode = Object.freeze({
+  Current: Deno?.SeekMode?.Current ?? 0,
+  Start: Deno?.SeekMode?.Start ?? 1,
+  End: Deno?.SeekMode?.End ?? 2,
+});
+
 /** Entities */
 export const entities = {
   xml: {
