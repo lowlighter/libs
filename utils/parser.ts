@@ -37,7 +37,7 @@ export class Parser {
     const path = [] as node[];
     const comments = [];
     let root = false;
-    let clean = true;
+    let clean;
     this.#trim();
 
     //Parse document
