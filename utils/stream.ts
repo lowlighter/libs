@@ -1,5 +1,6 @@
 //Imports
 import type { Flux } from "./types.ts";
+import { SeekMode } from "./types.ts";
 
 /**
  * Text stream helper
@@ -21,7 +22,7 @@ export class Stream {
 
   /** Cursor position */
   get cursor() {
-    return this.#content.seekSync(0, Deno.SeekMode.Current);
+    return this.#content.seekSync(0, SeekMode.Current);
   }
 
   /** Peek next bytes (cursor is replaced at current position after reading) */
@@ -29,10 +30,10 @@ export class Stream {
     const buffer = new Uint8Array(bytes);
     const cursor = this.cursor;
     if (offset) {
-      this.#content.seekSync(offset, Deno.SeekMode.Current);
+      this.#content.seekSync(offset, SeekMode.Current);
     }
     if (this.#content.readSync(buffer)) {
-      this.#content.seekSync(cursor, Deno.SeekMode.Start);
+      this.#content.seekSync(cursor, SeekMode.Start);
       return this.#decoder.decode(buffer);
     }
     throw new Deno.errors.UnexpectedEof();

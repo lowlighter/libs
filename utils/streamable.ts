@@ -1,5 +1,5 @@
 //Imports
-import { Flux } from "./types.ts";
+import { Flux, SeekMode } from "./types.ts";
 
 /**
  * Streamable string
@@ -25,15 +25,15 @@ export class Streamable implements Flux {
   }
 
   /** Set cursor position */
-  seekSync(offset: number, whence: Deno.SeekMode) {
+  seekSync(offset: number, whence: typeof SeekMode[keyof typeof SeekMode]) {
     switch (whence) {
-      case Deno.SeekMode.Start:
+      case SeekMode.Start:
         this.#cursor = offset;
         break;
-      case Deno.SeekMode.Current:
+      case SeekMode.Current:
         this.#cursor += offset;
         break;
-      case Deno.SeekMode.End:
+      case SeekMode.End:
         this.#cursor = this.#buffer.length + offset;
         break;
     }
