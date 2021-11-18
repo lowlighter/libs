@@ -281,7 +281,7 @@ export class Stringifier {
         return `${content}`;
       }
     }
-    return `"${`${content}`.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+    return `"${`${content}`.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
   }
 
   //================================================================================

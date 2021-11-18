@@ -309,11 +309,12 @@ Deno.test("parse: xml syntax comments", () =>
     <!-- COMMENT 1 -->
     <child type="test" />
     <!-- COMMENT 2 -->
+    <!--+++++++++++++++++++++-->
   </root>
 `),
     {
       root: {
-        "#comment": ["COMMENT 1", "COMMENT 2"],
+        "#comment": ["COMMENT 1", "COMMENT 2", "+++++++++++++++++++++"],
         child: {
           "@type": "test",
           "#text": null,
