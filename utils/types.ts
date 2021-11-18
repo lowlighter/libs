@@ -153,7 +153,7 @@ export const tokens = {
     start: "<!--",
     end: "-->",
     regex: {
-      end: { until: /(?<!-)-->/, bytes: 4 },
+      end: { until: /(?<!-)-->/, bytes: 4, length: 3 },
     },
   },
   cdata: {

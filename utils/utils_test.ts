@@ -56,6 +56,7 @@ Deno.test("stream: capture", () => {
   assertEquals(stream.cursor, 0);
   assertEquals(stream.capture({ until: / /, bytes: 1 }), "hello");
   assertEquals(stream.cursor, 6);
+  assertEquals(stream.capture({ until: /(?<=wo)rld/, bytes: 5, length: 3 }), "wo");
 });
 
 Deno.test("stream: consume", () => {
