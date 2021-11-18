@@ -354,7 +354,7 @@ export class Parser {
   #comment({ path }: { path: node[] }) {
     this.#debug(path, "parsing comment");
     this.#consume(tokens.comment.start);
-    const comment = this.#capture(tokens.comment.regex.end);
+    const comment = this.#capture(tokens.comment.regex.end).trim();
     this.#consume(tokens.comment.end);
     return comment;
   }
@@ -447,7 +447,7 @@ export class Parser {
   }
 
   /** Capture until next token */
-  #capture(token: { until: RegExp; bytes: number }) {
+  #capture(token: { until: RegExp; bytes: number; length?: number }) {
     return this.#stream.capture(token);
   }
 

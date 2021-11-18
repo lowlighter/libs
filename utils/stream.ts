@@ -48,14 +48,19 @@ export class Stream {
     throw new Deno.errors.UnexpectedEof();
   }
 
-  /** Capture next bytes until matching regex sequence */
-  capture({ until, bytes, trim = true }: { until: RegExp; bytes: number; trim?: boolean }) {
+  /** Capture next bytes until matching regex sequence (length can be used for regex with lookbehind) */
+  capture(
+    { until, bytes, trim = true, length = bytes }: { until: RegExp; bytes: number; trim?: boolean; length?: number },
+  ) {
     if (trim) {
       this.trim();
     }
     const buffer = [];
     while (!until.test(this.peek(bytes))) {
       buffer.push((this.read(1))[0]);
+    }
+    if (bytes !== length) {
+      buffer.push(...this.read(bytes - length));
     }
     if (trim) {
       this.trim();
