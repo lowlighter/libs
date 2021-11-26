@@ -865,7 +865,7 @@ Deno.test("parse: xml parser option revive", () =>
         number: 1,
         number_negative: -1,
         number_hex: 0xac,
-        number_octal: 439,
+        number_octal: 0o667,
         boolean: true,
       },
     },
