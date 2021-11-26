@@ -1,7 +1,9 @@
 //Imports
-import { bench, runBenchmarks } from "https://deno.land/std@0.111.0/testing/bench.ts";
-import { expandGlob } from "https://deno.land/std@0.111.0/fs/expand_glob.ts";
+import { bench as benchLib, expandGlob as expandGlobLib } from "../../test_deps.ts";
 import { parse } from "../../mod.ts";
+
+const { bench, runBenchmarks } = benchLib;
+const { expandGlob } = expandGlobLib;
 
 //Huge xml file generator
 async function write({ path, size }: { path: string; size: number }) {

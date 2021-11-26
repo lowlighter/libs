@@ -1,7 +1,9 @@
 import { Streamable } from "./streamable.ts";
 import { Stream } from "./stream.ts";
 import { SeekMode } from "./types.ts";
-import { assertEquals, assertThrows } from "https://deno.land/std@0.111.0/testing/asserts.ts";
+import { asserts } from "../test_deps.ts";
+
+const { assertEquals, assertThrows } = asserts;
 
 Deno.test("streamable: readSync", () => {
   const stream = new Streamable("hello world");
