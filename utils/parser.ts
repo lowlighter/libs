@@ -379,7 +379,7 @@ export class Parser {
           case (this.#options.reviveBooleans ?? true) && /^(?:true|false)$/i.test(value):
             return /^true$/i.test(value);
           //Revive numbers
-          case (this.#options.reviveNumbers ?? true):
+          case this.#options.reviveNumbers ?? true:
             const num = Number(value);
             if (Number.isFinite(num)) {
               return num;
