@@ -379,8 +379,11 @@ export class Parser {
           case (this.#options.reviveBooleans ?? true) && /^(?:true|false)$/i.test(value):
             return /^true$/i.test(value);
           //Revive numbers
-          case (this.#options.reviveNumbers ?? true) && Number.isFinite(Number(value)):
-            return Number.parseFloat(value);
+          case (this.#options.reviveNumbers ?? true):
+            const num = Number(value);
+            if (Number.isFinite(num)) {
+              return num;
+            }
           //Strings
           default:
             //Unescape XML entities
