@@ -1,6 +1,5 @@
 //Imports
-import { bench, runBenchmarks } from "https://deno.land/std@0.111.0/testing/bench.ts";
-import { expandGlob } from "https://deno.land/std@0.111.0/fs/expand_glob.ts";
+import { bench, runBenchmarks, expandGlob } from "../../test_deps.ts";
 import { parse } from "../../mod.ts";
 
 //Huge xml file generator
