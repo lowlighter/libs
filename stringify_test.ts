@@ -1,7 +1,5 @@
 import { parse, stringify } from "./mod.ts";
-import { asserts } from "./test_deps.ts";
-
-const { assertEquals } = asserts;
+import { assertEquals } from "./test_deps.ts";
 
 /** This operation ensure that reforming a parsed XML will still yield same data */
 //deno-lint-ignore no-explicit-any

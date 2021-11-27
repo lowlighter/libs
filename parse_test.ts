@@ -1,8 +1,5 @@
 import { $XML, parse } from "./mod.ts";
-import { asserts } from "./test_deps.ts";
-
-const assert: (expr: unknown) => asserts expr = asserts.assert;
-const { assertEquals, assertThrows } = asserts;
+import { assert, assertEquals, assertThrows } from "./test_deps.ts";
 
 // deno-lint-ignore no-explicit-any
 type test = any;
