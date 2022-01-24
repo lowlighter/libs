@@ -131,7 +131,9 @@ export class Stringifier {
       //Handle comments
       if (comments.length) {
         this.#debug(path, `stringifying comments`);
-        for (const comment of comments) {
+        const commentArr = Array.isArray(comments) ? comments : [comments];
+        for (const comment of commentArr) {
+          this.#write("\n", { newline: false, indent: false });
           this.#comment({ text: comment, tag: name });
         }
       }
@@ -161,6 +163,9 @@ export class Stringifier {
           const child = node[name];
           handle({ child, name });
         }
+
+        // indentation fix - if had children, cant be inline
+        inline = false;
       }
     }
 
@@ -176,7 +181,7 @@ export class Stringifier {
   /** Comment stringifier */
   #comment({ text, tag }: { text: string; tag: string }) {
     const comment = this.#replace({ value: text, key: schema.comment, tag, properties: null });
-    this.#write(`${tokens.comment.start} ${comment} ${tokens.comment.end}`);
+    this.#write(`${tokens.comment.start} ${comment} ${tokens.comment.end}`, { newline: false });
   }
 
   /** Text stringifier */
