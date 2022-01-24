@@ -5,6 +5,7 @@ import { assertEquals } from "./test_deps.ts";
 //deno-lint-ignore no-explicit-any
 const check = (xml: string, options: any = {}) => {
   assertEquals(stringify(parse(xml, options), options), xml);
+  //deno-lint-ignore no-explicit-any
   return parse(stringify(parse(xml, options) as any, options), options);
 }
 
