@@ -3,15 +3,17 @@ import { assertEquals } from "./test_deps.ts";
 
 /** This operation ensure that reforming a parsed XML will still yield same data */
 //deno-lint-ignore no-explicit-any
-const check = (xml: string, options: any = {}) => parse(stringify(parse(xml, options) as any, options), options);
+const check = (xml: string, options: any = {}) => {
+  assertEquals(stringify(parse(xml, options), options), xml);
+  //deno-lint-ignore no-explicit-any
+  return parse(stringify(parse(xml, options) as any, options), options);
+}
 
 Deno.test("stringify: xml syntax xml prolog", () =>
   assertEquals(
     check(
-      `
-  <?xml version="1.0" encoding="UTF-8"?>
-  <root></root>
-`,
+`<?xml version="1" encoding="UTF-8"?>
+<root/>`,
     ),
     {
       xml: {
@@ -25,10 +27,8 @@ Deno.test("stringify: xml syntax xml prolog", () =>
 Deno.test("stringify: xml syntax doctype", () =>
   assertEquals(
     check(
-      `
-  <!DOCTYPE type "quoted attribute">
-  <root></root>
-`,
+`<!DOCTYPE type "quoted attribute">
+<root/>`,
     ),
     {
       doctype: {
@@ -41,42 +41,45 @@ Deno.test("stringify: xml syntax doctype", () =>
 
 Deno.test("stringify: xml example w3schools.com#3", () =>
   assertEquals(
-    check(`
-  <bookstore>
-    <book category="cooking">
-      <title lang="en">Everyday Italian</title>
-      <author>Giada De Laurentiis</author>
-      <year>2005</year>
-      <price>30.00</price>
-    </book>
-    <book category="children">
-      <title lang="en">Harry Potter</title>
-      <author>J K. Rowling</author>
-      <year>2005</year>
-      <price>29.99</price>
-    </book>
-    <book category="web">
-      <title lang="en">XQuery Kick Start</title>
-      <author>James McGovern</author>
-      <author>Per Bothner</author>
-      <author>Kurt Cagle</author>
-      <author>James Linn</author>
-      <author>Vaidyanathan Nagarajan</author>
-      <year>2003</year>
-      <price>49.99</price>
-    </book>
-    <book category="web" cover="paperback">
-      <title lang="en">Learning XML</title>
-      <author>Erik T. Ray</author>
-      <year>2003</year>
-      <price>39.95</price>
-    </book>
-  </bookstore>
-`),
+    check(
+`<bookstore>
+  <book category="cooking">
+    <!-- Comment Node -->
+    <title lang="en">Everyday Italian</title>
+    <author>Giada De Laurentiis</author>
+    <year>2005</year>
+    <price>30</price>
+  </book>
+  <book category="children">
+    <!-- First Comment Node -->
+    <!-- Second Comment Node -->
+    <title lang="en">Harry Potter</title>
+    <author>J K. Rowling</author>
+    <year>2005</year>
+    <price>29.99</price>
+  </book>
+  <book category="web">
+    <title lang="en">XQuery Kick Start</title>
+    <author>James McGovern</author>
+    <author>Per Bothner</author>
+    <author>Kurt Cagle</author>
+    <author>James Linn</author>
+    <author>Vaidyanathan Nagarajan</author>
+    <year>2003</year>
+    <price>49.99</price>
+  </book>
+  <book category="web" cover="paperback">
+    <title lang="en">Learning XML</title>
+    <author>Erik T. Ray</author>
+    <year>2003</year>
+    <price>39.95</price>
+  </book>
+</bookstore>`),
     {
       bookstore: {
         book: [
           {
+            "#comment": "Comment Node",
             "@category": "cooking",
             title: { "@lang": "en", "#text": "Everyday Italian" },
             author: "Giada De Laurentiis",
@@ -84,6 +87,7 @@ Deno.test("stringify: xml example w3schools.com#3", () =>
             price: 30,
           },
           {
+            "#comment": ["First Comment Node", "Second Comment Node"],
             "@category": "children",
             title: { "@lang": "en", "#text": "Harry Potter" },
             author: "J K. Rowling",
@@ -119,13 +123,11 @@ Deno.test("stringify: xml example w3schools.com#3", () =>
 Deno.test("stringify: xml types", () =>
   assertEquals(
     check(
-      `
-  <types>
-    <boolean>true</boolean>
-    <null></null>
-    <string>hello</string>
-  </types>
-`,
+`<types>
+  <boolean>true</boolean>
+  <null/>
+  <string>hello</string>
+</types>`,
     ),
     {
       types: {
@@ -138,11 +140,7 @@ Deno.test("stringify: xml types", () =>
 
 Deno.test("stringify: xml entities", () =>
   assertEquals(
-    check(
-      `
-    <string>&quot; &lt; &gt; &amp; &apos;</string>
-`,
-    ),
+    check(`<string>&quot; &lt; &gt; &amp; &apos;</string>`),
     {
       string: `" < > & '`,
     },
@@ -158,10 +156,8 @@ Deno.test("stringify: xml replacer", () =>
         return value;
       },
     }),
-    `
-<root>
+`<root>
   <not>false</not>
   <yes>true</yes>
-</root>
-`.trim(),
+</root>`.trim(),
   ));
