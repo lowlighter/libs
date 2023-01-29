@@ -163,6 +163,16 @@ Deno.test("parse: xml syntax mixed content", () =>
     },
   ))
 
+Deno.test("parse: xml syntax mixed content starting with tag", () =>
+  assertEquals(
+    parse(`
+  <root><i>some</i> mixed <i>text</i></root>
+`),
+    {
+      root: "<i>some</i> mixed <i>text</i>",
+    },
+  ))
+
 Deno.test("parse: xml syntax nested mixed content", () =>
   assertEquals(
     parse(`
