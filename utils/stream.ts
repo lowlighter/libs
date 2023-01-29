@@ -81,7 +81,10 @@ export class Stream {
       }
       return
     }
-    throw new SyntaxError(`Expected next sequence to be "${content}", got "${this.peek(bytes)}" instead`)
+    throw Object.assign(
+      new SyntaxError(`Expected next sequence to be "${content}", got "${this.peek(bytes)}" instead`),
+      { stack: false },
+    )
   }
 
   /** Trim content */
