@@ -1,4 +1,9 @@
 {
+  "lint": {
+    "rules": {
+      "exclude": ["no-extra-semi"]
+    }
+  },
   "fmt": {
     "options": {
       "lineWidth": 120,
