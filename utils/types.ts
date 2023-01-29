@@ -86,6 +86,7 @@ export type literal = string | boolean | number | null | undefined
 export const schema = {
   comment: "#comment",
   text: "#text",
+  stylesheets: "$stylesheets",
   attribute: {
     prefix: "@",
   },
@@ -128,6 +129,10 @@ export const tokens = {
   },
   prolog: {
     start: "<?xml",
+    end: "?>",
+  },
+  stylesheet: {
+    start: "<?xml-stylesheet",
     end: "?>",
   },
   doctype: {

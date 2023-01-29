@@ -190,6 +190,30 @@ Deno.test("parse: xml syntax xml prolog", () =>
     },
   ))
 
+Deno.test("parse: xml syntax xml stylesheet", () =>
+  assertEquals(
+    parse(
+      `
+  <?xml version="1.0" encoding="UTF-8"?>
+  <?xml-stylesheet href="styles.xsl" type="text/xsl"?>
+  <root></root>
+`,
+    ),
+    {
+      xml: {
+        "@version": 1,
+        "@encoding": "UTF-8",
+      },
+      $stylesheets: [
+        {
+          "@href": "styles.xsl",
+          "@type": "text/xsl",
+        },
+      ],
+      root: null,
+    },
+  ))
+
 Deno.test("parse: xml syntax doctype", () =>
   assertEquals(
     parse(
