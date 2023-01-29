@@ -24,6 +24,28 @@ Deno.test("stringify: xml syntax xml prolog", () =>
     },
   ))
 
+Deno.test("stringify: xml syntax xml stylesheet", () =>
+  assertEquals(
+    check(
+      `<?xml version="1" encoding="UTF-8"?>
+<?xml-stylesheet href="styles.xsl" type="text/xsl"?>
+<root/>`,
+    ),
+    {
+      xml: {
+        "@version": 1,
+        "@encoding": "UTF-8",
+      },
+      $stylesheets: [
+        {
+          "@href": "styles.xsl",
+          "@type": "text/xsl",
+        },
+      ],
+      root: null,
+    },
+  ))
+
 Deno.test("stringify: xml syntax doctype", () =>
   assertEquals(
     check(
