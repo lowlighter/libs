@@ -1,86 +1,86 @@
 /** XML symbol */
-export const $XML: unique symbol = Symbol("x/xml");
+export const $XML: unique symbol = Symbol("x/xml")
 
 /** Flux */
-export type Flux = Deno.ReaderSync & Deno.SeekerSync;
+export type Flux = Deno.ReaderSync & Deno.SeekerSync
 
 /** Parser options */
 export type ParserOptions = {
-  reviveBooleans?: boolean;
-  reviveNumbers?: boolean;
-  emptyToNull?: boolean;
-  debug?: boolean;
-  flatten?: boolean;
-  progress?: (bytes: number) => void;
+  reviveBooleans?: boolean
+  reviveNumbers?: boolean
+  emptyToNull?: boolean
+  debug?: boolean
+  flatten?: boolean
+  progress?: (bytes: number) => void
   reviver?: (
     this: node,
     options: {
-      key: string;
-      value: unknown;
-      tag: string;
-      properties: null | { [key: string]: unknown };
+      key: string
+      value: unknown
+      tag: string
+      properties: null | { [key: string]: unknown }
     },
-  ) => unknown;
-};
+  ) => unknown
+}
 
 /** Stringifier options */
 export type StringifierOptions = {
-  indentSize?: number;
-  nullToEmpty?: boolean;
-  debug?: boolean;
-  progress?: (bytes: number) => void;
+  indentSize?: number
+  nullToEmpty?: boolean
+  debug?: boolean
+  progress?: (bytes: number) => void
   replacer?: (
     this: null,
     options: {
-      key: string;
-      value: unknown;
-      tag: string;
-      properties: null | { [key: string]: unknown };
+      key: string
+      value: unknown
+      tag: string
+      properties: null | { [key: string]: unknown }
     },
-  ) => unknown;
-};
+  ) => unknown
+}
 
 /** Stringifier extract */
 export type extract = {
-  raw: node;
-  text: string | null;
-  comments: string[];
-  attributes: string[];
-  children: string[];
-  meta: meta;
-};
+  raw: node
+  text: string | null
+  comments: string[]
+  attributes: string[]
+  children: string[]
+  meta: meta
+}
 
 /** XML meta */
-export type meta = { name: string; parent: null | node };
+export type meta = { name: string; parent: null | node }
 
 /** Node type */
 export type node = {
-  [$XML]: meta;
-  [key: PropertyKey]: unknown;
-};
+  [$XML]: meta
+  [key: PropertyKey]: unknown
+}
 
 /** Document type */
 export type document = {
-  xml?: node;
-  doctype?: node;
-  [key: PropertyKey]: node | literal;
-};
+  xml?: node
+  doctype?: node
+  [key: PropertyKey]: node | literal
+}
 
 /** Node type (user) */
 export type unode = {
-  [$XML]?: meta;
-  [key: PropertyKey]: unknown;
-};
+  [$XML]?: meta
+  [key: PropertyKey]: unknown
+}
 
 /** Document type (user) */
 export type udocument = {
-  xml?: unode;
-  doctype?: unode;
-  [key: PropertyKey]: unode | literal;
-};
+  xml?: unode
+  doctype?: unode
+  [key: PropertyKey]: unode | literal
+}
 
 /** Literal type */
-export type literal = string | boolean | number | null | undefined;
+export type literal = string | boolean | number | null | undefined
 
 /** Schema */
 export const schema = {
@@ -92,14 +92,14 @@ export const schema = {
   property: {
     prefix: "@",
   },
-} as const;
+} as const
 
 /** Seek mode */
 export const SeekMode = Object.freeze({
   Current: Deno?.SeekMode?.Current ?? 0,
   Start: Deno?.SeekMode?.Start ?? 1,
   End: Deno?.SeekMode?.End ?? 2,
-});
+})
 
 /** Entities */
 export const entities = {
@@ -117,7 +117,7 @@ export const entities = {
     ">": "&gt;",
     "'": "&apos;",
   },
-} as const;
+} as const
 
 /** Tokens */
 export const tokens = {
@@ -193,4 +193,4 @@ export const tokens = {
       end: { until: /(<\/)|(<!)/, bytes: 2 },
     },
   },
-} as const;
+} as const

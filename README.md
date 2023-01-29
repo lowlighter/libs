@@ -3,7 +3,7 @@
 ## Basic usage
 
 ```ts
-import { parse } from "https://deno.land/x/xml/mod.ts";
+import { parse } from "https://deno.land/x/xml/mod.ts"
 
 console.log(parse(`
   <root>
@@ -17,7 +17,7 @@ console.log(parse(`
     <boolean>true</boolean>
     <complex attribute="value">content</complex>
   </root>
-`));
+`))
 /*
   Same nodes are grouped into arrays, while numbers and booleans are auto-parsed (can be disabled)
   Nodes with attributes will not be flattened and you'll be able to access them with "@" prefix while
@@ -39,7 +39,7 @@ console.log(parse(`
 ```
 
 ```ts
-import { stringify } from "https://deno.land/x/xml/mod.ts";
+import { stringify } from "https://deno.land/x/xml/mod.ts"
 
 console.log(stringify({
   root: {
@@ -53,7 +53,7 @@ console.log(stringify({
       "#text": "content",
     },
   },
-}));
+}))
 ```
 
 ## Features
@@ -98,7 +98,7 @@ XML entities (e.g. `&amp;`, `&#38;`, `&#x26;`, ...) will be unescaped automatica
 It is also possible to provide a custom reviver for complex transformations:
 
 ```ts
-import { parse } from "./mod.ts";
+import { parse } from "./mod.ts"
 console.log(parse(
   `
   <prices>
@@ -114,21 +114,21 @@ console.log(parse(
       //Apply special processing for tag, attributes and properties
       if (tag === "price") {
         if (key === "@currency") {
-          return { usd: "$", eur: "€", yen: "¥" }[value as string] ?? "?";
+          return { usd: "$", eur: "€", yen: "¥" }[value as string] ?? "?"
         }
         if (key === "#text") {
-          delete this["@currency"];
-          return `${value}${properties?.["@currency"]}`;
+          delete this["@currency"]
+          return `${value}${properties?.["@currency"]}`
         }
       }
       //Filter out useless elements
       if (tag === "useless") {
-        return undefined;
+        return undefined
       }
-      return value;
+      return value
     },
   },
-));
+))
 /*
   Like JSON.parse's reviver, computed value can be transformed before being returned.
   - `this` will refer to the node being edited, meaning that any edition will reflect
@@ -160,8 +160,8 @@ It is also possible to provide a custom replacer for complex transformations:
 It is possible to access several metadata properties using `$XML` symbol, like parent node, name, etc.
 
 ```ts
-import { $XML, parse } from "./mod.ts";
-console.log($XML);
+import { $XML, parse } from "./mod.ts"
+console.log($XML)
 console.log(Deno.inspect(
   parse(
     `
@@ -172,7 +172,7 @@ console.log(Deno.inspect(
     { flatten: false },
   ),
   { showHidden: true, compact: false },
-));
+))
 /*
   Symbol("x/xml")
   {
@@ -199,18 +199,18 @@ Parsing large files of several mega bytes can take some time. You can use `progr
 a node has been parsed.
 
 ```ts
-import { parse } from "./mod.ts";
-const file = await Deno.open("my.xml");
-const { size } = await file.stat();
+import { parse } from "./mod.ts"
+const file = await Deno.open("my.xml")
+const { size } = await file.stat()
 console.log(parse(file, {
   progress(bytes) {
     Deno.stdout.writeSync(
       new TextEncoder().encode(
         `Parsing document: ${(100 * bytes / size).toFixed(2)}%\r`,
       ),
-    );
+    )
   },
-}));
+}))
 ```
 
 ### Why does this use synchronous API ?
