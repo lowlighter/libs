@@ -52,13 +52,19 @@ export class Parser {
           continue
         }
 
-        //Extract prolog and doctype
-        if (this.#peek(tokens.prolog.start)) {
+        //Extract prolog, stylesheets and doctype
+        if ((this.#peek(tokens.prolog.start)) && (!this.#peek(tokens.stylesheet.start))) {
           if (document.xml) {
             throw new SyntaxError("Multiple prolog declaration found")
           }
           clean = false
           Object.assign(document, this.#prolog({ path }))
+          continue
+        }
+        if (this.#peek(tokens.stylesheet.start)) {
+          clean = false
+          const stylesheets = (document[schema.stylesheets] ??= []) as unknown[]
+          stylesheets.push(this.#stylesheet({ path }).stylesheet)
           continue
         }
         if (this.#peek(tokens.doctype.start)) {
@@ -118,6 +124,22 @@ export class Parser {
     //Result
     this.#consume(tokens.prolog.end)
     return { xml: prolog }
+  }
+
+  /** Stylesheet parser */
+  #stylesheet({ path }: { path: node[] }) {
+    this.#debug(path, "parsing stylesheet")
+    const stylesheet = this.#make.node({ name: "xml-stylesheet", path })
+    this.#consume(tokens.stylesheet.start)
+
+    //Tag attributes
+    while (!this.#peek(tokens.stylesheet.end)) {
+      Object.assign(stylesheet, this.#attribute({ path: [...path, stylesheet] }))
+    }
+
+    //Result
+    this.#consume(tokens.stylesheet.end)
+    return { stylesheet }
   }
 
   /** Doctype parser */

@@ -23,6 +23,9 @@ export class Stringifier {
     if (document.raw.xml) {
       this.#prolog(document)
     }
+    if (document.raw[schema.stylesheets]) {
+      this.#stylesheet(document)
+    }
     if (document.raw.doctype) {
       this.#doctype(document)
     }
@@ -52,6 +55,15 @@ export class Stringifier {
     this.#debug([], "stringifying prolog")
     const attributes = this.#attributes({ tag: "prolog", ...this.#make.extraction(node.xml as node) })
     this.#write(`${tokens.prolog.start}${attributes}${tokens.prolog.end}`)
+  }
+
+  /** Stylesheet stringifier */
+  #stylesheet({ raw: node }: extract) {
+    this.#debug([], "stringifying stylesheets")
+    for (const stylesheet of node[schema.stylesheets] as node[]) {
+      const attributes = this.#attributes({ tag: "stylesheet", ...this.#make.extraction(stylesheet) })
+      this.#write(`${tokens.stylesheet.start}${attributes}${tokens.stylesheet.end}`)
+    }
   }
 
   /** Doctype stringifier */
@@ -304,7 +316,7 @@ export class Stringifier {
           key.startsWith(schema.attribute.prefix) || key.startsWith(schema.property.prefix)
         ),
         children: keys.filter((key) =>
-          ![schema.text, schema.comment, "xml", "doctype"].includes(key) &&
+          ![schema.text, schema.comment, schema.stylesheets, "xml", "doctype"].includes(key) &&
           !(key.startsWith(schema.attribute.prefix) || key.startsWith(schema.property.prefix))
         ),
         meta: node?.[$XML] ?? {},
