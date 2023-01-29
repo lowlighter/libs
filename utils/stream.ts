@@ -1,6 +1,6 @@
 //Imports
-import type { Flux } from "./types.ts";
-import { SeekMode } from "./types.ts";
+import type { Flux } from "./types.ts"
+import { SeekMode } from "./types.ts"
 
 /**
  * Text stream helper
@@ -8,44 +8,44 @@ import { SeekMode } from "./types.ts";
 export class Stream {
   /** Constructor */
   constructor(content: Flux) {
-    this.#content = content;
+    this.#content = content
   }
 
   /** Text decodeer */
-  readonly #decoder = new TextDecoder();
+  readonly #decoder = new TextDecoder()
 
   /** Text encoder */
-  readonly #encoder = new TextEncoder();
+  readonly #encoder = new TextEncoder()
 
   /** Content */
-  readonly #content: Flux;
+  readonly #content: Flux
 
   /** Cursor position */
   get cursor() {
-    return this.#content.seekSync(0, SeekMode.Current);
+    return this.#content.seekSync(0, SeekMode.Current)
   }
 
   /** Peek next bytes (cursor is replaced at current position after reading) */
   peek(bytes = 1, offset = 0) {
-    const buffer = new Uint8Array(bytes);
-    const cursor = this.cursor;
+    const buffer = new Uint8Array(bytes)
+    const cursor = this.cursor
     if (offset) {
-      this.#content.seekSync(offset, SeekMode.Current);
+      this.#content.seekSync(offset, SeekMode.Current)
     }
     if (this.#content.readSync(buffer)) {
-      this.#content.seekSync(cursor, SeekMode.Start);
-      return this.#decoder.decode(buffer);
+      this.#content.seekSync(cursor, SeekMode.Start)
+      return this.#decoder.decode(buffer)
     }
-    throw new Deno.errors.UnexpectedEof();
+    throw new Deno.errors.UnexpectedEof()
   }
 
   /** Read next bytes (cursor is moved after reading) */
   read(bytes = 1) {
-    const buffer = new Uint8Array(bytes);
+    const buffer = new Uint8Array(bytes)
     if (this.#content.readSync(buffer)) {
-      return buffer;
+      return buffer
     }
-    throw new Deno.errors.UnexpectedEof();
+    throw new Deno.errors.UnexpectedEof()
   }
 
   /** Capture next bytes until matching regex sequence (length can be used for regex with lookbehind) */
@@ -53,48 +53,48 @@ export class Stream {
     { until, bytes, trim = true, length = bytes }: { until: RegExp; bytes: number; trim?: boolean; length?: number },
   ) {
     if (trim) {
-      this.trim();
+      this.trim()
     }
-    const buffer = [];
+    const buffer = []
     while (!until.test(this.peek(bytes))) {
-      buffer.push((this.read(1))[0]);
+      buffer.push((this.read(1))[0])
     }
     if (bytes !== length) {
-      buffer.push(...this.read(bytes - length));
+      buffer.push(...this.read(bytes - length))
     }
     if (trim) {
-      this.trim();
+      this.trim()
     }
-    return this.#decoder.decode(Uint8Array.from(buffer));
+    return this.#decoder.decode(Uint8Array.from(buffer))
   }
 
   /** Consume next bytes ensuring that content is matching */
   consume({ content, trim = true }: { content: string; trim?: boolean }) {
     if (trim) {
-      this.trim();
+      this.trim()
     }
-    const bytes = this.#encoder.encode(content).length;
+    const bytes = this.#encoder.encode(content).length
     if (content === this.peek(bytes)) {
-      this.read(bytes);
+      this.read(bytes)
       if (trim) {
-        this.trim();
+        this.trim()
       }
-      return;
+      return
     }
-    throw new SyntaxError(`Expected next sequence to be "${content}", got "${this.peek(bytes)}" instead`);
+    throw new SyntaxError(`Expected next sequence to be "${content}", got "${this.peek(bytes)}" instead`)
   }
 
   /** Trim content */
   trim() {
     try {
       while (/\s/.test(this.peek())) {
-        this.read(1);
+        this.read(1)
       }
     } catch (error) {
       if (error instanceof Deno.errors.UnexpectedEof) {
-        return;
+        return
       }
-      throw error;
+      throw error
     }
   }
 }
