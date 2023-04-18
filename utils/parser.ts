@@ -329,7 +329,7 @@ export class Parser {
   }
 
   /** Text parser */
-  #text({ document, close, path, trim }: { document:node, close: string; path: node[]; trim: boolean }) {
+  #text({ document, close, path, trim }: { document: node; close: string; path: node[]; trim: boolean }) {
     this.#debug(path, "parsing text")
     const tag = this.#make.node({ name: schema.text, path })
     let text = ""

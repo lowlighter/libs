@@ -1,4 +1,4 @@
-import { $XML, parse, stringify } from "./mod.ts"
+import { parse, stringify } from "./mod.ts"
 import { assertEquals } from "./test_deps.ts"
 
 /** This operation ensure that reforming a parsed XML will still yield same data */
@@ -193,5 +193,13 @@ Deno.test("stringify: xml space preserve", () =>
         "#text": " hello world ",
         "@xml:space": "preserve",
       },
+    },
+  ))
+
+Deno.test("stringify: cdata is preserved", () =>
+  assertEquals(
+    check(`<string><![CDATA[hello <world>]]></string>`),
+    {
+      string: `hello <world>`,
     },
   ))

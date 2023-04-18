@@ -211,7 +211,15 @@ export class Stringifier {
   }
 
   /** Text stringifier */
-  #text({ path, text, tag, properties, cdata }: { path: string[]; text: literal; tag: string; properties: Partial<node>,  cdata?: boolean }) {
+  #text(
+    { path, text, tag, properties, cdata }: {
+      path: string[]
+      text: literal
+      tag: string
+      properties: Partial<node>
+      cdata?: boolean
+    },
+  ) {
     if (cdata) {
       text = `${tokens.cdata.start}${text}${tokens.cdata.end}`
     }
@@ -222,7 +230,7 @@ export class Stringifier {
       this.#debug(path, `${schema.space.name} is set to ${schema.space.preserve}`)
       trim = false
     }
-    
+
     const inline = lines.length <= 1
     if (inline) {
       this.#trim()
