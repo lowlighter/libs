@@ -51,7 +51,7 @@ export type extract = {
 }
 
 /** XML meta */
-export type meta = { name: string; parent: null | node }
+export type meta = { name: string; parent: null | node; cdata?: Array<string[]> }
 
 /** Node type */
 export type node = {

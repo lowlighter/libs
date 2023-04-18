@@ -193,6 +193,13 @@ console.log(Deno.inspect(
 */
 ```
 
+#### Stringify as CDATA
+
+The `Symbol("x/xml")` for the root document may contain an `Array<string[]>` where each value contains an xml path
+towards a node that should be wrapped in CDATA.
+
+For more complex transformations, use a `reviver` instead.
+
 ### Parsing large files
 
 Parsing large files of several mega bytes can take some time. You can use `progress` option to pass a callback each time
