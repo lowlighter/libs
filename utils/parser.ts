@@ -203,19 +203,26 @@ export class Parser {
       Object.assign(tag, this.#attribute({ path: [...path, tag] }))
     }
 
+    //Honor xml:space directive
+    let trim = true
+    if (tag[`${schema.attribute.prefix}${schema.space.name}`] === schema.space.preserve) {
+      this.#debug([...path, tag], `${schema.space.name} is set to ${schema.space.preserve}`)
+      trim = false
+    }
+
     //Self-closed tag
     const selfclosed = this.#peek(tokens.tag.close.self)
     if (selfclosed) {
       this.#debug(path, `tag "${name}" is self-closed`)
       this.#consume(tokens.tag.close.self)
     }
-    this.#consume(tokens.tag.end)
+    this.#consume(tokens.tag.end, { trim })
 
     //Pair-closed tag
     if (!selfclosed) {
       //Text node
       if ((this.#peek(tokens.cdata.start)) || (!this.#peek(tokens.tag.start))) {
-        Object.assign(tag, this.#text({ close: name, path: [...path, tag] }))
+        Object.assign(tag, this.#text({ close: name, path: [...path, tag], trim }))
       } //Child nodes
       else {
         while (!tokens.tag.close.regex.start.test(this.#stream.peek(2))) {
@@ -318,7 +325,7 @@ export class Parser {
   }
 
   /** Text parser */
-  #text({ close, path }: { close: string; path: node[] }) {
+  #text({ close, path, trim }: { close: string; path: node[]; trim: boolean }) {
     this.#debug(path, "parsing text")
     const tag = this.#make.node({ name: schema.text, path })
     let text = ""
@@ -337,7 +344,7 @@ export class Parser {
         comments.push(this.#comment({ path: [...path, tag] }))
       } //Raw text
       else {
-        text += this.#capture(tokens.text.regex.end)
+        text += this.#capture({ ...tokens.text.regex.end }, { trim })
         if (
           (this.#peek(tokens.cdata.start)) ||
           (this.#peek(tokens.comment.start))
@@ -357,7 +364,7 @@ export class Parser {
 
     //Result
     Object.assign(tag, {
-      [schema.text]: this.#revive({ key: schema.text, value: text.trim(), tag: path.at(-1)! }),
+      [schema.text]: this.#revive({ key: schema.text, value: trim ? text.trim() : text, tag: path.at(-1)! }),
       ...(comments.length ? { [schema.comment]: comments } : {}),
     })
     return tag
@@ -469,13 +476,13 @@ export class Parser {
   }
 
   /** Consume token */
-  #consume(token: string) {
-    return this.#stream.consume({ content: token })
+  #consume(token: string, { trim }: { trim?: boolean } = {}) {
+    return this.#stream.consume({ content: token, trim })
   }
 
   /** Capture until next token */
-  #capture(token: { until: RegExp; bytes: number; length?: number }) {
-    return this.#stream.capture(token)
+  #capture(token: { until: RegExp; bytes: number; length?: number }, { trim }: { trim?: boolean } = {}) {
+    return this.#stream.capture({ ...token, trim })
   }
 
   /** Trim stream */
