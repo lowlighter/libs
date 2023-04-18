@@ -133,6 +133,7 @@ export class Stringifier {
       if ((["string", "boolean", "number", "undefined"].includes(typeof content)) || (content === null)) {
         this.#debug(path, `stringifying text content`)
         inline = this.#text({
+          path,
           text: content,
           tag: name,
           properties: Object.fromEntries(
@@ -197,14 +198,22 @@ export class Stringifier {
   }
 
   /** Text stringifier */
-  #text({ text, tag, properties }: { text: literal; tag: string; properties: Partial<node> }) {
+  #text({ path, text, tag, properties }: { path: string[]; text: literal; tag: string; properties: Partial<node> }) {
     const lines = this.#replace({ value: text, key: schema.text, tag, properties }).split("\n")
+    console.log(properties)
+
+    let trim = true
+    if (properties[schema.space.name] === schema.space.preserve) {
+      this.#debug(path, `${schema.space.name} is set to ${schema.space.preserve}`)
+      trim = false
+    }
+
     const inline = lines.length <= 1
     if (inline) {
       this.#trim()
     }
     for (const line of lines) {
-      this.#write(line.trimStart(), { indent: !inline, newline: !inline })
+      this.#write(trim ? line.trimStart() : line, { indent: !inline, newline: !inline })
     }
     return inline
   }
