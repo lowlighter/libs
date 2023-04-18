@@ -184,3 +184,14 @@ Deno.test("stringify: xml replacer", () =>
   <yes>true</yes>
 </root>`.trim(),
   ))
+
+Deno.test("stringify: xml space preserve", () =>
+  assertEquals(
+    check(`<text xml:space="preserve"> hello world </text>`),
+    {
+      text: {
+        "#text": " hello world ",
+        "@xml:space": "preserve",
+      },
+    },
+  ))

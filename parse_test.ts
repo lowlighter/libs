@@ -424,6 +424,22 @@ Deno.test("parse: xml syntax with multiple CDATA's", () =>
     },
   ))
 
+Deno.test("parse: xml space preserve", () =>
+  assertEquals(
+    parse(`
+    <root>
+      <text xml:space="preserve"> hello world </text>
+    </root>`),
+    {
+      root: {
+        text: {
+          "#text": " hello world ",
+          "@xml:space": "preserve",
+        },
+      },
+    },
+  ))
+
 //Errors checks
 
 Deno.test("parse: xml syntax unique root", () =>

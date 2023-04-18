@@ -93,6 +93,10 @@ export const schema = {
   property: {
     prefix: "@",
   },
+  space: {
+    name: "xml:space",
+    preserve: "preserve",
+  },
 } as const
 
 /** Seek mode */
