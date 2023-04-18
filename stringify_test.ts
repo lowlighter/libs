@@ -195,3 +195,11 @@ Deno.test("stringify: xml space preserve", () =>
       },
     },
   ))
+
+Deno.test("stringify: cdata is preserved", () =>
+  assertEquals(
+    check(`<string><![CDATA[hello <world>]]></string>`),
+    {
+      string: `hello <world>`,
+    },
+  ))

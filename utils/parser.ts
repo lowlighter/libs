@@ -33,7 +33,11 @@ export class Parser {
 
   /** Document parser */
   #document() {
-    const document = {} as node
+    const document = Object.defineProperty({} as node, $XML, {
+      enumerable: false,
+      writable: true,
+      value: { cdata: [] as Array<string[]> },
+    })
     const path = [] as node[]
     const comments = []
     let root = false
@@ -82,7 +86,7 @@ export class Parser {
             throw Object.assign(new SyntaxError("Multiple root elements found"), { stack: false })
           }
           clean = false
-          Object.assign(document, this.#node({ path }))
+          Object.assign(document, this.#node({ document, path }))
           this.#trim()
           root = true
           continue
@@ -100,14 +104,14 @@ export class Parser {
   }
 
   /** Node parser */
-  #node({ path }: { path: node[] }) {
+  #node({ document, path }: { document: node; path: node[] }) {
     if (this.#options.progress) {
       this.#options.progress(this.#stream.cursor)
     }
     if (this.#peek(tokens.comment.start)) {
       return { [schema.comment]: this.#comment({ path }) }
     }
-    return this.#tag({ path })
+    return this.#tag({ document, path })
   }
 
   /** Prolog parser */
@@ -188,7 +192,7 @@ export class Parser {
   }
 
   /** Tag parser */
-  #tag({ path }: { path: node[] }) {
+  #tag({ document, path }: { document: node; path: node[] }) {
     this.#debug(path, "parsing tag")
     const tag = this.#make.node({ path })
 
@@ -222,11 +226,11 @@ export class Parser {
     if (!selfclosed) {
       //Text node
       if ((this.#peek(tokens.cdata.start)) || (!this.#peek(tokens.tag.start))) {
-        Object.assign(tag, this.#text({ close: name, path: [...path, tag], trim }))
+        Object.assign(tag, this.#text({ document, close: name, path: [...path, tag], trim }))
       } //Child nodes
       else {
         while (!tokens.tag.close.regex.start.test(this.#stream.peek(2))) {
-          const child = this.#node({ path: [...path, tag] })
+          const child = this.#node({ document, path: [...path, tag] })
           const [key, value] = Object.entries(child).shift()!
           if (Array.isArray(tag[key])) {
             ;(tag[key] as unknown[]).push(value)
@@ -325,7 +329,7 @@ export class Parser {
   }
 
   /** Text parser */
-  #text({ close, path, trim }: { close: string; path: node[]; trim: boolean }) {
+  #text({ document, close, path, trim }: { document: node; close: string; path: node[]; trim: boolean }) {
     this.#debug(path, "parsing text")
     const tag = this.#make.node({ name: schema.text, path })
     let text = ""
@@ -338,6 +342,9 @@ export class Parser {
     ) {
       //CDATA
       if (this.#peek(tokens.cdata.start)) {
+        const cpath = path.map((node) => node[$XML].name)
+        document[$XML].cdata?.push(cpath)
+        this.#debug(path, `text is specified as cdata, storing path >${cpath.join(">")} in document metadata`)
         text += this.#cdata({ path: [...path, tag] })
       } //Comments
       else if (this.#peek(tokens.comment.start)) {
