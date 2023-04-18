@@ -31,7 +31,7 @@ export class Stringifier {
     }
 
     //Root element
-    this.#tag({ path: [], name: "", ...document })
+    this.#tag({ document: document.raw, path: [], name: "", ...document })
 
     //Result
     return this.#result.trim()
@@ -102,7 +102,8 @@ export class Stringifier {
 
   /** Tag stringifier */
   #tag(
-    { path, name, raw: node, text: content, comments, attributes, children }: extract & {
+    { document, path, name, raw: node, text: content, comments, attributes, children }: extract & {
+      document: node
       path: string[]
       name: string
     },
@@ -131,6 +132,12 @@ export class Stringifier {
     if (!selfclosed) {
       //Handle text content
       if ((["string", "boolean", "number", "undefined"].includes(typeof content)) || (content === null)) {
+        let cdata = false
+        if (document[$XML]?.cdata?.find((cpath) => cpath.join(">") === path.join(">"))) {
+          this.#debug(path, `stringifying text content`)
+          cdata = true
+        }
+
         this.#debug(path, `stringifying text content`)
         inline = this.#text({
           path,
@@ -139,6 +146,7 @@ export class Stringifier {
           properties: Object.fromEntries(
             attributes.map((attribute) => [attribute.substring(schema.attribute.prefix.length), node[attribute]]),
           ),
+          cdata,
         })
       }
       //Handle comments
@@ -163,11 +171,16 @@ export class Stringifier {
               break
             }
             case (typeof child === "object") && (!!child): {
-              this.#tag({ name, path: [...path, name], ...this.#make.extraction(child as node) })
+              this.#tag({ document, name, path: [...path, name], ...this.#make.extraction(child as node) })
               break
             }
             default: {
-              this.#tag({ name, path: [...path, name], ...this.#make.extraction({ [schema.text]: child as literal }) })
+              this.#tag({
+                document,
+                name,
+                path: [...path, name],
+                ...this.#make.extraction({ [schema.text]: child as literal }),
+              })
               break
             }
           }
@@ -198,16 +211,18 @@ export class Stringifier {
   }
 
   /** Text stringifier */
-  #text({ path, text, tag, properties }: { path: string[]; text: literal; tag: string; properties: Partial<node> }) {
-    const lines = this.#replace({ value: text, key: schema.text, tag, properties }).split("\n")
-    console.log(properties)
+  #text({ path, text, tag, properties, cdata }: { path: string[]; text: literal; tag: string; properties: Partial<node>,  cdata?: boolean }) {
+    if (cdata) {
+      text = `${tokens.cdata.start}${text}${tokens.cdata.end}`
+    }
+    const lines = this.#replace({ value: text, key: schema.text, tag, properties, escape: !cdata }).split("\n")
 
     let trim = true
     if (properties[schema.space.name] === schema.space.preserve) {
       this.#debug(path, `${schema.space.name} is set to ${schema.space.preserve}`)
       trim = false
     }
-
+    
     const inline = lines.length <= 1
     if (inline) {
       this.#trim()
@@ -244,7 +259,13 @@ export class Stringifier {
 
   /** Replacer */
   #replace(
-    { key, value, tag, properties }: { key: string; value: unknown; tag: string; properties: null | Partial<node> },
+    { key, value, tag, properties, escape = true }: {
+      key: string
+      value: unknown
+      tag: string
+      properties: null | Partial<node>
+      escape?: boolean
+    },
   ) {
     return `${
       this.#options.replacer!.call(null, {
@@ -258,8 +279,10 @@ export class Stringifier {
               return ""
             // Escape XML entities
             default: {
-              for (const [char, entity] of Object.entries(entities.char)) {
-                value = `${value}`.replaceAll(char, entity)
+              if (escape) {
+                for (const [char, entity] of Object.entries(entities.char)) {
+                  value = `${value}`.replaceAll(char, entity)
+                }
               }
             }
           }
