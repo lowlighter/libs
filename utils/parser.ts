@@ -313,16 +313,18 @@ export class Parser {
     this.#debug(path, "parsing property")
 
     //Property name
+    let property
+
     const quote = this.#stream.peek()
-    const delimiter = /["']/.test(quote) ? quote : " "
-    if (delimiter.trim().length) {
-      this.#consume(delimiter)
+    if (/["']/.test(quote)) {
+      this.#consume(quote)
+      property = this.#capture({ until: new RegExp(quote), bytes: 1 })
+      this.#consume(quote)
+    } else {
+      property = this.#capture({ until: /[\s>]/, bytes: 1 })
     }
-    const property = this.#capture({ until: new RegExp(delimiter), bytes: delimiter.length })
+
     this.#debug(path, `found property ${property}`)
-    if (delimiter.trim().length) {
-      this.#consume(delimiter)
-    }
 
     //Result
     return { [`${schema.property.prefix}${property}`]: true }
