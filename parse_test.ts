@@ -494,6 +494,21 @@ Deno.test("parse: xml syntax attributes properly quoted", () =>
 `)
   ))
 
+Deno.test("parse: xml syntax first character", () => {
+  assertThrows(() =>
+    parse(`a>1</a>`)
+  )
+  assertThrows(() =>
+    parse(`xml`)
+  )
+  assertThrows(() =>
+    parse(`""`)
+  )
+  assertThrows(() =>
+    parse(`{a: 1}`)
+  )
+})
+
 //Example below were taken from https://www.w3schools.com/xml/default.asp
 
 Deno.test("parse: xml example w3schools.com#1", () =>
