@@ -57,7 +57,7 @@ export class Parser {
         }
 
         //Extract prolog, stylesheets and doctype
-        if ((this.#peek(tokens.prolog.start)) && (!this.#peek(tokens.stylesheet.start))) {
+        else if ((this.#peek(tokens.prolog.start)) && (!this.#peek(tokens.stylesheet.start))) {
           if (document.xml) {
             throw Object.assign(new SyntaxError("Multiple prolog declaration found"), { stack: false })
           }
@@ -65,13 +65,13 @@ export class Parser {
           Object.assign(document, this.#prolog({ path }))
           continue
         }
-        if (this.#peek(tokens.stylesheet.start)) {
+        else if (this.#peek(tokens.stylesheet.start)) {
           clean = false
           const stylesheets = (document[schema.stylesheets] ??= []) as unknown[]
           stylesheets.push(this.#stylesheet({ path }).stylesheet)
           continue
         }
-        if (this.#peek(tokens.doctype.start)) {
+        else if (this.#peek(tokens.doctype.start)) {
           if (document.doctype) {
             throw Object.assign(new SyntaxError("Multiple doctype declaration found"), { stack: false })
           }
@@ -81,7 +81,7 @@ export class Parser {
         }
 
         //Extract root node
-        if (this.#peek(tokens.tag.start)) {
+        else if (this.#peek(tokens.tag.start)) {
           if (root) {
             throw Object.assign(new SyntaxError("Multiple root elements found"), { stack: false })
           }
@@ -90,6 +90,10 @@ export class Parser {
           this.#trim()
           root = true
           continue
+        }
+
+        else {
+          throw Object.assign(new SyntaxError("Invalid XML structure"), { stack: false })
         }
       }
     } catch (error) {
