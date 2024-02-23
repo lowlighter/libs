@@ -1,0 +1,19 @@
+{
+  "tasks": {
+    "test": "rm coverage -rf && deno test --coverage --trace-ops && deno coverage --detailed"
+  },
+  "imports": {
+    "std/": "https://deno.land/std@0.215.0/",
+    "x/": "https://deno.land/x/",
+    "y/": "https://esm.sh/"
+  },
+  "lint": {
+    "rules": {
+      "include": ["no-throw-literal", "no-eval", "eqeqeq", "ban-untagged-todo"]
+    }
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false
+  }
+}
