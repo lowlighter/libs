@@ -19,6 +19,8 @@
     "https://deno.land/std@0.215.0/assert/assert_strict_equals.ts": "0425a98f70badccb151644c902384c12771a93e65f8ff610244b8147b03a2366",
     "https://deno.land/std@0.215.0/assert/assertion_error.ts": "9f689a101ee586c4ce92f52fa7ddd362e86434ffdf1f848e45987dc7689976b8",
     "https://deno.land/std@0.215.0/assert/equal.ts": "fae5e8a52a11d3ac694bbe1a53e13a7969e3f60791262312e91a3e741ae519e2",
+    "https://deno.land/std@0.215.0/encoding/_util.ts": "beacef316c1255da9bc8e95afb1fa56ed69baef919c88dc06ae6cb7a6103d376",
+    "https://deno.land/std@0.215.0/encoding/base32.ts": "4b0a9697c9e4b76ecbc58c2e0b7af5ec97d582097b28827fe21330960a49b18f",
     "https://deno.land/std@0.215.0/expect/_assert_equals.ts": "2e6d2b4c2888a74603742d746bc4a79743ea3be29ffb0e6a41cf9e155cf30d33",
     "https://deno.land/std@0.215.0/expect/_assert_not_equals.ts": "1fed679bfe64621efa666e8da50dbbb6bcbaefbddd7e50d3502618b08cb21744",
     "https://deno.land/std@0.215.0/expect/_build_message.ts": "bbc60c18fd88ee4c78611b2952f38bfc1c75cf84a61a498f784b418ae76059cc",
