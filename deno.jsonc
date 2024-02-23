@@ -1,5 +1,6 @@
 {
   "tasks": {
+    "ci": "deno lint && deno fmt --check && rm coverage -rf && deno test --coverage --doc && deno coverage",
     "test": "deno lint && deno fmt && rm coverage -rf && deno test --coverage --trace-ops --doc && deno coverage --detailed"
   },
   "imports": {
