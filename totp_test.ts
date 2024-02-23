@@ -1,9 +1,13 @@
-import { create, verify } from "./totp.ts"
-import { expect } from "std/expect/expect.ts"
+import { otpauth, otpsecret, verify } from "./totp.ts"
+import { expect } from "https://deno.land/std@0.217.0/expect/expect.ts"
 
-Deno.test(`create() throws when either issuer or account contains a colon character`, { permissions: "none" }, () => {
-  const { secret, url } = create({ issuer: "example", account: "alice@example.com", image: "https://example.com" })
-  expect(typeof secret).toBe("string")
+Deno.test(`otpsecret() returns a string`, { permissions: "none" }, () => {
+  expect(typeof otpsecret()).toBe("string")
+})
+
+Deno.test(`otpauth() throws when either issuer or account contains a colon character`, { permissions: "none" }, () => {
+  const secret = otpsecret()
+  const url = otpauth({ issuer: "example", account: "alice@example.com", image: "https://example.com", secret })
   expect(url.protocol).toBe("otpauth:")
   expect(url.hostname).toBe("totp")
   expect(url.pathname).toBe(`/${encodeURIComponent("example:alice@example.com")}`)
@@ -14,9 +18,9 @@ Deno.test(`create() throws when either issuer or account contains a colon charac
   expect(url.searchParams.get("period")).toBe("30")
 })
 
-Deno.test(`create() throws when either issuer or account contains a colon character`, { permissions: "none" }, () => {
-  expect(() => create({ issuer: "issuer:invalid", account: "account" })).toThrow("Label may not contain a colon character")
-  expect(() => create({ issuer: "issuer", account: "account:invalid" })).toThrow("Label may not contain a colon character")
+Deno.test(`otpauth() throws when either issuer or account contains a colon character`, { permissions: "none" }, () => {
+  expect(() => otpauth({ issuer: "issuer:invalid", account: "account" })).toThrow("Label may not contain a colon character")
+  expect(() => otpauth({ issuer: "issuer", account: "account:invalid" })).toThrow("Label may not contain a colon character")
 })
 
 Deno.test(`verify() returns true if token is valid`, { permissions: "none" }, async () => {
