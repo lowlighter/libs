@@ -1,5 +1,5 @@
 import { diff } from "./diff.ts"
-import { expect } from "std/expect/expect.ts"
+import { expect } from "https://deno.land/std@0.217.0/expect/expect.ts"
 
 /** Read test content */
 async function read(test: string) {
