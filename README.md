@@ -9,6 +9,9 @@ Most of them are written with [deno](https://deno.com) in mind, but as the code 
 - [🔑 Time-based One-Time Password (TOTP)](/#-time-based-one-time-password-totp)
 - [➕ Diff (patience algorithm)](/#-time-based-one-time-password-totp)
 
+> [!IMPORTANT]\
+> Love these bytes ? Consider [`💝 sponsoring me`](https://github.com/sponsors/lowlighter), even one-time contributions are greatly appreciated !
+
 ## ℹ️ About
 
 While this repository is open, it is not really intended to be a collaborative project. Pull requests for bug fixes or improvements are still welcome, but I may not accept any feature request if it doesn't seem to fit the scope of this project.
@@ -102,7 +105,8 @@ This library is based on the previous work of [@jonTrent](https://github.com/jon
 I wrote this library because I'm working on a side project that allows edition of text content, and I wanted to implemente some kind of versioning system _à la [git](https://git-scm.com)_. The thing is I didn't want to create a binary dependency on a binary, especially since the
 tracked content are mostly small text that may be anywhere in the filesystem, including remote files which would have been outside boundaries of git versioning.
 
-> [!NOTE] `patch()` is not implemented yet because I'm currently working on another personal project that I want to finish first (it's actually the project that required both the QR code and the TOTP libraries) but it'll eventually be available in the future.
+> [!NOTE]\
+> `patch()` is not implemented yet because I'm currently working on another personal project that I want to finish first (it's actually the project that required both the QR code and the TOTP libraries) but it'll eventually be available in the future.
 
 ### Features
 
@@ -118,10 +122,12 @@ import { diff } from "./diff.ts"
 
 // Print unified patch
 console.log(diff("foo", "bar"))
+```
 
-// --- a
-// +++ b
-// @@ -1 +1 @@
-// -foo
-// +bar
+```diff
+--- a
++++ b
+@@ -1 +1 @@
+-foo
++bar
 ```
