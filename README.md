@@ -23,8 +23,8 @@ If you include a significant part of it in your own project, _**you should keep 
 
 ## 🔳 QR Code generator
 
-This library is based on the awesome work of [@nayiki](https://github.com/nayuki).
-Please take a look at their article about QR Codes:
+This library is based on the awesome work of [@nayiki](https://github.com/nayuki). Please take a look at their articles about QR Codes:
+
 - [Creating a QR Code step by step](https://www.nayuki.io/page/creating-a-qr-code-step-by-step)
 - [QR Code generator library](https://www.nayuki.io/page/qr-code-generator-library)
 
@@ -38,16 +38,16 @@ Please take a look at their article about QR Codes:
 ### Usage
 
 ```ts
-import {qrcode} from "./qrcode.ts"
+import { qrcode } from "./qrcode.ts"
 
 // SVG output
-const svg = qrcode("https://example.com", {output:"svg"})
+const svg = qrcode("https://example.com", { output: "svg" })
 console.assert(svg.includes("</svg>"))
 
 // Console output
-qrcode("https://example.com", {output:"console"})
+qrcode("https://example.com", { output: "console" })
 
 // Array output
 const array = qrcode("https://example.com")
- console.assert(Array.isArray(array))
+console.assert(Array.isArray(array))
 ```

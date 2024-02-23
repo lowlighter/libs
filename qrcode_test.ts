@@ -1,4 +1,4 @@
-import { qrcode } from "./qrcode.ts";
+import { qrcode } from "./qrcode.ts"
 import { expect } from "std/expect/expect.ts"
 import { fn } from "std/expect/fn.ts"
 
@@ -25,7 +25,7 @@ Deno.test(`qrcode() for numeric mode`, () => {
     "██  ██████  ██  ██████  ██    ██  ████  ██",
     "██          ██    ██  ████    ██████      ",
     "██████████████        ████  ████  ████  ██",
-  ].map(line => [...line].map((v, i) => !(i % 2) ? v : null).filter(v => v).map(v => v === "█"))
+  ].map((line) => [...line].map((v, i) => !(i % 2) ? v : null).filter((v) => v).map((v) => v === "█"))
   expect(qrcode("123")).toEqual(expected)
 })
 
@@ -52,7 +52,7 @@ Deno.test(`qrcode() for alphanumeric mode`, () => {
     "██  ██████  ██  ██  ████  ██    ██      ██",
     "██          ██    ████    ████      ██████",
     "██████████████    ████  ██      ██  ██  ██",
-  ].map(line => [...line].map((v, i) => !(i % 2) ? v : null).filter(v => v).map(v => v === "█"))
+  ].map((line) => [...line].map((v, i) => !(i % 2) ? v : null).filter((v) => v).map((v) => v === "█"))
   expect(qrcode("FOO")).toEqual(expected)
 })
 
@@ -79,7 +79,7 @@ Deno.test(`qrcode() for bytes mode`, () => {
     "██  ██████  ██      ████  ██  ██████  ████",
     "██          ██              ████  ██      ",
     "██████████████      ████      ██    ████  ",
-  ].map(line => [...line].map((v, i) => !(i % 2) ? v : null).filter(v => v).map(v => v === "█"))
+  ].map((line) => [...line].map((v, i) => !(i % 2) ? v : null).filter((v) => v).map((v) => v === "█"))
   expect(qrcode("foo")).toEqual(expected)
 })
 
@@ -106,12 +106,12 @@ Deno.test(`qrcode() for empty content`, () => {
     "██  ██████  ██    ██  ████    ██████  ████",
     "██          ██            ██  ██  ██  ████",
     "██████████████      ██████  ██████  ████  ",
-  ].map(line => [...line].map((v, i) => !(i % 2) ? v : null).filter(v => v).map(v => v === "█"))
+  ].map((line) => [...line].map((v, i) => !(i % 2) ? v : null).filter((v) => v).map((v) => v === "█"))
   expect(qrcode("")).toEqual(expected)
 })
 
 Deno.test(`qrcode() with svg output`, () => {
-  const svg = qrcode("foo", {output:"svg"})
+  const svg = qrcode("foo", { output: "svg" })
   expect(typeof svg).toBe("string")
   expect(svg).toMatch(/<svg.*?>[\s\S]+<\/svg>/)
 })
@@ -119,13 +119,12 @@ Deno.test(`qrcode() with svg output`, () => {
 Deno.test(`qrcode() with console output`, () => {
   const mock = fn()
   const unmocked = console.log
-  Object.assign(console, {log:mock})
+  Object.assign(console, { log: mock })
   try {
-    expect(qrcode("foo", {output:"console"})).toBe(undefined)
+    expect(qrcode("foo", { output: "console" })).toBe(undefined)
     expect(mock).toHaveBeenCalledTimes(qrcode("foo").length)
-  }
-  finally {
-    Object.assign(console, {log:unmocked})
+  } finally {
+    Object.assign(console, { log: unmocked })
   }
 })
 
