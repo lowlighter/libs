@@ -40,6 +40,8 @@ This library is based on the awesome work of [@nayiki](https://github.com/nayuki
 I rewrote this because I couldn't find a suitable implementation using EcmaScript modules. Oddly enough, most of the libraries I found also required a canvas to work (while I specifically wanted a SVG image output) because they were intended for client-side usage, and a few other
 implementations had either some dated code or obfuscated code which I didn't want.
 
+[`🦕 Playground`](https://dash.deno.com/playground/libs-qrcode)
+
 ### Features
 
 - Support out-of-the-box `array`, `console` and `svg` outputs
@@ -83,11 +85,12 @@ app such as [Microsoft Authenticator](https://support.microsoft.com/en-us/accoun
 ### Usage
 
 ```ts
-import { create, verify } from "./totp.ts"
+import { otpauth, otpsecret, verify } from "./totp.ts"
 import { qrcode } from "./qrcode.ts"
 
 // Issue a new TOTP secret
-const { url, secret } = create({ issuer: "example.com", account: "alice" })
+const secret = otpsecret()
+const url = otpauth({ issuer: "example.com", account: "alice", secret })
 console.log(`Please scan the following QR Code:`)
 qrcode(url.href, { output: "console" })
 

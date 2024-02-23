@@ -19,7 +19,7 @@
  */
 
 // Imports
-import { decodeBase32, encodeBase32 } from "std/encoding/base32.ts"
+import { decodeBase32, encodeBase32 } from "https://deno.land/std@0.217.0/encoding/base32.ts"
 
 /**
  * Returns a HMAC-based OTP.
@@ -37,34 +37,46 @@ async function htop(secret: string, counter: bigint) {
 /**
  * Returns a Time-based OTP.
  */
-async function totp(secret: string, { t = Date.now(), dt = 0 } = {}) {
+export async function totp(secret: string, { t = Date.now(), dt = 0 } = {}) {
   return await htop(secret, BigInt(Math.floor(t / 1000 / 30) + dt))
 }
 
 /**
- * Issue a new Time-based OTP secret and forge a URL that can be used to be added in a authenticator application.
+ * Issue a new Time-based OTP secret.
+ * @example
+ * ```ts
+ * import { otpsecret } from "./totp.ts"
+ * const secret = otpsecret()
+ * console.log(secret)
+ * ```
+ */
+export function otpsecret() {
+  return encodeBase32(crypto.getRandomValues(new Uint8Array(20))).replaceAll("=", "")
+}
+
+/**
+ * Returns an URL that can be used to be added in a authenticator application.
  *
  * @example
  * ```ts
- * import { create } from "./totp.ts"
- * import {qrcode } from "./qrcode.ts"
- * const {url, secret} = create({issuer:"example.com", account:"alice"})
+ * import { otpauth } from "./totp.ts"
+ * import { qrcode } from "./qrcode.ts"
+ * const url = otpauth({ issuer: "example.com", account: "alice" })
  * console.log(`Please scan the following QR Code:`)
- * qrcode(url.href, {output:"console"})
+ * qrcode(url.href, { output: "console" })
  * ```
  */
-export function create({ issuer, account, image }: { issuer: string; account: string; image?: string }) {
+export function otpauth({ issuer, account, secret = otpsecret(), image }: { issuer: string; account: string; secret?: string; image?: string }) {
   if ((issuer.includes(":")) || (account.includes(":"))) {
     throw new RangeError("Label may not contain a colon character")
   }
   const label = encodeURIComponent(`${issuer}:${account}`)
-  const secret = encodeBase32(crypto.getRandomValues(new Uint8Array(20))).replaceAll("=", "")
   const params = new URLSearchParams({ secret, issuer, algorithm: "SHA1", digits: "6", period: "30" })
   if (image) {
     params.set("image", image)
   }
   const url = new URL(`otpauth://totp/${label}?${params}`)
-  return { url, secret }
+  return url
 }
 
 /**
@@ -73,8 +85,8 @@ export function create({ issuer, account, image }: { issuer: string; account: st
  * @example
  * ```ts
  * import { verify } from "./totp.ts"
- * console.assert(await verify({secret:"JBSWY3DPEHPK3PXP", token:152125, t:1708671725109}))
- * console.assert(!await verify({secret:"JBSWY3DPEHPK3PXP", token:0, t:1708671725109}))
+ * console.assert(await verify({ secret: "JBSWY3DPEHPK3PXP", token: 152125, t: 1708671725109 }))
+ * console.assert(!await verify({ secret: "JBSWY3DPEHPK3PXP", token: 0, t: 1708671725109 }))
  * ```
  */
 export async function verify({ secret, token, t = Date.now(), tolerance = 1 }: { secret: string; token: string | number; t?: number; tolerance?: number }) {
