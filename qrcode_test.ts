@@ -110,6 +110,14 @@ Deno.test(`qrcode() for empty content`, () => {
   expect(qrcode("")).toEqual(expected)
 })
 
+Deno.test(`qrcode() with long content`, () => {
+  expect(qrcode("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")).not.toThrow()
+})
+
+Deno.test(`qrcode() with oversize content`, () => {
+  expect(() => qrcode("lorem ipsum".repeat(1000))).toThrow("Data too long")
+})
+
 Deno.test(`qrcode() with svg output`, () => {
   const svg = qrcode("foo", { output: "svg" })
   expect(typeof svg).toBe("string")
@@ -126,8 +134,4 @@ Deno.test(`qrcode() with console output`, () => {
   } finally {
     Object.assign(console, { log: unmocked })
   }
-})
-
-Deno.test(`qrcode() with long input`, () => {
-  expect(() => qrcode("lorem ipsum".repeat(1000))).toThrow("Data too long")
 })

@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "test": "rm coverage -rf && deno test --coverage --trace-ops && deno coverage --detailed"
+    "test": "deno lint && deno fmt && rm coverage -rf && deno test --coverage --trace-ops --doc && deno coverage --detailed"
   },
   "imports": {
     "std/": "https://deno.land/std@0.215.0/",
