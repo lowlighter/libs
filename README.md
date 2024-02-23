@@ -8,6 +8,7 @@ Most of them are written with [deno](https://deno.com) in mind, but as the code 
 - [🔳 QR Code generator](/#-qr-code-generator)
 - [🔑 Time-based One-Time Password (TOTP)](/#-time-based-one-time-password-totp)
 - [➕ Diff (patience algorithm)](/#-time-based-one-time-password-totp)
+- [🔐 Symmetric encryption (using AES-GCM 256 with a PBKDF2 derived key)](/#-symmetric-encryption-using-aes-gcm-256-with-a-pbkdf2-derived-key)
 
 > [!IMPORTANT]\
 > Love these bytes ? Consider [`💝 sponsoring me`](https://github.com/sponsors/lowlighter), even one-time contributions are greatly appreciated !
@@ -32,15 +33,15 @@ If you include a significant part of it in your own project, _**you should keep 
 
 ## 🔳 QR Code generator
 
+[`🦕 Playground`](https://dash.deno.com/playground/libs-qrcode)
+
 This library is based on the awesome work of [@nayiki](https://github.com/nayuki). Please take a look at their articles about QR Codes:
 
 - [Creating a QR Code step by step](https://www.nayuki.io/page/creating-a-qr-code-step-by-step)
 - [QR Code generator library](https://www.nayuki.io/page/qr-code-generator-library)
 
-I rewrote this because I couldn't find a suitable implementation using EcmaScript modules. Oddly enough, most of the libraries I found also required a canvas to work (while I specifically wanted a SVG image output) because they were intended for client-side usage, and a few other
-implementations had either some dated code or obfuscated code which I didn't want.
-
-[`🦕 Playground`](https://dash.deno.com/playground/libs-qrcode)
+I rewrote this because I couldn't find a suitable implementation using EcmaScript modules. Oddly enough, most of the libraries I found also required a [`<canvas>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas) to properly work (but I specifically wanted a SVG
+image output). Usually it's because they were maily intended for client-side usage. A few other implementations had either some dated code or obfuscated code which I didn't want.
 
 ### Features
 
@@ -67,6 +68,8 @@ console.assert(Array.isArray(array))
 ```
 
 ## 🔑 Time-based One-Time Password (TOTP)
+
+[`🦕 Playground`](https://dash.deno.com/playground/libs-totp)
 
 This library is based on the well-written article of [@rajat-sr](https://github.com/rajat-sr) on [hackernoon](https://hackernoon.com) :
 
@@ -101,6 +104,8 @@ console.assert(await verify({ token, secret }))
 
 ## ➕ Diff (patience algorithm)
 
+[`🦕 Playground`](https://dash.deno.com/playground/libs-diff)
+
 This library is based on the previous work of [@jonTrent](https://github.com/jonTrent) which is itself based on the work of Bram Cohen.
 
 - [Original JavaScript source code](https://github.com/jonTrent/PatienceDiff/blob/dev/PatienceDiff.js)
@@ -134,3 +139,10 @@ console.log(diff("foo", "bar"))
 -foo
 +bar
 ```
+
+## 🔐 Symmetric encryption (using AES-GCM 256 with a PBKDF2 derived key)
+
+[`🦕 Playground`](https://dash.deno.com/playground/libs-encryption)
+
+> [!NOTE]\
+> Will be available soon
