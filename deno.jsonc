@@ -1,7 +1,7 @@
 {
   "tasks": {
-    "ci": "deno lint && deno fmt --check && rm coverage -rf && deno test --coverage --doc && deno coverage",
-    "test": "deno lint && deno fmt && rm coverage -rf && deno test --coverage --trace-ops --doc && deno coverage --detailed"
+    "ci": "deno lint && deno fmt --check && rm coverage -rf && deno test --allow-all --coverage --doc && deno coverage",
+    "test": "deno lint && deno fmt && rm coverage -rf && deno test --allow-all --coverage --trace-ops --doc && deno coverage --detailed"
   },
   "imports": {
     "std/": "https://deno.land/std@0.215.0/",

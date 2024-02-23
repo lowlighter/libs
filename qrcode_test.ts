@@ -2,7 +2,7 @@ import { qrcode } from "./qrcode.ts"
 import { expect } from "std/expect/expect.ts"
 import { fn } from "std/expect/fn.ts"
 
-Deno.test(`qrcode() for numeric mode`, () => {
+Deno.test(`qrcode() for numeric mode`, { permissions: "none" }, () => {
   const expected = [
     "██████████████  ████████    ██████████████",
     "██          ██      ██  ██  ██          ██",
@@ -29,7 +29,7 @@ Deno.test(`qrcode() for numeric mode`, () => {
   expect(qrcode("123")).toEqual(expected)
 })
 
-Deno.test(`qrcode() for alphanumeric mode`, () => {
+Deno.test(`qrcode() for alphanumeric mode`, { permissions: "none" }, () => {
   const expected = [
     "██████████████  ████  ██    ██████████████",
     "██          ██    ████  ██  ██          ██",
@@ -56,7 +56,7 @@ Deno.test(`qrcode() for alphanumeric mode`, () => {
   expect(qrcode("FOO")).toEqual(expected)
 })
 
-Deno.test(`qrcode() for bytes mode`, () => {
+Deno.test(`qrcode() for bytes mode`, { permissions: "none" }, () => {
   const expected = [
     "██████████████  ████        ██████████████",
     "██          ██    ██        ██          ██",
@@ -83,7 +83,7 @@ Deno.test(`qrcode() for bytes mode`, () => {
   expect(qrcode("foo")).toEqual(expected)
 })
 
-Deno.test(`qrcode() for empty content`, () => {
+Deno.test(`qrcode() for empty content`, { permissions: "none" }, () => {
   const expected = [
     "██████████████    ██        ██████████████",
     "██          ██      ████    ██          ██",
@@ -110,21 +110,21 @@ Deno.test(`qrcode() for empty content`, () => {
   expect(qrcode("")).toEqual(expected)
 })
 
-Deno.test(`qrcode() with long content`, () => {
+Deno.test(`qrcode() with long content`, { permissions: "none" }, () => {
   expect(qrcode("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")).not.toThrow()
 })
 
-Deno.test(`qrcode() with oversize content`, () => {
+Deno.test(`qrcode() with oversize content`, { permissions: "none" }, () => {
   expect(() => qrcode("lorem ipsum".repeat(1000))).toThrow("Data too long")
 })
 
-Deno.test(`qrcode() with svg output`, () => {
+Deno.test(`qrcode() with svg output`, { permissions: "none" }, () => {
   const svg = qrcode("foo", { output: "svg" })
   expect(typeof svg).toBe("string")
   expect(svg).toMatch(/<svg.*?>[\s\S]+<\/svg>/)
 })
 
-Deno.test(`qrcode() with console output`, () => {
+Deno.test(`qrcode() with console output`, { permissions: "none" }, () => {
   const mock = fn()
   const unmocked = console.log
   Object.assign(console, { log: mock })
