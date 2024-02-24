@@ -1,7 +1,7 @@
 {
   "tasks": {
-    "ci": "deno lint && deno fmt --check && rm coverage -rf && deno test --allow-all --coverage --doc && deno coverage",
-    "test": "deno lint && deno fmt && rm coverage -rf && deno test --allow-all --coverage --trace-ops --doc && deno coverage --detailed"
+    "ci": "deno fmt --check && rm coverage -rf && deno test --allow-all --coverage --doc && deno coverage && deno lint",
+    "test": "deno fmt && rm coverage -rf && deno test --allow-all --coverage --trace-ops --doc && deno coverage --detailed && deno lint"
   },
   "lint": {
     "rules": {
