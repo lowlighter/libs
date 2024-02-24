@@ -5,10 +5,13 @@ This is a collection of carefully crafted _TypeScript_ standalone libraries. The
 Most of them are written with [deno](https://deno.com) in mind, but as the code honors [web standards](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/The_web_and_web_standards) they should be usable on any runtime that follows web specifications
 (including browsers).
 
+### Index
 - [🔳 QR Code generator](/#-qr-code-generator)
 - [🔑 Time-based One-Time Password (TOTP)](/#-time-based-one-time-password-totp)
 - [➕ Diff (patience algorithm)](/#-time-based-one-time-password-totp)
 - [🔐 Symmetric encryption (using AES-GCM 256 with a PBKDF2 derived key)](/#-symmetric-encryption-using-aes-gcm-256-with-a-pbkdf2-derived-key)
+
+These libraries are published at [deno.land/x/libs](https://deno.land/x/libs).
 
 > [!IMPORTANT]\
 > Love these bytes ? Consider [`💝 sponsoring me`](https://github.com/sponsors/lowlighter), even one-time contributions are greatly appreciated !
@@ -144,5 +147,50 @@ console.log(diff("foo", "bar"))
 
 [`🦕 Playground`](https://dash.deno.com/playground/libs-encryption)
 
-> [!NOTE]\
-> Will be available soon
+This library is inspired by existing password managers, where the aim is to provide a secure way to store credentials at rest (for example in a [`Deno.Kv` store](https://docs.deno.com/deploy/kv/manual)) while being able to recover them later using a single master key.
+
+Here, it is achieved by using [`AES-GCM 256-bits`](https://en.wikipedia.org/wiki/Galois/Counter_Mode) with [`PBKDF2`](https://en.wikipedia.org/wiki/PBKDF2) derived key. The latter could for instance use a username as `salt` and a password as `seed` to consistently forge back the
+key and decrypt the stored credentials. These are provided by the native [`Web Crypto`](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) APIs.
+
+This library also adds additional features such as data integrity and original length obfuscation. It _**does not**_ re-implement cryptographic primitives, it just provides a convenient way to use them.
+
+> [!CAUTION]\
+> As explained in the [license](/LICENSE):
+>
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
+>
+> The author is not responsible for any damage that could be caused by the use of this library. It is your responsibility to use it properly and to understand the security implications of the choices you make.
+
+### Features
+
+- Use native [`Web Crypto`](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) APIs
+- Use [`AES-GCM 256-bits`](https://en.wikipedia.org/wiki/Galois/Counter_Mode) with [`PBKDF2`](https://en.wikipedia.org/wiki/PBKDF2) derived key to encrypt and decrypt messages
+  - Encrypted messages are different each time thanks to [initialization vector](https://en.wikipedia.org/wiki/Initialization_vector)
+  - The derived key from a given `seed`/`password` are always the same
+- Added functionalities which also introduce additional entropy:
+  - With [SHA-256](https://en.wikipedia.org/wiki/SHA-2) to guarantee integrity
+  - With stored size to guarantee integrity _(for messages with length < 255)_
+  - With padding to force length be `256` or `512` bytes and obfuscate the original size _(can be disabled using `0` as value)_
+
+### Usage
+
+```ts
+import { decrypt, encrypt, exportKey, importKey } from "./encryption.ts"
+
+// Generate a key. Same seed and salt combination will always yield the same key
+const key = await exportKey({ seed: "hello", salt: "world" })
+console.assert(key === "664d43091e7905723fc92a4c38f58e9aeff6d822488eb07d6b11bcfc2468f48a")
+
+// Encrypt a message
+const message = "🍱 bento"
+const secret = await encrypt(message, { key, length: 512 })
+console.assert(secret !== message)
+
+// Encrypted messages are different each time and can also obfuscate the original message size
+console.assert(secret !== await encrypt(message, { key, length: 512 }))
+console.assert(secret.length === 512)
+
+// Decrypt a message
+const decrypted = await decrypt(secret, { key })
+console.assert(decrypted === message)
+```
