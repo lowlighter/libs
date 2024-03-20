@@ -19,7 +19,7 @@
  */
 
 // Imports
-import { decodeBase32, encodeBase32 } from "https://deno.land/std@0.217.0/encoding/base32.ts"
+import { decodeBase32, encodeBase32 } from "https://deno.land/std@0.220.0/encoding/base32.ts"
 
 /**
  * Returns a HMAC-based OTP.
