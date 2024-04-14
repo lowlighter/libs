@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "x/": "https://deno.land/std@0.222.1/"
+  },
+  "lock": false
+}
