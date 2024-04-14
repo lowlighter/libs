@@ -30,9 +30,7 @@ Deno.test("bundle() handles minify option", { permissions: { read: true, net: ["
   await expect(bundle(url, { minify: true })).not.resolves.toMatch(/\n/)
 })
 
-Deno.test("bundle() handles import maps", { permissions: { read: true, net: ["deno.land"], env: true } }, async () => {
+Deno.test("bundle() handles import maps", { permissions: { read: true, net: ["deno.land"], env: true, write: true } }, async () => {
   const url = new URL("test_import_map.ts", base)
-  console.log(new URL("deno.jsonc", base))
-  console.log(await Deno.readTextFile(new URL("deno.jsonc", base)))
   await expect(bundle(url, { map: new URL("deno.jsonc", base) })).resolves.toContain("success")
 })
