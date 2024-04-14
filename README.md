@@ -245,6 +245,8 @@ log.debug("🍡 dango")
 
 ## 🗜️ Bundler
 
+[`🦕 Playground`](https://dash.deno.com/playground/libs-bundle)
+
 A wrapper around [`deno_emit`](https://github.com/denoland/deno_emit) to bundle and transpile TypeScript to JavaScript.
 
 ### Features
