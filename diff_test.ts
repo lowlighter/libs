@@ -1,15 +1,12 @@
 import { diff } from "./diff.ts"
 import { expect } from "https://deno.land/std@0.220.0/expect/expect.ts"
 
-/** Read test content */
 async function read(test: string) {
   const a = await Deno.readTextFile(new URL(`testing/diff/${test}/a`, import.meta.url))
   const b = await Deno.readTextFile(new URL(`testing/diff/${test}/b`, import.meta.url))
   const c = await Deno.readTextFile(new URL(`testing/diff/${test}/c`, import.meta.url))
   return { a: a.replaceAll("\r\n", "\n"), b: b.replaceAll("\r\n", "\n"), c: c.replaceAll("\r\n", "\n") }
 }
-
-// Tests ——————————————————————————————————————————————————————————————————————————————————————————
 
 Deno.test("diff() handles empty texts", { permissions: { read: true } }, async () => {
   const { a, b, c } = await read("empty")
