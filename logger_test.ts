@@ -1,9 +1,9 @@
 import { Logger } from "./logger.ts"
-import { expect } from "https://deno.land/std@0.220.0/expect/expect.ts"
-import { fn } from "https://deno.land/std@0.220.0/expect/fn.ts"
+import { expect } from "https://deno.land/std@0.222.1/expect/expect.ts"
+import { fn } from "https://deno.land/std@0.222.1/expect/fn.ts"
 import type { test } from "./types.ts"
-import { stripAnsiCode } from "https://deno.land/std@0.220.0/fmt/colors.ts"
-import { basename } from "https://deno.land/std@0.220.0/path/basename.ts"
+import { stripAnsiCode } from "https://deno.land/std@0.222.1/fmt/colors.ts"
+import { basename } from "https://deno.land/std@0.222.1/path/basename.ts"
 
 function args(f: ReturnType<typeof fn>, { call = 0 } = {}) {
   return (f as test)[Symbol.for("@MOCK")]?.calls[call]?.args

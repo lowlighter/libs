@@ -1,5 +1,5 @@
 import { bytes, decrypt, encrypt, exportKey, hash, hex, importKey } from "./encryption.ts"
-import { expect } from "https://deno.land/std@0.220.0/expect/expect.ts"
+import { expect } from "https://deno.land/std@0.222.1/expect/expect.ts"
 
 Deno.test("hex() returns hexadecimal string", { permissions: "none" }, () => {
   expect(hex(0x0a)).toBe("0a")
