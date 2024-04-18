@@ -254,6 +254,7 @@ A wrapper around [`deno_emit`](https://github.com/denoland/deno_emit) to bundle 
 - Support for raw TypeScript string input
 - Support for banner option
 - Minification enabled by default
+- Support advanced minification through [Terser](https://terser.org)
 
 ### Usage
 

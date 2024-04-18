@@ -1,5 +1,16 @@
 {
   "version": "3",
+  "packages": {
+    "specifiers": {
+      "npm:@types/node": "npm:@types/node@18.16.19"
+    },
+    "npm": {
+      "@types/node@18.16.19": {
+        "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
+        "dependencies": {}
+      }
+    }
+  },
   "remote": {
     "https://deno.land/std@0.140.0/_util/assert.ts": "e94f2eb37cebd7f199952e242c77654e43333c1ac4c5c700e929ea3aa5489f74",
     "https://deno.land/std@0.140.0/_util/os.ts": "3b4c6e27febd119d36a416d7a97bd3b0251b77c88942c8f16ee5953ea13e2e49",
@@ -100,6 +111,15 @@
     "https://deno.land/x/emit@0.39.0/emit.generated.js": "dacc24735985c3576cf7d1cdd9bae4b9f5c19149e195ca752200181b74e031cf",
     "https://deno.land/x/emit@0.39.0/mod.ts": "2fa64c4d220c13b9d752933803056ce7694722367c3e9cb1ee86fe9f81c587f3",
     "https://deno.land/x/wasmbuild@0.15.1/cache.ts": "9d01b5cb24e7f2a942bbd8d14b093751fa690a6cde8e21709ddc97667e6669ed",
-    "https://deno.land/x/wasmbuild@0.15.1/loader.ts": "8c2fc10e21678e42f84c5135d8ab6ab7dc92424c3f05d2354896a29ccfd02a63"
+    "https://deno.land/x/wasmbuild@0.15.1/loader.ts": "8c2fc10e21678e42f84c5135d8ab6ab7dc92424c3f05d2354896a29ccfd02a63",
+    "https://esm.sh/terser@5.30.3": "a64b8090df717565db2b82adf6e2eff96ae90fb2d0232ea34fcf2dab8a59a787",
+    "https://esm.sh/v135/@jridgewell/gen-mapping@0.3.5/denonext/gen-mapping.mjs": "e9040f0749f8adb05ee2c743cbd992aa5ba80d55198a573cfded20202c00182f",
+    "https://esm.sh/v135/@jridgewell/resolve-uri@3.1.2/denonext/resolve-uri.mjs": "6efe3879e3fe78cb5bc8f72cf14d0a3d1f57a02261ac9b35159b813a90cad08c",
+    "https://esm.sh/v135/@jridgewell/set-array@1.2.1/denonext/set-array.mjs": "3267aabe6f860f4ddd92e88c5a2e84231f30ce46fa51211bcdaf089ce84976ff",
+    "https://esm.sh/v135/@jridgewell/source-map@0.3.6/denonext/source-map.mjs": "32233cc47f7faec54413b956bfcfa7f72d93220c23516afdc5842c7bc9947e62",
+    "https://esm.sh/v135/@jridgewell/sourcemap-codec@1.4.15/denonext/sourcemap-codec.mjs": "29073b55440930edcd5fcdd6cb59ed0f72772f8387bb7b5ee3763fb3d6db81ae",
+    "https://esm.sh/v135/@jridgewell/trace-mapping@0.3.25/denonext/trace-mapping.mjs": "874302e64079c985afcb28413c4d9067cd274be32af4e2daa47fccea531f6e5e",
+    "https://esm.sh/v135/acorn@8.11.3/denonext/acorn.mjs": "4bbd9807b0344b668da891947367e36ee3b11af74f72cc1497c72c5c52fbf8b3",
+    "https://esm.sh/v135/terser@5.30.3/denonext/terser.mjs": "17f904176b43a9960bd34c444bf4b19737f66e5f4d7ebeac7b8f49abed74b4bf"
   }
 }

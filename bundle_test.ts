@@ -24,10 +24,12 @@ Deno.test("bundle() handles banner option", { permissions: { read: true, net: ["
   await expect(bundle(url, { banner: "license\ncopyright" })).resolves.toContain("/**\n * license\n * copyright\n */")
 })
 
-Deno.test("bundle() handles minify option", { permissions: { read: true, net: ["deno.land"], env: true } }, async () => {
+Deno.test("bundle() handles minify option", { permissions: { read: true, net: ["deno.land"], env: true, write: true } }, async () => {
   const url = new URL("test_minify.ts", base)
-  await expect(bundle(url, { minify: false })).resolves.toMatch(/\n/)
-  await expect(bundle(url, { minify: true })).not.resolves.toMatch(/\n/)
+  await expect(bundle(url, { minify: false })).not.resolves.toBe(`console.log("hello world");`)
+  await expect(bundle(url, { minify: "basic" })).not.resolves.toContain("\n")
+  await expect(bundle(url, { minify: "terser" })).resolves.toBe(`console.log("hello world");`)
+  await expect(bundle(url, { minify: "terser", debug: true })).resolves.toMatch(/console\.log\("hello world"\);\n\/\/# sourceMappingURL=/)
 })
 
 Deno.test("bundle() handles import maps", { permissions: { read: true, net: ["deno.land"], env: true, write: true } }, async () => {
