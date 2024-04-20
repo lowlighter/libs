@@ -1,24 +1,28 @@
 import { $XML, parse } from "./mod.ts"
-import { assert, assertEquals, assertThrows } from "./test_deps.ts"
+import { expect } from "https://deno.land/std@0.223.0/expect/expect.ts"
+import { fn } from "https://deno.land/std@0.223.0/expect/fn.ts"
+import type { ParserOptions } from "./utils/types.ts"
 
 // deno-lint-ignore no-explicit-any
 type test = any
 
 Deno.test("parse: xml syntax tag", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>hello world</root>
 `),
+  ).toEqual(
     {
       root: "hello world",
     },
   ))
 
 Deno.test("parse: xml syntax tag with attributes", () =>
-  assertEquals(
+  expect(
     parse(`
   <root lang="en" type="greeting">hello world</root>
 `),
+  ).toEqual(
     {
       root: {
         "@lang": "en",
@@ -29,20 +33,22 @@ Deno.test("parse: xml syntax tag with attributes", () =>
   ))
 
 Deno.test("parse: xml syntax self-closing tag", () =>
-  assertEquals(
+  expect(
     parse(`
   <root/>
 `),
+  ).toEqual(
     {
       root: null,
     },
   ))
 
 Deno.test("parse: xml syntax self-closing with attributes", () =>
-  assertEquals(
+  expect(
     parse(`
   <root lang="en" type="greeting" text="hello world"></root>
 `),
+  ).toEqual(
     {
       root: {
         "#text": null,
@@ -54,20 +60,22 @@ Deno.test("parse: xml syntax self-closing with attributes", () =>
   ))
 
 Deno.test("parse: xml syntax empty tag", () =>
-  assertEquals(
+  expect(
     parse(`
   <root></root>
 `),
+  ).toEqual(
     {
       root: null,
     },
   ))
 
 Deno.test("parse: xml syntax empty tag with attributes", () =>
-  assertEquals(
+  expect(
     parse(`
   <root type="test"></root>
 `),
+  ).toEqual(
     {
       root: {
         "#text": null,
@@ -77,7 +85,7 @@ Deno.test("parse: xml syntax empty tag with attributes", () =>
   ))
 
 Deno.test("parse: xml syntax simple tree", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     <child>
@@ -85,6 +93,7 @@ Deno.test("parse: xml syntax simple tree", () =>
     </child>
   </root>
 `),
+  ).toEqual(
     {
       root: {
         child: {
@@ -95,7 +104,7 @@ Deno.test("parse: xml syntax simple tree", () =>
   ))
 
 Deno.test("parse: xml syntax simple tree with same tags", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     <child>world</child>
@@ -104,6 +113,7 @@ Deno.test("parse: xml syntax simple tree with same tags", () =>
     <child>🌏</child>
   </root>
 `),
+  ).toEqual(
     {
       root: {
         child: ["world", "monde", "世界", "🌏"],
@@ -112,7 +122,7 @@ Deno.test("parse: xml syntax simple tree with same tags", () =>
   ))
 
 Deno.test("parse: xml syntax simple tree with same tags and attributes", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     <child lang="en">world</child>
@@ -121,6 +131,7 @@ Deno.test("parse: xml syntax simple tree with same tags and attributes", () =>
     <child lang="🦕">🌏</child>
   </root>
 `),
+  ).toEqual(
     {
       root: {
         child: [
@@ -134,7 +145,7 @@ Deno.test("parse: xml syntax simple tree with same tags and attributes", () =>
   ))
 
 Deno.test("parse: xml syntax simple tree with nested tags of same name", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     <child>
@@ -146,6 +157,7 @@ Deno.test("parse: xml syntax simple tree with nested tags of same name", () =>
     </child>
   </root>
 `),
+  ).toEqual(
     {
       root: {
         child: { child: { child: { child: null } } },
@@ -154,36 +166,39 @@ Deno.test("parse: xml syntax simple tree with nested tags of same name", () =>
   ))
 
 Deno.test("parse: xml syntax mixed content", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>some <b>bold</b> text</root>
 `),
+  ).toEqual(
     {
       root: "some <b>bold</b> text",
     },
   ))
 
 Deno.test("parse: xml syntax nested mixed content", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>some <b>bold <i>italic</i> </b> text</root>
 `),
+  ).toEqual(
     {
       root: "some <b>bold <i>italic</i> </b> text",
     },
   ))
 
 Deno.test("parse: xml syntax xml prolog", () =>
-  assertEquals(
+  expect(
     parse(
       `
   <?xml version="1.0" encoding="UTF-8"?>
   <root></root>
 `,
     ),
+  ).toEqual(
     {
       xml: {
-        "@version": 1,
+        "@version": "1.0",
         "@encoding": "UTF-8",
       },
       root: null,
@@ -191,7 +206,7 @@ Deno.test("parse: xml syntax xml prolog", () =>
   ))
 
 Deno.test("parse: xml syntax xml stylesheet", () =>
-  assertEquals(
+  expect(
     parse(
       `
   <?xml version="1.0" encoding="UTF-8"?>
@@ -199,9 +214,10 @@ Deno.test("parse: xml syntax xml stylesheet", () =>
   <root></root>
 `,
     ),
+  ).toEqual(
     {
       xml: {
-        "@version": 1,
+        "@version": "1.0",
         "@encoding": "UTF-8",
       },
       $stylesheets: [
@@ -215,13 +231,14 @@ Deno.test("parse: xml syntax xml stylesheet", () =>
   ))
 
 Deno.test("parse: xml syntax doctype", () =>
-  assertEquals(
+  expect(
     parse(
       `
   <!DOCTYPE type "quoted attribute">
   <root></root>
 `,
     ),
+  ).toEqual(
     {
       doctype: {
         "@type": true,
@@ -232,7 +249,7 @@ Deno.test("parse: xml syntax doctype", () =>
   ))
 
 Deno.test("parse: xml syntax doctype with element", () =>
-  assertEquals(
+  expect(
     parse(
       `
   <!DOCTYPE type "quoted attribute"
@@ -247,6 +264,7 @@ Deno.test("parse: xml syntax doctype with element", () =>
   <root></root>
 `,
     ),
+  ).toEqual(
     {
       doctype: {
         "@type": true,
@@ -262,7 +280,7 @@ Deno.test("parse: xml syntax doctype with element", () =>
   ))
 
 Deno.test("parse: xml syntax case sensitive", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     <child>
@@ -276,6 +294,7 @@ Deno.test("parse: xml syntax case sensitive", () =>
     <CHILD></CHILD>
   </root>
 `),
+  ).toEqual(
     {
       root: {
         child: {
@@ -291,43 +310,46 @@ Deno.test("parse: xml syntax case sensitive", () =>
   ))
 
 Deno.test("parse: xml syntax defined entities", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     &lt; &gt; &amp; &apos; &quot;
   </root>
 `),
+  ).toEqual(
     {
       root: `< > & ' "`,
     },
   ))
 
 Deno.test("parse: xml syntax decimal entity reference", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     &#38;
   </root>
 `),
+  ).toEqual(
     {
       root: "&",
     },
   ))
 
 Deno.test("parse: xml syntax hexadecimal entity reference", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     &#x26;
   </root>
 `),
+  ).toEqual(
     {
       root: "&",
     },
   ))
 
 Deno.test("parse: xml syntax comments", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     <!-- COMMENT 1 -->
@@ -336,6 +358,7 @@ Deno.test("parse: xml syntax comments", () =>
     <!--+++++++++++++++++++++-->
   </root>
 `),
+  ).toEqual(
     {
       root: {
         "#comment": ["COMMENT 1", "COMMENT 2", "+++++++++++++++++++++"],
@@ -348,13 +371,14 @@ Deno.test("parse: xml syntax comments", () =>
   ))
 
 Deno.test("parse: xml syntax white spaces preserved", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     Hello     world   how
 are   you?
   </root>
 `),
+  ).toEqual(
     {
       root: `Hello     world   how
 are   you?`,
@@ -362,7 +386,7 @@ are   you?`,
   ))
 
 Deno.test("parse: xml syntax CDATA", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     <script type="text/javascript"><![CDATA[function match(a,b) {
@@ -371,6 +395,7 @@ Deno.test("parse: xml syntax CDATA", () =>
   }]]></script>
   </root>
 `),
+  ).toEqual(
     {
       root: {
         script: {
@@ -385,7 +410,7 @@ Deno.test("parse: xml syntax CDATA", () =>
   ))
 
 Deno.test("parse: xml syntax mixed content with CDATA", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     <script type="text/javascript">this is a <b>test</b> <![CDATA[function match(a,b) {
@@ -394,6 +419,7 @@ Deno.test("parse: xml syntax mixed content with CDATA", () =>
   }]]></script>
   </root>
 `),
+  ).toEqual(
     {
       root: {
         script: {
@@ -408,12 +434,13 @@ Deno.test("parse: xml syntax mixed content with CDATA", () =>
   ))
 
 Deno.test("parse: xml syntax with multiple CDATA's", () =>
-  assertEquals(
+  expect(
     parse(`
     <root>
       <text><![CDATA[ ]]></text>
       <text><![CDATA[ ]]></text>
     </root>`),
+  ).toEqual(
     {
       root: {
         text: [
@@ -425,11 +452,12 @@ Deno.test("parse: xml syntax with multiple CDATA's", () =>
   ))
 
 Deno.test("parse: xml space preserve", () =>
-  assertEquals(
+  expect(
     parse(`
     <root>
       <text xml:space="preserve"> hello world </text>
     </root>`),
+  ).toEqual(
     {
       root: {
         text: {
@@ -443,7 +471,7 @@ Deno.test("parse: xml space preserve", () =>
 //Errors checks
 
 Deno.test("parse: xml syntax unique root", () =>
-  void assertThrows(() =>
+  expect(() =>
     parse(`
   <root>
     <child>
@@ -456,63 +484,55 @@ Deno.test("parse: xml syntax unique root", () =>
     </child>
   </root>
 `)
-  ))
+  ).toThrow(SyntaxError))
 
 Deno.test("parse: xml syntax closing tag", () =>
-  void assertThrows(() =>
+  expect(() =>
     parse(`
   <root>
     <child>
   </root>
 `)
-  ))
+  ).toThrow(SyntaxError))
 
 Deno.test("parse: xml syntax closing properly nested", () =>
-  void assertThrows(() =>
+  expect(() =>
     parse(`
   <root>
     <child><subchild></child></subchild>
   </root>
 `)
-  ))
+  ).toThrow(SyntaxError))
 
 Deno.test("parse: xml syntax attributes quoted", () =>
-  void assertThrows(() =>
+  expect(() =>
     parse(`
   <root>
     <child test=hey></child>
   </root>
 `)
-  ))
+  ).toThrow(Deno.errors.UnexpectedEof))
 
 Deno.test("parse: xml syntax attributes properly quoted", () =>
-  void assertThrows(() =>
+  expect(() =>
     parse(`
   <root>
     <child test="hey></child>
   </root>
 `)
-  ))
+  ).toThrow(Deno.errors.UnexpectedEof))
 
 Deno.test("parse: xml syntax first character", () => {
-  assertThrows(() =>
-    parse(`a>1</a>`)
-  )
-  assertThrows(() =>
-    parse(`xml`)
-  )
-  assertThrows(() =>
-    parse(`""`)
-  )
-  assertThrows(() =>
-    parse(`{a: 1}`)
-  )
+  expect(() => parse(`a>1</a>`)).toThrow(SyntaxError)
+  expect(() => parse(`xml`)).toThrow(SyntaxError)
+  expect(() => parse(`""`)).toThrow(SyntaxError)
+  expect(() => parse(`{a: 1}`)).toThrow(SyntaxError)
 })
 
 //Example below were taken from https://www.w3schools.com/xml/default.asp
 
 Deno.test("parse: xml example w3schools.com#1", () =>
-  assertEquals(
+  expect(
     parse(`
   <note>
     <to>Tove</to>
@@ -521,6 +541,7 @@ Deno.test("parse: xml example w3schools.com#1", () =>
     <body>Don't forget me this weekend!</body>
   </note>
 `),
+  ).toEqual(
     {
       note: {
         to: "Tove",
@@ -532,7 +553,7 @@ Deno.test("parse: xml example w3schools.com#1", () =>
   ))
 
 Deno.test("parse: xml example w3schools.com#2", () =>
-  assertEquals(
+  expect(
     parse(`
   <note>
     <date>2015-09-01</date>
@@ -542,6 +563,7 @@ Deno.test("parse: xml example w3schools.com#2", () =>
     <body>Don't forget me this weekend!</body>
   </note>
 `),
+  ).toEqual(
     {
       note: {
         date: "2015-09-01",
@@ -554,7 +576,7 @@ Deno.test("parse: xml example w3schools.com#2", () =>
   ))
 
 Deno.test("parse: xml example w3schools.com#3", () =>
-  assertEquals(
+  expect(
     parse(`
   <bookstore>
 
@@ -592,6 +614,7 @@ Deno.test("parse: xml example w3schools.com#3", () =>
 
   </bookstore>
 `),
+  ).toEqual(
     {
       bookstore: {
         book: [
@@ -636,7 +659,7 @@ Deno.test("parse: xml example w3schools.com#3", () =>
   ))
 
 Deno.test("parse: xml example w3schools.com#4", () =>
-  assertEquals(
+  expect(
     parse(`
   <nitf>
     <head>
@@ -656,6 +679,7 @@ Deno.test("parse: xml example w3schools.com#4", () =>
     </body>
   </nitf>
 `),
+  ).toEqual(
     {
       nitf: {
         head: {
@@ -678,7 +702,7 @@ Deno.test("parse: xml example w3schools.com#4", () =>
   ))
 
 Deno.test("parse: xml example w3schools.com#5", () =>
-  assertEquals(
+  expect(
     parse(`
   <current_observation>
 
@@ -721,6 +745,7 @@ Deno.test("parse: xml example w3schools.com#5", () =>
 
   </current_observation>
 `),
+  ).toEqual(
     {
       current_observation: {
         credit: "NOAA's National Weather Service",
@@ -759,7 +784,7 @@ Deno.test("parse: xml example w3schools.com#5", () =>
   ))
 
 Deno.test("parse: xml example w3schools.com#6", () =>
-  assertEquals(
+  expect(
     parse(`
   <breakfast_menu>
     <food>
@@ -804,6 +829,7 @@ Deno.test("parse: xml example w3schools.com#6", () =>
     </food>
   </breakfast_menu>
 `),
+  ).toEqual(
     {
       breakfast_menu: {
         food: [
@@ -845,42 +871,32 @@ Deno.test("parse: xml example w3schools.com#6", () =>
 // Parser options
 
 Deno.test("parse: xml parser option progress", () => {
-  let called = false
-  assertEquals(
-    parse(
-      `<root></root>`,
-      {
-        progress() {
-          called = true
-        },
-      },
-    ),
+  const progress = fn() as ParserOptions["progress"]
+  parse(
+    `<root></root>`,
     {
-      root: null,
+      progress,
     },
-  )
-  assert(called)
+  ), {
+    root: null,
+  }, expect(progress).toBeCalled()
 })
 
 Deno.test("parse: xml parser option debug", () => {
-  let called = false
   const debug = console.debug
-  console.debug = () => called = true
-  assertEquals(
-    parse(
-      `<root></root>`,
-      { debug: true },
-    ),
-    {
-      root: null,
-    },
-  )
-  assert(called)
+  Object.assign(console, { debug: fn() })
+
+  parse(
+    `<root></root>`,
+    { debug: true },
+  ), {
+    root: null,
+  }, expect(console.debug).toBeCalled()
   console.debug = debug
 })
 
 Deno.test("parse: xml parser option no flatten", () =>
-  assertEquals(
+  expect(
     parse(
       `
 <root>
@@ -891,6 +907,7 @@ Deno.test("parse: xml parser option no flatten", () =>
 `,
       { flatten: false },
     ),
+  ).toEqual(
     {
       root: {
         child: {
@@ -903,7 +920,7 @@ Deno.test("parse: xml parser option no flatten", () =>
   ))
 
 Deno.test("parse: xml parser option revive", () =>
-  assertEquals(
+  expect(
     parse(`
   <root>
     <empty></empty>
@@ -914,6 +931,7 @@ Deno.test("parse: xml parser option revive", () =>
     <boolean>true</boolean>
   </root>
 `),
+  ).toEqual(
     {
       root: {
         empty: null,
@@ -927,7 +945,7 @@ Deno.test("parse: xml parser option revive", () =>
   ))
 
 Deno.test("parse: xml parser option no-revive", () =>
-  assertEquals(
+  expect(
     parse(
       `
   <root>
@@ -941,6 +959,7 @@ Deno.test("parse: xml parser option no-revive", () =>
 `,
       { reviveBooleans: false, reviveNumbers: false, emptyToNull: false },
     ),
+  ).toEqual(
     {
       root: {
         empty: "",
@@ -954,7 +973,7 @@ Deno.test("parse: xml parser option no-revive", () =>
   ))
 
 Deno.test("parse: xml parser reviver", () =>
-  assertEquals(
+  expect(
     parse(
       `
   <root>
@@ -974,6 +993,7 @@ Deno.test("parse: xml parser reviver", () =>
         },
       },
     ),
+  ).toEqual(
     {
       root: {
         not: false,
@@ -982,7 +1002,7 @@ Deno.test("parse: xml parser reviver", () =>
   ))
 
 Deno.test("parse: xml parser reviver (properties are accessibles except within attributes)", () =>
-  assertEquals(
+  expect(
     parse(
       `
   <root>
@@ -995,6 +1015,7 @@ Deno.test("parse: xml parser reviver (properties are accessibles except within a
         },
       },
     ),
+  ).toEqual(
     {
       root: {
         child: {
@@ -1006,7 +1027,7 @@ Deno.test("parse: xml parser reviver (properties are accessibles except within a
   ))
 
 Deno.test("parse: xml parser reviver (tag node can be edited)", () =>
-  assertEquals(
+  expect(
     parse(
       `
   <root>
@@ -1028,6 +1049,7 @@ Deno.test("parse: xml parser reviver (tag node can be edited)", () =>
         },
       },
     ),
+  ).toEqual(
     {
       root: {
         x2: "20",
@@ -1055,15 +1077,12 @@ Deno.test("parse: xml parser option metadata", () => {
     { flatten: false },
   ) as test
 
-  assertEquals(
-    xml.root?.child?.["grand-child"]?.[$XML]?.parent,
-    xml.root.child,
-  )
-  assertEquals(xml.root?.child?.["grand-child"]?.[$XML]?.name, "grand-child")
-  assertEquals(xml.root?.child?.[$XML]?.parent, xml.root)
-  assertEquals(xml.root?.child?.[$XML]?.name, "child")
-  assertEquals(xml.root?.[$XML]?.parent, null)
-  assertEquals(xml.root?.[$XML]?.name, "root")
-  assertEquals(xml.root?.sibling?.[$XML]?.parent, xml.root)
-  assertEquals(xml.root?.sibling?.[$XML]?.name, "sibling")
+  expect(xml.root?.child?.["grand-child"]?.[$XML]?.parent).toEqual(xml.root.child)
+  expect(xml.root?.child?.["grand-child"]?.[$XML]?.name).toBe("grand-child")
+  expect(xml.root?.child?.[$XML]?.parent).toEqual(xml.root)
+  expect(xml.root?.child?.[$XML]?.name).toBe("child")
+  expect(xml.root?.[$XML]?.parent).toBeNull()
+  expect(xml.root?.[$XML]?.name).toBe("root")
+  expect(xml.root?.sibling?.[$XML]?.parent).toEqual(xml.root)
+  expect(xml.root?.sibling?.[$XML]?.name).toBe("sibling")
 })
