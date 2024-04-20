@@ -44,4 +44,5 @@ export type Nullable<T> = T | null
 export type Arrayable<T> = T | Array<T>
 
 /** Extract function argument */
-export type Arg<T extends ((...args: unknown[]) => unknown), index extends number = 0, required extends boolean = false> = required extends true ? NonNullable<Parameters<T>[index]> : Parameters<T>[index]
+// deno-lint-ignore no-explicit-any
+export type Arg<T extends ((...args: any[]) => any), index extends number = 0, required extends boolean = false> = required extends true ? NonNullable<Parameters<T>[index]> : Parameters<T>[index]
