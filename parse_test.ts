@@ -2,6 +2,7 @@ import { $XML, parse } from "./mod.ts"
 import { expect } from "@std/expect"
 import { fn } from "@std/expect"
 import type { ParserOptions } from "./utils/types.ts"
+import { EofError } from "./utils/types.ts"
 
 // deno-lint-ignore no-explicit-any
 type test = any
@@ -511,7 +512,7 @@ Deno.test("parse: xml syntax attributes quoted", () =>
     <child test=hey></child>
   </root>
 `)
-  ).toThrow(Deno.errors.UnexpectedEof))
+  ).toThrow(EofError))
 
 Deno.test("parse: xml syntax attributes properly quoted", () =>
   expect(() =>
@@ -520,7 +521,7 @@ Deno.test("parse: xml syntax attributes properly quoted", () =>
     <child test="hey></child>
   </root>
 `)
-  ).toThrow(Deno.errors.UnexpectedEof))
+  ).toThrow(EofError))
 
 Deno.test("parse: xml syntax first character", () => {
   expect(() => parse(`a>1</a>`)).toThrow(SyntaxError)

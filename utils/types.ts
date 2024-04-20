@@ -1,3 +1,7 @@
+/**
+ * This module contains typing definitions.
+ * @module
+ */
 import type { ReaderSync } from "@std/io"
 
 /** XML symbol */
@@ -210,3 +214,6 @@ export const tokens = {
     },
   },
 } as const
+
+/** End Of File error */
+export const EofError = (Deno?.errors?.UnexpectedEof ?? RangeError) as ErrorConstructor
