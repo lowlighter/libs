@@ -1,5 +1,5 @@
 //Imports
-import { Stream } from "./stream.ts"
+import type { Stream } from "./stream.ts"
 import { $XML, entities, schema, tokens } from "./types.ts"
 import type { node, ParserOptions } from "./types.ts"
 
@@ -54,9 +54,7 @@ export class Parser {
           clean = false
           comments.push(this.#comment({ path }))
           continue
-        }
-
-        //Extract prolog, stylesheets and doctype
+        } //Extract prolog, stylesheets and doctype
         else if ((this.#peek(tokens.prolog.start)) && (!this.#peek(tokens.stylesheet.start))) {
           if (document.xml) {
             throw Object.assign(new SyntaxError("Multiple prolog declaration found"), { stack: false })
@@ -64,23 +62,19 @@ export class Parser {
           clean = false
           Object.assign(document, this.#prolog({ path }))
           continue
-        }
-        else if (this.#peek(tokens.stylesheet.start)) {
+        } else if (this.#peek(tokens.stylesheet.start)) {
           clean = false
           const stylesheets = (document[schema.stylesheets] ??= []) as unknown[]
           stylesheets.push(this.#stylesheet({ path }).stylesheet)
           continue
-        }
-        else if (this.#peek(tokens.doctype.start)) {
+        } else if (this.#peek(tokens.doctype.start)) {
           if (document.doctype) {
             throw Object.assign(new SyntaxError("Multiple doctype declaration found"), { stack: false })
           }
           clean = false
           Object.assign(document, this.#doctype({ path }))
           continue
-        }
-
-        //Extract root node
+        } //Extract root node
         else if (this.#peek(tokens.tag.start)) {
           if (root) {
             throw Object.assign(new SyntaxError("Multiple root elements found"), { stack: false })
@@ -90,14 +84,12 @@ export class Parser {
           this.#trim()
           root = true
           continue
-        }
-
-        else {
+        } else {
           throw Object.assign(new SyntaxError("Invalid XML structure"), { stack: false })
         }
       }
     } catch (error) {
-      if ((error instanceof Deno.errors.UnexpectedEof) && (clean)) {
+      if ((error instanceof Deno.errors.UnexpectedEof) && clean) {
         if (comments.length) {
           document[schema.comment] = comments
         }
@@ -126,7 +118,8 @@ export class Parser {
 
     //Tag attributes
     while (!this.#peek(tokens.prolog.end)) {
-      Object.assign(prolog, this.#attribute({ path: [...path, prolog] }))
+      // https://www.w3.org/TR/REC-xml/#NT-VersionInfo
+      Object.assign(prolog, this.#attribute({ path: [...path, prolog], raw: ["version"] }))
     }
 
     //Result
@@ -287,7 +280,7 @@ export class Parser {
   }
 
   /** Attribute parser */
-  #attribute({ path }: { path: node[] }) {
+  #attribute({ path, raw = [] }: { path: node[]; raw?: string[] }) {
     this.#debug(path, "parsing attribute")
 
     //Attribute name
@@ -304,7 +297,7 @@ export class Parser {
 
     //Result
     return {
-      [`${schema.attribute.prefix}${attribute}`]: this.#revive({
+      [`${schema.attribute.prefix}${attribute}`]: raw.includes(attribute) ? value : this.#revive({
         key: `${schema.attribute.prefix}${attribute}`,
         value,
         tag: path.at(-1)!,
