@@ -21,9 +21,7 @@ jobs:
     name: Analyze code
     runs-on: ubuntu-latest
     needs:
-      - lint
-      - format
-      - tests
+      - test
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
