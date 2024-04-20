@@ -1,6 +1,6 @@
 //Imports
 import type { Flux } from "./types.ts"
-import { SeekMode } from "./types.ts"
+import { EofError, SeekMode } from "./types.ts"
 
 /**
  * Text stream helper
@@ -36,7 +36,7 @@ export class Stream {
       this.#content.seekSync(cursor, SeekMode.Start)
       return this.#decoder.decode(buffer)
     }
-    throw new Deno.errors.UnexpectedEof()
+    throw new EofError()
   }
 
   /** Read next bytes (cursor is moved after reading) */
@@ -45,7 +45,7 @@ export class Stream {
     if (this.#content.readSync(buffer)) {
       return buffer
     }
-    throw new Deno.errors.UnexpectedEof()
+    throw new EofError()
   }
 
   /** Capture next bytes until matching regex sequence (length can be used for regex with lookbehind) */
@@ -94,7 +94,7 @@ export class Stream {
         this.read(1)
       }
     } catch (error) {
-      if (error instanceof Deno.errors.UnexpectedEof) {
+      if (error instanceof EofError) {
         return
       }
       throw error

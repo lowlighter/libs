@@ -1,6 +1,6 @@
 import { Streamable } from "./streamable.ts"
 import { Stream } from "./stream.ts"
-import { SeekMode } from "./types.ts"
+import { EofError, SeekMode } from "./types.ts"
 import { expect } from "@std/expect"
 
 Deno.test("streamable: readSync", () => {
@@ -48,7 +48,7 @@ Deno.test("stream: read", () => {
   expect(stream.read(5)).toEqual(new TextEncoder().encode("hello"))
   expect(stream.cursor).toBe(5)
   expect(stream.read(6)).toEqual(new TextEncoder().encode(" world"))
-  expect(() => stream.read(1000)).toThrow(Deno.errors.UnexpectedEof)
+  expect(() => stream.read(1000)).toThrow(EofError)
 })
 
 Deno.test("stream: capture", () => {
