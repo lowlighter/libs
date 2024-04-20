@@ -1,5 +1,5 @@
 import { parse, stringify } from "./mod.ts"
-import { expect } from "https://deno.land/std@0.223.0/expect/expect.ts"
+import { expect } from "@std/expect"
 import type { ParserOptions } from "./utils/types.ts"
 
 /** This operation ensure that reforming a parsed XML will still yield same data */

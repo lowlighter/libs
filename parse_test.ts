@@ -1,6 +1,6 @@
 import { $XML, parse } from "./mod.ts"
-import { expect } from "https://deno.land/std@0.223.0/expect/expect.ts"
-import { fn } from "https://deno.land/std@0.223.0/expect/fn.ts"
+import { expect } from "@std/expect"
+import { fn } from "@std/expect"
 import type { ParserOptions } from "./utils/types.ts"
 
 // deno-lint-ignore no-explicit-any
