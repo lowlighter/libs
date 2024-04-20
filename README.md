@@ -73,7 +73,7 @@ patterns.
 - Support `<!-- -->` comments
 - Support XML entities (`&amp;`, `&#38;`, `&#x26;`, ...)
 - Support auto-conversion of primitives (strings, booleans, numbers, null, ...)
-- Support strings or streams (`Deno.ReaderSync & Deno.SeekerSync`) inputs
+- Support strings or streams (`ReaderSync & SeekerSync`) inputs
 - Support custom revivers and replacers
 - Support metadata (parent, name, ...) hidden in a non-enumerable property
 - Auto-group nodes into arrays when same tag is used
@@ -150,13 +150,11 @@ console.log(parse(
 
 ### Replacers
 
-By default, /// will be converted to:
+By default, node contents will be converted to:
 
 - `""` when `null`, unless `nullToEmpty = false`
-
-XML entities (e.g. `&;`, `<`, `>`, `"`, `'` ...) will be escaped automatically.
-
-It is also possible to provide a custom replacer for complex transformations:
+- XML entities (e.g. `&;`, `<`, `>`, `"`, `'` ...) will be escaped when needed, unless `escapeAllEntities = true` in
+  which case they will always be escaped
 
 ### XML metadata
 

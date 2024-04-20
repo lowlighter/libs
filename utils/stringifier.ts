@@ -223,7 +223,11 @@ export class Stringifier {
     if (cdata) {
       text = `${tokens.cdata.start}${text}${tokens.cdata.end}`
     }
-    const lines = this.#replace({ value: text, key: schema.text, tag, properties, escape: !cdata }).split("\n")
+    const escape = (cdata ? [] : this.#options.escapeAllEntities ? Object.keys(entities.char) : ["<", ">"]) as Array<
+      keyof typeof entities.char
+    >
+    const lines = this.#replace({ value: text, key: schema.text, tag, properties, escape })
+      .split("\n")
 
     let trim = true
     if (properties[schema.space.name] === schema.space.preserve) {
@@ -245,10 +249,13 @@ export class Stringifier {
 
   /** Attributes stringifier */
   #attributes({ raw: node, attributes, tag }: extract & { tag: string }) {
+    const escape = (this.#options.escapeAllEntities ? Object.keys(entities.char) : ['"', "'"]) as Array<
+      keyof typeof entities.char
+    >
     const stringified = attributes
       .map((key) =>
         `${key.substring(schema.attribute.prefix.length)}=${
-          this.#quote(this.#replace({ key, value: node[key], tag, properties: null }))
+          this.#quote(this.#replace({ key, value: node[key], tag, properties: null, escape }))
         }`
       )
       .join(" ")
@@ -267,12 +274,12 @@ export class Stringifier {
 
   /** Replacer */
   #replace(
-    { key, value, tag, properties, escape = true }: {
+    { key, value, tag, properties, escape = ["&", "'", "<", ">", "'"] }: {
       key: string
       value: unknown
       tag: string
       properties: null | Partial<node>
-      escape?: boolean
+      escape?: Array<keyof typeof entities.char>
     },
   ) {
     return `${
@@ -287,9 +294,9 @@ export class Stringifier {
               return ""
             // Escape XML entities
             default: {
-              if (escape) {
-                for (const [char, entity] of Object.entries(entities.char)) {
-                  value = `${value}`.replaceAll(char, entity)
+              if (escape?.length) {
+                for (const char of escape) {
+                  value = `${value}`.replaceAll(char, entities.char[char])
                 }
               }
             }
