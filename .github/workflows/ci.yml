@@ -35,6 +35,7 @@ jobs:
     needs:
       - analyze
     permissions:
+      id-token: write
       contents: read
       packages: write
     steps:
