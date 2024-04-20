@@ -1,8 +1,10 @@
+import type { ReaderSync } from "https://deno.land/std@0.223.0/io/types.ts"
+
 /** XML symbol */
 export const $XML: unique symbol = Symbol("x/xml")
 
 /** Flux */
-export type Flux = Deno.ReaderSync & Deno.SeekerSync
+export type Flux = ReaderSync & Deno.SeekerSync
 
 /** Parser options */
 export type ParserOptions = {
@@ -104,7 +106,11 @@ export const SeekMode = Object.freeze({
   Current: Deno?.SeekMode?.Current ?? 0,
   Start: Deno?.SeekMode?.Start ?? 1,
   End: Deno?.SeekMode?.End ?? 2,
-})
+}) as {
+  Current: Deno.SeekMode.Current
+  Start: Deno.SeekMode.Start
+  End: Deno.SeekMode.End
+}
 
 /** Entities */
 export const entities = {

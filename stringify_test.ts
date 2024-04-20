@@ -1,23 +1,24 @@
 import { parse, stringify } from "./mod.ts"
-import { assertEquals } from "./test_deps.ts"
+import { expect } from "https://deno.land/std@0.223.0/expect/expect.ts"
 
 /** This operation ensure that reforming a parsed XML will still yield same data */
 //deno-lint-ignore no-explicit-any
 const check = (xml: string, options: any = {}) => {
-  assertEquals(stringify(parse(xml, options), options), xml)
+  expect(stringify(parse(xml, options), options), xml)
   //deno-lint-ignore no-explicit-any
   return parse(stringify(parse(xml, options) as any, options), options)
 }
 
 Deno.test("stringify: xml syntax xml prolog", () =>
-  assertEquals(
+  expect(
     check(
-      `<?xml version="1" encoding="UTF-8"?>
+      `<?xml version="1.0" encoding="UTF-8"?>
 <root/>`,
     ),
+  ).toEqual(
     {
       xml: {
-        "@version": 1,
+        "@version": "1.0",
         "@encoding": "UTF-8",
       },
       root: null,
@@ -25,15 +26,16 @@ Deno.test("stringify: xml syntax xml prolog", () =>
   ))
 
 Deno.test("stringify: xml syntax xml stylesheet", () =>
-  assertEquals(
+  expect(
     check(
-      `<?xml version="1" encoding="UTF-8"?>
+      `<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="styles.xsl" type="text/xsl"?>
 <root/>`,
     ),
+  ).toEqual(
     {
       xml: {
-        "@version": 1,
+        "@version": "1.0",
         "@encoding": "UTF-8",
       },
       $stylesheets: [
@@ -47,11 +49,12 @@ Deno.test("stringify: xml syntax xml stylesheet", () =>
   ))
 
 Deno.test("stringify: xml syntax doctype", () =>
-  assertEquals(
+  expect(
     check(
       `<!DOCTYPE type "quoted attribute">
 <root/>`,
     ),
+  ).toEqual(
     {
       doctype: {
         "@type": true,
@@ -62,7 +65,7 @@ Deno.test("stringify: xml syntax doctype", () =>
   ))
 
 Deno.test("stringify: xml example w3schools.com#3", () =>
-  assertEquals(
+  expect(
     check(
       `<bookstore>
   <book category="cooking">
@@ -98,6 +101,7 @@ Deno.test("stringify: xml example w3schools.com#3", () =>
   </book>
 </bookstore>`,
     ),
+  ).toEqual(
     {
       bookstore: {
         book: [
@@ -144,7 +148,7 @@ Deno.test("stringify: xml example w3schools.com#3", () =>
   ))
 
 Deno.test("stringify: xml types", () =>
-  assertEquals(
+  expect(
     check(
       `<types>
   <boolean>true</boolean>
@@ -152,6 +156,7 @@ Deno.test("stringify: xml types", () =>
   <string>hello</string>
 </types>`,
     ),
+  ).toEqual(
     {
       types: {
         boolean: true,
@@ -162,15 +167,16 @@ Deno.test("stringify: xml types", () =>
   ))
 
 Deno.test("stringify: xml entities", () =>
-  assertEquals(
+  expect(
     check(`<string>&quot; &lt; &gt; &amp; &apos;</string>`),
+  ).toEqual(
     {
       string: `" < > & '`,
     },
   ))
 
 Deno.test("stringify: xml replacer", () =>
-  assertEquals(
+  expect(
     stringify({ root: { not: true, yes: true } }, {
       replacer({ tag, key, value }) {
         if ((tag === "not") && (key === "#text")) {
@@ -179,6 +185,7 @@ Deno.test("stringify: xml replacer", () =>
         return value
       },
     }),
+  ).toBe(
     `<root>
   <not>false</not>
   <yes>true</yes>
@@ -186,8 +193,9 @@ Deno.test("stringify: xml replacer", () =>
   ))
 
 Deno.test("stringify: xml space preserve", () =>
-  assertEquals(
+  expect(
     check(`<text xml:space="preserve"> hello world </text>`),
+  ).toEqual(
     {
       text: {
         "#text": " hello world ",
@@ -197,8 +205,9 @@ Deno.test("stringify: xml space preserve", () =>
   ))
 
 Deno.test("stringify: cdata is preserved", () =>
-  assertEquals(
+  expect(
     check(`<string><![CDATA[hello <world>]]></string>`),
+  ).toEqual(
     {
       string: `hello <world>`,
     },

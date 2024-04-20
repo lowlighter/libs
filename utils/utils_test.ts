@@ -1,81 +1,81 @@
 import { Streamable } from "./streamable.ts"
 import { Stream } from "./stream.ts"
 import { SeekMode } from "./types.ts"
-import { assertEquals, assertThrows } from "../test_deps.ts"
+import { expect } from "https://deno.land/std@0.223.0/expect/expect.ts"
 
 Deno.test("streamable: readSync", () => {
   const stream = new Streamable("hello world")
-  assertEquals(stream.seekSync(0, SeekMode.Current), 0)
+  expect(stream.seekSync(0, SeekMode.Current)).toBe(0)
   const buffer = new Uint8Array(5)
   stream.readSync(buffer)
-  assertEquals(new TextDecoder().decode(buffer), "hello")
+  expect(new TextDecoder().decode(buffer)).toBe("hello")
 })
 
 Deno.test("streamable: seekSync", () => {
   const stream = new Streamable("hello world")
-  assertEquals(stream.seekSync(5, SeekMode.Start), 5)
-  assertEquals(stream.seekSync(-2, SeekMode.Current), 3)
-  assertEquals(stream.seekSync(+2, SeekMode.Current), 5)
-  assertEquals(stream.seekSync(-1, SeekMode.End), 10)
+  expect(stream.seekSync(5, SeekMode.Start)).toBe(5)
+  expect(stream.seekSync(-2, SeekMode.Current)).toBe(3)
+  expect(stream.seekSync(+2, SeekMode.Current)).toBe(5)
+  expect(stream.seekSync(-1, SeekMode.End)).toBe(10)
 })
 
 Deno.test("streamable: seekSync", () => {
   const stream = new Streamable("hello world")
-  assertEquals(stream.seekSync(5, SeekMode.Start), 5)
-  assertEquals(stream.seekSync(-2, SeekMode.Current), 3)
-  assertEquals(stream.seekSync(+2, SeekMode.Current), 5)
-  assertEquals(stream.seekSync(-1, SeekMode.End), 10)
+  expect(stream.seekSync(5, SeekMode.Start)).toBe(5)
+  expect(stream.seekSync(-2, SeekMode.Current)).toBe(3)
+  expect(stream.seekSync(+2, SeekMode.Current)).toBe(5)
+  expect(stream.seekSync(-1, SeekMode.End)).toBe(10)
 })
 
 Deno.test("stream: cursor", () => {
   const stream = new Stream(new Streamable("hello world"))
-  assertEquals(stream.cursor, 0)
+  expect(stream.cursor).toBe(0)
   stream.read(5)
-  assertEquals(stream.cursor, 5)
+  expect(stream.cursor).toBe(5)
 })
 
 Deno.test("stream: peek", () => {
   const stream = new Stream(new Streamable("hello world"))
-  assertEquals(stream.cursor, 0)
-  assertEquals(stream.peek(5), "hello")
-  assertEquals(stream.cursor, 0)
-  assertEquals(stream.peek(5, 6), "world")
+  expect(stream.cursor).toBe(0)
+  expect(stream.peek(5)).toBe("hello")
+  expect(stream.cursor).toBe(0)
+  expect(stream.peek(5, 6)).toBe("world")
 })
 
 Deno.test("stream: read", () => {
   const stream = new Stream(new Streamable("hello world"))
-  assertEquals(stream.cursor, 0)
-  assertEquals(stream.read(5), new TextEncoder().encode("hello"))
-  assertEquals(stream.cursor, 5)
-  assertEquals(stream.read(6), new TextEncoder().encode(" world"))
-  assertThrows(() => stream.read(1000), Deno.errors.UnexpectedEof)
+  expect(stream.cursor).toBe(0)
+  expect(stream.read(5)).toEqual(new TextEncoder().encode("hello"))
+  expect(stream.cursor).toBe(5)
+  expect(stream.read(6)).toEqual(new TextEncoder().encode(" world"))
+  expect(() => stream.read(1000)).toThrow(Deno.errors.UnexpectedEof)
 })
 
 Deno.test("stream: capture", () => {
   const stream = new Stream(new Streamable("hello world"))
-  assertEquals(stream.cursor, 0)
-  assertEquals(stream.capture({ until: / /, bytes: 1 }), "hello")
-  assertEquals(stream.cursor, 6)
-  assertEquals(stream.capture({ until: /(?<=wo)rld/, bytes: 5, length: 3 }), "wo")
+  expect(stream.cursor).toBe(0)
+  expect(stream.capture({ until: / /, bytes: 1 })).toBe("hello")
+  expect(stream.cursor).toBe(6)
+  expect(stream.capture({ until: /(?<=wo)rld/, bytes: 5, length: 3 })).toBe("wo")
 })
 
 Deno.test("stream: consume", () => {
   const stream = new Stream(new Streamable("hello world"))
-  assertEquals(stream.cursor, 0)
+  expect(stream.cursor).toBe(0)
   stream.consume({ content: "hello " })
-  assertEquals(stream.cursor, 6)
+  expect(stream.cursor).toBe(6)
 })
 
 Deno.test("stream: trim", () => {
   const stream = new Stream(new Streamable("   hello world"))
-  assertEquals(stream.cursor, 0)
+  expect(stream.cursor).toBe(0)
   stream.trim()
-  assertEquals(stream.cursor, 3)
+  expect(stream.cursor).toBe(3)
   stream.consume({ content: "hello world" })
   stream.trim()
-  assertEquals(stream.cursor, 14)
+  expect(stream.cursor).toBe(14)
   stream.peek = () => {
     throw new EvalError()
   }
-  assertThrows(() => stream.trim(), EvalError)
+  expect(() => stream.trim()).toThrow(EvalError)
 })

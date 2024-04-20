@@ -1,13 +1,28 @@
 {
+  "name": "@lowlighter/xml",
+  "version": "0.1.0",
+  "description": "A XML parser/stringifier for Deno written in typescript and with no dependencies",
+  "author": "lowlighter (Simon Lecoq)",
+  "repository": "https://github.com/lowlighter/xml",
+  "license": "MIT License",
+  "exports": {
+    ".": "./mod.ts",
+    "./parse": "./parse.ts",
+    "./stringify": "./stringify.ts",
+    "./types": "./utils/types.ts"
+  },
+  "tasks": {
+    "ci": "deno fmt --check && deno task test && deno task bench",
+    "test": "deno fmt && deno test --coverage --doc && deno coverage && deno lint",
+    "bench": "deno bench --allow-read --allow-write=utils/tests/assets"
+  },
   "lint": {
     "rules": {
       "exclude": ["no-extra-semi"]
     }
   },
   "fmt": {
-    "options": {
-      "lineWidth": 120,
-      "semiColons": false
-    }
+    "lineWidth": 120,
+    "semiColons": false
   }
 }
