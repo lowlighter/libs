@@ -32,9 +32,12 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
+    needs:
+      - analyze
     permissions:
       contents: read
       packages: write
     steps:
       - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
       - run: deno publish
