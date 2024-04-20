@@ -176,7 +176,7 @@ Deno.test("stringify: xml entities", () =>
     },
   ))
 
-Deno.test.only(
+Deno.test(
   "stringify: xml entities are escaped only where needed",
   () =>
     expect(stringify({
@@ -191,7 +191,7 @@ Deno.test.only(
     ),
 )
 
-Deno.test.only(
+Deno.test(
   "stringify: xml entiries are always escaped when escapeAllEntities is true",
   () =>
     expect(stringify({
