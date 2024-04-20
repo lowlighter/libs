@@ -176,6 +176,36 @@ Deno.test("stringify: xml entities", () =>
     },
   ))
 
+Deno.test.only(
+  "stringify: xml entities are escaped only where needed",
+  () =>
+    expect(stringify({
+      root: {
+        "@attribute": `<text with escaped quotes (',")>`,
+        text: `only < and > should be escaped, not &, ", '`,
+      },
+    })).toEqual(
+      `<root attribute="<text with escaped quotes (&apos;,&quot;)>">
+  <text>only &lt; and &gt; should be escaped, not &, ", '</text>
+</root>`,
+    ),
+)
+
+Deno.test.only(
+  "stringify: xml entiries are always escaped when escapeAllEntities is true",
+  () =>
+    expect(stringify({
+      root: {
+        "@attribute": `< > &, ", '`,
+        text: `< > &, ", '`,
+      },
+    }, { escapeAllEntities: true })).toEqual(
+      `<root attribute="&lt; &gt; &amp;, &quot;, &apos;">
+  <text>&lt; &gt; &amp;, &quot;, &apos;</text>
+</root>`,
+    ),
+)
+
 Deno.test("stringify: xml replacer", () =>
   expect(
     stringify({ root: { not: true, yes: true } }, {

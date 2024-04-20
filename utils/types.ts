@@ -29,6 +29,7 @@ export type ParserOptions = {
 export type StringifierOptions = {
   indentSize?: number
   nullToEmpty?: boolean
+  escapeAllEntities?: boolean
   debug?: boolean
   progress?: (bytes: number) => void
   replacer?: (
