@@ -1,9 +1,11 @@
-# XML parser for Deno
+# XML stringifier/parser written in TypeScript and without any dependencies
+
+Available on [deno.land/x](https://deno.land/x/xml) and [jsr.io](https://jsr.io/@lowlighter/xml).
 
 ## Basic usage
 
 ```ts
-import { parse } from "https://deno.land/x/xml/mod.ts"
+import { parse } from "./mod.ts"
 
 console.log(parse(
   `
@@ -42,7 +44,7 @@ console.log(parse(
 ```
 
 ```ts
-import { stringify } from "https://deno.land/x/xml/mod.ts"
+import { stringify } from "./mod.ts"
 
 console.log(stringify({
   root: {

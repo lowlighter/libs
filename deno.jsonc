@@ -1,7 +1,7 @@
 {
   "name": "@lowlighter/xml",
   "version": "3.0.0",
-  "description": "A XML parser/stringifier for Deno written in typescript and with no dependencies",
+  "description": "A XML parser/stringifier written in typescript and with no dependencies",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/xml",
   "license": "MIT License",
