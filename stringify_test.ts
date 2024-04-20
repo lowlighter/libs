@@ -1,12 +1,11 @@
 import { parse, stringify } from "./mod.ts"
 import { expect } from "https://deno.land/std@0.223.0/expect/expect.ts"
+import type { ParserOptions } from "./utils/types.ts"
 
 /** This operation ensure that reforming a parsed XML will still yield same data */
-//deno-lint-ignore no-explicit-any
-const check = (xml: string, options: any = {}) => {
+const check = (xml: string, options?: ParserOptions) => {
   expect(stringify(parse(xml, options), options), xml)
-  //deno-lint-ignore no-explicit-any
-  return parse(stringify(parse(xml, options) as any, options), options)
+  return parse(stringify(parse(xml, options), options), options)
 }
 
 Deno.test("stringify: xml syntax xml prolog", () =>
@@ -100,6 +99,7 @@ Deno.test("stringify: xml example w3schools.com#3", () =>
     <price>39.95</price>
   </book>
 </bookstore>`,
+      { reviveBooleans: true, reviveNumbers: true },
     ),
   ).toEqual(
     {
@@ -155,6 +155,7 @@ Deno.test("stringify: xml types", () =>
   <null/>
   <string>hello</string>
 </types>`,
+      { reviveBooleans: true },
     ),
   ).toEqual(
     {
