@@ -118,7 +118,7 @@ export class Parser {
 
     //Tag attributes
     while (!this.#peek(tokens.prolog.end)) {
-      // https://www.w3.org/TR/REC-xml/#NT-VersionInfo
+      // https://www.w3.org/TR/REC-xml/#NT-VersionNum
       Object.assign(prolog, this.#attribute({ path: [...path, prolog], raw: ["version"] }))
     }
 
@@ -411,10 +411,10 @@ export class Parser {
           case (this.#options.emptyToNull ?? true) && /^\s*$/.test(value):
             return null
           //Revive booleans
-          case (this.#options.reviveBooleans ?? true) && /^(?:true|false)$/i.test(value):
+          case (this.#options.reviveBooleans) && /^(?:true|false)$/i.test(value):
             return /^true$/i.test(value)
           //Revive numbers
-          case this.#options.reviveNumbers ?? true: {
+          case this.#options.reviveNumbers: {
             const num = Number(value)
             if (Number.isFinite(num)) {
               return num

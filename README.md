@@ -5,7 +5,8 @@
 ```ts
 import { parse } from "https://deno.land/x/xml/mod.ts"
 
-console.log(parse(`
+console.log(parse(
+  `
   <root>
     <!-- This is a comment -->
     <text>hello</text>
@@ -17,7 +18,9 @@ console.log(parse(`
     <boolean>true</boolean>
     <complex attribute="value">content</complex>
   </root>
-`))
+`,
+  { reviveNumbers: true, reviveBooleans: true },
+))
 /*
   Same nodes are grouped into arrays, while numbers and booleans are auto-parsed (can be disabled)
   Nodes with attributes will not be flattened and you'll be able to access them with "@" prefix while
@@ -90,8 +93,8 @@ How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and [stri
 By default, node contents will be converted to:
 
 - `null` when empty, unless `emptyToNull = false`
-- `number` when matching finite numbers, unless `reviveNumbers = false`
-- `boolean` when matching `true` or `false` (case insensitive), unless `reviveBooleans = false`
+- `number` when matching finite numbers, if `reviveNumbers = true`
+- `boolean` when matching `true` or `false` (case insensitive), if `reviveBooleans = true`
 
 XML entities (e.g. `&amp;`, `&#38;`, `&#x26;`, ...) will be unescaped automatically.
 

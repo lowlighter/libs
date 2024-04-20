@@ -298,7 +298,7 @@ Deno.test("parse: xml syntax case sensitive", () =>
     {
       root: {
         child: {
-          subchild: [1, 2],
+          subchild: ["1", "2"],
         },
         Child: {
           subchild: null,
@@ -622,15 +622,15 @@ Deno.test("parse: xml example w3schools.com#3", () =>
             "@category": "cooking",
             title: { "@lang": "en", "#text": "Everyday Italian" },
             author: "Giada De Laurentiis",
-            year: 2005,
-            price: 30,
+            year: "2005",
+            price: "30.00",
           },
           {
             "@category": "children",
             title: { "@lang": "en", "#text": "Harry Potter" },
             author: "J K. Rowling",
-            year: 2005,
-            price: 29.99,
+            year: "2005",
+            price: "29.99",
           },
           {
             "@category": "web",
@@ -642,16 +642,16 @@ Deno.test("parse: xml example w3schools.com#3", () =>
               "James Linn",
               "Vaidyanathan Nagarajan",
             ],
-            year: 2003,
-            price: 49.99,
+            year: "2003",
+            price: "49.99",
           },
           {
             "@category": "web",
             "@cover": "paperback",
             title: { "@lang": "en", "#text": "Learning XML" },
             author: "Erik T. Ray",
-            year: 2003,
-            price: 39.95,
+            year: "2003",
+            price: "39.95",
           },
         ],
       },
@@ -703,7 +703,8 @@ Deno.test("parse: xml example w3schools.com#4", () =>
 
 Deno.test("parse: xml example w3schools.com#5", () =>
   expect(
-    parse(`
+    parse(
+      `
   <current_observation>
 
     <credit>NOAA's National Weather Service</credit>
@@ -744,7 +745,9 @@ Deno.test("parse: xml example w3schools.com#5", () =>
     <copyright_url>http://weather.gov/disclaimer.html</copyright_url>
 
   </current_observation>
-`),
+`,
+      { reviveNumbers: true },
+    ),
   ).toEqual(
     {
       current_observation: {
@@ -837,31 +840,31 @@ Deno.test("parse: xml example w3schools.com#6", () =>
             name: "Belgian Waffles",
             price: "$5.95",
             description: "Two of our famous Belgian Waffles with plenty of real maple syrup",
-            calories: 650,
+            calories: "650",
           },
           {
             name: "Strawberry Belgian Waffles",
             price: "$7.95",
             description: "Light Belgian waffles covered with strawberries and whipped cream",
-            calories: 900,
+            calories: "900",
           },
           {
             name: "Berry-Berry Belgian Waffles",
             price: "$8.95",
             description: "Belgian waffles covered with assorted fresh berries and whipped cream",
-            calories: 900,
+            calories: "900",
           },
           {
             name: "French Toast",
             price: "$4.50",
             description: "Thick slices made from our homemade sourdough bread",
-            calories: 600,
+            calories: "600",
           },
           {
             name: "Homestyle Breakfast",
             price: "$6.95",
             description: "Two eggs, bacon or sausage, toast, and our ever-popular hash browns",
-            calories: 950,
+            calories: "950",
           },
         ],
       },
@@ -921,7 +924,8 @@ Deno.test("parse: xml parser option no flatten", () =>
 
 Deno.test("parse: xml parser option revive", () =>
   expect(
-    parse(`
+    parse(
+      `
   <root>
     <empty></empty>
     <number>1</number>
@@ -930,7 +934,9 @@ Deno.test("parse: xml parser option revive", () =>
     <number_octal>0o667</number_octal>
     <boolean>true</boolean>
   </root>
-`),
+`,
+      { reviveBooleans: true, reviveNumbers: true },
+    ),
   ).toEqual(
     {
       root: {
