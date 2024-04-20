@@ -1,4 +1,4 @@
-import type { ReaderSync } from "https://deno.land/std@0.223.0/io/types.ts"
+import type { ReaderSync } from "@std/io"
 
 /** XML symbol */
 export const $XML: unique symbol = Symbol("x/xml")

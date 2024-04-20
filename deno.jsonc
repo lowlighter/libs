@@ -24,5 +24,10 @@
   "fmt": {
     "lineWidth": 120,
     "semiColons": false
+  },
+  "imports": {
+    "@std/expect": "jsr:@std/expect@^0.223.0",
+    "@std/fs": "jsr:@std/fs@^0.223.0",
+    "@std/io": "jsr:@std/io@^0.223.0"
   }
 }
