@@ -13,7 +13,7 @@
   },
   "tasks": {
     "ci": "deno fmt --check && deno task test && deno task bench",
-    "test": "deno fmt && deno test --coverage --doc --allow-read --allow-env --allow-run=node,bun --allow-write=utils/tests && deno coverage && deno lint",
+    "test": "deno fmt && deno test --coverage --doc --allow-read --allow-env --allow-run=node,bun --allow-write=utils/tests --allow-net=deno.land && deno coverage && deno lint",
     "bench": "deno bench --allow-read --allow-write=utils/tests"
   },
   "lint": {
