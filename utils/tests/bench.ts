@@ -1,5 +1,5 @@
 //Imports
-import { expandGlob } from "@std/fs"
+import { expandGlob } from "https://deno.land/std@0.223.0/fs/expand_glob.ts"
 import { parse } from "../../mod.ts"
 
 //Huge xml file generator

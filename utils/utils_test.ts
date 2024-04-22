@@ -1,7 +1,7 @@
 import { Streamable } from "./streamable.ts"
 import { Stream } from "./stream.ts"
 import { EofError, SeekMode } from "./types.ts"
-import { expect } from "@std/expect"
+import { expect } from "https://deno.land/std@0.223.0/expect/expect.ts"
 
 Deno.test("streamable: readSync", () => {
   const stream = new Streamable("hello world")
