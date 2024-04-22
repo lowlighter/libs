@@ -1,6 +1,6 @@
 //Imports
 import type { Stream } from "./stream.ts"
-import { $XML, entities, EofError, schema, tokens } from "./types.ts"
+import { $XML, entities, schema, tokens } from "./types.ts"
 import type { node, ParserOptions } from "./types.ts"
 
 /**
@@ -89,7 +89,7 @@ export class Parser {
         }
       }
     } catch (error) {
-      if ((error instanceof EofError) && clean) {
+      if ((error instanceof RangeError) && clean) {
         if (comments.length) {
           document[schema.comment] = comments
         }
