@@ -112,12 +112,12 @@ export const schema = {
 
 /** Seek mode */
 export const SeekMode = Object.freeze({
-  Current: Deno?.SeekMode?.Current ?? 0,
-  Start: Deno?.SeekMode?.Start ?? 1,
-  End: Deno?.SeekMode?.End ?? 2,
+  Start: 0,
+  Current: 1,
+  End: 2,
 }) as {
-  Current: Deno.SeekMode.Current
   Start: Deno.SeekMode.Start
+  Current: Deno.SeekMode.Current
   End: Deno.SeekMode.End
 }
 
@@ -218,6 +218,3 @@ export const tokens = {
     },
   },
 } as const
-
-/** End Of File error */
-export const EofError = (Deno?.errors?.UnexpectedEof ?? RangeError) as ErrorConstructor
