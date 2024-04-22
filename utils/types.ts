@@ -2,13 +2,17 @@
  * This module contains typing definitions.
  * @module
  */
-import type { ReaderSync } from "@std/io"
 
 /** XML symbol */
 export const $XML: unique symbol = Symbol("x/xml")
 
-/** Flux */
-export type Flux = ReaderSync & Deno.SeekerSync
+/**
+ * Flux
+ * {@link https://deno.land/std/io/types.ts}
+ */
+export type Flux = {
+  readSync(p: Uint8Array): number | null
+} & Deno.SeekerSync
 
 /** Parser options */
 export type ParserOptions = {
