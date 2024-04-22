@@ -1,2 +1,3 @@
 coverage
 utils/tests/assets/x-*.xml
+utils/tests/compatibility/_example.node.mjs
