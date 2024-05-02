@@ -12,7 +12,7 @@
  *
  * @example
  * ```
- * import { Logger } from "./logger.ts"
+ * import { Logger } from "./mod.ts"
  * const logger = new Logger({ level: Logger.level.info, tags: { foo: true} })
  * logger.info("message")
  * ```

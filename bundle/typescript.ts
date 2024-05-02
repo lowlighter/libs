@@ -19,14 +19,14 @@ import { minify as terser } from "https://esm.sh/terser@5.30.3"
  * @example
  * ```
  * // From file
- * import { bundle } from "./bundle.ts"
+ * import { bundle } from "./typescript.ts"
  * console.log(await bundle(new URL(import.meta.url)))
  * ```
  *
  * @example
  * ```
  * // From string
- * import { bundle } from "./bundle.ts"
+ * import { bundle } from "./typescript.ts"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */

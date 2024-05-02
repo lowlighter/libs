@@ -1,7 +1,7 @@
-import { bundle } from "./bundle.ts"
+import { bundle } from "./typescript.ts"
 import { expect } from "https://deno.land/std@0.222.1/expect/expect.ts"
 
-const base = new URL("testing/bundle/", import.meta.url)
+const base = new URL("testing/", import.meta.url)
 
 Deno.test("bundle() handles url", { permissions: { read: true, net: ["deno.land"], env: true } }, async () => {
   const url = new URL("test_bundle.ts", base)

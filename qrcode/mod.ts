@@ -58,7 +58,7 @@ const encoder = new TextEncoder()
  *
  * @example
  * ```ts
- * import { qrcode } from "./qrcode.ts"
+ * import { qrcode } from "./mod.ts"
  * const svg = qrcode("https://example.com", { output: "svg" })
  * console.assert(svg.includes("</svg>"))
  * ```
@@ -70,7 +70,7 @@ const encoder = new TextEncoder()
  *
  * @example
  * ```ts
- * import { qrcode } from "./qrcode.ts"
+ * import { qrcode } from "./mod.ts"
  * qrcode("https://example.com", { output: "console" })
  *
  * // QR Code will be prined in the console similar to this fashion
@@ -93,7 +93,7 @@ const encoder = new TextEncoder()
  *
  * @example
  * ```ts
- * import { qrcode } from "./qrcode.ts"
+ * import { qrcode } from "./mod.ts"
  * const array = qrcode("https://example.com")
  * console.assert(Array.isArray(array))
  * ```

@@ -1,10 +1,10 @@
-import { diff } from "./diff.ts"
+import { diff } from "../diff/diff.ts"
 import { expect } from "https://deno.land/std@0.222.1/expect/expect.ts"
 
 async function read(test: string) {
-  const a = await Deno.readTextFile(new URL(`testing/diff/${test}/a`, import.meta.url))
-  const b = await Deno.readTextFile(new URL(`testing/diff/${test}/b`, import.meta.url))
-  const c = await Deno.readTextFile(new URL(`testing/diff/${test}/c`, import.meta.url))
+  const a = await Deno.readTextFile(new URL(`testing/${test}/a`, import.meta.url))
+  const b = await Deno.readTextFile(new URL(`testing/${test}/b`, import.meta.url))
+  const c = await Deno.readTextFile(new URL(`testing/${test}/c`, import.meta.url))
   return { a: a.replaceAll("\r\n", "\n"), b: b.replaceAll("\r\n", "\n"), c: c.replaceAll("\r\n", "\n") }
 }
 
