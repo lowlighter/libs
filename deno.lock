@@ -4,12 +4,14 @@
     "specifiers": {
       "jsr:@deno/cache-dir@0.8": "jsr:@deno/cache-dir@0.8.0",
       "jsr:@deno/emit": "jsr:@deno/emit@0.40.2",
+      "jsr:@deno/emit@0.40": "jsr:@deno/emit@0.40.2",
       "jsr:@deno/graph@^0.69.7": "jsr:@deno/graph@0.69.10",
       "jsr:@std/assert@^0.218.2": "jsr:@std/assert@0.218.2",
       "jsr:@std/assert@^0.223.0": "jsr:@std/assert@0.223.0",
       "jsr:@std/assert@^0.224.0": "jsr:@std/assert@0.224.0",
       "jsr:@std/bytes@^0.218.2": "jsr:@std/bytes@0.218.2",
       "jsr:@std/encoding": "jsr:@std/encoding@0.224.0",
+      "jsr:@std/encoding@0.224": "jsr:@std/encoding@0.224.0",
       "jsr:@std/expect": "jsr:@std/expect@0.224.0",
       "jsr:@std/fmt": "jsr:@std/fmt@0.224.0",
       "jsr:@std/fmt@^0.218.2": "jsr:@std/fmt@0.218.2",
@@ -22,13 +24,19 @@
       "jsr:@std/path@^0.223.0": "jsr:@std/path@0.223.0",
       "npm:@types/node": "npm:@types/node@18.16.19",
       "npm:csso": "npm:csso@5.0.5",
+      "npm:csso@5": "npm:csso@5.0.5",
       "npm:stylelint": "npm:stylelint@16.4.0_@csstools+css-tokenizer@2.2.4_@csstools+css-parser-algorithms@2.6.1__@csstools+css-tokenizer@2.2.4_postcss-selector-parser@6.0.16_postcss@8.4.38",
       "npm:stylelint-config-idiomatic-order": "npm:stylelint-config-idiomatic-order@10.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
+      "npm:stylelint-config-idiomatic-order@10": "npm:stylelint-config-idiomatic-order@10.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
       "npm:stylelint-config-idiomatic-order@10.0.0": "npm:stylelint-config-idiomatic-order@10.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
       "npm:stylelint-config-recommended": "npm:stylelint-config-recommended@14.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
+      "npm:stylelint-config-recommended@14": "npm:stylelint-config-recommended@14.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
       "npm:stylelint-config-recommended@14.0.0": "npm:stylelint-config-recommended@14.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
       "npm:stylelint-order": "npm:stylelint-order@6.0.4_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38_postcss@8.4.38",
-      "npm:terser": "npm:terser@5.31.0"
+      "npm:stylelint-order@6": "npm:stylelint-order@6.0.4_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38_postcss@8.4.38",
+      "npm:stylelint@16": "npm:stylelint@16.4.0_@csstools+css-tokenizer@2.2.4_@csstools+css-parser-algorithms@2.6.1__@csstools+css-tokenizer@2.2.4_postcss-selector-parser@6.0.16_postcss@8.4.38",
+      "npm:terser": "npm:terser@5.31.0",
+      "npm:terser@5": "npm:terser@5.31.0"
     },
     "jsr": {
       "@deno/cache-dir@0.8.0": {

@@ -8,11 +8,11 @@
  */
 
 // Imports
-import { minify as csso } from "npm:csso"
-import stylelint from "npm:stylelint"
-import plugin from "npm:stylelint-order"
-import recommended from "npm:stylelint-config-recommended"
-import ordering from "npm:stylelint-config-idiomatic-order"
+import { minify as csso } from "npm:csso@5"
+import stylelint from "npm:stylelint@16"
+import plugin from "npm:stylelint-order@6"
+import recommended from "npm:stylelint-config-recommended@14"
+import ordering from "npm:stylelint-config-idiomatic-order@10"
 
 /**
  * Bundle CSS
