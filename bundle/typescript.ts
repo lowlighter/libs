@@ -36,7 +36,10 @@ export async function bundle(input: URL | string, { minify = "terser" as false |
   if (debug) {
     options.compilerOptions = { inlineSourceMap: true, inlineSources: true }
   }
-  const result = await emit(url, options)
+  const result = await emit(url, options).catch((error) => error)
+  if (result instanceof Error) {
+    throw new TypeError(`Failed to bundle ts:\n${result.message}`)
+  }
   if (minify === "terser") {
     result.code = await terser(result.code, { module: true, sourceMap: debug ? { url: "inline" } : false }).then((response) => response.code!)
   }

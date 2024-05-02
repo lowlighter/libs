@@ -36,3 +36,8 @@ Deno.test("bundle() handles import maps", { permissions: { read: true, net: ["de
   const url = new URL("test_import_map.ts", base)
   await expect(bundle(url, { map: new URL("deno.jsonc", base) })).resolves.toContain("success")
 })
+
+Deno.test("bundle() handles errors", { permissions: { read: true, env: true } }, async () => {
+  const url = new URL("test_bundle.css", base)
+  await expect(bundle(url)).rejects.toThrow("Failed to bundle ts")
+})
