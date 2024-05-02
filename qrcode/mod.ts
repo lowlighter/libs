@@ -103,10 +103,7 @@ const encoder = new TextEncoder()
  * @author Nayuki
  * @license MIT
  */
-export function qrcode(content: string, options: { output: "svg" } & options): string
-export function qrcode(content: string, options: { output: "console" } & options): void
-export function qrcode(content: string, options?: { output?: "array" } & options): boolean[][]
-export function qrcode(content: string, options?: { output?: string } & options) {
+export function qrcode(content: string, options?: { output?: string } & options): unknown {
   return QrCode.from(content, options)
 }
 

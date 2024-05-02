@@ -1,8 +1,3 @@
-/**
- * This library contains various utility types.
- * @module
- */
-
 /** Read-write accessor */
 //deno-lint-ignore no-explicit-any
 export type rw = any

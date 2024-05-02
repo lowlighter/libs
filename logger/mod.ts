@@ -19,7 +19,6 @@
  *
  * @author Simon Lecoq (lowlighter)
  * @license MIT
- * @module
  */
 export class Logger {
   /** Constructor */
