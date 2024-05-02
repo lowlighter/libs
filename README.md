@@ -14,14 +14,14 @@ Most of them are written with [deno](https://deno.com) in mind, but as the code 
 - [📰 Logger](/logger)
 - [🗜️ Bundler](/bundle)
 
-These libraries are published at [deno.land/x/libs](https://deno.land/x/libs).
+These libraries are published at [jsr.io/@libs](https://jsr.io/@libs) *(they were previously available at [deno.land/x/libs](https://deno.land/x/libs)).
 
 > [!IMPORTANT]\
 > Love these bytes ? Consider [`💝 sponsoring me`](https://github.com/sponsors/lowlighter), even one-time contributions are greatly appreciated !
 
 ## ℹ️ About
 
-While this repository is open, it is not really intended to be a collaborative project. Pull requests for bug fixes or improvements are still welcome, but I may not accept any feature request if it doesn't seem to fit the scope of this project.
+While this repository is public, it is not really intended to be a collaborative project. Pull requests for bug fixes or improvements are still welcome, but I may not accept any feature request if it doesn't seem to fit the scope of this project.
 
 Additionally, these libraries tends to follow my own coding style which:
 
