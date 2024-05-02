@@ -1,6 +1,6 @@
 {
   "imports": {
-    "x/": "https://deno.land/std@0.222.1/"
+    "@jsr": "jsr:@std/fmt/colors"
   },
   "lock": false
 }

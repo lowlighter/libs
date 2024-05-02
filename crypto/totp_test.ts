@@ -1,5 +1,5 @@
 import { otpauth, otpsecret, verify } from "./totp.ts"
-import { expect } from "https://deno.land/std@0.222.1/expect/expect.ts"
+import { expect } from "jsr:@std/expect/expect"
 
 Deno.test(`otpsecret() returns a string`, { permissions: "none" }, () => {
   expect(typeof otpsecret()).toBe("string")

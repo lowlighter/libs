@@ -1,5 +1,5 @@
 import { bundle } from "./css.ts"
-import { expect } from "https://deno.land/std@0.222.1/expect/expect.ts"
+import { expect } from "jsr:@std/expect/expect"
 
 const base = new URL("testing/", import.meta.url)
 

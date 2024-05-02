@@ -9,8 +9,8 @@
  */
 
 // Imports
-import { bundle as emit, type BundleOptions } from "https://deno.land/x/emit@0.39.0/mod.ts"
-import { encodeBase64 } from "https://deno.land/std@0.222.1/encoding/base64.ts"
+import { bundle as emit, type BundleOptions } from "jsr:@deno/emit"
+import { encodeBase64 } from "jsr:@std/encoding/base64"
 import { minify as terser } from "https://esm.sh/terser@5.30.3"
 
 /**

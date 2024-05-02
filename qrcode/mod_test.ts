@@ -1,6 +1,6 @@
 import { qrcode } from "./mod.ts"
-import { expect } from "https://deno.land/std@0.222.1/expect/expect.ts"
-import { fn } from "https://deno.land/std@0.222.1/expect/fn.ts"
+import { expect } from "jsr:@std/expect/expect"
+import { fn } from "jsr:@std/expect/fn"
 
 Deno.test(`qrcode() for numeric mode`, { permissions: "none" }, () => {
   const expected = [

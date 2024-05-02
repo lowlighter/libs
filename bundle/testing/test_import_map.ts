@@ -1,4 +1,4 @@
 // Example module with import map
-import { VERSION } from "x/version.ts"
-console.log(VERSION)
+import { red } from "@jsr"
+console.log(red)
 console.log("success" as string)

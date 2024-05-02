@@ -1,5 +1,5 @@
 import { diff } from "../diff/diff.ts"
-import { expect } from "https://deno.land/std@0.222.1/expect/expect.ts"
+import { expect } from "jsr:@std/expect/expect"
 
 async function read(test: string) {
   const a = await Deno.readTextFile(new URL(`testing/${test}/a`, import.meta.url))
