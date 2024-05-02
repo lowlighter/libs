@@ -1,5 +1,5 @@
 //Imports
-import { expandGlob } from "jsr:@std/fs/expand-glob"
+import { expandGlob } from "jsr:@std/fs@0.224.0/expand-glob"
 import { parse } from "../../mod.ts"
 
 //Huge xml file generator

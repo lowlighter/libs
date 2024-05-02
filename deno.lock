@@ -15,13 +15,14 @@
       "jsr:@std/expect": "jsr:@std/expect@0.224.0",
       "jsr:@std/fmt@^0.218.2": "jsr:@std/fmt@0.218.2",
       "jsr:@std/fmt@^0.224.0": "jsr:@std/fmt@0.224.0",
-      "jsr:@std/fs": "jsr:@std/fs@0.218.2",
+      "jsr:@std/fs@0.224.0": "jsr:@std/fs@0.224.0",
       "jsr:@std/fs@^0.218.2": "jsr:@std/fs@0.218.2",
       "jsr:@std/internal@^0.224.0": "jsr:@std/internal@0.224.0",
       "jsr:@std/io@^0.218.2": "jsr:@std/io@0.218.2",
       "jsr:@std/path": "jsr:@std/path@0.224.0",
       "jsr:@std/path@^0.218.2": "jsr:@std/path@0.218.2",
       "jsr:@std/path@^0.223.0": "jsr:@std/path@0.223.0",
+      "jsr:@std/path@^0.224.0": "jsr:@std/path@0.224.0",
       "npm:terser@5": "npm:terser@5.31.0"
     },
     "jsr": {
@@ -83,10 +84,13 @@
         "integrity": "e20e9a2312a8b5393272c26191c0a68eda8d2c4b08b046bad1673148f1d69851"
       },
       "@std/fs@0.218.2": {
-        "integrity": "dd9431453f7282e8c577cc22c9e6d036055a9a980b5549f887d6012969fabcca",
+        "integrity": "dd9431453f7282e8c577cc22c9e6d036055a9a980b5549f887d6012969fabcca"
+      },
+      "@std/fs@0.224.0": {
+        "integrity": "52a5ec89731ac0ca8f971079339286f88c571a4d61686acf75833f03a89d8e69",
         "dependencies": [
-          "jsr:@std/assert@^0.218.2",
-          "jsr:@std/path@^0.218.2"
+          "jsr:@std/assert@^0.224.0",
+          "jsr:@std/path@^0.224.0"
         ]
       },
       "@std/internal@0.224.0": {
