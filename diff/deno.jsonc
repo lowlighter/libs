@@ -1,0 +1,12 @@
+{
+  "name": "@libs/diff",
+  "version": "1.0.0",
+  "description": "Diff (patience algorithm)",
+  "author": "lowlighter (Simon Lecoq)",
+  "repository": "https://github.com/lowlighter/libs",
+  "license": "MIT License",
+  "exports": {
+    "./diff": "./diff.ts",
+    ".": "./mod.ts"
+  }
+}

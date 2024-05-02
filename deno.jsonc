@@ -1,4 +1,9 @@
 {
+  "name": "@lowlighter/libs",
+  "description": "Collection of carefully crafted TypeScript standalone libraries. Minimal, unbloated, convenient.",
+  "author": "lowlighter (Simon Lecoq)",
+  "repository": "https://github.com/lowlighter/libs",
+  "license": "MIT License",
   "tasks": {
     "ci": "deno fmt --check && rm coverage -rf && deno test --allow-all --coverage --doc && deno coverage && deno lint",
     "test": "deno fmt && rm coverage -rf && deno test --allow-all --coverage --trace-leaks --doc && deno coverage --detailed && deno lint"
@@ -14,5 +19,9 @@
     "exclude": [
       "coverage"
     ]
+  },
+  "version": "1.0.0",
+  "exports": {
+    ".": "./test.ts"
   }
 }

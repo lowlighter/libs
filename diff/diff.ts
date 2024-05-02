@@ -46,7 +46,7 @@
  * @author Bram Cohen
  * @license MIT
  */
-export function diff(a: string, b: string, { context = 3 } = {}) {
+export function diff(a: string, b: string, { context = 3 } = {}): string {
   let patch = ""
   const { lines } = patience(tokenize(a), tokenize(b))
   const cursor = { a: -1, b: -1 }
@@ -127,7 +127,7 @@ export function diff(a: string, b: string, { context = 3 } = {}) {
  * tokenize("foo\nbar")
  * ``
  */
-export function tokenize(text: string) {
+export function tokenize(text: string): string[] {
   text += "\n"
   return [...text.matchAll(/.*(?:\r?\n)/g)].map(([token]) => token.replace(/\r\n$/, "\n")).filter((token) => token)
 }

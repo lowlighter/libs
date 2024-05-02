@@ -11,7 +11,7 @@
 // Imports
 import { bundle as emit, type BundleOptions } from "jsr:@deno/emit"
 import { encodeBase64 } from "jsr:@std/encoding/base64"
-import { minify as terser } from "https://esm.sh/terser@5.30.3"
+import { minify as terser } from "npm:terser"
 
 /**
  * Bundle and transpile TypeScript to JavaScript
@@ -30,7 +30,7 @@ import { minify as terser } from "https://esm.sh/terser@5.30.3"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */
-export async function bundle(input: URL | string, { minify = "terser" as false | "basic" | "terser", debug = false, map = undefined as URL | undefined, banner = "" } = {}) {
+export async function bundle(input: URL | string, { minify = "terser" as false | "basic" | "terser", debug = false, map = undefined as URL | undefined, banner = "" } = {}): Promise<string> {
   const url = input instanceof URL ? input : new URL(`data:application/typescript;base64,${encodeBase64(input)}`)
   const options = { type: "module", minify: !!minify, importMap: map } as BundleOptions
   if (debug) {

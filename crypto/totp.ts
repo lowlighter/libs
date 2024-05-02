@@ -24,7 +24,7 @@ import { decodeBase32, encodeBase32 } from "jsr:@std/encoding/base32"
 /**
  * Returns a HMAC-based OTP.
  */
-async function htop(secret: string, counter: bigint) {
+async function htop(secret: string, counter: bigint): Promise<string> {
   const buffer = new DataView(new ArrayBuffer(8))
   buffer.setBigUint64(0, counter, false)
   const key = await crypto.subtle.importKey("raw", decodeBase32(secret), { name: "HMAC", hash: "SHA-1" }, false, ["sign"])
@@ -37,7 +37,7 @@ async function htop(secret: string, counter: bigint) {
 /**
  * Returns a Time-based OTP.
  */
-export async function totp(secret: string, { t = Date.now(), dt = 0 } = {}) {
+export async function totp(secret: string, { t = Date.now(), dt = 0 } = {}): Promise<string> {
   return await htop(secret, BigInt(Math.floor(t / 1000 / 30) + dt))
 }
 
@@ -50,7 +50,7 @@ export async function totp(secret: string, { t = Date.now(), dt = 0 } = {}) {
  * console.log(secret)
  * ```
  */
-export function otpsecret() {
+export function otpsecret(): string {
   return encodeBase32(crypto.getRandomValues(new Uint8Array(20))).replaceAll("=", "")
 }
 
@@ -66,7 +66,7 @@ export function otpsecret() {
  * qrcode(url.href, { output: "console" })
  * ```
  */
-export function otpauth({ issuer, account, secret = otpsecret(), image }: { issuer: string; account: string; secret?: string; image?: string }) {
+export function otpauth({ issuer, account, secret = otpsecret(), image }: { issuer: string; account: string; secret?: string; image?: string }): URL {
   if ((issuer.includes(":")) || (account.includes(":"))) {
     throw new RangeError("Label may not contain a colon character")
   }
@@ -89,7 +89,7 @@ export function otpauth({ issuer, account, secret = otpsecret(), image }: { issu
  * console.assert(!await verify({ secret: "JBSWY3DPEHPK3PXP", token: 0, t: 1708671725109 }))
  * ```
  */
-export async function verify({ secret, token, t = Date.now(), tolerance = 1 }: { secret: string; token: string | number; t?: number; tolerance?: number }) {
+export async function verify({ secret, token, t = Date.now(), tolerance = 1 }: { secret: string; token: string | number; t?: number; tolerance?: number }): Promise<boolean> {
   for (let dt = -tolerance; dt <= tolerance; dt++) {
     if (Number(await totp(secret, { t, dt })) === Number(token)) {
       return true

@@ -40,7 +40,7 @@ export class Logger {
   }
 
   /** Logger level */
-  level
+  level: number
 
   /** Logger formatter */
   readonly #format
@@ -49,13 +49,13 @@ export class Logger {
   readonly #output
 
   /** Logger tags */
-  readonly tags
+  readonly tags: tags
 
   /** Logger options */
-  readonly options
+  readonly options: options
 
   /** Write content in error stream */
-  error(...content: unknown[]) {
+  error(...content: unknown[]): this {
     if (this.level >= Logger.level.error) {
       this.#output?.error(...this.#format(this, { level: Logger.level.error, content }))
     }
@@ -63,7 +63,7 @@ export class Logger {
   }
 
   /** Write content in warn stream */
-  warn(...content: unknown[]) {
+  warn(...content: unknown[]): this {
     if (this.level >= Logger.level.warn) {
       this.#output?.warn(...this.#format(this, { level: Logger.level.warn, content }))
     }
@@ -71,7 +71,7 @@ export class Logger {
   }
 
   /** Write content in info stream */
-  info(...content: unknown[]) {
+  info(...content: unknown[]): this {
     if (this.level >= Logger.level.info) {
       this.#output?.info(...this.#format(this, { level: Logger.level.info, content }))
     }
@@ -79,7 +79,7 @@ export class Logger {
   }
 
   /** Write content in log stream */
-  log(...content: unknown[]) {
+  log(...content: unknown[]): this {
     if (this.level >= Logger.level.log) {
       this.#output?.log(...this.#format(this, { level: Logger.level.log, content }))
     }
@@ -87,7 +87,7 @@ export class Logger {
   }
 
   /** Write content in debug stream */
-  debug(...content: unknown[]) {
+  debug(...content: unknown[]): this {
     if (this.level >= Logger.level.debug) {
       this.#output?.debug(...this.#format(this, { level: Logger.level.debug, content }))
     }
@@ -95,7 +95,7 @@ export class Logger {
   }
 
   /** Instantiate a new {@link Logger} that inherits current instance settings but with additional tags */
-  with(tags = {} as tags) {
+  with(tags = {} as tags): Logger {
     return new Logger({ level: this.level, format: this.#format, output: this.#output, options: { ...this.options }, tags: { ...this.tags, ...tags } })
   }
 
@@ -123,7 +123,14 @@ export class Logger {
     info: 2,
     log: 3,
     debug: 4,
-  })
+  }) as Readonly<{
+    disabled: number
+    error: 0
+    warn: 1
+    info: 2
+    log: 3
+    debug: 4
+  }>
 
   /** Logger format */
   static readonly format = {
@@ -221,7 +228,7 @@ export class Logger {
   } as Record<PropertyKey, format>
 
   /** Attempt to inspect value */
-  static inspect(value: unknown) {
+  static inspect(value: unknown): unknown {
     return globalThis.Deno?.inspect(value, { colors: true, depth: Infinity }) ?? value
   }
 }

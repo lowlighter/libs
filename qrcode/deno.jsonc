@@ -1,0 +1,11 @@
+{
+  "name": "@libs/qrcode",
+  "version": "1.0.0",
+  "description": "SVG-based QRcode generator",
+  "author": "lowlighter (Simon Lecoq)",
+  "repository": "https://github.com/lowlighter/libs",
+  "license": "MIT License",
+  "exports": {
+    ".": "./mod.ts"
+  }
+}

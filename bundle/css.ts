@@ -7,11 +7,11 @@
  */
 
 // Imports
-import { minify as csso } from "https://esm.sh/csso@4.2.0"
+import { minify as csso } from "npm:csso"
 import stylelint from "npm:stylelint"
 import plugin from "npm:stylelint-order"
-import recommended from "https://esm.sh/stylelint-config-recommended@14.0.0"
-import ordering from "https://esm.sh/stylelint-config-idiomatic-order@10.0.0"
+import recommended from "npm:stylelint-config-recommended"
+import ordering from "npm:stylelint-config-idiomatic-order"
 
 /**
  * Bundle CSS
@@ -30,7 +30,7 @@ import ordering from "https://esm.sh/stylelint-config-idiomatic-order@10.0.0"
  * console.log(await bundle(`body { color: salmon; }`))
  * ```
  */
-export async function bundle(input: URL | string, { minify = false, banner = "" } = {}) {
+export async function bundle(input: URL | string, { minify = false, banner = "" } = {}): Promise<string> {
   const code = input instanceof URL ? await fetch(input).then((response) => response.text()) : input
   const { results: [{ warnings }], ...result } = await stylelint.lint({
     config: {
@@ -44,6 +44,7 @@ export async function bundle(input: URL | string, { minify = false, banner = "" 
     },
     code,
   })
+  result.code ??= ""
   if (warnings.length) {
     throw new TypeError(`Failed to bundle css:\n${warnings.map(({ severity, rule, text }) => `[${severity.toUpperCase()}] ${rule}: ${text}`).join("\n")}`)
   }
@@ -54,5 +55,5 @@ export async function bundle(input: URL | string, { minify = false, banner = "" 
     banner = `/**\n${banner.split("\n").map((line) => ` * ${line}`).join("\n")}\n */`
     result.code = `${banner}\n${result.code}`
   }
-  return result.code
+  return result.code!
 }

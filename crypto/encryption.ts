@@ -27,7 +27,7 @@ export function hex(bytes: Uint8Array | number): string {
  * import { bytes } from "./encryption.ts"
  * console.log(bytes("0a42")) // Uint8Array [ 10, 66 ]
  */
-export function bytes(hex: string) {
+export function bytes(hex: string): Uint8Array {
   return new Uint8Array(hex.match(/.{1,2}/g)!.map((byte) => Number.parseInt(byte, 16)))
 }
 
@@ -42,7 +42,7 @@ export function bytes(hex: string) {
  * console.log(await hash("foo")) // "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae"
  * ```
  */
-export async function hash(message: string, { algorithm = "SHA-256" as AlgorithmIdentifier } = {}) {
+export async function hash(message: string, { algorithm = "SHA-256" as AlgorithmIdentifier } = {}): Promise<string> {
   return hex(new Uint8Array(await crypto.subtle.digest(algorithm, encoder.encode(message))))
 }
 
@@ -81,7 +81,7 @@ export async function hash(message: string, { algorithm = "SHA-256" as Algorithm
  * @author Simon Lecoq (lowlighter)
  * @license MIT
  */
-export async function encrypt(message: string, { key, length = 512 }: { key: CryptoKey | string; length?: 0 | 256 | 512 }) {
+export async function encrypt(message: string, { key, length = 512 }: { key: CryptoKey | string; length?: 0 | 256 | 512 }): Promise<string> {
   if (typeof key === "string") {
     key = await importKey(key)
   }
@@ -113,7 +113,7 @@ export async function encrypt(message: string, { key, length = 512 }: { key: Cry
  * @author Simon Lecoq (lowlighter)
  * @license MIT
  */
-export async function decrypt(message: string, { key }: { key: CryptoKey | string }) {
+export async function decrypt(message: string, { key }: { key: CryptoKey | string }): Promise<string> {
   if (typeof key === "string") {
     key = await importKey(key)
   }
@@ -137,7 +137,7 @@ export async function decrypt(message: string, { key }: { key: CryptoKey | strin
  * console.assert(await importKey("e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47") instanceof CryptoKey)
  * ```
  */
-export async function importKey(key: string) {
+export async function importKey(key: string): Promise<CryptoKey> {
   return await crypto.subtle.importKey("raw", bytes(key), "AES-GCM", true, ["encrypt", "decrypt"])
 }
 
@@ -150,7 +150,7 @@ export async function importKey(key: string) {
  * console.assert(typeof await exportKey({ seed: "", salt: "" }) === "string")
  * ```
  */
-export async function exportKey({ seed, salt }: { seed: string; salt: string }) {
+export async function exportKey({ seed, salt }: { seed: string; salt: string }): Promise<string> {
   const base = await crypto.subtle.importKey("raw", encoder.encode(seed), "PBKDF2", false, ["deriveKey"])
   const pbkdf2 = { name: "PBKDF2", salt: encoder.encode(salt), iterations: 1_000_000, hash: "SHA-256" }
   const key = await crypto.subtle.deriveKey(pbkdf2, base, { name: "AES-GCM", length: 256 }, true, ["encrypt", "decrypt"])

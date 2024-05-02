@@ -118,7 +118,9 @@ type options = {
   /** Color for dark squares */
   dark?: string
   /** Error correction level (either "LOW", "MEDIUM", "QUARTILE" or "HIGH") */
-  ecl?: keyof typeof QrCode.ERROR_CORRECTION_LEVEL
+  ecl?: "LOW" | "MEDIUM" | "QUARTILE" | "HIGH"
+  // https://github.com/denoland/deno/issues/23646
+  // keyof typeof QrCode.ERROR_CORRECTION_LEVEL
 }
 
 /**

@@ -11,7 +11,7 @@
       "jsr:@std/bytes@^0.218.2": "jsr:@std/bytes@0.218.2",
       "jsr:@std/encoding": "jsr:@std/encoding@0.224.0",
       "jsr:@std/expect": "jsr:@std/expect@0.224.0",
-      "jsr:@std/fmt": "jsr:@std/fmt@0.218.2",
+      "jsr:@std/fmt": "jsr:@std/fmt@0.224.0",
       "jsr:@std/fmt@^0.218.2": "jsr:@std/fmt@0.218.2",
       "jsr:@std/fmt@^0.224.0": "jsr:@std/fmt@0.224.0",
       "jsr:@std/fs@^0.218.2": "jsr:@std/fs@0.218.2",
@@ -21,8 +21,14 @@
       "jsr:@std/path@^0.218.2": "jsr:@std/path@0.218.2",
       "jsr:@std/path@^0.223.0": "jsr:@std/path@0.223.0",
       "npm:@types/node": "npm:@types/node@18.16.19",
+      "npm:csso": "npm:csso@5.0.5",
       "npm:stylelint": "npm:stylelint@16.4.0_@csstools+css-tokenizer@2.2.4_@csstools+css-parser-algorithms@2.6.1__@csstools+css-tokenizer@2.2.4_postcss-selector-parser@6.0.16_postcss@8.4.38",
-      "npm:stylelint-order": "npm:stylelint-order@6.0.4_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38_postcss@8.4.38"
+      "npm:stylelint-config-idiomatic-order": "npm:stylelint-config-idiomatic-order@10.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
+      "npm:stylelint-config-idiomatic-order@10.0.0": "npm:stylelint-config-idiomatic-order@10.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
+      "npm:stylelint-config-recommended": "npm:stylelint-config-recommended@14.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
+      "npm:stylelint-config-recommended@14.0.0": "npm:stylelint-config-recommended@14.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
+      "npm:stylelint-order": "npm:stylelint-order@6.0.4_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38_postcss@8.4.38",
+      "npm:terser": "npm:terser@5.31.0"
     },
     "jsr": {
       "@deno/cache-dir@0.8.0": {
@@ -148,6 +154,40 @@
         "integrity": "sha512-ZKXyJeFAzcpKM2kk8ipoGIPUqx9BX52omTGnfwjJvxOCaZTM2wtDK7zN0aIgPRbT9XYAlha0HtmZ+XKteuh0Gw==",
         "dependencies": {}
       },
+      "@jridgewell/gen-mapping@0.3.5": {
+        "integrity": "sha512-IzL8ZoEDIBRWEzlCcRhOaCupYyN5gdIK+Q6fbFdPDg6HqX6jpkItn7DFIpW9LQzXG6Df9sA7+OKnq0qlz/GaQg==",
+        "dependencies": {
+          "@jridgewell/set-array": "@jridgewell/set-array@1.2.1",
+          "@jridgewell/sourcemap-codec": "@jridgewell/sourcemap-codec@1.4.15",
+          "@jridgewell/trace-mapping": "@jridgewell/trace-mapping@0.3.25"
+        }
+      },
+      "@jridgewell/resolve-uri@3.1.2": {
+        "integrity": "sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==",
+        "dependencies": {}
+      },
+      "@jridgewell/set-array@1.2.1": {
+        "integrity": "sha512-R8gLRTZeyp03ymzP/6Lil/28tGeGEzhx1q2k703KGWRAI1VdvPIXdG70VJc2pAMw3NA6JKL5hhFu1sJX0Mnn/A==",
+        "dependencies": {}
+      },
+      "@jridgewell/source-map@0.3.6": {
+        "integrity": "sha512-1ZJTZebgqllO79ue2bm3rIGud/bOe0pP5BjSRCRxxYkEZS8STV7zN84UBbiYu7jy+eCKSnVIUgoWWE/tt+shMQ==",
+        "dependencies": {
+          "@jridgewell/gen-mapping": "@jridgewell/gen-mapping@0.3.5",
+          "@jridgewell/trace-mapping": "@jridgewell/trace-mapping@0.3.25"
+        }
+      },
+      "@jridgewell/sourcemap-codec@1.4.15": {
+        "integrity": "sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==",
+        "dependencies": {}
+      },
+      "@jridgewell/trace-mapping@0.3.25": {
+        "integrity": "sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==",
+        "dependencies": {
+          "@jridgewell/resolve-uri": "@jridgewell/resolve-uri@3.1.2",
+          "@jridgewell/sourcemap-codec": "@jridgewell/sourcemap-codec@1.4.15"
+        }
+      },
       "@nodelib/fs.scandir@2.1.5": {
         "integrity": "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==",
         "dependencies": {
@@ -168,6 +208,10 @@
       },
       "@types/node@18.16.19": {
         "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
+        "dependencies": {}
+      },
+      "acorn@8.11.3": {
+        "integrity": "sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==",
         "dependencies": {}
       },
       "ajv@8.13.0": {
@@ -221,6 +265,10 @@
           "fill-range": "fill-range@7.0.1"
         }
       },
+      "buffer-from@1.1.2": {
+        "integrity": "sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==",
+        "dependencies": {}
+      },
       "callsites@3.1.0": {
         "integrity": "sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==",
         "dependencies": {}
@@ -257,6 +305,10 @@
         "integrity": "sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==",
         "dependencies": {}
       },
+      "commander@2.20.3": {
+        "integrity": "sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==",
+        "dependencies": {}
+      },
       "cosmiconfig@9.0.0": {
         "integrity": "sha512-itvL5h8RETACmOTFc4UfIyB2RfEHi71Ax6E/PivVxq9NseKbOWpeyHEOIbmAw1rs8Ak0VursQNww7lf7YtUwzg==",
         "dependencies": {
@@ -270,6 +322,13 @@
         "integrity": "sha512-c+N0v6wbKVxTu5gOBBFkr9BEdBWaqqjQeiJ8QvSRIJOf+UxlJh930m8e6/WNeODIK0mYLFkoONrnj16i2EcvfQ==",
         "dependencies": {}
       },
+      "css-tree@2.2.1": {
+        "integrity": "sha512-OA0mILzGc1kCOCSJerOeqDxDQ4HOh+G8NbOJFOTgOCzpw7fCBubk0fEyxp8AgOL/jvLgYA/uV0cMbe43ElF1JA==",
+        "dependencies": {
+          "mdn-data": "mdn-data@2.0.28",
+          "source-map-js": "source-map-js@1.2.0"
+        }
+      },
       "css-tree@2.3.1": {
         "integrity": "sha512-6Fv1DV/TYw//QF5IzQdqsNDjx/wc8TrMBZsqjL9eW01tWb7R7k/mq+/VXfJCl7SoD5emsJop9cOByJZfs8hYIw==",
         "dependencies": {
@@ -280,6 +339,12 @@
       "cssesc@3.0.0": {
         "integrity": "sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==",
         "dependencies": {}
+      },
+      "csso@5.0.5": {
+        "integrity": "sha512-0LrrStPOdJj+SPCCrGhzryycLjwcgUSHBtxNA8aIDxf0GLsRh1cKYhB00Gd1lDOS4yGH69+SNn13+TWbVHETFQ==",
+        "dependencies": {
+          "css-tree": "css-tree@2.2.1"
+        }
       },
       "debug@4.3.4": {
         "integrity": "sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==",
@@ -502,6 +567,10 @@
         "integrity": "sha512-APMBEanjybaPzUrfqU0IMU5I0AswKMH7k8OTLs0vvV4KZpExkTkY87nR/zpbuTPj+gARop7aGUbl11pnDfW6xg==",
         "dependencies": {}
       },
+      "mdn-data@2.0.28": {
+        "integrity": "sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g==",
+        "dependencies": {}
+      },
       "mdn-data@2.0.30": {
         "integrity": "sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==",
         "dependencies": {}
@@ -645,6 +714,17 @@
         "integrity": "sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==",
         "dependencies": {}
       },
+      "source-map-support@0.5.21": {
+        "integrity": "sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==",
+        "dependencies": {
+          "buffer-from": "buffer-from@1.1.2",
+          "source-map": "source-map@0.6.1"
+        }
+      },
+      "source-map@0.6.1": {
+        "integrity": "sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==",
+        "dependencies": {}
+      },
       "string-width@4.2.3": {
         "integrity": "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==",
         "dependencies": {
@@ -663,6 +743,19 @@
         "integrity": "sha512-iq6eVVI64nQQTRYq2KtEg2d2uU7LElhTJwsH4YzIHZshxlgZms/wIc4VoDQTlG/IvVIrBKG06CrZnp0qv7hkcQ==",
         "dependencies": {
           "ansi-regex": "ansi-regex@6.0.1"
+        }
+      },
+      "stylelint-config-idiomatic-order@10.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38": {
+        "integrity": "sha512-gJjT1nwhgnHS52+mRn+5Iw6keZIPRN4W+vbzct9Elb+tWOo61jC/CzXzAJHvvOYQZqUYItfs2aQ8fU5hnCvuGg==",
+        "dependencies": {
+          "stylelint": "stylelint@16.4.0_@csstools+css-tokenizer@2.2.4_@csstools+css-parser-algorithms@2.6.1__@csstools+css-tokenizer@2.2.4_postcss-selector-parser@6.0.16_postcss@8.4.38",
+          "stylelint-order": "stylelint-order@6.0.4_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38_postcss@8.4.38"
+        }
+      },
+      "stylelint-config-recommended@14.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38": {
+        "integrity": "sha512-jSkx290CglS8StmrLp2TxAppIajzIBZKYm3IxT89Kg6fGlxbPiTiyH9PS5YUuVAFwaJLl1ikiXX0QWjI0jmgZQ==",
+        "dependencies": {
+          "stylelint": "stylelint@16.4.0_@csstools+css-tokenizer@2.2.4_@csstools+css-parser-algorithms@2.6.1__@csstools+css-tokenizer@2.2.4_postcss-selector-parser@6.0.16_postcss@8.4.38"
         }
       },
       "stylelint-order@6.0.4_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38_postcss@8.4.38": {
@@ -748,6 +841,15 @@
           "slice-ansi": "slice-ansi@4.0.0",
           "string-width": "string-width@4.2.3",
           "strip-ansi": "strip-ansi@6.0.1"
+        }
+      },
+      "terser@5.31.0": {
+        "integrity": "sha512-Q1JFAoUKE5IMfI4Z/lkE/E6+SwgzO+x4tq4v1AyBLRj8VSYvRO6A/rQrPg1yud4g0En9EKI1TvFRF2tQFcoUkg==",
+        "dependencies": {
+          "@jridgewell/source-map": "@jridgewell/source-map@0.3.6",
+          "acorn": "acorn@8.11.3",
+          "commander": "commander@2.20.3",
+          "source-map-support": "source-map-support@0.5.21"
         }
       },
       "to-regex-range@5.0.1": {
