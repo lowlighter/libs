@@ -1,7 +1,7 @@
 # XML stringifier/parser (TypeScript, no dependencies)
 
-![deno.land/x](https://img.shields.io/jsr/v/%40lowlighter/xml?style=flat-square&logo=deno&label=deno.land%2Fx&labelColor=black&link=https%3A%2F%2Fdeno.land%2Fx%2Fxml)
-![jsr.io](https://img.shields.io/jsr/v/%40lowlighter/xml?style=flat-square&logo=javascript&label=jsr.io&labelColor=black&link=https%3A%2F%2Fjsr.io%2F%40lowlighter%2Fxml)
+[![jsr.io](https://img.shields.io/jsr/v/%40lowlighter/xml?style=flat-square&logo=javascript&label=jsr.io&labelColor=black&link=https%3A%2F%2Fjsr.io%2F%40lowlighter%2Fxml)](https://jsr.io/@lowlighter/xml)
+[![deno.land/x](https://img.shields.io/jsr/v/%40lowlighter/xml?style=flat-square&logo=deno&label=deno.land%2Fx&labelColor=black&link=https%3A%2F%2Fdeno.land%2Fx%2Fxml)](https://deno.land/x/xml)
 <img height="18px" src="https://jsr.io/logos/browsers.svg">
 <img height="18px" src="https://jsr.io/logos/deno.svg">
 <img height="18px" src="https://jsr.io/logos/bun.svg">

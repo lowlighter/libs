@@ -1,6 +1,6 @@
 {
   "name": "@lowlighter/xml",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A XML parser/stringifier written in typescript and with no dependencies",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/xml",
@@ -13,7 +13,7 @@
   },
   "tasks": {
     "ci": "deno fmt --check && deno task test && deno task bench",
-    "test": "deno fmt && deno test --coverage --doc --allow-read --allow-env --allow-run=node,bun --allow-write=utils/tests --allow-net=deno.land && deno coverage && deno lint",
+    "test": "deno fmt && deno test --coverage --doc --allow-read --allow-env --allow-run=node,bun --allow-write=utils/tests --allow-net=jsr.io && deno coverage --exclude=utils/test && deno lint",
     "bench": "deno bench --allow-read --allow-write=utils/tests"
   },
   "lint": {
