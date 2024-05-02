@@ -21,6 +21,7 @@ jobs:
       - uses: github/codeql-action/init@v3
         with:
           languages: typescript
+          config-file: ./.github/codeql.yml
       - uses: github/codeql-action/analyze@v3
 
   publish:
