@@ -1,6 +1,6 @@
 {
   "name": "@libs/bundle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Code bundlers",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",

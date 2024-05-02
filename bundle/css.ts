@@ -5,6 +5,7 @@
  * - Support for lint and formatting
  * - Support for banner option
  * - Support minification through {@link https://github.com/css/csso | CSSO}
+ * @module
  */
 
 // Imports

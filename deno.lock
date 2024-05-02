@@ -3,17 +3,15 @@
   "packages": {
     "specifiers": {
       "jsr:@deno/cache-dir@0.8": "jsr:@deno/cache-dir@0.8.0",
-      "jsr:@deno/emit": "jsr:@deno/emit@0.40.2",
       "jsr:@deno/emit@0.40": "jsr:@deno/emit@0.40.2",
       "jsr:@deno/graph@^0.69.7": "jsr:@deno/graph@0.69.10",
       "jsr:@std/assert@^0.218.2": "jsr:@std/assert@0.218.2",
       "jsr:@std/assert@^0.223.0": "jsr:@std/assert@0.223.0",
       "jsr:@std/assert@^0.224.0": "jsr:@std/assert@0.224.0",
       "jsr:@std/bytes@^0.218.2": "jsr:@std/bytes@0.218.2",
-      "jsr:@std/encoding": "jsr:@std/encoding@0.224.0",
-      "jsr:@std/encoding@0.224": "jsr:@std/encoding@0.224.0",
+      "jsr:@std/encoding@0.224.0": "jsr:@std/encoding@0.224.0",
       "jsr:@std/expect": "jsr:@std/expect@0.224.0",
-      "jsr:@std/fmt": "jsr:@std/fmt@0.224.0",
+      "jsr:@std/fmt": "jsr:@std/fmt@0.218.2",
       "jsr:@std/fmt@^0.218.2": "jsr:@std/fmt@0.218.2",
       "jsr:@std/fmt@^0.224.0": "jsr:@std/fmt@0.224.0",
       "jsr:@std/fs@^0.218.2": "jsr:@std/fs@0.218.2",
@@ -22,20 +20,11 @@
       "jsr:@std/path": "jsr:@std/path@0.223.0",
       "jsr:@std/path@^0.218.2": "jsr:@std/path@0.218.2",
       "jsr:@std/path@^0.223.0": "jsr:@std/path@0.223.0",
-      "npm:@types/node": "npm:@types/node@18.16.19",
-      "npm:csso": "npm:csso@5.0.5",
       "npm:csso@5": "npm:csso@5.0.5",
-      "npm:stylelint": "npm:stylelint@16.4.0_@csstools+css-tokenizer@2.2.4_@csstools+css-parser-algorithms@2.6.1__@csstools+css-tokenizer@2.2.4_postcss-selector-parser@6.0.16_postcss@8.4.38",
-      "npm:stylelint-config-idiomatic-order": "npm:stylelint-config-idiomatic-order@10.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
       "npm:stylelint-config-idiomatic-order@10": "npm:stylelint-config-idiomatic-order@10.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
-      "npm:stylelint-config-idiomatic-order@10.0.0": "npm:stylelint-config-idiomatic-order@10.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
-      "npm:stylelint-config-recommended": "npm:stylelint-config-recommended@14.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
       "npm:stylelint-config-recommended@14": "npm:stylelint-config-recommended@14.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
-      "npm:stylelint-config-recommended@14.0.0": "npm:stylelint-config-recommended@14.0.0_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38",
-      "npm:stylelint-order": "npm:stylelint-order@6.0.4_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38_postcss@8.4.38",
       "npm:stylelint-order@6": "npm:stylelint-order@6.0.4_stylelint@16.4.0__@csstools+css-tokenizer@2.2.4__@csstools+css-parser-algorithms@2.6.1___@csstools+css-tokenizer@2.2.4__postcss-selector-parser@6.0.16__postcss@8.4.38_postcss@8.4.38",
       "npm:stylelint@16": "npm:stylelint@16.4.0_@csstools+css-tokenizer@2.2.4_@csstools+css-parser-algorithms@2.6.1__@csstools+css-tokenizer@2.2.4_postcss-selector-parser@6.0.16_postcss@8.4.38",
-      "npm:terser": "npm:terser@5.31.0",
       "npm:terser@5": "npm:terser@5.31.0"
     },
     "jsr": {
@@ -213,10 +202,6 @@
           "@nodelib/fs.scandir": "@nodelib/fs.scandir@2.1.5",
           "fastq": "fastq@1.17.1"
         }
-      },
-      "@types/node@18.16.19": {
-        "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
-        "dependencies": {}
       },
       "acorn@8.11.3": {
         "integrity": "sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==",
@@ -891,26 +876,5 @@
       }
     }
   },
-  "redirects": {
-    "https://esm.sh/v135/@types/csso@~4.2/index.d.ts": "https://esm.sh/v135/@types/csso@4.2.0/index.d.ts"
-  },
-  "remote": {
-    "https://esm.sh/csso@4.2.0": "5f0ce465433b1e32cdc570a4ce9a3991cca55569636e546896082e0aa42f0af9",
-    "https://esm.sh/stylelint-config-idiomatic-order@10.0.0": "1f0a9fbdc5ad86114d860640d4dde9549b77b1e183e4329fd60a9230c864d20a",
-    "https://esm.sh/stylelint-config-recommended@14.0.0": "7fd15009f6a791c37cd4d7ac005670b87b13e1aa52896686c3376393c4074170",
-    "https://esm.sh/terser@5.30.3": "a64b8090df717565db2b82adf6e2eff96ae90fb2d0232ea34fcf2dab8a59a787",
-    "https://esm.sh/v135/@jridgewell/gen-mapping@0.3.5/denonext/gen-mapping.mjs": "e9040f0749f8adb05ee2c743cbd992aa5ba80d55198a573cfded20202c00182f",
-    "https://esm.sh/v135/@jridgewell/resolve-uri@3.1.2/denonext/resolve-uri.mjs": "6efe3879e3fe78cb5bc8f72cf14d0a3d1f57a02261ac9b35159b813a90cad08c",
-    "https://esm.sh/v135/@jridgewell/set-array@1.2.1/denonext/set-array.mjs": "3267aabe6f860f4ddd92e88c5a2e84231f30ce46fa51211bcdaf089ce84976ff",
-    "https://esm.sh/v135/@jridgewell/source-map@0.3.6/denonext/source-map.mjs": "32233cc47f7faec54413b956bfcfa7f72d93220c23516afdc5842c7bc9947e62",
-    "https://esm.sh/v135/@jridgewell/sourcemap-codec@1.4.15/denonext/sourcemap-codec.mjs": "29073b55440930edcd5fcdd6cb59ed0f72772f8387bb7b5ee3763fb3d6db81ae",
-    "https://esm.sh/v135/@jridgewell/trace-mapping@0.3.25/denonext/trace-mapping.mjs": "874302e64079c985afcb28413c4d9067cd274be32af4e2daa47fccea531f6e5e",
-    "https://esm.sh/v135/acorn@8.11.3/denonext/acorn.mjs": "4bbd9807b0344b668da891947367e36ee3b11af74f72cc1497c72c5c52fbf8b3",
-    "https://esm.sh/v135/css-tree@1.1.3/denonext/css-tree.mjs": "ac982c7cc3c5320ac7fb017fd44c83b09b52117eddab16a10043040be534b6b7",
-    "https://esm.sh/v135/csso@4.2.0/denonext/csso.mjs": "87552ad0c5dd4fa5d7bad649cf89c0502f33303c3e0750357b2e228c9669f249",
-    "https://esm.sh/v135/source-map@0.6.1/denonext/lib/source-map-generator.js": "d7ef5db2b5de146f6cdfdf7a5f61ef3a84ba5ca6437f2815cdc53ccd871a3cc4",
-    "https://esm.sh/v135/stylelint-config-idiomatic-order@10.0.0/denonext/stylelint-config-idiomatic-order.mjs": "6143e6414e48aa17dfb2b594dd7ca8a9ff9fc028338333bebc68ded78958464a",
-    "https://esm.sh/v135/stylelint-config-recommended@14.0.0/denonext/stylelint-config-recommended.mjs": "78895bbed2b415c2d6f554d70a61f4beeccce3ffbf53a0d9b3c5c6b94f66d705",
-    "https://esm.sh/v135/terser@5.30.3/denonext/terser.mjs": "17f904176b43a9960bd34c444bf4b19737f66e5f4d7ebeac7b8f49abed74b4bf"
-  }
+  "remote": {}
 }

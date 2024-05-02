@@ -1,3 +1,12 @@
+/**
+ * This module contains a symmetric encryption (using AES-GCM 256 with a PBKDF2 derived key) function.
+ *
+ * It is inspired by existing password managers, where the aim is to provide a secure way to store credentials at rest
+ * (for example in a {@link https://docs.deno.com/deploy/kv/manual | Deno.Kv} store) while being able to recover
+ * them later using a single master key.
+ * @module
+ */
+
 /** Text encoder */
 const encoder = new TextEncoder()
 

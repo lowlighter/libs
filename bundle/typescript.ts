@@ -6,11 +6,12 @@
  * - Default options changed (minification enabled by default)
  * - Support for banner option
  * - Support advanced minification through {@link https://terser.org | Terser}
+ * @module
  */
 
 // Imports
 import { bundle as emit, type BundleOptions } from "jsr:@deno/emit@0.40"
-import { encodeBase64 } from "jsr:@std/encoding@0.224/base64"
+import { encodeBase64 } from "jsr:@std/encoding@0.224.0/base64"
 import { minify as terser } from "npm:terser@5"
 
 /**
