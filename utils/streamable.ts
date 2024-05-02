@@ -1,5 +1,6 @@
 //Imports
-import { Flux, SeekMode } from "./types.ts"
+import { SeekMode } from "./types.ts"
+import type { Flux } from "./types.ts"
 
 /**
  * Streamable string

@@ -1,5 +1,5 @@
-import { expect } from "https://deno.land/std@0.223.0/expect/expect.ts"
-import { encodeBase64 } from "https://deno.land/std@0.223.0/encoding/base64.ts"
+import { expect } from "jsr:@std/expect/expect"
+import { encodeBase64 } from "jsr:@std/encoding/base64"
 
 Deno.test("compatibility: browser", async () => {
   // Simulate browser environment by removing Deno namespace insided worker

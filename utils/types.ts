@@ -8,11 +8,12 @@ export const $XML: unique symbol = Symbol("x/xml")
 
 /**
  * Flux
- * {@link https://deno.land/std/io/types.ts}
+ * {@link https://jsr.io/@std/io/doc}
  */
 export type Flux = {
   readSync(p: Uint8Array): number | null
-} & Deno.SeekerSync
+  seekSync(offset: number, whence: 0 | 1 | 2): number
+}
 
 /** Parser options */
 export type ParserOptions = {
@@ -115,11 +116,11 @@ export const SeekMode = Object.freeze({
   Start: 0,
   Current: 1,
   End: 2,
-}) as {
-  Start: Deno.SeekMode.Start
-  Current: Deno.SeekMode.Current
-  End: Deno.SeekMode.End
-}
+}) as Readonly<{
+  Start: 0
+  Current: 1
+  End: 2
+}>
 
 /** Entities */
 export const entities = {

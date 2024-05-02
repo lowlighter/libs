@@ -1,6 +1,6 @@
-import { expect } from "https://deno.land/std@0.223.0/expect/expect.ts"
-import { fromFileUrl } from "https://deno.land/std@0.223.0/path/from_file_url.ts"
-import { bundle } from "https://deno.land/x/libs@0.4.0/bundle.ts"
+import { expect } from "jsr:@std/expect/expect"
+import { fromFileUrl } from "jsr:@std/path/from-file-url"
+import { bundle } from "jsr:@libs/bundle@1/typescript"
 
 const example = {
   url: new URL("./_example.mjs", import.meta.url),
