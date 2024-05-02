@@ -11,7 +11,7 @@
       "jsr:@std/bytes@^0.218.2": "jsr:@std/bytes@0.218.2",
       "jsr:@std/encoding@0.224.0": "jsr:@std/encoding@0.224.0",
       "jsr:@std/expect": "jsr:@std/expect@0.224.0",
-      "jsr:@std/fmt": "jsr:@std/fmt@0.218.2",
+      "jsr:@std/fmt": "jsr:@std/fmt@0.224.0",
       "jsr:@std/fmt@^0.218.2": "jsr:@std/fmt@0.218.2",
       "jsr:@std/fmt@^0.224.0": "jsr:@std/fmt@0.224.0",
       "jsr:@std/fs@^0.218.2": "jsr:@std/fs@0.218.2",

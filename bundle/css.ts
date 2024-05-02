@@ -11,6 +11,7 @@
 // Imports
 import { minify as csso } from "npm:csso@5"
 import stylelint from "npm:stylelint@16"
+import type { ConfigRuleSettings } from "npm:stylelint@16"
 import plugin from "npm:stylelint-order@6"
 import recommended from "npm:stylelint-config-recommended@14"
 import ordering from "npm:stylelint-config-idiomatic-order@10"
@@ -32,7 +33,7 @@ import ordering from "npm:stylelint-config-idiomatic-order@10"
  * console.log(await bundle(`body { color: salmon; }`))
  * ```
  */
-export async function bundle(input: URL | string, { minify = false, banner = "" } = {}): Promise<string> {
+export async function bundle(input: URL | string, { minify = false, banner = "", rules = {} as Rules } = {}): Promise<string> {
   const code = input instanceof URL ? await fetch(input).then((response) => response.text()) : input
   const { results: [{ warnings }], ...result } = await stylelint.lint({
     config: {
@@ -41,6 +42,7 @@ export async function bundle(input: URL | string, { minify = false, banner = "" 
         ...recommended.rules,
         ...ordering.rules,
         "declaration-no-important": true,
+        ...rules,
       },
       fix: true,
     },
@@ -59,3 +61,7 @@ export async function bundle(input: URL | string, { minify = false, banner = "" 
   }
   return result.code!
 }
+
+/** Rules */
+// deno-lint-ignore ban-types no-explicit-any
+type Rules = ConfigRuleSettings<any, Object>
