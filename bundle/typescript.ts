@@ -10,7 +10,7 @@
 
 // Imports
 import { bundle as emit, type BundleOptions } from "jsr:@deno/emit@0.40"
-import { encodeBase64 } from "jsr:@std/encoding/base64"
+import { encodeBase64 } from "jsr:@std/encoding@0.224/base64"
 import { minify as terser } from "npm:terser"
 
 /**

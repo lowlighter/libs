@@ -19,7 +19,7 @@
  */
 
 // Imports
-import { decodeBase32, encodeBase32 } from "jsr:@std/encoding/base32"
+import { decodeBase32, encodeBase32 } from "jsr:@std/encoding@0.224/base32"
 
 /**
  * Returns a HMAC-based OTP.

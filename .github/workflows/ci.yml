@@ -36,7 +36,16 @@ jobs:
       id-token: write
       contents: read
       packages: write
+    strategy:
+      matrix:
+        package:
+          - bundle
+          - crypto
+          - diff
+          - logger
+          - qrcode
+          - typing
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
-      - run: deno task publish
+      - run: deno task publish:${{ matrix.package }}

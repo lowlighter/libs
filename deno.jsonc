@@ -12,8 +12,7 @@
     "publish:diff": "cd diff && deno publish",
     "publish:logger": "cd logger && deno publish",
     "publish:qrcode": "cd qrcode && deno publish",
-    "publish:typing": "cd typing && deno publish",
-    "publish": "deno task publish:bundle && deno task publish:crypto && deno task publish:diff && deno task publish:logger && deno task publish:qrcode && deno task publish:typing"
+    "publish:typing": "cd typing && deno publish"
   },
   "lint": {
     "rules": {
