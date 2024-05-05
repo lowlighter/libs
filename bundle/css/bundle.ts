@@ -22,14 +22,14 @@ import ordering from "npm:stylelint-config-idiomatic-order@10"
  * @example
  * ```
  * // From file
- * import { bundle } from "./css.ts"
+ * import { bundle } from "./bundle.ts"
  * console.log(await bundle(new URL(import.meta.url)))
  * ```
  *
  * @example
  * ```
  * // From string
- * import { bundle } from "./css.ts"
+ * import { bundle } from "./bundle.ts"
  * console.log(await bundle(`body { color: salmon; }`))
  * ```
  */

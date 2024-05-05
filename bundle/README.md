@@ -16,7 +16,7 @@ A wrapper around [`deno_emit`](https://github.com/denoland/deno_emit) to bundle 
 ### Usage
 
 ```ts
-import { bundle } from "./typescript.ts"
+import { bundle } from "./ts/bundle.ts"
 const base = new URL("testing/", import.meta.url)
 
 // From string
@@ -44,7 +44,7 @@ A wrapper around [`stylelint`](https://github.com/stylelint/stylelint) to bundle
 ### Usage
 
 ```ts
-import { bundle } from "./css.ts"
+import { bundle } from "./css/bundle.ts"
 const base = new URL("testing/", import.meta.url)
 
 // From string

@@ -20,14 +20,14 @@ import { minify as terser } from "npm:terser@5"
  * @example
  * ```
  * // From file
- * import { bundle } from "./typescript.ts"
+ * import { bundle } from "./bundle.ts"
  * console.log(await bundle(new URL(import.meta.url)))
  * ```
  *
  * @example
  * ```
  * // From string
- * import { bundle } from "./typescript.ts"
+ * import { bundle } from "./bundle.ts"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */

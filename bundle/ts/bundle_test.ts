@@ -1,4 +1,4 @@
-import { bundle } from "./typescript.ts"
+import { bundle } from "./bundle.ts"
 import { expect } from "jsr:@std/expect/expect"
 
 const base = new URL("testing/", import.meta.url)

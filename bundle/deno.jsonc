@@ -1,13 +1,12 @@
 {
   "name": "@libs/bundle",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Code bundlers",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
   "exports": {
-    "./typescript": "./typescript.ts",
-    "./css": "./css.ts",
-    ".": "./mod.ts"
+    "./ts": "./ts/mod.ts",
+    "./css": "./css/mod.ts"
   }
 }

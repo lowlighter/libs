@@ -1,4 +1,4 @@
-import { bundle } from "./css.ts"
+import { bundle } from "./bundle.ts"
 import { expect } from "jsr:@std/expect/expect"
 
 const base = new URL("testing/", import.meta.url)
@@ -25,6 +25,5 @@ Deno.test("bundle() handles minify option", { permissions: { read: true } }, asy
 })
 
 Deno.test("bundle() handles errors", { permissions: { read: true } }, async () => {
-  const url = new URL("test_bundle.ts", base)
-  await expect(bundle(url)).rejects.toThrow("Failed to bundle css")
+  await expect(bundle(import.meta.url)).rejects.toThrow("Failed to bundle css")
 })
