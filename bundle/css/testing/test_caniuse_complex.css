@@ -1,0 +1,42 @@
+/**
+ * Example css
+ * > This is used to "artificially increase" coverage of doiuse ported functions
+ * > We don't perform extensive test cases for these as we assume these are already tested upstream
+ */
+:root {
+  background-attachment: fixed; /* Array */
+  background-position-x: center; /* Boolean */
+  background-clip: border-box; /* String */
+  --calc: calc(100%); /* Key-less */
+}
+
+main {
+  background-position: 0% 0%; /* Function */
+  background: linear-gradient(to right, red, blue); /* Regexp */
+}
+
+aside {
+  color: salmon;
+  display: initial;
+  overflow: auto;
+  cursor: not-allowed;
+  font-size: 1rem;
+}
+
+:is(a:active, a:hover) {
+  color: rebeccapurple;
+}
+
+@media screen {
+  div:not(:first-child) {
+    font-weight: bold;
+    color: #FFFFFF00;
+  }
+}
+
+@supports (display: grid) {
+  div {
+    display: grid;
+    border: 1px solid currentColor;
+  }
+}

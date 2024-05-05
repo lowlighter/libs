@@ -1,0 +1,4 @@
+/* Example css */
+div {
+  backdrop-filter: blur(1px);
+}
