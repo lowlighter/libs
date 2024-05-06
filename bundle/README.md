@@ -40,6 +40,8 @@ A wrapper around [`stylelint`](https://github.com/stylelint/stylelint) to bundle
 - Support for lint and formatting
 - Support for banner option
 - Support minification through [CSSO](https://github.com/css/csso)
+- [MDN compatibility data](https://github.com/mdn/browser-compat-data) checker
+- CLI Formatter
 
 ### Usage
 
@@ -52,4 +54,22 @@ console.log(await bundle(`body { color: salmon; }`))
 
 // From file
 console.log(await bundle(new URL("test_bundle.css", base)))
+```
+
+```ts
+import { Report } from "./css/compatibility.ts"
+
+// Check compatibility
+const report = new Report("> 1%")
+const result = report.for("div { backdrop-filter: blur(5px); }")
+result.features.list.includes("css-backdrop-filter")
+console.log(result.browsers.ie["9"].support.unsupported)
+
+// HTML table reports
+console.log(report.print(result, { view: "browsers", output: "html", verbose: false }))
+console.log(report.print(result, { view: "features", output: "html", verbose: false }))
+
+// Console table reports
+report.print(result, { view: "browsers", output: "console", verbose: false })
+report.print(result, { view: "features", output: "console", verbose: false })
 ```

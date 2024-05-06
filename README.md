@@ -13,6 +13,10 @@ Most of them are written with [deno](https://deno.com) in mind, but as the code 
 - [🔐 Symmetric encryption (using AES-GCM 256 with a PBKDF2 derived key)](/crypto)
 - [📰 Logger](/logger)
 - [🗜️ Bundler](/bundle)
+  - [TypeScript](/bundle/ts)
+  - [CSS](/bundle/css)
+    - Formatter
+    - [MDN compatibility data](https://github.com/mdn/browser-compat-data) checker
 
 These libraries are published at [jsr.io/@libs](https://jsr.io/@libs) *(they were previously available at [deno.land/x/libs](https://deno.land/x/libs)).
 

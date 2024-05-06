@@ -1,7 +1,11 @@
 import { bundle } from "./bundle.ts"
 import { Report } from "./compatibility.ts"
 import { expect, fn } from "jsr:@std/expect"
+<<<<<<< HEAD
 import type { test } from "jsr:@libs/typing@1"
+=======
+import type { test } from "../../typing/mod.ts"
+>>>>>>> 95fab0e (feat(bundle/css/compatibility): add library (#1))
 ;(Report as test).testing()
 
 const base = new URL("testing/", import.meta.url)

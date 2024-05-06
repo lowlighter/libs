@@ -23,7 +23,7 @@ import ordering from "npm:stylelint-config-idiomatic-order@10"
  * ```
  * // From file
  * import { bundle } from "./bundle.ts"
- * console.log(await bundle(new URL(import.meta.url)))
+ * console.log(await bundle(new URL("testing/test_bundle.css", import.meta.url)))
  * ```
  *
  * @example

@@ -1,0 +1,19 @@
+/** Example css */
+main::after {
+  background: linear-gradient(to right, red, blue);
+  content: attr(data-content);
+}
+
+@document url("https://www.example.com/") {
+  body {
+    color: #ffffff;
+  }
+}
+
+input:user-invalid {
+  color: darkred;
+}
+
+input:nth-child(2n+1) {
+  color: darkred;
+}

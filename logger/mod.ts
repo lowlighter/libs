@@ -36,7 +36,7 @@ export class Logger {
     this.#output = output || (output === null) ? output : console
     this.#format = format ?? Logger.format.text
     this.tags = tags ?? {}
-    this.options = { date: false, time: false, delta: true, ...options, caller: { file: true, name: true, line: true, ...options?.caller } } as options
+    this.options = { date: false, time: false, delta: true, ...options, caller: { file: false, name: false, line: false, ...options?.caller } } as options
   }
 
   /** Logger level */

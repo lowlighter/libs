@@ -7,6 +7,10 @@
   "license": "MIT License",
   "exports": {
     "./ts": "./ts/mod.ts",
-    "./css": "./css/mod.ts"
+    "./css": "./css/mod.ts",
+    "./ts/bundle": "./ts/bundle.ts",
+    "./css/bundle": "./css/bundle.ts",
+    "./css/compatibility": "./css/compatibility.ts",
+    "./css/fmt": "./css/fmt.ts"
   }
 }

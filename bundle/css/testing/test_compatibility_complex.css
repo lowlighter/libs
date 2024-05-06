@@ -1,0 +1,39 @@
+/** Example css with more complex usage */
+:root {
+  --color: salmon;
+  color: var(--color);
+}
+
+main {
+  overflow: auto;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to right, red, blue);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+main::after {
+  z-index: -1;
+  color: rebeccapurple;
+  content: attr(data-content);
+  mask-size: contain;
+  -moz-user-modify: read-write;
+}
+
+div:first-child, input:user-invalid {
+  color: darkred;
+  text-decoration-line: blink;
+}
+
+@supports (display: flex) {
+  .flex {
+    display: flex;
+  }
+}
+
+samp {
+  -debug-empty-array: 1px;
+  -debug-removed: 1px;
+  -debug-unimplemented: 1px;
+}
