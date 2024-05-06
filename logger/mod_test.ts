@@ -1,7 +1,7 @@
 import { Logger } from "./mod.ts"
 import { expect } from "jsr:@std/expect/expect"
 import { fn } from "jsr:@std/expect/fn"
-import type { test } from "../typing/mod.ts"
+import type { test } from "jsr:@libs/typing@1"
 import { stripAnsiCode } from "jsr:@std/fmt/colors"
 import { basename } from "jsr:@std/path/basename"
 
