@@ -91,7 +91,7 @@ const vendors = /^(?:@|::|:)?(?<prefix>-(?:webkit|moz|o|ms|__debug)-)/
  *
  * This is a helper around {@link Report} which resolves css urls, instantiate a new report and return the printed result.
  */
-export async function compatibility(input: URL | string, { query = "defaults", loglevel, ...options }: { query?: Arrayable<string>; loglevel?: loglevel } & Arg<Report["print"], 1> = {}) {
+export async function compatibility(input: URL | string, { query = "defaults", loglevel, ...options }: { query?: Arrayable<string>; loglevel?: loglevel } & Arg<Report["print"], 1> = {}): Promise<string> {
   const code = input instanceof URL ? await fetch(input).then((response) => response.text()) : input
   return new Report(query, { loglevel }).for(code).print(options)
 }
