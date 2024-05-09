@@ -1,4 +1,4 @@
-import { diff } from "../diff/diff.ts"
+import { diff } from "./diff.ts"
 import { expect } from "jsr:@std/expect/expect"
 
 async function read(test: string) {
