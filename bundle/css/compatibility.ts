@@ -667,7 +667,7 @@ export class Report {
     .css-compatibility-table [data-good] {color: #3fb950;}
     .css-compatibility-table [data-ok] {color: #d29922;}
     .css-compatibility-table [data-bad] {color: #f85149;}
-  </style>`.split("\n").map((line) => line.trim()).join("").replaceAll(/([:\],]) /g, "$1").replaceAll(/ \{/g, "{")
+  </style>`.split("\n").map((line) => line.trim()).join("").replaceAll(/([:\],]) /g, "$1").replaceAll(/ \{/g, "{") as string
 }
 
 /** Browser name */
