@@ -87,6 +87,16 @@ const browsers = {
 const vendors = /^(?:@|::|:)?(?<prefix>-(?:webkit|moz|o|ms|__debug)-)/
 
 /**
+ * Compatibility data generator
+ *
+ * This is a helper around {@link Report} which resolves css urls, instantiate a new report and return the printed result.
+ */
+export async function compatibility(input: URL | string, { query = "defaults", loglevel, ...options }: { query?: Arrayable<string>; loglevel?: loglevel } & Arg<Report["print"], 1> = {}) {
+  const code = input instanceof URL ? await fetch(input).then((response) => response.text()) : input
+  return new Report(query, { loglevel }).for(code).print(options)
+}
+
+/**
  * Report
  *
  * Create a new compatibility report for a given CSS stylesheet content
@@ -110,9 +120,9 @@ const vendors = /^(?:@|::|:)?(?<prefix>-(?:webkit|moz|o|ms|__debug)-)/
  */
 export class Report {
   /** Constructor */
-  constructor(query: string | string[], { loglevel = Logger.level.error as loglevel } = {}) {
+  constructor(query: Arrayable<string>, { loglevel = Logger.level.error as loglevel } = {}) {
     this.#log = new Logger({ level: loglevel })
-    browserslist(query).forEach((line) => {
+    browserslist(query).forEach((line: string) => {
       const [browser, version] = line.split(" ")
       if (!(browser in browsers.compatibility)) {
         this.#log.with({ browser, version }).warn("not supported (no compatibility data in database)")
@@ -523,7 +533,7 @@ export class Report {
   /** Print table */
   print(data: ReturnType<Report["for"]>, { view = "browsers" as const, output = "console" as "console" | "html", verbose = false, style = true } = {}): string {
     const table = this.#view(data, view)
-    const body = new Array(table[0].length).fill(null).map(() => []) as string[][]
+    const body = new Array(table[0]?.length).fill(null).map(() => []) as string[][]
     for (let i = 0; i < table.length; i++) {
       for (let j = 0; j < table[0].length; j++) {
         const cell = table[i][j]
@@ -532,7 +542,7 @@ export class Report {
           continue
         }
         let text = j === 0 ? cell.browser : cell.version
-        text += `\n${Math.floor(cell.count.percentage.supported)}%`
+        text += `\n${this.#color(`${Math.floor(cell.count.percentage.supported)}%`, -2, output)}`
         text = this.#color(text, cell.count.percentage.supported, output)
         if (verbose) {
           for (const level of ["unsupported", "partial", "prefixed", "unknown"] as Exclude<level, "supported">[]) {
@@ -586,7 +596,9 @@ export class Report {
     switch (true) {
       case Number.isNaN(value):
         return output === "html" ? `<span data-unknown>${string}</span>` : gray(string)
-      case value < 0:
+      case value === -2:
+        return output === "html" ? `<span data-version>${string}</span>` : italic(string)
+      case value === -1:
         return output === "html" ? `<span data-prefix>${string}</span>` : brightMagenta(string)
       case value >= 100:
         return output === "html" ? `<span data-perfect>${string}</span>` : brightGreen(string)

@@ -43,6 +43,20 @@ A wrapper around [`stylelint`](https://github.com/stylelint/stylelint) to bundle
 - [MDN compatibility data](https://github.com/mdn/browser-compat-data) checker
 - CLI Formatter
 
+### CLI usage
+
+#### Formatter
+
+```sh
+deno run https://jsr.io/@libs/bundle/css/fmt.ts --help
+```
+
+#### Compatibility checker
+
+```sh
+deno run https://jsr.io/@libs/bundle/css/check.ts --help
+```
+
 ### Usage
 
 ```ts

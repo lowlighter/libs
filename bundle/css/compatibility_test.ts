@@ -1,5 +1,5 @@
 import { bundle } from "./bundle.ts"
-import { Report } from "./compatibility.ts"
+import { compatibility, Report } from "./compatibility.ts"
 import { expect, fn } from "jsr:@std/expect"
 import type { test } from "jsr:@libs/typing@1"
 ;(Report as test).testing()
@@ -56,6 +56,21 @@ Deno.test("report.print() formats and outputs results", { permissions: { read: t
         report.for(css).print({ output, view: "browsers", verbose: true })
       }
     }
+  } finally {
+    Object.assign(console, { log: _ })
+  }
+})
+
+Deno.test("compatibility() supports printing reports", { permissions: { read: true } }, async () => {
+  const input = "body { color: salmon; }"
+  await expect(compatibility(input, { output: "html", style: false })).resolves.toMatch(/^<table.*?>[\s\S]+<\/table>$/)
+  await expect(compatibility(new URL(`data:text/css;base64,${encodeBase64(input)}`), { output: "html", style: false })).resolves.toMatch(/^<table.*?>[\s\S]+<\/table>$/)
+  const _ = console.log
+  try {
+    const log = fn()
+    Object.assign(console, { log })
+    await compatibility(input, { output: "console" })
+    expect(log).toBeCalledTimes(1)
   } finally {
     Object.assign(console, { log: _ })
   }
