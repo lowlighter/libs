@@ -20,7 +20,7 @@ app such as [Microsoft Authenticator](https://support.microsoft.com/en-us/accoun
 
 ```ts
 import { otpauth, otpsecret, verify } from "./totp.ts"
-import { qrcode } from "jsr:@libs/qrcode@1"
+import { qrcode } from "../qrcode/mod.ts"
 
 // Issue a new TOTP secret
 const secret = otpsecret()

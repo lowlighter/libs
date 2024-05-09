@@ -61,7 +61,7 @@ export function otpsecret(): string {
  * @example
  * ```ts
  * import { otpauth } from "./totp.ts"
- * import { qrcode } from "jsr:@libs/qrcode@1"
+ * import { qrcode } from "../qrcode/mod.ts"
  * const url = otpauth({ issuer: "example.com", account: "alice" })
  * console.log(`Please scan the following QR Code:`)
  * qrcode(url.href, { output: "console" })
