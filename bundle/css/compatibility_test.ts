@@ -1,11 +1,7 @@
 import { bundle } from "./bundle.ts"
 import { Report } from "./compatibility.ts"
 import { expect, fn } from "jsr:@std/expect"
-<<<<<<< HEAD
 import type { test } from "jsr:@libs/typing@1"
-=======
-import type { test } from "../../typing/mod.ts"
->>>>>>> 95fab0e (feat(bundle/css/compatibility): add library (#1))
 ;(Report as test).testing()
 
 const base = new URL("testing/", import.meta.url)
@@ -32,7 +28,7 @@ Deno.test("report.print() formats and outputs results", { permissions: { read: t
     Object.assign(console, { log })
     for (const output of ["console", "html"] as const) {
       // Summary
-      text = report.for(css).print({ output, view: "browsers", verbose: false })
+      text = report.for(css).print({ output, view: "browsers", verbose: false, style: false })
       if (output === "html") {
         expect(text).toMatch(/^<table.*?>[\s\S]+<\/table>$/)
       }
@@ -40,9 +36,9 @@ Deno.test("report.print() formats and outputs results", { permissions: { read: t
         expect(log).toBeCalledTimes(1)
       }
       expect(text).toContain("100%")
-      expect(text).not.toContain("backdrop-filter: blur(1px)")
+      expect(text).not.toContain("backdrop-filter: blur()")
       // Details
-      text = report.for(css).print({ output, view: "browsers", verbose: true })
+      text = report.for(css).print({ output, view: "browsers", verbose: true, style: false })
       if (output === "html") {
         expect(text).toMatch(/^<table.*?>[\s\S]+<\/table>$/)
       }
@@ -50,13 +46,13 @@ Deno.test("report.print() formats and outputs results", { permissions: { read: t
         expect(log).toBeCalledTimes(2)
       }
       expect(text).toContain("100%")
-      expect(text).toContain("backdrop-filter: blur(1px)")
+      expect(text).toContain("backdrop-filter: blur()")
     }
     // Force coverage of colors
     for (const pass of [7, 8, 9, 10, NaN]) {
       const css = Number.isNaN(pass) ? await bundle(new URL("test_compatibility_print.css", base)) : `:root { ${new Array(pass).fill(null).map((_, i) => `-debug-pass-${i}: 1px`).join(";")}; ${new Array(10 - pass).fill(null).map((_, i) => `-debug-fail-${i}: 1px`).join(";")} }`
       for (const output of ["console", "html"] as const) {
-        const report = new Report(`last 2 chrome versions${Number.isNaN(pass) ? ", > 0%" : ""}`, { loglevel: -1 })
+        const report = new Report(Number.isNaN(pass) ? "> 0%" : "last 2 chrome versions", { loglevel: -1 })
         report.for(css).print({ output, view: "browsers", verbose: true })
       }
     }

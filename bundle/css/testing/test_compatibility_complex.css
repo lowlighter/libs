@@ -16,9 +16,20 @@ main {
 main::after {
   z-index: -1;
   color: rebeccapurple;
+  mask: ellipse(50% 50%);
   content: attr(data-content);
   mask-size: contain;
   -moz-user-modify: read-write;
+  -webkit-user-modify: read-write;
+  -webkit-text-size-adjust: 100%;
+  transform: translateX(50%);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-gap: 1rem;
+  height: abs(100px);
 }
 
 div:first-child, input:user-invalid {
@@ -29,11 +40,19 @@ div:first-child, input:user-invalid {
 @supports (display: flex) {
   .flex {
     display: flex;
+    color: rgba(red, green, blue, 1);
   }
+}
+
+@font-face {
+  font-family: 'foo_font';
+  src: url();
 }
 
 samp {
   -debug-empty-array: 1px;
   -debug-removed: 1px;
   -debug-unimplemented: 1px;
+  -__debug--debug-prefixed-invalid: 1px;
+  -__debug--debug-prefixed: 1px;
 }

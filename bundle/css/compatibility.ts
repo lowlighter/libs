@@ -26,13 +26,8 @@ import { generate, parse, walk } from "npm:css-tree@2"
 import browserslist from "npm:browserslist@4"
 import bcd from "npm:@mdn/browser-compat-data@5" with { type: "json" }
 import * as semver from "jsr:@std/semver@0.224.0"
-<<<<<<< HEAD
 import type { Arg, Arrayable, Nullable, rw } from "jsr:@libs/typing@1"
 import { Logger } from "jsr:@libs/logger@1"
-=======
-import type { Arg, Arrayable, Nullable, rw } from "../../typing/mod.ts"
-import { Logger } from "../../logger/mod.ts"
->>>>>>> 95fab0e (feat(bundle/css/compatibility): add library (#1))
 import { brightGreen, brightMagenta, gray, green, red, yellow } from "jsr:@std/fmt@0.224.0/colors"
 import { Table } from "jsr:@cliffy/table@1.0.0-rc.4"
 
@@ -88,6 +83,9 @@ const browsers = {
   },
 } as const
 
+/** Vendors regex */
+const vendors = /^(?:@|::|:)?(?<prefix>-(?:webkit|moz|o|ms|__debug)-)/
+
 /**
  * Report
  *
@@ -112,7 +110,7 @@ const browsers = {
  */
 export class Report {
   /** Constructor */
-  constructor(query: string | string[], { loglevel = 10 } = {}) {
+  constructor(query: string | string[], { loglevel = Logger.level.error as loglevel } = {}) {
     this.#log = new Logger({ level: loglevel })
     browserslist(query).forEach((line) => {
       const [browser, version] = line.split(" ")
@@ -172,53 +170,89 @@ export class Report {
     return { major, minor, patch }
   }
 
-  /** Prepreocess */
-  #preprocess(log: Logger, section: bcd_section, node: ast_node, name: string, values: ast_value, realname: Nullable<string>) {
-    switch (true) {
-      case (section === "properties") && (/^-(webkit|moz|o|ms)-.+/.test(name)): {
-        realname = name
-        name = name.replace(/^-.*?-/, "")
-        log.debug(`renamed "${realname}" to "${name}" to trim vendor prefix`)
-        break
+  /** Search feature in compatibility data recursively */
+  #search(section: string, name: feature, compatibility = bcd.css[section] as bcd_compatibility, _feature = null as Nullable<string>): Nullable<string> {
+    for (const feature of Object.keys(compatibility)) {
+      if (feature === "__compat") {
+        continue
       }
-      case (section === "properties") && (name.startsWith("--")): {
-        realname = name
-        name = "custom-property"
-        log.debug(`renamed "${realname}" to "${name}"`)
-        break
+      if (name in compatibility[feature]) {
+        return _feature ?? feature
       }
-      case (section === "types") && (name === "var"): {
-        realname = `${name}()`
-        name = "custom-property"
-        section = "properties"
-        log.debug(`renamed "${realname}" to "${name}" and changed section to "${section}"`)
-        break
-      }
-      case (section === "types") && (name in bcd.css[section]["filter-function"]): {
-        realname = name
-        name = "filter-function"
-        log.debug(`renamed "${realname}" to "${name}"`)
+      const _search = this.#search(section, name, compatibility[feature] as bcd_compatibility, feature)
+      if (_search) {
+        return _search
       }
     }
-    return { section, node, name, _values: values, realname }
+    return null
+  }
+
+  /** Prepreocess */
+  #preprocess(log: Logger, section: bcd_section, _node: ast_node, name: string, values: ast_value, realname: Nullable<string>, prefix: Nullable<string>, skipped: boolean) {
+    const original = [...arguments]
+    if (vendors.test(name)) {
+      prefix = name.match(vendors)!.groups!.prefix
+      if (!bcd.css[section][name]) {
+        realname = name
+        name = name.replace(vendors, "")
+      }
+    }
+    if ((section === "properties") && (name.startsWith("--"))) {
+      realname = name
+      name = "custom-property"
+    }
+    if ((section === "types") && /^rgba?$/.test(name)) {
+      realname = name
+      name = "color"
+    }
+    if ((section === "types") && (name === "var")) {
+      realname = `${name}()`
+      name = "custom-property"
+      section = "properties"
+    }
+    if ((section === "types") && (name === "minmax")) {
+      realname = `${name}()`
+      name = "grid-template-columns"
+      section = "properties"
+    }
+    const feature = this.#search(section, name)
+    if (feature) {
+      log.debug(`found ${name} in [${feature}]`)
+      realname = name
+      name = feature
+    }
+    if (["src", "format"].includes(name)) {
+      skipped = true
+    }
+    if (original[1] !== section) {
+      log.debug(`changed section from "${original[1]}" to "${section}"`)
+    }
+    if (realname !== null) {
+      log.debug(`changed name from "${original[3]}" to "${name}"`)
+    }
+    return { section, name, _values: values, realname, prefix, skipped }
   }
 
   /** Process a single AST node */
   #process(data: data, section: bcd_section, node: ast_node, name: string, _values?: ast_value) {
     const location = this.#location(node.loc)
     const log = this.#log.with({ location: `${location.line}:${location.column}`, section, name })
-    let realname = null as Nullable<string>
-    ;({ section, node, name, _values, realname } = this.#preprocess(log, section, node, name, _values!, realname))
+    let realname = null as Nullable<string>, prefix = null as Nullable<string>, skipped = false
+    ;({ section, name, _values, realname, prefix, skipped } = this.#preprocess(log, section, node, name, _values!, realname, prefix, skipped))
     const feature = bcd.css[section][name]?.__compat?.source_file?.replace(/^css\//, "").replace(/\.json$/, "") ?? `${section}/${name}`
-    const value = _values ? generate(_values) as string : realname ?? null
+    const value = _values ? this.#clean(generate(_values) as string) : realname ?? null
     let logger = log
     if (value !== null) {
       logger = log.with({ value })
     }
+    if (skipped) {
+      logger.debug("skipped")
+      return
+    }
     for (const browser in this.#browsers) {
       for (const version of this.#browsers[browser]) {
-        logger = log.with({ browser, version })
-        const { level, status } = this.#support(logger, bcd.css[section][name] as bcd_compatibility, browser, version, value ? this.#tags(log, value, _values) : [])
+        logger = logger.with({ browser, version })
+        const { level, status } = this.#support(logger, bcd.css[section][name] as bcd_compatibility, browser, version, value ? this.#tags(log, value, _values) : [], prefix)
         data.push({ feature, browser, version, location, value, level, status: { deprecated: status.deprecated, experimental: status.experimental, nonstandard: !status.standard_track } })
         if (!status.deprecated) {
           delete (status as rw).deprecated
@@ -226,7 +260,7 @@ export class Report {
         if (!status.experimental) {
           delete (status as rw).experimental
         }
-        if (!status.standard_track) {
+        if (status.standard_track === false) {
           Object.assign(status, { nonstandard: true })
         }
         delete (status as rw).standard_track
@@ -257,7 +291,7 @@ export class Report {
   }
 
   /** Resolve support from compatibility data against a single browser version */
-  #support(log: Logger, compatibility: bcd_compatibility | void, browser: browser, version: version, tags: tag[]): { level: level; status: bcd_status } {
+  #support(log: Logger, compatibility: bcd_compatibility | void, browser: browser, version: version, tags: tag[], prefix: Nullable<string>): { level: level; status: bcd_status } {
     if (!compatibility) {
       return { level: "unknown", status: { standard_track: true, deprecated: false, experimental: false } }
     }
@@ -268,14 +302,14 @@ export class Report {
       for (const tag of tags) {
         const _compatibility = this.#value_compatibility(log, compatibility, tag)
         if (_compatibility) {
-          return this.#support(log, _compatibility, browser, version, [])
+          return this.#support(log, _compatibility, browser, version, [], prefix)
         }
       }
     }
     // Multiple compatibility checks
     if (Array.isArray(support)) {
       for (const _support of support) {
-        const _result = this.#support(log, { __compat: { support: { [browser]: _support }, status } } as bcd_compatibility, browser, version, [])
+        const _result = this.#support(log, { __compat: { support: { [browser]: _support }, status } } as bcd_compatibility, browser, version, [], prefix)
         if (_result.level !== "unknown") {
           return _result
         }
@@ -283,7 +317,7 @@ export class Report {
       return { level: "unknown", status }
     } // Simple compatibility checks
     else if (typeof support === "object") {
-      return { level: this.#test(log, support, version), status }
+      return { level: this.#test(log, support, version, prefix), status }
     } // No compatibility data available
     else if (support === undefined) {
       log.warn(`no compatibility data available (available: ${Object.keys(compatibility.__compat.support)})`)
@@ -303,18 +337,22 @@ export class Report {
       const keywords = [key]
       if (compatibility[key].__compat.description) {
         const description = compatibility[key].__compat.description!
-        keywords.push(...Array.from(description.matchAll(/<code>([\s\S]+?)<\/code>/g)).map((match) => (match as string[])[1]))
+        keywords.push(...Array.from(description.matchAll(/^<code>([\s\S]+?)<\/code>$/g)).map((match) => (match as string[])[1]))
       }
       if (keywords.includes(tag)) {
         log.debug(`matched granular rule "${key}"`)
         return compatibility[key] as bcd_compatibility
+      }
+      const _compatibility = this.#value_compatibility(log, compatibility[key] as bcd_compatibility, tag)
+      if (_compatibility) {
+        return _compatibility
       }
     }
     return false
   }
 
   /** Test browser version against a single matcher */
-  #test(log: Logger, support: bcd_support, version: version) {
+  #test(log: Logger, support: bcd_support, version: version, prefix: Nullable<string>) {
     let level = "unsupported" as level
     const tested = this.#version(version)
     if (!support.version_added) {
@@ -333,16 +371,20 @@ export class Report {
       }
     }
     if (support.partial_implementation) {
-      level = "partial"
       log.debug(`partially supported since version ${support.version_added}`)
+      level = "partial"
       return level
     }
     if (support.prefix) {
-      level = "prefixed"
       log.debug(`supported with ${support.prefix} since version ${support.version_added}`)
-    } else {
+      if (prefix !== support.prefix) {
+        log.debug(`"${prefix}" does not match required "${support.prefix}"`)
+        return "prefixed"
+      }
       level = "supported"
+    } else {
       log.debug(`supported since version ${support.version_added}`)
+      level = "supported"
     }
     return level
   }
@@ -392,10 +434,8 @@ export class Report {
   }
 
   /** Generate table data from reported data */
-  #view(data: ReturnType<Report["for"]>, type: "browsers" | "features") {
+  #view(data: ReturnType<Report["for"]>, type: "browsers") {
     switch (type) {
-      case "features":
-        throw new RangeError("Not implemented")
       case "browsers":
         return this.#view_browsers(data)
     }
@@ -481,7 +521,7 @@ export class Report {
   }
 
   /** Print table */
-  print(data: ReturnType<Report["for"]>, { view = "browsers" as "browsers" | "features", output = "console" as "console" | "html", verbose = false } = {}): string {
+  print(data: ReturnType<Report["for"]>, { view = "browsers" as const, output = "console" as "console" | "html", verbose = false, style = true } = {}): string {
     const table = this.#view(data, view)
     const body = new Array(table[0].length).fill(null).map(() => []) as string[][]
     for (let i = 0; i < table.length; i++) {
@@ -507,20 +547,23 @@ export class Report {
                     message = `@${name}`
                     break
                   case "selectors":
-                    message = `:${name}${value ?? ""}`
+                    message = `:${value ?? name}`
                     break
                   case "properties":
                     message = `${name}: ${value};`
                     break
                   case "types":
-                    message = value ? `[${name}] ${value}()` : `${name}()`
+                    message = `${name}()`
+                    if (value) {
+                      message = `[${name}] ${value}()`
+                    }
                     break
                 }
                 messages.add(
                   `\n${this.#color(message, color, output)}`,
                 )
               }
-              text += [...messages].join("")
+              text += [...messages].sort((a, b) => a.localeCompare(b)).join("")
             }
           }
         }
@@ -531,17 +574,10 @@ export class Report {
       case "console":
         return new Table().align("center").border(true).body(body).render().toString()
       case "html":
-        return `<table style="border-collapse: collapse">\n${
-          body.map((row, i) =>
-            `  <tr>${
-              row.map((cell) =>
-                !cell
-                  ? `    \n    <td style="background-color: #000"></td>`
-                  : `\n    <t${i ? "d" : "h"} style="padding: .25rem; border: 1px solid black;">\n${cell.replaceAll(/^(<span .*)$/gm, "      $1<br>").replaceAll(/\n([^< ].+<\/span>)/g, "$1<br>")}\n    </t${i ? "d" : "h"}>`
-              ).join("")
-            }\n  </tr>`
-          ).join("\n")
-        }\n</table>`
+        return `<table class="css-compatibility-table">\n${
+          body.map((row, i) => `  <tr>${row.map((cell) => !cell ? `    \n    <td data-empty></td>` : `\n    <t${i ? "d" : "h"}>\n${cell.replaceAll(/^(<span .*)$/gm, "      $1<br>").replaceAll(/\n([^< ].+<\/span>)/g, "$1<br>")}\n    </t${i ? "d" : "h"}>`).join("")}\n  </tr>`)
+            .join("\n")
+        }\n</table>${style ? `\n${Report.styling}` : ""}`
     }
   }
 
@@ -549,18 +585,38 @@ export class Report {
   #color(string: string, value: number, output: "console" | "html") {
     switch (true) {
       case Number.isNaN(value):
-        return output === "html" ? `<span style="color: #848d97">${string}</span>` : gray(string)
+        return output === "html" ? `<span data-unknown>${string}</span>` : gray(string)
       case value < 0:
-        return output === "html" ? `<span style="color: #8250df">${string}</span>` : brightMagenta(string)
+        return output === "html" ? `<span data-prefix>${string}</span>` : brightMagenta(string)
       case value >= 100:
-        return output === "html" ? `<span style="color: #1a7f37">${string}</span>` : brightGreen(string)
+        return output === "html" ? `<span data-perfect>${string}</span>` : brightGreen(string)
       case value >= 90:
-        return output === "html" ? `<span style="color: #3fb950">${string}</span>` : green(string)
+        return output === "html" ? `<span data-good>${string}</span>` : green(string)
       case value >= 80:
-        return output === "html" ? `<span style="color: #d29922">${string}</span>` : yellow(string)
+        return output === "html" ? `<span data-ok>${string}</span>` : yellow(string)
       default:
-        return output === "html" ? `<span style="color: #f85149">${string}</span>` : red(string)
+        return output === "html" ? `<span data-bad>${string}</span>` : red(string)
     }
+  }
+
+  /** Clean value */
+  #clean(string: string) {
+    return string
+      .trim()
+      // Format functions
+      .replaceAll(/(url|format|attr|var)\(.*?\)/g, "$1()")
+      // Clean colors
+      .replaceAll(/#[0-9a-fA-F]{3,8}/g, "")
+      .replaceAll(/rgba?\(.*?\)/g, "")
+      // Clean numbers and units
+      .replaceAll(/-?(?:(?:\d+(\.d*)?|(?:\d*\.\d+)))([cm]m|p[ctx]|Q|in|%|r?em|v[hw]|[r]lh|m?s|turn)?/g, "")
+      // Clean strings
+      .replaceAll(/"[^"]*?"/g, "")
+      // Clean vars
+      .replaceAll(/var\(\)/g, "")
+      .replaceAll(/\s+/g, " ")
+      .replaceAll(/,+/g, "")
+      .trim() || "*"
   }
 
   /** Inject testing properties for test cases (internal, only for testing purposes) */
@@ -568,7 +624,8 @@ export class Report {
     Object.assign(bcd.css.properties, {
       ["-debug-empty-array"]: { __compat: { support: { chrome: [] }, status: { standard_track: false, deprecated: false, experimental: true } } },
       ["-debug-unimplemented"]: { __compat: { support: { chrome: false }, status: { standard_track: false, deprecated: false, experimental: true } } },
-      ["-debug-prefixed"]: { __compat: { support: { chrome: { version_added: "0", prefix: "-debug-" } }, status: { standard_track: false, deprecated: false, experimental: true } } },
+      ["-debug-prefixed"]: { __compat: { support: { chrome: { version_added: "0", prefix: "-__debug-" } }, status: { standard_track: false, deprecated: false, experimental: true } } },
+      ["-debug-prefixed-invalid"]: { __compat: { support: { chrome: { version_added: "0", prefix: "-invalid-" } }, status: { standard_track: false, deprecated: false, experimental: true } } },
       ["-debug-removed"]: { __compat: { support: { chrome: { version_added: "0", version_removed: "0" } }, status: { standard_track: false, deprecated: false, experimental: true } } },
     })
     for (let i = 1; i <= 10; i++) {
@@ -578,6 +635,39 @@ export class Report {
       })
     }
   }
+
+  /** HTML styling for tables */
+  protected static styling = `
+  <style>
+    .css-compatibility-table {
+      border-collapse: collapse;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    .css-compatibility-table th {
+      background-color: #d0d7de;
+    }
+    .css-compatibility-table th, .css-compatibility-table td {
+      border: 1px solid black;
+      padding: 1em;
+      white-space: nowrap;
+      vertical-align: top;
+      text-align: left;
+    }
+    .css-compatibility-table :is(td, th) :nth-child(1) {
+      display: block;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.15em;
+      border-bottom: 1px solid currentColor;
+    }
+    .css-compatibility-table [data-empty] {background-color: #000;}
+    .css-compatibility-table [data-unknown] {color: #848d97;}
+    .css-compatibility-table [data-prefix] {color: #8250df;}
+    .css-compatibility-table [data-perfect] {color: #1a7f37;}
+    .css-compatibility-table [data-good] {color: #3fb950;}
+    .css-compatibility-table [data-ok] {color: #d29922;}
+    .css-compatibility-table [data-bad] {color: #f85149;}
+  </style>`.split("\n").map((line) => line.trim()).join("").replaceAll(/([:\],]) /g, "$1").replaceAll(/ \{/g, "{")
 }
 
 /** Browser name */

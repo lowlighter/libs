@@ -66,10 +66,8 @@ result.features.list.includes("css-backdrop-filter")
 console.log(result.browsers.ie["9"].support.unsupported)
 
 // HTML table reports
-console.log(report.print(result, { view: "browsers", output: "html", verbose: false }))
-console.log(report.print(result, { view: "features", output: "html", verbose: false }))
+console.log(report.print(result, { output: "html", verbose: false }))
 
 // Console table reports
-report.print(result, { view: "browsers", output: "console", verbose: false })
-report.print(result, { view: "features", output: "console", verbose: false })
+report.print(result, { output: "console", verbose: false })
 ```
