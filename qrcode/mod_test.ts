@@ -114,7 +114,7 @@ Deno.test(`qrcode() with long content`, { permissions: "none" }, () => {
   expect(qrcode("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")).not.toThrow()
 })
 
-Deno.test(`qrcode() with oversize content`, { permissions: "none" }, () => {
+Deno.test(`qrcode() with oversized content`, { permissions: "none" }, () => {
   expect(() => qrcode("lorem ipsum".repeat(1000))).toThrow("Data too long")
 })
 
@@ -134,4 +134,10 @@ Deno.test(`qrcode() with console output`, { permissions: "none" }, () => {
   } finally {
     Object.assign(console, { log: unmocked })
   }
+})
+
+Deno.test(`qrcode() with array output`, { permissions: "none" }, () => {
+  const array = qrcode("foo", { output: "array" })
+  expect(array).toBeInstanceOf(Array)
+  expect(array.length).toEqual(array[0].length)
 })

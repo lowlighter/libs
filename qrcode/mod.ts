@@ -1,15 +1,15 @@
 /**
- * QR Code generator library
+ * QR Code generator library.
  *
  * The following code has been ported and rewritten by Simon Lecoq from Nayuki's original work at:
  * https://github.com/nayuki/QR-Code-generator/blob/master/typescript-javascript/qrcodegen.ts
  *
  * Significant changes includes:
- * - Edited to be usable as a proper EcmaScript module (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+ * - Edited to be usable as a proper EcmaScript module
  * - A single exported `qrcode()` function that can be used to generate QR Code in different formats:
  *   - `svg`: Returns a SVG image string
  *   - `console`: Prints the QR Code to the console
- *   - `array`: Returns an array of boolean
+ *   - `array`: Returns an array of booleans
  * - Some suggestions from Nayuki such as converting some function to lookup tables were applied
  * - Lot of code has moved or has been rewritten to match lowlighter's coding style
  * - Original comments were kept
@@ -45,28 +45,23 @@
 const encoder = new TextEncoder()
 
 /**
- * Generate a QR Code from specified content.
+ * Generate a QR Code from specified content and output it as a SVG string.
  *
- * The following options are supported:
- * - `output = "array" as "svg" | "console" | "array"`: Output format (see below for more details)
- * - `border = 4`: Border size
- * - `light = "white"`: Color for light squares
- * - `dark = "black"`: Color for dark squares
- * - `ecl = "MEDIUM" as "LOW" | "MEDIUM" | "QUARTILE" | "HIGH"`: Error correction level
- *
- * If `output` is set to `"svg"`, a SVG image string will be returned.
+ * Border, colors and ECL can be customized using {@link options}.
  *
  * @example
  * ```ts
- * import { qrcode } from "./mod.ts"
+ * import { qrcode } from "jsr:@libs/qrcode"
  * const svg = qrcode("https://example.com", { output: "svg" })
  * console.assert(svg.includes("</svg>"))
  * ```
+ */
+export function qrcode(content: string | URL, options: { output: "svg" } & Pick<options, "border" | "light" | "dark" | "ecl">): string
+/**
+ * Generate a QR Code from specified content and output it to the console.
  *
- * If `output` is set to `"console"`, the QR Code will be printed to the console.
- * In this case, `light` and `dark` must be supported colors by the terminal, as the
- * {@link https://developer.mozilla.org/en-US/docs/Web/API/console#styling_console_output | %c} directive is used
- * and `border` option is ignored.
+ * Colors and ECL can be customized using {@link options}.
+ * Note that custom colors must be supported by terminal ({@link https://developer.mozilla.org/en-US/docs/Web/API/console#styling_console_output | %c} directive is used to style the output).
  *
  * @example
  * ```ts
@@ -86,46 +81,82 @@ const encoder = new TextEncoder()
  * // ██████  ████    ████
  *
  * ```
+ */
+export function qrcode(content: string | URL, options: { output: "console" } & Pick<options, "light" | "dark" | "ecl">): void
+/**
+ * Generate a QR Code from specified content and output it as an array of booleans.
  *
- * If `output` is not set or set to `"array"`, an array of boolean will be returned.
- * In this case `border`, `light` and `dark` options are ignored.
- * Note the array is indexed by using `[y][x]` and `true` represents a dark square.
+ * Returned array is indexed by using `[y][x]` and the boolean `true` is used to represent a dark square.
  *
  * @example
  * ```ts
  * import { qrcode } from "./mod.ts"
  * const array = qrcode("https://example.com")
- * console.assert(Array.isArray(array))
+ * console
+ * ```
+ */
+export function qrcode(content: string | URL, options?: { output?: "array" } & Pick<options, "ecl">): boolean[][]
+
+/**
+ * Generate a QR Code from specified content.
+ *
+ * Content may either be:
+ * - A `string` (not necessarily a URL-like, any text can be used)
+ * - A `URL` object (in which case {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/href | URL.href} will be used as content)
+ *
+ * Output can be set to either `"svg"`, `"console"` or `"array"` and can be customized using supported {@link options}.
+ *
+ * @example
+ * ```ts
+ * import { qrcode } from "jsr:@libs/qrcode"
+ * const svg = qrcode("https://example.com", { output: "svg" })
+ * console.assert(svg.includes("</svg>"))
  * ```
  *
  * @author Simon Lecoq (lowlighter)
  * @author Nayuki
  * @license MIT
  */
-export function qrcode(content: string, options: { output: "svg" } & options): string
-export function qrcode(content: string, options: { output: "console" } & options): void
-export function qrcode(content: string, options?: { output?: "array" } & options): boolean[][]
-export function qrcode(content: string, options?: { output?: string } & options) {
+export function qrcode(content: string | URL, options?: { output?: string } & options) {
   return QrCode.from(content, options)
 }
 
-/** QR code options */
-type options = {
-  /** Border size */
+/** QR code options. */
+export type options = {
+  /**
+   * Border size (applies for `svg` outputs).
+   */
   border?: number
-  /** Color for light squares */
+  /**
+   * Color for light squares (applies for `svg` and `console` outputs).
+   *
+   * Can be any valid CSS color value.
+   * If `output` is set to `"console"`, the color must be supported by the terminal.
+   */
   light?: string
-  /** Color for dark squares */
+  /**
+   * Color for dark squares (applies for `svg` and `console` outputs).
+   *
+   * Can be any valid CSS color value.
+   * If `output` is set to `"console"`, the color must be supported by the terminal.
+   */
   dark?: string
-  /** Error correction level (either "LOW", "MEDIUM", "QUARTILE" or "HIGH") */
+  /**
+   * The error correction level in a QR Code symbol.
+   *
+   * The QR Code can tolerate about:
+   * - LOW: 7% erroneous codewords
+   * - MEDIUM: 15% erroneous codewords
+   * - QUARTILE: 25% erroneous codewords
+   * - HIGH: 30% erroneous codewords
+   */
   ecl?: "LOW" | "MEDIUM" | "QUARTILE" | "HIGH"
-  // https://github.com/denoland/deno/issues/23646
-  // keyof typeof QrCode.ERROR_CORRECTION_LEVEL
 }
 
 /**
  * A QR Code symbol, which is a type of two-dimension barcode.
  * Invented by Denso Wave and described in the ISO/IEC 18004 standard.
+ *
  * The class covers the QR Code Model 2 specification, supporting:
  * - All versions (sizes) from 1 to 40
  * - All 4 error correction levels
@@ -138,8 +169,9 @@ class QrCode {
    * The smallest possible QR Code version is automatically chosen for the output.
    * The ECC level of the result may be higher than the ecl argument if it can be done without increasing the version.
    */
-  static from(content: string, { output = "array", border = 4, light = "white", dark = "black", ecl = "MEDIUM" }: { output?: string } & options = {}) {
-    const qr = QrCode.#encode(Segment.from(content), { ecl })
+  static from(content: string | URL, { output = "array", border = 4, light = "white", dark = "black", ecl = "MEDIUM" }: { output?: string } & options = {}) {
+    border = Math.max(0, border)
+    const qr = QrCode.#encode(Segment.from(content instanceof URL ? content.href : content), { ecl })
     const size = qr.size + border * 2
     switch (output) {
       case "svg": {
@@ -247,7 +279,7 @@ class QrCode {
     return new QrCode({ version, ecl, data, mode, length, databits })
   }
 
-  /** Constructor */
+  /** Constructor. */
   private constructor({ version, ecl, data, mode, length, databits }: { version: number; ecl: keyof typeof QrCode.ERROR_CORRECTION_LEVEL; data: Readonly<number[]>; mode: string; length: number; databits: number }) {
     this.version = version
     this.size = this.version * 4 + 17
@@ -845,14 +877,14 @@ class Segment {
     }
   }
 
-  /** Constructor */
+  /** Constructor. */
   constructor({ mode, length, bits }: { mode: { id: number; widths: [number, number, number] }; length: number; bits: number[] }) {
     this.mode = mode
     this.length = length
     this.#bits = bits.slice()
   }
 
-  /** The mode indicator of this segment */
+  /** The mode indicator of this segment. */
   readonly mode
 
   /**
@@ -862,7 +894,7 @@ class Segment {
    */
   readonly length
 
-  /** The data bits of this segment */
+  /** The data bits of this segment. */
   readonly #bits
 
   /** Get a new copy of the data bits of this segment. */

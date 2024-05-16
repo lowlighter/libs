@@ -1,11 +1,26 @@
 {
   "name": "@libs/qrcode",
-  "version": "1.0.3",
-  "description": "SVG-based QRcode generator",
+  "version": "1.1.0",
+  "description": "Pure TypeScript QRcode generator with no dependencies.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
   "exports": {
     ".": "./mod.ts"
+  },
+  "tasks": {
+    "test": "deno fmt && rm coverage -rf && deno test --coverage --trace-leaks --doc && deno coverage --detailed && deno lint"
+  },
+  "lint": {
+    "rules": {
+      "include": ["no-throw-literal", "no-eval", "eqeqeq", "ban-untagged-todo"]
+    }
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false,
+    "exclude": [
+      "coverage"
+    ]
   }
 }
