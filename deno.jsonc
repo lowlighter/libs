@@ -25,9 +25,5 @@
     "exclude": [
       "coverage"
     ]
-  },
-  "version": "1.0.0",
-  "exports": {
-    ".": "./test.ts"
   }
 }
