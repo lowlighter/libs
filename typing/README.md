@@ -2,7 +2,7 @@
 
 [![JSR](https://jsr.io/badges/@libs/typing)](https://jsr.io/@libs/typing) [![JSR Score](https://jsr.io/badges/@libs/typing/score)](https://jsr.io/@libs/typing)
 
-- [`📚 Documentation`](https://jsr.io/@libs/testing/doc)
+- [`📚 Documentation`](https://jsr.io/@libs/typing/doc)
 
 ## 📜 License
 
