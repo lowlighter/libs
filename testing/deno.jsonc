@@ -1,6 +1,6 @@
 {
   "name": "@libs/testing",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
@@ -12,12 +12,7 @@
     "@libs/typing": "jsr:@libs/typing@1",
     "@std/expect": "jsr:@std/expect@0.224.1",
     "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url",
-    "bun:test": "./_stub.ts",
-    "node:test": "./_stub.ts"
-  },
-  "compilerOptions": {
-    // Used to stub "node:test" in tests
-    "allowArbitraryExtensions": true
+    "bun:test": "./_stub.ts"
   },
   "tasks": {
     "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx,invalid_path --allow-read --no-prompt --quiet --coverage --trace-leaks --doc",
