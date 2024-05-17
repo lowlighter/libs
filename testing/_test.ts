@@ -50,6 +50,15 @@ type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn: () => 
  * When running on `deno`, default permissions are switched to `none` rather than `"inherit"`, but can be overridden through the {@link options} parameter.
  * Options are ignored for other runtimes.
  *
+ * Dependencies are resolved using `deno info` and installed using the adequate package manager.
+ * This is done only once per test file.
+ *
+ * > [!IMPORTANT]
+ * > It is currently not possible to use `jsr:` specifiers in other runtime other than deno,
+ * > which is why it is recommended to use an import map instead.
+ * > When publishing on jsr.io these will be rewritten into fully qualified specifiers
+ * > eliminating the need of the import map (see {@link https://jsr.io/docs/publishing-packages#dependency-manifest} | dependency manifest).
+ *
  * @example
  * ```ts
  * import { test, expect } from "./mod.ts"

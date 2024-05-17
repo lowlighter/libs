@@ -8,6 +8,7 @@
       "jsr:@deno/graph@^0.69.7": "jsr:@deno/graph@0.69.10",
       "jsr:@libs/logger": "jsr:@libs/logger@1.0.2",
       "jsr:@libs/logger@1": "jsr:@libs/logger@1.0.2",
+      "jsr:@libs/qrcode": "jsr:@libs/qrcode@1.0.3",
       "jsr:@libs/typing": "jsr:@libs/typing@1.0.2",
       "jsr:@libs/typing@1": "jsr:@libs/typing@1.0.2",
       "jsr:@std/assert@0.224.0": "jsr:@std/assert@0.224.0",
@@ -20,7 +21,7 @@
       "jsr:@std/cli@0.224.0": "jsr:@std/cli@0.224.0",
       "jsr:@std/console@0.221": "jsr:@std/console@0.221.0",
       "jsr:@std/encoding@0.224.0": "jsr:@std/encoding@0.224.0",
-      "jsr:@std/expect": "jsr:@std/expect@0.224.0",
+      "jsr:@std/expect": "jsr:@std/expect@0.224.1",
       "jsr:@std/expect@0.224.1": "jsr:@std/expect@0.224.1",
       "jsr:@std/fmt": "jsr:@std/fmt@0.224.0",
       "jsr:@std/fmt@0.221": "jsr:@std/fmt@0.221.0",
@@ -32,7 +33,7 @@
       "jsr:@std/internal@^0.224.0": "jsr:@std/internal@0.224.0",
       "jsr:@std/internal@^0.225.1": "jsr:@std/internal@0.225.1",
       "jsr:@std/io@^0.218.2": "jsr:@std/io@0.218.2",
-      "jsr:@std/path": "jsr:@std/path@0.224.0",
+      "jsr:@std/path": "jsr:@std/path@0.225.1",
       "jsr:@std/path@0.224.0": "jsr:@std/path@0.224.0",
       "jsr:@std/path@0.225.1": "jsr:@std/path@0.225.1",
       "jsr:@std/path@^0.218.2": "jsr:@std/path@0.218.2",
@@ -83,6 +84,9 @@
       },
       "@libs/logger@1.0.2": {
         "integrity": "f3808969cff684be2fee3d0b4f9494181c1a514b443567ad66fae2a34de82c02"
+      },
+      "@libs/qrcode@1.0.3": {
+        "integrity": "366568461b19d7803462b0c9e5181d53aa07eeff0b4c65755c05c2c444e6f56f"
       },
       "@libs/typing@1.0.2": {
         "integrity": "1ee1221792cdb5403c9a719ba09961033d575d61b939887e86a95c586cb6a347"

@@ -13,7 +13,7 @@
     "publish:logger": "cd logger && deno publish",
     "publish:qrcode": "cd qrcode && deno publish",
     "publish:typing": "cd typing && deno publish",
-    "publish:testing": "cd testing && deno publish",
+    "publish:testing": "cd testing && deno publish"
   },
   "lint": {
     "rules": {
