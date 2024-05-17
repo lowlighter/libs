@@ -1,11 +1,29 @@
 {
   "name": "@libs/typing",
-  "version": "1.0.2",
-  "description": "Utility types",
+  "version": "2.0.0",
+  "description": "Utility types.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
   "exports": {
     ".": "./mod.ts"
+  },
+  "tasks": {
+    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx,invalid_path --allow-read --no-prompt --quiet --coverage --trace-leaks --doc",
+    "dev": "deno fmt && deno task test && deno coverage --detailed && deno lint && deno publish --dry-run --quiet",
+    "ci": "deno fmt --check && deno task test && deno coverage && deno lint && deno publish --dry-run --quiet",
+    "ci:coverage": "deno task test && deno coverage --html"
+  },
+  "lint": {
+    "rules": {
+      "include": ["no-throw-literal", "no-eval", "eqeqeq", "ban-untagged-todo"]
+    }
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false,
+    "exclude": [
+      "coverage"
+    ]
   }
 }

@@ -1,13 +1,12 @@
-# 🗜️ Utility types
+# 🧰 Utility types
 
-This library contains various utility types.
+[![JSR](https://jsr.io/badges/@libs/typing)](https://jsr.io/@libs/typing) [![JSR Score](https://jsr.io/badges/@libs/typing/score)](https://jsr.io/@libs/typing)
 
-## Usage
+- [`📚 Documentation`](https://jsr.io/@libs/testing/doc)
 
-```ts
-import type { Promisable } from "./mod.ts"
+## 📜 License
 
-function maybe(): Promisable<boolean> {
-  return Math.random() > 0.5 ? true : Promise.resolve(true)
-}
+```
+Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+https://github.com/lowlighter/libs/blob/main/LICENSE
 ```
