@@ -1,6 +1,6 @@
 {
   "name": "@libs/crypto",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Features based upon Web Crypto APIs",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
@@ -8,5 +8,27 @@
   "exports": {
     "./totp": "./totp.ts",
     "./encryption": "./encryption.ts"
+  },
+  "imports": {
+    "@libs/testing": "jsr:@libs/testing",
+    "@std/encoding/base32": "jsr:@std/encoding@0.224.0/base32"
+  },
+  "tasks": {
+    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx,invalid_path --allow-read --no-prompt --quiet --coverage --trace-leaks --doc",
+    "dev": "deno fmt && deno task test && deno coverage --detailed && deno lint && deno publish --dry-run --quiet",
+    "ci": "deno fmt --check && deno task test && deno coverage && deno lint && deno publish --dry-run --quiet",
+    "ci:coverage": "deno task test && deno coverage --html"
+  },
+  "lint": {
+    "rules": {
+      "include": ["no-throw-literal", "no-eval", "eqeqeq", "ban-untagged-todo"]
+    }
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false,
+    "exclude": [
+      "coverage"
+    ]
   }
 }

@@ -9,7 +9,7 @@ jobs:
       matrix:
         package:
           # - bundle
-          # - crypto
+          - crypto
           # - diff
           - logger
           # - orm
@@ -44,7 +44,7 @@ jobs:
       matrix:
         package:
           # - bundle
-          # - crypto
+          - crypto
           # - diff
           - logger
           # - orm

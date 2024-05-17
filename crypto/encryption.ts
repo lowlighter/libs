@@ -4,6 +4,28 @@
  * It is inspired by existing password managers, where the aim is to provide a secure way to store credentials at rest
  * (for example in a {@link https://docs.deno.com/deploy/kv/manual | Deno.Kv} store) while being able to recover
  * them later using a single master key.
+ *
+ * @example
+ * ```ts
+ * import { decrypt, encrypt, exportKey, importKey } from "./encryption.ts"
+ *
+ * // Generate a key. Same seed and salt combination will always yield the same key
+ * const key = await exportKey({ seed: "hello", salt: "world" })
+ * console.assert(key === "664d43091e7905723fc92a4c38f58e9aeff6d822488eb07d6b11bcfc2468f48a")
+ *
+ * // Encrypt a message
+ * const message = "🍱 bento"
+ * const secret = await encrypt(message, { key, length: 512 })
+ * console.assert(secret !== message)
+ *
+ * // Encrypted messages are different each time and can also obfuscate the original message size
+ * console.assert(secret !== await encrypt(message, { key, length: 512 }))
+ * console.assert(secret.length === 512)
+ *
+ * // Decrypt a message
+ * const decrypted = await decrypt(secret, { key })
+ * console.assert(decrypted === message)
+ * ```
  * @module
  */
 
@@ -20,6 +42,7 @@ const decoder = new TextDecoder()
  * ```ts
  * import { hex } from "./encryption.ts"
  * console.log(hex(new Uint8Array([0x0a, 0x42]))) // "0a42"
+ * ```
  */
 export function hex(bytes: Uint8Array | number): string {
   if (typeof bytes === "number") {
@@ -35,6 +58,7 @@ export function hex(bytes: Uint8Array | number): string {
  * ```ts
  * import { bytes } from "./encryption.ts"
  * console.log(bytes("0a42")) // Uint8Array [ 10, 66 ]
+ * ```
  */
 export function bytes(hex: string): Uint8Array {
   return new Uint8Array(hex.match(/.{1,2}/g)!.map((byte) => Number.parseInt(byte, 16)))
@@ -43,7 +67,7 @@ export function bytes(hex: string): Uint8Array {
 /**
  * Hash string and return hexadecimal string representation.
  *
- * Only algorithm supported by {@link https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest | SubtleCrypto.digest} are allowed.
+ * Only algorithms supported by {@link https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest | SubtleCrypto.digest} are allowed.
  *
  * @example
  * ```ts
