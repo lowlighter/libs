@@ -28,6 +28,7 @@
     ]
   },
   "imports": {
+    "@libs/testing": "jsr:@libs/testing",
     "@libs/typing": "jsr:@libs/typing@1",
     "@std/expect": "jsr:@std/expect@0.224.1",
     "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url"

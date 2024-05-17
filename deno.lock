@@ -9,6 +9,7 @@
       "jsr:@libs/logger": "jsr:@libs/logger@1.0.2",
       "jsr:@libs/logger@1": "jsr:@libs/logger@1.0.2",
       "jsr:@libs/qrcode": "jsr:@libs/qrcode@1.0.3",
+      "jsr:@libs/testing": "jsr:@libs/testing@1.0.2",
       "jsr:@libs/typing": "jsr:@libs/typing@1.0.2",
       "jsr:@libs/typing@1": "jsr:@libs/typing@1.0.2",
       "jsr:@std/assert@0.224.0": "jsr:@std/assert@0.224.0",
@@ -87,6 +88,14 @@
       },
       "@libs/qrcode@1.0.3": {
         "integrity": "366568461b19d7803462b0c9e5181d53aa07eeff0b4c65755c05c2c444e6f56f"
+      },
+      "@libs/testing@1.0.2": {
+        "integrity": "e6f1ab7494369efc8d2118e6f2e9a9a8ad82f23c782a416a08dd1a81977f59fc",
+        "dependencies": [
+          "jsr:@libs/typing@1",
+          "jsr:@std/expect@0.224.1",
+          "jsr:@std/path@0.225.1"
+        ]
       },
       "@libs/typing@1.0.2": {
         "integrity": "1ee1221792cdb5403c9a719ba09961033d575d61b939887e86a95c586cb6a347"
