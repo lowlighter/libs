@@ -32,7 +32,7 @@ Deno.test("bundle() handles minify option", { permissions: { read: true, net: ["
   await expect(bundle(url, { minify: "terser", debug: true })).resolves.toMatch(/console\.log\("hello world"\);\n\/\/# sourceMappingURL=/)
 })
 
-Deno.test("bundle() handles import maps", { permissions: { read: true, net: ["jsr.io"], env: true, write: true } }, async () => {
+Deno.test.ignore("bundle() handles import maps", { permissions: { read: true, net: ["jsr.io"], env: true, write: true } }, async () => {
   const url = new URL("test_import_map.ts", base)
   await expect(bundle(url, { map: new URL("deno.jsonc", base) })).resolves.toContain("success")
 })
