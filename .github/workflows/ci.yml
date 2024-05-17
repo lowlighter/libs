@@ -5,6 +5,19 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          # - bundle
+          # - crypto
+          # - diff
+          - logger
+          # - orm
+          - qrcode
+          # - reactive
+          - testing
+          - typing
+          # - xml
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
@@ -16,7 +29,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22.x
-      - run: deno task ci
+      - run: deno task ${{ matrix.package }}:ci
 
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -30,14 +43,17 @@ jobs:
     strategy:
       matrix:
         package:
-          - bundle
-          - crypto
-          - diff
+          # - bundle
+          # - crypto
+          # - diff
           - logger
+          # - orm
           - qrcode
+          # - reactive
           - testing
           - typing
+          # - xml
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
-      - run: deno task publish:${{ matrix.package }}
+      - run: deno task ${{ matrix.package }}:publish

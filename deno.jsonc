@@ -5,15 +5,30 @@
   "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
   "tasks": {
-    "ci": "deno fmt --check && rm coverage -rf && deno test --allow-all --coverage --doc && deno coverage && deno lint",
-    "test": "deno fmt && rm coverage -rf && deno test --allow-all --coverage --trace-leaks --doc && deno coverage --detailed && deno lint",
-    "publish:bundle": "cd bundle && deno publish",
-    "publish:crypto": "cd crypto && deno publish",
-    "publish:diff": "cd diff && deno publish",
-    "publish:logger": "cd logger && deno publish",
-    "publish:qrcode": "cd qrcode && deno publish",
-    "publish:typing": "cd typing && deno publish",
-    "publish:testing": "cd testing && deno publish"
+    "bundle:ci": "cd bundle && deno task ci",
+    "bundle:publish": "cd bundle && deno publish",
+    "crypto:ci": "cd crypto && deno task ci",
+    "crypto:publish": "cd crypto && deno publish",
+    "diff:ci": "cd diff && deno task ci",
+    "diff:publish": "cd diff && deno publish",
+    "logger:ci": "cd logger && deno task ci",
+    "logger:publish": "cd logger && deno publish",
+    "qrcode:ci": "cd qrcode && deno task ci",
+    "qrcode:publish": "cd qrcode && deno publish",
+    "typing:ci": "cd typing && deno task ci",
+    "typing:publish": "cd typing && deno publish",
+    "testing:ci": "cd testing && deno task ci",
+    "testing:publish": "cd testing && deno publish"
+  },
+  "imports": {
+    // Testing
+    "@libs/testing": "jsr:@libs/testing",
+    "@std/fmt/colors": "jsr:@std/fmt/colors",
+    "@std/path/basename": "jsr:@std/path/basename",
+    // Libraries
+    "@libs/typing": "jsr:@libs/typing@1",
+    "@std/expect": "jsr:@std/expect@0.224.1",
+    "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url"
   },
   "lint": {
     "rules": {
@@ -26,11 +41,5 @@
     "exclude": [
       "coverage"
     ]
-  },
-  "imports": {
-    "@libs/testing": "jsr:@libs/testing",
-    "@libs/typing": "jsr:@libs/typing@1",
-    "@std/expect": "jsr:@std/expect@0.224.1",
-    "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url"
   }
 }
