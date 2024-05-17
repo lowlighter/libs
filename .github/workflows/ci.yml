@@ -10,7 +10,7 @@ jobs:
         package:
           # - bundle
           - crypto
-          # - diff
+          - diff
           - logger
           # - orm
           - qrcode
@@ -45,7 +45,7 @@ jobs:
         package:
           # - bundle
           - crypto
-          # - diff
+          - diff
           - logger
           # - orm
           - qrcode
