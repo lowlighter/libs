@@ -19,7 +19,7 @@
 
 Below is an example on how it could be used within a [GitHub Actions](https://github.com/features/actions) workflow:
 
-```yml
+```yaml
 on:
   - push
   - pull_request

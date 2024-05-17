@@ -8,8 +8,10 @@ const decoder = new TextDecoder()
 /**
  * Available runtimes.
  *
- * Either `true` if available, `false` if unavailable, or `null` if unknown.
- * This is checked the first time a test is run with the corresponding runtime.
+ * Either:
+ * - `null` if not checked yet (it is checked the first time a test is run with the corresponding runtime)
+ * - `true` if available
+ * - `false` if unavailable
  */
 export const available = {
   deno: true,
@@ -35,40 +37,50 @@ type options = { permissions?: Deno.TestDefinition["permissions"] }
 type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn: () => Promisable<void>, options?: options) => Promisable<void>
 
 /**
- * Run a test case in selected runtimes using their own test engine within Deno.
+ * Run a test case with selected runtimes using their own test engine.
  *
- * The following runtimes are available:
- * - `deno`: using `Deno.test` directly
- * - `bun`: using `bun test` command
- * - `node`: using `npx tsx --test` command
+ * The following runtimes can be used:
+ * - `deno` which will use `Deno.test` directly
+ * - `bun` which will call `bun test`
+ * - `node` which will call `npx tsx --test`
  *
- * Use `all` to select all the runtimes mentioned above.
+ * All runtimes mentioned above can be selected at once using the `all` keyword.
  *
- * If a runtime is not available, the test for it will be skipped.
- * Since runtimes are executed using `Deno.command`, `--allow-run` permission are required.
+ * If a runtime is not available, the test will be skipped meaning that it is not necessary to install all runtimes on the system for development.
  *
- * When running on `deno`, default permissions are switched to `none` rather than `"inherit"`, but can be overridden through the {@link options} parameter.
- * Options are ignored for other runtimes.
- *
- * Dependencies are resolved using `deno info` and installed using the adequate package manager.
+ * Dependencies are resolved from `deno info` and are installed using the adequate package manager.
  * This is done only once per test file.
  *
+ * When a test case is run on `deno`, default permissions are set to `none` rather than `"inherit"` (they can still be set using the {@link options} parameter).
+ *
  * > [!IMPORTANT]
- * > It is currently not possible to use `jsr:` specifiers in other runtime other than deno,
- * > which is why it is recommended to use an import map instead.
- * > When publishing on jsr.io these will be rewritten into fully qualified specifiers
- * > eliminating the need of the import map (see {@link https://jsr.io/docs/publishing-packages#dependency-manifest} | dependency manifest).
+ * > Since runtimes are executed using `Deno.command`, `--allow-run` permission must be specified:
+ * > - `deno` is always required
+ * > - `bun` is required when `bun` runtime is used
+ * > - `node,npx` are required when `node` runtime is used
+ *
+ * > [!IMPORTANT]
+ * > It is currently not possible to use `jsr:` specifiers in runtime other than deno, which is why it is advised to use an import map to alias dependencies.
+ * > When publishing on {@link https://jsr.io | jsr.io}, these will be rewritten into fully qualified specifiers (see {@link https://jsr.io/docs/publishing-packages#dependency-manifest | dependency manifest}).
  *
  * @example
  * ```ts
  * import { test, expect } from "./mod.ts"
  *
- * test("deno", "bun", "node")(name, () => void expect(true))
+ * // Run tests on specified runtimes
  * test("all")(name, () => void expect(true))
- * test("deno")(name, () => expect(globalThis.Deno).toBeDefined(), { permissions: "inherit" })
+ * test("deno", "bun", "node")(name, () => void expect(true))
  *
- * // `skip` and `only` can be used to respectively skip or run only the test case
- * test.skip("all")(name, () => void null)
+ * // Using custom permissions for deno runtime
+ * test("deno")(name, () => expect(globalThis.Deno).toBeDefined(), { permissions: "inherit" })
+ * ```
+ *
+ * @example
+ * ```ts
+ * import { test, expect } from "./mod.ts"
+ *
+ * // `skip` and `only` can be used to respectively ignore or restrict a test run to specific cases
+ * test.skip()(name, () => void null)
  * ```
  */
 export const test = Object.assign(_test.bind(null, "test"), { skip: _test.bind(null, "skip"), only: _test.bind(null, "only") }) as (tester & { skip: tester; only: tester })
