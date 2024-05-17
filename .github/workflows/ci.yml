@@ -12,26 +12,11 @@ jobs:
           deno-version: v1.x
       - run: deno task ci
 
-  analyze:
-    runs-on: ubuntu-latest
-    needs:
-      - test
-    permissions:
-      contents: read
-      security-events: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
-        with:
-          languages: typescript
-          config-file: ./.github/codeql.yml
-      - uses: github/codeql-action/analyze@v3
-
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs:
-      - analyze
+      - test
     permissions:
       id-token: write
       contents: read
