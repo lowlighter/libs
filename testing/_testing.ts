@@ -32,7 +32,7 @@ type runtime = "deno" | "bun" | "node"
 type options = { permissions?: Deno.TestDefinition["permissions"] }
 
 /** Test runner. */
-type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn: () => Promisable<void>, options?: options) => void
+type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn: () => Promisable<void>, options?: options) => Promisable<void>
 
 /**
  * Run a test case in selected runtimes using their own test engine within Deno.
@@ -78,7 +78,7 @@ export const test = Object.assign(_test.bind(null, "test"), { skip: _test.bind(n
  *
  * If the runtime is not available, the test will be skipped.
  */
-function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, fn: () => Promisable<void>, options?: options) => void {
+function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, fn: () => Promisable<void>, options?: options) => Promisable<void> {
   const global = globalThis as rw
   let extension = ""
   if (global.Deno?.build.os === "windows") {

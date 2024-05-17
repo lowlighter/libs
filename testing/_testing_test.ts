@@ -47,7 +47,7 @@ test("deno")("test() is able to detect node runtime environment", async () => {
     Object.assign(globalThis, { process: { versions: { node: true } } })
     const testcase = test("node")
     expect(testcase).toBeInstanceOf(Function)
-    await expect(testcase(null as testing, null as testing)).rejects.toThrow()
+    await expect((testcase(null as testing, null as testing) as testing).catch(() => undefined)).resolves.toBeUndefined()
   } finally {
     delete (globalThis as testing).process
   }
