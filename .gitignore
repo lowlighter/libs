@@ -1,1 +1,7 @@
 coverage
+
+# NPM packages
+.npmrc
+node_modules
+package.json
+package-lock.json
