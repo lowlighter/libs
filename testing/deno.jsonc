@@ -1,0 +1,36 @@
+{
+  "name": "@libs/testing",
+  "version": "1.0.0",
+  "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
+  "author": "lowlighter (Simon Lecoq)",
+  "repository": "https://github.com/lowlighter/libs",
+  "license": "MIT License",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "imports": {
+    "@libs/typing": "jsr:@libs/typing@1",
+    "@std/expect": "jsr:@std/expect@0.224.1",
+    "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url",
+    "bun:test": "./_stub.ts"
+  },
+  "tasks": {
+    "fmt": "deno fmt",
+    "lint": "deno lint",
+    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx,invalid_path --allow-read --coverage --trace-leaks --doc && deno coverage --detailed",
+    "dev": "deno task fmt && deno task test && deno task lint && deno publish --dry-run",
+    "ci": "deno fmt --check && deno lint && deno publish --dry-run && deno task test"
+  },
+  "lint": {
+    "rules": {
+      "include": ["no-throw-literal", "no-eval", "eqeqeq", "ban-untagged-todo"]
+    }
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false,
+    "exclude": [
+      "coverage"
+    ]
+  }
+}

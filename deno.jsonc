@@ -12,7 +12,8 @@
     "publish:diff": "cd diff && deno publish",
     "publish:logger": "cd logger && deno publish",
     "publish:qrcode": "cd qrcode && deno publish",
-    "publish:typing": "cd typing && deno publish"
+    "publish:typing": "cd typing && deno publish",
+    "publish:testing": "cd testing && deno publish",
   },
   "lint": {
     "rules": {
@@ -25,5 +26,10 @@
     "exclude": [
       "coverage"
     ]
+  },
+  "imports": {
+    "@libs/typing": "jsr:@libs/typing@1",
+    "@std/expect": "jsr:@std/expect@0.224.1",
+    "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url"
   }
 }
