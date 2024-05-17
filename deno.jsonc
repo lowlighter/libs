@@ -15,6 +15,8 @@
     "logger:publish": "cd logger && deno publish",
     "qrcode:ci": "cd qrcode && deno task ci",
     "qrcode:publish": "cd qrcode && deno publish",
+    "reactive:ci": "cd reactive && deno task ci",
+    "reactive:publish": "cd reactive && deno publish",
     "typing:ci": "cd typing && deno task ci",
     "typing:publish": "cd typing && deno publish",
     "testing:ci": "cd testing && deno task ci",

@@ -14,7 +14,7 @@ jobs:
           - logger
           # - orm
           - qrcode
-          # - reactive
+          - reactive
           - testing
           - typing
           # - xml
@@ -49,7 +49,7 @@ jobs:
           - logger
           # - orm
           - qrcode
-          # - reactive
+          - reactive
           - testing
           - typing
           # - xml

@@ -1,0 +1,34 @@
+{
+  "name": "@libs/reactive",
+  "version": "1.0.0",
+  "description": "Reactive utilities for observable objects.",
+  "author": "lowlighter (Simon Lecoq)",
+  "repository": "https://github.com/lowlighter/libs",
+  "license": "MIT License",
+  "exports": {
+    "./context": "./context.ts"
+  },
+  "imports": {
+    "@libs/testing": "jsr:@libs/testing",
+    "@libs/typing": "jsr:@libs/typing@1",
+    "@std/collections/deep-merge": "jsr:@std/collections@0.224.1/deep-merge"
+  },
+  "tasks": {
+    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx,invalid_path --allow-read --no-prompt --coverage --trace-leaks --doc",
+    "dev": "deno fmt && deno task test --filter='[deno]' && deno coverage --detailed && deno lint && deno publish --dry-run --quiet",
+    "ci": "deno fmt --check && deno task test --quiet && deno coverage && deno lint",
+    "ci:coverage": "deno task test && deno coverage --html"
+  },
+  "lint": {
+    "rules": {
+      "include": ["no-throw-literal", "no-eval", "eqeqeq", "ban-untagged-todo"]
+    }
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false,
+    "exclude": [
+      "coverage"
+    ]
+  }
+}
