@@ -16,7 +16,7 @@
   "tasks": {
     "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx,invalid_path --allow-env=LOG_LEVEL --allow-read --no-prompt --quiet --coverage --trace-leaks --doc",
     "dev": "deno fmt && deno task test && deno coverage --detailed && deno lint && deno publish --dry-run --quiet",
-    "ci": "deno fmt --check && deno task test && deno coverage && deno lint && deno publish --dry-run --quiet",
+    "ci": "deno fmt --check && deno task test && deno coverage && deno lint",
     "ci:coverage": "deno task test && deno coverage --html"
   },
   "lint": {
