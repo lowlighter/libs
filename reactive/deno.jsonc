@@ -14,10 +14,10 @@
     "@std/collections/deep-merge": "jsr:@std/collections@0.224.1/deep-merge"
   },
   "tasks": {
-    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx,invalid_path --allow-read --no-prompt --coverage --trace-leaks --doc",
+    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --trace-leaks --doc",
     "dev": "deno fmt && deno task test --filter='[deno]' && deno coverage --detailed && deno lint && deno publish --dry-run --quiet",
     "ci": "deno fmt --check && deno task test --quiet && deno coverage && deno lint",
-    "ci:coverage": "deno task test && deno coverage --html"
+    "ci:coverage": "deno task test --quiet && deno coverage --html"
   },
   "lint": {
     "rules": {
