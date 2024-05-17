@@ -28,6 +28,7 @@
     // Libraries
     "@libs/typing": "jsr:@libs/typing@1",
     "@std/expect": "jsr:@std/expect@0.224.1",
+    "@std/collections/deep-merge": "jsr:@std/collections@0.224.1/deep-merge",
     "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url",
     "@std/encoding/base32": "jsr:@std/encoding@0.224.0/base32"
   },
