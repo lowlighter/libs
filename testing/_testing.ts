@@ -161,7 +161,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
 }
 
 /** Spawn runtime with specified args and environment. */
-function run(runtime: string, { args, env }: { args: string[]; env?: record<string> }) {
+export function run(runtime: string, { args, env }: { args: string[]; env?: record<string> }) {
   const command = new Deno.Command(runtime, { args, env, stdout: "piped", stderr: "piped" })
   const { success, code, ...stdio } = command.outputSync()
   const stdout = decoder.decode(stdio.stdout)

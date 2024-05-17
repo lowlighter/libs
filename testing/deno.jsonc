@@ -12,14 +12,18 @@
     "@libs/typing": "jsr:@libs/typing@1",
     "@std/expect": "jsr:@std/expect@0.224.1",
     "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url",
-    "bun:test": "./_stub.ts"
+    "bun:test": "./_stub.ts",
+    "node:test": "./_stub.ts"
+  },
+  "compilerOptions": {
+    // Used to stub "node:test" in tests
+    "allowArbitraryExtensions": true
   },
   "tasks": {
-    "fmt": "deno fmt",
-    "lint": "deno lint",
-    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx,invalid_path --allow-read --coverage --trace-leaks --doc && deno coverage --detailed",
-    "dev": "deno task fmt && deno task test && deno task lint && deno publish --dry-run",
-    "ci": "deno fmt --check && deno lint && deno publish --dry-run && deno task test"
+    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx,invalid_path --allow-read --no-prompt --quiet --coverage --trace-leaks --doc",
+    "dev": "deno fmt && deno task test && deno coverage --detailed && deno lint && deno publish --dry-run --quiet",
+    "ci": "deno fmt --check && deno task test && deno coverage && deno lint && deno publish --dry-run --quiet",
+    "ci:coverage": "deno task test && deno coverage --html"
   },
   "lint": {
     "rules": {
