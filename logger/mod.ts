@@ -11,17 +11,27 @@
  * - Log formatters
  *
  * @example
- * ```
+ * ```ts
  * import { Logger } from "./mod.ts"
- * const logger = new Logger({ level: Logger.level.info, tags: { foo: true} })
- * logger.info("message")
+ *
+ * // Configure logger
+ * const tags = { foo: true, bar: "string" }
+ * const options = { date: true, time: true, delta: true, caller: { file: true, fileformat: /.*\/(?<file>libs\/.*)$/, name: true, line: true } }
+ * const log = new Logger({ level: Logger.level.debug, options, tags })
+ *
+ * // Print logs
+ * log.error("🍱 bento")
+ * log.warn("🍜 ramen")
+ * log.info("🍣 sushi")
+ * log.log("🍥 narutomaki")
+ * log.debug("🍡 dango")
  * ```
  *
  * @author Simon Lecoq (lowlighter)
  * @license MIT
  */
 export class Logger {
-  /** Constructor */
+  /** Constructor. */
   constructor({ level, format, output, tags, options }: { level?: level; format?: format; output?: output; tags?: tags; options?: Partial<Omit<options, "caller">> & { caller?: Partial<Exclude<options["caller"], false>> | false } } = {}) {
     if (globalThis.Deno?.permissions.querySync({ name: "env", variable: "LOG_LEVEL" }).state === "granted") {
       const env = globalThis.Deno?.env.get("LOG_LEVEL") ?? ""
@@ -39,22 +49,22 @@ export class Logger {
     this.options = { date: false, time: false, delta: true, ...options, caller: options?.caller === false ? false : { file: false, name: false, line: false, ...options?.caller } } as options
   }
 
-  /** Logger level */
+  /** Logger level. */
   level: number
 
-  /** Logger formatter */
+  /** Logger formatter. */
   readonly #format
 
-  /** Logger output */
+  /** Logger output. */
   readonly #output
 
-  /** Logger tags */
+  /** Logger tags. */
   readonly tags: tags
 
-  /** Logger options */
+  /** Logger options. */
   readonly options: options
 
-  /** Write content in error stream */
+  /** Write content in error stream. */
   error(...content: unknown[]): this {
     if (this.level >= Logger.level.error) {
       this.#output?.error(...this.#format(this, { level: Logger.level.error, content }))
@@ -62,7 +72,7 @@ export class Logger {
     return this
   }
 
-  /** Write content in warn stream */
+  /** Write content in warn stream. */
   warn(...content: unknown[]): this {
     if (this.level >= Logger.level.warn) {
       this.#output?.warn(...this.#format(this, { level: Logger.level.warn, content }))
@@ -70,7 +80,7 @@ export class Logger {
     return this
   }
 
-  /** Write content in info stream */
+  /** Write content in info stream. */
   info(...content: unknown[]): this {
     if (this.level >= Logger.level.info) {
       this.#output?.info(...this.#format(this, { level: Logger.level.info, content }))
@@ -78,7 +88,7 @@ export class Logger {
     return this
   }
 
-  /** Write content in log stream */
+  /** Write content in log stream. */
   log(...content: unknown[]): this {
     if (this.level >= Logger.level.log) {
       this.#output?.log(...this.#format(this, { level: Logger.level.log, content }))
@@ -86,7 +96,7 @@ export class Logger {
     return this
   }
 
-  /** Write content in debug stream */
+  /** Write content in debug stream. */
   debug(...content: unknown[]): this {
     if (this.level >= Logger.level.debug) {
       this.#output?.debug(...this.#format(this, { level: Logger.level.debug, content }))
@@ -94,12 +104,12 @@ export class Logger {
     return this
   }
 
-  /** Instantiate a new {@link Logger} that inherits current instance settings but with additional tags */
+  /** Instantiate a new {@link Logger} that inherits current instance settings but with additional tags. */
   with(tags = {} as tags): Logger {
     return new Logger({ level: this.level, format: this.#format, output: this.#output, options: { ...this.options }, tags: { ...this.tags, ...tags } })
   }
 
-  /** Compute caller informations */
+  /** Compute caller informations. */
   #caller(i = 3 /* [#caller, Logger.format, Logger.{error,warn,info,log,debug}] */) {
     const Trace = Error as unknown as { prepareStackTrace: (error: Error, stack: CallSite[]) => unknown }
     const _ = Trace.prepareStackTrace
@@ -115,7 +125,7 @@ export class Logger {
     } as caller
   }
 
-  /** Logger levels */
+  /** Logger levels. */
   static readonly level = Object.freeze({
     disabled: NaN,
     error: 0,
@@ -132,9 +142,9 @@ export class Logger {
     debug: 4
   }>
 
-  /** Logger format */
+  /** Logger formatters. */
   static readonly format = {
-    /** Text formatter */
+    /** Text formatter. */
     text(logger: Logger, { level = 0, content }) {
       const color = ["red", "orange", "cyan", "white", "gray"][level as number]
       const text = [`%c ${Object.keys(Logger.level).find((key) => Logger.level[key as keyof typeof Logger.level] === level)!.toLocaleUpperCase().padEnd(5)} │%c`]
@@ -188,6 +198,7 @@ export class Logger {
       }
       return [text.join(""), ...styles, ...content.map(Logger.inspect)]
     },
+    /** JSON formatter. */
     json(logger: Logger, { level = 0, content }) {
       const data = {
         level: Object.keys(Logger.level).find((key) => Logger.level[key as keyof typeof Logger.level] === level),
@@ -227,47 +238,47 @@ export class Logger {
     },
   } as Record<PropertyKey, format>
 
-  /** Attempt to inspect value */
+  /** Inspect value. */
   static inspect(value: unknown): unknown {
     return globalThis.Deno?.inspect(value, { colors: true, depth: Infinity }) ?? value
   }
 }
 
-/** Logger level */
+/** Logger level. */
 export type level = number
 
-/** Logger format */
+/** Logger formatter. */
 type format = (logger: Logger, options: { level: level; content: unknown[] }) => string[]
 
-/** Logger output */
+/** Logger output. */
 //deno-lint-ignore ban-types
 type output = Record<Exclude<keyof typeof Logger.level, "disabled">, Function> | null
 
-/** Logger tags */
+/** Logger tags. */
 type tags = Record<PropertyKey, unknown>
 
-/** Logger options */
+/** Logger options. */
 export type options = {
-  /** Display caller informations */
+  /** Display caller informations (requires to be run on a V8 powered runtime). */
   caller: {
-    /** Display caller file path */
+    /** Display caller file path. */
     file: boolean
-    /** Caller file path formatter (use a named group `(?<path>)` to format the caller file path) */
-    fileformat: RegExp
-    /** Display caller name */
+    /** Display caller name. */
     name: boolean
-    /** Display caller file line and column */
+    /** Display caller file line and column. */
     line: boolean
+    /** Format caller file path (use a named group `(?<path>)` to format it). */
+    fileformat: RegExp
   } | false
-  /** Display date */
+  /** Display date. */
   date: boolean
-  /** Display time */
+  /** Display time. */
   time: boolean
-  /** Display delta (time elapsed since start) */
+  /** Display delta (time elapsed since start). */
   delta: boolean
 }
 
-/** Caller */
+/** Caller. */
 type caller = {
   file: string
   name: string | null
@@ -275,7 +286,7 @@ type caller = {
   column: number
 }
 
-/** CallSite (subset) */
+/** V8 CallSite (subset). */
 type CallSite = {
   getFileName: () => string
   getFunctionName: () => string | null

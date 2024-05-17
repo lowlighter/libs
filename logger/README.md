@@ -1,14 +1,11 @@
 # 📰 Logger
 
-[`🦕 Playground`](https://dash.deno.com/playground/libs-logger)
+[![JSR](https://jsr.io/badges/@libs/logger)](https://jsr.io/@libs/logger) [![JSR Score](https://jsr.io/badges/@libs/logger/score)](https://jsr.io/@libs/logger)
 
-This library is a simple improvement upon [`console`](https://developer.mozilla.org/en-US/docs/Web/API/console) API to provide additional metadata (such as timestamps and tags), and customization options.
+- [`🦕 Playground`](https://dash.deno.com/playground/libs-logger)
+- [`📚 Documentation`](https://jsr.io/@libs/logger/doc)
 
-When executed on a v8 runtime (such as deno), it can also provide caller information (like file path, function name, line and column) using the [`Error.prepareStackTrace`](https://v8.dev/docs/stack-trace-api) API.
-
-_Example output (with all options enabled):_ ![demo](/logger/mod.png)
-
-## Features
+## ✨ Features
 
 - Colored output
 - Log levels
@@ -25,20 +22,9 @@ _Example output (with all options enabled):_ ![demo](/logger/mod.png)
   - Text
   - JSON
 
-## Usage
+## 📜 License and credits
 
-```ts
-import { Logger } from "./mod.ts"
-
-// Configure logger
-const tags = { foo: true, bar: "string" }
-const options = { date: true, time: true, delta: true, caller: { file: true, fileformat: /.*\/(?<file>libs\/.*)$/, name: true, line: true } }
-const log = new Logger({ level: Logger.level.debug, options, tags })
-
-// Print logs
-log.error("🍱 bento")
-log.warn("🍜 ramen")
-log.info("🍣 sushi")
-log.log("🍥 narutomaki")
-log.debug("🍡 dango")
+```
+Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+https://github.com/lowlighter/libs/blob/main/LICENSE
 ```

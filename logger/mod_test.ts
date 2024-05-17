@@ -1,12 +1,10 @@
 import { Logger } from "./mod.ts"
-import { expect } from "jsr:@std/expect/expect"
-import { fn } from "jsr:@std/expect/fn"
-import type { test } from "jsr:@libs/typing"
-import { stripAnsiCode } from "jsr:@std/fmt/colors"
-import { basename } from "jsr:@std/path/basename"
+import { stripAnsiCode } from "@std/fmt/colors"
+import { basename } from "@std/path/basename"
+import { expect, fn, test, type testing } from "@libs/testing"
 
 function args(f: ReturnType<typeof fn>, { call = 0 } = {}) {
-  return (f as test)[Symbol.for("@MOCK")]?.calls[call]?.args
+  return (f as testing)[Symbol.for("@MOCK")]?.calls[call]?.args
 }
 
 function json(f: ReturnType<typeof fn>, { call = 0 } = {}) {
@@ -26,7 +24,7 @@ const levels = Object.keys(Logger.level).filter((level) => level !== "disabled")
 const { Deno: _Deno } = globalThis
 
 for (const level of levels) {
-  Deno.test(`Logger.${level}() outputs content`, { permissions: "none" }, () => {
+  test("all")(`Logger.${level}() outputs content`, () => {
     const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
     const log = new Logger({ output, level: Logger.level.debug, format: Logger.format.json })
     log[level]("foo")
@@ -38,13 +36,13 @@ for (const level of levels) {
   })
 }
 
-Deno.test("Logger.with() creates a new Logger with additional tags", { permissions: "none" }, () => {
+test("all")("Logger.with() creates a new Logger with additional tags", () => {
   const log = new Logger()
   expect(log.with({ foo: true }).tags).toEqual({ foo: true })
   expect(log.with({ foo: true }).with({ bar: true }).tags).toEqual({ foo: true, bar: true })
 })
 
-Deno.test("Logger.format.text() formats output", { permissions: "none" }, () => {
+test("all")("Logger.format.text() formats output", () => {
   const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
   const log = new Logger({ output, level: Logger.level.log, format: Logger.format.text, tags: { tag: true } })
   log.log("foo")
@@ -85,7 +83,7 @@ Deno.test("Logger.format.text() formats output", { permissions: "none" }, () => 
   expect(text(output.log, { call: 7 }).content).toEqual(['"garply"'])
 })
 
-Deno.test("Logger.format.json() formats output", { permissions: "none" }, () => {
+test("all")("Logger.format.json() formats output", () => {
   const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
   const log = new Logger({ output, level: Logger.level.log, format: Logger.format.json, tags: { tag: true } })
   log.log("foo")
@@ -127,7 +125,7 @@ Deno.test("Logger.format.json() formats output", { permissions: "none" }, () => 
   expect(json(output.log, { call: 7 })).toMatchObject({ content: ["garply"] })
 })
 
-Deno.test("Logger.level defaults to LOG_LEVEL environment variable", { permissions: { env: true } }, () => {
+test("deno")("Logger.level defaults to LOG_LEVEL environment variable", () => {
   const _ = Deno.env.get("LOG_LEVEL")
   try {
     expect(new Logger({ output: null }).level).toBe(Logger.level.log)
@@ -148,10 +146,10 @@ Deno.test("Logger.level defaults to LOG_LEVEL environment variable", { permissio
         Deno.env.delete("LOG_LEVEL")
     }
   }
-})
+}, { permissions: { env: ["LOG_LEVEL"] } })
 
-Deno.test("Logger supports non-deno runtimes", { permissions: "none" }, () => {
-  delete (globalThis as test).Deno
+test("deno")("Logger supports non-deno runtimes", () => {
+  delete (globalThis as testing).Deno
   expect(() => new Logger({ output: null }).log("foo")).not.toThrow()
   globalThis.Deno = _Deno
 })
