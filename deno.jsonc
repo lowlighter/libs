@@ -22,7 +22,7 @@
     "dev": "deno fmt && deno task test --filter='[deno]' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet",
     "ci": "deno fmt --check && deno task test --quiet && deno coverage --exclude=.js && deno lint",
     "ci:coverage": "deno task test --quiet && deno coverage --exclude=.js --html",
-    "build": "deno run --allow-read --allow-net --allow-env --allow-write --allow-run jsr:@libs/bundle@3.1.1/wasm/cli/build --auto-install --cwd wasm_xml_parser --banner='https://github.com/lowlighter/libs' wasm_xml_parser",
+    "build": "deno run --allow-read --allow-net --allow-env --allow-write --allow-run jsr:@libs/bundle@4/wasm/cli/build --auto-install --banner='https://github.com/lowlighter/libs' wasm_xml_parser",
     "bench": "deno bench --allow-read --allow-write=bench"
   },
   "lint": {
