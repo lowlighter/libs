@@ -1,4 +1,5 @@
 coverage
 wasm_xml_parser/target
+bench/assets/x-*.xml
 
 tmp

@@ -11,6 +11,8 @@
     "./stringify": "./stringify.ts"
   },
   "imports": {
+    "@std/fs/expand-glob":"jsr:@std/fs@0.224.0/expand-glob",
+    "@std/path/from-file-url":"jsr:@std/path@^0.224.0/from-file-url",
     "@libs/testing": "jsr:@libs/testing@1"
   },
   "tasks": {
@@ -18,7 +20,8 @@
     "dev": "deno fmt && deno task test --filter='[deno]' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet",
     "ci": "deno fmt --check && deno task test --quiet && deno coverage --exclude=.js && deno lint",
     "ci:coverage": "deno task test --quiet && deno coverage --exclude=.js --html",
-    "build:wasm": "deno run --allow-read --allow-env --allow-net --allow-write --allow-run=wasm-pack wasm_xml_parser/build.ts"
+    "build:wasm": "deno run --allow-read --allow-env --allow-net --allow-write --allow-run=wasm-pack wasm_xml_parser/build.ts",
+    "bench": "deno bench --allow-read --allow-write=bench"
   },
   "lint": {
     "rules": {
