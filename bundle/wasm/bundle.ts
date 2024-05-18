@@ -1,16 +1,12 @@
 // Imports
-import { toFileUrl } from "@std/path/to-file-url"
 import { encodeBase64 } from "@std/encoding/base64"
 import { bgCyan, yellow } from "@std/fmt/colors"
 import { bundle as bundle_ts } from "../ts/bundle.ts"
 import { assert } from "@std/assert"
-import { resolve } from "@std/path/resolve"
-import { Untar} from "jsr:@std/archive/untar"
-import { readerFromStreamReader } from "@std/io/reader-from-stream-reader"
-import { copy } from "@std/io/copy"
+import { Untar} from "@std/archive/untar"
+import { readerFromStreamReader, copy } from "@std/io"
 import { ensureFile } from "@std/fs"
-import { basename } from "@std/path/basename"
-import { dirname } from "@std/path/dirname"
+import { basename, dirname, toFileUrl, resolve } from "@std/path"
 
 /**
  * Build WASM, bundle and minify JavaScript.
