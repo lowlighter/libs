@@ -20,7 +20,12 @@
   },
   "lint": {
     "rules": {
-      "include": ["no-throw-literal", "no-eval", "eqeqeq", "ban-untagged-todo"]
+      "include": [
+        "no-throw-literal",
+        "no-eval",
+        "eqeqeq",
+        "ban-untagged-todo"
+      ]
     }
   },
   "fmt": {
@@ -28,7 +33,8 @@
     "semiColons": false,
     "exclude": [
       "coverage",
-      "node_modules"
+      "**/coverage",
+      "**/node_modules"
     ]
   }
 }
