@@ -1,235 +1,31 @@
-# XML stringifier/parser (TypeScript, no dependencies)
+# 📃 XML parser and stringifier
 
-[![jsr.io](https://img.shields.io/jsr/v/%40lowlighter/xml?style=flat-square&logo=javascript&label=jsr.io&labelColor=black&link=https%3A%2F%2Fjsr.io%2F%40lowlighter%2Fxml)](https://jsr.io/@lowlighter/xml)
-[![deno.land/x](https://img.shields.io/jsr/v/%40lowlighter/xml?style=flat-square&logo=deno&label=deno.land%2Fx&labelColor=black&link=https%3A%2F%2Fdeno.land%2Fx%2Fxml)](https://deno.land/x/xml)
-<img height="18px" src="https://jsr.io/logos/browsers.svg">
-<img height="18px" src="https://jsr.io/logos/deno.svg">
-<img height="18px" src="https://jsr.io/logos/bun.svg">
-<img height="18px" src="https://jsr.io/logos/node.svg">
+[![JSR](https://jsr.io/badges/@libs/xml)](https://jsr.io/@libs/xml) [![JSR Score](https://jsr.io/badges/@libs/xml/score)](https://jsr.io/@libs/xml)
 
-## Basic usage
+- [`🦕 Playground`](https://dash.deno.com/playground/libs-xml)
+- [`📚 Documentation`](https://jsr.io/@libs/xml/doc)
 
-```ts
-import { parse } from "./mod.ts"
+## ✨ Features
 
-console.log(parse(
-  `
-  <root>
-    <!-- This is a comment -->
-    <text>hello</text>
-    <array>world</array>
-    <array>monde</array>
-    <array>世界</array>
-    <array>🌏</array>
-    <number>42</number>
-    <boolean>true</boolean>
-    <complex attribute="value">content</complex>
-  </root>
-`,
-  { reviveNumbers: true, reviveBooleans: true },
-))
-/*
-  Same nodes are grouped into arrays, while numbers and booleans are auto-parsed (can be disabled)
-  Nodes with attributes will not be flattened and you'll be able to access them with "@" prefix while
-  text nodes are available through "#text" key and comment nodes are available through "#comment" key
-  {
-    root: {
-      "#comment": "This is a comment",
-      text: "hello",
-      array: ["world", "monde", "世界", "🌏"],
-      number: 42,
-      boolean: true,
-      complex: {
-        "@attribute": "value",
-        "#text": "content",
-      }
-    }
-  }
-*/
-```
-
-```ts
-import { stringify } from "./mod.ts"
-
-console.log(stringify({
-  root: {
-    "#comment": "This is a comment",
-    text: "hello",
-    array: ["world", "monde", "世界", "🌏"],
-    number: 42,
-    boolean: true,
-    complex: {
-      "@attribute": "value",
-      "#text": "content",
-    },
-  },
-}))
-```
-
-## Features
-
-Follow
-[XML.com's **Converting between XML and JSON**](https://www.xml.com/pub/a/2006/05/31/converting-between-xml-and-json.html)
-patterns.
-
-- Support basic XML features (tags, self-closed tags, nested tags, attributes, ...)
+- Based on [quick-xml](https://github.com/tafia/quick-xml) rust package (compiled to WASM)
 - Support `XML.parse` and `XML.stringify`
-- Support `<?xml ?>` prolog declaration
-- Support `<!DOCTYPE>` declaration
-- Support `<![CDATA[ ]]` strings
 - Support `<!-- -->` comments
 - Support XML entities (`&amp;`, `&#38;`, `&#x26;`, ...)
-- Support auto-conversion of primitives (strings, booleans, numbers, null, ...)
-- Support strings or streams (`ReaderSync & SeekerSync`) inputs
-- Support custom revivers and replacers
-- Support metadata (parent, name, ...) hidden in a non-enumerable property
-- Auto-group nodes into arrays when same tag is used
-- Auto-unwrap nodes when it only has text content
+- Support mixed content (text and nodes)
+- Large output transformation options
+  - Auto-flattening of nodes with a single child, text or attributes
+  - Auto-revival of `boolean`, `number`, etc.
+  - Auto-group same-named nodes into arrays
+  - Custom `reviver` function
+- Metadata stored into non-enumerable properties for advanced usage
 
-How reliable is `deno.land/x/xml`? Check [parse tests](/parse_test.ts) and [stringify tests](/stringify_test.ts) 🧪
+## 📜 License and credits
 
-### Limitations
-
-- When using mixed content of texts and child nodes, it will be parsed as a text node
-- When using mixed group of nodes, `XML.stringify(XML.parse()))` may result in a different order
-  - _Example: `<a><b/><c/><b/></a>` will result in `<a><b/><b/><c/></a>`_
-  - _This may or may not be acceptable depending on your use case_
-
-### Revivers
-
-By default, node contents will be converted to:
-
-- `null` when empty, unless `emptyToNull = false`
-- `number` when matching finite numbers, if `reviveNumbers = true`
-- `boolean` when matching `true` or `false` (case insensitive), if `reviveBooleans = true`
-
-XML entities (e.g. `&amp;`, `&#38;`, `&#x26;`, ...) will be unescaped automatically.
-
-It is also possible to provide a custom reviver for complex transformations:
-
-```ts
-import { parse } from "./mod.ts"
-console.log(parse(
-  `
-  <prices>
-    <product>dakimakura</product>
-    <price currency="usd">10.5</price>
-    <price currency="eur">10.5</price>
-    <price currency="yen">10.5</price>
-    <useless/>
-  </prices>
-`,
-  {
-    reviver({ value, key, tag, properties }) {
-      //Apply special processing for tag, attributes and properties
-      if (tag === "price") {
-        if (key === "@currency") {
-          return { usd: "$", eur: "€", yen: "¥" }[value as string] ?? "?"
-        }
-        if (key === "#text") {
-          delete this["@currency"]
-          return `${value}${properties?.["@currency"]}`
-        }
-      }
-      //Filter out useless elements
-      if (tag === "useless") {
-        return undefined
-      }
-      return value
-    },
-  },
-))
-/*
-  Like JSON.parse's reviver, computed value can be transformed before being returned.
-  - `this` will refer to the node being edited, meaning that any edition will reflect
-    on final parsed value.
-  - `properties` can be accessed only after all other node's properties have been
-    parsed
-  - returning `undefined` (or nothing) will filter out current value
-  {
-    prices: {
-      product: "dakimakura",
-      price: [ "10.5$", "10.5€", "10.5¥" ]
-    }
-  }
-*/
+```
+Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+https://github.com/lowlighter/libs/blob/main/LICENSE
 ```
 
-### Replacers
+This library used to be published at [deno.land/x/xml](https://deno.land/x/xml) and [jsr.io/@lowlighter/xml](https://jsr.io/@lowlighter/xml). It was moved into [jsr.io/@libs/xml](https://jsr.io/@libs/xml) starting version `5.0.0`.
 
-By default, node contents will be converted to:
-
-- `""` when `null`, unless `nullToEmpty = false`
-- XML entities (e.g. `&;`, `<`, `>`, `"`, `'` ...) will be escaped when needed, unless `escapeAllEntities = true` in
-  which case they will always be escaped
-
-### XML metadata
-
-It is possible to access several metadata properties using `$XML` symbol, like parent node, name, etc.
-
-```ts
-import { $XML, parse } from "./mod.ts"
-console.log($XML)
-console.log(Deno.inspect(
-  parse(
-    `
-  <root>
-    <child>hello world</child>
-  </root>
-`,
-    { flatten: false },
-  ),
-  { showHidden: true, compact: false },
-))
-/*
-  Symbol("x/xml")
-  {
-    root: {
-      child: {
-        "#text": "hello world",
-        [Symbol("x/xml")]: {
-          name: "child",
-          parent: [Circular]
-        }
-      },
-      [Symbol("x/xml")]: {
-        name: "root",
-        parent: null
-      }
-    }
-  }
-*/
-```
-
-#### Stringify as CDATA
-
-The `Symbol("x/xml")` for the root document may contain an `Array<string[]>` where each value contains an xml path
-towards a node that should be wrapped in CDATA.
-
-For more complex transformations, use a `reviver` instead.
-
-### Parsing large files
-
-Parsing large files of several mega bytes can take some time. You can use `progress` option to pass a callback each time
-a node has been parsed.
-
-```ts
-import { parse } from "./mod.ts"
-const file = await Deno.open("my.xml")
-const { size } = await file.stat()
-console.log(parse(file, {
-  progress(bytes) {
-    Deno.stdout.writeSync(
-      new TextEncoder().encode(
-        `Parsing document: ${(100 * bytes / size).toFixed(2)}%\r`,
-      ),
-    )
-  },
-}))
-```
-
-### Why does this use synchronous API ?
-
-While there are no official specs for `XML.parse` and `XML.stringify`, it is intended to look like
-[native JSON handler](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON), hence why
-it is synchronous, and contains replacers and revivers.
+Version prior to `5.0.0` used to be fully written in TypeScript but it was rewritten in Rust to improve performances and support more features.

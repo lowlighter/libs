@@ -1,36 +1,46 @@
 {
-  "name": "@lowlighter/xml",
-  "version": "4.0.1",
-  "description": "A XML parser/stringifier written in typescript and with no dependencies",
+  "name": "@libs/xml",
+  "version": "5.0.0",
+  "description": "XML parse/stringifier with no dependencies.",
   "author": "lowlighter (Simon Lecoq)",
-  "repository": "https://github.com/lowlighter/xml",
+  "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts",
-    "./stringify": "./stringify.ts",
-    "./types": "./utils/types.ts"
+    "./stringify": "./stringify.ts"
+  },
+  "imports": {
+    "@libs/testing": "jsr:@libs/testing@1"
   },
   "tasks": {
-    "ci": "deno fmt --check && deno task test && deno task bench",
-    "test": "deno fmt && deno test --coverage --doc --allow-read --allow-env --allow-run=node,bun --allow-write=utils/tests --allow-net=jsr.io && deno coverage --exclude=utils/test && deno lint",
-    "bench": "deno bench --allow-read --allow-write=utils/tests",
+    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --trace-leaks --doc",
+    "dev": "deno fmt && deno task test --filter='[deno]' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet",
+    "ci": "deno fmt --check && deno task test --quiet && deno coverage --exclude=.js && deno lint",
+    "ci:coverage": "deno task test --quiet && deno coverage --exclude=.js --html",
     "build:wasm": "deno run --allow-read --allow-env --allow-net --allow-write --allow-run=wasm-pack wasm_xml_parser/build.ts"
   },
   "lint": {
     "rules": {
-      "exclude": ["no-extra-semi"]
+      "include": [
+        "no-throw-literal",
+        "no-eval",
+        "eqeqeq",
+        "ban-untagged-todo"
+      ]
     },
     "exclude": [
-      "utils/tests/compatibility/_example.node.mjs"
+      "**/wasm_xml_parser"
     ]
   },
   "fmt": {
-    "lineWidth": 120,
+    "lineWidth": 280,
     "semiColons": false,
     "exclude": [
-      "utils/tests/compatibility/_example.node.mjs",
-      "coverage"
+      "coverage",
+      "**/coverage",
+      "**/node_modules",
+      "**/wasm_xml_parser"
     ]
   }
 }
