@@ -61,7 +61,7 @@
     ],
     "packageJson": {
       "dependencies": [
-        "npm:@jsr/libs__testing@^1.0.3",
+        "npm:@jsr/libs__testing@^1.0.4",
         "npm:@jsr/libs__typing@^1.0.2",
         "npm:@jsr/std__assert@^0.225.2",
         "npm:@jsr/std__encoding@^0.224.0",
