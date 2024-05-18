@@ -8,7 +8,7 @@
 import { bundle } from "../bundle.ts"
 import { parseArgs } from "@std/cli"
 
-let { help, ["auto-install"]:autoinstall, bin, cwd, banner, _: [project] } = parseArgs(Deno.args, { boolean: ["auto-install"], alias: { help: "h", "auto-install":"i", bin:"x", cwd:"p", banner:"b" }, string: ["bin", "cwd", "banner"] })
+let { help, ["auto-install"]: autoinstall, bin, cwd, banner, _: [project] } = parseArgs(Deno.args, { boolean: ["auto-install"], alias: { help: "h", "auto-install": "i", bin: "x", cwd: "p", banner: "b" }, string: ["bin", "cwd", "banner"] })
 if (help) {
   console.log("WASM bundler")
   console.log("https://github.com/lowlighter/libs - MIT License - (c) 2024 Simon Lecoq")
@@ -27,6 +27,7 @@ if (help) {
 }
 
 cwd ??= Deno.cwd()
-if ((Deno.permissions.querySync({name:"env", variable:"CI"}).state === "granted")&&(Deno.env.get("CI")))
+if ((Deno.permissions.querySync({ name: "env", variable: "CI" }).state === "granted") && (Deno.env.get("CI"))) {
   autoinstall ??= true
+}
 await bundle(`${project}`, { bin, cwd, banner, autoinstall })

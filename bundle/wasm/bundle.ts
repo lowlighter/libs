@@ -3,10 +3,10 @@ import { encodeBase64 } from "@std/encoding/base64"
 import { bgCyan, yellow } from "@std/fmt/colors"
 import { bundle as bundle_ts } from "../ts/bundle.ts"
 import { assert } from "@std/assert"
-import { Untar} from "@std/archive/untar"
-import { readerFromStreamReader, copy } from "@std/io"
+import { Untar } from "@std/archive/untar"
+import { copy, readerFromStreamReader } from "@std/io"
 import { ensureFile } from "@std/fs"
-import { basename, dirname, toFileUrl, resolve } from "@std/path"
+import { basename, dirname, resolve, toFileUrl } from "@std/path"
 
 /**
  * Build WASM, bundle and minify JavaScript.
@@ -19,16 +19,15 @@ import { basename, dirname, toFileUrl, resolve } from "@std/path"
  * await bundle("my_wasm_module", { cwd: "path/to/rust/project" })
  * ```
  */
-export async function bundle(name: string, { bin = "wasm-pack", autoinstall = false, cwd, banner }: { bin?:string, autoinstall?:boolean, cwd: string; banner?: string }): Promise<void> {
+export async function bundle(name: string, { bin = "wasm-pack", autoinstall = false, cwd, banner }: { bin?: string; autoinstall?: boolean; cwd: string; banner?: string }): Promise<void> {
   // Autoinstall wasm-pack if needed
   if (autoinstall) {
     try {
       await new Deno.Command(bin, { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit" }).output()
-    }
-    catch (error) {
+    } catch (error) {
       if (error instanceof Deno.errors.NotFound) {
         console.warn(yellow("wasm-pack not found, installing..."))
-        bin = await install({path: dirname(bin)})
+        bin = await install({ path: dirname(bin) })
       }
     }
   }
@@ -61,19 +60,19 @@ export async function bundle(name: string, { bin = "wasm-pack", autoinstall = fa
 /**
  * Install wasm-pack.
  */
-async function install({path = "."} = {}) {
+async function install({ path = "." } = {}) {
   // List releases and select asset for current platform
   console.log(bgCyan("wasm-pack install".padEnd(48)))
-  const {tag_name, assets:assets} = await fetch("https://api.github.com/repos/rustwasm/wasm-pack/releases/latest").then(response => response.json())
+  const { tag_name, assets: assets } = await fetch("https://api.github.com/repos/rustwasm/wasm-pack/releases/latest").then((response) => response.json())
   console.log(`found ${tag_name}`)
   const packaged = assets
-    .map(({name, browser_download_url:url}:{name:string, browser_download_url:string}) => ({name, url}))
-    .find(({name}:{name:string}) => name.includes(Deno.build.os) && name.includes(Deno.build.arch))
+    .map(({ name, browser_download_url: url }: { name: string; browser_download_url: string }) => ({ name, url }))
+    .find(({ name }: { name: string }) => name.includes(Deno.build.os) && name.includes(Deno.build.arch))
   assert(packaged, `cannot find suitable release for ${Deno.build.os}-${Deno.build.arch}`)
   console.log(`found ${packaged.name} for ${Deno.build.os}-${Deno.build.arch}`)
   // Download archive
   console.log(bgCyan("downloading release".padEnd(48)))
-  const reader = readerFromStreamReader(await fetch(packaged.url).then(response => response.body!.pipeThrough(new DecompressionStream("gzip")).getReader()))
+  const reader = readerFromStreamReader(await fetch(packaged.url).then((response) => response.body!.pipeThrough(new DecompressionStream("gzip")).getReader()))
   console.log("ok")
   // Extract archive
   console.log(bgCyan("extracting release".padEnd(48)))
@@ -84,14 +83,16 @@ async function install({path = "."} = {}) {
   const untar = new Untar(reader)
   for await (const entry of untar) {
     const filename = basename(entry.fileName)
-    if (!filename.startsWith("wasm-pack"))
+    if (!filename.startsWith("wasm-pack")) {
       continue
-    if (entry.type !== "file")
+    }
+    if (entry.type !== "file") {
       continue
+    }
     path = resolve(path, filename)
     console.log(`write: ${path}`)
     await ensureFile(path)
-    using file = await Deno.open(path, { write: true, truncate:true, mode:0o755 });
+    using file = await Deno.open(path, { write: true, truncate: true, mode: 0o755 })
     await copy(entry, file)
     break
   }
