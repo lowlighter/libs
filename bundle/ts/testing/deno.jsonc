@@ -1,6 +1,6 @@
 {
   "imports": {
-    "@jsr": "jsr:@std/fmt/colors"
+    "@std/fmt/colors": "jsr:@std/fmt/colors"
   },
   "lock": false
 }

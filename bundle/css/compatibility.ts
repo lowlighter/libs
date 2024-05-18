@@ -1,26 +1,3 @@
-/**
- * Module to check the compatibility of CSS stylesheets with browsers using
- * {@link https://github.com/mdn/browser-compat-data | MDN compatibility browser data}.
- *
- * This parses the CSS stylesheet into an AST and checks against the compatibility data.
- * It will try to check general compatibility for a given feature, and attempt more
- * granular checks for specific values.
- *
- * Note that it may not be entirely accurate as it does not actually check the
- * validity of the CSS, it only try to map back to the compatibility data.
- *
- * Report can be either printed in console or exported as a already styled HTML table.
- *
- * ________________________________________________________________________________
- *
- * Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
- * https://github.com/lowlighter/libs/blob/main/LICENSE
- *
- * @author Simon Lecoq (lowlighter)
- * @license MIT
- * @module
- */
-
 // Imports
 import { generate, parse, walk } from "npm:css-tree@2"
 import browserslist from "npm:browserslist@4"
@@ -87,9 +64,40 @@ const browsers = {
 const vendors = /^(?:@|::|:)?(?<prefix>-(?:webkit|moz|o|ms|__debug)-)/
 
 /**
- * Compatibility data generator
+ * Compatibility data generator.
+ *
+ * Check the compatibility of CSS stylesheets with browsers using {@link https://github.com/mdn/browser-compat-data | MDN compatibility browser data}.
+ *
+ * This parses the CSS stylesheet into an AST and checks against the compatibility data.
+ * It will try to check general compatibility for a given feature, and attempt more granular checks for specific values.
+ *
+ * Note that it may not be entirely accurate as it does not actually check the * validity of the CSS, it only try to map back to the compatibility data.
+ * Report can be either printed in console or exported as a already styled HTML table.
  *
  * This is a helper around {@link Report} which resolves css urls, instantiate a new report and return the printed result.
+ *
+ * @example
+ * ```ts
+ * import { compatibility } from "./compatibility.ts"
+ *
+ * // Print compatibility report in console
+ * await compatibility(new URL("testing/test_bundle.css", import.meta.url), { query:"defaults", output:"console" })
+ * ```
+ * @example
+ * ```ts
+ * import { compatibility } from "./compatibility.ts"
+ *
+ * // Format compatibility report as HTML table
+ * // Use `style: false` to remove <style> tag from output and use your own styling instead
+ * await compatibility(new URL("testing/test_bundle.css", import.meta.url), { query:"defaults", output:"html", style:true })
+ * ```
+ * ________________________________________________________________________________
+ *
+ * Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+ * https://github.com/lowlighter/libs/blob/main/LICENSE
+ *
+ * @author Simon Lecoq (lowlighter)
+ * @license MIT
  */
 export async function compatibility(input: URL | string, { query = "defaults", loglevel, ...options }: { query?: Arrayable<string>; loglevel?: loglevel } & Arg<Report["print"], 1> = {}): Promise<string> {
   const code = input instanceof URL ? await fetch(input).then((response) => response.text()) : input
@@ -97,26 +105,35 @@ export async function compatibility(input: URL | string, { query = "defaults", l
 }
 
 /**
- * Report
+ * Report.
  *
- * Create a new compatibility report for a given CSS stylesheet content
+ * Create a new compatibility report for a given CSS stylesheet content.
  *
  * Select browsers to test using {@link https://github.com/browserslist/browserslist?tab=readme-ov-file#queries | browserslist queries}.
  *
+ * @example
  * ```ts
  * import { Report } from "./compatibility.ts"
  *
- * // Stylesheet content
- * const css = "body { color: salmon; }"
+ * // Check compatibility
+ * const report = new Report("> 1%")
+ * const result = report.for("div { backdrop-filter: blur(5px); }")
+ * result.features.list.includes("css-backdrop-filter")
+ * console.log(result.browsers.ie["9"].support.unsupported)
  *
- * // Create a new report, using browserlist queries
- * const report = new Report("defaults, ie > 8")
- * const result = report.for(css)
+ * // HTML table reports
+ * console.log(report.print(result, { output: "html", verbose: false }))
  *
- * // Print result
- * result.print({ output: "console", view: "browsers" })
- * result.print({ output: "html", view: "browsers" })
+ * // Console table reports
+ * report.print(result, { output: "console", verbose: false })
  * ```
+ * ________________________________________________________________________________
+ *
+ * Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+ * https://github.com/lowlighter/libs/blob/main/LICENSE
+ *
+ * @author Simon Lecoq (lowlighter)
+ * @license MIT
  */
 export class Report {
   /** Constructor */

@@ -1,87 +1,42 @@
-# 🗜️ Bundler
+# 📦 Bundle utilities
 
-## TypeScript
+[![JSR](https://jsr.io/badges/@libs/bundle)](https://jsr.io/@libs/bundle) [![JSR Score](https://jsr.io/badges/@libs/bundle/score)](https://jsr.io/@libs/bundle)
 
-[`🦕 Playground`](https://dash.deno.com/playground/libs-bundle)
+## 🗜️ TypeScript
 
-A wrapper around [`deno_emit`](https://github.com/denoland/deno_emit) to bundle and transpile TypeScript to JavaScript.
+- [`🦕 Playground`](https://dash.deno.com/playground/libs-bundle)
+- [`📚 Documentation`](https://jsr.io/@libs/bundle/doc/ts/~)
 
-### Features
+### ✨ Features
 
-- Support for raw TypeScript string input
+- Support passing either raw TypeScript string or file URL
 - Support for banner option
 - Minification enabled by default
-- Support advanced minification through [Terser](https://terser.org)
+  - Support advanced minification through [Terser](https://terser.org)
 
-### Usage
+### 📜 License and credits
 
-```ts
-import { bundle } from "./ts/bundle.ts"
-const base = new URL("testing/", import.meta.url)
-
-// From string
-console.log(await bundle(`console.log("Hello world")`))
-
-// From file
-console.log(await bundle(new URL("test_bundle.ts", base)))
-
-// Using an import map
-console.log(await bundle(new URL("test_import_map.ts", base), { map: new URL("deno.jsonc", base) }))
+```
+Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+https://github.com/lowlighter/libs/blob/main/LICENSE
 ```
 
-## CSS
+## 🎨 CSS
 
-[`🦕 Playground`](https://dash.deno.com/playground/libs-bundle)
+- [`🦕 Playground`](https://dash.deno.com/playground/libs-bundle)
+- [`📚 Documentation`](https://jsr.io/@libs/bundle/doc/css/~)
 
-A wrapper around [`stylelint`](https://github.com/stylelint/stylelint) to bundle, format and minify CSS.
+### ✨ Features
 
-### Features
-
-- Support for lint and formatting
+- Support passing either raw CSS string or file URL
 - Support for banner option
 - Support minification through [CSSO](https://github.com/css/csso)
-- [MDN compatibility data](https://github.com/mdn/browser-compat-data) checker
-- CLI Formatter
+- Support fomatting and linting through [StyleLint](https://github.com/stylelint/stylelint)
+- Compatibility checker against [MDN compatibility data](https://github.com/mdn/browser-compat-data)
 
-### CLI usage
+### 📜 License and credits
 
-#### Formatter
-
-```sh
-deno run https://jsr.io/@libs/bundle/css/fmt.ts --help
 ```
-
-#### Compatibility checker
-
-```sh
-deno run https://jsr.io/@libs/bundle/css/check.ts --help
-```
-
-### Usage
-
-```ts
-import { bundle } from "./css/bundle.ts"
-const base = new URL("testing/", import.meta.url)
-
-// From string
-console.log(await bundle(`body { color: salmon; }`))
-
-// From file
-console.log(await bundle(new URL("test_bundle.css", base)))
-```
-
-```ts
-import { Report } from "./css/compatibility.ts"
-
-// Check compatibility
-const report = new Report("> 1%")
-const result = report.for("div { backdrop-filter: blur(5px); }")
-result.features.list.includes("css-backdrop-filter")
-console.log(result.browsers.ie["9"].support.unsupported)
-
-// HTML table reports
-console.log(report.print(result, { output: "html", verbose: false }))
-
-// Console table reports
-report.print(result, { output: "console", verbose: false })
+Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+https://github.com/lowlighter/libs/blob/main/LICENSE
 ```

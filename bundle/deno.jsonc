@@ -1,16 +1,56 @@
 {
   "name": "@libs/bundle",
-  "version": "2.1.0",
-  "description": "Code bundlers",
+  "version": "3.0.0",
+  "description": "Code bundlers, formatters, minifiers and others tools.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
   "exports": {
     "./ts": "./ts/mod.ts",
     "./css": "./css/mod.ts",
-    "./ts/bundle": "./ts/bundle.ts",
-    "./css/bundle": "./css/bundle.ts",
-    "./css/compatibility": "./css/compatibility.ts",
-    "./css/fmt": "./css/fmt.ts"
+    "./css/cli/fmt": "./css/cli/fmt.ts",
+    "./css/cli/check": "./css/cli/check.ts"
+  },
+  "imports": {
+    "@std/fs": "jsr:@std/fs@0.225.1",
+    "@std/assert": "jsr:@std/assert@0.225.1",
+    "@std/semver": "jsr:@std/semver@0.225.1",
+    "@std/encoding/base32": "jsr:@std/encoding@0.225.1/base32",
+    "@std/encoding/base64": "jsr:@std/encoding@0.225.1/base64",
+    "@std/cli": "jsr:@std/cli@0.225.1",
+    "@std/fmt/colors": "jsr:@std/fmt@0.225.1/colors",
+    "@libs/logger": "jsr:@libs/logger@1",
+    "@libs/testing": "jsr:@libs/testing@1",
+    "@libs/typing": "jsr:@libs/typing@1",
+    "@cliffy/table": "jsr:@cliffy/table@1.0.0-rc.4",
+    "@mdn/browser-compat-data": "npm:@mdn/browser-compat-data@5",
+    "@deno/emit": "jsr:@deno/emit@0.40",
+    "terser": "npm:terser@5",
+    "browserslist": "npm:browserslist@4",
+    "css-tree": "npm:css-tree@2",
+    "csso": "npm:csso@5",
+    "stylelint": "npm:stylelint@16",
+    "stylelint-order": "npm:stylelint-order@6",
+    "stylelint-config-recommended": "npm:stylelint-config-recommended@14",
+    "stylelint-config-idiomatic-order": "npm:stylelint-config-idiomatic-order@10"
+  },
+  "tasks": {
+    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --allow-sys --allow-read --allow-env --allow-net --allow-write --no-prompt --coverage --trace-leaks --doc",
+    "dev": "deno fmt && deno task test --filter='[deno]' && deno coverage --detailed && deno lint && deno publish --dry-run --quiet",
+    "ci": "deno fmt --check && deno task test --quiet && deno coverage && deno lint",
+    "ci:coverage": "deno task test --quiet && deno coverage --html"
+  },
+  "lint": {
+    "rules": {
+      "include": ["no-throw-literal", "no-eval", "eqeqeq", "ban-untagged-todo"]
+    }
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false,
+    "exclude": [
+      "coverage",
+      "node_modules"
+    ]
   }
 }

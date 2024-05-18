@@ -7,11 +7,11 @@
  */
 
 // Imports
-import { bundle } from "./bundle.ts"
-import { expandGlob } from "jsr:@std/fs@0.224.0"
-import { assertEquals } from "jsr:@std/assert@0.224.0"
-import { green, red } from "jsr:@std/fmt@0.224.0/colors"
-import { parseArgs } from "jsr:@std/cli@0.224.0"
+import { bundle } from "../bundle.ts"
+import { expandGlob } from "@std/fs"
+import { assertEquals } from "@std/assert"
+import { green, red } from "@std/fmt/colors"
+import { parseArgs } from "@std/cli"
 
 const { check, help, root = ".", exclude, _: globs } = parseArgs(Deno.args, { boolean: ["check", "help"], alias: { help: "h", check: "c", exclude: "e", root: "r" }, string: ["root"], collect: ["exclude"] })
 if (help) {

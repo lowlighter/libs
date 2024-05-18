@@ -1,27 +1,28 @@
-/**
- * Wrapper around https://github.com/denoland/deno_emit to bundle and transpile TypeScript to JavaScript.
- *
- * Significant changes includes:
- * - Support for raw TypeScript string input
- * - Default options changed (minification enabled by default)
- * - Support for banner option
- * - Support advanced minification through {@link https://terser.org | Terser}
- * @module
- */
-
 // Imports
-import { bundle as emit, type BundleOptions } from "jsr:@deno/emit@0.40"
-import { encodeBase64 } from "jsr:@std/encoding@0.224.0/base64"
-import { minify as terser } from "npm:terser@5"
+import { bundle as emit, type BundleOptions } from "@deno/emit"
+import { encodeBase64 } from "@std/encoding/base64"
+import { minify as terser } from "terser"
 
 /**
- * Bundle and transpile TypeScript to JavaScript
+ * Bundle and transpile TypeScript to JavaScript.
+ *
+ * Minification can be either:
+ * - `terser` for advanced minification through {@link https://terser.org | Terser}
+ * - `basic` for basic minification through {@link https://github.com/denoland/deno_emit | deno_emit}
+ *
+ * A banner option can be provided to prepend a comment to the output, which can be useful for licensing information.
  *
  * @example
  * ```
  * // From file
  * import { bundle } from "./bundle.ts"
  * console.log(await bundle(new URL(import.meta.url)))
+ * ```
+ * @example
+ * ```
+ * // From string
+ * import { bundle } from "./bundle.ts"
+ * console.log(await bundle(new URL(import.meta.url), { map: new URL("deno.jsonc", import.meta.url) }))
  * ```
  *
  * @example

@@ -6,19 +6,19 @@ import type { test } from "jsr:@libs/typing@1"
 
 const base = new URL("testing/", import.meta.url)
 
-Deno.test("report.for() detects features", { permissions: { read: true } }, async () => {
+test("deno")("report.for() detects features", async () => {
   const css = await bundle(new URL("test_compatibility.css", base))
   const result = new Report("defaults, ie > 8", { loglevel: -1 }).for(css)
   expect(result.features.list).toContain("properties/backdrop-filter")
   expect(result.browsers.ie["9"].support.unsupported).toHaveProperty("properties/backdrop-filter")
-})
+}, { permissions: { read: true } })
 
-Deno.test("report.for() supports advanced usecases", { permissions: { read: true } }, async () => {
+test("deno")("report.for() supports advanced usecases", async () => {
   const css = await bundle(new URL("test_compatibility_complex.css", base))
   expect(() => new Report("> 0%", { loglevel: -1 }).for(css)).not.toThrow()
-})
+}, { permissions: { read: true } })
 
-Deno.test("report.print() formats and outputs results", { permissions: { read: true } }, async () => {
+test("deno")("report.print() formats and outputs results", async () => {
   const report = new Report("> 0%", { loglevel: -1 })
   const _ = console.log
   try {
@@ -59,9 +59,9 @@ Deno.test("report.print() formats and outputs results", { permissions: { read: t
   } finally {
     Object.assign(console, { log: _ })
   }
-})
+}, { permissions: { read: true } })
 
-Deno.test("compatibility() supports printing reports", { permissions: { read: true } }, async () => {
+test("deno")("compatibility() supports printing reports", async () => {
   const input = "body { color: salmon; }"
   await expect(compatibility(input, { output: "html", style: false })).resolves.toMatch(/^<table.*?>[\s\S]+<\/table>$/)
   await expect(compatibility(new URL(`data:text/css;base64,${encodeBase64(input)}`), { output: "html", style: false })).resolves.toMatch(/^<table.*?>[\s\S]+<\/table>$/)
@@ -74,4 +74,4 @@ Deno.test("compatibility() supports printing reports", { permissions: { read: tr
   } finally {
     Object.assign(console, { log: _ })
   }
-})
+}, { permissions: { read: true } })

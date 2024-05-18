@@ -1,23 +1,19 @@
-/**
- * Wrapper around https://github.com/stylelint/stylelint to bundle CSS.
- *
- * Significant changes includes:
- * - Support for lint and formatting
- * - Support for banner option
- * - Support minification through {@link https://github.com/css/csso | CSSO}
- * @module
- */
-
 // Imports
-import { minify as csso } from "npm:csso@5"
-import stylelint from "npm:stylelint@16"
-import type { ConfigRuleSettings } from "npm:stylelint@16"
-import plugin from "npm:stylelint-order@6"
-import recommended from "npm:stylelint-config-recommended@14"
-import ordering from "npm:stylelint-config-idiomatic-order@10"
+import { minify as csso } from "csso"
+import stylelint from "stylelint"
+import type { ConfigRuleSettings } from "stylelint"
+import plugin from "stylelint-order"
+import recommended from "stylelint-config-recommended"
+import ordering from "stylelint-config-idiomatic-order"
 
 /**
- * Bundle CSS
+ * Bundle CSS.
+ *
+ * Minification is supported through {@link https://github.com/css/csso | CSSO}.
+ *
+ * Linting and formatting is supported through {@link https://github.com/stylelint/stylelint | Stylelint}.
+ *
+ * A banner option can be provided to prepend a comment to the output, which can be useful for licensing information.
  *
  * @example
  * ```
