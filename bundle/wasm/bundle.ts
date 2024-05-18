@@ -16,10 +16,10 @@ import { basename, dirname, resolve, toFileUrl } from "@std/path"
  * @example
  * ```ts
  * import { bundle } from "./bundle.ts"
- * await bundle("my_wasm_module", { cwd: "path/to/rust/project" })
+ * await bundle("path/to/rust/project")
  * ```
  */
-export async function bundle(name: string, { bin = "wasm-pack", autoinstall = false, cwd, banner }: { bin?: string; autoinstall?: boolean; cwd: string; banner?: string }): Promise<void> {
+export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner }: { bin?: string; autoinstall?: boolean; banner?: string }): Promise<void> {
   // Autoinstall wasm-pack if needed
   if (autoinstall) {
     try {
@@ -34,26 +34,27 @@ export async function bundle(name: string, { bin = "wasm-pack", autoinstall = fa
 
   // Build wasm
   console.log(bgCyan("wasm build".padEnd(48)))
-  const command = new Deno.Command(bin, { args: ["build", "--release", "--target", "web"], cwd, stdin: "inherit", stdout: "inherit", stderr: "inherit" })
+  const command = new Deno.Command(bin, { args: ["build", "--release", "--target", "web"], cwd: project, stdin: "inherit", stdout: "inherit", stderr: "inherit" })
   const { success } = await command.output()
   assert(success, "wasm build failed")
 
   // Inject wasm so it can be loaded without permissions, and export a source function so it can be loaded synchronously using `initSync()`
   console.log(bgCyan("inject base64 wasm to js".padEnd(48)))
-  const wasm = await fetch(toFileUrl(resolve(cwd, `pkg/${name}_bg.wasm`))).then((response) => response.arrayBuffer())
-  let js = await fetch(toFileUrl(resolve(cwd, `pkg/${name}.js`))).then((response) => response.text())
+  const name = basename(project)
+  const wasm = await fetch(toFileUrl(resolve(project, `pkg/${name}_bg.wasm`))).then((response) => response.arrayBuffer())
+  let js = await fetch(toFileUrl(resolve(project, `pkg/${name}.js`))).then((response) => response.text())
   js = js.replace(`'${name}_bg.wasm'`, "`data:application/wasm;base64,${source('base64')}`")
   js += `export function source(format) {
     const b64 = '${encodeBase64(wasm)}'
     return format === 'base64' ? b64 : new Uint8Array(Array.from(atob(b64), c => c.charCodeAt(0))).buffer
   }`
-  await Deno.writeTextFile(resolve(cwd, `./${name}.js`), js)
+  await Deno.writeTextFile(resolve(project, `./${name}.js`), js)
   console.log("ok")
 
   // Minify output
   console.log(bgCyan("minify js".padEnd(48)))
-  const minified = await bundle_ts(new URL(toFileUrl(resolve(cwd, `./${name}.js`))), { minify: "terser", banner })
-  await Deno.writeTextFile(resolve(cwd, `./${name}.js`), minified)
+  const minified = await bundle_ts(new URL(toFileUrl(resolve(project, `./${name}.js`))), { minify: "terser", banner })
+  await Deno.writeTextFile(resolve(project, `./${name}.js`), minified)
   console.log(`size: ${new Blob([minified]).size}b`)
 }
 
@@ -92,8 +93,9 @@ async function install({ path = "." } = {}) {
     path = resolve(path, filename)
     console.log(`write: ${path}`)
     await ensureFile(path)
-    using file = await Deno.open(path, { write: true, truncate: true, mode: 0o755 })
+    using file = await Deno.open(path, { write: true, truncate: true })
     await copy(entry, file)
+    await Deno.chmod(path, 0o755)
     break
   }
   console.log("ok")
