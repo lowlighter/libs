@@ -108,6 +108,13 @@ export function parse(string: string, options?: options): xml_document {
   } catch {
     throw new SyntaxError("Malformed XML document")
   }
+  options ??= {}
+  options.revive ??= {}
+  options.revive.trim ??= true
+  options.revive.entities ??= true
+  options.flatten ??= {}
+  options.flatten.text ??= true
+  options.flatten.empty ??= true
   for (const [token, name, value = name] of tokens) {
     switch (token) {
       // XML declaration
@@ -277,7 +284,7 @@ function xml_node(name: string, { parent = null as Nullable<xml_node> } = {}): x
 }
 
 /** Post-process xml node. */
-function postprocess(node: xml_node, options?: options) {
+function postprocess(node: xml_node, options: options) {
   // Clean XML document if required
   if (node["~name"] === "~xml") {
     if (options?.clean?.doctype) {
@@ -293,7 +300,7 @@ function postprocess(node: xml_node, options?: options) {
     if (options?.clean?.comments) {
       ;(node as rw)["~children"] = node["~children"].filter((child) => child["~name"] !== "~comment")
     }
-    if (options?.revive?.trim ?? true) {
+    if (options?.revive?.trim) {
       node["~children"].forEach((child) => /^~(?:text|cdata|comment)$/.test(child["~name"]) ? (child as rw)["#text"] = revive(child, "#text", { revive: { trim: node["@xml:space"] !== "preserve" } }) : null)
     }
     if (node["~children"].some((child) => (/^~(?:text|cdata)$/.test(child["~name"])) && (child["#text"].trim().length + (node["@xml:space"] === "preserve" ? 1 : 0) * child["#text"].length))) {
@@ -338,17 +345,17 @@ function postprocess(node: xml_node, options?: options) {
   // Revive text if required
   const keys = Object.keys(node)
   if (keys.includes("#text")) {
-    const _options = { ...options, revive: { ...options?.revive, trim: (options?.revive?.trim ?? true) && (node["@xml:space"] !== "preserve") } }
+    const _options = { ...options, revive: { ...options?.revive, trim: (options?.revive?.trim) && (node["@xml:space"] !== "preserve") } }
     Object.defineProperty(node, "#text", { enumerable: true, configurable: true, value: revive(node, "#text", _options) })
   }
-  // Custom revial if required
+  // Custom revival if required
   if (options?.revive?.custom) {
     if (options.revive.custom({ name: node["~name"], key: null, value: null, node: node as xml_node }) === undefined) {
       return undefined
     }
   }
   // Flatten object if required
-  if ((options?.flatten?.text ?? true) && (keys.length === 1) && (keys.includes("#text"))) {
+  if ((options?.flatten?.text) && (keys.length === 1) && (keys.includes("#text"))) {
     return node["#text"]
   }
   if ((options?.flatten?.attributes) && (keys.length) && (keys.every((key) => key.startsWith("@")))) {
@@ -359,7 +366,7 @@ function postprocess(node: xml_node, options?: options) {
     return node
   }
   if (!keys.length) {
-    return (options?.flatten?.empty ?? true) ? null : (options?.flatten?.text ?? true) ? "" : Object.defineProperty(node, "#text", { enumerable: true, configurable: true, value: "" })
+    return (options?.flatten?.empty) ? null : (options?.flatten?.text) ? "" : Object.defineProperty(node, "#text", { enumerable: true, configurable: true, value: "" })
   }
   return node
 }
@@ -374,12 +381,12 @@ const entities = {
 } as const
 
 /** Revive value. */
-function revive(node: xml_node | xml_text, key: string, options?: options) {
+function revive(node: xml_node | xml_text, key: string, options: options) {
   let value = (node as xml_node)[key] as string
-  if (options?.revive?.trim ?? true) {
+  if (options?.revive?.trim) {
     value = value.trim()
   }
-  if (options?.revive?.entities ?? true) {
+  if (options?.revive?.entities) {
     value = value.replaceAll(/&#(?<hex>x?)(?<code>\d+);/g, (_, hex, code) => String.fromCharCode(Number.parseInt(code, hex ? 16 : 10)))
     for (const [entity, character] of Object.entries(entities)) {
       value = value.replaceAll(entity, character)
