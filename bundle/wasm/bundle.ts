@@ -34,7 +34,7 @@ export async function bundle(name: string, { cwd, banner }: { cwd: string; banne
 
   // Minify output
   console.log(bgCyan("minify js".padEnd(48)))
-  const minified = await bundle_ts(new URL(resolve(cwd, `./${name}.js`)), { minify: "terser", banner })
+  const minified = await bundle_ts(new URL(toFileUrl(resolve(cwd, `./${name}.js`))), { minify: "terser", banner })
   await Deno.writeTextFile(resolve(cwd, `./${name}.js`), minified)
   console.log(`size: ${new Blob([minified]).size}b`)
 }

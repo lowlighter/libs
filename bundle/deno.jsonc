@@ -1,6 +1,6 @@
 {
   "name": "@libs/bundle",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Code bundlers, formatters, minifiers and others tools.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
