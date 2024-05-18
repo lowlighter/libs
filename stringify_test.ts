@@ -1,14 +1,14 @@
-import { parse, stringify } from "./mod.ts"
-import { expect } from "jsr:@std/expect/expect"
-import type { ParserOptions } from "./utils/types.ts"
+import { type options as parse_options, parse } from "./parse.ts"
+import { type options as stringify_options, stringify } from "./stringify.ts"
+import { expect, test } from "@libs/testing"
 
-/** This operation ensure that reforming a parsed XML will still yield same data */
-const check = (xml: string, options?: ParserOptions) => {
+// This operation ensure that reforming a parsed XML will still yield same data
+const check = (xml: string, options?: parse_options & stringify_options) => {
   expect(stringify(parse(xml, options), options), xml)
   return parse(stringify(parse(xml, options), options), options)
 }
 
-Deno.test("stringify: xml syntax xml prolog", () =>
+test("all")("stringify(): xml syntax xml prolog", () =>
   expect(
     check(
       `<?xml version="1.0" encoding="UTF-8"?>
@@ -16,146 +16,166 @@ Deno.test("stringify: xml syntax xml prolog", () =>
     ),
   ).toEqual(
     {
-      xml: {
-        "@version": "1.0",
-        "@encoding": "UTF-8",
-      },
+      "@version": "1.0",
+      "@encoding": "UTF-8",
       root: null,
     },
   ))
 
-Deno.test("stringify: xml syntax xml stylesheet", () =>
+test("all")("stringify(): xml syntax xml stylesheet", () =>
   expect(
     check(
       `<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="styles.xsl" type="text/xsl"?>
-<root/>`,
+  <?xml-stylesheet href="styles.xsl" type="text/xsl"?>
+  <root/>`,
     ),
   ).toEqual(
     {
-      xml: {
-        "@version": "1.0",
-        "@encoding": "UTF-8",
-      },
-      $stylesheets: [
-        {
+      "@version": "1.0",
+      "@encoding": "UTF-8",
+      "#instructions": {
+        "xml-stylesheet": {
           "@href": "styles.xsl",
           "@type": "text/xsl",
         },
-      ],
-      root: null,
-    },
-  ))
-
-Deno.test("stringify: xml syntax doctype", () =>
-  expect(
-    check(
-      `<!DOCTYPE type "quoted attribute">
-<root/>`,
-    ),
-  ).toEqual(
-    {
-      doctype: {
-        "@type": true,
-        "@quoted attribute": true,
       },
       root: null,
     },
   ))
 
-Deno.test("stringify: xml example w3schools.com#3", () =>
+test("all")("stringify(): xml syntax doctype", () =>
   expect(
     check(
-      `<bookstore>
-  <book category="cooking">
-    <!-- Comment Node -->
-    <title lang="en">Everyday Italian</title>
-    <author>Giada De Laurentiis</author>
-    <year>2005</year>
-    <price>30</price>
-  </book>
-  <book category="children">
-    <!-- First Comment Node -->
-    <!-- Second Comment Node -->
-    <title lang="en">Harry Potter</title>
-    <author>J K. Rowling</author>
-    <year>2005</year>
-    <price>29.99</price>
-  </book>
-  <book category="web">
-    <title lang="en">XQuery Kick Start</title>
-    <author>James McGovern</author>
-    <author>Per Bothner</author>
-    <author>Kurt Cagle</author>
-    <author>James Linn</author>
-    <author>Vaidyanathan Nagarajan</author>
-    <year>2003</year>
-    <price>49.99</price>
-  </book>
-  <book category="web" cover="paperback">
-    <title lang="en">Learning XML</title>
-    <author>Erik T. Ray</author>
-    <year>2003</year>
-    <price>39.95</price>
-  </book>
-</bookstore>`,
-      { reviveBooleans: true, reviveNumbers: true },
+      `<!DOCTYPE type "quoted attribute" [
+          <!ELEMENT element (value)>
+        ]>
+  <root/>`,
     ),
   ).toEqual(
     {
-      bookstore: {
-        book: [
-          {
-            "#comment": "Comment Node",
-            "@category": "cooking",
-            title: { "@lang": "en", "#text": "Everyday Italian" },
-            author: "Giada De Laurentiis",
-            year: 2005,
-            price: 30,
-          },
-          {
-            "#comment": ["First Comment Node", "Second Comment Node"],
-            "@category": "children",
-            title: { "@lang": "en", "#text": "Harry Potter" },
-            author: "J K. Rowling",
-            year: 2005,
-            price: 29.99,
-          },
-          {
-            "@category": "web",
-            title: { "@lang": "en", "#text": "XQuery Kick Start" },
-            author: [
-              "James McGovern",
-              "Per Bothner",
-              "Kurt Cagle",
-              "James Linn",
-              "Vaidyanathan Nagarajan",
-            ],
-            year: 2003,
-            price: 49.99,
-          },
-          {
-            "@category": "web",
-            "@cover": "paperback",
-            title: { "@lang": "en", "#text": "Learning XML" },
-            author: "Erik T. Ray",
-            year: 2003,
-            price: 39.95,
-          },
-        ],
+      "#doctype": {
+        "@type": "",
+        "@quoted attribute": "",
+        element: "value",
       },
+      root: null,
     },
   ))
 
-Deno.test("stringify: xml types", () =>
+for (const indent of ["  ", ""]) {
+  test("all")(`stringify(): xml example w3schools.com#3 (indent = "${indent}")`, () =>
+    expect(
+      check(
+        `
+      <?xml version="1.0" encoding="UTF-8"?>
+      <?xml-stylesheet href="styles.xsl" type="text/xsl"?>
+      <!DOCTYPE type "quoted attribute" [
+        <!ELEMENT element (value)>
+      ]>
+      <bookstore>
+        <notebook/>
+        <book category="cooking">
+          <!-- Comment Node -->
+          <title lang="en">Everyday Italian</title>
+          <author>Giada De Laurentiis</author>
+          <year>2005</year>
+          <price>30</price>
+        </book>
+        <book category="children">
+          <!-- First Comment Node -->
+          <!-- Second Comment Node -->
+          <title lang="en">Harry Potter</title>
+          <author>J K. Rowling</author>
+          <year>2005</year>
+          <price>29.99</price>
+        </book>
+        <book category="web">
+          <title lang="en">XQuery Kick Start</title>
+          <author>James McGovern</author>
+          <author>Per Bothner</author>
+          <author>Kurt Cagle</author>
+          <author>James Linn</author>
+          <author>Vaidyanathan Nagarajan</author>
+          <year>2003</year>
+          <price>49.99</price>
+        </book>
+        <book category="web" cover="paperback">
+          <title lang="en">Learning XML</title>
+          <author>Erik T. Ray</author>
+          <year>2003</year>
+          <price>39.95</price>
+        </book>
+      </bookstore>`,
+        { revive: { booleans: true, numbers: true }, format: { indent } },
+      ),
+    ).toEqual(
+      {
+        "@version": "1.0",
+        "@encoding": "UTF-8",
+        "#instructions": {
+          "xml-stylesheet": {
+            "@href": "styles.xsl",
+            "@type": "text/xsl",
+          },
+        },
+        "#doctype": {
+          "@type": "",
+          "@quoted attribute": "",
+          element: "value",
+        },
+        bookstore: {
+          notebook: null,
+          book: [
+            {
+              "@category": "cooking",
+              title: { "@lang": "en", "#text": "Everyday Italian" },
+              author: "Giada De Laurentiis",
+              year: 2005,
+              price: 30,
+            },
+            {
+              "@category": "children",
+              title: { "@lang": "en", "#text": "Harry Potter" },
+              author: "J K. Rowling",
+              year: 2005,
+              price: 29.99,
+            },
+            {
+              "@category": "web",
+              title: { "@lang": "en", "#text": "XQuery Kick Start" },
+              author: [
+                "James McGovern",
+                "Per Bothner",
+                "Kurt Cagle",
+                "James Linn",
+                "Vaidyanathan Nagarajan",
+              ],
+              year: 2003,
+              price: 49.99,
+            },
+            {
+              "@category": "web",
+              "@cover": "paperback",
+              title: { "@lang": "en", "#text": "Learning XML" },
+              author: "Erik T. Ray",
+              year: 2003,
+              price: 39.95,
+            },
+          ],
+        },
+      },
+    ))
+}
+
+test("all")("stringify(): xml types", () =>
   expect(
     check(
       `<types>
-  <boolean>true</boolean>
-  <null/>
-  <string>hello</string>
-</types>`,
-      { reviveBooleans: true },
+    <boolean>true</boolean>
+    <null/>
+    <string>hello</string>
+  </types>`,
+      { revive: { booleans: true } },
     ),
   ).toEqual(
     {
@@ -167,7 +187,7 @@ Deno.test("stringify: xml types", () =>
     },
   ))
 
-Deno.test("stringify: xml entities", () =>
+test("all")("stringify(): xml entities", () =>
   expect(
     check(`<string>&quot; &lt; &gt; &amp; &apos;</string>`),
   ).toEqual(
@@ -176,54 +196,43 @@ Deno.test("stringify: xml entities", () =>
     },
   ))
 
-Deno.test(
-  "stringify: xml entities are escaped only where needed",
+test("all")(
+  "stringify(): xml entities are escaped only where needed",
   () =>
     expect(stringify({
       root: {
         "@attribute": `<text with escaped quotes (',")>`,
         text: `only < and > should be escaped, not &, ", '`,
       },
-    })).toEqual(
-      `<root attribute="<text with escaped quotes (&apos;,&quot;)>">
-  <text>only &lt; and &gt; should be escaped, not &, ", '</text>
-</root>`,
+    }, { format: { breakline: 0 } })).toEqual(
+      `
+<root attribute="<text with escaped quotes (&apos;,&quot;)>">
+  <text>
+    only &lt; and &gt; should be escaped, not &, ", '
+  </text>
+</root>`.trim(),
     ),
 )
 
-Deno.test(
-  "stringify: xml entiries are always escaped when escapeAllEntities is true",
+test("all")(
+  "stringify(): xml entiries are always escaped when escapeAllEntities is true",
   () =>
     expect(stringify({
       root: {
         "@attribute": `< > &, ", '`,
         text: `< > &, ", '`,
       },
-    }, { escapeAllEntities: true })).toEqual(
-      `<root attribute="&lt; &gt; &amp;, &quot;, &apos;">
-  <text>&lt; &gt; &amp;, &quot;, &apos;</text>
-</root>`,
+    }, { replace: { entities: true }, format: { breakline: 0 } })).toEqual(
+      `
+<root attribute="&lt; &gt; &amp;, &quot;, &apos;">
+  <text>
+    &lt; &gt; &amp;, &quot;, &apos;
+  </text>
+</root>`.trim(),
     ),
 )
 
-Deno.test("stringify: xml replacer", () =>
-  expect(
-    stringify({ root: { not: true, yes: true } }, {
-      replacer({ tag, key, value }) {
-        if ((tag === "not") && (key === "#text")) {
-          return !value
-        }
-        return value
-      },
-    }),
-  ).toBe(
-    `<root>
-  <not>false</not>
-  <yes>true</yes>
-</root>`.trim(),
-  ))
-
-Deno.test("stringify: xml space preserve", () =>
+test("all")("stringify(): xml space preserve", () =>
   expect(
     check(`<text xml:space="preserve"> hello world </text>`),
   ).toEqual(
@@ -235,7 +244,7 @@ Deno.test("stringify: xml space preserve", () =>
     },
   ))
 
-Deno.test("stringify: cdata is preserved", () =>
+test("all")("stringify(): cdata is preserved", () =>
   expect(
     check(`<string><![CDATA[hello <world>]]></string>`),
   ).toEqual(
@@ -243,3 +252,33 @@ Deno.test("stringify: cdata is preserved", () =>
       string: `hello <world>`,
     },
   ))
+
+// Custom replacer
+
+test("all")("stringify(): xml replacer", () =>
+  expect(
+    stringify({ root: { not: true, yes: true, delete: true, attribute: { "@delete": true } } }, {
+      replace: {
+        custom: ({ name, key, value }) => {
+          if ((name === "delete") || (key === "@delete")) {
+            return undefined
+          }
+          if ((name === "not") && (key === "#text")) {
+            return !value
+          }
+          return value
+        },
+      },
+    }),
+  ).toBe(
+    `
+<root>
+  <not>false</not>
+  <yes>true</yes>
+  <attribute/>
+</root>`.trim(),
+  ))
+
+//Errors checks
+
+test("all")("stringify(): xml syntax unique root", () => expect(() => stringify({ root: null, garbage: null })).toThrow(SyntaxError))
