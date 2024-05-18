@@ -16,7 +16,8 @@
   - Auto-flattening of nodes with a single child, text or attributes
   - Auto-revival of `boolean`, `number`, etc.
   - Auto-group same-named nodes into arrays
-  - Custom `reviver` function
+  - Formatting options (indentation, break lines, etc.)
+  - Custom `reviver` and `replacer` functions
 - Metadata stored into non-enumerable properties for advanced usage
 
 ## 📜 License and credits
