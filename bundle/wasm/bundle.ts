@@ -43,6 +43,7 @@ export async function bundle(project: string, { bin = "wasm-pack", autoinstall =
   const name = basename(project)
   const wasm = await fetch(toFileUrl(resolve(project, `pkg/${name}_bg.wasm`))).then((response) => response.arrayBuffer())
   let js = await fetch(toFileUrl(resolve(project, `pkg/${name}.js`))).then((response) => response.text())
+  js = js.replace(/(["'])(?<scheme>file:\/\/).*?\/(?<name>[A-Za-z0-9_]+\.js)\1/, "$<scheme>/shadow/$<name>")
   js = js.replace(`'${name}_bg.wasm'`, "`data:application/wasm;base64,${source('base64')}`")
   js += `export function source(format) {
     const b64 = '${encodeBase64(wasm)}'
