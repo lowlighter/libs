@@ -14,7 +14,8 @@
   "tasks": {
     "ci": "deno fmt --check && deno task test && deno task bench",
     "test": "deno fmt && deno test --coverage --doc --allow-read --allow-env --allow-run=node,bun --allow-write=utils/tests --allow-net=jsr.io && deno coverage --exclude=utils/test && deno lint",
-    "bench": "deno bench --allow-read --allow-write=utils/tests"
+    "bench": "deno bench --allow-read --allow-write=utils/tests",
+    "build:wasm": "deno run --allow-read --allow-env --allow-net --allow-write --allow-run=wasm-pack wasm_xml_parser/build.ts"
   },
   "lint": {
     "rules": {
