@@ -1,0 +1,13 @@
+[package]
+name = "wasm_xml_parser"
+version = "0.1.0"
+authors = ["lowlighter"]
+edition = "2021"
+
+[dependencies]
+quick-xml = "0.31"
+wasm-bindgen = "0.2"
+web-sys = { version = "0.3" }
+
+[lib]
+crate-type = ["cdylib", "rlib"]

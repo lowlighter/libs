@@ -1,3 +1,5 @@
 coverage
 utils/tests/assets/x-*.xml
 utils/tests/compatibility/_example.node.mjs
+
+wasm_xml_parser/target
