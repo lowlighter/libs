@@ -1027,6 +1027,7 @@
       "jsr:@std/fs@0.224.0",
       "jsr:@std/io@0.224.0",
       "jsr:@std/path@0.225.1",
+      "jsr:@std/path@^0.224.0",
       "jsr:@std/semver@0.224.0",
       "npm:@mdn/browser-compat-data@5",
       "npm:browserslist@4",

@@ -25,7 +25,10 @@
         "eqeqeq",
         "ban-untagged-todo"
       ]
-    }
+    },
+    "exclude": [
+      "**/wasm_xml_parser"
+    ]
   },
   "fmt": {
     "lineWidth": 280,
@@ -33,7 +36,8 @@
     "exclude": [
       "coverage",
       "**/coverage",
-      "**/node_modules"
+      "**/node_modules",
+      "**/wasm_xml_parser"
     ]
   }
 }
