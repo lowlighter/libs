@@ -9,7 +9,7 @@
     "./context": "./context.ts"
   },
   "imports": {
-    "@std/collections/deep-merge": "jsr:@std/collections@0.225.1/deep-merge",
+    "@std/collections/deep-merge": "jsr:@std/collections@0.224.0/deep-merge",
     "@libs/testing": "jsr:@libs/testing@1",
     "@libs/typing": "jsr:@libs/typing@1"
   },

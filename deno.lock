@@ -1064,14 +1064,30 @@
   "remote": {},
   "workspace": {
     "dependencies": [
+      "jsr:@cliffy/table@1.0.0-rc.4",
+      "jsr:@deno/emit@0.40",
+      "jsr:@libs/logger@1",
       "jsr:@libs/testing",
       "jsr:@libs/typing@1",
+      "jsr:@std/assert@0.224.0",
+      "jsr:@std/cli@0.224.0",
       "jsr:@std/collections@0.224.1",
       "jsr:@std/encoding@0.224.0",
       "jsr:@std/expect@0.224.1",
-      "jsr:@std/fmt",
-      "jsr:@std/path",
-      "jsr:@std/path@0.225.1"
+      "jsr:@std/fmt@0.224.0",
+      "jsr:@std/fs@0.224.0",
+      "jsr:@std/path@0.224.0",
+      "jsr:@std/path@0.225.1",
+      "jsr:@std/semver@0.224.0",
+      "npm:@mdn/browser-compat-data@5",
+      "npm:browserslist@4",
+      "npm:css-tree@2",
+      "npm:csso@5",
+      "npm:stylelint-config-idiomatic-order@10",
+      "npm:stylelint-config-recommended@14",
+      "npm:stylelint-order@6",
+      "npm:stylelint@16",
+      "npm:terser@5"
     ]
   }
 }

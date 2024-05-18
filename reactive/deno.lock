@@ -2,10 +2,10 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@libs/testing": "jsr:@libs/testing@1.0.3",
+      "jsr:@libs/testing@1": "jsr:@libs/testing@1.0.3",
       "jsr:@libs/typing@1": "jsr:@libs/typing@1.0.2",
       "jsr:@std/assert@^0.225.2": "jsr:@std/assert@0.225.2",
-      "jsr:@std/collections@0.224.1": "jsr:@std/collections@0.224.1",
+      "jsr:@std/collections@0.224.0": "jsr:@std/collections@0.224.0",
       "jsr:@std/expect@0.224.1": "jsr:@std/expect@0.224.1",
       "jsr:@std/internal@^0.225.1": "jsr:@std/internal@0.225.1",
       "jsr:@std/path@0.225.1": "jsr:@std/path@0.225.1",
@@ -28,8 +28,8 @@
           "jsr:@std/internal@^0.225.1"
         ]
       },
-      "@std/collections@0.224.1": {
-        "integrity": "c003ecb1b89e46440cbe692a0603193ed8496d738310a9a2d51b8f8ed8d97a65"
+      "@std/collections@0.224.0": {
+        "integrity": "d00201d1833c6e05371c7e9f0b178522597b1dda0b0a9ecf0c579414e1dd2770"
       },
       "@std/expect@0.224.1": {
         "integrity": "64da324e38a9a67f0ed1f273ef11d90ba1f49d703153b50fc39838522836ddc3",
@@ -55,16 +55,16 @@
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@libs/testing",
+      "jsr:@libs/testing@1",
       "jsr:@libs/typing@1",
-      "jsr:@std/collections@0.224.1"
+      "jsr:@std/collections@0.224.0"
     ],
     "packageJson": {
       "dependencies": [
         "npm:@jsr/libs__testing@^1.0.3",
         "npm:@jsr/libs__typing@^1.0.2",
         "npm:@jsr/std__assert@^0.225.2",
-        "npm:@jsr/std__collections@^0.224.1",
+        "npm:@jsr/std__collections@^0.224.0",
         "npm:@jsr/std__expect@^0.224.1",
         "npm:@jsr/std__internal@^0.225.1",
         "npm:@jsr/std__path@^0.225.1"
