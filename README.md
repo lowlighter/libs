@@ -29,6 +29,8 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
 - [🧪 Testing utilities](https://jsr.io/@libs/testing) <img height="18px" src="https://jsr.io/badges/@libs/testing"> <img height="18px" src="https://jsr.io/logos/deno.svg">
 - [🧰 Utility types](https://jsr.io/@libs/typing) <img height="18px" src="https://jsr.io/badges/@libs/typing">
   <img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg">
+- [📃 XML parser and stringifier](https://jsr.io/@libs/xml) <img height="18px" src="https://jsr.io/badges/@libs/xml">
+  <img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg">
 
 ## 📜 License
 

@@ -1,7 +1,7 @@
 {
   "name": "@libs/xml",
   "version": "5.0.0",
-  "description": "XML parse/stringifier with no dependencies.",
+  "description": "XML parser/stringifier with no dependencies.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
