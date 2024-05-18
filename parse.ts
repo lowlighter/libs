@@ -1,6 +1,6 @@
 // Imports
 import init, { tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
-import type { Nullable, record, rw } from "jsr:@libs/typing"
+import type { Nullable, record, rw } from "@libs/typing"
 import type { xml_document, xml_node, xml_text } from "./_types.ts"
 await init()
 
@@ -98,7 +98,7 @@ export type options = {
  * `))
  * ```
  */
-export function parse(string: string, options?: options) {
+export function parse(string: string, options?: options): xml_document {
   const xml = xml_node("~xml") as xml_document
   const stack = [xml] as Array<xml_node>
   const tokens = []
@@ -206,7 +206,7 @@ export function parse(string: string, options?: options) {
   if (!Object.keys(xml).length) {
     throw new SyntaxError("Malformed XML document")
   }
-  return postprocess(xml, options)
+  return postprocess(xml, options) as xml_document
 }
 
 /** Parse xml attributes. */
@@ -237,7 +237,7 @@ function xml_doctype(raw: string) {
 }
 
 /** Create a new text node. */
-function xml_text(value: string, { type = "~text" as "~text" | "~cdata" | "~comment", parent = null as Nullable<xml_node> } = {}) {
+function xml_text(value: string, { type = "~text" as "~text" | "~cdata" | "~comment", parent = null as Nullable<xml_node> } = {}): xml_text {
   const text = Object.defineProperties({}, {
     ["~parent"]: { enumerable: false, writable: false, value: parent },
     ["~name"]: { enumerable: false, writable: false, value: type },
@@ -250,7 +250,7 @@ function xml_text(value: string, { type = "~text" as "~text" | "~cdata" | "~comm
 }
 
 /** Create a new node. */
-function xml_node(name: string, { parent = null as Nullable<xml_node> } = {}) {
+function xml_node(name: string, { parent = null as Nullable<xml_node> } = {}): xml_node {
   const node = Object.defineProperties({}, {
     ["~parent"]: { enumerable: false, writable: false, value: parent },
     ["~name"]: { enumerable: false, writable: false, value: name },

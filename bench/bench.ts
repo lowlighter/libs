@@ -5,7 +5,7 @@ import { fromFileUrl } from "@std/path/from-file-url"
 
 //Huge xml file generator
 async function write({ path, size }: { path: string; size: number }) {
-const file = await Deno.open(fromFileUrl(import.meta.resolve(path)), { write: true, truncate: true, create: true })
+  const file = await Deno.open(fromFileUrl(import.meta.resolve(path)), { write: true, truncate: true, create: true })
   const encoder = new TextEncoder()
   await file.write(encoder.encode("<root>"))
   for (let i = 0; i < size * 3100; i++) {
