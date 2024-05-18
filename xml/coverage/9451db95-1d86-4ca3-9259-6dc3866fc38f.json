@@ -1,0 +1,96 @@
+{
+  "scriptId": "325",
+  "url": "https://jsr.io/@std/expect/0.224.0/_asymmetric_matchers.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 2852, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "<instance_members_initializer>",
+      "ranges": [{ "startOffset": 147, "endOffset": 209, "count": 0 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "equals",
+      "ranges": [{ "startOffset": 262, "endOffset": 331, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "anything",
+      "ranges": [{ "startOffset": 341, "endOffset": 389, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "Any",
+      "ranges": [{ "startOffset": 437, "endOffset": 577, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "equals",
+      "ranges": [{ "startOffset": 580, "endOffset": 1316, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "any",
+      "ranges": [{ "startOffset": 1326, "endOffset": 1366, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "ArrayContaining",
+      "ranges": [{ "startOffset": 1426, "endOffset": 1463, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "equals",
+      "ranges": [{ "startOffset": 1466, "endOffset": 1562, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "arrayContaining",
+      "ranges": [{ "startOffset": 1572, "endOffset": 1636, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "<instance_members_initializer>",
+      "ranges": [{ "startOffset": 1684, "endOffset": 2147, "count": 0 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "closeTo",
+      "ranges": [{ "startOffset": 2155, "endOffset": 2229, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "StringContaining",
+      "ranges": [{ "startOffset": 2290, "endOffset": 2327, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "equals",
+      "ranges": [{ "startOffset": 2330, "endOffset": 2451, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "stringContaining",
+      "ranges": [{ "startOffset": 2461, "endOffset": 2531, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "StringMatching",
+      "ranges": [{ "startOffset": 2590, "endOffset": 2647, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "equals",
+      "ranges": [{ "startOffset": 2650, "endOffset": 2767, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "stringMatching",
+      "ranges": [{ "startOffset": 2777, "endOffset": 2851, "count": 0 }],
+      "isBlockCoverage": false
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "scriptId": "318",
+  "url": "https://jsr.io/@std/path/0.225.1/from_file_url.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 837, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "fromFileUrl",
+      "ranges": [
+        { "startOffset": 737, "endOffset": 836, "count": 13 },
+        { "startOffset": 810, "endOffset": 833, "count": 0 }
+      ],
+      "isBlockCoverage": true
+    }
+  ]
+}

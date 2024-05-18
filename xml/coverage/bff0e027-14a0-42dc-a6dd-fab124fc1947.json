@@ -1,0 +1,11 @@
+{
+  "scriptId": "352",
+  "url": "https://jsr.io/@std/expect/0.224.0/_constants.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 168, "count": 1 }],
+      "isBlockCoverage": true
+    }
+  ]
+}

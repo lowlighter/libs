@@ -1,0 +1,20 @@
+{
+  "scriptId": "327",
+  "url": "https://jsr.io/@std/path/0.225.1/_os.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 550, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        { "startOffset": 179, "endOffset": 498, "count": 1 },
+        { "startOffset": 328, "endOffset": 449, "count": 0 },
+        { "startOffset": 451, "endOffset": 497, "count": 0 }
+      ],
+      "isBlockCoverage": true
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "scriptId": "316",
+  "url": "https://jsr.io/@std/expect/0.224.0/expect.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 4704, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "expect",
+      "ranges": [{ "startOffset": 2224, "endOffset": 4217, "count": 22 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "get",
+      "ranges": [
+        { "startOffset": 2346, "endOffset": 4194, "count": 13 },
+        { "startOffset": 2388, "endOffset": 2442, "count": 0 },
+        { "startOffset": 2474, "endOffset": 2652, "count": 0 },
+        { "startOffset": 2683, "endOffset": 3009, "count": 0 },
+        { "startOffset": 3205, "endOffset": 3322, "count": 0 }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 2835, "endOffset": 2939, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 2941, "endOffset": 2951, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        { "startOffset": 3336, "endOffset": 4187, "count": 13 },
+        { "startOffset": 4102, "endOffset": 4150, "count": 0 }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "applyMatcher",
+      "ranges": [
+        { "startOffset": 3357, "endOffset": 4075, "count": 13 },
+        { "startOffset": 3601, "endOffset": 3648, "count": 0 },
+        { "startOffset": 3687, "endOffset": 4007, "count": 0 }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 4115, "endOffset": 4149, "count": 0 }],
+      "isBlockCoverage": false
+    }
+  ]
+}

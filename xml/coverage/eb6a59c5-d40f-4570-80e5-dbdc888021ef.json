@@ -1,0 +1,16 @@
+{
+  "scriptId": "317",
+  "url": "https://jsr.io/@std/expect/0.224.0/fn.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 954, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "fn",
+      "ranges": [{ "startOffset": 286, "endOffset": 953, "count": 0 }],
+      "isBlockCoverage": false
+    }
+  ]
+}

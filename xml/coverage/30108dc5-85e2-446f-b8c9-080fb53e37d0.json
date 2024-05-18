@@ -1,0 +1,79 @@
+{
+  "scriptId": "314",
+  "url": "https://jsr.io/@libs/testing/1.0.4/_testing.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 7563, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "_test",
+      "ranges": [
+        { "startOffset": 2845, "endOffset": 6077, "count": 51 },
+        { "startOffset": 3106, "endOffset": 3148, "count": 0 },
+        { "startOffset": 3239, "endOffset": 3587, "count": 1 },
+        { "startOffset": 3399, "endOffset": 3583, "count": 0 },
+        { "startOffset": 3606, "endOffset": 3801, "count": 0 },
+        { "startOffset": 3895, "endOffset": 4361, "count": 1 },
+        { "startOffset": 4172, "endOffset": 4357, "count": 0 },
+        { "startOffset": 4382, "endOffset": 4398, "count": 0 },
+        { "startOffset": 4400, "endOffset": 4591, "count": 0 }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 3619, "endOffset": 3796, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 4413, "endOffset": 4586, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        { "startOffset": 4648, "endOffset": 6074, "count": 51 },
+        { "startOffset": 4745, "endOffset": 6070, "count": 153 },
+        { "startOffset": 4877, "endOffset": 4885, "count": 0 },
+        { "startOffset": 4940, "endOffset": 4949, "count": 51 },
+        { "startOffset": 4950, "endOffset": 4954, "count": 102 }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        { "startOffset": 4956, "endOffset": 6062, "count": 51 },
+        { "startOffset": 5010, "endOffset": 5540, "count": 0 },
+        { "startOffset": 5551, "endOffset": 5978, "count": 0 }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "run",
+      "ranges": [
+        { "startOffset": 6143, "endOffset": 6658, "count": 3 },
+        { "startOffset": 6464, "endOffset": 6594, "count": 0 }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "install",
+      "ranges": [{ "startOffset": 6854, "endOffset": 7242, "count": 0 }],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "caller",
+      "ranges": [{ "startOffset": 7277, "endOffset": 7562, "count": 51 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "Trace.prepareStackTrace",
+      "ranges": [{ "startOffset": 7385, "endOffset": 7402, "count": 51 }],
+      "isBlockCoverage": true
+    }
+  ]
+}

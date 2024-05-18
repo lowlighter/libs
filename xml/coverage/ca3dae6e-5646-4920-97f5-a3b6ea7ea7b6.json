@@ -1,0 +1,16 @@
+{
+  "scriptId": "341",
+  "url": "https://jsr.io/@std/internal/0.224.0/format.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 688, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "format",
+      "ranges": [{ "startOffset": 267, "endOffset": 687, "count": 0 }],
+      "isBlockCoverage": false
+    }
+  ]
+}

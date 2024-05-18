@@ -1,0 +1,11 @@
+{
+  "scriptId": "313",
+  "url": "https://jsr.io/@std/expect/0.224.0/mod.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 2360, "count": 1 }],
+      "isBlockCoverage": true
+    }
+  ]
+}

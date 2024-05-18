@@ -1,0 +1,16 @@
+{
+  "scriptId": "328",
+  "url": "https://jsr.io/@std/path/0.225.1/posix/from_file_url.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 527, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "fromFileUrl",
+      "ranges": [{ "startOffset": 391, "endOffset": 526, "count": 0 }],
+      "isBlockCoverage": false
+    }
+  ]
+}
