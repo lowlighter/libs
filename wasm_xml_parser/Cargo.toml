@@ -3,6 +3,9 @@ name = "wasm_xml_parser"
 version = "0.1.0"
 authors = ["lowlighter"]
 edition = "2021"
+description = "WASM XML parser"
+repository = "https://github.com/lowlighter/libs"
+license = "MIT"
 
 [dependencies]
 quick-xml = "0.31"
