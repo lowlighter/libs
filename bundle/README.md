@@ -40,3 +40,20 @@ https://github.com/lowlighter/libs/blob/main/LICENSE
 Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 ```
+
+## 🔬 WASM
+
+- [`🦕 Playground`](https://dash.deno.com/playground/libs-bundle)
+- [`📚 Documentation`](https://jsr.io/@libs/bundle/doc/wasm/~)
+
+### ✨ Features
+
+- Launch `wasm-pack` for a rust project, inject generated bindings as base64 string and minify JS output
+- Support for banner option
+
+### 📜 License and credits
+
+```
+Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+https://github.com/lowlighter/libs/blob/main/LICENSE
+```

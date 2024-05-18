@@ -7,9 +7,10 @@
       "jsr:@deno/emit@0.40": "jsr:@deno/emit@0.40.2",
       "jsr:@deno/graph@^0.69.7": "jsr:@deno/graph@0.69.10",
       "jsr:@libs/logger@1": "jsr:@libs/logger@1.0.2",
-      "jsr:@libs/testing": "jsr:@libs/testing@1.0.3",
+      "jsr:@libs/testing@1": "jsr:@libs/testing@1.0.3",
       "jsr:@libs/typing": "jsr:@libs/typing@1.0.2",
       "jsr:@libs/typing@1": "jsr:@libs/typing@1.0.2",
+      "jsr:@std/assert@0.225.1": "jsr:@std/assert@0.225.1",
       "jsr:@std/assert@^0.218.2": "jsr:@std/assert@0.218.2",
       "jsr:@std/assert@^0.221.0": "jsr:@std/assert@0.221.0",
       "jsr:@std/assert@^0.223.0": "jsr:@std/assert@0.223.0",
@@ -17,12 +18,13 @@
       "jsr:@std/bytes@^0.218.2": "jsr:@std/bytes@0.218.2",
       "jsr:@std/console@0.221": "jsr:@std/console@0.221.0",
       "jsr:@std/encoding@0.224.0": "jsr:@std/encoding@0.224.0",
-      "jsr:@std/expect": "jsr:@std/expect@0.224.1",
       "jsr:@std/expect@0.224.1": "jsr:@std/expect@0.224.1",
       "jsr:@std/fmt@0.221": "jsr:@std/fmt@0.221.0",
-      "jsr:@std/fmt@0.224.0": "jsr:@std/fmt@0.224.0",
+      "jsr:@std/fmt@0.225.1": "jsr:@std/fmt@0.225.1",
       "jsr:@std/fmt@^0.218.2": "jsr:@std/fmt@0.218.2",
+      "jsr:@std/fmt@^0.225.0": "jsr:@std/fmt@0.225.1",
       "jsr:@std/fs@^0.218.2": "jsr:@std/fs@0.218.2",
+      "jsr:@std/internal@^0.225.0": "jsr:@std/internal@0.225.1",
       "jsr:@std/internal@^0.225.1": "jsr:@std/internal@0.225.1",
       "jsr:@std/io@^0.218.2": "jsr:@std/io@0.218.2",
       "jsr:@std/path@0.225.1": "jsr:@std/path@0.225.1",
@@ -90,6 +92,13 @@
       "@std/assert@0.223.0": {
         "integrity": "eb8d6d879d76e1cc431205bd346ed4d88dc051c6366365b1af47034b0670be24"
       },
+      "@std/assert@0.225.1": {
+        "integrity": "7342fa32a6d82c2c7c98ffea566baa9a892d04b22815b9fcf62cedeee5764f9c",
+        "dependencies": [
+          "jsr:@std/fmt@^0.225.0",
+          "jsr:@std/internal@^0.225.0"
+        ]
+      },
       "@std/assert@0.225.2": {
         "integrity": "6fd566c3ea01654d29c2b633298b7fc7599716336233852eb87e9843658fa192",
         "dependencies": [
@@ -121,8 +130,8 @@
       "@std/fmt@0.221.0": {
         "integrity": "379fed69bdd9731110f26b9085aeb740606b20428ce6af31ef6bd45ef8efa62a"
       },
-      "@std/fmt@0.224.0": {
-        "integrity": "e20e9a2312a8b5393272c26191c0a68eda8d2c4b08b046bad1673148f1d69851"
+      "@std/fmt@0.225.1": {
+        "integrity": "44a8cb375d7344adb3cb0208b85ea0bde7cdc15224c11188c85e733834ffe356"
       },
       "@std/fs@0.218.2": {
         "integrity": "dd9431453f7282e8c577cc22c9e6d036055a9a980b5549f887d6012969fabcca"
@@ -976,13 +985,14 @@
       "jsr:@cliffy/table@1.0.0-rc.4",
       "jsr:@deno/emit@0.40",
       "jsr:@libs/logger@1",
-      "jsr:@libs/testing",
+      "jsr:@libs/testing@1",
       "jsr:@libs/typing@1",
-      "jsr:@std/assert@0.224.0",
+      "jsr:@std/assert@0.225.1",
       "jsr:@std/cli@0.224.0",
       "jsr:@std/encoding@0.224.0",
-      "jsr:@std/fmt@0.224.0",
+      "jsr:@std/fmt@0.225.1",
       "jsr:@std/fs@0.224.0",
+      "jsr:@std/path@0.225.1",
       "jsr:@std/semver@0.224.0",
       "npm:@mdn/browser-compat-data@5",
       "npm:browserslist@4",
