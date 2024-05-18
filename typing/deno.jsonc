@@ -23,7 +23,8 @@
     "lineWidth": 280,
     "semiColons": false,
     "exclude": [
-      "coverage"
+      "coverage",
+      "node_modules"
     ]
   }
 }

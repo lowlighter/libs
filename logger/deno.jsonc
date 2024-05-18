@@ -9,9 +9,9 @@
     ".": "./mod.ts"
   },
   "imports": {
-    "@libs/testing": "jsr:@libs/testing",
-    "@std/fmt/colors": "jsr:@std/fmt/colors",
-    "@std/path/basename": "jsr:@std/path/basename"
+    "@std/fmt/colors": "jsr:@std/fmt@0.225.1/colors",
+    "@std/path/basename": "jsr:@std/path@0.225.1/basename",
+    "@libs/testing": "jsr:@libs/testing@1"
   },
   "tasks": {
     "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --allow-env=LOG_LEVEL --no-prompt --coverage --trace-leaks --doc",
@@ -28,7 +28,8 @@
     "lineWidth": 280,
     "semiColons": false,
     "exclude": [
-      "coverage"
+      "coverage",
+      "node_modules"
     ]
   }
 }

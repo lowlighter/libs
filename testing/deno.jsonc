@@ -9,9 +9,9 @@
     ".": "./mod.ts"
   },
   "imports": {
-    "@libs/typing": "jsr:@libs/typing@1",
-    "@std/expect": "jsr:@std/expect@0.224.1",
+    "@std/expect": "jsr:@std/expect@0.225.1",
     "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url",
+    "@libs/typing": "jsr:@libs/typing@1",
     "bun:test": "./_stub.ts"
   },
   "tasks": {
@@ -29,7 +29,8 @@
     "lineWidth": 280,
     "semiColons": false,
     "exclude": [
-      "coverage"
+      "coverage",
+      "node_modules"
     ]
   }
 }

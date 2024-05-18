@@ -9,9 +9,9 @@
     "./context": "./context.ts"
   },
   "imports": {
-    "@libs/testing": "jsr:@libs/testing",
-    "@libs/typing": "jsr:@libs/typing@1",
-    "@std/collections/deep-merge": "jsr:@std/collections@0.224.1/deep-merge"
+    "@std/collections/deep-merge": "jsr:@std/collections@0.225.1/deep-merge",
+    "@libs/testing": "jsr:@libs/testing@1",
+    "@libs/typing": "jsr:@libs/typing@1"
   },
   "tasks": {
     "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --trace-leaks --doc",
@@ -28,7 +28,8 @@
     "lineWidth": 280,
     "semiColons": false,
     "exclude": [
-      "coverage"
+      "coverage",
+      "node_modules"
     ]
   }
 }

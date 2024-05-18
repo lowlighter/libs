@@ -9,7 +9,7 @@
     ".": "./mod.ts"
   },
   "imports": {
-    "@libs/testing": "jsr:@libs/testing"
+    "@libs/testing": "jsr:@libs/testing@1"
   },
   "tasks": {
     "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --trace-leaks --doc",
@@ -26,7 +26,8 @@
     "lineWidth": 280,
     "semiColons": false,
     "exclude": [
-      "coverage"
+      "coverage",
+      "node_modules"
     ]
   }
 }
