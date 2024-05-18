@@ -31,7 +31,7 @@ export type xml_document = xml_node & {
   /** XML standalone. */
   ["@standalone"]?: "yes" | "no"
   /** XML doctype. */
-  ["#doctype"]?: string
+  ["#doctype"]?: xml_node
   /** XML instructions. */
-  ["#instructions"]?: Array<xml_node>
+  ["#instructions"]?: { [key: string]: xml_node | Array<xml_node> }
 }

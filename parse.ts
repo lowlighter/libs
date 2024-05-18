@@ -1,6 +1,6 @@
 // Imports
 import init, { tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
-import type { Nullable, rw } from "jsr:@libs/typing"
+import type { Nullable, record, rw } from "jsr:@libs/typing"
 import type { xml_document, xml_node, xml_text } from "./_types.ts"
 await init()
 
@@ -43,10 +43,18 @@ export type options = {
     entities?: boolean
     /** Revive booleans (matching `/^(?:[Tt]rue|[Ff]alse)$/`).*/
     booleans?: boolean
-    /** Revive finite numbers. */
+    /**
+     * Revive finite numbers.
+     * Note that the version of the XML prolog is always treated as a string to avoid breaking documents.
+     */
     numbers?: boolean
-    /** Custom reviver (this is applied after other revivals). */
-    custom?: (args: { name: string; key: string; value: string; node: Readonly<xml_node> }) => unknown
+    /**
+     * Custom reviver (this is applied after other revivals).
+     * When it is applied on an attribute, `key` and `value` will be given.
+     * When it is applied on a node, both `key` and `value` will be `null`.
+     * Return `undefined` to delete either the attribute or the tag.
+     */
+    custom?: (args: { name: string; key: Nullable<string>; value: Nullable<string>; node: Readonly<xml_node> }) => unknown
   }
 }
 
@@ -65,8 +73,8 @@ export type options = {
  *   - `readonly ["#comments"]?: Array<string>`: node comments
  *   - `readonly ["#text"]?: string`: concatenated children text content, this property becomes enumerable if at least one non-empty text node is present
  * - XML document properties
- *  - `["#doctype"]?: unknown`: XML doctype
- *  - `["#instruction"]?: Array<xml_node>`: XML processing instructions
+ *  - `["#doctype"]?: xml_node`: XML doctype
+ *  - `["#instruction"]?: { [key:string]: xml_node| Array<xml_node> }`: XML processing instructions
  *
  * Attributes are prefixed with an arobase (`@`).
  *
@@ -90,11 +98,17 @@ export type options = {
  * `))
  * ```
  */
-
 export function parse(string: string, options?: options) {
   const xml = xml_node("~xml") as xml_document
   const stack = [xml] as Array<xml_node>
-  for (const [token, name, value = name] of tokenize(new TextEncoder().encode(string))) {
+  const tokens = []
+  const flags = { root: false }
+  try {
+    tokens.push(...tokenize(new TextEncoder().encode(string)))
+  } catch {
+    throw new SyntaxError("Malformed XML document")
+  }
+  for (const [token, name, value = name] of tokens) {
     switch (token) {
       // XML declaration
       case "xml:declaration": {
@@ -117,20 +131,34 @@ export function parse(string: string, options?: options) {
       }
       // XML Doctype definition
       case "xml:doctype": {
-        xml["#doctype"] = value
+        xml["#doctype"] = Object.assign(xml_node("~doctype", { parent: xml }), xml_doctype(value))
         break
       }
       // XML processing instruction
       case "xml:instruction": {
-        const instruction = xml_node(name, { parent: xml })
-        xml["#instructions"] ??= []
-        xml["#instructions"].push(instruction)
-        //TODO(@lowlighter): parse value into href
-        instruction.value = value
+        const [name, ...raw] = value.split(" ")
+        const instruction = Object.assign(xml_node(name, { parent: xml }), xml_attributes(raw.join(" ")))
+        xml["#instructions"] ??= {}
+        switch (true) {
+          case Array.isArray(xml["#instructions"][name]):
+            ;(xml["#instructions"][name] as Array<xml_node>).push(instruction)
+            break
+          case name in xml["#instructions"]:
+            xml["#instructions"][name] = [xml["#instructions"][name] as xml_node, instruction]
+            break
+          default:
+            xml["#instructions"][name] = instruction
+        }
         break
       }
       // XML tag opened
       case "tag:open": {
+        if (stack.length === 1) {
+          if (flags.root) {
+            throw new SyntaxError("Multiple root node detected")
+          }
+          flags.root = true
+        }
         const parent = stack.at(-1)!
         const node = xml_node(name, { parent })
         switch (true) {
@@ -148,9 +176,7 @@ export function parse(string: string, options?: options) {
       }
       // XML tag closed
       case "tag:close": {
-        if (stack.pop()!["~name"] !== name) {
-          throw new SyntaxError(`Expected closing tag for: <${name}>`)
-        }
+        stack.pop()
         break
       }
       // XML attribute
@@ -177,7 +203,37 @@ export function parse(string: string, options?: options) {
       }
     }
   }
+  if (!Object.keys(xml).length) {
+    throw new SyntaxError("Malformed XML document")
+  }
   return postprocess(xml, options)
+}
+
+/** Parse xml attributes. */
+function xml_attributes(raw: string) {
+  const attributes = {} as record<string>
+  for (const [_, name, __, value] of raw.matchAll(/(?<name>[A-Za-z_][-\w.:]*)=(["'])(?<value>(?:(?!\2).)*)(\2)/g)) {
+    attributes[`@${name}`] = value
+  }
+  return attributes
+}
+
+/** Parse xml doctype. */
+function xml_doctype(raw: string) {
+  const node = {} as xml_node
+  const { attributes: _attributes, elements: _elements = "" } = raw.match(/^(?<attributes>[^\[]*)(?:\[(?<elements>[\s\S]*)\])?/)?.groups!
+  // Parse attributes
+  raw = raw.replace(`[${_elements}]`, "")
+  for (const [match, __, name] of _attributes.matchAll(/(["'])(?<name>(?:(?!\1).)*)(\1)/g)) {
+    node[`@${name}`] = ""
+    raw = raw.replace(match, "")
+  }
+  raw.split(/\s+/).filter(Boolean).forEach((name) => node[`@${name}`] = "")
+  // Parse elements
+  for (const [_, name, value] of _elements.matchAll(/<!ELEMENT\s+(?<name>\w+)\s+\((?<value>[^\)]+)\)/g)) {
+    node[name] = value
+  }
+  return node
 }
 
 /** Create a new text node. */
@@ -203,7 +259,7 @@ function xml_node(name: string, { parent = null as Nullable<xml_node> } = {}) {
       enumerable: false,
       configurable: true,
       get(this: xml_node) {
-        return this["~children"].map((node) => node["~name"] !== "~comment" ? node["#text"] ?? "" : "").filter(Boolean).join(" ")
+        return this["~children"].map((node) => node["~name"] !== "~comment" ? node["#text"] : "").filter(Boolean).join(" ")
       },
     },
     ["#comments"]: {
@@ -228,23 +284,24 @@ function postprocess(node: xml_node, options?: options) {
       delete node["#doctype"]
     }
     if (options?.clean?.instructions) {
-      ;(node as rw)["~children"] = node["~children"].filter((child) => !(node["#instructions"] as Array<xml_node | xml_text>)?.includes(child))
+      ;(node as rw)["~children"] = node["~children"].filter((child) => !(child["~name"] in ((node as xml_document)["#instructions"] ?? {})))
       delete node["#instructions"]
     }
   }
-  // Clean comments if required
-  if (options?.clean?.comments) {
-    ;(node as rw)["~children"] = node["~children"].filter((child) => child["~name"] !== "~comment")
-  }
-  // Trim text nodes if required
-  if (options?.revive?.trim ?? true) {
-    node["~children"].forEach((child) => /^~(?:text|cdata|comment)$/.test(child["~name"]) ? (child as rw)["#text"] = revive(child, "#text", { revive: { trim: node["@xml:space"] !== "preserve" } }) : null)
-  }
-  if (node["~children"].some((child) => (/^~(?:text|cdata)$/.test(child["~name"])) && (child["#text"].length))) {
-    Object.defineProperty(node, "#text", { enumerable: true, configurable: true })
-  }
-  if (node["~children"].some((child) => child["~name"] === "~comment")) {
-    Object.defineProperty(node, "#comments", { enumerable: true, configurable: true })
+  // Clean node and enable enumerable properties if required
+  if (node["~children"]) {
+    if (options?.clean?.comments) {
+      ;(node as rw)["~children"] = node["~children"].filter((child) => child["~name"] !== "~comment")
+    }
+    if (options?.revive?.trim ?? true) {
+      node["~children"].forEach((child) => /^~(?:text|cdata|comment)$/.test(child["~name"]) ? (child as rw)["#text"] = revive(child, "#text", { revive: { trim: node["@xml:space"] !== "preserve" } }) : null)
+    }
+    if (node["~children"].some((child) => (/^~(?:text|cdata)$/.test(child["~name"])) && (child["#text"].trim().length + (node["@xml:space"] === "preserve" ? 1 : 0) * child["#text"].length))) {
+      Object.defineProperty(node, "#text", { enumerable: true, configurable: true })
+    }
+    if (node["~children"].some((child) => child["~name"] === "~comment")) {
+      Object.defineProperty(node, "#comments", { enumerable: true, configurable: true })
+    }
   }
   // Process child nodes
   for (const [key, value] of Object.entries(node)) {
@@ -255,20 +312,27 @@ function postprocess(node: xml_node, options?: options) {
     // Clean attributes if required
     if ((options?.clean?.attributes) && (key.startsWith("@"))) {
       delete node[key]
+      continue
     }
     // Revive attribute value if required
     if (key.startsWith("@")) {
       node[key] = revive(node, key, options)
+      if (node[key] === undefined) {
+        delete node[key]
+      }
       continue
     }
     // Handle other nodes
     if (Array.isArray(value)) {
-      node[key] = value.map((child) => postprocess(child, options))
-      continue
-    }
-    if ((typeof value === "object") && value) {
+      node[key] = Object.defineProperties(value.map((child) => postprocess(child, options)), {
+        ["~parent"]: { enumerable: false, writable: false, value: node },
+        ["~name"]: { enumerable: false, writable: false, value: key },
+      })
+    } else if ((typeof value === "object") && value) {
       node[key] = postprocess(value as xml_node, options)
-      continue
+    }
+    if (node[key] === undefined) {
+      delete node[key]
     }
   }
   // Revive text if required
@@ -277,17 +341,26 @@ function postprocess(node: xml_node, options?: options) {
     const _options = { ...options, revive: { ...options?.revive, trim: (options?.revive?.trim ?? true) && (node["@xml:space"] !== "preserve") } }
     Object.defineProperty(node, "#text", { enumerable: true, configurable: true, value: revive(node, "#text", _options) })
   }
+  // Custom revial if required
+  if (options?.revive?.custom) {
+    if (options.revive.custom({ name: node["~name"], key: null, value: null, node: node as xml_node }) === undefined) {
+      return undefined
+    }
+  }
   // Flatten object if required
   if ((options?.flatten?.text ?? true) && (keys.length === 1) && (keys.includes("#text"))) {
     return node["#text"]
   }
   if ((options?.flatten?.attributes) && (keys.length) && (keys.every((key) => key.startsWith("@")))) {
-    return Object.fromEntries(Object.entries(node).map(([key, value]) => [key.slice(1), value]))
+    for (const key of keys) {
+      node[key.slice(1)] = node[key]
+      delete node[key]
+    }
+    return node
   }
   if (!keys.length) {
-    return (options?.flatten?.empty ?? true) ? null : ""
+    return (options?.flatten?.empty ?? true) ? null : (options?.flatten?.text ?? true) ? "" : Object.defineProperty(node, "#text", { enumerable: true, configurable: true, value: "" })
   }
-
   return node
 }
 
@@ -312,7 +385,7 @@ function revive(node: xml_node | xml_text, key: string, options?: options) {
       value = value.replaceAll(entity, character)
     }
   }
-  if ((options?.revive?.numbers) && (value.length) && (Number.isFinite(Number(value))) && (!((node["~name"] === "xml") && (key === "version")))) {
+  if ((options?.revive?.numbers) && (value.length) && (Number.isFinite(Number(value))) && (!((node["~name"] === "~xml") && (key === "@version")))) {
     value = Number(value) as unknown as string
   }
   if ((options?.revive?.booleans) && (/^(?:[Tt]rue|[Ff]alse)$/.test(value))) {
