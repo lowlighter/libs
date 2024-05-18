@@ -8,7 +8,7 @@ const check = (xml: string, options?: parse_options & stringify_options) => {
   return parse(stringify(parse(xml, options), options), options)
 }
 
-test("deno", "bun")("stringify(): xml syntax xml prolog", () =>
+test("all")("stringify(): xml syntax xml prolog", () =>
   expect(
     check(
       `<?xml version="1.0" encoding="UTF-8"?>
@@ -22,7 +22,7 @@ test("deno", "bun")("stringify(): xml syntax xml prolog", () =>
     },
   ))
 
-test("deno", "bun")("stringify(): xml syntax xml stylesheet", () =>
+test("all")("stringify(): xml syntax xml stylesheet", () =>
   expect(
     check(
       `<?xml version="1.0" encoding="UTF-8"?>
@@ -43,7 +43,7 @@ test("deno", "bun")("stringify(): xml syntax xml stylesheet", () =>
     },
   ))
 
-test("deno", "bun")("stringify(): xml syntax doctype", () =>
+test("all")("stringify(): xml syntax doctype", () =>
   expect(
     check(
       `<!DOCTYPE type "quoted attribute" [
@@ -63,7 +63,7 @@ test("deno", "bun")("stringify(): xml syntax doctype", () =>
   ))
 
 for (const indent of ["  ", ""]) {
-  test("deno", "bun")(`stringify(): xml example w3schools.com#3 (indent = "${indent}")`, () =>
+  test("all")(`stringify(): xml example w3schools.com#3 (indent = "${indent}")`, () =>
     expect(
       check(
         `
@@ -167,7 +167,7 @@ for (const indent of ["  ", ""]) {
     ))
 }
 
-test("deno", "bun")("stringify(): xml types", () =>
+test("all")("stringify(): xml types", () =>
   expect(
     check(
       `<types>
@@ -187,7 +187,7 @@ test("deno", "bun")("stringify(): xml types", () =>
     },
   ))
 
-test("deno", "bun")("stringify(): xml entities", () =>
+test("all")("stringify(): xml entities", () =>
   expect(
     check(`<string>&quot; &lt; &gt; &amp; &apos;</string>`),
   ).toEqual(
@@ -196,7 +196,7 @@ test("deno", "bun")("stringify(): xml entities", () =>
     },
   ))
 
-test("deno", "bun")(
+test("all")(
   "stringify(): xml entities are escaped only where needed",
   () =>
     expect(stringify({
@@ -214,7 +214,7 @@ test("deno", "bun")(
     ),
 )
 
-test("deno", "bun")(
+test("all")(
   "stringify(): xml entiries are always escaped when escapeAllEntities is true",
   () =>
     expect(stringify({
@@ -232,7 +232,7 @@ test("deno", "bun")(
     ),
 )
 
-test("deno", "bun")("stringify(): xml space preserve", () =>
+test("all")("stringify(): xml space preserve", () =>
   expect(
     check(`<text xml:space="preserve"> hello world </text>`),
   ).toEqual(
@@ -244,7 +244,7 @@ test("deno", "bun")("stringify(): xml space preserve", () =>
     },
   ))
 
-test("deno", "bun")("stringify(): cdata is preserved", () =>
+test("all")("stringify(): cdata is preserved", () =>
   expect(
     check(`<string><![CDATA[hello <world>]]></string>`),
   ).toEqual(
@@ -255,7 +255,7 @@ test("deno", "bun")("stringify(): cdata is preserved", () =>
 
 // Custom replacer
 
-test("deno", "bun")("stringify(): xml replacer", () =>
+test("all")("stringify(): xml replacer", () =>
   expect(
     stringify({ root: { not: true, yes: true, delete: true, attribute: { "@delete": true } } }, {
       replace: {
@@ -281,4 +281,4 @@ test("deno", "bun")("stringify(): xml replacer", () =>
 
 //Errors checks
 
-test("deno", "bun")("stringify(): xml syntax unique root", () => expect(() => stringify({ root: null, garbage: null })).toThrow(SyntaxError))
+test("all")("stringify(): xml syntax unique root", () => expect(() => stringify({ root: null, garbage: null })).toThrow(SyntaxError))

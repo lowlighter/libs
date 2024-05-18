@@ -1,7 +1,7 @@
 import { parse } from "./parse.ts"
 import { expect, test, type testing } from "@libs/testing"
 
-test("deno", "bun")("parse() xml syntax tag", () =>
+test("all")("parse() xml syntax tag", () =>
   expect(
     parse(`
   <root>hello world</root>
@@ -12,7 +12,7 @@ test("deno", "bun")("parse() xml syntax tag", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax tag with attributes", () =>
+test("all")("parse(): xml syntax tag with attributes", () =>
   expect(
     parse(`
   <root lang="en" type="greeting">hello world</root>
@@ -27,7 +27,7 @@ test("deno", "bun")("parse(): xml syntax tag with attributes", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax self-closing tag", () =>
+test("all")("parse(): xml syntax self-closing tag", () =>
   expect(
     parse(`
   <root/>
@@ -38,7 +38,7 @@ test("deno", "bun")("parse(): xml syntax self-closing tag", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax self-closing with attributes", () =>
+test("all")("parse(): xml syntax self-closing with attributes", () =>
   expect(
     parse(`
   <root lang="en" type="greeting" text="hello world"></root>
@@ -53,7 +53,7 @@ test("deno", "bun")("parse(): xml syntax self-closing with attributes", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax empty tag", () =>
+test("all")("parse(): xml syntax empty tag", () =>
   expect(
     parse(`
   <root></root>
@@ -64,7 +64,7 @@ test("deno", "bun")("parse(): xml syntax empty tag", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax empty tag with attributes", () =>
+test("all")("parse(): xml syntax empty tag with attributes", () =>
   expect(
     parse(`
   <root type="test"></root>
@@ -77,7 +77,7 @@ test("deno", "bun")("parse(): xml syntax empty tag with attributes", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax simple tree", () =>
+test("all")("parse(): xml syntax simple tree", () =>
   expect(
     parse(`
   <root>
@@ -96,7 +96,7 @@ test("deno", "bun")("parse(): xml syntax simple tree", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax simple tree with same tags", () =>
+test("all")("parse(): xml syntax simple tree with same tags", () =>
   expect(
     parse(`
   <root>
@@ -114,7 +114,7 @@ test("deno", "bun")("parse(): xml syntax simple tree with same tags", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax simple tree with same tags and attributes", () =>
+test("all")("parse(): xml syntax simple tree with same tags and attributes", () =>
   expect(
     parse(`
   <root>
@@ -137,7 +137,7 @@ test("deno", "bun")("parse(): xml syntax simple tree with same tags and attribut
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax simple tree with nested tags of same name", () =>
+test("all")("parse(): xml syntax simple tree with nested tags of same name", () =>
   expect(
     parse(`
   <root>
@@ -158,7 +158,7 @@ test("deno", "bun")("parse(): xml syntax simple tree with nested tags of same na
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax mixed content", () =>
+test("all")("parse(): xml syntax mixed content", () =>
   expect(
     parse(`
   <root>some <b>bold</b> text</root>
@@ -172,7 +172,7 @@ test("deno", "bun")("parse(): xml syntax mixed content", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax nested mixed content", () =>
+test("all")("parse(): xml syntax nested mixed content", () =>
   expect(
     parse(`
   <root>some <b>bold <i>italic</i> </b> text</root>
@@ -189,7 +189,7 @@ test("deno", "bun")("parse(): xml syntax nested mixed content", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax xml prolog", () =>
+test("all")("parse(): xml syntax xml prolog", () =>
   expect(
     parse(
       `
@@ -206,7 +206,7 @@ test("deno", "bun")("parse(): xml syntax xml prolog", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax xml stylesheet", () =>
+test("all")("parse(): xml syntax xml stylesheet", () =>
   expect(
     parse(
       `
@@ -237,7 +237,7 @@ test("deno", "bun")("parse(): xml syntax xml stylesheet", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax doctype", () =>
+test("all")("parse(): xml syntax doctype", () =>
   expect(
     parse(
       `
@@ -255,7 +255,7 @@ test("deno", "bun")("parse(): xml syntax doctype", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax doctype with element", () =>
+test("all")("parse(): xml syntax doctype with element", () =>
   expect(
     parse(
       `
@@ -286,7 +286,7 @@ test("deno", "bun")("parse(): xml syntax doctype with element", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax case sensitive", () =>
+test("all")("parse(): xml syntax case sensitive", () =>
   expect(
     parse(`
   <root>
@@ -316,7 +316,7 @@ test("deno", "bun")("parse(): xml syntax case sensitive", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax defined entities", () =>
+test("all")("parse(): xml syntax defined entities", () =>
   expect(
     parse(`
   <root>
@@ -329,7 +329,7 @@ test("deno", "bun")("parse(): xml syntax defined entities", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax decimal entity reference", () =>
+test("all")("parse(): xml syntax decimal entity reference", () =>
   expect(
     parse(`
   <root>
@@ -342,7 +342,7 @@ test("deno", "bun")("parse(): xml syntax decimal entity reference", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax hexadecimal entity reference", () =>
+test("all")("parse(): xml syntax hexadecimal entity reference", () =>
   expect(
     parse(`
   <root>
@@ -355,7 +355,7 @@ test("deno", "bun")("parse(): xml syntax hexadecimal entity reference", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax comments", () =>
+test("all")("parse(): xml syntax comments", () =>
   expect(
     parse(`
   <root>
@@ -376,7 +376,7 @@ test("deno", "bun")("parse(): xml syntax comments", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax comments in-between text nodes", () =>
+test("all")("parse(): xml syntax comments in-between text nodes", () =>
   expect(
     parse(`
     <root>
@@ -394,7 +394,7 @@ test("deno", "bun")("parse(): xml syntax comments in-between text nodes", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax white spaces preserved", () =>
+test("all")("parse(): xml syntax white spaces preserved", () =>
   expect(
     parse(`
   <root>
@@ -409,7 +409,7 @@ are   you?`,
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax CDATA", () =>
+test("all")("parse(): xml syntax CDATA", () =>
   expect(
     parse(`
   <root>
@@ -433,7 +433,7 @@ test("deno", "bun")("parse(): xml syntax CDATA", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax mixed content with CDATA", () =>
+test("all")("parse(): xml syntax mixed content with CDATA", () =>
   expect(
     parse(`
   <root>
@@ -458,7 +458,7 @@ test("deno", "bun")("parse(): xml syntax mixed content with CDATA", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml syntax with multiple CDATA's", () =>
+test("all")("parse(): xml syntax with multiple CDATA's", () =>
   expect(
     parse(`
     <root>
@@ -476,7 +476,7 @@ test("deno", "bun")("parse(): xml syntax with multiple CDATA's", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml space preserve", () =>
+test("all")("parse(): xml space preserve", () =>
   expect(
     parse(`
     <root>
@@ -495,7 +495,7 @@ test("deno", "bun")("parse(): xml space preserve", () =>
 
 //Errors checks
 
-test("deno", "bun")("parse(): xml syntax unique root", () =>
+test("all")("parse(): xml syntax unique root", () =>
   expect(() =>
     parse(`
   <root>
@@ -511,7 +511,7 @@ test("deno", "bun")("parse(): xml syntax unique root", () =>
 `)
   ).toThrow(SyntaxError))
 
-test("deno", "bun")("parse(): xml syntax closing tag", () =>
+test("all")("parse(): xml syntax closing tag", () =>
   expect(() =>
     parse(`
   <root>
@@ -520,7 +520,7 @@ test("deno", "bun")("parse(): xml syntax closing tag", () =>
 `)
   ).toThrow(SyntaxError))
 
-test("deno", "bun")("parse(): xml syntax closing properly nested", () =>
+test("all")("parse(): xml syntax closing properly nested", () =>
   expect(() =>
     parse(`
   <root>
@@ -529,7 +529,7 @@ test("deno", "bun")("parse(): xml syntax closing properly nested", () =>
 `)
   ).toThrow(SyntaxError))
 
-test("deno", "bun")("parse(): xml syntax attributes quoted", () =>
+test("all")("parse(): xml syntax attributes quoted", () =>
   expect(() =>
     parse(`
   <root>
@@ -538,7 +538,7 @@ test("deno", "bun")("parse(): xml syntax attributes quoted", () =>
 `)
   ).toThrow(SyntaxError))
 
-test("deno", "bun")("parse(): xml syntax attributes properly quoted", () =>
+test("all")("parse(): xml syntax attributes properly quoted", () =>
   expect(() =>
     parse(`
   <root>
@@ -547,7 +547,7 @@ test("deno", "bun")("parse(): xml syntax attributes properly quoted", () =>
 `)
   ).toThrow(SyntaxError))
 
-test("deno", "bun")("parse(): xml syntax first character", () => {
+test("all")("parse(): xml syntax first character", () => {
   expect(() => parse(`a>1</a>`)).toThrow(SyntaxError)
   expect(() => parse(`xml`)).toThrow(SyntaxError)
   expect(() => parse(`""`)).toThrow(SyntaxError)
@@ -556,7 +556,7 @@ test("deno", "bun")("parse(): xml syntax first character", () => {
 
 //Example below were taken from https://www.w3schools.com/xml/default.asp
 
-test("deno", "bun")("parse(): xml example w3schools.com#1", () =>
+test("all")("parse(): xml example w3schools.com#1", () =>
   expect(
     parse(`
   <note>
@@ -577,7 +577,7 @@ test("deno", "bun")("parse(): xml example w3schools.com#1", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml example w3schools.com#2", () =>
+test("all")("parse(): xml example w3schools.com#2", () =>
   expect(
     parse(`
   <note>
@@ -600,7 +600,7 @@ test("deno", "bun")("parse(): xml example w3schools.com#2", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml example w3schools.com#3", () =>
+test("all")("parse(): xml example w3schools.com#3", () =>
   expect(
     parse(`
   <bookstore>
@@ -683,7 +683,7 @@ test("deno", "bun")("parse(): xml example w3schools.com#3", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml example w3schools.com#4", () =>
+test("all")("parse(): xml example w3schools.com#4", () =>
   expect(
     parse(`
   <nitf>
@@ -726,7 +726,7 @@ test("deno", "bun")("parse(): xml example w3schools.com#4", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml example w3schools.com#5", () =>
+test("all")("parse(): xml example w3schools.com#5", () =>
   expect(
     parse(
       `
@@ -811,7 +811,7 @@ test("deno", "bun")("parse(): xml example w3schools.com#5", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml example w3schools.com#6", () =>
+test("all")("parse(): xml example w3schools.com#6", () =>
   expect(
     parse(`
   <breakfast_menu>
@@ -898,7 +898,7 @@ test("deno", "bun")("parse(): xml example w3schools.com#6", () =>
 
 // Parser options
 
-test("deno", "bun")("parse(): xml parser option no flatten text", () =>
+test("all")("parse(): xml parser option no flatten text", () =>
   expect(
     parse(
       `
@@ -922,7 +922,7 @@ test("deno", "bun")("parse(): xml parser option no flatten text", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml parser option revive", () =>
+test("all")("parse(): xml parser option revive", () =>
   expect(
     parse(
       `
@@ -952,7 +952,7 @@ test("deno", "bun")("parse(): xml parser option revive", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml parser option no-revive", () =>
+test("all")("parse(): xml parser option no-revive", () =>
   expect(
     parse(
       `
@@ -982,7 +982,7 @@ test("deno", "bun")("parse(): xml parser option no-revive", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml parser reviver", () =>
+test("all")("parse(): xml parser reviver", () =>
   expect(
     parse(
       `
@@ -1018,7 +1018,7 @@ test("deno", "bun")("parse(): xml parser reviver", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml parser option clean", () =>
+test("all")("parse(): xml parser option clean", () =>
   expect(
     parse(
       `
@@ -1039,7 +1039,7 @@ test("deno", "bun")("parse(): xml parser option clean", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml parser option clean (no matching elements)", () =>
+test("all")("parse(): xml parser option clean (no matching elements)", () =>
   expect(
     parse(
       `
@@ -1058,7 +1058,7 @@ test("deno", "bun")("parse(): xml parser option clean (no matching elements)", (
     },
   ))
 
-test("deno", "bun")("parse(): xml parser option no clean", () =>
+test("all")("parse(): xml parser option no clean", () =>
   expect(
     parse(
       `
@@ -1094,7 +1094,7 @@ test("deno", "bun")("parse(): xml parser option no clean", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml parser option flatten", () =>
+test("all")("parse(): xml parser option flatten", () =>
   expect(
     parse(
       `
@@ -1116,7 +1116,7 @@ test("deno", "bun")("parse(): xml parser option flatten", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml parser option no flatten", () =>
+test("all")("parse(): xml parser option no flatten", () =>
   expect(
     parse(
       `
@@ -1138,7 +1138,7 @@ test("deno", "bun")("parse(): xml parser option no flatten", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml parser option revive", () =>
+test("all")("parse(): xml parser option revive", () =>
   expect(
     parse(
       `
@@ -1167,7 +1167,7 @@ test("deno", "bun")("parse(): xml parser option revive", () =>
     },
   ))
 
-test("deno", "bun")("parse(): xml parser option no revive", () =>
+test("all")("parse(): xml parser option no revive", () =>
   expect(
     parse(
       `
@@ -1198,7 +1198,7 @@ test("deno", "bun")("parse(): xml parser option no revive", () =>
 
 // Metadata
 
-test("deno", "bun")("parse(): xml parser option metadata", () => {
+test("all")("parse(): xml parser option metadata", () => {
   const xml = parse(
     `
   <root>

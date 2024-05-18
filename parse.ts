@@ -1,8 +1,8 @@
 // Imports
-import init, { tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
+import { initSync, source, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
 import type { Nullable, record, rw } from "@libs/typing"
 import type { xml_document, xml_node, xml_text } from "./_types.ts"
-await init()
+initSync(source())
 
 // Re-exports
 export type { xml_document, xml_node, xml_text }
