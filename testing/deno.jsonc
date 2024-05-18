@@ -1,6 +1,6 @@
 {
   "name": "@libs/testing",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
@@ -11,7 +11,7 @@
   "imports": {
     "@std/expect": "jsr:@std/expect@0.224.0",
     "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url",
-    "@libs/typing": "jsr:@libs/typing@1",
+    "@libs/typing": "jsr:@libs/typing@2",
     "bun:test": "./_stub.ts"
   },
   "tasks": {

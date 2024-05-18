@@ -1,6 +1,6 @@
 {
   "name": "@libs/reactive",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reactive utilities for observable objects.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
@@ -11,7 +11,7 @@
   "imports": {
     "@std/collections/deep-merge": "jsr:@std/collections@0.224.0/deep-merge",
     "@libs/testing": "jsr:@libs/testing@1",
-    "@libs/typing": "jsr:@libs/typing@1"
+    "@libs/typing": "jsr:@libs/typing@2"
   },
   "tasks": {
     "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --trace-leaks --doc",
