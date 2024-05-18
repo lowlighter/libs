@@ -32,6 +32,12 @@ test("deno")("bundle() handles minify option", async () => {
   await expect(bundle(url, { minify: "terser", debug: true })).resolves.toMatch(/console\.log\("hello world"\);\n\/\/# sourceMappingURL=/)
 }, { permissions: { read: true, net: ["jsr.io"], env: true, write: true } })
 
+test("deno")("bundle() handles shadow option", async () => {
+  const url = new URL("test_shadow.ts", base)
+  await expect(bundle(url, { shadow: false })).not.resolves.toContain("file:///shadow/")
+  await expect(bundle(url, { shadow: true })).resolves.toContain("file:///shadow/")
+}, { permissions: { read: true, net: ["jsr.io"], env: true, write: true } })
+
 test("deno")("bundle() handles import maps", async () => {
   const url = new URL("test_import_map.ts", base)
   await expect(bundle(url, { map: new URL("deno.jsonc", base) })).resolves.toContain("success")

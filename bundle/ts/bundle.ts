@@ -12,6 +12,8 @@ import { minify as terser } from "terser"
  *
  * A banner option can be provided to prepend a comment to the output, which can be useful for licensing information.
  *
+ * Use the `shadow` option to replace the local URLs (using `file://` scheme) with a shadow url to avoid exposing the real path.
+ *
  * @example
  * ```
  * // From file
@@ -32,7 +34,7 @@ import { minify as terser } from "terser"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */
-export async function bundle(input: URL | string, { minify = "terser" as false | "basic" | "terser", debug = false, map = undefined as URL | undefined, banner = "" } = {}): Promise<string> {
+export async function bundle(input: URL | string, { minify = "terser" as false | "basic" | "terser", debug = false, map = undefined as URL | undefined, banner = "", shadow = true } = {}): Promise<string> {
   const url = input instanceof URL ? input : new URL(`data:application/typescript;base64,${encodeBase64(input)}`)
   const options = { type: "module", minify: !!minify, importMap: map } as BundleOptions
   if (debug) {
@@ -52,6 +54,9 @@ export async function bundle(input: URL | string, { minify = "terser" as false |
       banner = `// ${banner}`
     }
     result.code = `${banner}\n${result.code}`
+  }
+  if (shadow) {
+    result.code = result.code.replaceAll(/(["'])(?<scheme>file:\/\/).*?\/(?<name>[A-Za-z0-9_]+\.(?:ts|js|mjs))\1/g, "'$<scheme>/shadow/$<name>'")
   }
   return result.code
 }
