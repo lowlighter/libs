@@ -6,6 +6,7 @@
   "license": "MIT License",
   "tasks": {
     "config": "deno run --allow-read=. --allow-write=. .github/deno_config.ts",
+    "ci": "deno task bundle:ci && deno task crypto:ci && deno task diff:ci && deno task logger:ci && deno task qrcode:ci && deno task reactive:ci && deno task testing:ci && deno task typing:ci",
     "bundle:ci": "cd bundle && deno task ci",
     "bundle:publish": "cd bundle && deno publish",
     "crypto:ci": "cd crypto && deno task ci",

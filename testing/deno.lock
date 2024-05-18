@@ -2,7 +2,7 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@libs/typing@1": "jsr:@libs/typing@1.0.2",
+      "jsr:@libs/typing@2": "jsr:@libs/typing@2.0.1",
       "jsr:@std/assert@^0.224.0": "jsr:@std/assert@0.224.0",
       "jsr:@std/expect@0.224.0": "jsr:@std/expect@0.224.0",
       "jsr:@std/fmt@^0.224.0": "jsr:@std/fmt@0.224.0",
@@ -12,8 +12,8 @@
       "npm:cli-highlight": "npm:cli-highlight@2.1.11"
     },
     "jsr": {
-      "@libs/typing@1.0.2": {
-        "integrity": "1ee1221792cdb5403c9a719ba09961033d575d61b939887e86a95c586cb6a347"
+      "@libs/typing@2.0.1": {
+        "integrity": "cdb06da194079212c5589dacbc6c6ad1f91b43e4e437755ad450f199271a1930"
       },
       "@std/assert@0.224.0": {
         "integrity": "8643233ec7aec38a940a8264a6e3eed9bfa44e7a71cc6b3c8874213ff401967f"
@@ -210,16 +210,17 @@
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@libs/typing@1",
+      "jsr:@libs/typing@2",
       "jsr:@std/expect@0.224.0",
       "jsr:@std/path@0.225.1"
     ],
     "packageJson": {
       "dependencies": [
         "npm:@jsr/libs__typing@^1.0.2",
-        "npm:@jsr/std__assert@^0.225.2",
-        "npm:@jsr/std__expect@^0.224.1",
-        "npm:@jsr/std__internal@^0.225.1",
+        "npm:@jsr/std__assert@^0.224.0",
+        "npm:@jsr/std__expect@^0.224.0",
+        "npm:@jsr/std__fmt@^0.224.0",
+        "npm:@jsr/std__internal@^0.224.0",
         "npm:@jsr/std__path@^0.225.1"
       ]
     }
