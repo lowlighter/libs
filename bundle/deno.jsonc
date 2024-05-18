@@ -1,6 +1,6 @@
 {
   "name": "@libs/bundle",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Code bundlers, formatters, minifiers and others tools.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
@@ -10,7 +10,8 @@
     "./css": "./css/mod.ts",
     "./wasm": "./wasm/mod.ts",
     "./css/cli/fmt": "./css/cli/fmt.ts",
-    "./css/cli/check": "./css/cli/check.ts"
+    "./css/cli/check": "./css/cli/check.ts",
+    "./wasm/cli/build": "./wasm/cli/build.ts"
   },
   "imports": {
     "@std/fs": "jsr:@std/fs@0.224.0",
