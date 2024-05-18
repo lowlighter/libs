@@ -19,7 +19,7 @@ import { basename, dirname, resolve, toFileUrl } from "@std/path"
  * await bundle("path/to/rust/project")
  * ```
  */
-export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner }: { bin?: string; autoinstall?: boolean; banner?: string }): Promise<void> {
+export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner } = {} as { bin?: string; autoinstall?: boolean; banner?: string }): Promise<void> {
   // Autoinstall wasm-pack if needed
   if (autoinstall) {
     try {
