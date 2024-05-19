@@ -1,12 +1,12 @@
 // Imports
-import { generate, parse, walk } from "npm:css-tree@2"
-import browserslist from "npm:browserslist@4"
-import bcd from "npm:@mdn/browser-compat-data@5" with { type: "json" }
-import * as semver from "jsr:@std/semver@0.224.0"
-import type { Arg, Arrayable, Nullable, rw } from "jsr:@libs/typing@1"
-import { Logger } from "jsr:@libs/logger@1"
-import { brightGreen, brightMagenta, gray, green, red, yellow } from "jsr:@std/fmt@0.224.0/colors"
-import { Table } from "jsr:@cliffy/table@1.0.0-rc.4"
+import { generate, parse, walk } from "css-tree"
+import browserslist from "browserslist"
+import bcd from "@mdn/browser-compat-data" with { type: "json" }
+import * as semver from "@std/semver"
+import type { Arg, Arrayable, Nullable, rw } from "@libs/typing"
+import { Logger, type level as loglevel } from "@libs/logger"
+import { brightGreen, brightMagenta, gray, green, red, yellow, italic } from "@std/fmt/colors"
+import { Table } from "@cliffy/table"
 
 /** Browsers list */
 const browsers = {

@@ -1,8 +1,8 @@
 import { bundle } from "./bundle.ts"
 import { compatibility, Report } from "./compatibility.ts"
-import { expect, fn } from "jsr:@std/expect"
-import type { test } from "jsr:@libs/typing@1"
-;(Report as test).testing()
+import { test, expect, fn, type testing } from "@libs/testing"
+import { encodeBase64 } from "@std/encoding/base64"
+;(Report as testing).testing()
 
 const base = new URL("testing/", import.meta.url)
 
