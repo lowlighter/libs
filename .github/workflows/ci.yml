@@ -61,7 +61,8 @@ jobs:
       - id: calculate_next_version
         uses: ldelarue/git-next-tag@v0
         with:
-          tag-prefix: "${{ matrix.package }}-"
+          tag-prefix: ${{ matrix.package }}-
+          scope: ${{ matrix.package }}
       - run: echo "::notice::Generated tag is '${{ steps.calculate_next_version.outputs.tag }}'"
 
   publish:
