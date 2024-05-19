@@ -36,7 +36,6 @@ jobs:
           node-version: 22.x
       - run: deno task ${{ matrix.package }}:ci
 
-
   get-new-tag:
     runs-on: ubuntu-latest
     strategy:
