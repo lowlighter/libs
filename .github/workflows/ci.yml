@@ -36,6 +36,35 @@ jobs:
           node-version: 22.x
       - run: deno task ${{ matrix.package }}:ci
 
+
+  get-new-tag:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - bundle
+          - crypto
+          - diff
+          - logger
+          # - orm
+          - qrcode
+          - reactive
+          - testing
+          - typing
+          - xml
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: calculate_next_version
+        uses: ldelarue/git-next-tag@v0
+        with:
+          tag-prefix: "${{ matrix.package }}-"
+      - run: echo "::notice::Generated tag is '${{ steps.calculate_next_version.outputs.tag }}'"
+
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
