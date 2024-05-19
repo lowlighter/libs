@@ -1,6 +1,6 @@
 import { bundle } from "./bundle.ts"
 import { compatibility, Report } from "./compatibility.ts"
-import { test, expect, fn, type testing } from "@libs/testing"
+import { expect, fn, test, type testing } from "@libs/testing"
 import { encodeBase64 } from "@std/encoding/base64"
 ;(Report as testing).testing()
 

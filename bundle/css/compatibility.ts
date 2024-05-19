@@ -4,8 +4,8 @@ import browserslist from "browserslist"
 import bcd from "@mdn/browser-compat-data" with { type: "json" }
 import * as semver from "@std/semver"
 import type { Arg, Arrayable, Nullable, rw } from "@libs/typing"
-import { Logger, type level as loglevel } from "@libs/logger"
-import { brightGreen, brightMagenta, gray, green, red, yellow, italic } from "@std/fmt/colors"
+import { type level as loglevel, Logger } from "@libs/logger"
+import { brightGreen, brightMagenta, gray, green, italic, red, yellow } from "@std/fmt/colors"
 import { Table } from "@cliffy/table"
 
 /** Browsers list */
