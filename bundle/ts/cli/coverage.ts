@@ -2,8 +2,7 @@
 // Imports
 import { expandGlob } from "@std/fs"
 import { dirname, resolve } from "@std/path"
-import { default as syntax } from "npm:highlight.js@11.9.0/lib/core"
-import { default as hlts } from "npm:highlight.js@11.9.0/lib/languages/typescript"
+import { default as syntax } from "npm:highlight.js@11.9.0"
 import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.45/deno-dom-wasm.ts"
 import { basename } from "@std/path"
 import { parseArgs } from "@std/cli"
@@ -73,7 +72,6 @@ for (const glob of globs) {
     // Syntax highlighting
     if ((!flags["no-write"]) && (!flags["no-highlight"])) {
       log.debug("highlighting document")
-      syntax.registerLanguage("ts", hlts)
       document.querySelectorAll(".prettyprint").forEach((_element) => {
         const element = _element as unknown as HTMLElement
         if (element.dataset.highlighted === "true") {
