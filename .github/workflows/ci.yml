@@ -96,6 +96,8 @@ jobs:
         package: ${{fromJson(needs.setup.outputs.packages)}}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: denoland/setup-deno@v1
       - run: deno task ${{ matrix.package }}:publish
 
