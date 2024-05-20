@@ -62,15 +62,16 @@ jobs:
         with:
           tag-prefix: ${{ matrix.package }}-
           scope: ${{ matrix.package }}
-      # - run: |
-      #     if [ ! -z "${{ steps.calculate_next_version.outputs.tag }}" ]; then
-
-
-      #       echo "Next tag: ${{ steps.calculate_next_version.outputs.tag }}"
-      #       echo "::set-output name=tag::${{ steps.calculate_next_version.outputs.tag }}"
-      #     else
-      #       echo ""
-      #     fi
+      - uses: denoland/setup-deno@v1
+      - if: ${{ steps.calculate_next_version.outputs.tag }}
+        shell: bash
+        run: |
+          deno task tag --version '${{ steps.calculate_next_version.outputs.tag }}' ${{ matrix.package }}
+          deno fmt ${{ matrix.package }}/deno.jsonc
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git tag '${{ steps.calculate_next_version.outputs.tag }}'
+          git push origin '${{ steps.calculate_next_version.outputs.tag }}'
 
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
