@@ -1,10 +1,13 @@
 {
+  "icon":"➕",
   "name": "@libs/diff",
   "version": "1.0.4",
   "description": "Diff (patience algorithm)",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
+  "playground": "https://libs-diff.deno.dev",
   "license": "MIT License",
+  "supported": ["deno", "node", "bun", "cloudflare-workers", "browsers"],
   "exports": {
     ".": "./mod.ts",
     "./diff": "./diff.ts"

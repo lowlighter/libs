@@ -1,10 +1,13 @@
 {
+  "icon": "🔳",
   "name": "@libs/qrcode",
   "version": "1.1.2",
   "description": "Pure TypeScript QRcode generator with no dependencies.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
+  "playground": "https://libs-qrcode.deno.dev",
   "license": "MIT License",
+  "supported": ["deno", "node", "bun", "cloudflare-workers", "browsers"],
   "exports": {
     ".": "./mod.ts"
   },

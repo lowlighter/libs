@@ -1,10 +1,13 @@
 {
+  "icon": "📰",
   "name": "@libs/logger",
   "version": "1.0.7",
   "description": "Simple logger",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
+  "playground": "https://libs-logger.deno.dev",
   "license": "MIT License",
+  "supported": ["deno", "node", "bun", "cloudflare-workers", "browsers"],
   "exports": {
     ".": "./mod.ts"
   },
