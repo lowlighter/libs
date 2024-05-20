@@ -33,6 +33,7 @@
     "@libs/logger": "jsr:@libs/logger@1",
     "@libs/testing": "jsr:@libs/testing@1",
     "@libs/typing": "jsr:@libs/typing@2",
+    "@libs/xml": "jsr:@libs/xml@5",
     "@cliffy/table": "jsr:@cliffy/table@1.0.0-rc.4",
     "@mdn/browser-compat-data": "npm:@mdn/browser-compat-data@5",
     "@deno/emit": "jsr:@deno/emit@0.40",
