@@ -1,4 +1,3 @@
-/// <reference lib="dom" />
 // Imports
 import { expandGlob } from "@std/fs"
 import { dirname, resolve } from "@std/path"
