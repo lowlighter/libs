@@ -7,22 +7,28 @@ on:
     branches:
       - main
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.packages.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: packages
+        shell: bash
+        run: |
+          PACKAGES_LIST=$(find . -mindepth 2 -maxdepth 2 -type f -name deno.jsonc -exec bash -c 'basename $(dirname {})' \;)
+          PACKAGES_LIST_JSON=$(echo "$PACKAGES_LIST" | jq --raw-input --compact-output --slurp 'split("\n")[:-1]')
+          echo "packages: $PACKAGES_LIST_JSON"
+          echo "packages=$PACKAGES_LIST_JSON" >> $GITHUB_OUTPUT
+
   test:
     runs-on: ubuntu-latest
+    needs:
+      - setup
     strategy:
       fail-fast: false
       matrix:
-        package:
-          - bundle
-          - crypto
-          - diff
-          - logger
-          # - orm
-          - qrcode
-          - reactive
-          - testing
-          - typing
-          - xml
+        package: ${{fromJson(needs.setup.outputs.packages)}}
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
@@ -36,11 +42,46 @@ jobs:
           node-version: 22.x
       - run: deno task ${{ matrix.package }}:ci
 
+  tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+      - test
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{fromJson(needs.setup.outputs.packages)}}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          tag-prefix: ${{ matrix.package }}-
+          scope: ${{ matrix.package }}
+      - uses: denoland/setup-deno@v1
+      - if: ${{ steps.tagging.outputs.tag }}
+        shell: bash
+        run: |
+          deno task tag --version '${{ steps.tagging.outputs.semver }}' ${{ matrix.package }}
+          deno fmt ${{ matrix.package }}/deno.jsonc
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git tag '${{ steps.tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.tagging.outputs.tag }}'
+          git push origin '${{ steps.tagging.outputs.tag }}'
+
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs:
+      - setup
       - test
+      - tag
     permissions:
       id-token: write
       contents: read
@@ -48,17 +89,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package:
-          - bundle
-          - crypto
-          - diff
-          - logger
-          # - orm
-          - qrcode
-          - reactive
-          - testing
-          - typing
-          - xml
+        package: ${{fromJson(needs.setup.outputs.packages)}}
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
