@@ -2,7 +2,7 @@
 import { STATUS_CODE, STATUS_TEXT } from "jsr:@std/http"
 
 /** Maximum runtime execution */
-const TIMEOUT = 6 * 1000
+const TIMEOUT = 5 * 1000
 
 /** Text encoder */
 const encoder = new TextEncoder()
