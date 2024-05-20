@@ -38,7 +38,7 @@ for await (const { path } of expandGlob(`coverage/*/*.html`, { root })) {
     const coverage = document.querySelector(".clearfix .fl:last-child .strong")?.innerText ?? "-"
     const percentage = Number.parseFloat(coverage)
     const color = Number.isFinite(percentage) ? (percentage >= 80 ? "#3fb950" : percentage >= 60 ? "#db6d28" : "#f85149") : "#656d76"
-    const badge = await fetch(`https://img.shields.io/badge/${encodeURIComponent(`code coverage-${coverage}-${color}`)}`).then((response) => response.text())
+    const badge = await fetch(`https://img.shields.io/badge/${encodeURIComponent(`Coverage-${coverage}-${color}`)}`).then((response) => response.text())
     await Deno.writeTextFile(resolve(dirname(path), "badge.svg"), badge)
     console.log(`generated badge: ${resolve(dirname(path), "badge.svg")}`)
   }
