@@ -1,5 +1,5 @@
 {
-  "icon":"➕",
+  "icon": "➕",
   "name": "@libs/diff",
   "version": "1.0.4",
   "description": "Diff (patience algorithm)",

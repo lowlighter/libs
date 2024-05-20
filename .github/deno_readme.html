@@ -1,0 +1,65 @@
+<ul data-for="bundle">
+  <li>Lint, minify, license CSS code and check features compatibility against MDN data for each browser</li>
+  <li>Bundle, minify, anonymize local file paths and license TypeScript code</li>
+  <li>Compile Rust projects to Web assembly, hot-patch source in base64 and minify output</li>
+  <li><a href="#-cli-utilities">CLI utilities</a></li>
+</ul>
+<ul data-for="crypto">
+  <li>Encrypt and decrypt data using a seed-salt derived private key</li>
+  <li>Generate time-based OTP secret key and verify tokens validity</li>
+</ul>
+<ul data-for="diff">
+  <li>Compute unified patch between two string</li>
+</ul>
+<ul data-for="logger">
+  <li>
+    Simple logger library with configurable log level
+    <ul>
+      <li>Support date, time and delta stamps</li>
+      <li>Support caller info (file, name, line) using internal V8's <code>Error.prepareStackTrace</code> API</li>
+    </ul>
+  </li>
+  <li>Automatically reads <code>LOG_LEVEL</code> environment variable (if available)</li>
+</ul>
+<ul data-for="qrcode">
+  <li>Generate QR codes without external dependencies</li>
+  <li>Support console, array and SVG output (with customizable colors)</li>
+</ul>
+<ul data-for="reactive">
+  <li>Create observable contexts to track get, set, delete and call operations</li>
+  <li>Support inherited contexts</li>
+</ul>
+<ul data-for="testing">
+  <li>
+    Cross-runtime testing framework
+    <ul>
+      <li>Support <a href="https://deno.com">deno</a> natively</li>
+      <li>Support <a href="https://nodejs.org">Node.js</a> through <code>npx tsx --test</code></li>
+      <li>Support <a href="https://bun.sh">bun</a> through <code>bun test</code></li>
+      <li><i>Note: although tests are run on multiple runtimes, this library <b>must</b> be run on deno</i></li>
+    </ul>
+  </li>
+  <li>Automatically skip test cases when runtime is not available on current platform</li>
+</ul>
+<ul data-for="typing">
+  <li>Utility types such as <code>Promisable</code>, <code>Nullable</code>, <code>MapKey</code>, <code>MapValue</code>, <code>SetValue</code>, etc.</li>
+</ul>
+<ul data-for="xml">
+  <li>
+    Parse XML to JavaScript object
+    <ul>
+      <li>Support cleaning options to remove attributes, comments, XML doctype and processing instructions from output</li>
+      <li>Support flatten options to flatten node content when only attributes, text or nothing is present</li>
+      <li>Support reviving options to trim text, replace XML entities, revive booleans and numbers</li>
+      <li>Also support custom reviving function</li>
+    </ul>
+  </li>
+  <li>
+    Stringify JavaScript object to XML
+    <ul>
+      <li>Support formatting options to configure indentation and text break lines</li>
+      <li>Support replacing options to replace XML entities</li>
+      <li>Also support custom replacing function</li>
+    </ul>
+  </li>
+</ul>
