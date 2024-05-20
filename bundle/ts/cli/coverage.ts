@@ -35,7 +35,7 @@ if (help) {
 
 const logger = new Logger({ level: Logger.level[loglevel as keyof typeof Logger.level] })
 if (!globs.length) {
-  globs.push("coverage/*.html")
+  globs.push("coverage/**/*.html")
 }
 
 // Process files
