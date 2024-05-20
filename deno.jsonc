@@ -9,7 +9,7 @@
     "tag": "deno run --allow-read --allow-write=. .github/deno_tag.ts",
     "ci": "deno task bundle:ci && deno task crypto:ci && deno task diff:ci && deno task logger:ci && deno task qrcode:ci && deno task reactive:ci && deno task testing:ci && deno task typing:ci && deno task xml:ci",
     "coverage": "rm coverage -rf && mkdir -p coverage && deno task bundle:coverage && deno task crypto:coverage && deno task diff:coverage && deno task logger:coverage && deno task qrcode:coverage && deno task reactive:coverage && deno task testing:coverage && deno task typing:coverage && deno task xml:coverage && deno task coverage:pretty",
-    "coverage:pretty": "deno run --allow-read --allow-write=coverage --allow-net=img.shields.io .github/deno_coverage.ts",
+    "coverage:pretty": "deno run --allow-read --allow-write=coverage --allow-net bundle/ts/cli/coverage.ts \"coverage/*/*.html\"",
     "bundle:ci": "cd bundle && deno task ci",
     "bundle:coverage": "cd bundle && deno task coverage --html && sleep 1 && rm -rf ../coverage/bundle && mv coverage/html ../coverage/bundle",
     "bundle:publish": "cd bundle && deno publish",
