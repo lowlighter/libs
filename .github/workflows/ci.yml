@@ -100,13 +100,13 @@ jobs:
           deno fmt ${{ matrix.package }}/deno.jsonc
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git push origin '${{ steps.tagging.outputs.tag }}'
           git pull --ff-only
           git add ${{ matrix.package }}/deno.jsonc
           git commit -m "chore: bump version ${{ steps.tagging.outputs.tag }}"
           git push
           git tag '${{ steps.tagging.outputs.tag }}'
           git show-ref --tags '${{ steps.tagging.outputs.tag }}'
+          git push origin '${{ steps.tagging.outputs.tag }}'
 
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
