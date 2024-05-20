@@ -1,6 +1,6 @@
 {
   "name": "@libs/crypto",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Features based upon Web Crypto APIs",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
