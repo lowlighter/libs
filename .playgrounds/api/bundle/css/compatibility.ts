@@ -1,6 +1,6 @@
 #!/usr/bin/env DENO_DIR=/tmp deno run
 import { compatibility } from "jsr:@libs/bundle/css"
-import { STATUS_CODE, STATUS_TEXT } from "jsr:@std/http"
+import { STATUS_CODE, STATUS_TEXT } from "jsr:@std/http/status"
 
 /** CSS compatibility report */
 export default async function (request: Request) {

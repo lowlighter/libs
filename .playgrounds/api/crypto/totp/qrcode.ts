@@ -1,7 +1,7 @@
 #!/usr/bin/env DENO_DIR=/tmp deno run
 import { qrcode } from "jsr:@libs/qrcode"
 import { otpauth } from "jsr:@libs/crypto/totp"
-import { STATUS_CODE, STATUS_TEXT } from "jsr:@std/http"
+import { STATUS_CODE, STATUS_TEXT } from "jsr:@std/http/status"
 
 /** Generate QR Code for OTP secret */
 export default function (request: Request) {
