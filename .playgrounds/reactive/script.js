@@ -1,5 +1,6 @@
-( async function () {
-  await llibs.forms.setup({deno:`
+;(async function () {
+  await llibs.forms.setup({
+    deno: `
 import { Context } from "jsr:@libs/reactive/context"
 import { Logger } from "jsr:@libs/logger"
 const log = new Logger({ options:{delta:false} })
@@ -20,5 +21,6 @@ const { target } = context
 target.foo
 target.foo = "baz"
 delete target.foo
-target.func("hello", "world")`})
+target.func("hello", "world")`,
+  })
 })()

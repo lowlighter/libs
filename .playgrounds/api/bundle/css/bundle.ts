@@ -10,8 +10,7 @@ export default async function (request: Request) {
   try {
     const { code, ...options } = await request.json()
     return new Response(await bundle(code, options), { headers: { "content-type": "text/css" } })
-  }
-  catch (error) {
+  } catch (error) {
     return new Response(error.message, { status: STATUS_CODE.InternalServerError })
   }
 }

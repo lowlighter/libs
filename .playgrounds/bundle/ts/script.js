@@ -1,5 +1,5 @@
-(async function () {
-  await llibs.forms.setup({editor:true})
+;(async function () {
+  await llibs.forms.setup({ editor: true })
 
   /** Bundle TypeScript */
   async function bundle() {
@@ -10,7 +10,7 @@
       debug: document.querySelector("[name=debug]").checked,
       shadow: document.querySelector("[name=shadow]").checked,
     })
-    const content = await fetch("/api/bundle/ts/bundle", { method: "POST", body }).then(response => response.text())
+    const content = await fetch("/api/bundle/ts/bundle", { method: "POST", body }).then((response) => response.text())
     document.querySelector("output").innerHTML = hljs.highlight(content, { language: "typescript" }).value
   }
   document.querySelector("form").addEventListener("submit", bundle)

@@ -1,53 +1,60 @@
 globalThis.llibs = {
-  forms:{
+  forms: {
     /** Setup forms */
-    async setup({menu = false, deno = false, editor = false} = {}) {
+    async setup({ menu = false, deno = false, editor = false } = {}) {
       if (deno) {
         await llibs.deno.setup(deno)
       }
-      if ((editor)||(deno)) {
+      if (editor || deno) {
         await llibs.editor(editor)
       }
-      document.querySelectorAll("form").forEach(element => {
-        element.addEventListener("submit", event => event.preventDefault())
-        element.querySelectorAll("button[type=submit]").forEach(button => button.removeAttribute("disabled"))
+      document.querySelectorAll("form").forEach((element) => {
+        element.addEventListener("submit", (event) => event.preventDefault())
+        element.querySelectorAll("button[type=submit]").forEach((button) => button.removeAttribute("disabled"))
       })
       if (menu) {
         await llibs.menu.setup(menu)
       }
-    }
+    },
   },
-  menu:{
+  menu: {
     /** Setup menus */
     async setup(execute) {
-      const actions = Array.from(document.querySelectorAll("menu li[data-for]")).map(element => element.dataset.for)
+      const actions = Array.from(document.querySelectorAll("menu li[data-for]")).map((element) => element.dataset.for)
       async function menu(action = actions[0]) {
-        document.querySelectorAll("menu li[data-for]").forEach(element => element.classList.remove("selected"))
+        document.querySelectorAll("menu li[data-for]").forEach((element) => element.classList.remove("selected"))
         document.querySelector(`menu li[data-for="${action}"]`).classList.add("selected")
-        document.querySelectorAll(actions.map(action => `.${action}`).join(",")).forEach(element => element.style.display = "none")
+        document.querySelectorAll(actions.map((action) => `.${action}`).join(",")).forEach((element) => element.style.display = "none")
         document.querySelector(`.${action}`).style.display = "block"
         await execute()
       }
-      document.querySelectorAll("menu li[data-for]").forEach(element => !element.classList.contains("disabled") ? element.addEventListener("click", function () { menu(this.dataset.for) }) : null)
+      document.querySelectorAll("menu li[data-for]").forEach((element) =>
+        !element.classList.contains("disabled")
+          ? element.addEventListener("click", function () {
+            menu(this.dataset.for)
+          })
+          : null
+      )
       document.querySelector("form").addEventListener("submit", execute)
       await menu()
-    }
+    },
   },
-  deno:{
+  deno: {
     /** Setup deno environment */
     async setup(placeholder = "") {
-      const html = await fetch("/.partial/deno.html").then(response => response.text())
+      const html = await fetch("/.partial/deno.html").then((response) => response.text())
       const div = document.createElement("div")
       div.innerHTML = html
-      for (const element of Array.from(div.children))
+      for (const element of Array.from(div.children)) {
         document.querySelector("main").appendChild(element)
+      }
       document.querySelector("form").addEventListener("submit", async function () {
         const body = document.querySelector("[name=content]").value
-        const result = await fetch("/api/deno/run", { method: 'POST', body }).then(response => response.json())
+        const result = await fetch("/api/deno/run", { method: "POST", body }).then((response) => response.json())
         for (const name in result) {
           switch (name) {
             case "duration":
-              document.querySelector(`#${name}`).innerText = Number(result[name]/1000).toFixed(3)
+              document.querySelector(`#${name}`).innerText = Number(result[name] / 1000).toFixed(3)
               break
             case "code":
               document.querySelector(`#${name}`).innerText = result[name]
@@ -64,15 +71,15 @@ globalThis.llibs = {
         }
       })
       document.querySelector("[name=content]").value = placeholder.trim()
-    }
+    },
   },
   /** Setup code editors */
   async editor() {
     const script = document.createElement("script")
     script.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
     document.head.appendChild(script)
-    await new Promise(resolve => script.onload = resolve)
-    document.querySelectorAll(".editor").forEach(element => {
+    await new Promise((resolve) => script.onload = resolve)
+    document.querySelectorAll(".editor").forEach((element) => {
       const textarea = element.querySelector("textarea")
       const highlight = element.querySelector(".highlight")
       textarea.addEventListener("input", () => coloration(textarea.value))
@@ -81,19 +88,19 @@ globalThis.llibs = {
         highlight.scrollLeft = this.scrollLeft
       })
       function coloration(value, escape = false) {
-        if (escape)
-        value = value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+        if (escape) {
+          value = value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+        }
         highlight.innerHTML = hljs.highlight(value, { language: highlight.dataset.lang || "typescript" }).value
       }
       coloration(textarea.value)
     })
-  }
-};
-
-(async function () {
+  },
+}
+;(async function () {
   // Inject partials
   const parts = {}
-  await Promise.all(["header", "footer", "aside"].map(part => fetch(`/.partial/${part}.html`).then(response => response.text().then(text => parts[part] = text))))
+  await Promise.all(["header", "footer", "aside"].map((part) => fetch(`/.partial/${part}.html`).then((response) => response.text().then((text) => parts[part] = text))))
   document.body.innerHTML = `${parts.header}${parts.aside}${document.body.innerHTML}${parts.footer}`
 
   // Update title
@@ -106,6 +113,6 @@ globalThis.llibs = {
     const script = document.createElement("script")
     script.src = element.dataset.src
     element.replaceWith(script)
-    await new Promise(resolve => script.onload = resolve)
+    await new Promise((resolve) => script.onload = resolve)
   }
 })()

@@ -9,8 +9,7 @@ export default async function (request: Request) {
   }
   try {
     return new Response(XML.stringify(JSON.parse(await request.text())), { headers: { "content-type": "application/xml" } })
-  }
-  catch (error) {
+  } catch (error) {
     return new Response(error.message, { status: STATUS_CODE.InternalServerError })
   }
 }

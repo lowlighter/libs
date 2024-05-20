@@ -10,8 +10,7 @@ export default async function (request: Request) {
   try {
     const { a, b } = await request.json()
     return new Response(diff(a, b), { headers: { "content-type": "text/plain" } })
-  }
-  catch (error) {
+  } catch (error) {
     return new Response(error.message, { status: STATUS_CODE.InternalServerError })
   }
 }

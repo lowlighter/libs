@@ -10,8 +10,7 @@ export default async function (request: Request) {
   try {
     const { code, query } = await request.json()
     return new Response(await compatibility(code, { query, view: "browsers", output: "html", verbose: true }), { headers: { "content-type": "text/html" } })
-  }
-  catch (error) {
+  } catch (error) {
     return new Response(error.message, { status: STATUS_CODE.InternalServerError })
   }
 }

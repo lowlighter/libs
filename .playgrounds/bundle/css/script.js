@@ -1,5 +1,5 @@
-(async function () {
-  await llibs.forms.setup({editor:true})
+;(async function () {
+  await llibs.forms.setup({ editor: true })
 
   /** Bundle CSS */
   async function bundle() {
@@ -9,7 +9,7 @@
       banner: document.querySelector("[name=banner]").value,
       query: document.querySelector("[name=query]").value,
     })
-    const content = await fetch("/api/bundle/css/bundle", { method: "POST", body }).then(response => response.text())
+    const content = await fetch("/api/bundle/css/bundle", { method: "POST", body }).then((response) => response.text())
     document.querySelector("output").innerHTML = hljs.highlight(content, { language: "css" }).value
   }
   document.querySelector("form").addEventListener("submit", bundle)

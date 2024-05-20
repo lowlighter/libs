@@ -10,9 +10,8 @@ export default function (request: Request) {
   try {
     const url = new URL(request.url)
     const content = url.searchParams.get("content") ?? ""
-    return new Response(qrcode(content, { output: "svg", border:2 }), { headers: { "content-type": "image/svg+xml" } })
-  }
-  catch (error) {
+    return new Response(qrcode(content, { output: "svg", border: 2 }), { headers: { "content-type": "image/svg+xml" } })
+  } catch (error) {
     return new Response(error.message, { status: STATUS_CODE.InternalServerError })
   }
 }
