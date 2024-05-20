@@ -1,5 +1,5 @@
 {
-  "icon":"🧪",
+  "icon": "🧪",
   "name": "@libs/testing",
   "version": "1.0.4",
   "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
