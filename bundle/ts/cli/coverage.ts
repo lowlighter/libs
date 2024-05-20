@@ -18,7 +18,7 @@ if (help) {
   console.log("https://github.com/lowlighter/libs - MIT License - (c) 2024 Simon Lecoq")
   console.log("")
   console.log("Usage:")
-  console.log("  deno --allow-read --allow-write=coverage --allow-net=img.shields.io coverage.ts [options] [files...=coverage/*.hmtl]")
+  console.log("  deno --allow-read --allow-write=coverage --allow-net=img.shields.io coverage.ts [options] [files...=coverage/**/*.html]")
   console.log("")
   console.log("Options:")
   console.log("  -h, --help                 Show this help")
