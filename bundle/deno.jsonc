@@ -43,7 +43,7 @@
     "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --allow-sys --allow-read --allow-env --allow-net --allow-write --no-prompt --coverage --trace-leaks --doc",
     "dev": "deno fmt && deno task test --filter='[deno]' && deno coverage --detailed && deno lint && deno publish --dry-run --quiet",
     "ci": "deno fmt --check && deno task test --quiet && deno coverage && deno lint",
-    "ci:coverage": "deno task test --quiet && deno coverage --html"
+    "coverage": "deno task test --filter='[deno]' --quiet && deno coverage"
   },
   "lint": {
     "rules": {
