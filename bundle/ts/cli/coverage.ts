@@ -3,7 +3,7 @@
 import { expandGlob } from "@std/fs"
 import { dirname, resolve } from "@std/path"
 import { default as syntax } from "npm:highlight.js@11.9.0"
-import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.45/deno-dom-wasm.ts"
+import { DOMParser } from "@lowlighter/deno-dom/deno-dom-wasm"
 import { basename } from "@std/path"
 import { parseArgs } from "@std/cli"
 import { Logger } from "@libs/logger"
