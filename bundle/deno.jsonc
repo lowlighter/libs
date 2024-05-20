@@ -9,6 +9,7 @@
     "./ts": "./ts/mod.ts",
     "./css": "./css/mod.ts",
     "./wasm": "./wasm/mod.ts",
+    "./ts/cli/coverage": "./ts/cli/coverage.ts",
     "./css/cli/fmt": "./css/cli/fmt.ts",
     "./css/cli/check": "./css/cli/check.ts",
     "./wasm/cli/build": "./wasm/cli/build.ts"
