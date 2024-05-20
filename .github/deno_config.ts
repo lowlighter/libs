@@ -35,13 +35,13 @@ for (const name of packages) {
 }
 for (const name of packages) {
   tasks[`${name}:ci`] = `cd ${name} && deno task ci`
-  tasks[`${name}:coverage`] = `cd ${name} && deno task coverage --html && rm -rf ../coverage/${name} && mv coverage/html ../coverage/${name}`
+  tasks[`${name}:coverage`] = `cd ${name} && deno task coverage --html && sleep 1 && rm -rf ../coverage/${name} && mv coverage/html ../coverage/${name}`
   tasks[`${name}:publish`] = `cd ${name} && deno publish`
 }
 for (const task of ["ci", "coverage"]) {
   tasks[task] = packages.map((name) => `deno task ${name}:${task}`).join(" && ")
 }
-tasks.coverage = `${tasks.coverage} && deno task coverage:pretty`
+tasks.coverage = `rm coverage -rf && mkdir -p coverage && ${tasks.coverage} && deno task coverage:pretty`
 
 // Save global configuration
 global.imports = imports
