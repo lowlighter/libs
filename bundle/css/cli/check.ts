@@ -8,7 +8,12 @@
 import { compatibility } from "../compatibility.ts"
 import { parseArgs } from "@std/cli"
 
-const { help, query, html, ["no-style"]: nostyle, details, _: [url] } = parseArgs(Deno.args, { boolean: ["html", "help", "no-style", "details"], alias: { help: "h", query: "q", "no-style": "S", details: "d" }, string: ["query"], collect: ["query"] })
+const { help, query, html, ["no-style"]: nostyle, details, _: [url] } = parseArgs(Deno.args, {
+  boolean: ["help", "html", "no-style", "details"],
+  alias: { help: "h", query: "q", "no-style": "S", details: "d" },
+  string: ["query"],
+  collect: ["query"],
+})
 if (help) {
   console.log("CSS compatibility checker")
   console.log("https://github.com/lowlighter/libs - MIT License - (c) 2024 Simon Lecoq")

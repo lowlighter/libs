@@ -13,7 +13,12 @@ import { assertEquals } from "@std/assert"
 import { green, red } from "@std/fmt/colors"
 import { parseArgs } from "@std/cli"
 
-const { check, help, root = ".", exclude, _: globs } = parseArgs(Deno.args, { boolean: ["check", "help"], alias: { help: "h", check: "c", exclude: "e", root: "r" }, string: ["root"], collect: ["exclude"] })
+const { help, check, root = ".", exclude, _: globs } = parseArgs(Deno.args, {
+  boolean: ["help", "check"],
+  alias: { help: "h", check: "c", exclude: "e", root: "r" },
+  string: ["root", "exclude"],
+  collect: ["exclude"],
+})
 if (help) {
   console.log("CSS formatter")
   console.log("https://github.com/lowlighter/libs - MIT License - (c) 2024 Simon Lecoq")
@@ -43,7 +48,7 @@ if (!globs.length) {
 const checked = new Set<string>()
 let errored = 0
 for (const glob of globs) {
-  for await (const { path } of expandGlob(`${glob}`, { root, exclude: exclude?.map((excluded) => `${excluded}`) })) {
+  for await (const { path } of expandGlob(`${glob}`, { root, exclude })) {
     checked.add(path)
     const content = await Deno.readTextFile(path)
     const formatted = await bundle(content, { rules: { "no-descending-specificity": false } })

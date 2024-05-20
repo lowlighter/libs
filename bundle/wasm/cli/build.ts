@@ -9,7 +9,11 @@ import { bundle } from "../bundle.ts"
 import { parseArgs } from "@std/cli"
 import { Logger } from "@libs/logger"
 
-let { help, ["auto-install"]: autoinstall, bin, banner, loglevel, _: [project] } = parseArgs(Deno.args, { boolean: ["auto-install"], alias: { help: "h", "auto-install": "i", bin: "x", banner: "b", loglevel: "l" }, string: ["bin", "banner", "loglevel"] })
+let { help, ["auto-install"]: autoinstall, bin, banner, loglevel, _: [project] } = parseArgs(Deno.args, {
+  boolean: ["help", "auto-install"],
+  alias: { help: "h", "auto-install": "i", bin: "x", banner: "b", loglevel: "l" },
+  string: ["bin", "banner", "loglevel"],
+})
 if (help) {
   console.log("WASM bundler")
   console.log("https://github.com/lowlighter/libs - MIT License - (c) 2024 Simon Lecoq")
