@@ -71,6 +71,7 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git tag '${{ steps.tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.tagging.outputs.tag }}'
           git push origin '${{ steps.tagging.outputs.tag }}'
 
   publish:
