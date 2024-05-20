@@ -192,6 +192,17 @@ Print compatibility report for CSS features against MDN data for selected browse
 deno run jsr:@libs/bundle/css/cli/check --help
 ```
 
+### XHTML formatter
+
+Format HTML and HTML/XML code similarly `deno fmt`. Can be used with `--check` to validate that HTML/XML code is correctly formatted.
+
+> [!WARNING]\
+> This formatter is currently experimental and may **break** your documents. It requires `--unstable` flag to be run without `--check` flag.
+
+```sh
+deno run jsr:@libs/bundle/xhtml/cli/fmt --help
+```
+
 ### Web assembly builder
 
 Compile a rust project to Web assembly and minify output.
