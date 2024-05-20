@@ -1,12 +1,12 @@
 // Imports
 import { encodeBase64 } from "@std/encoding/base64"
-import { bgCyan, yellow } from "@std/fmt/colors"
 import { bundle as bundle_ts } from "../ts/bundle.ts"
 import { assert } from "@std/assert"
 import { Untar } from "@std/archive/untar"
 import { copy, readerFromStreamReader } from "@std/io"
 import { ensureFile } from "@std/fs"
 import { basename, dirname, resolve, toFileUrl } from "@std/path"
+import { type level as loglevel, Logger } from "@libs/logger"
 
 /**
  * Build WASM, bundle and minify JavaScript.
@@ -19,27 +19,30 @@ import { basename, dirname, resolve, toFileUrl } from "@std/path"
  * await bundle("path/to/rust/project")
  * ```
  */
-export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner } = {} as { bin?: string; autoinstall?: boolean; banner?: string }): Promise<void> {
+export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner, loglevel } = {} as { bin?: string; autoinstall?: boolean; banner?: string; loglevel?: loglevel }): Promise<void> {
+  const log = new Logger({ level: loglevel, tags: { project } })
+
   // Autoinstall wasm-pack if needed
   if (autoinstall) {
+    log.debug(`checking if ${bin} is installed`)
     try {
       await new Deno.Command(bin, { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit" }).output()
     } catch (error) {
       if (error instanceof Deno.errors.NotFound) {
-        console.warn(yellow("wasm-pack not found, installing..."))
-        bin = await install({ path: dirname(bin) })
+        log.warn(`${bin} not found, installing`)
+        bin = await install({ log, path: dirname(bin) })
       }
     }
   }
 
   // Build wasm
-  console.log(bgCyan("wasm build".padEnd(48)))
+  log.info("building wasm")
   const command = new Deno.Command(bin, { args: ["build", "--release", "--target", "web"], cwd: project, stdin: "inherit", stdout: "inherit", stderr: "inherit" })
   const { success } = await command.output()
   assert(success, "wasm build failed")
 
   // Inject wasm so it can be loaded without permissions, and export a source function so it can be loaded synchronously using `initSync()`
-  console.log(bgCyan("inject base64 wasm to js".padEnd(48)))
+  log.info("injecting base64 wasm to js")
   const name = basename(project)
   const wasm = await fetch(toFileUrl(resolve(project, `pkg/${name}_bg.wasm`))).then((response) => response.arrayBuffer())
   let js = await fetch(toFileUrl(resolve(project, `pkg/${name}.js`))).then((response) => response.text())
@@ -49,35 +52,36 @@ export async function bundle(project: string, { bin = "wasm-pack", autoinstall =
     return format === 'base64' ? b64 : new Uint8Array(Array.from(atob(b64), c => c.charCodeAt(0))).buffer
   }`
   await Deno.writeTextFile(resolve(project, `./${name}.js`), js)
-  console.log("ok")
+  log.debug("ok")
 
   // Minify output
-  console.log(bgCyan("minify js".padEnd(48)))
+  log.info("minifying js")
   const minified = await bundle_ts(new URL(toFileUrl(resolve(project, `./${name}.js`))), { minify: "terser", banner })
   await Deno.writeTextFile(resolve(project, `./${name}.js`), minified)
-  console.log(`size: ${new Blob([minified]).size}b`)
+  log.with({ size: `${new Blob([minified]).size}b` }).log()
 }
 
 /**
  * Install wasm-pack.
  */
-async function install({ path = "." } = {}) {
+async function install({ log, path }: { log: Logger; path: string }) {
   // List releases and select asset for current platform
-  console.log(bgCyan("wasm-pack install".padEnd(48)))
+  log.info("looking for latest release of wasm-pack")
   const { tag_name, assets: assets } = await fetch("https://api.github.com/repos/rustwasm/wasm-pack/releases/latest").then((response) => response.json())
-  console.log(`found ${tag_name}`)
+  log.log(`found version ${tag_name}`)
   const packaged = assets
     .map(({ name, browser_download_url: url }: { name: string; browser_download_url: string }) => ({ name, url }))
     .find(({ name }: { name: string }) => name.includes(Deno.build.os) && name.includes(Deno.build.arch))
   assert(packaged, `cannot find suitable release for ${Deno.build.os}-${Deno.build.arch}`)
-  console.log(`found ${packaged.name} for ${Deno.build.os}-${Deno.build.arch}`)
+  log.log(`found binary ${packaged.name} for ${Deno.build.os}-${Deno.build.arch}`)
   // Download archive
-  console.log(bgCyan("downloading release".padEnd(48)))
+  log.info("downloading release")
   const reader = readerFromStreamReader(await fetch(packaged.url).then((response) => response.body!.pipeThrough(new DecompressionStream("gzip")).getReader()))
-  console.log("ok")
+  log.debug("ok")
   // Extract archive
-  console.log(bgCyan("extracting release".padEnd(48)))
+  log.info("extracting release")
   const untar = new Untar(reader)
+  let found = false
   for await (const entry of untar) {
     const filename = basename(entry.fileName)
     if (!filename.startsWith("wasm-pack")) {
@@ -86,17 +90,19 @@ async function install({ path = "." } = {}) {
     if (entry.type !== "file") {
       continue
     }
+    found = true
     path = resolve(path, filename)
-    console.log(`write: ${path}`)
+    log.log(`extracted ${path}`)
     await ensureFile(path)
     using file = await Deno.open(path, { write: true, truncate: true })
     await Deno.chmod(path, 0o755).catch(() => null)
     await copy(entry, file)
     break
   }
-  console.log("ok")
+  assert(found, "wasm-pack binary not found in archive")
+  log.debug("ok")
   // Check installation
-  console.log(bgCyan("checking installation".padEnd(48)))
+  log.info("checking installation")
   const command = new Deno.Command(path, { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit" })
   const { success } = await command.output()
   assert(success, "wasm-pack could not be executed")
