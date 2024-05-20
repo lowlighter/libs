@@ -1,6 +1,6 @@
 # 🍱 Libraries
 
-[![JSR Scope](https://jsr.io/badges/@libs)](https://jsr.io/@libs)
+[![JSR Scope](https://jsr.io/badges/@libs)](https://jsr.io/@libs) [![Playground](https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black)](https://libs-root.deno.dev)
 
 This is a collection of carefully crafted _TypeScript_ libraries. These try to be minimal, unbloated and convenient.
 
