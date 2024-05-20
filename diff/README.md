@@ -1,8 +1,8 @@
 # ➕ Diff (patience algorithm)
 
-[![JSR](https://jsr.io/badges/@libs/diff)](https://jsr.io/@libs/diff) [![JSR Score](https://jsr.io/badges/@libs/diff/score)](https://jsr.io/@libs/diff)
+[![JSR](https://jsr.io/badges/@libs/diff)](https://jsr.io/@libs/diff) [![JSR Score](https://jsr.io/badges/@libs/diff/score)](https://jsr.io/@libs/diff) [![Coverage](https://libs-coverage.lecoq.io/diff/badge.svg)](https://libs-coverage.lecoq.io/diff)
 
-- [`🦕 Playground`](https://dash.deno.com/playground/libs-diff)
+- [`🦕 Playground`](https://libs-diff.deno.dev)
 - [`📚 Documentation`](https://jsr.io/@libs/diff/doc)
 
 ## ✨ Features
