@@ -6,7 +6,9 @@
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
-  "supported": ["deno"],
+  "supported": [
+    "deno"
+  ],
   "exports": {
     ".": "./mod.ts"
   },
