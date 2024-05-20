@@ -33,7 +33,7 @@
 export class Logger {
   /** Constructor. */
   constructor({ level, format, output, tags, options }: { level?: level; format?: format; output?: output; tags?: tags; options?: Partial<Omit<options, "caller">> & { caller?: Partial<Exclude<options["caller"], false>> | false } } = {}) {
-    if (globalThis.Deno?.permissions.querySync({ name: "env", variable: "LOG_LEVEL" }).state === "granted") {
+    if (globalThis.Deno?.permissions.querySync?.({ name: "env", variable: "LOG_LEVEL" }).state === "granted") {
       const env = globalThis.Deno?.env.get("LOG_LEVEL") ?? ""
       if (env in Logger.level) {
         level ??= Logger.level[env as keyof typeof Logger.level]
