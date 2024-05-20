@@ -1,6 +1,6 @@
 {
   "name": "@libs/xml",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "XML parser/stringifier with no dependencies.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
