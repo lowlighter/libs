@@ -44,7 +44,7 @@ if (help) {
   console.log("")
   Deno.exit(0)
 }
-if ((!unstable)&&(!check)) {
+if ((!unstable) && (!check)) {
   console.error(yellow("Warning: this formatter is not stable yet. It may break your HTML and XML documents in some cases (mainly the order of children may change and comments might be removed too). Please pass --unstable flag if you still want to proceed."))
   Deno.exit(1)
 }
