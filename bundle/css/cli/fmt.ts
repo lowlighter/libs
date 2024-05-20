@@ -7,7 +7,6 @@
  */
 
 // Imports
-import { bundle } from "../bundle.ts"
 import { expandGlob } from "@std/fs"
 import { assertEquals } from "@std/assert"
 import { green, red } from "@std/fmt/colors"
@@ -45,6 +44,7 @@ if (help) {
 if (!globs.length) {
   globs.push("**/*.css")
 }
+const { bundle } = await import("../bundle.ts")
 const checked = new Set<string>()
 let errored = 0
 for (const glob of globs) {
