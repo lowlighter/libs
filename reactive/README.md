@@ -1,6 +1,6 @@
 # 🎯 Reactivity
 
-[![JSR](https://jsr.io/badges/@libs/reactive)](https://jsr.io/@libs/reactive) [![JSR Score](https://jsr.io/badges/@libs/reactive/score)](https://jsr.io/@libs/reactive)
+[![JSR](https://jsr.io/badges/@libs/reactive)](https://jsr.io/@libs/reactive) [![JSR Score](https://jsr.io/badges/@libs/reactive/score)](https://jsr.io/@libs/reactive) [![Coverage](https://libs-coverage.lecoq.io/reactive/badge.svg)](https://libs-coverage.lecoq.io/reactive)
 
 - [`🦕 Playground`](https://dash.deno.com/playground/libs-reactive)
 - [`📚 Documentation`](https://jsr.io/@libs/reactive/doc)
