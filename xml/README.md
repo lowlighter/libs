@@ -1,8 +1,8 @@
 # 📃 XML parser and stringifier
 
-[![JSR](https://jsr.io/badges/@libs/xml)](https://jsr.io/@libs/xml) [![JSR Score](https://jsr.io/badges/@libs/xml/score)](https://jsr.io/@libs/xml)
+[![JSR](https://jsr.io/badges/@libs/xml)](https://jsr.io/@libs/xml) [![JSR Score](https://jsr.io/badges/@libs/xml/score)](https://jsr.io/@libs/xml) [![Coverage](https://libs-coverage.lecoq.io/qrcode/badge.svg)](https://libs-coverage.lecoq.io/xml)
 
-- [`🦕 Playground`](https://dash.deno.com/playground/libs-xml)
+- [`🦕 Playground`](https://libs-xml.deno.dev)
 - [`📚 Documentation`](https://jsr.io/@libs/xml/doc)
 
 ## ✨ Features

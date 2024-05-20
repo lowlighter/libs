@@ -204,6 +204,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
       <a href="https://jsr.io/@libs/xml"><code>📃 @libs/xml</code></a><br>
       <a href="https://jsr.io/@libs/xml"><img src="https://jsr.io/badges/@libs/xml"></a>
       <a href="https://libs-coverage.lecoq.io/xml"><img src="https://libs-coverage.lecoq.io/xml/badge.svg"></a>
+      <a href="https://libs-xml.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a>
     </td>
     <td>
       <img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg">
