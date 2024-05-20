@@ -1,9 +1,8 @@
 // Imports
-import { fromFileUrl } from "jsr:@std/path/from-file-url"
-import { resolve } from "jsr:@std/path/resolve"
-import * as JSONC from "jsr:@std/jsonc"
+import { fromFileUrl, resolve } from "@std/path"
+import * as JSONC from "@std/jsonc"
 import { parseArgs } from "@std/cli"
-import type { record } from "jsr:@libs/typing"
+import type { record } from "@libs/typing"
 import * as semver from "@std/semver"
 import { assert } from "@std/assert"
 

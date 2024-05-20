@@ -1,8 +1,8 @@
 // Imports
-import { expandGlob } from "jsr:@std/fs"
-import { basename, dirname, fromFileUrl, resolve } from "jsr:@std/path"
-import * as JSONC from "jsr:@std/jsonc"
-import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.45/deno-dom-wasm.ts"
+import { expandGlob } from "@std/fs"
+import { basename, dirname, fromFileUrl, resolve } from "@std/path"
+import * as JSONC from "@std/jsonc"
+import { DOMParser } from "@lowlighter/deno-dom/deno-dom-wasm"
 import { Logger } from "@libs/logger"
 
 // Load local configurations
