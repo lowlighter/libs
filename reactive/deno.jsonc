@@ -5,7 +5,7 @@
   "description": "Reactive utilities for observable objects.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
-  "playground": "https://libs-reactive.deno.dev",
+  "playground": "https://libs.lecoq.io/reactive",
   "license": "MIT License",
   "supported": [
     "deno",

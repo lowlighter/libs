@@ -5,7 +5,7 @@
   "description": "Object-relational mapping toolbox.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
-  "playground": "https://libs-orm.deno.dev",
+  "playground": "https://libs.lecoq.io/orm",
   "license": "MIT License",
   "supported": [
     "deno"

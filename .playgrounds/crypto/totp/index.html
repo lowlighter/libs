@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="layout-simple">
+    <main>
+      <form>
+        <label>
+          Secret:
+          <small>The secret that is used to generate Time-based OTPs.</small>
+          <output name="secret" type="text">237GV5SVQILOVMLDFVASDXFAR4WYTQ2F</output>
+          <button type="button" name="regenerate">Regenerate secret</button>
+        </label>
+        <label>
+          Issuer:
+          <small>Name of the entity that issued the secret.</small>
+          <input required name="issuer" value="example" type="text">
+        </label>
+        <label>
+          Account:
+          <small>Account name.</small>
+          <input required name="account" value="alice@example.com" type="text">
+        </label>
+        <label>
+          Image:
+          <small>An image that may be used by authenticator apps to display the account.</small>
+          <input name="image" value="https://jsr.io/logos/deno.svg" type="text">
+        </label>
+        <footer>
+          <button type="submit" name="update">Update QR code</button>
+        </footer>
+        <hr>
+        <p style="text-align: center" class="muted">
+          <small>Scan the QR code below in an authenticator app to generate TOTP.</small>
+        </p>
+        <p style="text-align: center">
+          <img style="max-width: 512px;">
+        </p>
+      </form>
+      <form>
+        <label>
+          Current TOTP:
+          <small>Generated at: <time></time></small>
+          <output name="totp" type="number">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</output>
+        </label>
+        <label>
+          Tolerance:
+          <small>± allowed window for tokens.</small>
+          <input name="tolerance" value="1" type="number" min="0">
+        </label>
+        <label>
+          Time-based OTP:
+          <small>Token to verify</small>
+          <input required name="totp_verify" type="text">
+        </label>
+        <footer>
+          <button type="submit" name="verify">Verify TOTP</button>
+        </footer>
+        <hr>
+        <label>
+          OTP validity
+          <small>Tell whether submitted OTP is valid against expected tokens.</small>
+          <output class="block verify"></output>
+        </label>
+      </form>
+      <script src="/script.js"></script>
+      <script data-src="/crypto/totp/script.js"></script>
+    </main>
+  </body>
+</html>
+
+
+
+
+

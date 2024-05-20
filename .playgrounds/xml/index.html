@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="layout-simple">
+    <main>
+      <menu>
+        <li data-for="parse">Parse</li>
+        <li data-for="stringify">Stringify</li>
+      </menu>
+      <form>
+        <label class="parse">
+          XML document
+          <small>Transform XML to JSON.</small>
+          <div class="editor">
+            <textarea required rows="8" spellcheck="false"><?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <!-- This is a comment -->
+  <text>hello</text>
+  <array>world</array>
+  <array>monde</array>
+  <array>世界</array>
+  <array>🌏</array>
+  <number>42</number>
+  <boolean>true</boolean>
+  <complex attribute="value">content</complex>
+</root></textarea>
+            <div class="highlight" data-lang="xml"></div>
+          </div>
+        </label>
+        <label class="stringify">
+          JSON document
+          <small>Transform JSON to XML.</small>
+          <div class="editor">
+            <textarea required rows="8" spellcheck="false"></textarea>
+            <div class="highlight" data-lang="json"></div>
+          </div>
+        </label>
+        <footer>
+          <button type="submit" disabled>Parse document</button>
+        </footer>
+      </form>
+      <form>
+        <label>
+          Result
+          <small>Parsed document.</small>
+          <output id="output" class="block"></output>
+        </label>
+      </form>
+      <script src="/script.js"></script>
+      <script data-src="/xml/script.js"></script>
+    </main>
+  </body>
+</html>

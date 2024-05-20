@@ -2,7 +2,7 @@
 
 [![JSR](https://jsr.io/badges/@libs/diff)](https://jsr.io/@libs/diff) [![JSR Score](https://jsr.io/badges/@libs/diff/score)](https://jsr.io/@libs/diff) [![Coverage](https://libs-coverage.lecoq.io/diff/badge.svg)](https://libs-coverage.lecoq.io/diff)
 
-- [`🦕 Playground`](https://libs-diff.deno.dev)
+- [`🦕 Playground`](https://libs.lecoq.io/diff)
 - [`📚 Documentation`](https://jsr.io/@libs/diff/doc)
 
 ## ✨ Features

@@ -4,7 +4,7 @@
 
 ## 🗜️ TypeScript
 
-- [`🦕 Playground`](https://libs-bundle-ts.deno.dev)
+- [`🦕 Playground`](https://libs.lecoq.io/bundle/ts)
 - [`📚 Documentation`](https://jsr.io/@libs/bundle/doc/ts/~)
 
 ### ✨ Features
@@ -23,7 +23,7 @@ https://github.com/lowlighter/libs/blob/main/LICENSE
 
 ## 🎨 CSS
 
-- [`🦕 Playground`](https://libs-bundle-css.deno.dev)
+- [`🦕 Playground`](https://libs.lecoq.io/bundle/css)
 - [`📚 Documentation`](https://jsr.io/@libs/bundle/doc/css/~)
 
 ### ✨ Features
