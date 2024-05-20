@@ -17,7 +17,8 @@ jobs:
         shell: bash
         run: |
           PACKAGES_LIST=$(find . -mindepth 2 -maxdepth 2 -type f -name deno.jsonc -exec bash -c 'basename $(dirname {})' \;)
-          PACKAGES_LIST_JSON=$(echo $PACKAGES_LIST | jq --raw-input --compact-output --slurp 'split("\n")[:-1]')
+          PACKAGES_LIST_JSON=$(echo "$PACKAGES_LIST" | jq --raw-input --compact-output --slurp 'split("\n")[:-1]')
+          echo "packages: $PACKAGES_LIST_JSON"
           echo="packages=$PACKAGES_LIST_JSON" >> $GITHUB_OUTPUT
 
   test:
