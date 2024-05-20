@@ -5,7 +5,7 @@
   "description": "Features based upon Web Crypto APIs",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
-  "playground": "https://libs-crypto.deno.dev",
+  "playground": "https://libs.lecoq.io/crypto",
   "license": "MIT License",
   "supported": [
     "deno",

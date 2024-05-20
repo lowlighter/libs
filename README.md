@@ -1,6 +1,6 @@
 # 🍱 Libraries
 
-[![JSR Scope](https://jsr.io/badges/@libs)](https://jsr.io/@libs) [![Playground](https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black)](https://libs-root.deno.dev)
+[![JSR Scope](https://jsr.io/badges/@libs)](https://jsr.io/@libs) [![Playground](https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black)](https://libs.lecoq.io)
 
 This is a collection of carefully crafted _TypeScript_ libraries. These try to be minimal, unbloated and convenient.
 
@@ -27,7 +27,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <li><a href="#-cli-utilities">CLI utilities</a></li>
 </ul></td>
   </tr>
-  <tr><th><a href="https://libs-bundle.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/bundle"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/bundle"><img src="https://libs-coverage.lecoq.io/bundle/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/crypto"><code>🧮 @libs/crypto</code></a></h2>Features based upon Web Crypto APIs</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -39,7 +39,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <li>Generate time-based OTP secret key and verify tokens validity</li>
 </ul></td>
   </tr>
-  <tr><th><a href="https://libs-crypto.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/crypto"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/crypto"><img src="https://libs-coverage.lecoq.io/crypto/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/diff"><code>➕ @libs/diff</code></a></h2>Diff (patience algorithm)</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -50,7 +50,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <li>Compute unified patch between two string</li>
 </ul></td>
   </tr>
-  <tr><th><a href="https://libs-diff.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/diff"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/diff"><img src="https://libs-coverage.lecoq.io/diff/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/logger"><code>📰 @libs/logger</code></a></h2>Simple logger</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -68,7 +68,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <li>Automatically reads <code>LOG_LEVEL</code> environment variable (if available)</li>
 </ul></td>
   </tr>
-  <tr><th><a href="https://libs-logger.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/logger"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/logger"><img src="https://libs-coverage.lecoq.io/logger/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/orm"><code>💰 @libs/orm</code></a></h2>Object-relational mapping toolbox.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -79,7 +79,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <li>Manage resources using an agnostic storage inteface</li>
 </ul></td>
   </tr>
-  <tr><th><a href="https://libs-orm.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/orm"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/orm"><img src="https://libs-coverage.lecoq.io/orm/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/qrcode"><code>🔳 @libs/qrcode</code></a></h2>Pure TypeScript QRcode generator with no dependencies.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -91,7 +91,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <li>Support console, array and SVG output (with customizable colors)</li>
 </ul></td>
   </tr>
-  <tr><th><a href="https://libs-qrcode.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/qrcode"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/qrcode"><img src="https://libs-coverage.lecoq.io/qrcode/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/reactive"><code>🎯 @libs/reactive</code></a></h2>Reactive utilities for observable objects.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -103,7 +103,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <li>Support inherited contexts</li>
 </ul></td>
   </tr>
-  <tr><th><a href="https://libs-reactive.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/reactive"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/reactive"><img src="https://libs-coverage.lecoq.io/reactive/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/testing"><code>🧪 @libs/testing</code></a></h2>Testing utilities for cross-platform testing on Deno, Node.js and Bun.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -161,7 +161,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   </li>
 </ul></td>
   </tr>
-  <tr><th><a href="https://libs-xml.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/xml"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/xml"><img src="https://libs-coverage.lecoq.io/xml/badge.svg"></a></th></tr></table>
 
 ## 🧑‍💻 Cli utilities

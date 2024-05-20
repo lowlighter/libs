@@ -4,7 +4,7 @@
 
 ## 🔑 Time-based One-Time Password (TOTP)
 
-- [`🦕 Playground`](https://libs-crypto-totp.deno.dev)
+- [`🦕 Playground`](https://libs.lecoq.io/crypto/totp)
 - [`📚 Documentation`](https://jsr.io/@libs/crypto/doc/totp/~)
 
 ### ✨ Features
@@ -26,7 +26,7 @@ This library is based on the well-written article of [@rajat-sr](https://github.
 
 ## 🔐 Symmetric encryption (using AES-GCM 256 with a PBKDF2 derived key)
 
-- [`🦕 Playground`](https://libs-crypto-encryption.deno.dev)
+- [`🦕 Playground`](https://libs.lecoq.io/crypto/encryption)
 - [`📚 Documentation`](https://jsr.io/@libs/crypto/doc/encryption/~)
 
 ### ✨ Features

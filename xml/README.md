@@ -2,7 +2,7 @@
 
 [![JSR](https://jsr.io/badges/@libs/xml)](https://jsr.io/@libs/xml) [![JSR Score](https://jsr.io/badges/@libs/xml/score)](https://jsr.io/@libs/xml) [![Coverage](https://libs-coverage.lecoq.io/xml/badge.svg)](https://libs-coverage.lecoq.io/xml)
 
-- [`🦕 Playground`](https://libs-xml.deno.dev)
+- [`🦕 Playground`](https://libs.lecoq.io/xml)
 - [`📚 Documentation`](https://jsr.io/@libs/xml/doc)
 
 ## ✨ Features

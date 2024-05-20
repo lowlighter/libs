@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="layout-simple">
+    <main>
+      <form>
+        <label>
+          CSS:
+          <small>Enter some CSS you want to bundle.</small>
+          <div class="editor">
+            <textarea required name="code" rows="12" spellcheck="false">body {&#10;  color: salmon;&#10;}</textarea>
+            <div class="highlight" data-lang="css"></div>
+          </div>
+        </label>
+        <label>
+            <input name="minify" type="checkbox" checked>
+            Minify<br>
+            <small>Reduce bundle size by minifying output.</small>
+        </label>
+        <label>
+            Banner:
+            <small>Add a banner at the top of the output. Useful for license and metadata.</small>
+            <textarea name="banner" required rows="4">Copyright 20XX&#10;MIT License</textarea>
+        </label>
+        <label>
+            Browserlist query:
+            <small>Browserlist query to select which browsers and versions should be tested agains <code>@mdn/browser-compat-data</code>.</small>
+            <input required name="query" value="defaults">
+        </label>
+        <footer>
+          <button type="submit">Bundle CSS</button>
+        </footer>
+      </form>
+      <form>
+        <label>
+          Result
+          <small>Result of the bundled code.</small>
+          <output class="block"></output>
+        </label>
+      </form>
+      <script src="/script.js"></script>
+      <script data-src="/bundle/css/script.js"></script>
+    </main>
+  </body>
+</html>
+
+
+

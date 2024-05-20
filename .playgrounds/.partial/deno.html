@@ -1,0 +1,36 @@
+<form>
+  <label>
+    Deno playground:
+    <small>Write some code to experiment with this package.</small>
+    <div class="editor">
+      <textarea required name="content" rows="12" spellcheck="false"></textarea>
+      <div class="highlight"></div>
+    </div>
+  </label>
+  <footer>
+    <button type="submit">Run script</button>
+    <script data-src="/logger/script.js"></script>
+  </footer>
+</form>
+<form>
+  <label>
+    Stdout
+    <small>Content written in <var>stdout</var> channel.</small>
+    <output id="stdout" class="block"></output>
+  </label>
+  <label>
+    Stderr
+    <small>Content written in <var>stderr</var> channel.</small>
+    <output id="stderr" class="block"></output>
+  </label>
+  <label>
+    Exit code
+    <small>An exit code of <code>-1</code> means that process was killed because it was taking too much time.</small>
+    <output id="code">0</output>
+  </label>
+  <label>
+    Duration
+    <small>Execution time (in seconds).</small>
+    <output id="duration">0</output>
+  </label>
+</form>

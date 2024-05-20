@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="layout-simple">
+    <main>
+      <form>
+        <label>
+          QR Code content:
+          <small>Enter some text to generate a new QR Code.</small>
+          <input required name="content" value="bonjour" type="text">
+        </label>
+      </form>
+      <p style="text-align: center">
+        <img style="max-width: 512px;" src="/qrcode?content=bonjour">
+      </p>
+      <script src="/script.js"></script>
+      <script data-src="/qrcode/script.js"></script>
+    </main>
+  </body>
+</html>
