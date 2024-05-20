@@ -1,5 +1,5 @@
 // Imports
-import type { Nullable, record } from "@libs/typing"
+import type { Nullable, record, rw } from "@libs/typing"
 import type { xml_document, xml_node, xml_text } from "./_types.ts"
 
 // Re-exports
@@ -96,6 +96,7 @@ export function stringify(document: Partial<xml_document>, options?: options): s
 
 /** Create XML prolog. */
 function xml_prolog(document: xml_document, options: _options): string {
+  (document as rw)["~name"] ??= "xml"
   return xml_instruction(document, options)
 }
 
