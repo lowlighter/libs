@@ -7,7 +7,13 @@
   "repository": "https://github.com/lowlighter/libs",
   "playground": "https://libs-crypto.deno.dev",
   "license": "MIT License",
-  "supported": ["deno", "node", "bun", "cloudflare-workers", "browsers"],
+  "supported": [
+    "deno",
+    "node",
+    "bun",
+    "cloudflare-workers",
+    "browsers"
+  ],
   "exports": {
     "./encryption": "./encryption.ts",
     "./totp": "./totp.ts"

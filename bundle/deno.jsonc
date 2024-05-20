@@ -7,7 +7,9 @@
   "repository": "https://github.com/lowlighter/libs",
   "playground": "https://libs-bundle.deno.dev",
   "license": "MIT License",
-  "supported": ["deno"],
+  "supported": [
+    "deno"
+  ],
   "exports": {
     "./ts": "./ts/mod.ts",
     "./css": "./css/mod.ts",

@@ -6,7 +6,13 @@
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
-  "supported": ["deno", "node", "bun", "cloudflare-workers", "browsers"],
+  "supported": [
+    "deno",
+    "node",
+    "bun",
+    "cloudflare-workers",
+    "browsers"
+  ],
   "exports": {
     ".": "./mod.ts"
   },
