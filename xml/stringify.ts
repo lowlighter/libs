@@ -96,7 +96,7 @@ export function stringify(document: Partial<xml_document>, options?: options): s
 
 /** Create XML prolog. */
 function xml_prolog(document: xml_document, options: _options): string {
-  (document as rw)["~name"] ??= "xml"
+  ;(document as rw)["~name"] ??= "xml"
   return xml_instruction(document, options)
 }
 

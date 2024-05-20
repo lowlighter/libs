@@ -199,6 +199,37 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
       </ul>
     </td>
   </tr>
+    <tr>
+    <td>
+      <a href="https://jsr.io/@libs/xml"><code>📃 @libs/xml</code></a><br>
+      <a href="https://jsr.io/@libs/xml"><img src="https://jsr.io/badges/@libs/xml"></a>
+      <a href="https://libs-coverage.lecoq.io/xml"><img src="https://libs-coverage.lecoq.io/xml/badge.svg"></a>
+    </td>
+    <td>
+      <img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg">
+    </td>
+    <td>
+      <ul>
+        <li>
+          Parse XML to JavaScript object
+          <ul>
+            <li>Support cleaning options to remove attributes, comments, XML doctype and processing instructions from output</li>
+            <li>Support flatten options to flatten node content when only attributes, text or nothing is present</li>
+            <li>Support reviving options to trim text, replace XML entities, revive booleans and numbers</li>
+            <li>Also support custom reviving function</li>
+          </ul>
+        </li>
+        <li>
+          Stringify JavaScript object to XML
+          <ul>
+            <li>Support formatting options to configure indentation and text break lines</li>
+            <li>Support replacing options to replace XML entities</li>
+            <li>Also support custom replacing function</li>
+          </ul>
+        </li>
+      </ul>
+    </td>
+  </tr>
 </table>
 
 > [!TIP]\
