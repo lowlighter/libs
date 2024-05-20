@@ -1,10 +1,10 @@
 # 📦 Bundle utilities
 
-[![JSR](https://jsr.io/badges/@libs/bundle)](https://jsr.io/@libs/bundle) [![JSR Score](https://jsr.io/badges/@libs/bundle/score)](https://jsr.io/@libs/bundle)
+[![JSR](https://jsr.io/badges/@libs/bundle)](https://jsr.io/@libs/bundle) [![JSR Score](https://jsr.io/badges/@libs/bundle/score)](https://jsr.io/@libs/bundle) [![Coverage](https://libs-coverage.lecoq.io/bundle/badge.svg)](https://libs-coverage.lecoq.io/bundle)
 
 ## 🗜️ TypeScript
 
-- [`🦕 Playground`](https://dash.deno.com/playground/libs-bundle)
+- [`🦕 Playground`](https://libs-bundle-ts.deno.dev)
 - [`📚 Documentation`](https://jsr.io/@libs/bundle/doc/ts/~)
 
 ### ✨ Features
@@ -23,7 +23,7 @@ https://github.com/lowlighter/libs/blob/main/LICENSE
 
 ## 🎨 CSS
 
-- [`🦕 Playground`](https://dash.deno.com/playground/libs-bundle)
+- [`🦕 Playground`](https://libs-bundle-css.deno.dev)
 - [`📚 Documentation`](https://jsr.io/@libs/bundle/doc/css/~)
 
 ### ✨ Features
@@ -43,7 +43,6 @@ https://github.com/lowlighter/libs/blob/main/LICENSE
 
 ## 🔬 WASM
 
-- [`🦕 Playground`](https://dash.deno.com/playground/libs-bundle)
 - [`📚 Documentation`](https://jsr.io/@libs/bundle/doc/wasm/~)
 
 ### ✨ Features
