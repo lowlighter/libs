@@ -119,7 +119,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
       <a href="https://jsr.io/@libs/qrcode"><code>🔳 @libs/qrcode</code></a><br>
       <a href="https://jsr.io/@libs/qrcode"><img src="https://jsr.io/badges/@libs/qrcode"></a>
       <a href="https://libs-coverage.lecoq.io/qrcode"><img src="https://libs-coverage.lecoq.io/qrcode/badge.svg"></a>
-      <a href="https://dash.deno.com/playground/libs-qrcode"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a>
+      <a href="https://libs-qrcode.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a>
     </td>
     <td>
       <img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg">

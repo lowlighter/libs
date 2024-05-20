@@ -1,8 +1,8 @@
 # 🔳 QR Code generator
 
-[![JSR](https://jsr.io/badges/@libs/qrcode)](https://jsr.io/@libs/qrcode) [![JSR Score](https://jsr.io/badges/@libs/qrcode/score)](https://jsr.io/@libs/qrcode)
+[![JSR](https://jsr.io/badges/@libs/qrcode)](https://jsr.io/@libs/qrcode) [![JSR Score](https://jsr.io/badges/@libs/qrcode/score)](https://jsr.io/@libs/qrcode) [![Coverage](https://libs-coverage.lecoq.io/qrcode/badge.svg)](https://libs-coverage.lecoq.io/qrcode)
 
-- [`🦕 Playground`](https://dash.deno.com/playground/libs-qrcode)
+- [`🦕 Playground`](https://libs-qrcode.deno.dev)
 - [`📚 Documentation`](https://jsr.io/@libs/qrcode/doc)
 
 ## ✨ Features
