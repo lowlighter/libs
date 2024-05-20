@@ -39,6 +39,9 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
         </li>
         <li>
           Bundle, minify, anonymize local file paths and a banner to TypeScript code
+          <ul>
+            <li>Improve coverage reports generated with <code>deno coverage</code> with syntax highlightinh and better styling thanks to <a href="https://github.com/lowlighter/matcha">matcha.css</a></li>
+          </ul>
         </li>
         <li>
           Compile rust project to Web assembly using <code>wasm-pack</code> and hot-patch source in base64 to avoid <code>--allow-read</code> permissions and minify output
@@ -203,13 +206,19 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
 
 ## 🧑‍💻 Cli utilities
 
-A set of useful CLI scripts are also provided.
-Please note that these can only be run on deno runtime.
+A set of useful CLI scripts are also provided. Please note that these can only be run on deno runtime.
+
+### TypeScript code coverage enhancer
+
+Enhance coverage reports generated with `deno coverage` by adding syntax highlighting and better styling thanks to [matcha.css](https://github.com/lowlighter/matcha).
+
+```sh
+deno run jsr:@libs/bundle/ts/cli/coverage --help
+```
 
 ### CSS formatter
 
-Format CSS code similarly to `prettier` or `deno fmt`.
-Can be used with `--check` to validate that CSS code is correctly formatted.
+Format CSS code similarly to `prettier` or `deno fmt`. Can be used with `--check` to validate that CSS code is correctly formatted.
 
 ```sh
 deno run jsr:@libs/bundle/css/cli/fmt --help
