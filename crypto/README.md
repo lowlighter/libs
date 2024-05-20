@@ -1,10 +1,10 @@
 # 🧮 Crypto utilities
 
-[![JSR](https://jsr.io/badges/@libs/crypto)](https://jsr.io/@libs/crypto) [![JSR Score](https://jsr.io/badges/@libs/crypto/score)](https://jsr.io/@libs/crypto)
+[![JSR](https://jsr.io/badges/@libs/crypto)](https://jsr.io/@libs/crypto) [![JSR Score](https://jsr.io/badges/@libs/crypto/score)](https://jsr.io/@libs/crypto) [![Coverage](https://libs-coverage.lecoq.io/crypto/badge.svg)](https://libs-coverage.lecoq.io/crypto)
 
 ## 🔑 Time-based One-Time Password (TOTP)
 
-- [`🦕 Playground`](https://dash.deno.com/playground/libs-totp)
+- [`🦕 Playground`](https://libs-crypto-totp.deno.dev)
 - [`📚 Documentation`](https://jsr.io/@libs/crypto/doc/totp/~)
 
 ### ✨ Features
@@ -26,7 +26,7 @@ This library is based on the well-written article of [@rajat-sr](https://github.
 
 ## 🔐 Symmetric encryption (using AES-GCM 256 with a PBKDF2 derived key)
 
-- [`🦕 Playground`](https://dash.deno.com/playground/libs-encryption)
+- [`🦕 Playground`](https://libs-crypto-encryption.deno.dev)
 - [`📚 Documentation`](https://jsr.io/@libs/crypto/doc/encryption/~)
 
 ### ✨ Features

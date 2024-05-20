@@ -55,7 +55,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
       <a href="https://jsr.io/@libs/crypto"><code>🧮 @libs/crypto</code></a><br>
       <a href="https://jsr.io/@libs/crypto"><img src="https://jsr.io/badges/@libs/crypto"></a>
       <a href="https://libs-coverage.lecoq.io/crypto"><img src="https://libs-coverage.lecoq.io/crypto/badge.svg"></a>
-      <a href="https://dash.deno.com/playground/libs-crypto"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a>
+      <a href="https://libs-crypto.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a>
     </td>
     <td>
       <img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg">
@@ -76,7 +76,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
       <a href="https://jsr.io/@libs/diff"><code>➕ @libs/diff</code></a><br>
       <a href="https://jsr.io/@libs/diff"><img src="https://jsr.io/badges/@libs/diff"></a>
       <a href="https://libs-coverage.lecoq.io/diff"><img src="https://libs-coverage.lecoq.io/diff/badge.svg"></a>
-      <a href="https://dash.deno.com/playground/libs-diff"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a>
+      <a href="https://libs-diff.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a>
     </td>
     <td>
       <img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg">
