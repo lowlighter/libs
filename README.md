@@ -24,7 +24,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
       <a href="https://jsr.io/@libs/bundle"><code>📦 @libs/bundle</code></a><br>
       <a href="https://jsr.io/@libs/bundle"><img src="https://jsr.io/badges/@libs/bundle"></a>
       <a href="https://libs-coverage.lecoq.io/bundle"><img src="https://libs-coverage.lecoq.io/bundle/badge.svg"></a>
-      <a href="https://dash.deno.com/playground/libs-bundle"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a>
+      <a href="https://libs-bundle.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a>
     </td>
     <td>
       <img height="18px" src="https://jsr.io/logos/deno.svg">
