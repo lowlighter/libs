@@ -54,6 +54,10 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.pages.outputs.page_url }}
+    permissions:
+      id-token: write
+      contents: read
+      pages: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
