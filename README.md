@@ -69,7 +69,18 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
 </ul></td>
   </tr>
   <tr><th><a href="https://libs-logger.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/logger"><img src="https://libs-coverage.lecoq.io/logger/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/qrcode"><code>🔳 @libs/qrcode</code></a></h2>Pure TypeScript QRcode generator with no dependencies.</th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/logger"><img src="https://libs-coverage.lecoq.io/logger/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/orm"><code>💰 @libs/orm</code></a></h2>Object-relational mapping toolbox.</th></tr>
+  <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
+  <tr><td colspan="3"></td></tr>
+  <tr>
+    <th><a href="https://jsr.io/@libs/orm"><img src="https://jsr.io/badges/@libs/orm"></a></th>
+    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
+    <td rowspan="3"><ul data-for="orm">
+  <li>Manage resources using an agnostic storage inteface</li>
+</ul></td>
+  </tr>
+  <tr><th><a href="https://libs-orm.deno.dev"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/orm"><img src="https://libs-coverage.lecoq.io/orm/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/qrcode"><code>🔳 @libs/qrcode</code></a></h2>Pure TypeScript QRcode generator with no dependencies.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
