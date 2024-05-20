@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="layout-simple">
+    <main>
+      <form>
+        <label>
+          TypeScript:
+          <small>Enter some TypeScript you want to bundle.</small>
+          <div class="editor">
+            <textarea required name="code" rows="12" spellcheck="false">// example.ts&#10;console.log(import.meta.url as string)</textarea>
+            <div class="highlight"></div>
+          </div>
+        </label>
+        <label>
+          Minify:
+          <small>Reduce bundle size by minifying output.</small>
+          <select name="minify">
+            <option value="">No</option>
+            <option value="basic">Using deno_emit library</option>
+            <option value="terser" selected>Using terser library</option>
+          </select>
+        </label>
+        <label>
+          Banner:
+          <small>Add a banner at the top of the output. Useful for license and metadata.</small>
+          <textarea name="banner" rows="4">Copyright 20XX&#10;MIT License</textarea>
+        </label>
+        <label>
+          <input name="debug" type="checkbox">
+          Debug<br>
+          <small>Add inline source map (significantly increase bundle size).</small>
+        </label>
+        <label>
+          <input name="shadow" type="checkbox" checked>
+          Shadow<br>
+          <small>Replace local URL files by dummy URLs <code>file:///shadow/mod.ts</code>.</small>
+        </label>
+        <footer>
+          <button type="submit" disabled>Bundle TypeScript</button>
+        </footer>
+      </form>
+      <form>
+        <label>
+          Result
+          <small>Result of the bundled code.</small>
+          <output class="block"></output>
+        </label>
+      </form>
+      <script src="/script.js"></script>
+      <script data-src="/bundle/ts/script.js"></script>
+    </main>
+  </body>
+</html>
+
+
+

@@ -5,7 +5,7 @@
   "description": "Simple logger",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
-  "playground": "https://libs-logger.deno.dev",
+  "playground": "https://libs.lecoq.io/logger",
   "license": "MIT License",
   "supported": [
     "deno",

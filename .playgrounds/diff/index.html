@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="layout-simple">
+    <main>
+      <menu>
+        <li data-for="diff">Diff</li>
+        <li data-for="patch" class="disabled">Patch</li>
+      </menu>
+      <form>
+        <label>
+          Before
+          <small>Enter first operand.</small>
+          <textarea required name="a" rows="8">foo&#10;bar&#10;baz&#10;qux</textarea>
+        </label>
+        <label class="diff">
+          After
+          <small>Enter second operand.</small>
+          <textarea required name="b" rows="8">foo&#10;bar&#10;qux&#10;quux</textarea>
+        </label>
+        <label class="patch">
+          Patch
+          <small>Enter second operand.</small>
+          <textarea required name="c" rows="8">foo&#10;bar&#10;qux&#10;quux</textarea>
+        </label>
+        <footer>
+          <button type="submit">Compute result</button>
+        </footer>
+      </form>
+      <form>
+        <label>
+          Result
+          <small>Returned output.</small>
+          <output id="output" class="block"></output>
+        </label>
+      </form>
+      <script src="/script.js"></script>
+      <script data-src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+      <script data-src="/diff/script.js"></script>
+    </main>
+  </body>
+</html>

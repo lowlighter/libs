@@ -5,7 +5,7 @@
   "description": "Code bundlers, formatters, minifiers and others tools.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
-  "playground": "https://libs-bundle.deno.dev",
+  "playground": "https://libs.lecoq.io/bundle",
   "license": "MIT License",
   "supported": [
     "deno"
