@@ -1,14 +1,13 @@
 // Imports
-import { expandGlob } from "jsr:@std/fs"
-import { basename, dirname, fromFileUrl } from "jsr:@std/path"
-import { resolve } from "jsr:@std/path/resolve"
-import * as JSONC from "jsr:@std/jsonc"
-import type { record } from "jsr:@libs/typing"
+import { expandGlob } from "@std/fs"
+import { basename, dirname, fromFileUrl, resolve } from "jsr:@std/path"
+import * as JSONC from "@std/jsonc"
+import type { record } from "@libs/typing"
 
 // Load global configuration
 const root = fromFileUrl(import.meta.resolve("../"))
 const global = JSONC.parse(await Deno.readTextFile(resolve(root, "deno.jsonc"))) as Record<string, unknown>
-const imports = {}
+const imports = { "@std/jsonc": "jsr:@std/jsonc@0.224.0" }
 
 // Load local configurations
 const packages = []

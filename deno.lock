@@ -8,6 +8,7 @@
       "jsr:@deno/graph@^0.69.7": "jsr:@deno/graph@0.69.10",
       "jsr:@libs/logger@1": "jsr:@libs/logger@1.0.4",
       "jsr:@libs/typing@2": "jsr:@libs/typing@2.0.1",
+      "jsr:@lowlighter/deno-dom@0.1.46-rc1": "jsr:@lowlighter/deno-dom@0.1.46-rc1",
       "jsr:@std/archive@0.224.0": "jsr:@std/archive@0.224.0",
       "jsr:@std/assert@0.225.1": "jsr:@std/assert@0.225.1",
       "jsr:@std/assert@^0.218.2": "jsr:@std/assert@0.218.2",
@@ -84,6 +85,9 @@
       },
       "@libs/typing@2.0.1": {
         "integrity": "cdb06da194079212c5589dacbc6c6ad1f91b43e4e437755ad450f199271a1930"
+      },
+      "@lowlighter/deno-dom@0.1.46-rc1": {
+        "integrity": "144410c5186a80b8b43ff2698b3403b3c632cc0ee9b53b32551c42a906d80357"
       },
       "@std/archive@0.224.0": {
         "integrity": "17c5b8853dd8bb614eaca390f5a4303cf8ec323e5baedd7f467880159f4c7ae6",
@@ -1064,6 +1068,7 @@
       "jsr:@libs/logger@1",
       "jsr:@libs/testing@1",
       "jsr:@libs/typing@2",
+      "jsr:@lowlighter/deno-dom@0.1.46-rc1",
       "jsr:@std/archive@0.224.0",
       "jsr:@std/assert@0.225.1",
       "jsr:@std/cli@0.224.0",
