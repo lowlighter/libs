@@ -36,6 +36,7 @@
     "@cliffy/table": "jsr:@cliffy/table@1.0.0-rc.4",
     "@mdn/browser-compat-data": "npm:@mdn/browser-compat-data@5",
     "@deno/emit": "jsr:@deno/emit@0.40",
+    "@lowlighter/deno-dom/deno-dom-wasm": "jsr:@lowlighter/deno-dom@0.1.46-rc1/deno-dom-wasm",
     "terser": "npm:terser@5",
     "browserslist": "npm:browserslist@4",
     "css-tree": "npm:css-tree@2",
