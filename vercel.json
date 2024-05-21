@@ -1,0 +1,6 @@
+{
+  "outputDirectory": ".playgrounds",
+  "functions": {
+    "api/**/*.ts": { "runtime": "vercel-deno@3.1.0" }
+  }
+}
