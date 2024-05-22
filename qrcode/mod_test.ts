@@ -117,6 +117,16 @@ test("all")(`qrcode() with oversized content`, () => {
   expect(() => qrcode("lorem ipsum".repeat(1000))).toThrow("Data too long")
 })
 
+test("all")(`qrcode() returns consistant results across all input types`, () => {
+  const test = new URL("https://example.com")
+  const url = qrcode(test)
+  const string = qrcode(test.href)
+  const buffer = qrcode(new TextEncoder().encode(test.href))
+  expect(url).toEqual(string)
+  expect(url).toEqual(buffer)
+  expect(string).toEqual(buffer)
+})
+
 test("all")(`qrcode() with svg output`, () => {
   const svg = qrcode("foo", { output: "svg" })
   expect(typeof svg).toBe("string")
