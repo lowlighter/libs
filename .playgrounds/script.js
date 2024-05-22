@@ -79,6 +79,10 @@ globalThis.llibs = {
     script.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
     document.head.appendChild(script)
     await new Promise((resolve) => script.onload = resolve)
+    const style = document.createElement("link")
+    style.rel = "stylesheet"
+    style.href = "https://matcha.mizu.sh/styles/@code-editor/mod.css"
+    document.head.appendChild(style)
     document.querySelectorAll(".editor").forEach((element) => {
       const textarea = element.querySelector("textarea")
       const highlight = element.querySelector(".highlight")
@@ -103,10 +107,17 @@ globalThis.llibs = {
   await Promise.all(["header", "footer", "aside"].map((part) => fetch(`/.partial/${part}.html`).then((response) => response.text().then((text) => parts[part] = text))))
   document.body.innerHTML = `${parts.header}${parts.aside}${document.body.innerHTML}${parts.footer}`
 
-  // Update title
+  // Update title and navigation
   const url = new URL(globalThis.location.href)
   document.querySelector("header h1").innerText += url.pathname
   document.title = `Playground | @libs/${url.pathname}`
+  document.querySelectorAll(`aside a[href="${url.pathname}"]`).forEach((element) => {
+    let parent = element.parentElement
+    while (parent.tagName === "LI") {
+      parent.classList.add("selected")
+      parent = parent.parentElement.parentElement
+    }
+  })
 
   // Include scripts
   for (const element of document.querySelectorAll("script[data-src]")) {
