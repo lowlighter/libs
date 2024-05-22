@@ -22,6 +22,18 @@ import { type level as loglevel, Logger } from "@libs/logger"
 export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner, loglevel } = {} as { bin?: string; autoinstall?: boolean; banner?: string; loglevel?: loglevel }): Promise<void> {
   const log = new Logger({ level: loglevel, tags: { project } })
 
+  // Check that cargo is installed
+  try {
+    await new Deno.Command("cargo", { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit" }).output()
+  } catch (error) {
+    if (error instanceof Deno.errors.NotFound) {
+      log.error("cargo binary not found in PATH, is it installed?")
+      log.error("note that even with `autoinstall` option enabled, cargo must be installed manually")
+      log.error("https://doc.rust-lang.org/cargo/getting-started/installation.html")
+      return
+    }
+  }
+
   // Autoinstall wasm-pack if needed
   if (autoinstall) {
     log.debug(`checking if ${bin} is installed`)
