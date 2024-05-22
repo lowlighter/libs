@@ -1,13 +1,15 @@
 // Imports
 import { expandGlob } from "@std/fs"
-import { basename, dirname, fromFileUrl, resolve } from "jsr:@std/path"
+import { basename, dirname, fromFileUrl, resolve } from "@std/path"
+import { Logger } from "@libs/logger"
 import * as JSONC from "@std/jsonc"
 import type { record } from "@libs/typing"
 
 // Load global configuration
 const root = fromFileUrl(import.meta.resolve("../"))
 const global = JSONC.parse(await Deno.readTextFile(resolve(root, "deno.jsonc"))) as Record<string, unknown>
-const imports = { "@std/jsonc": "jsr:@std/jsonc@0.224.0" }
+const imports = { "@std/jsonc": "jsr:@std/jsonc@0.224.0" } as record<string>
+const log = new Logger()
 
 // Load local configurations
 const packages = []
@@ -21,8 +23,14 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   local.lint = global.lint
   local.fmt = global.fmt
   await Deno.writeTextFile(path, JSON.stringify(local, null, 2))
+  log.with({ package: packages.at(-1) }).info("updated")
   // Register local imports
-  Object.assign(imports, local.imports ?? {})
+  for (const [key, value] of Object.entries(local.imports ?? {})) {
+    if ((key in imports) && (imports[key] !== value)) {
+      log.warn({ package: packages.at(-1), dependency: key }).warn("previous registered with a different version")
+    }
+    imports[key] = value
+  }
 }
 
 // Generate tasks
