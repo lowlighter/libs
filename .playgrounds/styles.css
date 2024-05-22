@@ -15,6 +15,10 @@ body > footer svg.sponsor {
   fill: var(--variant);
 }
 
+body.layout-simple > aside .selected {
+  color: var(--accent);
+}
+
 main > :first-child {
   margin-top: 1rem;
 }
@@ -35,43 +39,15 @@ output.block {
   min-height: 6rem;
   white-space: pre-wrap;
   font-family: var(--ft-mono);
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 /* Code editors */
 label:has(.editor) {
   width: 100%;
 }
+
 .editor {
-  position: relative;
-  width: 100%;
-  margin-top: .25rem;
-  border-radius: var(--bd-radius);
-  overflow: hidden;
-  background: var(--bg-default);
-}
-.editor .highlight {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.editor textarea {
-  z-index: 1;
-  color: transparent;
-  caret-color: var(--default);
-}
-.editor .highlight, .editor textarea {
-  font-family: var(--ft-mono);
-  font-size: 1rem;
-  line-height: 1.5;
-  margin: 0;
-  padding: 1rem;
-  white-space: pre-wrap;
-  border: 0;
-  box-sizing: border-box;
-  background: transparent;
+  background: var(--bg-default) !important;
 }
