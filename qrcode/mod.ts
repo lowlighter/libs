@@ -82,7 +82,7 @@ export function qrcode(content: string | URL, options: { output: "svg" } & Pick<
  *
  * ```
  */
-export function qrcode(content: string | URL, options: { output: "console" } & Pick<options, "light" | "dark" | "ecl">): void
+export function qrcode(content: string | URL | Uint8Array, options: { output: "console" } & Pick<options, "light" | "dark" | "ecl">): void
 /**
  * Generate a QR Code from specified content and output it as an array of booleans.
  *
@@ -95,7 +95,7 @@ export function qrcode(content: string | URL, options: { output: "console" } & P
  * console
  * ```
  */
-export function qrcode(content: string | URL, options?: { output?: "array" } & Pick<options, "ecl">): boolean[][]
+export function qrcode(content: string | URL | Uint8Array, options?: { output?: "array" } & Pick<options, "ecl">): boolean[][]
 
 /**
  * Generate a QR Code from specified content.
@@ -117,7 +117,7 @@ export function qrcode(content: string | URL, options?: { output?: "array" } & P
  * @author Nayuki
  * @license MIT
  */
-export function qrcode(content: string | URL, options?: { output?: string } & options) {
+export function qrcode(content: string | URL | Uint8Array, options?: { output?: string } & options) {
   return QrCode.from(content, options)
 }
 
@@ -169,7 +169,7 @@ class QrCode {
    * The smallest possible QR Code version is automatically chosen for the output.
    * The ECC level of the result may be higher than the ecl argument if it can be done without increasing the version.
    */
-  static from(content: string | URL, { output = "array", border = 4, light = "white", dark = "black", ecl = "MEDIUM" }: { output?: string } & options = {}) {
+  static from(content: string | URL | Uint8Array, { output = "array", border = 4, light = "white", dark = "black", ecl = "MEDIUM" }: { output?: string } & options = {}) {
     border = Math.max(0, border)
     const qr = QrCode.#encode(Segment.from(content instanceof URL ? content.href : content), { ecl })
     const size = qr.size + border * 2
@@ -848,13 +848,19 @@ class Segment {
   }
 
   /**
-   * Returns a segment representing the given binary data encoded in byte mode.
+   * Returns a segment representing the string data encoded in byte mode.
    * Any text string can be converted to UTF-8 bytes and encoded as a byte mode segment.
    */
-  static #bytes(content: string) {
-    const bytes = encoder.encode(content)
+  static #utfbytes(content: string) {
+    return this.#bytes(encoder.encode(content))
+  }
+
+  /**
+   * Returns a segment representing the given binary data encoded in byte mode.
+   */
+  static #bytes(content: Uint8Array) {
     const bits = [] as number[]
-    for (const byte of bytes) {
+    for (const byte of content) {
       append({ bits, length: 8, value: byte })
     }
     return new Segment({ mode: { id: 0x4, widths: [8, 16, 16] }, length: content.length, bits })
@@ -864,7 +870,10 @@ class Segment {
    * Returns a new mutable list of zero or more segments to represent the given Unicode text string.
    * The result may use various segment modes and switch modes to optimize the length of the bit stream.
    */
-  static from(content: string) {
+  static from(content: string | Uint8Array) {
+    if (content instanceof Uint8Array) {
+      return [Segment.#bytes(content)]
+    }
     switch (true) {
       case !content.length:
         return []
@@ -873,7 +882,7 @@ class Segment {
       case /^[A-Z0-9 $%*+.\/:-]*$/.test(content):
         return [Segment.#alphanumeric(content)]
       default:
-        return [Segment.#bytes(content)]
+        return [Segment.#utfbytes(content)]
     }
   }
 
