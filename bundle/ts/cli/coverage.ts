@@ -7,9 +7,9 @@ import { basename } from "@std/path"
 import { parseArgs } from "@std/cli"
 import { Logger } from "@libs/logger"
 
-const { help, loglevel, root = ".", exclude, _: globs, ...flags } = parseArgs(Deno.args, {
-  boolean: ["help", "no-matcha", "no-highlight", "no-write", "no-badge"],
-  alias: { help: "h", loglevel: "l", root: "r", exclude: "e", "no-matcha": "M", "no-highlight": "H", "no-write": "W", "no-badge": "B" },
+const { help, loglevel, root = "coverage", exclude, _: globs, ...flags } = parseArgs(Deno.args, {
+  boolean: ["help", "summary", "no-matcha", "no-highlight", "no-write", "no-badge"],
+  alias: { help: "h", loglevel: "l", root: "r", exclude: "e", summary: "s", "no-matcha": "M", "no-highlight": "H", "no-write": "W", "no-badge": "B" },
   string: ["loglevel", "root", "exclude"],
   collect: ["exclude"],
 })
@@ -22,13 +22,14 @@ if (help) {
   console.log("apply syntax highlighting and also generate a static coverage badge from imgs.shields.io.")
   console.log("")
   console.log("Usage:")
-  console.log("  deno --allow-read --allow-write=coverage --allow-net=img.shields.io coverage.ts [options] [files...=coverage/**/*.html]")
+  console.log("  deno --allow-read --allow-write=coverage --allow-net=img.shields.io coverage.ts [options] [files...=**/*.html]")
   console.log("")
   console.log("Options:")
   console.log("  -h, --help                 Show this help")
   console.log("  -l, --loglevel=[log]       Log level (disabled, debug, log, info, warn, error)")
   console.log("  -e, --exclude              Exclude files matching glob pattern (can be used multiple times)")
-  console.log("  [-r, --root=.]             Root directory to search for files")
+  console.log("  [-r, --root=coverage]      Root directory to search for files")
+  console.log("  -s, --summary              Generate global summary (intended for multi-package projects)")
   console.log("  -M, --no-matcha            Disable matcha.css styling")
   console.log("  -H, --no-highlight         Disable syntax highlighting")
   console.log("  -W, --no-write             Do not rewrite html files")
@@ -39,10 +40,11 @@ if (help) {
 
 const logger = new Logger({ level: Logger.level[loglevel as keyof typeof Logger.level] })
 if (!globs.length) {
-  globs.push("coverage/**/*.html")
+  globs.push("**/*.html")
 }
 
 // Process files
+let summary = new DOMParser().parseFromString("", "text/html")!
 for (const glob of globs) {
   logger.debug(`processing glob: ${glob}`)
   for await (const { path } of expandGlob(`${glob}`, { root, exclude })) {
@@ -50,6 +52,10 @@ for (const glob of globs) {
     const log = logger.with({ path })
     log.debug("parsing document")
     const document = new DOMParser().parseFromString(await Deno.readTextFile(path), "text/html")!
+    if (document.querySelector("table.global-summary")) {
+      log.debug("skipped as it was the global summary")
+      continue
+    }
     if (!document.title.includes("Coverage report")) {
       log.warn("skipped as it does not seem to be a coverage report")
       continue
@@ -102,5 +108,31 @@ for (const glob of globs) {
       await Deno.writeTextFile(resolve(dirname(path), "badge.svg"), svg)
       log.log(`generated badge: ${resolve(dirname(path), "badge.svg")}`)
     }
+
+    // Global summary
+    if (basename(path) === "index.html") {
+      const directory = dirname(path).replace(resolve(root), "").replaceAll("\\", "/").replace(/^\//, "")
+      if (!summary.querySelector("table")) {
+        summary = document.cloneNode(true)
+        summary.querySelector("table.coverage-summary")?.classList.add("global-summary")
+        summary.querySelectorAll(".pad1:first-child, .status-line, table.coverage-summary tbody tr").forEach((element) => (element as unknown as HTMLElement).remove())
+      }
+      ;[...document.querySelectorAll("table.coverage-summary tbody tr")].forEach((row) => {
+        const file = (row as unknown as HTMLTableCellElement).querySelector<HTMLAnchorElement>(".file a")!
+        if (file.innerText.endsWith("/")) {
+          return
+        }
+        file.innerText = `${directory}/${file.innerText}`
+        file.setAttribute("href", `${directory}/${file.getAttribute("href")}`)
+        summary.querySelector("table.coverage-summary")!.append(row)
+      })
+    }
   }
+}
+
+// Write global summary
+if (!flags.summary) {
+  const path = resolve(root, "index.html")
+  await Deno.writeTextFile(resolve(root, "index.html"), `<!DOCTYPE html>${summary.documentElement!.outerHTML}`)
+  logger.with({ path }).info("updated summary")
 }
