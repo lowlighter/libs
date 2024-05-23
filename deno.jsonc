@@ -5,42 +5,9 @@
   "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
   "tasks": {
-    "config": "deno run --allow-read=. --allow-write=. .github/deno_config.ts && deno fmt",
-    "readme": "deno run --allow-read=. --allow-write=README.md .github/deno_readme.ts",
-    "tag": "deno run --allow-read --allow-write=. .github/deno_tag.ts",
-    "ci": "deno task bundle:ci && deno task crypto:ci && deno task diff:ci && deno task logger:ci && deno task orm:ci && deno task qrcode:ci && deno task reactive:ci && deno task testing:ci && deno task typing:ci && deno task xml:ci",
-    "coverage": "rm coverage -rf && mkdir -p coverage && deno task bundle:coverage && deno task crypto:coverage && deno task diff:coverage && deno task logger:coverage && deno task orm:coverage && deno task qrcode:coverage && deno task reactive:coverage && deno task testing:coverage && deno task typing:coverage && deno task xml:coverage && deno task coverage:pretty",
-    "coverage:pretty": "deno run --allow-read --allow-write=coverage --allow-net bundle/ts/cli/coverage.ts --root=coverage",
-    "bundle:ci": "cd bundle && deno task ci",
-    "bundle:coverage": "cd bundle && deno task coverage --html && sleep 1 && rm -rf ../coverage/bundle && mv coverage/html ../coverage/bundle",
-    "bundle:publish": "cd bundle && deno publish",
-    "crypto:ci": "cd crypto && deno task ci",
-    "crypto:coverage": "cd crypto && deno task coverage --html && sleep 1 && rm -rf ../coverage/crypto && mv coverage/html ../coverage/crypto",
-    "crypto:publish": "cd crypto && deno publish",
-    "diff:ci": "cd diff && deno task ci",
-    "diff:coverage": "cd diff && deno task coverage --html && sleep 1 && rm -rf ../coverage/diff && mv coverage/html ../coverage/diff",
-    "diff:publish": "cd diff && deno publish",
-    "logger:ci": "cd logger && deno task ci",
-    "logger:coverage": "cd logger && deno task coverage --html && sleep 1 && rm -rf ../coverage/logger && mv coverage/html ../coverage/logger",
-    "logger:publish": "cd logger && deno publish",
-    "orm:ci": "cd orm && deno task ci",
-    "orm:coverage": "cd orm && deno task coverage --html && sleep 1 && rm -rf ../coverage/orm && mv coverage/html ../coverage/orm",
-    "orm:publish": "cd orm && deno publish",
-    "qrcode:ci": "cd qrcode && deno task ci",
-    "qrcode:coverage": "cd qrcode && deno task coverage --html && sleep 1 && rm -rf ../coverage/qrcode && mv coverage/html ../coverage/qrcode",
-    "qrcode:publish": "cd qrcode && deno publish",
-    "reactive:ci": "cd reactive && deno task ci",
-    "reactive:coverage": "cd reactive && deno task coverage --html && sleep 1 && rm -rf ../coverage/reactive && mv coverage/html ../coverage/reactive",
-    "reactive:publish": "cd reactive && deno publish",
-    "testing:ci": "cd testing && deno task ci",
-    "testing:coverage": "cd testing && deno task coverage --html && sleep 1 && rm -rf ../coverage/testing && mv coverage/html ../coverage/testing",
-    "testing:publish": "cd testing && deno publish",
-    "typing:ci": "cd typing && deno task ci",
-    "typing:coverage": "cd typing && deno task coverage --html && sleep 1 && rm -rf ../coverage/typing && mv coverage/html ../coverage/typing",
-    "typing:publish": "cd typing && deno publish",
-    "xml:ci": "cd xml && deno task ci",
-    "xml:coverage": "cd xml && deno task coverage --html && sleep 1 && rm -rf ../coverage/xml && mv coverage/html ../coverage/xml",
-    "xml:publish": "cd xml && deno publish"
+    "config": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=. .github/deno_config.ts && deno fmt **/deno.jsonc",
+    "readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
+    "tag": "deno run --allow-read --allow-write=. .github/deno_tag.ts"
   },
   "lint": {
     "rules": {
@@ -67,6 +34,7 @@
   },
   "imports": {
     "@std/jsonc": "jsr:@std/jsonc@0.224.0",
+    "@std/yaml": "jsr:@std/yaml@0.224.0",
     "@std/fs": "jsr:@std/fs@0.229.1",
     "@std/assert": "jsr:@std/assert@0.225.2",
     "@std/semver": "jsr:@std/semver@0.224.0",
@@ -98,6 +66,7 @@
     "@std/expect": "jsr:@std/expect@0.224.0",
     "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url",
     "bun:test": "./_stub.ts",
-    "@std/fs/expand-glob": "jsr:@std/fs@0.229.1/expand-glob"
+    "@std/fs/expand-glob": "jsr:@std/fs@0.229.1/expand-glob",
+    "@std/fs/exists": "jsr:@std/fs@0.229.1/exists"
   }
 }
