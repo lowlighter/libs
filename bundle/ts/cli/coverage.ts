@@ -1,3 +1,9 @@
+/**
+ * CLI utility to enhance code coverage reports with matcha theme and create SVG badges
+ *
+ * @module
+ */
+
 // Imports
 import { expandGlob } from "@std/fs"
 import { dirname, resolve } from "@std/path"
