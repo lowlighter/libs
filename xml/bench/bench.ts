@@ -13,9 +13,9 @@ async function write({ path, size }: { path: string; size: number }) {
   }
   await file.write(encoder.encode("</root>"))
 }
-await write({ path: "./assets/x-large.xml", size: 0.2 })
-await write({ path: "./assets/x-xlarge.xml", size: 0.5 })
-await write({ path: "./assets/x-xxlarge.xml", size: 1 })
+for (let i = 1; i <= 10; i++) {
+  await write({ path: `./assets/x-${i}x-large.xml`, size: 0.25 * (2 ** i) })
+}
 
 //Benchmarks
 for await (const { name, path } of expandGlob("**/*.xml", { globstar: true })) {

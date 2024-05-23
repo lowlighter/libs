@@ -480,14 +480,15 @@ test("all")("parse(): xml space preserve", () =>
   expect(
     parse(`
     <root>
-      <text xml:space="preserve"> hello world </text>
+      <text xml:space="preserve"> hello<b> the</b>  world </text>
     </root>`),
   ).toEqual(
     {
       root: {
         text: {
-          "#text": " hello world ",
+          "#text": " hello the  world ",
           "@xml:space": "preserve",
+          b: "the",
         },
       },
     },
@@ -552,6 +553,10 @@ test("all")("parse(): xml syntax first character", () => {
   expect(() => parse(`xml`)).toThrow(SyntaxError)
   expect(() => parse(`""`)).toThrow(SyntaxError)
   expect(() => parse(`{a: 1}`)).toThrow(SyntaxError)
+})
+
+test("all")("parse(): wasm crashed", () => {
+  expect(() => parse(Symbol("Expected error") as testing)).toThrow(EvalError)
 })
 
 //Example below were taken from https://www.w3schools.com/xml/default.asp
@@ -1196,6 +1201,30 @@ test("all")("parse(): xml parser option no revive", () =>
     },
   ))
 
+test("all")("parse(): xml parser option mode 'xml'", () =>
+  expect(() =>
+    parse(
+      `
+    <root foo=bar></root>
+  `,
+      { mode: "xml" },
+    )
+  ).toThrow(SyntaxError))
+
+test("all")("parse(): xml parser option mode 'html'", () =>
+  expect(
+    parse(
+      `
+      <root foo=bar></root>
+    `,
+      { mode: "html" },
+    ),
+  ).toEqual({
+    root: {
+      "@foo": "bar",
+    },
+  }))
+
 // Metadata
 
 test("all")("parse(): xml parser option metadata", () => {
@@ -1224,3 +1253,9 @@ test("all")("parse(): xml parser option metadata", () => {
   expect(xml.root?.sibling?.["~parent"]).toEqual(xml.root)
   expect(xml.root?.sibling?.["~name"]).toBe("sibling")
 })
+
+test.skip("all")("parse(): xml parser option no flatten", async () => {
+  for (let i = 6; i <= 6; i++) {
+    expect(parse(await Deno.readTextFile(`bench/assets/x-${i}x-large.xml`))).not.toThrow()
+  }
+}, { permissions: { read: ["bench"] } })

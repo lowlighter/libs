@@ -26,7 +26,7 @@
     "@libs/testing": "jsr:@libs/testing@1"
   },
   "tasks": {
-    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --trace-leaks --doc",
+    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --allow-read=bench --no-prompt --coverage --trace-leaks --doc",
     "dev": "deno fmt && deno task test --filter='[deno]' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet",
     "ci": "deno fmt --check && deno task test --quiet && deno coverage --exclude=.js && deno lint",
     "coverage": "deno task test --filter='[deno]' --quiet && deno coverage --exclude=.js",

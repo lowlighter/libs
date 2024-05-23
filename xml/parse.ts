@@ -1,5 +1,5 @@
 // Imports
-import { initSync, JSReader, source, tokenize, Token } from "./wasm_xml_parser/wasm_xml_parser.js"
+import { initSync, JSReader, source, State, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
 import type { Nullable, record, rw } from "@libs/typing"
 import type { xml_document, xml_node, xml_text } from "./_types.ts"
 initSync(source())
@@ -56,6 +56,12 @@ export type options = {
      */
     custom?: (args: { name: string; key: Nullable<string>; value: Nullable<string>; node: Readonly<xml_node> }) => unknown
   }
+  /**
+   * Parsing mode.
+   * Using `html` is more permissive and will not throw on some invalid XML syntax.
+   * Mainly unquoted attributes will be supported and not properly closed tags will be accepted.
+   */
+  mode?: "xml" | "html"
 }
 
 /**
@@ -98,45 +104,23 @@ export type options = {
  * `))
  * ```
  */
-
-type ReaderSync = { readSync(p: Uint8Array): number | null }
-
-class Reader implements ReaderSync {
-  /** Constructor */
-  constructor(string: string) {
-    this.#data = new TextEncoder().encode(string)
-  }
-
-  /** Buffer */
-  readonly #data
-
-  /** Position */
-  #cursor = 0
-
-  /** Read */
-  readSync(buffer: Uint8Array) {
-    const bytes = this.#data.slice(this.#cursor, this.#cursor + buffer.length)
-    buffer.set(bytes)
-    console.log(bytes, buffer.length, bytes.length)
-    this.#cursor = Math.min(this.#cursor + bytes.length, this.#data.length)
-    return bytes.length || null
-  }
-}
-
-export function parse(content: string | ReaderSync, options?: options): xml_document {
+export function parse(content: string, options?: options): xml_document {
   const xml = xml_node("~xml") as xml_document
   const stack = [xml] as Array<xml_node>
-  const tokens = []
+  const tokens = [] as Array<[number, string, string?]>
+  const states = [] as Array<[number, number]>
   const flags = { root: false }
   try {
-    //const reader = typeof content === "string" ? new Reader(content) : content
     const reader = new JSReader(new TextEncoder().encode(content as string))
-    tokens.push(...tokenize(reader))
+    tokenize(reader, tokens, states, options?.mode === "html")
   } catch (error) {
-    console.log(error)
-    throw new EvalError(`WASM XML parser crashed: ${error}`)
+    if (states.at(-1)?.[0] === State.ParseAttribute) {
+      tokens.push([Token.Error, `Failed to parse attribute around position ${states.at(-1)![1]}`])
+    }
+    if (!states.length) {
+      throw new EvalError(`WASM XML parser crashed: ${error}`)
+    }
   }
-  console.log(tokens)
   const errors = tokens.find(([token]) => token === Token.Error)
   if (errors) {
     throw new SyntaxError(`Malformed XML document: ${errors[1]}`)
@@ -153,17 +137,17 @@ export function parse(content: string | ReaderSync, options?: options): xml_docu
       // XML declaration
       case Token.XMLDeclaration: {
         // https://www.w3.org/TR/REC-xml/#NT-VersionNum
-        const version = value.match(/version=(["'])(?<version>1\.\d+)(\1)/)?.groups.version
+        const version = value.match(/version=(["'])(?<version>1\.\d+)(\1)/)?.groups?.version
         if (version) {
           xml["@version"] = version as typeof xml["@version"]
         }
         // https://www.w3.org/TR/REC-xml/#NT-EncodingDecl
-        const encoding = value.match(/encoding=(["'])(?<encoding>[A-Za-z][-\w.]*)(\1)/)?.groups.encoding
+        const encoding = value.match(/encoding=(["'])(?<encoding>[A-Za-z][-\w.]*)(\1)/)?.groups?.encoding
         if (encoding) {
           xml["@encoding"] = encoding as typeof xml["@encoding"]
         }
         // https://www.w3.org/TR/REC-xml/#NT-SDDecl
-        const standalone = value.match(/standalone=(["'])(?<standalone>yes|no)(\1)/)?.groups.standalone
+        const standalone = value.match(/standalone=(["'])(?<standalone>yes|no)(\1)/)?.groups?.standalone
         if (standalone) {
           xml["@standalone"] = standalone as typeof xml["@standalone"]
         }
@@ -242,7 +226,7 @@ export function parse(content: string | ReaderSync, options?: options): xml_docu
     }
   }
   if (!Object.keys(xml).length) {
-    throw new SyntaxError("Malformed XML document")
+    throw new SyntaxError("Malformed XML document: empty document or no root node detected")
   }
   return postprocess(xml, options) as xml_document
 }
@@ -306,7 +290,7 @@ function xml_node(name: string, { parent = null as Nullable<xml_node> } = {}): x
         // In case of mixed content, add a space between mixed nodes if needed
         let text = ""
         for (let i = 0; i < children.length; i++) {
-          const spaced = (i > 1) && ((!children[i - 1]["~name"].startsWith("~")) && (!children[i - 1]["#text"].endsWith(" "))) && ((children[i]["~name"].startsWith("~")) && (!children[i]["#text"].startsWith(" ")))
+          const spaced = i && (+children[i - 1]["~name"].startsWith("~") ^ +children[i]["~name"].startsWith("~")) && (!children[i - 1]["#text"].endsWith(" ")) && (!children[i]["#text"].startsWith(" "))
           text += `${spaced ? " " : ""}${children[i]["#text"]}`
         }
         return text
@@ -445,4 +429,29 @@ function revive(node: xml_node | xml_text, key: string, options: options) {
     return options.revive.custom({ name: node["~name"], key, value, node: node as xml_node })
   }
   return value
+}
+
+/** Synchronous reader. */
+type ReaderSync = { readSync(p: Uint8Array): number | null }
+
+// TODO(@lowlighter): try to implement the binding with rust so we can pass stream/large files again...
+class _Reader implements ReaderSync {
+  /** Constructor */
+  constructor(string: string) {
+    this.#data = new TextEncoder().encode(string)
+  }
+
+  /** Buffer */
+  readonly #data
+
+  /** Position */
+  #cursor = 0
+
+  /** Read */
+  readSync(buffer: Uint8Array) {
+    const bytes = this.#data.slice(this.#cursor, this.#cursor + buffer.length)
+    buffer.set(bytes)
+    this.#cursor = Math.min(this.#cursor + bytes.length, this.#data.length)
+    return bytes.length || null
+  }
 }
