@@ -1,7 +1,7 @@
 {
   "icon": "🧪",
   "name": "@libs/testing",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
