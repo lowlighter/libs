@@ -84,6 +84,8 @@ export type options = {
  *
  * Attributes are prefixed with an arobase (`@`).
  *
+ * You can also pass an object that implement {@link ReaderSync} instead of a string.
+ *
  * @example
  * ```ts
  * import { parse } from "./parse.ts"
@@ -102,6 +104,14 @@ export type options = {
  *     <complex attribute="value">content</complex>
  *   </root>
  * `))
+ * ```
+ *
+ * @example
+ * ```ts
+ * import { parse } from "./parse.ts"
+ *
+ * using file = await Deno.open("bench/assets/small.xml")
+ * console.log(parse(file))
  * ```
  */
 export function parse(content: string | ReaderSync, options?: options): xml_document {
