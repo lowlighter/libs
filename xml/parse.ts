@@ -1,5 +1,5 @@
 // Imports
-import { initSync, JSReader, source, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
+import { initSync, JSReader, source, tokenize, Token } from "./wasm_xml_parser/wasm_xml_parser.js"
 import type { Nullable, record, rw } from "@libs/typing"
 import type { xml_document, xml_node, xml_text } from "./_types.ts"
 initSync(source())
@@ -137,7 +137,7 @@ export function parse(content: string | ReaderSync, options?: options): xml_docu
     throw new EvalError(`WASM XML parser crashed: ${error}`)
   }
   console.log(tokens)
-  const errors = tokens.find(([token]) => token === "error")
+  const errors = tokens.find(([token]) => token === Token.Error)
   if (errors) {
     throw new SyntaxError(`Malformed XML document: ${errors[1]}`)
   }
@@ -151,7 +151,7 @@ export function parse(content: string | ReaderSync, options?: options): xml_docu
   for (const [token, name, value = name] of tokens) {
     switch (token) {
       // XML declaration
-      case "xml:declaration": {
+      case Token.XMLDeclaration: {
         // https://www.w3.org/TR/REC-xml/#NT-VersionNum
         const version = value.match(/version=(["'])(?<version>1\.\d+)(\1)/)?.groups.version
         if (version) {
@@ -170,12 +170,12 @@ export function parse(content: string | ReaderSync, options?: options): xml_docu
         break
       }
       // XML Doctype definition
-      case "xml:doctype": {
+      case Token.XMLDoctype: {
         xml["#doctype"] = Object.assign(xml_node("~doctype", { parent: xml }), xml_doctype(value))
         break
       }
       // XML processing instruction
-      case "xml:instruction": {
+      case Token.XMLInstruction: {
         const [name, ...raw] = value.split(" ")
         const instruction = Object.assign(xml_node(name, { parent: xml }), xml_attributes(raw.join(" ")))
         xml["#instructions"] ??= {}
@@ -192,7 +192,7 @@ export function parse(content: string | ReaderSync, options?: options): xml_docu
         break
       }
       // XML tag opened
-      case "tag:open": {
+      case Token.TagOpen: {
         if (stack.length === 1) {
           if (flags.root) {
             throw new SyntaxError("Multiple root node detected")
@@ -215,29 +215,27 @@ export function parse(content: string | ReaderSync, options?: options): xml_docu
         break
       }
       // XML tag closed
-      case "tag:close": {
+      case Token.TagClose: {
         stack.pop()
         break
       }
       // XML attribute
-      case "tag:attribute": {
+      case Token.TagAttribute: {
         stack.at(-1)![`@${name}`] = value
         break
       }
       // Text
-      case "text": {
-        if (stack.length > 1) {
-          xml_text(value, { type: "~text", parent: stack.at(-1)! })
-        }
+      case Token.Text: {
+        xml_text(value, { type: "~text", parent: stack.at(-1)! })
         break
       }
       // CDATA
-      case "cdata": {
+      case Token.CData: {
         xml_text(value, { type: "~cdata", parent: stack.at(-1)! })
         break
       }
       // Comment
-      case "comment": {
+      case Token.Comment: {
         xml_text(value, { type: "~comment", parent: stack.at(-1)! })
         break
       }
@@ -299,7 +297,19 @@ function xml_node(name: string, { parent = null as Nullable<xml_node> } = {}): x
       enumerable: false,
       configurable: true,
       get(this: xml_node) {
-        return this["~children"].map((node) => node["~name"] !== "~comment" ? node["#text"] : "").filter(Boolean).join(" ")
+        const children = this["~children"].filter((node) => node["~name"] !== "~comment")
+        // If xml:space is not set to "preserve", concatenate text nodes and trim them while removing empty ones
+        if (this["@xml:space"] !== "preserve") {
+          return children.map((child) => child["#text"]).filter(Boolean).join(" ")
+        }
+        // If xml:space is set to "preserve", concatenate text nodes without trimming them
+        // In case of mixed content, add a space between mixed nodes if needed
+        let text = ""
+        for (let i = 0; i < children.length; i++) {
+          const spaced = (i > 1) && ((!children[i - 1]["~name"].startsWith("~")) && (!children[i - 1]["#text"].endsWith(" "))) && ((children[i]["~name"].startsWith("~")) && (!children[i]["#text"].startsWith(" ")))
+          text += `${spaced ? " " : ""}${children[i]["#text"]}`
+        }
+        return text
       },
     },
     ["#comments"]: {
