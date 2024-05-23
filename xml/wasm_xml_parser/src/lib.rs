@@ -1,51 +1,158 @@
-use wasm_bindgen::prelude::*;
-use quick_xml::Reader;
-use quick_xml::events::Event;
 use quick_xml::events::attributes::Attributes;
+use quick_xml::events::Event;
+use quick_xml::Reader;
+use std::io::BufReader;
+use std::io::{Read, Result};
+use wasm_bindgen::prelude::*;
 use web_sys::js_sys::{Array, Uint8Array};
+
+// Token types enum.
+#[wasm_bindgen]
+#[repr(u8)]
+pub enum Token {
+    Error = 0,
+    XMLDeclaration = 1,
+    XMLDoctype = 2,
+    XMLInstruction = 3,
+    TagOpen = 4,
+    TagClose = 5,
+    TagAttribute = 6,
+    Text = 7,
+    CData = 8,
+    Comment = 9,
+}
+
+// State enum.
+#[wasm_bindgen]
+#[repr(u8)]
+pub enum State {
+    ParseAttribute = 1,
+}
 
 // Tokenize XML document.
 #[wasm_bindgen]
-pub fn tokenize(data: Uint8Array, strict: Option<bool>) -> JsValue {
-    let data_vec = data.to_vec();
-    let mut reader = Reader::from_reader(data_vec.as_slice());
-    if let Some(strict) = strict {
-        if strict {
-            reader.check_comments(true).check_end_names(true);
-        }
-    }
+pub fn tokenize(js_reader: JsReader, tokens: Array, states: Array, _html: Option<bool>) {
+    let mut depth = 0;
+    let mut preserve = 0;
     let mut buf = Vec::new();
-    let tokens = Array::new();
+    let html = _html.unwrap_or(false);
+    let mut reader = Reader::from_reader(BufReader::new(js_reader));
+    reader.check_end_names(!html);
     loop {
         match reader.read_event_into(&mut buf) {
+            Err(e) => {
+                let error = format!("Error at position {}: {:?}", reader.buffer_position(), e);
+                add_token(&tokens, Token::Error, &error, None);
+                break;
+            }
+            Ok(Event::Decl(ref e)) => add_token(
+                &tokens,
+                Token::XMLDeclaration,
+                &reader.decoder().decode(e).unwrap(),
+                None,
+            ),
+            Ok(Event::DocType(ref e)) => add_token(
+                &tokens,
+                Token::XMLDoctype,
+                &reader.decoder().decode(e).unwrap(),
+                None,
+            ),
+            Ok(Event::PI(ref e)) => add_token(
+                &tokens,
+                Token::XMLInstruction,
+                &reader.decoder().decode(e).unwrap(),
+                None,
+            ),
             Ok(Event::Start(ref e)) => {
-                add_token(&tokens, "tag:open", &reader.decoder().decode(e.name().as_ref()).unwrap(), None);
-                add_attributes(&tokens, &reader, e.attributes());
-            },
+                add_token(
+                    &tokens,
+                    Token::TagOpen,
+                    &reader.decoder().decode(e.name().as_ref()).unwrap(),
+                    None,
+                );
+                add_state(&states, State::ParseAttribute, reader.buffer_position());
+                let attributes = if html {
+                    e.html_attributes()
+                } else {
+                    e.attributes()
+                };
+                add_attributes(&tokens, &reader, attributes);
+                states.pop();
+                if let Ok(Some(attr)) = e.try_get_attribute("xml:space") {
+                    if let Ok(value) = std::str::from_utf8(&attr.value) {
+                        if value == "preserve" {
+                            preserve = depth;
+                        }
+                    }
+                };
+                depth += 1;
+            }
             Ok(Event::Empty(ref e)) => {
-                add_token(&tokens, "tag:open", &reader.decoder().decode(e.name().as_ref()).unwrap(), None);
-                add_attributes(&tokens, &reader, e.attributes());
-                add_token(&tokens, "tag:close", &reader.decoder().decode(e.name().as_ref()).unwrap(), None);
-            },
-            Ok(Event::End(ref e)) => add_token(&tokens, "tag:close", &reader.decoder().decode(e.name().as_ref()).unwrap(), None),
-            Ok(Event::Text(ref e)) => add_token(&tokens, "text", &reader.decoder().decode(e).unwrap(), None),
-            Ok(Event::CData(ref e)) => add_token(&tokens, "cdata", &reader.decoder().decode(e).unwrap(), None),
-            Ok(Event::Comment(ref e)) => add_token(&tokens, "comment", &reader.decoder().decode(e).unwrap(), None),
-            Ok(Event::Decl(ref e)) => add_token(&tokens, "xml:declaration", &reader.decoder().decode(e).unwrap(), None),
-            Ok(Event::PI(ref e)) => add_token(&tokens, "xml:instruction", &reader.decoder().decode(e).unwrap(), None),
-            Ok(Event::DocType(ref e)) => add_token(&tokens, "xml:doctype", &reader.decoder().decode(e).unwrap(), None),
+                add_token(
+                    &tokens,
+                    Token::TagOpen,
+                    &reader.decoder().decode(e.name().as_ref()).unwrap(),
+                    None,
+                );
+                add_state(&states, State::ParseAttribute, reader.buffer_position());
+                let attributes = if html {
+                    e.html_attributes()
+                } else {
+                    e.attributes()
+                };
+                add_attributes(&tokens, &reader, attributes);
+                states.pop();
+                add_token(
+                    &tokens,
+                    Token::TagClose,
+                    &reader.decoder().decode(e.name().as_ref()).unwrap(),
+                    None,
+                );
+            }
+            Ok(Event::End(ref e)) => {
+                add_token(
+                    &tokens,
+                    Token::TagClose,
+                    &reader.decoder().decode(e.name().as_ref()).unwrap(),
+                    None,
+                );
+                depth -= 1;
+                if depth == preserve {
+                    preserve = 0;
+                }
+            }
+            Ok(Event::Text(ref e)) => {
+                if depth == 0 {
+                    continue;
+                }
+                let text = &reader.decoder().decode(e).unwrap();
+                if depth > preserve && text.trim().is_empty() {
+                    continue;
+                }
+                add_token(&tokens, Token::Text, text, None);
+            }
+            Ok(Event::CData(ref e)) => add_token(
+                &tokens,
+                Token::CData,
+                &reader.decoder().decode(e).unwrap(),
+                None,
+            ),
+            Ok(Event::Comment(ref e)) => add_token(
+                &tokens,
+                Token::Comment,
+                &reader.decoder().decode(e).unwrap(),
+                None,
+            ),
             Ok(Event::Eof) => break,
-            Err(e) => panic!("Error at position {}: {:?}", reader.buffer_position(), e),
         }
         buf.clear();
     }
-    JsValue::from(tokens)
 }
 
 // Add token.
-fn add_token(tokens: &Array, name: &str, value:&str, detail:Option<&str>) {
+fn add_token(tokens: &Array, id: Token, value: &str, detail: Option<&str>) {
     let token = Array::new();
-    token.push(&JsValue::from_str(name));
+    token.push(&JsValue::from(id));
     token.push(&JsValue::from_str(value));
     if let Some(detail) = detail {
         token.push(&JsValue::from_str(detail));
@@ -54,12 +161,47 @@ fn add_token(tokens: &Array, name: &str, value:&str, detail:Option<&str>) {
 }
 
 // Add attributes tokens.
-fn add_attributes(tokens: &Array, reader: &Reader<&[u8]>, attrs: Attributes) {
+fn add_attributes(tokens: &Array, reader: &Reader<BufReader<JsReader>>, attrs: Attributes) {
     for _attr in attrs {
         let attr = _attr.unwrap();
         let key = reader.decoder().decode(attr.key.as_ref()).unwrap();
         let value = reader.decoder().decode(&attr.value).unwrap();
-        add_token(tokens, "tag:attribute", &key, Some(&value));
+        add_token(tokens, Token::TagAttribute, &key, Some(&value));
     }
 }
 
+// Add state.
+fn add_state(states: &Array, id: State, value: usize) {
+    let state = Array::new();
+    state.push(&JsValue::from(id));
+    state.push(&JsValue::from(value));
+    states.push(&state);
+}
+
+// JsReader struct.
+#[wasm_bindgen]
+pub struct JsReader {
+    data: Uint8Array,
+    position: usize,
+}
+
+// JsReader implementation.
+#[wasm_bindgen]
+impl JsReader {
+    #[wasm_bindgen(constructor)]
+    pub fn new(data: Uint8Array) -> JsReader {
+        JsReader { data, position: 0 }
+    }
+}
+
+// JsReader read implementation.
+impl Read for JsReader {
+    fn read(&mut self, buf: &mut [u8]) -> Result<usize> {
+        let len = std::cmp::min(buf.len(), self.data.length() as usize - self.position);
+        for i in 0..len {
+            buf[i] = self.data.get_index((self.position + i) as u32) as u8;
+        }
+        self.position += len;
+        Ok(len)
+    }
+}

@@ -1,5 +1,5 @@
 // Imports
-import { initSync, source, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
+import { initSync, JsReader, source, State, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
 import type { Nullable, record, rw } from "@libs/typing"
 import type { xml_document, xml_node, xml_text } from "./_types.ts"
 initSync(source())
@@ -56,6 +56,12 @@ export type options = {
      */
     custom?: (args: { name: string; key: Nullable<string>; value: Nullable<string>; node: Readonly<xml_node> }) => unknown
   }
+  /**
+   * Parsing mode.
+   * Using `html` is more permissive and will not throw on some invalid XML syntax.
+   * Mainly unquoted attributes will be supported and not properly closed tags will be accepted.
+   */
+  mode?: "xml" | "html"
 }
 
 /**
@@ -98,15 +104,26 @@ export type options = {
  * `))
  * ```
  */
-export function parse(string: string, options?: options): xml_document {
+export function parse(content: string, options?: options): xml_document {
   const xml = xml_node("~xml") as xml_document
   const stack = [xml] as Array<xml_node>
-  const tokens = []
+  const tokens = [] as Array<[number, string, string?]>
+  const states = [] as Array<[number, number]>
   const flags = { root: false }
   try {
-    tokens.push(...tokenize(new TextEncoder().encode(string)))
-  } catch {
-    throw new SyntaxError("Malformed XML document")
+    const reader = new JsReader(new TextEncoder().encode(content as string))
+    tokenize(reader, tokens, states, options?.mode === "html")
+  } catch (error) {
+    if (states.at(-1)?.[0] === State.ParseAttribute) {
+      tokens.push([Token.Error, `Failed to parse attribute around position ${states.at(-1)![1]}`])
+    }
+    if (!states.length) {
+      throw new EvalError(`WASM XML parser crashed: ${error}`)
+    }
+  }
+  const errors = tokens.find(([token]) => token === Token.Error)
+  if (errors) {
+    throw new SyntaxError(`Malformed XML document: ${errors[1]}`)
   }
   options ??= {}
   options.revive ??= {}
@@ -118,31 +135,31 @@ export function parse(string: string, options?: options): xml_document {
   for (const [token, name, value = name] of tokens) {
     switch (token) {
       // XML declaration
-      case "xml:declaration": {
+      case Token.XMLDeclaration: {
         // https://www.w3.org/TR/REC-xml/#NT-VersionNum
-        const version = value.match(/version=(["'])(?<version>1\.\d+)(\1)/)?.groups.version
+        const version = value.match(/version=(["'])(?<version>1\.\d+)(\1)/)?.groups?.version
         if (version) {
           xml["@version"] = version as typeof xml["@version"]
         }
         // https://www.w3.org/TR/REC-xml/#NT-EncodingDecl
-        const encoding = value.match(/encoding=(["'])(?<encoding>[A-Za-z][-\w.]*)(\1)/)?.groups.encoding
+        const encoding = value.match(/encoding=(["'])(?<encoding>[A-Za-z][-\w.]*)(\1)/)?.groups?.encoding
         if (encoding) {
           xml["@encoding"] = encoding as typeof xml["@encoding"]
         }
         // https://www.w3.org/TR/REC-xml/#NT-SDDecl
-        const standalone = value.match(/standalone=(["'])(?<standalone>yes|no)(\1)/)?.groups.standalone
+        const standalone = value.match(/standalone=(["'])(?<standalone>yes|no)(\1)/)?.groups?.standalone
         if (standalone) {
           xml["@standalone"] = standalone as typeof xml["@standalone"]
         }
         break
       }
       // XML Doctype definition
-      case "xml:doctype": {
+      case Token.XMLDoctype: {
         xml["#doctype"] = Object.assign(xml_node("~doctype", { parent: xml }), xml_doctype(value))
         break
       }
       // XML processing instruction
-      case "xml:instruction": {
+      case Token.XMLInstruction: {
         const [name, ...raw] = value.split(" ")
         const instruction = Object.assign(xml_node(name, { parent: xml }), xml_attributes(raw.join(" ")))
         xml["#instructions"] ??= {}
@@ -159,7 +176,7 @@ export function parse(string: string, options?: options): xml_document {
         break
       }
       // XML tag opened
-      case "tag:open": {
+      case Token.TagOpen: {
         if (stack.length === 1) {
           if (flags.root) {
             throw new SyntaxError("Multiple root node detected")
@@ -182,36 +199,34 @@ export function parse(string: string, options?: options): xml_document {
         break
       }
       // XML tag closed
-      case "tag:close": {
+      case Token.TagClose: {
         stack.pop()
         break
       }
       // XML attribute
-      case "tag:attribute": {
+      case Token.TagAttribute: {
         stack.at(-1)![`@${name}`] = value
         break
       }
       // Text
-      case "text": {
-        if (stack.length > 1) {
-          xml_text(value, { type: "~text", parent: stack.at(-1)! })
-        }
+      case Token.Text: {
+        xml_text(value, { type: "~text", parent: stack.at(-1)! })
         break
       }
       // CDATA
-      case "cdata": {
+      case Token.CData: {
         xml_text(value, { type: "~cdata", parent: stack.at(-1)! })
         break
       }
       // Comment
-      case "comment": {
+      case Token.Comment: {
         xml_text(value, { type: "~comment", parent: stack.at(-1)! })
         break
       }
     }
   }
   if (!Object.keys(xml).length) {
-    throw new SyntaxError("Malformed XML document")
+    throw new SyntaxError("Malformed XML document: empty document or no root node detected")
   }
   return postprocess(xml, options) as xml_document
 }
@@ -266,7 +281,19 @@ function xml_node(name: string, { parent = null as Nullable<xml_node> } = {}): x
       enumerable: false,
       configurable: true,
       get(this: xml_node) {
-        return this["~children"].map((node) => node["~name"] !== "~comment" ? node["#text"] : "").filter(Boolean).join(" ")
+        const children = this["~children"].filter((node) => node["~name"] !== "~comment")
+        // If xml:space is not set to "preserve", concatenate text nodes and trim them while removing empty ones
+        if (this["@xml:space"] !== "preserve") {
+          return children.map((child) => child["#text"]).filter(Boolean).join(" ")
+        }
+        // If xml:space is set to "preserve", concatenate text nodes without trimming them
+        // In case of mixed content, add a space between mixed nodes if needed
+        let text = ""
+        for (let i = 0; i < children.length; i++) {
+          const spaced = i && (+children[i - 1]["~name"].startsWith("~") ^ +children[i]["~name"].startsWith("~")) && (!children[i - 1]["#text"].endsWith(" ")) && (!children[i]["#text"].startsWith(" "))
+          text += `${spaced ? " " : ""}${children[i]["#text"]}`
+        }
+        return text
       },
     },
     ["#comments"]: {
@@ -403,3 +430,30 @@ function revive(node: xml_node | xml_text, key: string, options: options) {
   }
   return value
 }
+
+/** Synchronous reader. */
+type ReaderSync = { readSync(p: Uint8Array): number | null }
+
+// TODO(@lowlighter): try to implement the binding with rust so we can pass stream/large files again...
+/*
+class _Reader implements ReaderSync {
+  /** Constructor
+  constructor(string: string) {
+    this.#data = new TextEncoder().encode(string)
+  }
+
+  /** Buffer
+  readonly #data
+
+  /** Position
+  #cursor = 0
+
+  /** Read
+  readSync(buffer: Uint8Array) {
+    const bytes = this.#data.slice(this.#cursor, this.#cursor + buffer.length)
+    buffer.set(bytes)
+    this.#cursor = Math.min(this.#cursor + bytes.length, this.#data.length)
+    return bytes.length || null
+  }
+}
+*/

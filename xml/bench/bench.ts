@@ -1,29 +1,17 @@
-//Imports
 import { expandGlob } from "@std/fs/expand-glob"
 import { parse } from "../mod.ts"
-import { fromFileUrl } from "@std/path/from-file-url"
+import { parse as parse_v5 } from "jsr:@libs/xml@5.0.2/parse"
+import { parse as parse_v4 } from "https://deno.land/x/xml@4.0.0/parse.ts"
+import { parse as parse_v3 } from "https://deno.land/x/xml@3.0.2/parse.ts"
 
-//Huge xml file generator
-async function write({ path, size }: { path: string; size: number }) {
-  const file = await Deno.open(fromFileUrl(import.meta.resolve(path)), { write: true, truncate: true, create: true })
-  const encoder = new TextEncoder()
-  await file.write(encoder.encode("<root>"))
-  for (let i = 0; i < size * 3100; i++) {
-    await file.write(encoder.encode(`<child>${Math.random()}</child>`))
-  }
-  await file.write(encoder.encode("</root>"))
-}
-await write({ path: "./assets/x-large.xml", size: 0.2 })
-await write({ path: "./assets/x-xlarge.xml", size: 0.5 })
-await write({ path: "./assets/x-xxlarge.xml", size: 1 })
-
-//Benchmarks
-for await (const { name, path } of expandGlob("**/*.xml", { globstar: true })) {
+for await (const { name, path } of expandGlob("**/!(x-)*.xml", { globstar: true })) {
   const { size } = await (await Deno.open(path)).stat()
-  Deno.bench(`parse(): ${name}, ${size}b)`, async function (t) {
-    const content = await Deno.readTextFile(path)
-    t.start()
-    parse(content)
-    t.end()
-  })
+  for (const [func, f] of Object.entries({ parse, parse_v5, parse_v4, parse_v3 })) {
+    Deno.bench(`${func}(): ${name}, ${size}b)`, async function (t) {
+      const content = await Deno.readTextFile(path)
+      t.start()
+      f(content)
+      t.end()
+    })
+  }
 }
