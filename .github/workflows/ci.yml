@@ -10,18 +10,20 @@ concurrency:
   group: ci
   cancel-in-progress: false
 jobs:
-  bundle_test:
+  xml_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd bundle && deno task dev
-  bundle_test_all:
+      - run: 'curl https://sh.rustup.rs -sSf | sh -s -- -y'
+      - run: cd xml && deno task build
+      - run: cd xml && deno task dev
+  xml_test_all:
     runs-on: ubuntu-latest
     needs:
-      - bundle_test
+      - xml_test
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
@@ -33,12 +35,76 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22.x
-      - run: cd bundle && deno task ci
-  bundle_coverage:
+      - run: 'curl https://sh.rustup.rs -sSf | sh -s -- -y'
+      - run: cd xml && deno task build
+      - run: cd xml && deno task ci
+  xml_bench:
+    runs-on: ubuntu-latest
+    needs:
+      - xml_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: 'curl https://sh.rustup.rs -sSf | sh -s -- -y'
+      - run: cd xml && deno task build
+      - run: cd xml && deno task bench
+  xml_tag:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs:
-      - bundle_test
+      - xml_test_all
+      - xml_bench
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: xml_tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          scope: xml
+      - if: '${{ steps.xml_tagging.outputs.tag }}'
+        shell: bash
+        run: |-
+          deno task tag --version '${{ steps.xml_tagging.outputs.semver }}' xml
+          deno fmt xml/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only
+          git add xml/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.xml_tagging.outputs.tag }}'
+          git push
+          git tag '${{ steps.xml_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.xml_tagging.outputs.tag }}'
+          git push origin '${{ steps.xml_tagging.outputs.tag }}'
+  xml_publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - xml_tag
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd xml && deno task publish
+  coverage:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - xml_test_all
     environment:
       name: github-pages
       url: '${{ steps.pages.outputs.page_url }}'
@@ -52,59 +118,11 @@ jobs:
         with:
           deno-version: 1.x
       - uses: actions/configure-pages@v5
-      - run: cd bundle && deno task coverage
+      - run: 'curl https://sh.rustup.rs -sSf | sh -s -- -y'
+      - run: cd xml && deno task build
+      - run: deno task coverage
       - uses: actions/upload-pages-artifact@v3
         with:
           path: coverage
       - id: pages
         uses: actions/deploy-pages@v4
-  bundle_tag:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    needs:
-      - bundle_test_all
-      - bundle_coverage
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: 1.x
-      - id: bundle_tagging
-        uses: ldelarue/git-next-tag@v0.4
-        with:
-          scope: bundle
-      - if: '${{ steps.bundle_tagging.outputs.tag }}'
-        shell: bash
-        run: |-
-          deno task tag --version '${{ steps.bundle_tagging.outputs.semver }}' bundle
-          deno fmt bundle/deno.jsonc
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git pull --ff-only
-          git add bundle/deno.jsonc
-          git commit -m 'chore: bump version ${{ steps.bundle_tagging.outputs.tag }}'
-          git push
-          git tag '${{ steps.bundle_tagging.outputs.tag }}'
-          git show-ref --tags '${{ steps.bundle_tagging.outputs.tag }}'
-          git push origin '${{ steps.bundle_tagging.outputs.tag }}'
-  bundle_publish:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    needs:
-      - bundle_tag
-    permissions:
-      id-token: write
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: 1.x
-      - run: cd bundle && deno task publish
