@@ -31,7 +31,14 @@ export const paths = {
 type runtime = "deno" | "bun" | "node"
 
 /** Test options. */
-type options = { permissions?: Deno.TestDefinition["permissions"] }
+type options = {
+  ignore?: Deno.TestDefinition["ignore"]
+  only?: Deno.TestDefinition["only"]
+  permissions?: Deno.TestDefinition["permissions"]
+  sanitizeResources?: Deno.TestDefinition["sanitizeResources"]
+  sanitizeOps?: Deno.TestDefinition["sanitizeOps"]
+  sanitizeExit?: Deno.TestDefinition["sanitizeExit"]
+}
 
 /** Test runner. */
 type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn: () => Promisable<void>, options?: options) => Promisable<void>
