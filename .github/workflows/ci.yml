@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   xml_test:
-    if: 'contains(github.event.pull_request.changed_files, "xml/")'
+    if: 'contains(github.event.pull_request.changed_files, ''xml/'')'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
