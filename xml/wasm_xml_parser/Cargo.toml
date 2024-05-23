@@ -10,7 +10,7 @@ license = "MIT"
 [dependencies]
 quick-xml = "0.31"
 wasm-bindgen = "0.2"
-web-sys = { version = "0.3", features = ["console"] }
+web-sys = { version = "0.3" }
 
 [lib]
 crate-type = ["cdylib", "rlib"]

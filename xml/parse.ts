@@ -1,5 +1,5 @@
 // Imports
-import { initSync, JSReader, source, State, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
+import { initSync, JsReader, source, State, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
 import type { Nullable, record, rw } from "@libs/typing"
 import type { xml_document, xml_node, xml_text } from "./_types.ts"
 initSync(source())
@@ -111,7 +111,7 @@ export function parse(content: string, options?: options): xml_document {
   const states = [] as Array<[number, number]>
   const flags = { root: false }
   try {
-    const reader = new JSReader(new TextEncoder().encode(content as string))
+    const reader = new JsReader(new TextEncoder().encode(content as string))
     tokenize(reader, tokens, states, options?.mode === "html")
   } catch (error) {
     if (states.at(-1)?.[0] === State.ParseAttribute) {
@@ -435,19 +435,20 @@ function revive(node: xml_node | xml_text, key: string, options: options) {
 type ReaderSync = { readSync(p: Uint8Array): number | null }
 
 // TODO(@lowlighter): try to implement the binding with rust so we can pass stream/large files again...
+/*
 class _Reader implements ReaderSync {
-  /** Constructor */
+  /** Constructor
   constructor(string: string) {
     this.#data = new TextEncoder().encode(string)
   }
 
-  /** Buffer */
+  /** Buffer
   readonly #data
 
-  /** Position */
+  /** Position
   #cursor = 0
 
-  /** Read */
+  /** Read
   readSync(buffer: Uint8Array) {
     const bytes = this.#data.slice(this.#cursor, this.#cursor + buffer.length)
     buffer.set(bytes)
@@ -455,3 +456,4 @@ class _Reader implements ReaderSync {
     return bytes.length || null
   }
 }
+*/

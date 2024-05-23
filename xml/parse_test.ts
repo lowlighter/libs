@@ -1254,8 +1254,9 @@ test("all")("parse(): xml parser option metadata", () => {
   expect(xml.root?.sibling?.["~name"]).toBe("sibling")
 })
 
-test.skip("all")("parse(): xml parser option no flatten", async () => {
-  for (let i = 6; i <= 6; i++) {
+test.skip("all")("parse(): parse large files", async () => {
+  for (let i = 0; i <= 6; i++) {
+    console.debug(`parsing: ${i}...`)
     expect(parse(await Deno.readTextFile(`bench/assets/x-${i}x-large.xml`))).not.toThrow()
   }
 }, { permissions: { read: ["bench"] } })

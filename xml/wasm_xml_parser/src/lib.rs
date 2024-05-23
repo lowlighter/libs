@@ -31,7 +31,7 @@ pub enum State {
 
 // Tokenize XML document.
 #[wasm_bindgen]
-pub fn tokenize(js_reader: JSReader, tokens: Array, states: Array, _html: Option<bool>) {
+pub fn tokenize(js_reader: JsReader, tokens: Array, states: Array, _html: Option<bool>) {
     let mut depth = 0;
     let mut preserve = 0;
     let mut buf = Vec::new();
@@ -161,7 +161,7 @@ fn add_token(tokens: &Array, id: Token, value: &str, detail: Option<&str>) {
 }
 
 // Add attributes tokens.
-fn add_attributes(tokens: &Array, reader: &Reader<BufReader<JSReader>>, attrs: Attributes) {
+fn add_attributes(tokens: &Array, reader: &Reader<BufReader<JsReader>>, attrs: Attributes) {
     for _attr in attrs {
         let attr = _attr.unwrap();
         let key = reader.decoder().decode(attr.key.as_ref()).unwrap();
@@ -170,6 +170,7 @@ fn add_attributes(tokens: &Array, reader: &Reader<BufReader<JSReader>>, attrs: A
     }
 }
 
+// Add state.
 fn add_state(states: &Array, id: State, value: usize) {
     let state = Array::new();
     state.push(&JsValue::from(id));
@@ -177,21 +178,24 @@ fn add_state(states: &Array, id: State, value: usize) {
     states.push(&state);
 }
 
+// JsReader struct.
 #[wasm_bindgen]
-pub struct JSReader {
+pub struct JsReader {
     data: Uint8Array,
     position: usize,
 }
 
+// JsReader implementation.
 #[wasm_bindgen]
-impl JSReader {
+impl JsReader {
     #[wasm_bindgen(constructor)]
-    pub fn new(data: Uint8Array) -> JSReader {
-        JSReader { data, position: 0 }
+    pub fn new(data: Uint8Array) -> JsReader {
+        JsReader { data, position: 0 }
     }
 }
 
-impl Read for JSReader {
+// JsReader read implementation.
+impl Read for JsReader {
     fn read(&mut self, buf: &mut [u8]) -> Result<usize> {
         let len = std::cmp::min(buf.len(), self.data.length() as usize - self.position);
         for i in 0..len {
