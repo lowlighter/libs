@@ -1,5 +1,22 @@
 import { parse } from "./parse.ts"
 import { expect, test, type testing } from "@libs/testing"
+import { fromFileUrl } from "@std/path/from-file-url"
+import { exists } from "@std/fs/exists"
+
+//Huge xml file generator
+export async function write(size: number) {
+  const path = fromFileUrl(import.meta.resolve(`./bench/assets/x-${size}x-large.xml`))
+  if (await exists(path)) {
+    return
+  }
+  using file = await Deno.open(path, { write: true, create: true })
+  const encoder = new TextEncoder()
+  await file.write(encoder.encode("<root>"))
+  for (let i = 0; i < (2 ** size) * 15500; i++) {
+    await file.write(encoder.encode(`<child>${Math.random()}</child>`))
+  }
+  await file.write(encoder.encode("</root>"))
+}
 
 test("all")("parse() xml syntax tag", () =>
   expect(
@@ -1254,9 +1271,10 @@ test("all")("parse(): xml parser option metadata", () => {
   expect(xml.root?.sibling?.["~name"]).toBe("sibling")
 })
 
-test.skip("all")("parse(): parse large files", async () => {
-  for (let i = 0; i <= 6; i++) {
-    console.debug(`parsing: ${i}...`)
+for (let i = 0; i <= 5; i++) {
+  const ignore = false && (i > 2) && (!Deno.env.get("CI"))
+  test("all")(`parse(): parse large files ~${(2 ** i)}Mb`, async () => {
+    await write(i)
     expect(parse(await Deno.readTextFile(`bench/assets/x-${i}x-large.xml`))).not.toThrow()
-  }
-}, { permissions: { read: ["bench"] } })
+  }, { permissions: { read: ["bench"], write: ["bench"] }, ignore } as testing)
+}
