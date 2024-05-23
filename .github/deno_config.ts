@@ -8,20 +8,36 @@ import type { record } from "@libs/typing"
 // Load global configuration
 const root = fromFileUrl(import.meta.resolve("../"))
 const global = JSONC.parse(await Deno.readTextFile(resolve(root, "deno.jsonc"))) as Record<string, unknown>
-const imports = { "@std/jsonc": "jsr:@std/jsonc@0.224.0" } as record<string>
+const imports = { "@std/jsonc": "jsr:@std/jsonc@0.224.0", "@std/yaml": "jsr:@std/yaml@0.224.0" } as record<string>
 const log = new Logger()
 
 // Load local configurations
 const packages = []
 for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   const local = JSONC.parse(await Deno.readTextFile(path)) as Record<string, unknown>
-  packages.push(basename(dirname(path)))
+  const name = basename(dirname(path))
+  packages.push(name)
   // Sync local configuration with global configuration
   local.author = global.author
   local.repository = global.repository
   local.license = global.license
   local.lint = global.lint
   local.fmt = global.fmt
+  // Sync tasks
+  local.tasks ??= {}
+  const tasks = local.tasks as record<string>
+  const test = (local["test:permissions"] ?? {}) as record<Array<string> | true>
+  test.run ??= []
+  if (Array.isArray(test.run)) {
+    test.run = [...new Set(["deno", "node", "bun", "npx", ...test.run])]
+  }
+  const permissions = Object.entries(test).map(([key, value]) => `--allow-${key}${value === true ? "" : `=${value.join(",")}`}`).join(" ")
+  tasks["test"] = `rm coverage -rf && deno test ${permissions} --no-prompt --coverage --trace-leaks --doc`
+  tasks["dev"] = "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet"
+  tasks["coverage"] = "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js"
+  tasks["ci"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
+  tasks["ci:coverage"] = `deno task coverage --html && sleep 1 && rm -rf ../coverage/${name} && mv coverage/html ../coverage/${name}`
+  // Save local configuration
   await Deno.writeTextFile(path, JSON.stringify(local, null, 2))
   log.with({ package: packages.at(-1) }).info("updated")
   // Register local imports
@@ -32,23 +48,6 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
     imports[key] = value
   }
 }
-
-// Generate tasks
-const tasks = global.tasks as record
-for (const name of packages) {
-  for (const task of ["ci", "coverage", "publish"]) {
-    delete tasks[`${name}:${task}`]
-  }
-}
-for (const name of packages) {
-  tasks[`${name}:ci`] = `cd ${name} && deno task ci`
-  tasks[`${name}:coverage`] = `cd ${name} && deno task coverage --html && sleep 1 && rm -rf ../coverage/${name} && mv coverage/html ../coverage/${name}`
-  tasks[`${name}:publish`] = `cd ${name} && deno publish`
-}
-for (const task of ["ci", "coverage"]) {
-  tasks[task] = packages.map((name) => `deno task ${name}:${task}`).join(" && ")
-}
-tasks.coverage = `rm coverage -rf && mkdir -p coverage && ${tasks.coverage} && deno task coverage:pretty`
 
 // Save global configuration
 global.imports = imports
