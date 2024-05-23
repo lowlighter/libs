@@ -54,7 +54,7 @@ jobs:
       - id: bundle_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          prefix: bundle-
+          tag-prefix: bundle-
           scope: bundle
       - if: '${{ steps.bundle_tagging.outputs.tag }}'
         shell: bash
@@ -131,7 +131,7 @@ jobs:
       - id: crypto_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          prefix: crypto-
+          tag-prefix: crypto-
           scope: crypto
       - if: '${{ steps.crypto_tagging.outputs.tag }}'
         shell: bash
@@ -208,7 +208,7 @@ jobs:
       - id: diff_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          prefix: diff-
+          tag-prefix: diff-
           scope: diff
       - if: '${{ steps.diff_tagging.outputs.tag }}'
         shell: bash
@@ -285,7 +285,7 @@ jobs:
       - id: logger_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          prefix: logger-
+          tag-prefix: logger-
           scope: logger
       - if: '${{ steps.logger_tagging.outputs.tag }}'
         shell: bash
@@ -362,7 +362,7 @@ jobs:
       - id: orm_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          prefix: orm-
+          tag-prefix: orm-
           scope: orm
       - if: '${{ steps.orm_tagging.outputs.tag }}'
         shell: bash
@@ -439,7 +439,7 @@ jobs:
       - id: qrcode_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          prefix: qrcode-
+          tag-prefix: qrcode-
           scope: qrcode
       - if: '${{ steps.qrcode_tagging.outputs.tag }}'
         shell: bash
@@ -516,7 +516,7 @@ jobs:
       - id: reactive_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          prefix: reactive-
+          tag-prefix: reactive-
           scope: reactive
       - if: '${{ steps.reactive_tagging.outputs.tag }}'
         shell: bash
@@ -593,7 +593,7 @@ jobs:
       - id: testing_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          prefix: testing-
+          tag-prefix: testing-
           scope: testing
       - if: '${{ steps.testing_tagging.outputs.tag }}'
         shell: bash
@@ -670,7 +670,7 @@ jobs:
       - id: typing_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          prefix: typing-
+          tag-prefix: typing-
           scope: typing
       - if: '${{ steps.typing_tagging.outputs.tag }}'
         shell: bash
@@ -764,7 +764,7 @@ jobs:
       - id: xml_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          prefix: xml-
+          tag-prefix: xml-
           scope: xml
       - if: '${{ steps.xml_tagging.outputs.tag }}'
         shell: bash
