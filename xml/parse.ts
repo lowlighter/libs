@@ -1,5 +1,5 @@
 // Imports
-import { initSync, source, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
+import { initSync, JSReader, source, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
 import type { Nullable, record, rw } from "@libs/typing"
 import type { xml_document, xml_node, xml_text } from "./_types.ts"
 initSync(source())
@@ -98,15 +98,48 @@ export type options = {
  * `))
  * ```
  */
-export function parse(string: string, options?: options): xml_document {
+
+type ReaderSync = { readSync(p: Uint8Array): number | null }
+
+class Reader implements ReaderSync {
+  /** Constructor */
+  constructor(string: string) {
+    this.#data = new TextEncoder().encode(string)
+  }
+
+  /** Buffer */
+  readonly #data
+
+  /** Position */
+  #cursor = 0
+
+  /** Read */
+  readSync(buffer: Uint8Array) {
+    const bytes = this.#data.slice(this.#cursor, this.#cursor + buffer.length)
+    buffer.set(bytes)
+    console.log(bytes, buffer.length, bytes.length)
+    this.#cursor = Math.min(this.#cursor + bytes.length, this.#data.length)
+    return bytes.length || null
+  }
+}
+
+export function parse(content: string | ReaderSync, options?: options): xml_document {
   const xml = xml_node("~xml") as xml_document
   const stack = [xml] as Array<xml_node>
   const tokens = []
   const flags = { root: false }
   try {
-    tokens.push(...tokenize(new TextEncoder().encode(string)))
-  } catch {
-    throw new SyntaxError("Malformed XML document")
+    //const reader = typeof content === "string" ? new Reader(content) : content
+    const reader = new JSReader(new TextEncoder().encode(content as string))
+    tokens.push(...tokenize(reader))
+  } catch (error) {
+    console.log(error)
+    throw new EvalError(`WASM XML parser crashed: ${error}`)
+  }
+  console.log(tokens)
+  const errors = tokens.find(([token]) => token === "error")
+  if (errors) {
+    throw new SyntaxError(`Malformed XML document: ${errors[1]}`)
   }
   options ??= {}
   options.revive ??= {}

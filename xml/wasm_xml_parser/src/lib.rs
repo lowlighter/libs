@@ -3,28 +3,58 @@ use quick_xml::Reader;
 use quick_xml::events::Event;
 use quick_xml::events::attributes::Attributes;
 use web_sys::js_sys::{Array, Uint8Array};
+use std::io::{Read, Result};
+use std::io::BufReader;
+
+#[wasm_bindgen]
+pub struct JSReader {
+    data: Uint8Array,
+    position: usize,
+}
+
+#[wasm_bindgen]
+impl JSReader {
+    #[wasm_bindgen(constructor)]
+    pub fn new(data: Uint8Array) -> JSReader {
+        JSReader {
+            data,
+            position: 0,
+        }
+    }
+}
+
+impl Read for JSReader {
+    fn read(&mut self, buf: &mut [u8]) -> Result<usize> {
+        let len = std::cmp::min(buf.len(), self.data.length() as usize - self.position);
+        for i in 0..len {
+            buf[i] = self.data.get_index((self.position + i) as u32) as u8;
+        }
+        self.position += len;
+        Ok(len)
+    }
+}
+
 
 // Tokenize XML document.
 #[wasm_bindgen]
-pub fn tokenize(data: Uint8Array, strict: Option<bool>) -> JsValue {
-    let data_vec = data.to_vec();
-    let mut reader = Reader::from_reader(data_vec.as_slice());
-    if let Some(strict) = strict {
-        if strict {
-            reader.check_comments(true).check_end_names(true);
-        }
-    }
+pub fn tokenize(data: JSReader, html: Option<bool>) -> JsValue {
+    //let data_vec = data.to_vec();
+    let js_reader = BufReader::new(data);
+    let mut reader = Reader::from_reader(js_reader);
+    reader.check_comments(true).check_end_names(true);
     let mut buf = Vec::new();
     let tokens = Array::new();
     loop {
         match reader.read_event_into(&mut buf) {
             Ok(Event::Start(ref e)) => {
                 add_token(&tokens, "tag:open", &reader.decoder().decode(e.name().as_ref()).unwrap(), None);
-                add_attributes(&tokens, &reader, e.attributes());
+                let attributes = if html.unwrap_or(true) { e.html_attributes() } else { e.attributes() };
+                add_attributes(&tokens, &reader, attributes);
             },
             Ok(Event::Empty(ref e)) => {
                 add_token(&tokens, "tag:open", &reader.decoder().decode(e.name().as_ref()).unwrap(), None);
-                add_attributes(&tokens, &reader, e.attributes());
+                let attributes = if html.unwrap_or(true) { e.html_attributes() } else { e.attributes() };
+                add_attributes(&tokens, &reader, attributes);
                 add_token(&tokens, "tag:close", &reader.decoder().decode(e.name().as_ref()).unwrap(), None);
             },
             Ok(Event::End(ref e)) => add_token(&tokens, "tag:close", &reader.decoder().decode(e.name().as_ref()).unwrap(), None),
@@ -35,7 +65,11 @@ pub fn tokenize(data: Uint8Array, strict: Option<bool>) -> JsValue {
             Ok(Event::PI(ref e)) => add_token(&tokens, "xml:instruction", &reader.decoder().decode(e).unwrap(), None),
             Ok(Event::DocType(ref e)) => add_token(&tokens, "xml:doctype", &reader.decoder().decode(e).unwrap(), None),
             Ok(Event::Eof) => break,
-            Err(e) => panic!("Error at position {}: {:?}", reader.buffer_position(), e),
+            Err(e) => {
+                let error = format!("Error at position {}: {:?}", reader.buffer_position(), e);
+                add_token(&tokens, "error", &error, None);
+                break;
+            },
         }
         buf.clear();
     }
@@ -54,7 +88,7 @@ fn add_token(tokens: &Array, name: &str, value:&str, detail:Option<&str>) {
 }
 
 // Add attributes tokens.
-fn add_attributes(tokens: &Array, reader: &Reader<&[u8]>, attrs: Attributes) {
+fn add_attributes(tokens: &Array, reader: &Reader<BufReader<JSReader>>, attrs: Attributes) {
     for _attr in attrs {
         let attr = _attr.unwrap();
         let key = reader.decoder().decode(attr.key.as_ref()).unwrap();
