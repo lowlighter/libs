@@ -111,7 +111,7 @@ export function parse(content: string | ReaderSync, options?: options): xml_docu
   const states = [] as Array<[number, number]>
   const flags = { root: false }
   try {
-    const reader = new JsReader(new TextEncoder().encode(content as string), new Reader(content as string))
+    const reader = new JsReader(new TextEncoder().encode(content as string), typeof content === "object" ? content : undefined)
     tokenize(reader, tokens, states, options?.mode === "html")
   } catch (error) {
     if (states.at(-1)?.[0] === State.ParseAttribute) {
@@ -432,25 +432,24 @@ function revive(node: xml_node | xml_text, key: string, options: options) {
 }
 
 /** Synchronous reader. */
-type ReaderSync = { readSync(p: Uint8Array): number | null }
+type ReaderSync = { readSync(buffer: Uint8Array): Nullable<number> }
 
-class Reader implements ReaderSync {
-  /** Constructor */
+//TODO(@lowlighter): implement async parsing
+/** Asynchronous reader. */
+//type Reader = { read(buffer: Uint8Array): Promise<Nullable<number>> }
+
+/*
+class MockReader implements Reader {
   constructor(string: string) {
     this.#data = new TextEncoder().encode(string)
   }
-
-  /** Buffer */
   readonly #data
-
-  /** Position */
   #cursor = 0
-
-  /** Read data synchronously. */
-  readSync(buffer: Uint8Array) {
+  async read(buffer: Uint8Array) {
     const bytes = this.#data.slice(this.#cursor, this.#cursor + buffer.length)
     buffer.set(bytes)
     this.#cursor = Math.min(this.#cursor + bytes.length, this.#data.length)
     return bytes.length || null
   }
 }
+*/

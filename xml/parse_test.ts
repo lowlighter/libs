@@ -1271,6 +1271,29 @@ test("all")("parse(): xml parser option metadata", () => {
   expect(xml.root?.sibling?.["~name"]).toBe("sibling")
 })
 
+// Other inputs
+
+test("deno")("parse(): using a reader", async () => {
+  using file = await Deno.open("bench/assets/small.xml")
+  expect(
+    parse(file),
+  ).toEqual(
+    {
+      "#comments": [
+        "From https://www.w3schools.com/xml/note.xml",
+      ],
+      note: {
+        body: "Don't forget me this weekend!",
+        from: "Jani",
+        heading: "Reminder",
+        to: "Tove",
+      },
+    },
+  )
+}, { permissions: { read: ["bench"] } })
+
+// Size tests
+
 for (let i = 0; i <= 5; i++) {
   const ignore = false && (i > 2) && (!Deno.env.get("CI"))
   test("all")(`parse(): parse large files ~${(2 ** i)}Mb`, async () => {
