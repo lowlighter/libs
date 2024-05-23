@@ -33,7 +33,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   }
   const permissions = Object.entries(test).map(([key, value]) => `--allow-${key}${value === true ? "" : `=${value.join(",")}`}`).join(" ")
   tasks["test"] = `rm coverage -rf && deno test ${permissions} --no-prompt --coverage --trace-leaks --doc`
-  tasks["dev"] = "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet"
+  tasks["dev"] = "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty"
   tasks["coverage"] = "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js"
   tasks["ci"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
   tasks["ci:coverage"] = `deno task coverage --html && sleep 1 && rm -rf ../coverage/${name} && mv coverage/html ../coverage/${name}`
