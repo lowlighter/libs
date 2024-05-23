@@ -86,7 +86,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd bundle && deno task publish
+      - run: deno publish
   crypto_test:
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -163,7 +163,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd crypto && deno task publish
+      - run: deno publish
   diff_test:
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -240,7 +240,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd diff && deno task publish
+      - run: deno publish
   logger_test:
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -317,7 +317,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd logger && deno task publish
+      - run: deno publish
   orm_test:
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -394,7 +394,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd orm && deno task publish
+      - run: deno publish
   qrcode_test:
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -471,7 +471,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd qrcode && deno task publish
+      - run: deno publish
   reactive_test:
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -548,7 +548,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd reactive && deno task publish
+      - run: deno publish
   testing_test:
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -625,7 +625,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd testing && deno task publish
+      - run: deno publish
   typing_test:
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -702,7 +702,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd typing && deno task publish
+      - run: deno publish
   xml_test:
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -796,7 +796,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: cd xml && deno task publish
+      - run: deno publish
   coverage:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
