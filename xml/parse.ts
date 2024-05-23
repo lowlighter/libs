@@ -104,14 +104,14 @@ export type options = {
  * `))
  * ```
  */
-export function parse(content: string, options?: options): xml_document {
+export function parse(content: string | ReaderSync, options?: options): xml_document {
   const xml = xml_node("~xml") as xml_document
   const stack = [xml] as Array<xml_node>
   const tokens = [] as Array<[number, string, string?]>
   const states = [] as Array<[number, number]>
   const flags = { root: false }
   try {
-    const reader = new JsReader(new TextEncoder().encode(content as string))
+    const reader = new JsReader(new TextEncoder().encode(content as string), new Reader(content as string))
     tokenize(reader, tokens, states, options?.mode === "html")
   } catch (error) {
     if (states.at(-1)?.[0] === State.ParseAttribute) {
@@ -434,21 +434,19 @@ function revive(node: xml_node | xml_text, key: string, options: options) {
 /** Synchronous reader. */
 type ReaderSync = { readSync(p: Uint8Array): number | null }
 
-// TODO(@lowlighter): try to implement the binding with rust so we can pass stream/large files again...
-/*
-class _Reader implements ReaderSync {
-  /** Constructor
+class Reader implements ReaderSync {
+  /** Constructor */
   constructor(string: string) {
     this.#data = new TextEncoder().encode(string)
   }
 
-  /** Buffer
+  /** Buffer */
   readonly #data
 
-  /** Position
+  /** Position */
   #cursor = 0
 
-  /** Read
+  /** Read data synchronously. */
   readSync(buffer: Uint8Array) {
     const bytes = this.#data.slice(this.#cursor, this.#cursor + buffer.length)
     buffer.set(bytes)
@@ -456,4 +454,3 @@ class _Reader implements ReaderSync {
     return bytes.length || null
   }
 }
-*/
