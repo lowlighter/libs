@@ -22,11 +22,12 @@
   "imports": {
     "@std/fs/expand-glob": "jsr:@std/fs@0.229.1/expand-glob",
     "@std/path/from-file-url": "jsr:@std/path@0.225.1/from-file-url",
+    "@std/fs/exists": "jsr:@std/fs@0.229.1/exists",
     "@libs/typing": "jsr:@libs/typing@2",
     "@libs/testing": "jsr:@libs/testing@1"
   },
   "tasks": {
-    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --trace-leaks --doc",
+    "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --allow-read --allow-env=CI --allow-write=bench --no-prompt --coverage --trace-leaks --doc",
     "dev": "deno fmt && deno task test --filter='[deno]' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet",
     "ci": "deno fmt --check && deno task test --quiet && deno coverage --exclude=.js && deno lint",
     "coverage": "deno task test --filter='[deno]' --quiet && deno coverage --exclude=.js",
