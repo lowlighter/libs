@@ -24,9 +24,10 @@
   },
   "tasks": {
     "test": "rm coverage -rf && deno test --allow-run=deno,node,bun,npx --allow-env=LOG_LEVEL --no-prompt --coverage --trace-leaks --doc",
-    "dev": "deno fmt && deno task test --filter='[deno]' && deno coverage --detailed && deno lint && deno publish --dry-run --quiet",
-    "ci": "deno fmt --check && deno task test --quiet && deno coverage && deno lint",
-    "coverage": "deno task test --filter='[deno]' --quiet && deno coverage"
+    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --detailed && deno lint && deno publish --dry-run --quiet",
+    "coverage": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage",
+    "ci": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage && deno lint",
+    "ci:coverage": "deno task coverage --html && sleep 1 && rm -rf ../coverage/logger && mv coverage/html ../coverage/logger"
   },
   "lint": {
     "rules": {
