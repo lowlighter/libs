@@ -1,5 +1,5 @@
 name: ci
-on:
+'on':
   push:
     branches:
       - main
@@ -10,28 +10,18 @@ concurrency:
   group: ci
   cancel-in-progress: false
 jobs:
-  setup:
+  bundle_test:
     runs-on: ubuntu-latest
-    outputs:
-      packages: ${{ steps.packages.outputs.packages }}
     steps:
       - uses: actions/checkout@v4
-      - id: packages
-        shell: bash
-        run: |
-          PACKAGES_LIST=$(find . -mindepth 2 -maxdepth 2 -type f -name deno.jsonc -exec bash -c 'basename $(dirname {})' \;)
-          PACKAGES_LIST_JSON=$(echo "$PACKAGES_LIST" | jq --raw-input --compact-output --slurp 'split("\n")[:-1]')
-          echo "packages: $PACKAGES_LIST_JSON"
-          echo "packages=$PACKAGES_LIST_JSON" >> $GITHUB_OUTPUT
-
-  test:
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd bundle && deno task dev
+  bundle_test_all:
     runs-on: ubuntu-latest
     needs:
-      - setup
-    strategy:
-      fail-fast: false
-      matrix:
-        package: ${{fromJson(needs.setup.outputs.packages)}}
+      - bundle_test
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
@@ -43,90 +33,78 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22.x
-      - run: deno task ${{ matrix.package }}:ci
-
-  coverage:
+      - run: cd bundle && deno task ci
+  bundle_coverage:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs:
-      - setup
-      - test
+      - bundle_test
     environment:
       name: github-pages
-      url: ${{ steps.pages.outputs.page_url }}
+      url: '${{ steps.pages.outputs.page_url }}'
     permissions:
       id-token: write
       contents: read
       pages: write
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
       - uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
-      - run: deno task coverage
+      - uses: actions/configure-pages@v5
+      - run: cd bundle && deno task coverage
       - uses: actions/upload-pages-artifact@v3
         with:
           path: coverage
       - id: pages
         uses: actions/deploy-pages@v4
-
-  tag:
+  bundle_tag:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs:
-      - setup
-      - test
-    strategy:
-      fail-fast: false
-      matrix:
-        package: ${{fromJson(needs.setup.outputs.packages)}}
+      - bundle_test_all
+      - bundle_coverage
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - id: tagging
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: bundle_tagging
         uses: ldelarue/git-next-tag@v0.4
         with:
-          tag-prefix: ${{ matrix.package }}-
-          scope: ${{ matrix.package }}
-      - uses: denoland/setup-deno@v1
-      - if: ${{ steps.tagging.outputs.tag }}
+          scope: bundle
+      - if: '${{ steps.bundle_tagging.outputs.tag }}'
         shell: bash
-        run: |
-          deno task tag --version '${{ steps.tagging.outputs.semver }}' ${{ matrix.package }}
-          deno fmt ${{ matrix.package }}/deno.jsonc
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+        run: |-
+          deno task tag --version '${{ steps.bundle_tagging.outputs.semver }}' bundle
+          deno fmt bundle/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --ff-only
-          git add ${{ matrix.package }}/deno.jsonc
-          git commit -m "chore: bump version ${{ steps.tagging.outputs.tag }}"
+          git add bundle/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.bundle_tagging.outputs.tag }}'
           git push
-          git tag '${{ steps.tagging.outputs.tag }}'
-          git show-ref --tags '${{ steps.tagging.outputs.tag }}'
-          git push origin '${{ steps.tagging.outputs.tag }}'
-
-  publish:
+          git tag '${{ steps.bundle_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.bundle_tagging.outputs.tag }}'
+          git push origin '${{ steps.bundle_tagging.outputs.tag }}'
+  bundle_publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs:
-      - setup
-      - test
-      - tag
+      - bundle_tag
     permissions:
       id-token: write
       contents: read
       packages: write
-    strategy:
-      fail-fast: false
-      matrix:
-        package: ${{fromJson(needs.setup.outputs.packages)}}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
       - uses: denoland/setup-deno@v1
-      - run: deno task ${{ matrix.package }}:publish
-
+        with:
+          deno-version: 1.x
+      - run: cd bundle && deno task publish
