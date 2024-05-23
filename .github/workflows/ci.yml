@@ -10,6 +10,681 @@ concurrency:
   group: ci
   cancel-in-progress: false
 jobs:
+  bundle_test:
+    if: 'contains(github.event.pull_request.changed_files, ''bundle/'')'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd bundle && deno task dev
+  bundle_test_all:
+    runs-on: ubuntu-latest
+    needs:
+      - bundle_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: cd bundle && deno task ci
+  bundle_tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - bundle_test_all
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: bundle_tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          prefix: bundle-
+          scope: bundle
+      - if: '${{ steps.bundle_tagging.outputs.tag }}'
+        shell: bash
+        run: |-
+          deno task tag --version '${{ steps.bundle_tagging.outputs.semver }}' bundle
+          deno fmt bundle/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only
+          git add bundle/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.bundle_tagging.outputs.tag }}'
+          git push
+          git tag '${{ steps.bundle_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.bundle_tagging.outputs.tag }}'
+          git push origin '${{ steps.bundle_tagging.outputs.tag }}'
+  bundle_publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - bundle_tag
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd bundle && deno task publish
+  crypto_test:
+    if: 'contains(github.event.pull_request.changed_files, ''crypto/'')'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd crypto && deno task dev
+  crypto_test_all:
+    runs-on: ubuntu-latest
+    needs:
+      - crypto_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: cd crypto && deno task ci
+  crypto_tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - crypto_test_all
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: crypto_tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          prefix: crypto-
+          scope: crypto
+      - if: '${{ steps.crypto_tagging.outputs.tag }}'
+        shell: bash
+        run: |-
+          deno task tag --version '${{ steps.crypto_tagging.outputs.semver }}' crypto
+          deno fmt crypto/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only
+          git add crypto/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.crypto_tagging.outputs.tag }}'
+          git push
+          git tag '${{ steps.crypto_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.crypto_tagging.outputs.tag }}'
+          git push origin '${{ steps.crypto_tagging.outputs.tag }}'
+  crypto_publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - crypto_tag
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd crypto && deno task publish
+  diff_test:
+    if: 'contains(github.event.pull_request.changed_files, ''diff/'')'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd diff && deno task dev
+  diff_test_all:
+    runs-on: ubuntu-latest
+    needs:
+      - diff_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: cd diff && deno task ci
+  diff_tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - diff_test_all
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: diff_tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          prefix: diff-
+          scope: diff
+      - if: '${{ steps.diff_tagging.outputs.tag }}'
+        shell: bash
+        run: |-
+          deno task tag --version '${{ steps.diff_tagging.outputs.semver }}' diff
+          deno fmt diff/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only
+          git add diff/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.diff_tagging.outputs.tag }}'
+          git push
+          git tag '${{ steps.diff_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.diff_tagging.outputs.tag }}'
+          git push origin '${{ steps.diff_tagging.outputs.tag }}'
+  diff_publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - diff_tag
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd diff && deno task publish
+  logger_test:
+    if: 'contains(github.event.pull_request.changed_files, ''logger/'')'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd logger && deno task dev
+  logger_test_all:
+    runs-on: ubuntu-latest
+    needs:
+      - logger_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: cd logger && deno task ci
+  logger_tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - logger_test_all
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: logger_tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          prefix: logger-
+          scope: logger
+      - if: '${{ steps.logger_tagging.outputs.tag }}'
+        shell: bash
+        run: |-
+          deno task tag --version '${{ steps.logger_tagging.outputs.semver }}' logger
+          deno fmt logger/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only
+          git add logger/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.logger_tagging.outputs.tag }}'
+          git push
+          git tag '${{ steps.logger_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.logger_tagging.outputs.tag }}'
+          git push origin '${{ steps.logger_tagging.outputs.tag }}'
+  logger_publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - logger_tag
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd logger && deno task publish
+  orm_test:
+    if: 'contains(github.event.pull_request.changed_files, ''orm/'')'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd orm && deno task dev
+  orm_test_all:
+    runs-on: ubuntu-latest
+    needs:
+      - orm_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: cd orm && deno task ci
+  orm_tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - orm_test_all
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: orm_tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          prefix: orm-
+          scope: orm
+      - if: '${{ steps.orm_tagging.outputs.tag }}'
+        shell: bash
+        run: |-
+          deno task tag --version '${{ steps.orm_tagging.outputs.semver }}' orm
+          deno fmt orm/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only
+          git add orm/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.orm_tagging.outputs.tag }}'
+          git push
+          git tag '${{ steps.orm_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.orm_tagging.outputs.tag }}'
+          git push origin '${{ steps.orm_tagging.outputs.tag }}'
+  orm_publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - orm_tag
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd orm && deno task publish
+  qrcode_test:
+    if: 'contains(github.event.pull_request.changed_files, ''qrcode/'')'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd qrcode && deno task dev
+  qrcode_test_all:
+    runs-on: ubuntu-latest
+    needs:
+      - qrcode_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: cd qrcode && deno task ci
+  qrcode_tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - qrcode_test_all
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: qrcode_tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          prefix: qrcode-
+          scope: qrcode
+      - if: '${{ steps.qrcode_tagging.outputs.tag }}'
+        shell: bash
+        run: |-
+          deno task tag --version '${{ steps.qrcode_tagging.outputs.semver }}' qrcode
+          deno fmt qrcode/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only
+          git add qrcode/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.qrcode_tagging.outputs.tag }}'
+          git push
+          git tag '${{ steps.qrcode_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.qrcode_tagging.outputs.tag }}'
+          git push origin '${{ steps.qrcode_tagging.outputs.tag }}'
+  qrcode_publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - qrcode_tag
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd qrcode && deno task publish
+  reactive_test:
+    if: 'contains(github.event.pull_request.changed_files, ''reactive/'')'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd reactive && deno task dev
+  reactive_test_all:
+    runs-on: ubuntu-latest
+    needs:
+      - reactive_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: cd reactive && deno task ci
+  reactive_tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - reactive_test_all
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: reactive_tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          prefix: reactive-
+          scope: reactive
+      - if: '${{ steps.reactive_tagging.outputs.tag }}'
+        shell: bash
+        run: |-
+          deno task tag --version '${{ steps.reactive_tagging.outputs.semver }}' reactive
+          deno fmt reactive/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only
+          git add reactive/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.reactive_tagging.outputs.tag }}'
+          git push
+          git tag '${{ steps.reactive_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.reactive_tagging.outputs.tag }}'
+          git push origin '${{ steps.reactive_tagging.outputs.tag }}'
+  reactive_publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - reactive_tag
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd reactive && deno task publish
+  testing_test:
+    if: 'contains(github.event.pull_request.changed_files, ''testing/'')'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd testing && deno task dev
+  testing_test_all:
+    runs-on: ubuntu-latest
+    needs:
+      - testing_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: cd testing && deno task ci
+  testing_tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - testing_test_all
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: testing_tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          prefix: testing-
+          scope: testing
+      - if: '${{ steps.testing_tagging.outputs.tag }}'
+        shell: bash
+        run: |-
+          deno task tag --version '${{ steps.testing_tagging.outputs.semver }}' testing
+          deno fmt testing/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only
+          git add testing/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.testing_tagging.outputs.tag }}'
+          git push
+          git tag '${{ steps.testing_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.testing_tagging.outputs.tag }}'
+          git push origin '${{ steps.testing_tagging.outputs.tag }}'
+  testing_publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - testing_tag
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd testing && deno task publish
+  typing_test:
+    if: 'contains(github.event.pull_request.changed_files, ''typing/'')'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd typing && deno task dev
+  typing_test_all:
+    runs-on: ubuntu-latest
+    needs:
+      - typing_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: cd typing && deno task ci
+  typing_tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - typing_test_all
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - id: typing_tagging
+        uses: ldelarue/git-next-tag@v0.4
+        with:
+          prefix: typing-
+          scope: typing
+      - if: '${{ steps.typing_tagging.outputs.tag }}'
+        shell: bash
+        run: |-
+          deno task tag --version '${{ steps.typing_tagging.outputs.semver }}' typing
+          deno fmt typing/deno.jsonc
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only
+          git add typing/deno.jsonc
+          git commit -m 'chore: bump version ${{ steps.typing_tagging.outputs.tag }}'
+          git push
+          git tag '${{ steps.typing_tagging.outputs.tag }}'
+          git show-ref --tags '${{ steps.typing_tagging.outputs.tag }}'
+          git push origin '${{ steps.typing_tagging.outputs.tag }}'
+  typing_publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - typing_tag
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - run: cd typing && deno task publish
   xml_test:
     if: 'contains(github.event.pull_request.changed_files, ''xml/'')'
     runs-on: ubuntu-latest
@@ -121,6 +796,15 @@ jobs:
       - run: 'curl https://sh.rustup.rs -sSf | sh -s -- -y'
       - run: cd xml && deno task build
       - run: rm coverage -rf && mkdir -p coverage
+      - run: 'cd bundle && deno task ci:coverage'
+      - run: 'cd crypto && deno task ci:coverage'
+      - run: 'cd diff && deno task ci:coverage'
+      - run: 'cd logger && deno task ci:coverage'
+      - run: 'cd orm && deno task ci:coverage'
+      - run: 'cd qrcode && deno task ci:coverage'
+      - run: 'cd reactive && deno task ci:coverage'
+      - run: 'cd testing && deno task ci:coverage'
+      - run: 'cd typing && deno task ci:coverage'
       - run: 'cd xml && deno task ci:coverage'
       - run: deno run --allow-read --allow-write=coverage --allow-net bundle/ts/cli/coverage.ts --root=coverage
       - uses: actions/upload-pages-artifact@v3
