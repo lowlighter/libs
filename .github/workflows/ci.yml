@@ -120,7 +120,9 @@ jobs:
       - uses: actions/configure-pages@v5
       - run: 'curl https://sh.rustup.rs -sSf | sh -s -- -y'
       - run: cd xml && deno task build
-      - run: deno task coverage
+      - run: rm coverage -rf && mkdir -p coverage
+      - run: 'cd xml && deno task ci:coverage'
+      - run: deno run --allow-read --allow-write=coverage --allow-net bundle/ts/cli/coverage.ts --root=coverage
       - uses: actions/upload-pages-artifact@v3
         with:
           path: coverage
