@@ -11,7 +11,9 @@ concurrency:
   cancel-in-progress: false
 jobs:
   bundle_test:
-    if: 'contains(github.event.pull_request.changed_files, ''bundle/'')'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      contains(github.event.pull_request.changed_files, 'bundle/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -86,7 +88,9 @@ jobs:
           deno-version: 1.x
       - run: cd bundle && deno task publish
   crypto_test:
-    if: 'contains(github.event.pull_request.changed_files, ''crypto/'')'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      contains(github.event.pull_request.changed_files, 'crypto/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -161,7 +165,9 @@ jobs:
           deno-version: 1.x
       - run: cd crypto && deno task publish
   diff_test:
-    if: 'contains(github.event.pull_request.changed_files, ''diff/'')'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      contains(github.event.pull_request.changed_files, 'diff/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -236,7 +242,9 @@ jobs:
           deno-version: 1.x
       - run: cd diff && deno task publish
   logger_test:
-    if: 'contains(github.event.pull_request.changed_files, ''logger/'')'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      contains(github.event.pull_request.changed_files, 'logger/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -311,7 +319,9 @@ jobs:
           deno-version: 1.x
       - run: cd logger && deno task publish
   orm_test:
-    if: 'contains(github.event.pull_request.changed_files, ''orm/'')'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      contains(github.event.pull_request.changed_files, 'orm/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -386,7 +396,9 @@ jobs:
           deno-version: 1.x
       - run: cd orm && deno task publish
   qrcode_test:
-    if: 'contains(github.event.pull_request.changed_files, ''qrcode/'')'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      contains(github.event.pull_request.changed_files, 'qrcode/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -461,7 +473,9 @@ jobs:
           deno-version: 1.x
       - run: cd qrcode && deno task publish
   reactive_test:
-    if: 'contains(github.event.pull_request.changed_files, ''reactive/'')'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      contains(github.event.pull_request.changed_files, 'reactive/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -536,7 +550,9 @@ jobs:
           deno-version: 1.x
       - run: cd reactive && deno task publish
   testing_test:
-    if: 'contains(github.event.pull_request.changed_files, ''testing/'')'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      contains(github.event.pull_request.changed_files, 'testing/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -611,7 +627,9 @@ jobs:
           deno-version: 1.x
       - run: cd testing && deno task publish
   typing_test:
-    if: 'contains(github.event.pull_request.changed_files, ''typing/'')'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      contains(github.event.pull_request.changed_files, 'typing/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -686,7 +704,9 @@ jobs:
           deno-version: 1.x
       - run: cd typing && deno task publish
   xml_test:
-    if: 'contains(github.event.pull_request.changed_files, ''xml/'')'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      contains(github.event.pull_request.changed_files, 'xml/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
