@@ -34,6 +34,7 @@ jobs:
       id-token: write
       contents: write
       packages: write
+      security-events: write
     uses: lowlighter/libs/.github/workflows/ci_package.yml@main
     with:
       package: ${{ matrix.package }}

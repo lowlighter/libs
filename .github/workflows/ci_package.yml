@@ -31,8 +31,7 @@ jobs:
       - id: files
         uses: tj-actions/changed-files@v44
         with:
-          files: |
-            ${{ github.event.inputs.package }}/**
+          files: ${{ inputs.package }}/**
 
   lint:
     name: Lint
@@ -52,6 +51,8 @@ jobs:
     if: ${{ needs.setup.outputs.edited }}
     runs-on: ubuntu-latest
     needs: setup
+    permissions:
+      security-events: write
     steps:
       - uses: actions/checkout@v4
       - uses: github/codeql-action/init@v3
