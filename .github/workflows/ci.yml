@@ -17,6 +17,7 @@ jobs:
       packages: ${{ steps.packages.outputs.packages }}
     steps:
       - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
       - name: List packages
         id: packages
         run: |
