@@ -30,6 +30,10 @@ jobs:
       fail-fast: false
       matrix:
         package: ${{ fromJson(needs.setup.outputs.packages) }}
+    permissions:
+      id-token: write
+      contents: write
+      packages: write
     uses: lowlighter/libs/.github/workflows/ci_package.yml@main
     with:
       package: ${{ matrix.package }}
