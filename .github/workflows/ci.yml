@@ -37,6 +37,7 @@ jobs:
       security-events: write
     uses: lowlighter/libs/.github/workflows/ci_package.yml@main
     with:
+      event: ${{ github.event_name }}
       package: ${{ matrix.package }}
       publish: ${{ github.event_name == 'push' }}
 
