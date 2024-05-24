@@ -7,8 +7,7 @@
   "tasks": {
     "config": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=. .github/deno_config.ts && deno fmt **/deno.jsonc",
     "readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
-    "tag": "deno run --allow-read --allow-write=. .github/deno_tag.ts",
-    "workflow": "deno run --allow-env=LOG_LEVEL --allow-read --allow-write=.github/workflows/ci.yml .github/deno_ci.ts"
+    "tag": "deno run --allow-read --allow-write=. .github/deno_tag.ts"
   },
   "lint": {
     "rules": {
