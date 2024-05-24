@@ -60,8 +60,8 @@ jobs:
       - name: Check package requirements
         id: package
         run: |
-          echo "has_build=$(deno eval 'Deno.stdout.writeSync(new TextEncoder().encode(JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.build ?? ``))')" >> "$GITHUB_OUTPUT"
-          echo "has_bench=$(deno eval 'Deno.stdout.writeSync(new TextEncoder().encode(JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.bench ?? ``))')" >> "$GITHUB_OUTPUT"
+          echo "has_build=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.build || ``)')" >> "$GITHUB_OUTPUT"
+          echo "has_bench=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.bench || ``)')" >> "$GITHUB_OUTPUT"
         working-directory: ${{ inputs.package }}
       # Build
       - run: deno task build
