@@ -19,11 +19,15 @@ on:
           - xml
       publish:
         description: Publish
-        type: boolean
-        default: false
+        default: "no"
+        type: choice
+        options:
+          - "yes"
+          - "no"
   #workflow_call:
 jobs:
   lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,6 +36,16 @@ jobs:
         working-directory: ${{ inputs.package }}
       - run: deno fmt --check
         working-directory: ${{ inputs.package }}
+
+  codeql:
+    name: Code quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: typescript
+      - uses: github/codeql-action/analyze@v3
 
   test:
     name: Build, test and bench
@@ -48,7 +62,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v1
-      - name: check package requirements
+      - name: Check package requirements
         id: package
         run: |
           echo "has_build=$(deno eval 'Deno.stdout.writeSync(new TextEncoder().encode(JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.build ?? ``))')" >> "$GITHUB_OUTPUT"
@@ -78,10 +92,11 @@ jobs:
 
   publish:
     name: Publish
-    if: github.ref == 'refs/heads/main' && ${{ inputs.publish }}
+    if: github.ref == 'refs/heads/main' && ${{ inputs.publish }} == 'yes'
     runs-on: ubuntu-latest
     needs:
       - lint
+      - codeql
       - test
     permissions:
       id-token: write
@@ -93,10 +108,10 @@ jobs:
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v1
-      - name: git config
+      - name: Configure git
         run: git config user.name 'github-actions[bot]' && git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
       # Build
-      - name: deno task build
+      - name: Run deno task build
         if: ${{ needs.test.outputs.has_build }}
         run: |
           deno task build
@@ -106,16 +121,16 @@ jobs:
           git push
         working-directory: ${{ inputs.package }}
       # Tag
-      - name: deno task tag
+      - name: Run deno task tag
         run: |
           deno task tag --version '${{ needs.test.outputs.tag }}' ${{ inputs.package }}
+          cd ${{ inputs.package }}
           deno fmt deno.jsonc
           git add deno.jsonc
           git commit -m "chore(${{ inputs.package }}): bump version ${{ needs.test.outputs.tag }}"
           git pull --ff-only
           git push
-        working-directory: ${{ inputs.package }}
-      - name: git tag
+      - name: Run git tag
         run: |
           git tag '${{ needs.test.outputs.tag }}'
           git show-ref --tags '${{ needs.test.outputs.tag }}'
