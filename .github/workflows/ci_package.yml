@@ -43,6 +43,7 @@ jobs:
         uses: tj-actions/changed-files@v44
         with:
           files: ${{ inputs.package }}/**
+      - run: echo "<${{ steps.files.outputs.any_changed }}>"
 
   lint:
     name: Lint
