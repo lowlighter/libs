@@ -9,7 +9,6 @@
   "license": "MIT License",
   "supported": [
     "deno",
-    "node",
     "bun",
     "cloudflare-workers",
     "browsers"

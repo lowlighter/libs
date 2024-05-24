@@ -98,7 +98,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/reactive"><img src="https://jsr.io/badges/@libs/reactive"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
+    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
     <td rowspan="3"><ul data-for="reactive">
   <li>Create observable contexts to track get, set, delete and call operations</li>
   <li>Support inherited contexts</li>
