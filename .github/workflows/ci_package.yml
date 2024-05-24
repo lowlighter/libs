@@ -21,9 +21,24 @@ on:
         default: false
         type: boolean
 jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    outputs:
+      edited: ${{ steps.files.outputs.any_changed }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            ${{ github.event.inputs.package }}/**
+
   lint:
     name: Lint
+    if: ${{ needs.setup.outputs.edited }}
     runs-on: ubuntu-latest
+    needs: setup
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
@@ -34,23 +49,28 @@ jobs:
 
   codeql:
     name: Code quality
+    if: ${{ needs.setup.outputs.edited }}
     runs-on: ubuntu-latest
+    needs: setup
     steps:
       - uses: actions/checkout@v4
       - uses: github/codeql-action/init@v3
         with:
           languages: typescript
+          config: |
+            paths:
+              - ${{ inputs.package }}
       - uses: github/codeql-action/analyze@v3
 
   test:
     name: Build, test and bench
+    if: ${{ needs.setup.outputs.edited }}
     runs-on: ubuntu-latest
+    needs: setup
     outputs:
       has_build: ${{ steps.package.outputs.has_build }}
       has_bench: ${{ steps.package.outputs.has_bench }}
       tag: ${{ steps.tag.outputs.tag }}
-    permissions:
-      contents: read
     steps:
       # Setup
       - uses: actions/checkout@v4
@@ -135,5 +155,5 @@ jobs:
           git push origin '${{ needs.test.outputs.tag }}'
         working-directory: ${{ inputs.package }}
       # Publish
-      - run: deno task publish
+      - run: deno publish
         working-directory: ${{ inputs.package }}
