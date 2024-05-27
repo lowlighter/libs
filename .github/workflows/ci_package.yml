@@ -93,7 +93,7 @@ jobs:
     outputs:
       has_build: ${{ steps.package.outputs.has_build }}
       has_bench: ${{ steps.package.outputs.has_bench }}
-      tag: ${{ steps.tag.outputs.tag }}
+      tag: ${{ steps.tag.outputs.semver }}
     steps:
       # Setup
       - uses: actions/checkout@v4
