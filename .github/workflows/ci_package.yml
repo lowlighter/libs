@@ -2,6 +2,13 @@ name: Package
 on:
   workflow_dispatch:
     inputs:
+      ref:
+        description: Event ref
+        required: true
+        default: refs/head/main
+        type: choice
+        options:
+          - refs/head/main
       event:
         description: Event name
         required: true
@@ -19,6 +26,10 @@ on:
         type: boolean
   workflow_call:
     inputs:
+      ref:
+        description: Event ref
+        required: true
+        type: string
       event:
         description: Event name
         required: true
@@ -46,7 +57,7 @@ jobs:
 
   lint:
     name: Lint
-    if: (github.ref == 'refs/head/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
+    if: (inputs.ref == 'refs/head/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
     runs-on: ubuntu-latest
     needs: setup
     steps:
@@ -59,7 +70,7 @@ jobs:
 
   codeql:
     name: Code quality
-    if: (github.ref == 'refs/head/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
+    if: (inputs.ref == 'refs/head/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
     runs-on: ubuntu-latest
     needs: setup
     permissions:
@@ -76,7 +87,7 @@ jobs:
 
   test:
     name: Build, test and bench
-    if: (github.ref == 'refs/head/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
+    if: (inputs.ref == 'refs/head/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
     runs-on: ubuntu-latest
     needs: setup
     outputs:
@@ -119,7 +130,7 @@ jobs:
 
   publish:
     name: Publish
-    if: github.ref == 'refs/head/main' && inputs.event == 'push' && inputs.publish
+    if: inputs.ref == 'refs/head/main' && inputs.event == 'push' && inputs.publish
     runs-on: ubuntu-latest
     needs:
       - lint

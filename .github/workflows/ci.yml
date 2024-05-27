@@ -37,6 +37,7 @@ jobs:
       security-events: write
     uses: lowlighter/libs/.github/workflows/ci_package.yml@main
     with:
+      ref: ${{ github.ref }}
       event: ${{ github.event_name }}
       package: ${{ matrix.package }}
       publish: ${{ github.event_name == 'push' }}
@@ -76,7 +77,8 @@ jobs:
         uses: actions/deploy-pages@v4
 
   codeql:
-    name: Code quality
+    name: Code quality (global)
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: package
     permissions:
