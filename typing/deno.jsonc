@@ -1,7 +1,7 @@
 {
   "icon": "🧰",
   "name": "@libs/typing",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Utility types.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",

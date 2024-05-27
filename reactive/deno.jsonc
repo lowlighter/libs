@@ -1,7 +1,7 @@
 {
   "icon": "🎯",
   "name": "@libs/reactive",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Reactive utilities for observable objects.",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",

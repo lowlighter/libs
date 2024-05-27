@@ -1,7 +1,7 @@
 {
   "icon": "📰",
   "name": "@libs/logger",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Simple logger",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",

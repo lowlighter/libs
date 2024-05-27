@@ -1,7 +1,7 @@
 {
   "icon": "➕",
   "name": "@libs/diff",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Diff (patience algorithm)",
   "author": "lowlighter (Simon Lecoq)",
   "repository": "https://github.com/lowlighter/libs",
