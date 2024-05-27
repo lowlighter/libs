@@ -5,10 +5,10 @@ on:
       ref:
         description: Event ref
         required: true
-        default: refs/head/main
+        default: refs/heads/main
         type: choice
         options:
-          - refs/head/main
+          - refs/heads/main
       event:
         description: Event name
         required: true
@@ -57,7 +57,7 @@ jobs:
 
   lint:
     name: Lint
-    if: (inputs.ref == 'refs/head/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
+    if: (inputs.ref == 'refs/heads/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
     runs-on: ubuntu-latest
     needs: setup
     steps:
@@ -70,7 +70,7 @@ jobs:
 
   codeql:
     name: Code quality
-    if: (inputs.ref == 'refs/head/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
+    if: (inputs.ref == 'refs/heads/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
     runs-on: ubuntu-latest
     needs: setup
     permissions:
@@ -87,7 +87,7 @@ jobs:
 
   test:
     name: Build, test and bench
-    if: (inputs.ref == 'refs/head/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
+    if: (inputs.ref == 'refs/heads/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
     runs-on: ubuntu-latest
     needs: setup
     outputs:
@@ -130,7 +130,7 @@ jobs:
 
   publish:
     name: Publish
-    if: inputs.ref == 'refs/head/main' && inputs.event == 'push' && inputs.publish
+    if: inputs.ref == 'refs/heads/main' && inputs.event == 'push' && inputs.publish
     runs-on: ubuntu-latest
     needs:
       - lint
