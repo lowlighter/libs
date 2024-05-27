@@ -4,7 +4,7 @@ use quick_xml::Reader;
 use std::io::BufReader;
 use std::io::{Read, Result};
 use wasm_bindgen::prelude::*;
-use web_sys::js_sys::{Array, Uint8Array};
+use web_sys::js_sys::{Array, Function, Reflect, Uint8Array};
 
 // Token types enum.
 #[wasm_bindgen]
@@ -183,25 +183,50 @@ fn add_state(states: &Array, id: State, value: usize) {
 pub struct JsReader {
     data: Uint8Array,
     position: usize,
+    reader: Option<Function>,
 }
 
 // JsReader implementation.
 #[wasm_bindgen]
 impl JsReader {
     #[wasm_bindgen(constructor)]
-    pub fn new(data: Uint8Array) -> JsReader {
-        JsReader { data, position: 0 }
+    pub fn new(data: Uint8Array, reader: Option<Function>) -> JsReader {
+        JsReader {
+            data,
+            position: 0,
+            reader,
+        }
     }
 }
 
 // JsReader read implementation.
 impl Read for JsReader {
     fn read(&mut self, buf: &mut [u8]) -> Result<usize> {
-        let len = std::cmp::min(buf.len(), self.data.length() as usize - self.position);
-        for i in 0..len {
-            buf[i] = self.data.get_index((self.position + i) as u32) as u8;
+        // If a reader is given, use it to read data
+        if let Some(reader) = &self.reader {
+            let js_buf = Uint8Array::new_with_length(buf.len() as u32);
+            let read_sync = Reflect::get(&reader, &"readSync".into())
+                .unwrap()
+                .dyn_into::<Function>()
+                .expect("readSync is not a function");
+            let result = read_sync.call1(&reader, &js_buf).unwrap();
+            if result.is_null() {
+                return Ok(0);
+            }
+            let len = result.as_f64().unwrap() as usize;
+            for i in 0..len {
+                buf[i] = js_buf.get_index(i as u32) as u8;
+            }
+            Ok(len)
         }
-        self.position += len;
-        Ok(len)
+        // Else read data directly from the Uint8Array provided
+        else {
+            let len = std::cmp::min(buf.len(), self.data.length() as usize - self.position);
+            for i in 0..len {
+                buf[i] = self.data.get_index((self.position + i) as u32) as u8;
+            }
+            self.position += len;
+            Ok(len)
+        }
     }
 }

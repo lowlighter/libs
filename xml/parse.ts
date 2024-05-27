@@ -84,6 +84,8 @@ export type options = {
  *
  * Attributes are prefixed with an arobase (`@`).
  *
+ * You can also pass an object that implement {@link ReaderSync} instead of a string.
+ *
  * @example
  * ```ts
  * import { parse } from "./parse.ts"
@@ -103,15 +105,23 @@ export type options = {
  *   </root>
  * `))
  * ```
+ *
+ * @example
+ * ```ts
+ * import { parse } from "./parse.ts"
+ *
+ * using file = await Deno.open("bench/assets/small.xml")
+ * console.log(parse(file))
+ * ```
  */
-export function parse(content: string, options?: options): xml_document {
+export function parse(content: string | ReaderSync, options?: options): xml_document {
   const xml = xml_node("~xml") as xml_document
   const stack = [xml] as Array<xml_node>
   const tokens = [] as Array<[number, string, string?]>
   const states = [] as Array<[number, number]>
   const flags = { root: false }
   try {
-    const reader = new JsReader(new TextEncoder().encode(content as string))
+    const reader = new JsReader(new TextEncoder().encode(content as string), typeof content === "object" ? content : undefined)
     tokenize(reader, tokens, states, options?.mode === "html")
   } catch (error) {
     if (states.at(-1)?.[0] === State.ParseAttribute) {
@@ -432,24 +442,20 @@ function revive(node: xml_node | xml_text, key: string, options: options) {
 }
 
 /** Synchronous reader. */
-type ReaderSync = { readSync(p: Uint8Array): number | null }
+type ReaderSync = { readSync(buffer: Uint8Array): Nullable<number> }
 
-// TODO(@lowlighter): try to implement the binding with rust so we can pass stream/large files again...
+//TODO(@lowlighter): implement async parsing
+/** Asynchronous reader. */
+//type Reader = { read(buffer: Uint8Array): Promise<Nullable<number>> }
+
 /*
-class _Reader implements ReaderSync {
-  /** Constructor
+class MockReader implements Reader {
   constructor(string: string) {
     this.#data = new TextEncoder().encode(string)
   }
-
-  /** Buffer
   readonly #data
-
-  /** Position
   #cursor = 0
-
-  /** Read
-  readSync(buffer: Uint8Array) {
+  async read(buffer: Uint8Array) {
     const bytes = this.#data.slice(this.#cursor, this.#cursor + buffer.length)
     buffer.set(bytes)
     this.#cursor = Math.min(this.#cursor + bytes.length, this.#data.length)
