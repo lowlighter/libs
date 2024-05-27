@@ -5,6 +5,7 @@ import type { ConfigRuleSettings } from "stylelint"
 import plugin from "stylelint-order"
 import recommended from "stylelint-config-recommended"
 import ordering from "stylelint-config-idiomatic-order"
+import { SEPARATOR } from "@std/path/constants"
 
 /**
  * Bundle CSS.
@@ -39,8 +40,12 @@ export async function bundle(input: URL | string, { minify = false, banner = "",
         ...ordering.rules,
         ...rules,
       },
-      cache: false,
       fix: true,
+      // TODO(@lowlighter): remove this when fixed upstream (https://github.com/denoland/deno/issues/23996)
+      // This should bypass the lstatCall for now
+      // https://github.com/stylelint/stylelint/blob/72ec18af4292a96e1feec2e1b64235ea961f6d49/lib/utils/getCacheFile.mjs#L36-L39
+      cache: false,
+      cacheLocation: `/dev/null/${SEPARATOR}`,
     },
     code,
   })
