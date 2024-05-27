@@ -37,13 +37,13 @@ export async function bundle(input: URL | string, { minify = false, banner = "",
       rules: {
         ...recommended.rules,
         ...ordering.rules,
-        "declaration-no-important": true,
         ...rules,
       },
+      cache: false,
       fix: true,
     },
     code,
-  })
+  }) as { results: [{ warnings: Array<{ severity: string, rule: string, text: string }>}], code?: string }
   result.code ??= ""
   if (warnings.length) {
     throw new TypeError(`Failed to bundle css:\n${warnings.map(({ severity, rule, text }) => `[${severity.toUpperCase()}] ${rule}: ${text}`).join("\n")}`)
