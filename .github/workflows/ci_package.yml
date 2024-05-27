@@ -93,7 +93,8 @@ jobs:
     outputs:
       has_build: ${{ steps.package.outputs.has_build }}
       has_bench: ${{ steps.package.outputs.has_bench }}
-      tag: ${{ steps.tag.outputs.semver }}
+      tag: ${{ steps.tag.outputs.tag }}
+      version: ${{ steps.tag.outputs.semver }}
     steps:
       # Setup
       - uses: actions/checkout@v4
@@ -162,7 +163,7 @@ jobs:
       - name: Run deno task tag
         if: ${{ needs.test.outputs.tag }}
         run: |
-          deno task tag --version '${{ needs.test.outputs.tag }}' ${{ inputs.package }}
+          deno task tag --version '${{ needs.test.outputs.version }}' ${{ inputs.package }}
           cd ${{ inputs.package }}
           deno fmt deno.jsonc
           git add deno.jsonc
