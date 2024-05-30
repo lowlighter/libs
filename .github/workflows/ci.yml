@@ -64,7 +64,6 @@ jobs:
       - name: Run deno task coverage
         run: |
           PACKAGES=$(echo '${{ needs.setup.outputs.packages }}' | jq -cr '.[]')
-          mkdir -p coverage
           for PACKAGE in $PACKAGES; do
             pushd $PACKAGE
             deno task ci:coverage

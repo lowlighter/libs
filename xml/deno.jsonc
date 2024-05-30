@@ -43,12 +43,12 @@
   },
   "tasks": {
     "build": "deno run --allow-read --allow-net --allow-env --allow-write --allow-run jsr:@libs/bundle/wasm/cli/build --auto-install --banner='https://github.com/lowlighter/libs' wasm_xml_parser",
-    "test": "rm coverage -rf && deno test --allow-read --allow-env=CI --allow-write=bench --allow-run=deno,node,bun,npx --no-prompt --coverage --trace-leaks --doc",
+    "test": "deno test --allow-read --allow-env=CI --allow-write=bench --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
     "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty",
     "coverage": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js",
     "bench": "deno bench --allow-read --allow-write=bench",
     "ci": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
-    "ci:coverage": "deno task coverage --html && sleep 1 && rm -rf ../coverage/xml && mv coverage/html ../coverage/xml"
+    "ci:coverage": "deno task coverage --html && sleep 1 && mkdir -p ../coverage && rm -rf ../coverage/xml && mv coverage/html ../coverage/xml"
   },
   "lint": {
     "rules": {

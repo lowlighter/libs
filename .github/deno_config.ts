@@ -32,11 +32,11 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
     test.run = [...new Set(["deno", "node", "bun", "npx", ...test.run])]
   }
   const permissions = Object.entries(test).map(([key, value]) => `--allow-${key}${value === true ? "" : `=${value.join(",")}`}`).join(" ")
-  tasks["test"] = `rm coverage -rf && deno test ${permissions} --no-prompt --coverage --trace-leaks --doc`
+  tasks["test"] = `deno test ${permissions} --no-prompt --coverage --clean --trace-leaks --doc`
   tasks["dev"] = "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty"
   tasks["coverage"] = "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js"
   tasks["ci"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
-  tasks["ci:coverage"] = `deno task coverage --html && sleep 1 && rm -rf ../coverage/${name} && mv coverage/html ../coverage/${name}`
+  tasks["ci:coverage"] = `deno task coverage --html && sleep 1 && mkdir -p ../coverage && rm -rf ../coverage/${name} && mv coverage/html ../coverage/${name}`
   // Save local configuration
   await Deno.writeTextFile(path, JSON.stringify(local, null, 2))
   log.with({ package: packages.at(-1) }).info("updated")
