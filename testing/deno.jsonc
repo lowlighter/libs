@@ -30,6 +30,7 @@
   "tasks": {
     "test": "deno test --allow-run=deno,node,bun,npx,invalid_path --no-prompt --coverage --clean --trace-leaks --doc",
     "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty",
+    "dev:future": "DENO_FUTURE=1 && deno task dev",
     "coverage": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js",
     "ci": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
     "ci:coverage": "deno task coverage --html && sleep 1 && mkdir -p ../coverage && rm -rf ../coverage/testing && mv coverage/html ../coverage/testing"
