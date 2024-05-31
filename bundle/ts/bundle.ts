@@ -1,18 +1,22 @@
 // Imports
-import { bundle as emit, type BundleOptions } from "@deno/emit"
+import * as esbuild from "esbuild"
+import { denoPlugins as plugins } from "@luca/esbuild-deno-loader"
 import { encodeBase64 } from "@std/encoding/base64"
 import { minify as terser } from "terser"
+import type { Optional } from "@libs/typing"
+import { fromFileUrl } from "@std/path/from-file-url"
+import { delay } from "@std/async/delay"
 
 /**
  * Bundle and transpile TypeScript to JavaScript.
  *
  * Minification can be either:
  * - `terser` for advanced minification through {@link https://terser.org | Terser}
- * - `basic` for basic minification through {@link https://github.com/denoland/deno_emit | deno_emit}
+ * - `basic` for basic minification through {@link https://github.com/evanw/esbuild | esbuild}
  *
  * A banner option can be provided to prepend a comment to the output, which can be useful for licensing information.
  *
- * Use the `shadow` option to replace the local URLs (using `file://` scheme) with a shadow url to avoid exposing the real path.
+ * Use the `shadow` option to replace the local URLs (using `file://` scheme) with a shadow url to avoid exposing real paths.
  *
  * @example
  * ```
@@ -34,18 +38,37 @@ import { minify as terser } from "terser"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */
-export async function bundle(input: URL | string, { minify = "terser" as false | "basic" | "terser", debug = false, map = undefined as URL | undefined, banner = "", shadow = true } = {}): Promise<string> {
+export async function bundle(input: URL | string, { minify = "terser" as false | "basic" | "terser", debug = false, map = undefined as Optional<URL>, banner = "", shadow = true } = {}): Promise<string> {
   const url = input instanceof URL ? input : new URL(`data:application/typescript;base64,${encodeBase64(input)}`)
-  const options = { type: "module", minify: !!minify, importMap: map } as BundleOptions
-  if (debug) {
-    options.compilerOptions = { inlineSourceMap: true, inlineSources: true }
-  }
-  const result = await emit(url, options).catch((error) => error)
-  if (result instanceof Error) {
-    throw new TypeError(`Failed to bundle ts:\n${result.message}`)
+  const config = map instanceof URL ? fromFileUrl(map) : map
+  let code = ""
+  try {
+    const { outputFiles: [{ text: output }] } = await esbuild.build({
+      plugins: [...plugins({ configPath: config })],
+      entryPoints: [url.href],
+      format: "esm",
+      write: false,
+      minify: minify === "basic",
+      target: "esnext",
+      treeShaking: true,
+      sourcemap: debug ? "inline" : false,
+      sourcesContent: debug,
+      bundle: true,
+      logLevel: "silent",
+    })
+    code = output
+    if (minify) {
+      code = code.trim()
+    }
+  } catch (error) {
+    throw new TypeError(`Failed to bundle ts:\n${error.message}`)
+  } finally {
+    await esbuild.stop()
+    // TODO(@lowlighter): remove after #3701
+    await delay(500)
   }
   if (minify === "terser") {
-    result.code = await terser(result.code, { module: true, sourceMap: debug ? { url: "inline" } : false }).then((response) => response.code!)
+    code = await terser(code, { module: true, sourceMap: debug ? { url: "inline" } : false }).then((response) => response.code!)
   }
   if (banner) {
     if (banner.includes("\n")) {
@@ -53,10 +76,10 @@ export async function bundle(input: URL | string, { minify = "terser" as false |
     } else {
       banner = `// ${banner}`
     }
-    result.code = `${banner}\n${result.code}`
+    code = `${banner}\n${code}`
   }
   if (shadow) {
-    result.code = result.code.replaceAll(/(["'])(?<scheme>file:\/\/).*?\/(?<name>[A-Za-z0-9_]+\.(?:ts|js|mjs))\1/g, "'$<scheme>/shadow/$<name>'")
+    code = code.replaceAll(/(["'])(?<scheme>file:\/\/).*?\/(?<name>[A-Za-z0-9_]+\.(?:ts|js|mjs))\1/g, "'$<scheme>/shadow/$<name>'")
   }
-  return result.code
+  return code
 }
