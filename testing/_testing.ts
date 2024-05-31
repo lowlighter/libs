@@ -28,7 +28,7 @@ export const paths = {
 }
 
 /** Runtime. */
-type runtime = "deno" | "bun" | "node"
+export type runtime = "deno" | "bun" | "node"
 
 /** Test options. */
 type options = {
@@ -149,7 +149,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
   if (global.process?.versions?.node) {
     return async function (name: string, fn: () => Promisable<void>) {
       try {
-        const { test } = await import("node:test")
+        const { test } = await import(`${"node"}:test`)
         test(name, fn)
       } catch (error) {
         throw error
@@ -159,28 +159,19 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
   // Deno runtime
   const filename = caller()
   return function (name: string, fn: () => Promisable<void>, options = { permissions: "none" } as options) {
-    for (const runtime of runtimes) {
-      ;({ test: Deno.test, skip: Deno.test.ignore, only: Deno.test.only }[available[runtime as runtime] ? mode : "skip"])(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, async function () {
-        switch (runtime) {
-          case "node":
-            install([`${paths.npx}${extension}`, "jsr", "add"], filename)
-            run(`${paths.npx}${extension}`, { args: ["tsx", "--test-reporter", "spec", "--test-name-pattern", name, "--test", filename], env: { FORCE_COLOR: "true" } })
-            break
-          case "bun":
-            install([paths.bun, "x", "jsr", "add"], filename)
-            run(paths.bun, { args: ["test", "--test-name-pattern", name, filename], env: { FORCE_COLOR: "1" } })
-            break
-          case "deno":
-            await fn()
-            break
-        }
+    for (const runtime of runtimes as runtime[]) {
+      ;({ test: Deno.test, skip: Deno.test.ignore, only: Deno.test.only }[available[runtime as runtime] ? mode : "skip"])(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, function () {
+        return testcase(runtime, filename, name, fn, { extension })
       })
     }
   }
 }
 
 /** Spawn runtime with specified args and environment. */
-export function run(runtime: string, { args, env }: { args: string[]; env?: record<string> }) {
+export function run(runtime: Nullable<string>, { args, env }: { args: string[]; env?: record<string> }) {
+  if (runtime === null) {
+    return { success: false, code: NaN, stdout: "", stderr: "" }
+  }
   const command = new Deno.Command(runtime, { args, env, stdout: "piped", stderr: "piped" })
   const { success, code, ...stdio } = command.outputSync()
   const stdout = decoder.decode(stdio.stdout)
@@ -192,10 +183,10 @@ export function run(runtime: string, { args, env }: { args: string[]; env?: reco
 }
 
 /** Install cache (skip install for tests within the same file).*/
-const cache = new Set<string>()
+export const cache = new Set<string>()
 
 /** Resolve dependencies using `deno info` and install packages using the adequate package manager. */
-function install([bin, ...args]: string[], filename: string) {
+export function install([bin, ...args]: string[], filename: string) {
   if (cache.has(`${bin}:${filename}`)) {
     return
   }
@@ -203,6 +194,23 @@ function install([bin, ...args]: string[], filename: string) {
   const { packages, npmPackages: _ } = JSON.parse(stdout)
   run(bin, { args: [...args, ...Object.keys(packages)] })
   cache.add(`${bin}:${filename}`)
+}
+
+/** Run test function for given filename on the specified runtime. */
+export async function testcase(runtime: runtime, filename: string, name: string, fn: () => Promisable<void>, { extension = "" } = {}) {
+  switch (runtime) {
+    case "node":
+      install([`${paths.npx}${extension}`, "jsr", "add"], filename)
+      run(`${paths.npx}${extension}`, { args: ["tsx", "--test-reporter", "spec", "--test-name-pattern", name, "--test", filename], env: { FORCE_COLOR: "true" } })
+      break
+    case "bun":
+      install([paths.bun, "x", "jsr", "add"], filename)
+      run(paths.bun, { args: ["test", "--test-name-pattern", name, filename], env: { FORCE_COLOR: "1" } })
+      break
+    case "deno":
+      await fn()
+      break
+  }
 }
 
 /** Retrieve caller test file. */

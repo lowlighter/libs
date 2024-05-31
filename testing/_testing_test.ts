@@ -1,5 +1,6 @@
-import { available, paths, run, test } from "./_testing.ts"
+import { available, cache, install, paths, run, type runtime, test, testcase } from "./_testing.ts"
 import { expect, type testing } from "./mod.ts"
+import { fromFileUrl } from "@std/path/from-file-url"
 
 test("deno")("run() is able to spawn runtime subprocesses", () => {
   expect(() => run("deno", { args: ["--version"] })).not.toThrow()
@@ -52,3 +53,18 @@ test("deno")("test() is able to detect node runtime environment", async () => {
     delete (globalThis as testing).process
   }
 })
+
+test("deno")("install() resolves and install dependencies", () => {
+  for (const _ of [1, 2]) {
+    expect(() => install([null as testing], import.meta.filename!)).not.toThrow()
+  }
+  expect(cache.has(`null:${import.meta.filename}`)).toBe(true)
+}, { permissions: { run: ["deno"] } })
+
+for (const runtime of Object.keys(available) as runtime[]) {
+  test("deno")(`testcase() is able to run tests on all ${runtime} runtime`, async () => {
+    const extension = (globalThis.Deno?.build.os === "windows") ? ".cmd" : ""
+    const filename = fromFileUrl(import.meta.resolve("./_stub_test.ts"))
+    await expect(testcase(runtime, filename, "test() stub throws error", () => {}, { extension })).not.resolves.toThrow()
+  }, { permissions: { run: "inherit" } })
+}
