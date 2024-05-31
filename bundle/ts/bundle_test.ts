@@ -38,9 +38,9 @@ test("deno")("bundle() handles shadow option", async () => {
   await expect(bundle(url, { shadow: true })).resolves.toContain("file:///shadow/")
 }, { permissions: { read: true, net: ["jsr.io"], env: true, write: true, run: true } })
 
-test("deno")("bundle() handles import maps", async () => {
-  const url = new URL("test_import_map.ts", base)
-  await expect(bundle(url, { map: new URL("deno.jsonc", base) })).resolves.toContain("success")
+test("deno")("bundle() handles deno config files", async () => {
+  const url = new URL("test_config.ts", base)
+  await expect(bundle(url, { config: new URL("deno.jsonc", base) })).resolves.toContain("success")
 }, { permissions: { read: true, net: ["jsr.io"], env: true, write: true, run: true } })
 
 test("deno")("bundle() handles errors", async () => {

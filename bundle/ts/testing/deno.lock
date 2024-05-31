@@ -1,0 +1,19 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "jsr:@std/fmt": "jsr:@std/fmt@0.225.1"
+    },
+    "jsr": {
+      "@std/fmt@0.225.1": {
+        "integrity": "44a8cb375d7344adb3cb0208b85ea0bde7cdc15224c11188c85e733834ffe356"
+      }
+    }
+  },
+  "remote": {},
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/fmt"
+    ]
+  }
+}

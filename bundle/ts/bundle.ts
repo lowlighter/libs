@@ -28,7 +28,7 @@ import { delay } from "@std/async/delay"
  * ```
  * // From string
  * import { bundle } from "./bundle.ts"
- * console.log(await bundle(new URL(import.meta.url), { map: new URL("deno.jsonc", import.meta.url) }))
+ * console.log(await bundle(new URL(import.meta.url), { config: new URL("deno.jsonc", import.meta.url) }))
  * ```
  *
  * @example
@@ -38,13 +38,12 @@ import { delay } from "@std/async/delay"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */
-export async function bundle(input: URL | string, { minify = "terser" as false | "basic" | "terser", debug = false, map = undefined as Optional<URL>, banner = "", shadow = true } = {}): Promise<string> {
+export async function bundle(input: URL | string, { minify = "terser" as false | "basic" | "terser", debug = false, config = undefined as Optional<URL>, banner = "", shadow = true } = {}): Promise<string> {
   const url = input instanceof URL ? input : new URL(`data:application/typescript;base64,${encodeBase64(input)}`)
-  const config = map instanceof URL ? fromFileUrl(map) : map
   let code = ""
   try {
     const { outputFiles: [{ text: output }] } = await esbuild.build({
-      plugins: [...plugins({ configPath: config })],
+      plugins: [...plugins({ configPath: config ? fromFileUrl(config) : undefined, nodeModulesDir: true })],
       entryPoints: [url.href],
       format: "esm",
       write: false,
@@ -64,7 +63,7 @@ export async function bundle(input: URL | string, { minify = "terser" as false |
     throw new TypeError(`Failed to bundle ts:\n${error.message}`)
   } finally {
     await esbuild.stop()
-    // TODO(@lowlighter): remove after #3701
+    // TODO(@lowlighter): remove after https://github.com/evanw/esbuild/pull/3701
     await delay(500)
   }
   if (minify === "terser") {
