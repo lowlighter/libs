@@ -164,7 +164,7 @@ jobs:
           deno task build
           git add .
           git commit -m 'chore(${{ inputs.package }}): rebuild package'
-          git pull --ff-only
+          git pull --rebase
           git push
         working-directory: ${{ inputs.package }}
       # Tag
@@ -176,14 +176,14 @@ jobs:
           deno fmt deno.jsonc
           git add deno.jsonc
           git commit -m "chore(${{ inputs.package }}): bump version ${{ needs.test.outputs.tag }}"
-          git pull --ff-only
+          git pull --rebase
           git push
       - name: Run git tag
         if: ${{ needs.test.outputs.tag }}
         run: |
           git tag '${{ needs.test.outputs.tag }}'
           git show-ref --tags '${{ needs.test.outputs.tag }}'
-          git pull --ff-only
+          git pull --rebase
           git push origin '${{ needs.test.outputs.tag }}'
         working-directory: ${{ inputs.package }}
       # Publish
