@@ -162,10 +162,12 @@ jobs:
         if: ${{ needs.test.outputs.has_build }}
         run: |
           deno task build
-          git add .
-          git commit -m 'chore(${{ inputs.package }}): rebuild package'
-          git pull --rebase
-          git push
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m 'chore(${{ inputs.package }}): rebuild package'
+            git pull --rebase
+            git push
+          fi
         working-directory: ${{ inputs.package }}
       # Tag
       - name: Run deno task tag
