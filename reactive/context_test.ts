@@ -163,24 +163,6 @@ test("all")("Scope.with() contexts operates unidirectionaly when value is overid
   expect(listeners.b).toHaveBeenCalledTimes(1)
 })
 
-// =================================================================
-// This is currently not supported, it adds a lot of complexity just to track whether an overrriden property was deleted
-test.skip("all")("Scope.with() contexts operates unidirectionaly when value is overidden from parent (delete operation)", () => {
-  const a = new Context({ d: 0 })
-  const b = a.with<testing>({ d: 1 })
-  const listeners = { a: fn(), b: fn() }
-  a.addEventListener("change", listeners.a)
-  b.addEventListener("change", listeners.b)
-  delete b.target.d
-  expect(a.target.d).toBe(0)
-  expect(b.target.d).toBeUndefined()
-  expect(a.target).toHaveProperty("d")
-  expect(b.target).not.toHaveProperty("d")
-  expect(listeners.a).toHaveBeenCalledTimes(0)
-  expect(listeners.b).toHaveBeenCalledTimes(1)
-})
-// =================================================================
-
 test("all")("Scope.with() contexts operates unidirectionaly when value is not present in parent", () => {
   const a = new Context({})
   const b = a.with({ c: 1 })
