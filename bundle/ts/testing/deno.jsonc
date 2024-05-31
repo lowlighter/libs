@@ -1,4 +1,10 @@
 {
+  "name": "@libs/test",
+  "version": "0.0.0",
+  "description": "A dummy package used for testing.",
+  "exports": {
+    ".": "./test_bundle.ts"
+  },
   "imports": {
     "@std/fmt/colors": "jsr:@std/fmt/colors"
   }
