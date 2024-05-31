@@ -10,7 +10,7 @@ const root = fromFileUrl(import.meta.resolve("../"))
 const global = JSONC.parse(await Deno.readTextFile(resolve(root, "deno.jsonc"))) as Record<string, unknown>
 const imports = { "@std/jsonc": "jsr:@std/jsonc@0.224.0", "@std/yaml": "jsr:@std/yaml@0.224.0" } as record<string>
 const log = new Logger()
-const order = ["icon", "name", "version", "description", "keywords", "license", "author", "funding", "homepage", "playground", "supported", "repository", "exports", "unstable", "lock", "imports", "test:permissions", "tasks", "lint", "fmt"]
+const order = ["icon", "name", "version", "description", "keywords", "license", "author", "funding", "homepage", "playground", "supported", "repository", "npm", "exports", "unstable", "lock", "imports", "test:permissions", "tasks", "lint", "fmt"]
 
 // Load local configurations
 const packages = []

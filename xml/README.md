@@ -1,6 +1,7 @@
 # 📃 XML parser and stringifier
 
-[![JSR](https://jsr.io/badges/@libs/xml)](https://jsr.io/@libs/xml) [![JSR Score](https://jsr.io/badges/@libs/xml/score)](https://jsr.io/@libs/xml) [![Coverage](https://libs-coverage.lecoq.io/xml/badge.svg)](https://libs-coverage.lecoq.io/xml)
+[![JSR](https://jsr.io/badges/@libs/xml)](https://jsr.io/@libs/xml) [![JSR Score](https://jsr.io/badges/@libs/xml/score)](https://jsr.io/@libs/xml)
+[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fxml?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/xml) [![Coverage](https://libs-coverage.lecoq.io/xml/badge.svg)](https://libs-coverage.lecoq.io/xml)
 
 - [`🦕 Playground`](https://libs.lecoq.io/xml)
 - [`📚 Documentation`](https://jsr.io/@libs/xml/doc)
