@@ -61,6 +61,14 @@ jobs:
           ref: main
       - uses: actions/configure-pages@v5
       - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
       - name: Run deno task coverage
         run: |
           PACKAGES=$(echo '${{ needs.setup.outputs.packages }}' | jq -cr '.[]')
