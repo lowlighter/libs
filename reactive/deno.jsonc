@@ -3,10 +3,11 @@
   "name": "@libs/reactive",
   "version": "1.0.3",
   "description": "Reactive utilities for observable objects.",
-  "author": "lowlighter (Simon Lecoq)",
-  "repository": "https://github.com/lowlighter/libs",
-  "playground": "https://libs.lecoq.io/reactive",
   "license": "MIT License",
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
+  "playground": "https://libs.lecoq.io/reactive",
   "supported": [
     "deno",
     "node",
@@ -14,6 +15,10 @@
     "cloudflare-workers",
     "browsers"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lowlighter/libs.git"
+  },
   "exports": {
     "./context": "./context.ts"
   },

@@ -3,10 +3,11 @@
   "name": "@libs/crypto",
   "version": "1.0.5",
   "description": "Features based upon Web Crypto APIs",
-  "author": "lowlighter (Simon Lecoq)",
-  "repository": "https://github.com/lowlighter/libs",
-  "playground": "https://libs.lecoq.io/crypto",
   "license": "MIT License",
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
+  "playground": "https://libs.lecoq.io/crypto",
   "supported": [
     "deno",
     "node",
@@ -14,6 +15,10 @@
     "cloudflare-workers",
     "browsers"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lowlighter/libs.git"
+  },
   "exports": {
     "./encryption": "./encryption.ts",
     "./totp": "./totp.ts"

@@ -3,9 +3,10 @@
   "name": "@libs/typing",
   "version": "2.1.0",
   "description": "Utility types.",
-  "author": "lowlighter (Simon Lecoq)",
-  "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
   "supported": [
     "deno",
     "node",
@@ -13,6 +14,10 @@
     "cloudflare-workers",
     "browsers"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lowlighter/libs.git"
+  },
   "exports": {
     ".": "./mod.ts",
     "./func": "./func.ts"

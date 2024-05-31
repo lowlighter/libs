@@ -3,24 +3,29 @@
   "name": "@libs/orm",
   "version": "0.1.1",
   "description": "Object-relational mapping toolbox.",
-  "author": "lowlighter (Simon Lecoq)",
-  "repository": "https://github.com/lowlighter/libs",
-  "playground": "https://libs.lecoq.io/orm",
   "license": "MIT License",
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
+  "playground": "https://libs.lecoq.io/orm",
   "supported": [
     "deno"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lowlighter/libs.git"
+  },
   "exports": {
     ".": "./mod.ts"
   },
+  "unstable": [
+    "kv"
+  ],
   "imports": {
     "@libs/testing": "jsr:@libs/testing@1",
     "@libs/typing": "jsr:@libs/typing@2",
     "@libs/logger": "jsr:@libs/logger@1"
   },
-  "unstable": [
-    "kv"
-  ],
   "tasks": {
     "test": "deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
     "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty",

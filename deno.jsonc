@@ -1,38 +1,14 @@
 {
   "name": "@lowlighter/libs",
   "description": "Collection of carefully crafted TypeScript standalone libraries. Minimal, unbloated, convenient.",
-  "author": "lowlighter (Simon Lecoq)",
-  "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
-  "tasks": {
-    "config": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=. .github/deno_config.ts && deno fmt **/deno.jsonc",
-    "readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
-    "tag": "deno run --allow-read --allow-write=. .github/deno_tag.ts"
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lowlighter/libs.git"
   },
-  "lint": {
-    "rules": {
-      "include": [
-        "no-throw-literal",
-        "no-eval",
-        "eqeqeq",
-        "ban-untagged-todo"
-      ]
-    },
-    "exclude": [
-      "**/wasm_xml_parser"
-    ]
-  },
-  "fmt": {
-    "lineWidth": 280,
-    "semiColons": false,
-    "exclude": [
-      "coverage",
-      "**/coverage",
-      "**/node_modules",
-      "**/wasm_xml_parser"
-    ]
-  },
-  "lock": false,
   "imports": {
     "@std/jsonc": "jsr:@std/jsonc@0.224.0",
     "@std/yaml": "jsr:@std/yaml@0.224.0",
@@ -64,7 +40,7 @@
     "stylelint-order": "npm:stylelint-order@6",
     "stylelint-config-recommended": "npm:stylelint-config-recommended@14",
     "stylelint-config-idiomatic-order": "npm:stylelint-config-idiomatic-order@10",
-    "@libs/bundle": "jsr:@libs/bundle@5",
+    "@libs/bundle": "jsr:@libs/bundle@6",
     "@deno/emit": "jsr:@deno/emit@0.40",
     "@std/path/basename": "jsr:@std/path@0.225.1/basename",
     "@std/collections/deep-merge": "jsr:@std/collections@0.224.0/deep-merge",
@@ -74,5 +50,33 @@
     "node:test": "./_stub.ts",
     "@std/fs/expand-glob": "jsr:@std/fs@0.229.1/expand-glob",
     "@std/fs/exists": "jsr:@std/fs@0.229.1/exists"
+  },
+  "tasks": {
+    "config": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=. .github/deno_config.ts && deno fmt **/deno.jsonc",
+    "readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
+    "tag": "deno run --allow-read --allow-write=. .github/deno_tag.ts"
+  },
+  "lint": {
+    "rules": {
+      "include": [
+        "no-throw-literal",
+        "no-eval",
+        "eqeqeq",
+        "ban-untagged-todo"
+      ]
+    },
+    "exclude": [
+      "**/wasm_xml_parser"
+    ]
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false,
+    "exclude": [
+      "coverage",
+      "**/coverage",
+      "**/node_modules",
+      "**/wasm_xml_parser"
+    ]
   }
 }

@@ -3,13 +3,18 @@
   "name": "@libs/bundle",
   "version": "6.0.1",
   "description": "Code bundlers, formatters, minifiers and others tools.",
-  "author": "lowlighter (Simon Lecoq)",
-  "repository": "https://github.com/lowlighter/libs",
-  "playground": "https://libs.lecoq.io/bundle",
   "license": "MIT License",
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
+  "playground": "https://libs.lecoq.io/bundle",
   "supported": [
     "deno"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lowlighter/libs.git"
+  },
   "exports": {
     "./ts": "./ts/mod.ts",
     "./css": "./css/mod.ts",

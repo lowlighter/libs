@@ -10,6 +10,7 @@ const root = fromFileUrl(import.meta.resolve("../"))
 const global = JSONC.parse(await Deno.readTextFile(resolve(root, "deno.jsonc"))) as Record<string, unknown>
 const imports = { "@std/jsonc": "jsr:@std/jsonc@0.224.0", "@std/yaml": "jsr:@std/yaml@0.224.0" } as record<string>
 const log = new Logger()
+const order = ["icon", "name", "version", "description", "license", "author", "funding", "homepage", "playground", "supported", "repository", "exports", "unstable", "lock", "imports", "test:permissions", "tasks", "lint", "fmt"]
 
 // Load local configurations
 const packages = []
@@ -20,6 +21,8 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   // Sync local configuration with global configuration
   local.author = global.author
   local.repository = global.repository
+  local.homepage = global.homepage
+  local.funding = global.funding
   local.license = global.license
   local.lint = global.lint
   local.fmt = global.fmt
@@ -39,7 +42,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   tasks["ci"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
   tasks["ci:coverage"] = `deno task coverage --html && sleep 1 && mkdir -p ../coverage && rm -rf ../coverage/${name} && mv coverage/html ../coverage/${name}`
   // Save local configuration
-  await Deno.writeTextFile(path, JSON.stringify(local, null, 2))
+  await Deno.writeTextFile(path, JSON.stringify(Object.fromEntries(order.map((key) => [key, local[key]]).filter(([_, value]) => value)), null, 2))
   log.with({ package: packages.at(-1) }).info("updated")
   // Register local imports
   for (const [key, value] of Object.entries(local.imports ?? {})) {
@@ -52,4 +55,4 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
 
 // Save global configuration
 global.imports = imports
-await Deno.writeTextFile(resolve(root, "deno.jsonc"), JSON.stringify(global, null, 2))
+await Deno.writeTextFile(resolve(root, "deno.jsonc"), JSON.stringify(Object.fromEntries(order.map((key) => [key, global[key]]).filter(([_, value]) => value)), null, 2))

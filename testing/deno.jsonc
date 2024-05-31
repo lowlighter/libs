@@ -3,12 +3,17 @@
   "name": "@libs/testing",
   "version": "1.0.7",
   "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
-  "author": "lowlighter (Simon Lecoq)",
-  "repository": "https://github.com/lowlighter/libs",
   "license": "MIT License",
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
   "supported": [
     "deno"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lowlighter/libs.git"
+  },
   "exports": {
     ".": "./mod.ts"
   },
