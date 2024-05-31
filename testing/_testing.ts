@@ -161,7 +161,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
   return function (name: string, fn: () => Promisable<void>, options = { permissions: "none" } as options) {
     for (const runtime of runtimes as runtime[]) {
       ;({ test: Deno.test, skip: Deno.test.ignore, only: Deno.test.only }[available[runtime as runtime] ? mode : "skip"])(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, function () {
-        return testcase(runtime, filename, fn, { extension })
+        return testcase(runtime, filename, name, fn, { extension })
       })
     }
   }
@@ -197,7 +197,7 @@ export function install([bin, ...args]: string[], filename: string) {
 }
 
 /** Run test function for given filename on the specified runtime. */
-export async function testcase(runtime: runtime, filename: string, fn: () => Promisable<void>, { extension = "" } = {}) {
+export async function testcase(runtime: runtime, filename: string, name: string, fn: () => Promisable<void>, { extension = "" } = {}) {
   switch (runtime) {
     case "node":
       install([`${paths.npx}${extension}`, "jsr", "add"], filename)
