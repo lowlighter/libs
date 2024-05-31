@@ -1,4 +1,4 @@
-import { Logger } from "./mod.ts"
+import { Logger, type loglevel } from "./mod.ts"
 import { stripAnsiCode } from "@std/fmt/colors"
 import { basename } from "@std/path/basename"
 import { expect, fn, test, type testing } from "@libs/testing"
@@ -19,7 +19,7 @@ function text(f: ReturnType<typeof fn>, { call = 0 } = {}) {
   }
 }
 
-const levels = Object.keys(Logger.level).filter((level) => level !== "disabled") as Array<Exclude<keyof typeof Logger.level, "disabled">>
+const levels = Object.keys(Logger.level).filter((level) => level !== "disabled") as loglevel[]
 
 for (const level of levels) {
   test("all")(`Logger.${level}() outputs content`, () => {

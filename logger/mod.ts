@@ -247,12 +247,15 @@ export class Logger {
 /** Logger level. */
 export type level = number
 
+/** Logger log level. */
+export type loglevel = Exclude<keyof typeof Logger.level, "disabled">
+
 /** Logger formatter. */
 type format = (logger: Logger, options: { level: level; content: unknown[] }) => string[]
 
 /** Logger output. */
 //deno-lint-ignore ban-types
-type output = Record<Exclude<keyof typeof Logger.level, "disabled">, Function> | null
+type output = Record<loglevel, Function> | null
 
 /** Logger tags. */
 type tags = Record<PropertyKey, unknown>
