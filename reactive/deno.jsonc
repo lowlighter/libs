@@ -1,7 +1,7 @@
 {
   "icon": "🎯",
   "name": "@libs/reactive",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Reactive utilities for observable objects.",
   "keywords": [
     "reactivity",
