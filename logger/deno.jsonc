@@ -1,7 +1,7 @@
 {
   "icon": "📰",
   "name": "@libs/logger",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Simple logger",
   "license": "MIT License",
   "author": "lowlighter (Simon Lecoq)",
