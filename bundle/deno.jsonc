@@ -31,6 +31,7 @@
     "./css": "./css/mod.ts",
     "./wasm": "./wasm/mod.ts",
     "./ts/cli/coverage": "./ts/cli/coverage.ts",
+    "./ts/cli/publish": "./ts/cli/publish.ts",
     "./css/cli/fmt": "./css/cli/fmt.ts",
     "./css/cli/check": "./css/cli/check.ts",
     "./wasm/cli/build": "./wasm/cli/build.ts"
