@@ -1,3 +1,3 @@
-export { parse } from "./parse.ts"
-export { stringify } from "./stringify.ts"
-export type { xml_document, xml_node, xml_text } from "./_types.ts"
+export { parse, type options as parse_options } from "./parse.ts"
+export { stringify, type options as stringify_options } from "./stringify.ts"
+export type * from "./_types.ts"
