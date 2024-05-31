@@ -21,8 +21,6 @@ function text(f: ReturnType<typeof fn>, { call = 0 } = {}) {
 
 const levels = Object.keys(Logger.level).filter((level) => level !== "disabled") as Array<Exclude<keyof typeof Logger.level, "disabled">>
 
-const { Deno: _Deno } = globalThis
-
 for (const level of levels) {
   test("all")(`Logger.${level}() outputs content`, () => {
     const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
@@ -149,7 +147,31 @@ test("deno")("Logger.level defaults to LOG_LEVEL environment variable", () => {
 }, { permissions: { env: ["LOG_LEVEL"] } })
 
 test("deno")("Logger supports non-deno runtimes", () => {
-  delete (globalThis as testing).Deno
-  expect(() => new Logger({ output: null }).log("foo")).not.toThrow()
-  globalThis.Deno = _Deno
+  const { Deno: _ } = globalThis
+  try {
+    delete (globalThis as testing).Deno
+    expect(() => new Logger({ output: null }).log("foo")).not.toThrow()
+    expect(() => Logger.inspect({ foo: "bar" })).not.toThrow()
+  } finally {
+    Object.assign(globalThis, { Deno: _ })
+  }
+})
+
+test("deno")("Logger.format.text() formats delta value smartly", () => {
+  const _ = performance.now
+  try {
+    const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
+    const log = new Logger({ output, level: Logger.level.log, options: { delta: true } })
+    for (const [i, dt] of Object.entries(["+0.0015", "+1.500"])) {
+      Object.assign(performance, {
+        now() {
+          return Number(dt) * 1000
+        },
+      })
+      log.log("foo")
+      expect(text(output.log, { call: Number(i) }).header).toContain(dt)
+    }
+  } finally {
+    Object.assign(performance, { now: _ })
+  }
 })

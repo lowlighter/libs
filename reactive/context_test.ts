@@ -21,7 +21,7 @@ function observe(target: target) {
   return { context, observable: context.target, target, listeners }
 }
 
-test("deno", "bun")("Scope.target reacts to read operations", () => {
+test("all")("Scope.target reacts to read operations", () => {
   const { observable, target, listeners } = observe({ property: false, nested: { property: false } })
   observable.property
   expect(listeners.get.event).toMatchObject({ path: [], target, property: "property", value: false })
@@ -34,7 +34,7 @@ test("deno", "bun")("Scope.target reacts to read operations", () => {
   expect(listeners.get.event).toMatchObject({ path: ["recursive"], target: target.recursive, property: "property", value: false })
 })
 
-test("deno", "bun")("Scope.target reacts to write operations", () => {
+test("all")("Scope.target reacts to write operations", () => {
   const { observable, target, listeners } = observe({ property: false, nested: { property: false } })
   observable.property = true
   expect(listeners.set.event).toMatchObject({ path: [], target, property: "property", value: { old: false, new: true } })
@@ -50,7 +50,7 @@ test("deno", "bun")("Scope.target reacts to write operations", () => {
   expect(listeners.set.event).toMatchObject({ path: ["recursive"], target: target.recursive, property: "property", value: { old: false, new: true } })
 })
 
-test("deno", "bun")("Scope.target reacts to delete operations", () => {
+test("all")("Scope.target reacts to delete operations", () => {
   const { observable, target, listeners } = observe({ property: false, nested: { property: false } })
   delete observable.property
   expect(listeners.delete.event).toMatchObject({ path: [], target, property: "property", value: false })
@@ -67,7 +67,7 @@ test("deno", "bun")("Scope.target reacts to delete operations", () => {
   expect(observable.recursive.property).toBeUndefined()
 })
 
-test("deno", "bun")("Scope.target reacts to call operations", () => {
+test("all")("Scope.target reacts to call operations", () => {
   const { observable, target, listeners } = observe({ function: () => null, nested: { function: () => null } })
   observable.function("foo")
   expect(listeners.call.event).toMatchObject({ path: [], target, property: "function", args: ["foo"] })
@@ -78,7 +78,7 @@ test("deno", "bun")("Scope.target reacts to call operations", () => {
   expect(listeners.call.event).toMatchObject({ path: ["recursive"], target: target.recursive, property: "function", args: ["foo"] })
 })
 
-test("deno", "bun")("Scope.target reacts to change operations", () => {
+test("all")("Scope.target reacts to change operations", () => {
   const { context, observable } = observe({ property: false, function: () => null })
   const listener = fn()
   context.addEventListener("change", listener)
@@ -92,7 +92,7 @@ test("deno", "bun")("Scope.target reacts to change operations", () => {
   expect(listener).toHaveBeenCalledTimes(3)
 })
 
-test("deno", "bun")("Scope.target supports objects with internal slots", () => {
+test("all")("Scope.target supports objects with internal slots", () => {
   const { observable, target, listeners } = observe({ set: new Set() })
   observable.set.add("foo")
   expect(listeners.call.event).toMatchObject({ path: [], target: target.set, property: "add", args: ["foo"] })
@@ -104,7 +104,7 @@ test("deno", "bun")("Scope.target supports objects with internal slots", () => {
   expect(observable.set).toEqual(new Set([]))
 })
 
-test("deno", "bun")("Scope.target skips proxification of built-in objects that are not worth observing", () => {
+test("all")("Scope.target skips proxification of built-in objects that are not worth observing", () => {
   const { observable, target } = observe({
     error: new Error(),
     regexp: new RegExp(""),
@@ -118,7 +118,7 @@ test("deno", "bun")("Scope.target skips proxification of built-in objects that a
   }
 })
 
-test("deno", "bun")("Scope.with() returns a new context that inherits parent context", () => {
+test("all")("Scope.with() returns a new context that inherits parent context", () => {
   const a = new Context({ a: 1, b: 0 })
   const b = a.with({ b: 1, c: 2 })
   expect(a.target).toEqual({ a: 1, b: 0 })
@@ -127,7 +127,7 @@ test("deno", "bun")("Scope.with() returns a new context that inherits parent con
   expect(Object.keys(b.target)).toEqual(["a", "b", "c"])
 })
 
-test("deno", "bun")("Scope.with() contexts operates bidirectionaly when value is inherited from parent", () => {
+test("all")("Scope.with() contexts operates bidirectionaly when value is inherited from parent", () => {
   const a = new Context({ a: 1 })
   const b = a.with({})
   const listeners = { a: fn(), b: fn() }
@@ -145,7 +145,7 @@ test("deno", "bun")("Scope.with() contexts operates bidirectionaly when value is
   expect(listeners.b).toHaveBeenCalledTimes(2)
 })
 
-test("deno", "bun")("Scope.with() contexts operates unidirectionaly when value is overidden from parent", () => {
+test("all")("Scope.with() contexts operates unidirectionaly when value is overidden from parent", () => {
   const a = new Context({ b: 1 })
   const b = a.with({ b: 1 })
   const listeners = { a: fn(), b: fn() }
@@ -165,7 +165,7 @@ test("deno", "bun")("Scope.with() contexts operates unidirectionaly when value i
 
 // =================================================================
 // This is currently not supported, it adds a lot of complexity just to track whether an overrriden property was deleted
-test.skip("deno", "bun")("Scope.with() contexts operates unidirectionaly when value is overidden from parent (delete operation)", () => {
+test.skip("all")("Scope.with() contexts operates unidirectionaly when value is overidden from parent (delete operation)", () => {
   const a = new Context({ d: 0 })
   const b = a.with<testing>({ d: 1 })
   const listeners = { a: fn(), b: fn() }
@@ -181,7 +181,7 @@ test.skip("deno", "bun")("Scope.with() contexts operates unidirectionaly when va
 })
 // =================================================================
 
-test("deno", "bun")("Scope.with() contexts operates unidirectionaly when value is not present in parent", () => {
+test("all")("Scope.with() contexts operates unidirectionaly when value is not present in parent", () => {
   const a = new Context({})
   const b = a.with({ c: 1 })
   const listeners = { a: fn(), b: fn() }
@@ -194,7 +194,7 @@ test("deno", "bun")("Scope.with() contexts operates unidirectionaly when value i
   expect(listeners.b).toHaveBeenCalledTimes(1)
 })
 
-test("deno", "bun")("Scope.target works as expected when run within a `with` context", () => {
+test("all")("Scope.target works as expected when run within a `with` context", () => {
   const { observable, listeners } = observe({ foo: false, bar: () => true })
   expect(() => new Function("observable", "with (observable) { foo = bar() }")(observable)).not.toThrow()
   expect(listeners.set).toHaveBeenCalledTimes(1)
