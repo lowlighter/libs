@@ -93,6 +93,7 @@ jobs:
     outputs:
       has_build: ${{ steps.package.outputs.has_build }}
       has_bench: ${{ steps.package.outputs.has_bench }}
+      has_npm: ${{ steps.package.outputs.has_npm }}
       tag: ${{ steps.tag.outputs.tag }}
       version: ${{ steps.tag.outputs.semver }}
     steps:
@@ -114,6 +115,7 @@ jobs:
         run: |
           echo "has_build=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.build || ``)')" >> "$GITHUB_OUTPUT"
           echo "has_bench=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.bench || ``)')" >> "$GITHUB_OUTPUT"
+          echo "has_npm=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.npm || ``)')" >> "$GITHUB_OUTPUT"
         working-directory: ${{ inputs.package }}
       # Build
       - run: deno task build
@@ -190,4 +192,8 @@ jobs:
         working-directory: ${{ inputs.package }}
       # Publish
       - run: deno publish
+        working-directory: ${{ inputs.package }}
+      - name: Run npm publish
+        if: ${{ false && needs.test.outputs.has_npm }}
+        run: deno run --allow-all jsr:@libs/ts/cli/publish deno.jsonc --registry 'https://registry.npmjs.org' --scope '@lowlighter' --token ${{ secrets.NPM_TOKEN }}
         working-directory: ${{ inputs.package }}
