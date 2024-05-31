@@ -36,7 +36,7 @@ export class Logger {
     if (globalThis.Deno?.permissions.querySync?.({ name: "env", variable: "LOG_LEVEL" }).state === "granted") {
       const env = globalThis.Deno?.env.get("LOG_LEVEL") ?? ""
       if (env in Logger.level) {
-        level ??= Logger.level[env as keyof typeof Logger.level]
+        level ??= Logger.level[env as loglevel | "disabled"]
       }
       if (!Number.isNaN(Number.parseInt(env))) {
         level ??= Number.parseInt(env)
@@ -147,7 +147,7 @@ export class Logger {
     /** Text formatter. */
     text(logger: Logger, { level = 0, content }) {
       const color = ["red", "orange", "cyan", "white", "gray"][level as number]
-      const text = [`%c ${Object.keys(Logger.level).find((key) => Logger.level[key as keyof typeof Logger.level] === level)!.toLocaleUpperCase().padEnd(5)} │%c`]
+      const text = [`%c ${Object.keys(Logger.level).find((key) => Logger.level[key as loglevel] === level)!.toLocaleUpperCase().padEnd(5)} │%c`]
       const styles = [`color: black; background-color: ${color}`, ""]
       if ((logger.options.date) || (logger.options.time) || (logger.options.delta)) {
         const date = new Date().toISOString()
@@ -201,7 +201,7 @@ export class Logger {
     /** JSON formatter. */
     json(logger: Logger, { level = 0, content }) {
       const data = {
-        level: Object.keys(Logger.level).find((key) => Logger.level[key as keyof typeof Logger.level] === level),
+        level: Object.keys(Logger.level).find((key) => Logger.level[key as loglevel] === level),
         timestamp: Date.now(),
         tags: logger.tags,
         content,
