@@ -63,7 +63,7 @@ test("deno")("install() resolves and install dependencies", () => {
 
 for (const runtime of Object.keys(available) as runtime[]) {
   test("deno")(`testcase() is able to run tests on all ${runtime} runtime`, async () => {
-    const extension = (Deno?.build.os === "windows") ? ".cmd" : ""
+    const extension = (globalThis.Deno?.build.os === "windows") ? ".cmd" : ""
     const filename = fromFileUrl(import.meta.resolve("./_stub_test.ts"))
     await expect(testcase(runtime, filename, () => {}, { extension })).not.resolves.toThrow()
   }, { permissions: { run: "inherit" } })
