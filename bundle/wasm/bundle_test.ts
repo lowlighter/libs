@@ -14,13 +14,6 @@ test("deno")("bundle() compiles rust projects to wasm", async () => {
   }
 }, { permissions: { read: true, write: [root], run: true, env: true, net: ["api.github.com", "github.com", "objects.githubusercontent.com"] } })
 
-// =================================================================
-// TODO(@lowlighter): fix this test to simulate a missing cargo
-test.skip("deno")("bundle() throws when cargo is not installed", async () => {
-  await expect(bundle(project, { autoinstall: false, loglevel: 0, env: { PATH: "" } })).not.resolves.toThrow()
-}, { permissions: { read: true, run: true } })
-// =================================================================
-
 test("deno")("bundle() throws when wasm-pack is not installed", async () => {
   await expect(bundle(project, { bin: resolve(root, "wasm-pack-not-found"), autoinstall: false, loglevel: 0 })).rejects.toThrow(Deno.errors.NotFound)
 }, { permissions: { read: true, run: true } })
