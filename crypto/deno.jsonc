@@ -23,6 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/lowlighter/libs.git"
   },
+  "npm": true,
   "exports": {
     "./encryption": "./encryption.ts",
     "./totp": "./totp.ts"
