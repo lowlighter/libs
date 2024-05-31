@@ -24,8 +24,10 @@
   },
   "exports": {
     ".": "./mod.ts",
+    "./types": "./types.ts",
     "./func": "./func.ts"
   },
+  "npm": true,
   "imports": {
     "@libs/testing": "jsr:@libs/testing@1"
   },
