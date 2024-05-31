@@ -240,7 +240,7 @@ export class Logger {
 
   /** Inspect value. */
   static inspect(value: unknown): unknown {
-    return globalThis.Deno?.inspect(value, { colors: true, depth: Infinity }) ?? value
+    return globalThis.Deno?.inspect(value, { colors: true, depth: Infinity, strAbbreviateSize: Infinity }) ?? value
   }
 }
 
