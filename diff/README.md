@@ -1,6 +1,7 @@
 # ➕ Diff (patience algorithm)
 
-[![JSR](https://jsr.io/badges/@libs/diff)](https://jsr.io/@libs/diff) [![JSR Score](https://jsr.io/badges/@libs/diff/score)](https://jsr.io/@libs/diff) [![NPM](https://img.shields.io/npm/v/@lowlighter%2Fdiff?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/diff) [![Coverage](https://libs-coverage.lecoq.io/diff/badge.svg)](https://libs-coverage.lecoq.io/diff)
+[![JSR](https://jsr.io/badges/@libs/diff)](https://jsr.io/@libs/diff) [![JSR Score](https://jsr.io/badges/@libs/diff/score)](https://jsr.io/@libs/diff)
+[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fdiff?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/diff) [![Coverage](https://libs-coverage.lecoq.io/diff/badge.svg)](https://libs-coverage.lecoq.io/diff)
 
 - [`🦕 Playground`](https://libs.lecoq.io/diff)
 - [`📚 Documentation`](https://jsr.io/@libs/diff/doc)

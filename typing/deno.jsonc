@@ -22,12 +22,12 @@
     "type": "git",
     "url": "git+https://github.com/lowlighter/libs.git"
   },
+  "npm": true,
   "exports": {
     ".": "./mod.ts",
     "./types": "./types.ts",
     "./func": "./func.ts"
   },
-  "npm": true,
   "imports": {
     "@libs/testing": "jsr:@libs/testing@1"
   },
