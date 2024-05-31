@@ -7,8 +7,9 @@
   "homepage": "https://github.com/lowlighter/libs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lowlighter/libs.git"
+    "url": "git+https://github.com/lowlighter/libs.git"
   },
+  "lock": false,
   "imports": {
     "@std/jsonc": "jsr:@std/jsonc@0.224.0",
     "@std/yaml": "jsr:@std/yaml@0.224.0",

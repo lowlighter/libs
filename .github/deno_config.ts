@@ -42,7 +42,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   tasks["ci"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
   tasks["ci:coverage"] = `deno task coverage --html && sleep 1 && mkdir -p ../coverage && rm -rf ../coverage/${name} && mv coverage/html ../coverage/${name}`
   // Save local configuration
-  await Deno.writeTextFile(path, JSON.stringify(Object.fromEntries(order.map((key) => [key, local[key]]).filter(([_, value]) => value)), null, 2))
+  await Deno.writeTextFile(path, JSON.stringify(Object.fromEntries(order.map((key) => [key, local[key]]).filter(([_, value]) => value !== undefined)), null, 2))
   log.with({ package: packages.at(-1) }).info("updated")
   // Register local imports
   for (const [key, value] of Object.entries(local.imports ?? {})) {
@@ -55,4 +55,4 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
 
 // Save global configuration
 global.imports = imports
-await Deno.writeTextFile(resolve(root, "deno.jsonc"), JSON.stringify(Object.fromEntries(order.map((key) => [key, global[key]]).filter(([_, value]) => value)), null, 2))
+await Deno.writeTextFile(resolve(root, "deno.jsonc"), JSON.stringify(Object.fromEntries(order.map((key) => [key, global[key]]).filter(([_, value]) => value !== undefined)), null, 2))
