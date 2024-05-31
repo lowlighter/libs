@@ -83,6 +83,41 @@ jobs:
       - id: pages
         uses: actions/deploy-pages@v4
 
+  autogen:
+    name: Auto-generate files
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+      - package
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: denoland/setup-deno@v1
+      - name: Configure git
+        run: git config user.name 'github-actions[bot]' && git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Run deno task config
+        run: |
+          deno task config
+          if [ -n "$(git status --porcelain)" ]; then
+            git add **/deno.jsonc
+            git commit -m "chore: update `deno.jsonc`"
+            git pull --rebase
+            git push
+          fi
+      - name: Run deno task readme
+        run: |
+          deno task readme
+          if [ -n "$(git status --porcelain)" ]; then
+            git add README.md
+            git commit -m "doc: update `README.md`"
+            git pull --rebase
+            git push
+          fi
+
   codeql:
     name: Code quality (global)
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
