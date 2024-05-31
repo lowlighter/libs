@@ -11,7 +11,7 @@ import { default as syntax } from "npm:highlight.js@11.9.0"
 import { DOMParser } from "@lowlighter/deno-dom/deno-dom-wasm"
 import { basename } from "@std/path"
 import { parseArgs } from "@std/cli"
-import { Logger } from "@libs/logger"
+import { Logger, type loglevel } from "@libs/logger"
 
 const { help, loglevel, root = "coverage", exclude, _: globs, ...flags } = parseArgs(Deno.args, {
   boolean: ["help", "summary", "no-matcha", "no-highlight", "no-write", "no-badge"],
@@ -44,7 +44,7 @@ if (help) {
   Deno.exit(0)
 }
 
-const logger = new Logger({ level: Logger.level[loglevel as keyof typeof Logger.level] })
+const logger = new Logger({ level: Logger.level[loglevel as loglevel] })
 if (!globs.length) {
   globs.push("**/*.html")
 }

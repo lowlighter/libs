@@ -7,6 +7,7 @@ import { copy, readerFromStreamReader } from "@std/io"
 import { ensureFile } from "@std/fs"
 import { basename, dirname, resolve, toFileUrl } from "@std/path"
 import { type level as loglevel, Logger } from "@libs/logger"
+import type { record } from "../../typing/mod.ts"
 
 /**
  * Build WASM, bundle and minify JavaScript.
@@ -19,18 +20,18 @@ import { type level as loglevel, Logger } from "@libs/logger"
  * await bundle("path/to/rust/project")
  * ```
  */
-export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner, loglevel } = {} as { bin?: string; autoinstall?: boolean; banner?: string; loglevel?: loglevel }): Promise<void> {
+export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner, loglevel, env = {} } = {} as { bin?: string; autoinstall?: boolean; banner?: string; loglevel?: loglevel; env?: record<string> }): Promise<void> {
   const log = new Logger({ level: loglevel, tags: { project } })
 
   // Check that cargo is installed
   try {
-    await new Deno.Command("cargo", { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit" }).output()
+    await new Deno.Command("cargo", { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit", env }).output()
   } catch (error) {
     if (error instanceof Deno.errors.NotFound) {
       log.error("cargo binary not found in PATH, is it installed?")
       log.error("note that even with `autoinstall` option enabled, cargo must be installed manually")
       log.error("https://doc.rust-lang.org/cargo/getting-started/installation.html")
-      return
+      throw error
     }
   }
 
@@ -38,7 +39,7 @@ export async function bundle(project: string, { bin = "wasm-pack", autoinstall =
   if (autoinstall) {
     log.debug(`checking if ${bin} is installed`)
     try {
-      await new Deno.Command(bin, { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit" }).output()
+      await new Deno.Command(bin, { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit", env }).output()
     } catch (error) {
       if (error instanceof Deno.errors.NotFound) {
         log.warn(`${bin} not found, installing`)
@@ -49,7 +50,7 @@ export async function bundle(project: string, { bin = "wasm-pack", autoinstall =
 
   // Build wasm
   log.info("building wasm")
-  const command = new Deno.Command(bin, { args: ["build", "--release", "--target", "web"], cwd: project, stdin: "inherit", stdout: "inherit", stderr: "inherit" })
+  const command = new Deno.Command(bin, { args: ["build", "--release", "--target", "web"], cwd: project, stdin: "inherit", stdout: "inherit", stderr: "inherit", env })
   const { success } = await command.output()
   assert(success, "wasm build failed")
 

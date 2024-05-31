@@ -7,7 +7,7 @@
 // Imports
 import { bundle } from "../bundle.ts"
 import { parseArgs } from "@std/cli"
-import { Logger } from "@libs/logger"
+import { Logger, type loglevel } from "@libs/logger"
 
 let { help, ["auto-install"]: autoinstall, bin, banner, loglevel, _: [project] } = parseArgs(Deno.args, {
   boolean: ["help", "auto-install"],
@@ -34,4 +34,4 @@ if (help) {
 if ((Deno.permissions.querySync({ name: "env", variable: "CI" }).state === "granted") && (Deno.env.get("CI"))) {
   autoinstall ??= true
 }
-await bundle(`${project || Deno.cwd()}`, { bin, banner, autoinstall, loglevel: Logger.level[loglevel as keyof typeof Logger.level] })
+await bundle(`${project || Deno.cwd()}`, { bin, banner, autoinstall, loglevel: Logger.level[loglevel as loglevel] })
