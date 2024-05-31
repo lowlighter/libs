@@ -2,4 +2,4 @@
  * WASM utilities.
  * @module
  */
-export { bundle } from "./bundle.ts"
+export * from "./bundle.ts"

@@ -2,5 +2,5 @@
  * CSS utilities.
  * @module
  */
-export { compatibility, Report } from "./compatibility.ts"
-export { bundle } from "./bundle.ts"
+export * from "./compatibility.ts"
+export * from "./bundle.ts"

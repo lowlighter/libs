@@ -1,6 +1,6 @@
 # 📦 Bundle utilities
 
-[![JSR](https://jsr.io/badges/@libs/bundle)](https://jsr.io/@libs/bundle) [![JSR Score](https://jsr.io/badges/@libs/bundle/score)](https://jsr.io/@libs/bundle) [![Coverage](https://libs-coverage.lecoq.io/bundle/badge.svg)](https://libs-coverage.lecoq.io/bundle)
+[![JSR](https://jsr.io/badges/@libs/bundle)](https://jsr.io/@libs/bundle) [![JSR Score](https://jsr.io/badges/@libs/bundle/score)](https://jsr.io/@libs/bundle) [![NPM](https://img.shields.io/npm/v/@lowlighter%2Fbundle?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/bundle) [![Coverage](https://libs-coverage.lecoq.io/bundle/badge.svg)](https://libs-coverage.lecoq.io/bundle)
 
 ## 🗜️ TypeScript
 
