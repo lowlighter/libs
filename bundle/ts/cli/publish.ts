@@ -24,7 +24,7 @@ if (help) {
   console.log("It will convert it to a package.json and transpile exported entrypoints to make package publishable on npm.")
   console.log("")
   console.log("Usage:")
-  console.log("  deno --allow-read --allow-write=coverage --allow-net=img.shields.io coverage.ts [options] [files...=**/*.html]")
+  console.log("  deno --allow-all [options] <project>")
   console.log("")
   console.log("Options:")
   console.log("  -h, --help                                   Show this help")
