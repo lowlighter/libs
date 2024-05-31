@@ -443,23 +443,3 @@ function revive(node: xml_node | xml_text, key: string, options: options) {
 
 /** Synchronous reader. */
 type ReaderSync = { readSync(buffer: Uint8Array): Nullable<number> }
-
-//TODO(@lowlighter): implement async parsing
-/** Asynchronous reader. */
-//type Reader = { read(buffer: Uint8Array): Promise<Nullable<number>> }
-
-/*
-class MockReader implements Reader {
-  constructor(string: string) {
-    this.#data = new TextEncoder().encode(string)
-  }
-  readonly #data
-  #cursor = 0
-  async read(buffer: Uint8Array) {
-    const bytes = this.#data.slice(this.#cursor, this.#cursor + buffer.length)
-    buffer.set(bytes)
-    this.#cursor = Math.min(this.#cursor + bytes.length, this.#data.length)
-    return bytes.length || null
-  }
-}
-*/
