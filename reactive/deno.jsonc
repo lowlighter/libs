@@ -3,6 +3,11 @@
   "name": "@libs/reactive",
   "version": "1.0.3",
   "description": "Reactive utilities for observable objects.",
+  "keywords": [
+    "reactivity",
+    "observable",
+    "esm"
+  ],
   "license": "MIT License",
   "author": "lowlighter (Simon Lecoq)",
   "funding": "https://github.com/sponsors/lowlighter",
@@ -45,7 +50,8 @@
       ]
     },
     "exclude": [
-      "**/wasm_xml_parser"
+      "**/wasm_*",
+      "**/*.mjs"
     ]
   },
   "fmt": {
@@ -55,7 +61,8 @@
       "coverage",
       "**/coverage",
       "**/node_modules",
-      "**/wasm_xml_parser"
+      "**/wasm_*",
+      "**/*.mjs"
     ]
   }
 }

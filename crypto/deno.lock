@@ -60,18 +60,6 @@
     "dependencies": [
       "jsr:@libs/testing@1",
       "jsr:@std/encoding@0.224.1"
-    ],
-    "packageJson": {
-      "dependencies": [
-        "npm:@jsr/libs__testing@^1.0.4",
-        "npm:@jsr/libs__typing@^2.0.3",
-        "npm:@jsr/std__assert@^0.224.0",
-        "npm:@jsr/std__encoding@^0.224.1",
-        "npm:@jsr/std__expect@^0.224.0",
-        "npm:@jsr/std__fmt@^0.224.0",
-        "npm:@jsr/std__internal@^0.224.0",
-        "npm:@jsr/std__path@^0.225.1"
-      ]
-    }
+    ]
   }
 }

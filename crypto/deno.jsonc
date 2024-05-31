@@ -3,6 +3,10 @@
   "name": "@libs/crypto",
   "version": "1.0.5",
   "description": "Features based upon Web Crypto APIs",
+  "keywords": [
+    "crypto",
+    "totp"
+  ],
   "license": "MIT License",
   "author": "lowlighter (Simon Lecoq)",
   "funding": "https://github.com/sponsors/lowlighter",
@@ -45,7 +49,8 @@
       ]
     },
     "exclude": [
-      "**/wasm_xml_parser"
+      "**/wasm_*",
+      "**/*.mjs"
     ]
   },
   "fmt": {
@@ -55,7 +60,8 @@
       "coverage",
       "**/coverage",
       "**/node_modules",
-      "**/wasm_xml_parser"
+      "**/wasm_*",
+      "**/*.mjs"
     ]
   }
 }

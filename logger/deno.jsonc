@@ -3,6 +3,10 @@
   "name": "@libs/logger",
   "version": "1.1.0",
   "description": "Simple logger",
+  "keywords": [
+    "logging",
+    "esm"
+  ],
   "license": "MIT License",
   "author": "lowlighter (Simon Lecoq)",
   "funding": "https://github.com/sponsors/lowlighter",
@@ -57,7 +61,8 @@
       ]
     },
     "exclude": [
-      "**/wasm_xml_parser"
+      "**/wasm_*",
+      "**/*.mjs"
     ]
   },
   "fmt": {
@@ -67,7 +72,8 @@
       "coverage",
       "**/coverage",
       "**/node_modules",
-      "**/wasm_xml_parser"
+      "**/wasm_*",
+      "**/*.mjs"
     ]
   }
 }

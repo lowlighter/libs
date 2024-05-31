@@ -3,6 +3,11 @@
   "name": "@libs/diff",
   "version": "1.0.6",
   "description": "Diff (patience algorithm)",
+  "keywords": [
+    "diff",
+    "patch",
+    "esm"
+  ],
   "license": "MIT License",
   "author": "lowlighter (Simon Lecoq)",
   "funding": "https://github.com/sponsors/lowlighter",
@@ -53,7 +58,8 @@
       ]
     },
     "exclude": [
-      "**/wasm_xml_parser"
+      "**/wasm_*",
+      "**/*.mjs"
     ]
   },
   "fmt": {
@@ -63,7 +69,8 @@
       "coverage",
       "**/coverage",
       "**/node_modules",
-      "**/wasm_xml_parser"
+      "**/wasm_*",
+      "**/*.mjs"
     ]
   }
 }
