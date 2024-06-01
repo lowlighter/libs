@@ -1,0 +1,77 @@
+{
+  "icon": "⏯️",
+  "name": "@libs/run",
+  "version": "0.1.0",
+  "description": "Utilities to run subprocess.",
+  "keywords": [
+    "subprocess",
+    "esm"
+  ],
+  "license": "MIT License",
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
+  "playground": "https://libs.lecoq.io/run",
+  "supported": [
+    "deno"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lowlighter/libs.git"
+  },
+  "npm": true,
+  "exports": {
+    "./command": "./command.ts"
+  },
+  "imports": {
+    "@std/async/delay": "jsr:@std/async@0.224.1/delay",
+    "@std/async/debounce": "jsr:@std/async@0.224.1/debounce",
+    "@std/streams": "jsr:@std/streams@0.224.2",
+    "@libs/logger": "jsr:@libs/logger@1",
+    "@libs/testing": "jsr:@libs/testing@1",
+    "@libs/typing": "jsr:@libs/typing@2"
+  },
+  "test:permissions": {
+    "run": [
+      "deno",
+      "node",
+      "bun",
+      "npx"
+    ]
+  },
+  "tasks": {
+    "test": "deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
+    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty",
+    "dev:future": "DENO_FUTURE=1 && deno task dev",
+    "coverage": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js",
+    "ci": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "ci:coverage": "deno task coverage --html && sleep 1 && mkdir -p ../coverage && rm -rf ../coverage/run && mv coverage/html ../coverage/run"
+  },
+  "lint": {
+    "rules": {
+      "include": [
+        "no-throw-literal",
+        "no-eval",
+        "eqeqeq",
+        "ban-untagged-todo"
+      ]
+    },
+    "exclude": [
+      "**/wasm_*",
+      "**/*.mjs"
+    ]
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false,
+    "exclude": [
+      "coverage",
+      "**/coverage",
+      "**/node_modules",
+      "**/package.json",
+      "**/package-lock.json",
+      "**/wasm_*",
+      "**/*.mjs"
+    ]
+  }
+}
