@@ -1,6 +1,6 @@
 # 🍱 Libraries
 
-[![JSR Scope](https://jsr.io/badges/@libs)](https://jsr.io/@libs) [![NPM](https://img.shields.io/badge/npm-%40lowlighter-black?style=flat&logo=npm&labelColor=cb0000)](https://www.npmjs.com/search?q=@lowlighter)
+[![JSR Scope](https://jsr.io/badges/@libs)](https://jsr.io/@libs) [![NPM](https://img.shields.io/badge/npm-%40lowlighter-0a3040?style=flat&logo=npm&labelColor=cb0000)](https://www.npmjs.com/search?q=@lowlighter)
 [![deno.land/x](https://img.shields.io/badge/deno.land%2Fx-libs-0a3040?style=flat&logo=deno&labelColor=black)](https://deno.land/x/libs) [![Playground](https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black)](https://libs.lecoq.io)
 [![ci](https://github.com/lowlighter/libs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/lowlighter/libs/actions/workflows/ci.yml)
 
