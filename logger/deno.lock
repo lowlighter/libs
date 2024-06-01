@@ -2,27 +2,27 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@libs/testing@1": "jsr:@libs/testing@1.0.4",
-      "jsr:@libs/typing@2": "jsr:@libs/typing@2.0.3",
+      "jsr:@libs/testing@1": "jsr:@libs/testing@1.0.7",
+      "jsr:@libs/typing@2": "jsr:@libs/typing@2.1.0",
       "jsr:@std/assert@^0.224.0": "jsr:@std/assert@0.224.0",
       "jsr:@std/expect@0.224.0": "jsr:@std/expect@0.224.0",
-      "jsr:@std/fmt@0.225.1": "jsr:@std/fmt@0.225.1",
+      "jsr:@std/fmt@0.225.2": "jsr:@std/fmt@0.225.2",
       "jsr:@std/fmt@^0.224.0": "jsr:@std/fmt@0.224.0",
       "jsr:@std/internal@^0.224.0": "jsr:@std/internal@0.224.0",
       "jsr:@std/path@0.225.1": "jsr:@std/path@0.225.1",
       "npm:@types/node": "npm:@types/node@18.16.19"
     },
     "jsr": {
-      "@libs/testing@1.0.4": {
-        "integrity": "9e3d28f5458a68435b49b870f8a2137ae79a09d2f10f16c4a6603d6ef7bf3873",
+      "@libs/testing@1.0.7": {
+        "integrity": "b1a7caa9d2e00569f90b9753eb768ec6b16ff5c859f104b73a6ef4611968892e",
         "dependencies": [
           "jsr:@libs/typing@2",
           "jsr:@std/expect@0.224.0",
           "jsr:@std/path@0.225.1"
         ]
       },
-      "@libs/typing@2.0.3": {
-        "integrity": "e2fb7b9f4a09ffbe322377e05a16dfd48e04249ed667e4c9c06ca166c48b379e"
+      "@libs/typing@2.1.0": {
+        "integrity": "3c3b93e1da1e4bb45a22dde168fdfd1cc765edbdb371b46bf4ca7873ee79e15d"
       },
       "@std/assert@0.224.0": {
         "integrity": "8643233ec7aec38a940a8264a6e3eed9bfa44e7a71cc6b3c8874213ff401967f"
@@ -38,8 +38,8 @@
       "@std/fmt@0.224.0": {
         "integrity": "e20e9a2312a8b5393272c26191c0a68eda8d2c4b08b046bad1673148f1d69851"
       },
-      "@std/fmt@0.225.1": {
-        "integrity": "44a8cb375d7344adb3cb0208b85ea0bde7cdc15224c11188c85e733834ffe356"
+      "@std/fmt@0.225.2": {
+        "integrity": "8a2d157586372f9d5e74cdf0f463a828dee5d09d7de10e56394d8f20dbb5bf26"
       },
       "@std/internal@0.224.0": {
         "integrity": "afc50644f9cdf4495eeb80523a8f6d27226b4b36c45c7c195dfccad4b8509291"
@@ -59,7 +59,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@libs/testing@1",
-      "jsr:@std/fmt@0.225.1",
+      "jsr:@std/fmt@0.225.2",
       "jsr:@std/path@0.225.1"
     ]
   }
