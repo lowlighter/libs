@@ -162,6 +162,9 @@ jobs:
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v1
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org
       - name: Configure git
         run: git config user.name 'github-actions[bot]' && git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
       # Build
@@ -202,3 +205,5 @@ jobs:
         if: ${{ needs.test.outputs.has_npm }}
         run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --registry 'https://registry.npmjs.org' --scope '@lowlighter' --token '${{ secrets.NPM_TOKEN }}' --loglevel 'debug'
         working-directory: ${{ inputs.package }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
