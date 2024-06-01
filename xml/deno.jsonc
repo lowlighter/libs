@@ -26,6 +26,7 @@
     "url": "git+https://github.com/lowlighter/libs.git"
   },
   "npm": true,
+  "deno.land/x": true,
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts",
