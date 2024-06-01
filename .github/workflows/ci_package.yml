@@ -134,6 +134,7 @@ jobs:
         working-directory: ${{ inputs.package }}
       # Tag
       - id: tag
+        if: inputs.ref == 'refs/heads/main' && inputs.event == 'push'
         uses: ldelarue/git-next-tag@v0.4
         with:
           tag-prefix: ${{ inputs.package }}-
