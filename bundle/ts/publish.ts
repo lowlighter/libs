@@ -68,14 +68,17 @@ export async function publish(path: Arg<typeof packaged>, { log = new Logger(), 
   }
   const cwd = Deno.cwd()
   try {
-    for (const { url, otp, access } of registries) {
+    for (const { url, token, access } of registries) {
       Deno.chdir(directory)
+      await npm(["logout"], { log })
+      await npm(["set", "registry", url], { log })
+      await npm(["set", `//${new URL(url).host}/:_authToken=$NPM_TOKEN`], { log })
       const args = ["publish", "--access", { public: "public", private: "restricted" }[access]]
       if (dryrun) {
         args.push("--dry-run")
       }
       log.debug(`publishing to: ${url} (${access})`)
-      const { success, stderr } = await npm(args, { log, env: { NPM_CONFIG_REGISTRY: url, NPM_CONFIG_OTP: otp } })
+      const { success, stderr } = await npm(args, { log, env: { NPM_TOKEN: token } })
       if ((!success) && (!stderr.includes("You cannot publish over the previously published versions"))) {
         throw new Error(`npm publish failed: ${stderr}`)
       }
@@ -87,7 +90,7 @@ export async function publish(path: Arg<typeof packaged>, { log = new Logger(), 
 }
 
 /** Run npm command. */
-async function npm(args: string[], { log, env }: { log: Logger; env: record<string> }) {
+async function npm(args: string[], { log, env }: { log: Logger; env?: record<string> }) {
   let extension = ""
   if (Deno.build.os === "windows") {
     extension = ".cmd"
@@ -145,7 +148,7 @@ type registry = {
   /** Registry URL. */
   url: string
   /** Registry publishing token. */
-  otp: string
+  token: string
   /** Registry publishing access level. */
   access: "public" | "private"
 }

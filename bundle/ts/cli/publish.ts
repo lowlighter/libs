@@ -11,7 +11,7 @@ import { Logger, type loglevel } from "@libs/logger"
 import { assert } from "@std/assert"
 import type { Arg } from "@libs/typing"
 
-const { help, loglevel, scope, name, "dry-run": dryrun, registry: url = "https://registry.npmjs.org", token: otp = "", access = "public", _: [project] } = parseArgs(Deno.args, {
+const { help, loglevel, scope, name, "dry-run": dryrun, registry: url = "https://registry.npmjs.org", token = "", access = "public", _: [project] } = parseArgs(Deno.args, {
   boolean: ["help", "dry-run"],
   alias: { help: "h", loglevel: "l", scope: "s", name: "n", "dry-run": "d", registry: "r", token: "t", access: "a" },
   string: ["loglevel", "scope", "name", "token", "access"],
@@ -40,7 +40,7 @@ if (help) {
 }
 
 const logger = new Logger({ level: Logger.level[loglevel as loglevel] })
-const registries = [{ url, otp, access }] as Arg<typeof publish, 1>["registries"]
+const registries = [{ url, token, access }] as Arg<typeof publish, 1>["registries"]
 assert(project, "No project specified")
 assert(url, "No registry specified")
 assert(["public", "private"].includes(`${access}`), `Invalid access type: ${access}`)
