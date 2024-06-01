@@ -19,13 +19,18 @@ See table below for a list of available libraries and their features, compatibil
     <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
     <td rowspan="4"><ul data-for="bundle">
   <li>Lint, minify, license CSS code and check features compatibility against MDN data for each browser</li>
-  <li>Bundle, minify, anonymize local file paths and license TypeScript code</li>
+  <li>
+    Bundle, minify, anonymize local file paths, license and publish TypeScript code
+    <ul>
+      <li>Publish deno packages easily back to <a href="https://www.npmjs.com">NPM registries</a> and <a href="https://deno.land/x">deno.land/x</a></li>
+    </ul>
+  </li>
   <li>Compile Rust projects to Web assembly, hot-patch source in base64 and minify output</li>
   <li><a href="#-cli-utilities">CLI utilities</a></li>
 </ul></td>
   </tr>
   <tr><th></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/bundle"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/bundle"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/bundle"><img src="https://libs-coverage.lecoq.io/bundle/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/crypto"><code>🧮 @libs/crypto</code></a></h2>Features based upon Web Crypto APIs</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -38,7 +43,7 @@ See table below for a list of available libraries and their features, compatibil
 </ul></td>
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/crypto"><img src="https://img.shields.io/npm/v/@lowlighter%2Fcrypto?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/crypto"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/crypto"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/crypto"><img src="https://libs-coverage.lecoq.io/crypto/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/diff"><code>➕ @libs/diff</code></a></h2>Diff (patience algorithm)</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -46,11 +51,11 @@ See table below for a list of available libraries and their features, compatibil
     <th><a href="https://jsr.io/@libs/diff"><img src="https://jsr.io/badges/@libs/diff"></a></th>
     <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
     <td rowspan="4"><ul data-for="diff">
-  <li>Compute unified patch between two string</li>
+  <li>Compute unified patch between two strings</li>
 </ul></td>
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/diff"><img src="https://img.shields.io/npm/v/@lowlighter%2Fdiff?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/diff"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/diff"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/diff"><img src="https://libs-coverage.lecoq.io/diff/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/logger"><code>📰 @libs/logger</code></a></h2>Simple logger</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -69,7 +74,7 @@ See table below for a list of available libraries and their features, compatibil
 </ul></td>
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/logger"><img src="https://img.shields.io/npm/v/@lowlighter%2Flogger?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/logger"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/logger"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/logger"><img src="https://libs-coverage.lecoq.io/logger/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/orm"><code>💰 @libs/orm</code></a></h2>Object-relational mapping toolbox.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -81,7 +86,7 @@ See table below for a list of available libraries and their features, compatibil
 </ul></td>
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/orm"><img src="https://img.shields.io/npm/v/@lowlighter%2Form?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/orm"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/orm"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/orm"><img src="https://libs-coverage.lecoq.io/orm/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/qrcode"><code>🔳 @libs/qrcode</code></a></h2>Pure TypeScript QRcode generator with no dependencies.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -94,7 +99,7 @@ See table below for a list of available libraries and their features, compatibil
 </ul></td>
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/qrcode"><img src="https://img.shields.io/npm/v/@lowlighter%2Fqrcode?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/qrcode"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/qrcode"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/qrcode"><img src="https://libs-coverage.lecoq.io/qrcode/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/reactive"><code>🎯 @libs/reactive</code></a></h2>Reactive utilities for observable objects.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -107,17 +112,28 @@ See table below for a list of available libraries and their features, compatibil
 </ul></td>
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/reactive"><img src="https://img.shields.io/npm/v/@lowlighter%2Freactive?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/reactive"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/reactive"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/reactive"><img src="https://libs-coverage.lecoq.io/reactive/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/run"><code>⏯️ @libs/run</code></a></h2>Utilities to run subprocess.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/run"><img src="https://jsr.io/badges/@libs/run"></a></th>
     <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
-    <td rowspan="4">undefined</td>
+    <td rowspan="4"><ul data-for="run">
+  <li>
+    Wrapper around <a href="https://deno.land/api?s=Deno.Command"><code>Deno.Command</code></a> with improved streams managements
+    <ul>
+      <li>Add <code>stdio</code> that register each <code>stdin</code>, <code>stdout</code>, <code>stderr</code> entry with a timestamp for an accurate history</li>
+      <li>Support <code>buffering</code> to merge closely-timed entries from same channel together</li>
+      <li>Pass a <code>callback</code> to react on output chanells and write to <code>stdin</code> for interactive scripting</li>
+    </ul>
+  </li>
+  <li>Support <code>winext</code> to append an extension to binary when on Windows (e.g. <code>.cmd</code>, <code>.exe</code>, etc.)</li>
+  <li>Support <code>dryrun</code> to skip command execution (useful for test environments)</li>
+</ul></td>
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/run"><img src="https://img.shields.io/npm/v/@lowlighter%2Frun?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/run"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/run"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/run"><img src="https://libs-coverage.lecoq.io/run/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/testing"><code>🧪 @libs/testing</code></a></h2>Testing utilities for cross-platform testing on Deno, Node.js and Bun.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
@@ -147,6 +163,7 @@ See table below for a list of available libraries and their features, compatibil
     <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
     <td rowspan="4"><ul data-for="typing">
   <li>Utility types such as <code>Promisable</code>, <code>Nullable</code>, <code>MapKey</code>, <code>MapValue</code>, <code>SetValue</code>, etc.</li>
+  <li>Functions constructors (<code>AsyncFunction</code>, <code>GeneratorFunction</code>, <code>AsyncGeneratorFunction</code>)</li>
 </ul></td>
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/typing"><img src="https://img.shields.io/npm/v/@lowlighter%2Ftyping?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
@@ -178,7 +195,7 @@ See table below for a list of available libraries and their features, compatibil
 </ul></td>
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/xml"><img src="https://img.shields.io/npm/v/@lowlighter%2Fxml?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/xml"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/xml"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/xml"><img src="https://libs-coverage.lecoq.io/xml/badge.svg"></a></th></tr></table>
 
 > Each package is versioned independently. Releases are fully automated and are published on every push to the `main` branch. Versioning follows [semver](https://semver.org) rules.
