@@ -45,6 +45,11 @@ export type options = {
   os?: typeof Deno.build.os
   /** Throw an error if exit code is non-zero rather than returning a result. */
   throw?: boolean
+  /**
+   * Do not actually execute the command.
+   * In this case you will instead receive an empty successful result object.
+   */
+  dryrun?: boolean
 }
 
 /** Run result. */
@@ -131,7 +136,7 @@ export function command(bin: string, args: string[], options?: options & { sync:
  * command("deno", ["eval", "Deno.exit(1)"], { throw: true, sync: true })
  * ```
  */
-export function command(bin: string, args: string[], { log = new Logger(), stdin = null, stdout = "debug", stderr = "error", env, cwd, raw, callback, buffering, sync, throw: _throw, winext = "", os = Deno.build.os } = {} as options): Promisable<result> {
+export function command(bin: string, args: string[], { log = new Logger(), stdin = null, stdout = "debug", stderr = "error", env, cwd, raw, callback, buffering, sync, throw: _throw, dryrun, winext = "", os = Deno.build.os } = {} as options): Promisable<result> {
   if (os === "windows") {
     bin = `${bin}${winext}`
   }
@@ -140,6 +145,11 @@ export function command(bin: string, args: string[], { log = new Logger(), stdin
     stdin = "piped"
   }
   const command = new Deno.Command(bin, { args, stdin: !sync ? handle(stdin) : "null", stdout: handle(stdout), stderr: handle(stderr), env, cwd, windowsRawArguments: raw })
+  if (dryrun) {
+    log.warn(`dryrun: ${bin} not executed`)
+    const result = { success: true, code: 0, stdio: [], stdin: "", stdout: "", stderr: "" }
+    return sync ? result : Promise.resolve(result)
+  }
   if (sync) {
     return exec(command, { bin, log, throw: _throw, stdout, stderr })
   }

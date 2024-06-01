@@ -116,3 +116,9 @@ test("deno")("command() throws an error when `throw` option is enabled and exit 
   expect(() => command("deno", ["eval", "Deno.exit(1)"], { env: { NO_COLOR: "true" }, throw: true, sync: true })).toThrow(EvalError)
   await expect(command("deno", ["eval", "Deno.exit(1)"], { env: { NO_COLOR: "true" }, throw: true })).rejects.toThrow(EvalError)
 }, { permissions: { run: ["deno"] } })
+
+test("deno")("command() does nothing in dryrun", async () => {
+  const log = new Logger({ level: Logger.level.disabled })
+  expect(command("deno", ["--version"], { log, dryrun: true, sync: true })).toMatchObject({ success: true, code: 0, stdio: [], stdin: "", stderr: "", stdout: "" })
+  await expect(command("deno", ["--version"], { log, dryrun: true })).resolves.toMatchObject({ success: true, code: 0, stdio: [], stdin: "", stderr: "", stdout: "" })
+}, { permissions: { run: ["deno"] } })
