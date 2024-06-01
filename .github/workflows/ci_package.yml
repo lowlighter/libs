@@ -115,7 +115,7 @@ jobs:
         run: |
           echo "has_build=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.build || ``)')" >> "$GITHUB_OUTPUT"
           echo "has_bench=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.bench || ``)')" >> "$GITHUB_OUTPUT"
-          echo "has_npm=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.npm || ``)')" >> "$GITHUB_OUTPUT"
+          echo "has_npm=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.npm || ``)')" >> "$GITHUB_OUTPUT"
         working-directory: ${{ inputs.package }}
       # Build
       - run: deno task build
