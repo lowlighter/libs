@@ -21,6 +21,7 @@
   },
   "npm": true,
   "exports": {
+    ".": "./mod.ts",
     "./command": "./command.ts"
   },
   "imports": {
