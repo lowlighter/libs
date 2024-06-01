@@ -2,7 +2,7 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@libs/testing@1": "jsr:@libs/testing@1.0.4",
+      "jsr:@libs/testing@1": "jsr:@libs/testing@1.0.7",
       "jsr:@std/assert@^0.224.0": "jsr:@std/assert@0.224.0",
       "jsr:@std/expect@0.224.0": "jsr:@std/expect@0.224.0",
       "jsr:@std/fmt@^0.224.0": "jsr:@std/fmt@0.224.0",
@@ -11,8 +11,8 @@
       "npm:@types/node": "npm:@types/node@18.16.19"
     },
     "jsr": {
-      "@libs/testing@1.0.4": {
-        "integrity": "9e3d28f5458a68435b49b870f8a2137ae79a09d2f10f16c4a6603d6ef7bf3873",
+      "@libs/testing@1.0.7": {
+        "integrity": "b1a7caa9d2e00569f90b9753eb768ec6b16ff5c859f104b73a6ef4611968892e",
         "dependencies": [
           "jsr:@libs/typing@2",
           "jsr:@std/expect@0.224.0",
