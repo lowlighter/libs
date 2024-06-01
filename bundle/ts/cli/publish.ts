@@ -1,5 +1,5 @@
 /**
- * CLI utility to enhance code coverage reports with matcha theme and create SVG badges
+ * CLI utility to publish package on npm registries.
  *
  * @module
  */
