@@ -179,7 +179,7 @@ jobs:
           cd ${{ inputs.package }}
           deno fmt deno.jsonc
           git add deno.jsonc
-          git commit -m "chore(${{ inputs.package }}): bump version ${{ needs.test.outputs.tag }}"
+          git commit -m 'chore(${{ inputs.package }}): bump version ${{ needs.test.outputs.tag }}'
           git pull --rebase
           git push
       - name: Run git tag
@@ -194,6 +194,6 @@ jobs:
       - run: deno publish
         working-directory: ${{ inputs.package }}
       - name: Run npm publish
-        if: ${{ false && needs.test.outputs.has_npm }}
+        if: ${{ needs.test.outputs.has_npm }}
         run: deno run --allow-all jsr:@libs/ts/cli/publish deno.jsonc --registry 'https://registry.npmjs.org' --scope '@lowlighter' --token ${{ secrets.NPM_TOKEN }}
         working-directory: ${{ inputs.package }}
