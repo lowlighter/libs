@@ -2,10 +2,10 @@
 import * as JSONC from "@std/jsonc"
 import type { Arg, Optional, record } from "@libs/typing"
 import { assertMatch } from "@std/assert"
-import { Logger, type loglevel } from "@libs/logger"
+import { Logger } from "@libs/logger"
 import { bundle } from "./bundle.ts"
 import { dirname, resolve, toFileUrl } from "@std/path"
-import { mergeReadableStreams, TextLineStream } from "@std/streams"
+import { command } from "@libs/run/command"
 
 /** Transform a `deno.jsonc` file into a `package.json` and bundle exported entrypoints to make package publishable on json. */
 export async function packaged(path = "deno.jsonc", { log = new Logger(), scope = undefined as Optional<string>, name = undefined as Optional<string> } = {}): Promise<package_output> {
@@ -73,8 +73,8 @@ export async function publish(
   try {
     for (const { url, token, access } of registries) {
       Deno.chdir(directory)
-      await npm(["set", "--location", "project", "registry", url], { log })
-      await npm(["set", "--location", "project", `//${new URL(url).host}/:_authToken`, token], { log })
+      await command("npm", ["set", "--location", "project", "registry", url], { log, winext: ".cmd", throw: true })
+      await command("npm", ["set", "--location", "project", `//${new URL(url).host}/:_authToken`, token], { log, winext: ".cmd", throw: true })
       const args = ["publish", "--access", { public: "public", private: "restricted" }[access]]
       if (dryrun) {
         args.push("--dry-run")
@@ -83,7 +83,7 @@ export async function publish(
         args.push("--provenance")
       }
       log.debug(`publishing to: ${url} (${access})`)
-      const { success, stdout, stderr } = await npm(args, { log, env: { NPM_TOKEN: token } })
+      const { success, stdout, stderr } = await command("npm", args, { log, env: { NPM_TOKEN: token }, winext: ".cmd" })
       if ((!success) && (!`${stdout}\n${stderr}`.includes("You cannot publish over the previously published versions"))) {
         throw new Error(`npm publish failed: ${stdout}\n${stderr}`)
       }
@@ -92,33 +92,6 @@ export async function publish(
     Deno.chdir(cwd)
   }
   return { scope, name, json }
-}
-
-/** Run npm command. */
-async function npm(args: string[], { log, env }: { log: Logger; env?: record<string> }) {
-  let extension = ""
-  if (Deno.build.os === "windows") {
-    extension = ".cmd"
-  }
-  log = log.with({ npm: true })
-  const command = new Deno.Command(`npm${extension}`, { args, stdout: "piped", stderr: "piped", env })
-  const process = command.spawn()
-  const stream = mergeReadableStreams(process.stdout, process.stderr).pipeThrough(new TextDecoderStream()).pipeThrough(new TextLineStream())
-  let stdout = ""
-  let stderr = ""
-  for await (const line of stream) {
-    const { level, content } = line.match(/^npm (?<level>[a-zA-Z!]+) (?<content>.*)$/)?.groups ?? {}
-    if (level) {
-      log[({ "ERR!": "error", "WARN": "warn" }[level] ?? "debug") as loglevel](content)
-      if (level === "ERR!") {
-        stderr += content
-      } else {
-        stdout += content
-      }
-    }
-  }
-  const { success, code } = await process.status
-  return { success, code, stdout, stderr }
 }
 
 /** Package output. */

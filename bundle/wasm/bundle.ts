@@ -7,7 +7,8 @@ import { copy, readerFromStreamReader } from "@std/io"
 import { ensureFile } from "@std/fs"
 import { basename, dirname, resolve, toFileUrl } from "@std/path"
 import { type level as loglevel, Logger } from "@libs/logger"
-import type { record } from "../../typing/mod.ts"
+import type { record } from "@libs/typing"
+import { command } from "@libs/run/command"
 
 /**
  * Build WASM, bundle and minify JavaScript.
@@ -25,7 +26,7 @@ export async function bundle(project: string, { bin = "wasm-pack", autoinstall =
 
   // Check that cargo is installed
   try {
-    await new Deno.Command("cargo", { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit", env }).output()
+    await command("cargo", ["--version"], { log, env, throw: true })
   } catch (error) {
     if (error instanceof Deno.errors.NotFound) {
       log.error("cargo binary not found in PATH, is it installed?")
@@ -39,7 +40,7 @@ export async function bundle(project: string, { bin = "wasm-pack", autoinstall =
   if (autoinstall) {
     log.debug(`checking if ${bin} is installed`)
     try {
-      await new Deno.Command(bin, { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit", env }).output()
+      await command(bin, ["--version"], { log, env, throw: true })
     } catch (error) {
       if (error instanceof Deno.errors.NotFound) {
         log.warn(`${bin} not found, installing`)
@@ -50,8 +51,7 @@ export async function bundle(project: string, { bin = "wasm-pack", autoinstall =
 
   // Build wasm
   log.info("building wasm")
-  const command = new Deno.Command(bin, { args: ["build", "--release", "--target", "web"], cwd: project, stdin: "inherit", stdout: "inherit", stderr: "inherit", env })
-  const { success } = await command.output()
+  const { success } = await command(bin, ["build", "--release", "--target", "web"], { log, cwd: project, env })
   assert(success, "wasm build failed")
 
   // Inject wasm so it can be loaded without permissions, and export a source function so it can be loaded synchronously using `initSync()`
@@ -116,8 +116,7 @@ async function install({ log, path }: { log: Logger; path: string }) {
   log.debug("ok")
   // Check installation
   log.info("checking installation")
-  const command = new Deno.Command(path, { args: ["--version"], stdin: "inherit", stdout: "inherit", stderr: "inherit" })
-  const { success } = await command.output()
+  const { success } = await command(path, ["--version"], { log })
   assert(success, "wasm-pack could not be executed")
   return path
 }

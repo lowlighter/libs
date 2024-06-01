@@ -4,6 +4,7 @@
     "specifiers": {
       "jsr:@cliffy/table@1.0.0-rc.4": "jsr:@cliffy/table@1.0.0-rc.4",
       "jsr:@libs/logger@1": "jsr:@libs/logger@1.1.1",
+      "jsr:@libs/run@0.1.0": "jsr:@libs/run@0.1.0",
       "jsr:@libs/testing@1": "jsr:@libs/testing@1.0.7",
       "jsr:@libs/typing@2": "jsr:@libs/typing@2.1.0",
       "jsr:@luca/esbuild-deno-loader@0.10.3": "jsr:@luca/esbuild-deno-loader@0.10.3",
@@ -60,6 +61,13 @@
       },
       "@libs/logger@1.1.1": {
         "integrity": "7b74ca947062b955e8d63299f77a41fc4f2cf0a663a6ad836b703d601f622ccf"
+      },
+      "@libs/run@0.1.0": {
+        "integrity": "06b3e010474d304ea5274c24c0d70d8835fbd673aed1e34c32091de949d8eb8d",
+        "dependencies": [
+          "jsr:@std/async@0.224.1",
+          "jsr:@std/streams@0.224.2"
+        ]
       },
       "@libs/testing@1.0.7": {
         "integrity": "b1a7caa9d2e00569f90b9753eb768ec6b16ff5c859f104b73a6ef4611968892e",
@@ -1141,6 +1149,7 @@
     "dependencies": [
       "jsr:@cliffy/table@1.0.0-rc.4",
       "jsr:@libs/logger@1",
+      "jsr:@libs/run@0.1.0",
       "jsr:@libs/testing@1",
       "jsr:@libs/typing@2",
       "jsr:@libs/xml@5",
