@@ -29,17 +29,26 @@
   "npm": false,
   "exports": {
     "./ts": "./ts/mod.ts",
-    "./css": "./css/mod.ts",
-    "./wasm": "./wasm/mod.ts",
+    "./ts/bundle": "./ts/bundle.ts",
+    "./ts/publish": "./ts/publish/mod.ts",
+    "./ts/publish/npm": "./ts/publish/npm.ts",
+    "./ts/publish/x": "./ts/publish/x.ts",
     "./ts/cli/coverage": "./ts/cli/coverage.ts",
     "./ts/cli/publish": "./ts/cli/publish.ts",
-    "./css/cli/fmt": "./css/cli/fmt.ts",
+    "./css": "./css/mod.ts",
+    "./css/bundle": "./css/bundle.ts",
+    "./css/compatibility": "./css/compatibility.ts",
     "./css/cli/check": "./css/cli/check.ts",
-    "./wasm/cli/build": "./wasm/cli/build.ts"
+    "./css/cli/fmt": "./css/cli/fmt.ts",
+    "./wasm": "./wasm/mod.ts",
+    "./wasm/bundle": "./wasm/bundle.ts",
+    "./wasm/cli/build": "./wasm/cli/build.ts",
+    "./xhtml/cli/fmt": "./xhtml/cli/fmt.ts"
   },
   "imports": {
     "@std/fs": "jsr:@std/fs@0.229.1",
     "@std/async/delay": "jsr:@std/async@0.224.1/delay",
+    "@std/async/retry": "jsr:@std/async@0.224.1/retry",
     "@std/assert": "jsr:@std/assert@0.225.3",
     "@std/semver": "jsr:@std/semver@0.224.1",
     "@std/path": "jsr:@std/path@0.225.1",
@@ -55,7 +64,7 @@
     "@libs/testing": "jsr:@libs/testing@1",
     "@libs/typing": "jsr:@libs/typing@2",
     "@libs/xml": "jsr:@libs/xml@5",
-    "@libs/run": "jsr:@libs/run@0.1.0",
+    "@libs/run": "jsr:@libs/run@1",
     "@cliffy/table": "jsr:@cliffy/table@1.0.0-rc.4",
     "@mdn/browser-compat-data": "npm:@mdn/browser-compat-data@5",
     "@lowlighter/deno-dom/deno-dom-wasm": "jsr:@lowlighter/deno-dom@0.1.46-rc1/deno-dom-wasm",
@@ -69,7 +78,8 @@
     "stylelint-order": "npm:stylelint-order@6",
     "stylelint-config-recommended": "npm:stylelint-config-recommended@14",
     "stylelint-config-idiomatic-order": "npm:stylelint-config-idiomatic-order@10",
-    "highlight.js": "npm:highlight.js@11.9.0"
+    "highlight.js": "npm:highlight.js@11.9.0",
+    "octokit": "npm:octokit@4"
   },
   "test:permissions": {
     "read": true,
