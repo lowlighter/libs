@@ -1,9 +1,9 @@
 import { fromFileUrl } from "@std/path/from-file-url"
-import { packaged, publish } from "./publish.ts"
+import { packaged, publish } from "./npm.ts"
 import { expect, test } from "@libs/testing"
 import { Logger } from "@libs/logger"
 
-const path = fromFileUrl(new URL("testing/deno.jsonc", import.meta.url))
+const path = fromFileUrl(new URL("../testing/deno.jsonc", import.meta.url))
 
 test("deno")("packaged() parses deno.jsonc to package.json and other metadata", async () => {
   await expect(packaged(path)).resolves.toMatchObject({

@@ -3,7 +3,7 @@ import * as JSONC from "@std/jsonc"
 import type { Arg, Optional, record } from "@libs/typing"
 import { assertMatch } from "@std/assert"
 import { Logger } from "@libs/logger"
-import { bundle } from "./bundle.ts"
+import { bundle } from "../bundle.ts"
 import { dirname, resolve, toFileUrl } from "@std/path"
 import { command } from "@libs/run/command"
 

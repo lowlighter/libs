@@ -5,7 +5,7 @@
  */
 
 // Imports
-import { publish } from "../publish.ts"
+import { publish as publish_npm } from "../publish/npm.ts"
 import { parseArgs } from "@std/cli"
 import { Logger, type loglevel } from "@libs/logger"
 import { assert } from "@std/assert"
@@ -40,8 +40,8 @@ if (help) {
 }
 
 const logger = new Logger({ level: Logger.level[loglevel as loglevel] })
-const registries = [{ url, token, access }] as Arg<typeof publish, 1>["registries"]
+const registries = [{ url, token, access }] as Arg<typeof publish_npm, 1>["registries"]
 assert(project, "No project specified")
 assert(url, "No registry specified")
 assert(["public", "private"].includes(`${access}`), `Invalid access type: ${access}`)
-await publish(`${project}`, { log: logger, scope, name, dryrun, registries, provenance })
+await publish_npm(`${project}`, { log: logger, scope, name, dryrun, registries, provenance })
