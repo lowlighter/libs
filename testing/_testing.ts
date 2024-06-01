@@ -1,9 +1,7 @@
 // Imports
-import type { Nullable, Promisable, record, rw } from "@libs/typing"
+import type { Nullable, Promisable, rw } from "@libs/typing"
 import { fromFileUrl } from "@std/path/from-file-url"
-
-/** Text decoder. */
-const decoder = new TextDecoder()
+import { command } from "@libs/run/command"
 
 /**
  * Available runtimes.
@@ -99,10 +97,6 @@ export const test = Object.assign(_test.bind(null, "test"), { skip: _test.bind(n
  */
 function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, fn: () => Promisable<void>, options?: options) => Promisable<void> {
   const global = globalThis as rw
-  let extension = ""
-  if (global.Deno?.build.os === "windows") {
-    extension = ".cmd"
-  }
   if (runtimes.includes("all")) {
     runtimes = Object.keys(available) as runtime[]
   }
@@ -112,7 +106,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
   // Bun runtime
   if ((global.Deno) && (runtimes.includes("bun")) && (available.bun === null)) {
     try {
-      run(paths.bun, { args: ["--version"] })
+      command(paths.bun, ["--version"], { stdout: null, stderr: null, sync: true, throw: true })
       Object.assign(available, { bun: true })
     } catch (error) {
       if (error instanceof Deno.errors.NotFound) {
@@ -135,8 +129,8 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
   // Node runtime
   if ((global.Deno) && (runtimes.includes("node")) && (available.node === null)) {
     try {
-      run(paths.node, { args: ["--version"] })
-      run(`${paths.npx}${extension}`, { args: ["tsx", "--version"] })
+      command(paths.node, ["--version"], { stdout: null, stderr: null, sync: true, throw: true })
+      command(paths.npx, ["tsx", "--version"], { stdout: null, stderr: null, sync: true, throw: true, winext: ".cmd" })
       Object.assign(available, { node: true })
     } catch (error) {
       if (error instanceof Deno.errors.NotFound) {
@@ -161,51 +155,36 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
   return function (name: string, fn: () => Promisable<void>, options = { permissions: "none" } as options) {
     for (const runtime of runtimes as runtime[]) {
       ;({ test: Deno.test, skip: Deno.test.ignore, only: Deno.test.only }[available[runtime as runtime] ? mode : "skip"])(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, function () {
-        return testcase(runtime, filename, name, fn, { extension })
+        return testcase(runtime, filename, name, fn)
       })
     }
   }
-}
-
-/** Spawn runtime with specified args and environment. */
-export function run(runtime: Nullable<string>, { args, env }: { args: string[]; env?: record<string> }) {
-  if (runtime === null) {
-    return { success: false, code: NaN, stdout: "", stderr: "" }
-  }
-  const command = new Deno.Command(runtime, { args, env, stdout: "piped", stderr: "piped" })
-  const { success, code, ...stdio } = command.outputSync()
-  const stdout = decoder.decode(stdio.stdout)
-  const stderr = decoder.decode(stdio.stderr)
-  if (!success) {
-    throw Object.assign(new Error(`${runtime} exited with code ${code}:\n${stdout}\n${stderr}`), { stack: null })
-  }
-  return { success, code, stdout, stderr }
 }
 
 /** Install cache (skip install for tests within the same file).*/
 export const cache = new Set<string>()
 
 /** Resolve dependencies using `deno info` and install packages using the adequate package manager. */
-export function install([bin, ...args]: string[], filename: string) {
+export function install([bin, ...args]: string[], filename: string, { winext = "" } = {}) {
   if (cache.has(`${bin}:${filename}`)) {
     return
   }
-  const { stdout } = run(paths.deno, { args: ["info", "--json", filename] })
+  const { stdout } = command(paths.deno, ["info", "--json", filename], { stdout: "piped", stderr: null, sync: true, throw: true })
   const { packages, npmPackages: _ } = JSON.parse(stdout)
-  run(bin, { args: [...args, ...Object.keys(packages)] })
+  command(bin, [...args, ...Object.keys(packages)], { stdout: null, stderr: null, sync: true, throw: true, winext })
   cache.add(`${bin}:${filename}`)
 }
 
 /** Run test function for given filename on the specified runtime. */
-export async function testcase(runtime: runtime, filename: string, name: string, fn: () => Promisable<void>, { extension = "" } = {}) {
+export async function testcase(runtime: runtime, filename: string, name: string, fn: () => Promisable<void>) {
   switch (runtime) {
     case "node":
-      install([`${paths.npx}${extension}`, "jsr", "add"], filename)
-      run(`${paths.npx}${extension}`, { args: ["tsx", "--test-reporter", "spec", "--test-name-pattern", name, "--test", filename], env: { FORCE_COLOR: "true" } })
+      install([paths.npx, "jsr", "add"], filename, { winext: ".cmd" })
+      await command(paths.npx, ["tsx", "--test-reporter", "spec", "--test-name-pattern", name, "--test", filename], { stdout: "piped", stderr: "piped", throw: true, env: { FORCE_COLOR: "true" }, winext: ".cmd" })
       break
     case "bun":
       install([paths.bun, "x", "jsr", "add"], filename)
-      run(paths.bun, { args: ["test", "--test-name-pattern", name, filename], env: { FORCE_COLOR: "1" } })
+      await command(paths.bun, ["test", "--test-name-pattern", name, filename], { stdout: "piped", stderr: "piped", throw: true, env: { FORCE_COLOR: "1" } })
       break
     case "deno":
       await fn()
