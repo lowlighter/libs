@@ -146,7 +146,7 @@ export function command(bin: string, args: string[], { log = new Logger(), stdin
   }
   const command = new Deno.Command(bin, { args, stdin: !sync ? handle(stdin) : "null", stdout: handle(stdout), stderr: handle(stderr), env, cwd, windowsRawArguments: raw })
   if (dryrun) {
-    log.warn(`dryrun: ${bin} not executed`)
+    log.debug(`dryrun: ${bin} not executed`)
     const result = { success: true, code: 0, stdio: [], stdin: "", stdout: "", stderr: "" }
     return sync ? result : Promise.resolve(result)
   }
