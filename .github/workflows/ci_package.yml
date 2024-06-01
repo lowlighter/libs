@@ -162,9 +162,6 @@ jobs:
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v1
-      - uses: actions/setup-node@v4
-        with:
-          registry-url: https://registry.npmjs.org
       - name: Configure git
         run: git config user.name 'github-actions[bot]' && git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
       # Build

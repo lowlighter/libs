@@ -70,12 +70,14 @@ export async function publish(path: Arg<typeof packaged>, { log = new Logger(), 
   try {
     for (const { url, token, access } of registries) {
       Deno.chdir(directory)
+      await npm(["set", "--location", "project", "registry", url], { log })
+      await npm(["set", "--location", "project", `//${new URL(url).host}/:_authToken`, token], { log })
       const args = ["publish", "--access", { public: "public", private: "restricted" }[access]]
       if (dryrun) {
         args.push("--dry-run")
       }
       log.debug(`publishing to: ${url} (${access})`)
-      const { success, stderr } = await npm(args, { log, env: { NPM_CONFIG_REGISTRY: url, NPM_TOKEN: token } })
+      const { success, stderr } = await npm(args, { log, env: { NPM_TOKEN: token } })
       if ((!success) && (!stderr.includes("You cannot publish over the previously published versions"))) {
         throw new Error(`npm publish failed: ${stderr}`)
       }
