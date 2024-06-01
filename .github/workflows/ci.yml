@@ -41,6 +41,8 @@ jobs:
       event: ${{ github.event_name }}
       package: ${{ matrix.package }}
       publish: ${{ github.event_name == 'push' }}
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   coverage:
     name: Coverage

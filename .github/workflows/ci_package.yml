@@ -42,6 +42,10 @@ on:
         description: Publish
         default: false
         type: boolean
+    secrets:
+      NPM_TOKEN:
+        description: NPM token
+        required: true
 jobs:
   setup:
     name: Setup
