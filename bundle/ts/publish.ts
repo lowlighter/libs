@@ -75,7 +75,7 @@ export async function publish(path: Arg<typeof packaged>, { log = new Logger(), 
         args.push("--dry-run")
       }
       log.debug(`publishing to: ${url} (${access})`)
-      const { success, stderr } = await npm(args, { log, env: { NPM_CONFIG_REGISTRY:url, NPM_TOKEN: token } })
+      const { success, stderr } = await npm(args, { log, env: { NPM_CONFIG_REGISTRY: url, NPM_TOKEN: token } })
       if ((!success) && (!stderr.includes("You cannot publish over the previously published versions"))) {
         throw new Error(`npm publish failed: ${stderr}`)
       }
