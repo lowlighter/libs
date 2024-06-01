@@ -155,7 +155,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
   return function (name: string, fn: () => Promisable<void>, options = { permissions: "none" } as options) {
     for (const runtime of runtimes as runtime[]) {
       ;({ test: Deno.test, skip: Deno.test.ignore, only: Deno.test.only }[available[runtime as runtime] ? mode : "skip"])(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, function () {
-        return testcase(runtime, filename, name, fn)
+        return testcase(runtime, filename, name, fn, (options as { __dryrun?: boolean })?.__dryrun)
       })
     }
   }
@@ -171,22 +171,20 @@ export function install([bin, ...args]: string[], filename: string, { winext = "
   }
   const { stdout } = command(paths.deno, ["info", "--json", filename], { stdout: "piped", stderr: null, sync: true, throw: true })
   const { packages, npmPackages: _ } = JSON.parse(stdout)
-  if (bin) {
-    command(bin, [...args, ...Object.keys(packages)], { stdout: null, stderr: null, sync: true, throw: true, winext })
-  }
+  command(bin, [...args, ...Object.keys(packages)], { stdout: null, stderr: null, sync: true, throw: true, winext, dryrun: !bin })
   cache.add(`${bin}:${filename}`)
 }
 
 /** Run test function for given filename on the specified runtime. */
-export async function testcase(runtime: runtime, filename: string, name: string, fn: () => Promisable<void>) {
+export async function testcase(runtime: runtime, filename: string, name: string, fn: () => Promisable<void>, dryrun = false) {
   switch (runtime) {
     case "node":
       install([paths.npx, "jsr", "add"], filename, { winext: ".cmd" })
-      await command(paths.npx, ["tsx", "--test-reporter", "spec", "--test-name-pattern", name, "--test", filename], { stdout: "piped", stderr: "piped", throw: true, env: { FORCE_COLOR: "true" }, winext: ".cmd" })
+      await command(paths.npx, ["tsx", "--test-reporter", "spec", "--test-name-pattern", name, "--test", filename], { stdout: "piped", stderr: "piped", throw: true, env: { FORCE_COLOR: "true" }, winext: ".cmd", dryrun })
       break
     case "bun":
       install([paths.bun, "x", "jsr", "add"], filename)
-      await command(paths.bun, ["test", "--test-name-pattern", name, filename], { stdout: "piped", stderr: "piped", throw: true, env: { FORCE_COLOR: "1" } })
+      await command(paths.bun, ["test", "--test-name-pattern", name, filename], { stdout: "piped", stderr: "piped", throw: true, env: { FORCE_COLOR: "1" }, dryrun })
       break
     case "deno":
       await fn()

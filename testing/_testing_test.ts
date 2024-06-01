@@ -32,7 +32,7 @@ test("deno")("test() is able to detect bun runtime environment", async () => {
     Object.assign(globalThis, { Bun: true })
     const testcase = test("bun")
     expect(testcase).toBeInstanceOf(Function)
-    await expect(testcase(null as testing, null as testing)).rejects.toThrow()
+    await expect(testcase("", () => {}, { __dryrun: true } as testing)).rejects.toThrow(Error)
   } finally {
     delete (globalThis as testing).Bun
   }
@@ -43,7 +43,7 @@ test("deno")("test() is able to detect node runtime environment", async () => {
     Object.assign(globalThis, { process: { versions: { node: true } } })
     const testcase = test("node")
     expect(testcase).toBeInstanceOf(Function)
-    await expect((testcase(null as testing, null as testing) as testing).catch(() => undefined)).resolves.toBeUndefined()
+    await expect(testcase("", () => {}, { __dryrun: true } as testing)).rejects.toThrow(Error)
   } finally {
     delete (globalThis as testing).process
   }

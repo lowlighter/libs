@@ -3,8 +3,8 @@
   "packages": {
     "specifiers": {
       "jsr:@libs/logger@1": "jsr:@libs/logger@1.1.2",
-      "jsr:@libs/run@0.2.0": "jsr:@libs/run@0.2.0",
-      "jsr:@libs/typing@2": "jsr:@libs/typing@2.1.0",
+      "jsr:@libs/run@1": "jsr:@libs/run@1.0.1",
+      "jsr:@libs/typing@2": "jsr:@libs/typing@2.1.1",
       "jsr:@std/assert@^0.224.0": "jsr:@std/assert@0.224.0",
       "jsr:@std/assert@^0.225.3": "jsr:@std/assert@0.225.3",
       "jsr:@std/async@0.224.1": "jsr:@std/async@0.224.1",
@@ -20,16 +20,16 @@
       "@libs/logger@1.1.2": {
         "integrity": "7d718f54c9a5d1c00f570051bee0217e3b282e8c2131144ec55c794a8ebd5d4f"
       },
-      "@libs/run@0.2.0": {
-        "integrity": "b279a679a448b92d5cb1567f0e2d51a83bf5c9a683b11a9dc3b4581280a6802e",
+      "@libs/run@1.0.1": {
+        "integrity": "b22b34ae7629179568c44efecb60f69310af013f65c96e447a5ee8743ff53f42",
         "dependencies": [
           "jsr:@libs/logger@1",
           "jsr:@std/async@0.224.1",
           "jsr:@std/streams@0.224.2"
         ]
       },
-      "@libs/typing@2.1.0": {
-        "integrity": "3c3b93e1da1e4bb45a22dde168fdfd1cc765edbdb371b46bf4ca7873ee79e15d"
+      "@libs/typing@2.1.1": {
+        "integrity": "964e61860716140671718b170d8de4a8705e05d86e7ed0c41883fe2687c91c80"
       },
       "@std/assert@0.224.0": {
         "integrity": "8643233ec7aec38a940a8264a6e3eed9bfa44e7a71cc6b3c8874213ff401967f"
@@ -82,7 +82,7 @@
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@libs/run@0.2.0",
+      "jsr:@libs/run@1",
       "jsr:@libs/typing@2",
       "jsr:@std/expect@0.224.3",
       "jsr:@std/path@0.225.1"
@@ -90,7 +90,7 @@
     "packageJson": {
       "dependencies": [
         "npm:@jsr/libs__logger@^1.1.2",
-        "npm:@jsr/libs__run@^0.2.0",
+        "npm:@jsr/libs__run@^1.0.1",
         "npm:@jsr/libs__typing@^2.1.1",
         "npm:@jsr/std__assert@^0.224.0",
         "npm:@jsr/std__async@^0.224.1",
