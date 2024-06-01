@@ -98,6 +98,7 @@ jobs:
       has_build: ${{ steps.package.outputs.has_build }}
       has_bench: ${{ steps.package.outputs.has_bench }}
       has_npm: ${{ steps.package.outputs.has_npm }}
+      has_x: ${{ steps.package.outputs.has_x }}
       tag: ${{ steps.tag.outputs.tag }}
       version: ${{ steps.tag.outputs.semver }}
     steps:
@@ -120,6 +121,7 @@ jobs:
           echo "has_build=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.build || ``)')" >> "$GITHUB_OUTPUT"
           echo "has_bench=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.bench || ``)')" >> "$GITHUB_OUTPUT"
           echo "has_npm=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.npm || ``)')" >> "$GITHUB_OUTPUT"
+          echo "has_x=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.[`deno.land/x`] || ``)')" >> "$GITHUB_OUTPUT"
         working-directory: ${{ inputs.package }}
       # Build
       - run: deno task build
@@ -199,8 +201,10 @@ jobs:
       - run: deno publish
         working-directory: ${{ inputs.package }}
       - name: Run npm publish
-        if: ${{ needs.test.outputs.has_npm }}
-        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --registry 'https://registry.npmjs.org' --scope '@lowlighter' --token '${{ secrets.NPM_TOKEN }}' --loglevel 'debug'
+        if: ${{ false && needs.test.outputs.has_npm }}
+        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --npm.registry 'https://registry.npmjs.org' --npm.token '${{ secrets.NPM_TOKEN }}' --npm.scope '@lowlighter'
         working-directory: ${{ inputs.package }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Run deno.land/x publish
+        if: ${{ false && needs.test.outputs.has_x }}
+        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --x.repository '${{ github.repository }}' --x.token '${{ secrets.GITHUB_TOKEN }}' --x.directory="$(git rev-parse --show-prefix)" --x.reactive --x.remove
+        working-directory: ${{ inputs.package }}
