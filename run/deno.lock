@@ -2,7 +2,7 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@libs/logger@1": "jsr:@libs/logger@1.1.0",
+      "jsr:@libs/logger@1": "jsr:@libs/logger@1.1.1",
       "jsr:@libs/testing@1": "jsr:@libs/testing@1.0.7",
       "jsr:@libs/typing@2": "jsr:@libs/typing@2.1.0",
       "jsr:@std/assert@^0.224.0": "jsr:@std/assert@0.224.0",
@@ -19,8 +19,8 @@
       "npm:@types/node": "npm:@types/node@18.16.19"
     },
     "jsr": {
-      "@libs/logger@1.1.0": {
-        "integrity": "6ea74b18b2a47b22dcd64accb0bcfcdfb598f9fec71af0c8be8dd08edeb8982c"
+      "@libs/logger@1.1.1": {
+        "integrity": "7b74ca947062b955e8d63299f77a41fc4f2cf0a663a6ad836b703d601f622ccf"
       },
       "@libs/testing@1.0.7": {
         "integrity": "b1a7caa9d2e00569f90b9753eb768ec6b16ff5c859f104b73a6ef4611968892e",
