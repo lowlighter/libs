@@ -171,7 +171,9 @@ export function install([bin, ...args]: string[], filename: string, { winext = "
   }
   const { stdout } = command(paths.deno, ["info", "--json", filename], { stdout: "piped", stderr: null, sync: true, throw: true })
   const { packages, npmPackages: _ } = JSON.parse(stdout)
-  command(bin, [...args, ...Object.keys(packages)], { stdout: null, stderr: null, sync: true, throw: true, winext })
+  if (bin) {
+    command(bin, [...args, ...Object.keys(packages)], { stdout: null, stderr: null, sync: true, throw: true, winext })
+  }
   cache.add(`${bin}:${filename}`)
 }
 
