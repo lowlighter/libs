@@ -7,7 +7,7 @@
 // Imports
 import { expandGlob } from "@std/fs"
 import { dirname, resolve } from "@std/path"
-import { default as syntax } from "npm:highlight.js@11.9.0"
+import { default as syntax } from "highlight.js"
 import { DOMParser } from "@lowlighter/deno-dom/deno-dom-wasm"
 import { basename } from "@std/path"
 import { parseArgs } from "@std/cli"
