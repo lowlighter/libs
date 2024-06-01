@@ -1,6 +1,11 @@
 <ul data-for="bundle">
   <li>Lint, minify, license CSS code and check features compatibility against MDN data for each browser</li>
-  <li>Bundle, minify, anonymize local file paths and license TypeScript code</li>
+  <li>
+    Bundle, minify, anonymize local file paths, license and publish TypeScript code
+    <ul>
+      <li>Publish deno packages easily back to <a href="https://www.npmjs.com">NPM registries</a> and <a href="https://deno.land/x">deno.land/x</a></li>
+    </ul>
+  </li>
   <li>Compile Rust projects to Web assembly, hot-patch source in base64 and minify output</li>
   <li><a href="#-cli-utilities">CLI utilities</a></li>
 </ul>
@@ -9,7 +14,7 @@
   <li>Generate time-based OTP secret key and verify tokens validity</li>
 </ul>
 <ul data-for="diff">
-  <li>Compute unified patch between two string</li>
+  <li>Compute unified patch between two strings</li>
 </ul>
 <ul data-for="logger">
   <li>
@@ -32,6 +37,18 @@
   <li>Create observable contexts to track get, set, delete and call operations</li>
   <li>Support inherited contexts</li>
 </ul>
+<ul data-for="run">
+  <li>
+    Wrapper around <a href="https://deno.land/api?s=Deno.Command"><code>Deno.Command</code></a> with improved streams managements
+    <ul>
+      <li>Add <code>stdio</code> that register each <code>stdin</code>, <code>stdout</code>, <code>stderr</code> entry with a timestamp for an accurate history</li>
+      <li>Support <code>buffering</code> to merge closely-timed entries from same channel together</li>
+      <li>Pass a <code>callback</code> to react on output chanells and write to <code>stdin</code> for interactive scripting</li>
+    </ul>
+  </li>
+  <li>Support <code>winext</code> to append an extension to binary when on Windows (e.g. <code>.cmd</code>, <code>.exe</code>, etc.)</li>
+  <li>Support <code>dryrun</code> to skip command execution (useful for test environments)</li>
+</ul>
 <ul data-for="testing">
   <li>
     Cross-runtime testing framework
@@ -46,6 +63,7 @@
 </ul>
 <ul data-for="typing">
   <li>Utility types such as <code>Promisable</code>, <code>Nullable</code>, <code>MapKey</code>, <code>MapValue</code>, <code>SetValue</code>, etc.</li>
+  <li>Functions constructors (<code>AsyncFunction</code>, <code>GeneratorFunction</code>, <code>AsyncGeneratorFunction</code>)</li>
 </ul>
 <ul data-for="xml">
   <li>
