@@ -141,26 +141,7 @@ export function command(bin: string, args: string[], { log = new Logger(), stdin
   }
   const command = new Deno.Command(bin, { args, stdin: !sync ? handle(stdin) : "null", stdout: handle(stdout), stderr: handle(stderr), env, cwd, windowsRawArguments: raw })
   if (sync) {
-    const start = Date.now()
-    const { success, code, ..._stdio } = command.outputSync()
-    const t = Date.now() - start
-    const stdio = {
-      get stdio() {
-        return [[t, 1, this.stdout], [t, 2, this.stderr]]
-      },
-      stdin: "",
-      stdout: decoder.decode(_stdio.stdout),
-      stderr: decoder.decode(_stdio.stderr),
-    } as Pick<result, "stdio" | "stdin" | "stdout" | "stderr">
-    for (const { channel, mode } of [{ channel: "stdout", mode: stdout }, { channel: "stderr", mode: stderr }] as const) {
-      if ((handle(mode) === "piped") && (stdio[channel])) {
-        log.with({ t, channel })[mode as loglevel]?.(stdio[channel])
-      }
-    }
-    if ((!success) && _throw) {
-      throw new EvalError(`${bin} exited with non-zero code ${code}:\n${stdio.stdout}\n${stdio.stderr}`)
-    }
-    return { success, code, ...stdio }
+    return exec(command, { bin, log, throw: _throw, stdout, stderr })
   }
   return spawn(command, { bin, log, callback, buffering, throw: _throw, stdin: handle(stdin) === "piped" ? stdin as loglevel : null, stdout: handle(stdout) === "piped" ? stdout as loglevel : null, stderr: handle(stderr) === "piped" ? stderr as loglevel : null })
 }
@@ -170,7 +151,32 @@ function handle(mode: Nullable<string>) {
   return ["inherit", "null"].includes(`${mode}`) ? `${mode}` as "inherit" | "null" : "piped"
 }
 
-/** Spawn a command asynchronously  */
+/** Execute a command synchronously. */
+function exec(command: Deno.Command, { bin, log, throw: _throw, stdout, stderr }: { bin: string; log: Logger; throw?: boolean; stdout: Nullable<string>; stderr: Nullable<string> }) {
+  const start = Date.now()
+  const output = command.outputSync()
+  const { success, code } = output // Do not access stdout or stderr before "piped" status check
+  const t = Date.now() - start
+  const stdio = {
+    get stdio() {
+      return [[t, 1, this.stdout], [t, 2, this.stderr]]
+    },
+    stdin: "",
+    stdout: handle(stdout) === "piped" ? decoder.decode(output.stdout) : "",
+    stderr: handle(stderr) === "piped" ? decoder.decode(output.stderr) : "",
+  } as Pick<result, "stdio" | "stdin" | "stdout" | "stderr">
+  for (const { channel, mode } of [{ channel: "stdout", mode: stdout }, { channel: "stderr", mode: stderr }] as const) {
+    if ((handle(mode) === "piped") && (stdio[channel])) {
+      log.with({ t, channel })[mode as loglevel]?.(stdio[channel])
+    }
+  }
+  if ((!success) && _throw) {
+    throw new EvalError(`${bin} exited with non-zero code ${code}:\n${stdio.stdout}\n${stdio.stderr}`)
+  }
+  return { success, code, ...stdio }
+}
+
+/** Spawn a command asynchronously. */
 async function spawn(
   command: Deno.Command,
   { bin, log, callback = ({ close }) => close?.(), buffering = 250, throw: _throw, ...channels }: { bin: string; log: Logger; callback?: callback; buffering?: number; throw?: boolean; stdin: Nullable<loglevel>; stdout: Nullable<loglevel>; stderr: Nullable<loglevel> },

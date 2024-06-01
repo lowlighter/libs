@@ -45,17 +45,20 @@ test("deno")("command() handles callback<wait()> calls", async () => {
   expect(result).toMatchObject({ success: true, code: 0 })
 }, { permissions: { run: ["deno"] } })
 
-for (const mode of ["inherit", "piped", null, "debug", "log", "info", "warn", "error"] as const) {
-  test("deno")(`command() supports stdio set to "${mode}"`, async () => {
-    const result = await command("deno", ["--version"], {
-      log: new Logger({ level: Logger.level.disabled }),
-      env: { NO_COLOR: "true" },
-      stdin: mode,
-      stdout: mode,
-      stderr: mode,
-    })
-    expect(result).toMatchObject({ success: true, code: 0 })
-  }, { permissions: { run: ["deno"] } })
+for (const sync of [false, true]) {
+  for (const mode of ["inherit", "piped", null, "debug", "log", "info", "warn", "error"] as const) {
+    test("deno")(`command() supports stdio set to "${mode}" in "${sync ? "sync" : "async"}" mode`, async () => {
+      const result = await command("deno", ["--version"], {
+        log: new Logger({ level: Logger.level.disabled }),
+        env: { NO_COLOR: "true" },
+        stdin: mode,
+        stdout: mode,
+        stderr: mode,
+        sync: sync as testing,
+      })
+      expect(result).toMatchObject({ success: true, code: 0 })
+    }, { permissions: { run: ["deno"] } })
+  }
 }
 
 test("deno")("command() handles both stdout and stderr channels", async () => {
