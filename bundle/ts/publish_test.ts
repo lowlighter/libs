@@ -25,5 +25,5 @@ test("deno")("packaged() parses deno.jsonc to package.json and other metadata", 
 }, { permissions: "inherit" })
 
 test("deno")("publish() publishes deno.jsonc to npm", async () => {
-  await expect(publish(path, { scope: "@testing", dryrun: true, registries: [{ url: "https://registry.npmjs.example.com", token: "npm_otp", access: "public" }] })).resolves.toMatchObject({ scope: "@testing", name: "test" })
+  await expect(publish(path, { scope: "@testing", dryrun: true, provenance:true, registries: [{ url: "https://registry.npmjs.example.com", token: "npm_otp", access: "public" }] })).resolves.toMatchObject({ scope: "@testing", name: "test" })
 }, { permissions: "inherit" })

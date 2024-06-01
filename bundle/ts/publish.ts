@@ -57,7 +57,10 @@ export async function packaged(path = "deno.jsonc", { log = new Logger(), scope 
 }
 
 /** Publish a TypeScript package on npm registries. */
-export async function publish(path: Arg<typeof packaged>, { log = new Logger(), registries = [], dryrun, ...options }: Arg<typeof packaged, 1> & { log?: Logger; registries?: registry[]; dryrun?: boolean }): Promise<Pick<package_output, "scope" | "name" | "json">> {
+export async function publish(
+  path: Arg<typeof packaged>,
+  { log = new Logger(), registries = [], dryrun, provenance, ...options }: Arg<typeof packaged, 1> & { log?: Logger; registries?: registry[]; dryrun?: boolean; provenance?: boolean },
+): Promise<Pick<package_output, "scope" | "name" | "json">> {
   const { directory, scope, name, json, exports } = await packaged(path, options)
   log = log.with({ scope, name })
   log.debug("creating: package.json")
@@ -75,6 +78,9 @@ export async function publish(path: Arg<typeof packaged>, { log = new Logger(), 
       const args = ["publish", "--access", { public: "public", private: "restricted" }[access]]
       if (dryrun) {
         args.push("--dry-run")
+      }
+      if (provenance) {
+        args.push("--provenance")
       }
       log.debug(`publishing to: ${url} (${access})`)
       const { success, stdout, stderr } = await npm(args, { log, env: { NPM_TOKEN: token } })
