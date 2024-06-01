@@ -20,45 +20,48 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/bundle"><img src="https://jsr.io/badges/@libs/bundle"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
-    <td rowspan="3"><ul data-for="bundle">
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
+    <td rowspan="4"><ul data-for="bundle">
   <li>Lint, minify, license CSS code and check features compatibility against MDN data for each browser</li>
   <li>Bundle, minify, anonymize local file paths and license TypeScript code</li>
   <li>Compile Rust projects to Web assembly, hot-patch source in base64 and minify output</li>
   <li><a href="#-cli-utilities">CLI utilities</a></li>
 </ul></td>
   </tr>
+  <tr><th></th></tr>
   <tr><th><a href="https://libs.lecoq.io/bundle"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/bundle"><img src="https://libs-coverage.lecoq.io/bundle/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/crypto"><code>🧮 @libs/crypto</code></a></h2>Features based upon Web Crypto APIs</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/crypto"><img src="https://jsr.io/badges/@libs/crypto"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
-    <td rowspan="3"><ul data-for="crypto">
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
+    <td rowspan="4"><ul data-for="crypto">
   <li>Encrypt and decrypt data using a seed-salt derived private key</li>
   <li>Generate time-based OTP secret key and verify tokens validity</li>
 </ul></td>
   </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/crypto"><img src="https://img.shields.io/npm/v/@lowlighter%2Fcrypto?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/crypto"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/crypto"><img src="https://libs-coverage.lecoq.io/crypto/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/diff"><code>➕ @libs/diff</code></a></h2>Diff (patience algorithm)</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/diff"><img src="https://jsr.io/badges/@libs/diff"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
-    <td rowspan="3"><ul data-for="diff">
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
+    <td rowspan="4"><ul data-for="diff">
   <li>Compute unified patch between two string</li>
 </ul></td>
   </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/diff"><img src="https://img.shields.io/npm/v/@lowlighter%2Fdiff?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/diff"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/diff"><img src="https://libs-coverage.lecoq.io/diff/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/logger"><code>📰 @libs/logger</code></a></h2>Simple logger</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/logger"><img src="https://jsr.io/badges/@libs/logger"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
-    <td rowspan="3"><ul data-for="logger">
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
+    <td rowspan="4"><ul data-for="logger">
   <li>
     Simple logger library with configurable log level
     <ul>
@@ -69,49 +72,63 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <li>Automatically reads <code>LOG_LEVEL</code> environment variable (if available)</li>
 </ul></td>
   </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/logger"><img src="https://img.shields.io/npm/v/@lowlighter%2Flogger?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/logger"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/logger"><img src="https://libs-coverage.lecoq.io/logger/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/orm"><code>💰 @libs/orm</code></a></h2>Object-relational mapping toolbox.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/orm"><img src="https://jsr.io/badges/@libs/orm"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
-    <td rowspan="3"><ul data-for="orm">
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
+    <td rowspan="4"><ul data-for="orm">
   <li>Manage resources using an agnostic storage inteface</li>
 </ul></td>
   </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/orm"><img src="https://img.shields.io/npm/v/@lowlighter%2Form?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/orm"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/orm"><img src="https://libs-coverage.lecoq.io/orm/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/qrcode"><code>🔳 @libs/qrcode</code></a></h2>Pure TypeScript QRcode generator with no dependencies.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/qrcode"><img src="https://jsr.io/badges/@libs/qrcode"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
-    <td rowspan="3"><ul data-for="qrcode">
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
+    <td rowspan="4"><ul data-for="qrcode">
   <li>Generate QR codes without external dependencies</li>
   <li>Support console, array and SVG output (with customizable colors)</li>
 </ul></td>
   </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/qrcode"><img src="https://img.shields.io/npm/v/@lowlighter%2Fqrcode?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/qrcode"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/qrcode"><img src="https://libs-coverage.lecoq.io/qrcode/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/reactive"><code>🎯 @libs/reactive</code></a></h2>Reactive utilities for observable objects.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/reactive"><img src="https://jsr.io/badges/@libs/reactive"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
-    <td rowspan="3"><ul data-for="reactive">
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
+    <td rowspan="4"><ul data-for="reactive">
   <li>Create observable contexts to track get, set, delete and call operations</li>
   <li>Support inherited contexts</li>
 </ul></td>
   </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/reactive"><img src="https://img.shields.io/npm/v/@lowlighter%2Freactive?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/reactive"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/reactive"><img src="https://libs-coverage.lecoq.io/reactive/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/testing"><code>🧪 @libs/testing</code></a></h2>Testing utilities for cross-platform testing on Deno, Node.js and Bun.</th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/reactive"><img src="https://libs-coverage.lecoq.io/reactive/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/run"><code>⏯️ @libs/run</code></a></h2>Utilities to run subprocess.</th></tr>
+  <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
+  <tr><td colspan="3"></td></tr>
+  <tr>
+    <th><a href="https://jsr.io/@libs/run"><img src="https://jsr.io/badges/@libs/run"></a></th>
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
+    <td rowspan="4">undefined</td>
+  </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/run"><img src="https://img.shields.io/npm/v/@lowlighter%2Frun?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/run"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/run"><img src="https://libs-coverage.lecoq.io/run/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/testing"><code>🧪 @libs/testing</code></a></h2>Testing utilities for cross-platform testing on Deno, Node.js and Bun.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/testing"><img src="https://jsr.io/badges/@libs/testing"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
-    <td rowspan="3"><ul data-for="testing">
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
+    <td rowspan="4"><ul data-for="testing">
   <li>
     Cross-runtime testing framework
     <ul>
@@ -124,25 +141,27 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   <li>Automatically skip test cases when runtime is not available on current platform</li>
 </ul></td>
   </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/testing"><img src="https://img.shields.io/npm/v/@lowlighter%2Ftesting?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/testing"><img src="https://libs-coverage.lecoq.io/testing/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/typing"><code>🧰 @libs/typing</code></a></h2>Utility types.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/typing"><img src="https://jsr.io/badges/@libs/typing"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
-    <td rowspan="3"><ul data-for="typing">
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
+    <td rowspan="4"><ul data-for="typing">
   <li>Utility types such as <code>Promisable</code>, <code>Nullable</code>, <code>MapKey</code>, <code>MapValue</code>, <code>SetValue</code>, etc.</li>
 </ul></td>
   </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/typing"><img src="https://img.shields.io/npm/v/@lowlighter%2Ftyping?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/typing"><img src="https://libs-coverage.lecoq.io/typing/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/xml"><code>📃 @libs/xml</code></a></h2>XML parser/stringifier with no dependencies.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/xml"><img src="https://jsr.io/badges/@libs/xml"></a></th>
-    <th rowspan="3"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
-    <td rowspan="3"><ul data-for="xml">
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
+    <td rowspan="4"><ul data-for="xml">
   <li>
     Parse XML to JavaScript object
     <ul>
@@ -162,6 +181,7 @@ as [Node.js](https://nodejs.org), [bun](https://bun.sh) and even browsers.
   </li>
 </ul></td>
   </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/xml"><img src="https://img.shields.io/npm/v/@lowlighter%2Fxml?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/xml"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/xml"><img src="https://libs-coverage.lecoq.io/xml/badge.svg"></a></th></tr></table>
 
