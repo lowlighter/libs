@@ -63,7 +63,7 @@ const logger = new Logger({ level: Logger.level[loglevel as loglevel] })
 if (npm) {
   const { publish } = await import("../publish/npm.ts")
   const log = logger.with({ type: "npm" })
-  const registries = [{ url: npm.registry ?? "https://registry.npmjs.org", token: npm.token, access: npm.access ?? "private" }] as Arg<typeof publish_npm, 1>["registries"]
+  const registries = [{ url: npm.registry ?? "https://registry.npmjs.org", token: npm.token, access: npm.access ?? "private" }] as Arg<typeof publish, 1>["registries"]
   assert(project, "No project specified")
   delete npm.registry
   delete npm.token
