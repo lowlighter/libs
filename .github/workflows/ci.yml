@@ -103,7 +103,7 @@ jobs:
         run: |
           deno task config
           if [ -n "$(git status --porcelain)" ]; then
-            git add **/deno.jsonc
+            git add .
             git commit -m 'chore: update `deno.jsonc`'
             git pull --rebase
             git push
@@ -112,7 +112,7 @@ jobs:
         run: |
           deno task readme
           if [ -n "$(git status --porcelain)" ]; then
-            git add README.md
+            git add .
             git commit -m 'doc: update `README.md`'
             git pull --rebase
             git push
