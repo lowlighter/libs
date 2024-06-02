@@ -26,6 +26,8 @@ export async function packaged(path = "deno.jsonc", { log = new Logger(), scope 
     version: mod.version,
     type: "module",
     scripts: {},
+    dependencies: {},
+    devDependencies: {},
   } as package_output["json"]
   log.debug(`set version: ${json.version}`)
 
@@ -116,6 +118,8 @@ type package_output = {
     homepage?: string
     repository?: string
     funding?: string
+    dependencies: record<string>
+    devDependencies?: record<string>
   }
   /** Exported entrypoints. */
   exports: record<string>
