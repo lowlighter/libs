@@ -14,7 +14,8 @@ test("deno")("publish() publishes package to deno.land/x", async () => {
     name,
     version,
     dryrun: true,
-  })).resolves.toMatchObject({ name, version, url })
+    delay: 100,
+  })).resolves.toMatchObject({ name, version, url, changed: true })
 })
 
 test("deno")("publish() publishes package subdirectory to deno.land/x", async () => {
@@ -26,7 +27,8 @@ test("deno")("publish() publishes package subdirectory to deno.land/x", async ()
     name,
     version,
     dryrun: true,
-  })).resolves.toMatchObject({ name, version, url })
+    delay: 100,
+  })).resolves.toMatchObject({ name, version, url, changed: true })
 })
 
 test("deno")("publish() supports `reactive` and `remove` options", async () => {
@@ -39,5 +41,18 @@ test("deno")("publish() supports `reactive` and `remove` options", async () => {
     reactive: true,
     remove: true,
     dryrun: true,
-  })).resolves.toMatchObject({ name, version, url })
+    delay: 100,
+  })).resolves.toMatchObject({ name, version, url, changed: true })
+})
+
+test("deno")("publish() has no effect if package version is already published on deno.land/x", async () => {
+  await expect(publish({
+    log: new Logger({ level: Logger.level.disabled }),
+    token: "github_pat_",
+    repository: "octocat/hello-world",
+    name,
+    version: "already_published",
+    dryrun: true,
+    delay: 100,
+  })).resolves.toMatchObject({ name, version: "already_published", changed: false })
 })

@@ -32,6 +32,8 @@ type options = {
   remove?: boolean
   /** Maximum number of attempts to performs for publishing operations to complete. */
   attempts?: number
+  /** Delay between each attempt */
+  delay?: number
   /** Do not actually publish package. */
   dryrun?: boolean
 }
@@ -63,43 +65,56 @@ type options = {
  * })
  * ```
  */
-export async function publish({ log = new Logger(), token, repository, directory, name, version, reactive = false, remove = false, attempts = 30, dryrun = false }: options): Promise<{ name: string; version: string; url: string }> {
+export async function publish({ log = new Logger(), token, repository, directory, name, version, reactive = false, remove = false, attempts = 30, delay = 30000, dryrun = false }: options): Promise<{ name: string; version: string; url: string; changed: boolean }> {
   // Setup
   const [owner, repo] = repository.split("/")
   log = log.with({ owner, repo, name })
   directory = directory?.trim().replace(/\/$/, "")
-  const url = `https://api.deno.land/webhook/gh/${name}${directory ? `?subdir=${encodeURIComponent(`/${directory}/`)}` : ""}`
+  const api = `https://api.deno.land/webhook/gh/${name}${directory ? `?subdir=${encodeURIComponent(`/${directory}/`)}` : ""}`
+  const url = `https://deno.land/x/${name}@${version}`
   const request = { fetch }
   if (dryrun) {
+    const requested = new Set<string>()
     Object.assign(request, {
       // deno-lint-ignore require-await
-      async fetch(_url: string, { method = "GET" } = {}) {
+      async fetch(url: string, { method = "GET" } = {}) {
         let data = null
         switch (true) {
-          case (method === "GET") && new URLPattern("https://api.github.com/repos/:owner/:repo/hooks").test(_url):
-            data = [{ id: 1, active: false, config: { url } }]
+          case (method === "GET") && new URLPattern("https://api.github.com/repos/:owner/:repo/hooks").test(url):
+            data = [{ id: 1, active: false, config: { url: api } }]
             break
-          case (method === "PATCH") && new URLPattern("https://api.github.com/repos/:owner/:repo/hooks/:id").test(_url):
+          case (method === "PATCH") && new URLPattern("https://api.github.com/repos/:owner/:repo/hooks/:id").test(url):
             data = {}
             break
-          case (method === "GET") && new URLPattern("https://api.github.com/repos/:owner/:repo/hooks/:id/deliveries").test(_url):
-            data = [{ event: "create", delivered_at: new Date().toISOString() }]
+          case (method === "GET") && new URLPattern("https://api.github.com/repos/:owner/:repo/hooks/:id/deliveries").test(url):
+            data = requested.has(url) ? [{ event: "create", delivered_at: new Date().toISOString() }] : []
             break
-          case (method === "GET") && new URLPattern("https://deno.land/x/:package").test(_url):
-            data = "ok"
+          case (method === "GET") && new URLPattern("https://deno.land/x/:package").test(url.replace(/\?.*$/, "")):
+            data = requested.has(url) ? "200 - OK" : "404 - Not Found"
+            if (url.includes("already_published")) {
+              data = "200 - OK"
+            }
             break
         }
+        requested.add(url)
         return new Response(JSON.stringify(data), { headers: { "Content-Type": "application/json" } })
       },
     })
   }
   const octokit = new Octokit({ auth: token, request, throttle: { enabled: !dryrun }, retry: { enabled: !dryrun } })
 
+  // Check if package is already published
+  const check = await request.fetch(`${url}?check`, { headers: { Accept: "text/html" } }).then((r) => r.text())
+  if (!check.includes("404 - Not Found")) {
+    log.debug(`package is already published at ${url}, nothing to do`)
+    return { name, version, url, changed: false }
+  }
+
   // Fetch webhook
-  log.debug(`searching for hook: ${url}`)
+  log.debug(`searching for hook: ${api}`)
   const { data: webhooks } = await octokit.rest.repos.listWebhooks({ owner, repo })
-  const hook = webhooks.filter(({ config }) => config.url === url)[0]!
-  assert(hook, `Could not find a hook with expected url: ${url}`)
+  const hook = webhooks.filter(({ config }: { config: { url?: string } }) => config.url === api)[0]!
+  assert(hook, `Could not find a hook with expected url: ${api}`)
   log.debug(`found hook: ${hook.id}`)
 
   // Active hook if needed
@@ -122,22 +137,22 @@ export async function publish({ log = new Logger(), token, repository, directory
   log.debug("waiting for webhook payload delivery")
   await retry(async () => {
     const { data: deliveries } = await octokit.rest.repos.listWebhookDeliveries({ owner, repo, hook_id: hook.id })
-    if (!deliveries.some(({ event, delivered_at }) => (event === "create") && (new Date().getTime() >= new Date(delivered_at).getTime()))) {
+    if (!deliveries.some(({ event, delivered_at }: { event: string; delivered_at: string }) => (event === "create") && (new Date().getTime() >= new Date(delivered_at).getTime()))) {
       log.debug("webhook payload has not been delivered yet")
       throw new Error("Webhook payload has not been delivered in the expected time frame")
     }
-  }, { minTimeout: 15 * 1000, maxTimeout: 30 * 1000, maxAttempts: attempts })
+  }, { minTimeout: delay, maxTimeout: delay, maxAttempts: attempts })
   log.debug("webhook payload has been delivered")
 
   // Wait for deno.land/x publishing
   log.debug("waiting for deno.land/x publishing")
   await retry(async () => {
-    const text = await request.fetch(`https://deno.land/x/${name}@${version}`, { headers: { Accept: "text/html" } }).then((r) => r.text())
+    const text = await request.fetch(url, { headers: { Accept: "text/html" } }).then((r) => r.text())
     if (text.includes("404 - Not Found")) {
       log.debug("package has not been published yet")
       throw new Error("Package has not been published in the expected time frame")
     }
-  }, { minTimeout: 15 * 1000, maxTimeout: 30 * 1000, maxAttempts: attempts })
+  }, { minTimeout: delay, maxTimeout: delay, maxAttempts: attempts })
   log.debug("published on deno.land/x")
 
   // Remove tag if needed
@@ -152,5 +167,5 @@ export async function publish({ log = new Logger(), token, repository, directory
     await octokit.rest.repos.updateWebhook({ owner, repo, hook_id: hook.id, active: false })
   }
 
-  return { name, version, url: `https://deno.land/x/${name}@${version}` }
+  return { name, version, url, changed: true }
 }
