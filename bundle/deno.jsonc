@@ -1,7 +1,7 @@
 {
   "icon": "📦",
   "name": "@libs/bundle",
-  "version": "9.0.2",
+  "version": "9.0.3",
   "description": "Code bundlers, formatters, minifiers and others tools.",
   "keywords": [
     "bundler",
