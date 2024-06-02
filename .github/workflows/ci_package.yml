@@ -201,10 +201,10 @@ jobs:
       - run: deno publish
         working-directory: ${{ inputs.package }}
       - name: Run npm publish
-        if: ${{ false && needs.test.outputs.has_npm }}
+        if: ${{ needs.test.outputs.has_npm }}
         run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --npm.registry 'https://registry.npmjs.org' --npm.token '${{ secrets.NPM_TOKEN }}' --npm.scope '@lowlighter'
         working-directory: ${{ inputs.package }}
       - name: Run deno.land/x publish
-        if: ${{ false && needs.test.outputs.has_x }}
-        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --x.repository '${{ github.repository }}' --x.token '${{ secrets.GITHUB_TOKEN }}' --x.directory="$(git rev-parse --show-prefix)" --x.reactive --x.remove
+        if: ${{ needs.test.outputs.has_x }}
+        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --x.repository '${{ github.repository }}' --x.token '${{ secrets.GITHUB_TOKEN }}' --x.directory="$(git rev-parse --show-prefix)" --x.reactive --x.remove --x.dryrun
         working-directory: ${{ inputs.package }}
