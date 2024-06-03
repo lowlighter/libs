@@ -76,13 +76,13 @@ Processing instructions (like XML stylesheets) are now parsed the same way as re
 -     "@version": "1.0",
 -     "@encoding": "UTF-8",
 -   },
--   "$stylesheets": [ { "@href": "styles.xsl", "@type": "text/xsl" } ]
--   doctype: { "@attribute": true },
 +   "@version": "1.0",
 +   "@encoding": "UTF-8",
+-   "$stylesheets": [ { "@href": "styles.xsl", "@type": "text/xsl" } ]
 +   "#instructions": {
 +     "xml-stylesheet": { "@href": "styles.xsl", "@type": "text/xsl" }
 +   },
+-   doctype: { "@attribute": true },
 +   "#doctype": { "@attribute": "" },
     root: null
   }
@@ -92,7 +92,7 @@ Processing instructions (like XML stylesheets) are now parsed the same way as re
 
 This breaks any existing code that was expecting mixed content to always be a string. Now mixed content nodes will be parsed as usual, and the `#text` property will contain the "inner text" of the node.
 
-Note that `#text` is actually a getter that recursively gets the `#text` of children nodes (ignoring comment nodes) so it'll return the inner text regardless of the node depth.
+Note that `#text` is actually a getter that recursively gets the `#text` of children nodes (ignoring comment nodes), so it'll also handle nested mixed content correctly.
 
 ```xml
 <root>some <b>bold</b> text</root>
@@ -104,6 +104,7 @@ Note that `#text` is actually a getter that recursively gets the `#text` of chil
 +   root: {
 +     "#text": "some bold text",
 +     b: "bold",
++   }
   }
 ```
 
@@ -157,12 +158,14 @@ Please refer to the [documentation](https://jsr.io/@libs/xml/doc) for more infor
 
 #### Parsing streams
 
-The `parse()` function supports any `ReaderSync` interface, which means you can pass directly a file reader for example.
+The `parse()` function supports any `ReaderSync`, which means you can pass directly a file reader for example.
 
 ```ts
 import { parse } from "./parse.ts"
 parse(await Deno.readTextFile("example.xml"))
 ```
+
+Async parsing is not supported yet, but might be added in the future.
 
 ### Stringifying
 
@@ -171,9 +174,10 @@ parse(await Deno.readTextFile("example.xml"))
 Stringify options are now categorized into 2 groups:
 
 - `format`, which can configure the `indent` string and automatically `breakline` when a text node is too long
+  - _Since you pass a string rather than a number for indent, it means that you can also use tabs instead of space too_
 - `replace`, which can forcefully escape xml `entities`
   - You can also provide a `custom` replacer function that will be called on each attribute and node
-  - Note that signature of the replacer function has changed
+  - _Note that signature of the replacer function has changed_
 
 ```diff
   const options = {
@@ -192,9 +196,9 @@ Please refer to the [documentation](https://jsr.io/@libs/xml/doc) for more infor
 
 ### Stringifying content
 
-Please refer to the above section about API changes. If you were handling XML properties, using the `$XML` symbol or `#comment`, you'll most likely need to update your code.
+Please refer to the above section about API changes. If you were handling XML document properties, using the `$XML` symbol or `#comment` property, or dealing with mixed nodes content, you'll most likely need to update your code.
 
-The library now provides `comment()` and `cdata()` helpers to respectively create comment and CDATA nodes.
+This library now provides `comment()` and `cdata()` helpers to respectively create comment and CDATA nodes.
 
 ```ts
 import { cdata, comment, stringify } from "./stringify.ts"
@@ -230,8 +234,8 @@ stringify({
 </root>
 ```
 
-Note that also you can theorethically use internal properties we strongly advise against it currently. Supporting `~children` might be added in the future ([#57](https://github.com/lowlighter/libs/issues/57)) for mixed content support, but its behavior is not defined yet. Setting
-`~name` manually might lead to unexpected behaviors.
+Note that while you can theorethically use internal API properties, we strongly advise against it currently. Supporting `~children` might be added in the future ([#57](https://github.com/lowlighter/libs/issues/57)) for mixed content, but its behavior is not well defined yet.
+Setting `~name` manually might lead to unexpected behaviors, especially if it differs from the parent key.
 
 ## 📜 License and credits
 
