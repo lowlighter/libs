@@ -1,5 +1,5 @@
 import { type options as parse_options, parse } from "./parse.ts"
-import { type options as stringify_options, stringify } from "./stringify.ts"
+import { cdata, comment, type options as stringify_options, stringify } from "./stringify.ts"
 import { expect, test } from "@libs/testing"
 
 // This operation ensure that reforming a parsed XML will still yield same data
@@ -244,14 +244,18 @@ test("all")("stringify(): xml space preserve", () =>
     },
   ))
 
-test("all")("stringify(): cdata is preserved", () =>
+test("all")("stringify(): cdata is preserved on root nodes", () =>
   expect(
-    check(`<string><![CDATA[hello <world>]]></string>`),
-  ).toEqual(
-    {
-      string: `hello <world>`,
-    },
-  ))
+    stringify({ string: cdata(`hello <world>`) }),
+  ).toBe("<string><![CDATA[hello <world>]]></string>"))
+
+test("all")("stringify(): cdata is preserved on child nodes", () =>
+  expect(
+    stringify({ nested: { string: cdata(`hello <world>`) } }),
+  ).toBe(`
+<nested>
+  <string><![CDATA[hello <world>]]></string>
+</nested>`.trim()))
 
 // Custom replacer
 

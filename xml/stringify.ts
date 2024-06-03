@@ -37,7 +37,8 @@ export type options = {
 /** XML stringifier options (with non-nullable format options). */
 type _options = options & { format: NonNullable<options["format"]> }
 
-//*   - `readonly ["~children"]: Array<xml_node|xml_text>`: node children
+/** Internal symbol to store properties without erasing user-provided ones. */
+const internal = Symbol("internal")
 
 /**
  * Stringify an {@link xml_document} object into a XML string.
@@ -92,6 +93,22 @@ export function stringify(document: Partial<xml_document>, options?: options): s
   text += xml_node(root, { ..._options, depth: 0 })
 
   return text.trim()
+}
+
+/** Helper to create a CDATA node. */
+export function cdata(text: string): Omit<xml_text, "~parent"> {
+  return {
+    "~name": "~cdata",
+    "#text": text,
+  }
+}
+
+/** Helper to create a comment node. */
+export function comment(text: string): Omit<xml_text, "~parent"> {
+  return {
+    "~name": "~comment",
+    "#text": text,
+  }
 }
 
 /** Create XML prolog. */
@@ -184,8 +201,13 @@ function xml_children(node: xml_node, options: options): Array<xml_node> {
         switch (true) {
           case value === null:
             return ({ ["~name"]: key, ["#text"]: "" })
-          case typeof value === "object":
-            return ({ ["~name"]: key, ...value as record })
+          case typeof value === "object": {
+            const child = { ...value as record, ["~name"]: key } as record
+            if (((value as record)["~name"] as string)?.startsWith("~")) {
+              child[internal] = (value as record)["~name"]
+            }
+            return child
+          }
           default:
             return ({ ["~name"]: key, ["#text"]: `${value}` })
         }
@@ -193,11 +215,12 @@ function xml_children(node: xml_node, options: options): Array<xml_node> {
     )
     .map((node) => {
       if ("#text" in node) {
-        node["#text"] = replace(node as xml_node, "#text", { ...options, escape: ["<", ">"] }) as string
+        const cdata = node[internal] === "~cdata"
+        node["#text"] = replace(node as xml_node, "#text", { ...options, escape: cdata ? [] : ["<", ">"] }) as string
         if (node["#text"] === undefined) {
           delete node["#text"]
         } else {
-          node["#text"] = `${node["#text"]}`
+          node["#text"] = cdata ? `<![CDATA[${node["#text"]}]]>` : `${node["#text"]}`
         }
       }
       return node
