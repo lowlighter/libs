@@ -257,6 +257,19 @@ test("all")("stringify(): cdata is preserved on child nodes", () =>
   <string><![CDATA[hello <world>]]></string>
 </nested>`.trim()))
 
+test("all")("stringify(): comments is preserved on root nodes", () =>
+  expect(
+    stringify({ string: comment(`hello world`) }),
+  ).toBe("<string><!--hello world--></string>"))
+
+test("all")("stringify(): comments is preserved on child nodes", () =>
+  expect(
+    stringify({ nested: { string: comment(`hello world`) } }),
+  ).toBe(`
+<nested>
+  <string><!--hello world--></string>
+</nested>`.trim()))
+
 // Custom replacer
 
 test("all")("stringify(): xml replacer", () =>

@@ -216,11 +216,12 @@ function xml_children(node: xml_node, options: options): Array<xml_node> {
     .map((node) => {
       if ("#text" in node) {
         const cdata = node[internal] === "~cdata"
+        const comment = node[internal] === "~comment"
         node["#text"] = replace(node as xml_node, "#text", { ...options, escape: cdata ? [] : ["<", ">"] }) as string
         if (node["#text"] === undefined) {
           delete node["#text"]
         } else {
-          node["#text"] = cdata ? `<![CDATA[${node["#text"]}]]>` : `${node["#text"]}`
+          node["#text"] = cdata ? `<![CDATA[${node["#text"]}]]>` : comment ? `<!--${node["#text"]}-->` : `${node["#text"]}`
         }
       }
       return node
