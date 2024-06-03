@@ -1,6 +1,7 @@
 import { publish } from "./x.ts"
 import { expect, test } from "@libs/testing"
 import { Logger } from "@libs/logger"
+import { RetryError } from "@std/async/retry"
 
 const name = "deno-world"
 const version = "1.0.0"
@@ -55,4 +56,16 @@ test("deno")("publish() has no effect if package version is already published on
     dryrun: true,
     delay: 100,
   })).resolves.toMatchObject({ name, version: "already_published", changed: false })
+})
+
+test("deno")("publish() handles publishing errors", async () => {
+  await expect(publish({
+    log: new Logger({ level: Logger.level.disabled }),
+    token: "github_pat_",
+    repository: "octocat/hello-world",
+    name,
+    version: "failure",
+    dryrun: true,
+    delay: 100,
+  })).rejects.toThrow(RetryError)
 })

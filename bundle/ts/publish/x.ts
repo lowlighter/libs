@@ -94,6 +94,9 @@ export async function publish({ log = new Logger(), token, repository, directory
             if (url.includes("already_published")) {
               data = "200 - OK"
             }
+            if (url.includes("failure")) {
+              data = "404 - Not Found"
+            }
             break
         }
         requested.add(url)
@@ -101,7 +104,7 @@ export async function publish({ log = new Logger(), token, repository, directory
       },
     })
   }
-  const octokit = new Octokit({ auth: token, request, throttle: { enabled: !dryrun }, retry: { enabled: !dryrun } })
+  const octokit = new Octokit({ auth: token, request, throttle: { enabled: false }, retry: { enabled: !dryrun } })
 
   // Check if package is already published
   const check = await request.fetch(`${url}?check`, { headers: { Accept: "text/html" } }).then((r) => r.text())
@@ -121,50 +124,58 @@ export async function publish({ log = new Logger(), token, repository, directory
   if (reactive && (!hook.active)) {
     log.log("hook is inactive prior publishing, activating")
     await octokit.rest.repos.updateWebhook({ owner, repo, hook_id: hook.id, active: true })
+    log.debug("hook is now active")
   }
 
-  // Create git tag
-  const { stdout: object } = await command("git", ["rev-parse", "HEAD"], { throw: true, dryrun })
-  const { stdout: email } = await command("git", ["config", "user.email"], { throw: true, dryrun })
-  const { stdout: author } = await command("git", ["config", "user.name"], { throw: true, dryrun })
-  log.info(`creating tag ${version} on commit ${object} by ${author} <${email}>`)
-  await command("git", ["tag", "--force", version], { log, throw: true, dryrun })
-  await command("git", ["show-ref", "--tags", version], { log, throw: true, dryrun })
-  await command("git", ["pull", "--rebase"], { log, throw: true, dryrun })
-  await command("git", ["push", "origin", version], { log, throw: true, dryrun })
+  try {
+    // Create git tag
+    const { stdout: object } = await command("git", ["rev-parse", "HEAD"], { throw: true, dryrun })
+    const { stdout: email } = await command("git", ["config", "user.email"], { throw: true, dryrun })
+    const { stdout: author } = await command("git", ["config", "user.name"], { throw: true, dryrun })
+    log.info(`creating tag ${version} on commit ${object} by ${author} <${email}>`)
+    await command("git", ["tag", "--force", version], { log, throw: true, dryrun })
+    await command("git", ["show-ref", "--tags", version], { log, throw: true, dryrun })
+    log.info(`pushing tag ${version} to origin`)
+    //await command("git", ["pull", "--rebase"], { log, throw: true, dryrun })
+    await command("git", ["push", "origin", version], { log, throw: true, dryrun })
+    log.debug(`tag ${version} has been pushed to origin`)
 
-  // Wait for webhook payload delivery
-  log.debug("waiting for webhook payload delivery")
-  await retry(async () => {
-    const { data: deliveries } = await octokit.rest.repos.listWebhookDeliveries({ owner, repo, hook_id: hook.id })
-    if (!deliveries.some(({ event, delivered_at }: { event: string; delivered_at: string }) => (event === "create") && (new Date().getTime() >= new Date(delivered_at).getTime()))) {
-      log.debug("webhook payload has not been delivered yet")
-      throw new Error("Webhook payload has not been delivered in the expected time frame")
+    // Wait for webhook payload delivery
+    log.debug("waiting for webhook payload delivery")
+    await retry(async () => {
+      const { data: deliveries } = await octokit.rest.repos.listWebhookDeliveries({ owner, repo, hook_id: hook.id })
+      if (!deliveries.some(({ event, delivered_at }: { event: string; delivered_at: string }) => (event === "create") && (new Date().getTime() >= new Date(delivered_at).getTime()))) {
+        log.debug("webhook payload has not been delivered yet")
+        throw new Error("Webhook payload has not been delivered in the expected time frame")
+      }
+    }, { minTimeout: delay, maxTimeout: delay, maxAttempts: attempts })
+    log.debug("webhook payload has been delivered")
+
+    // Wait for deno.land/x publishing
+    log.debug("waiting for deno.land/x publishing")
+    await retry(async () => {
+      const text = await request.fetch(url, { headers: { Accept: "text/html" } }).then((r) => r.text())
+      if (text.includes("404 - Not Found")) {
+        log.debug("package has not been published yet")
+        throw new Error("Package has not been published in the expected time frame")
+      }
+    }, { minTimeout: delay, maxTimeout: delay, maxAttempts: attempts })
+    log.debug("published on deno.land/x")
+  } finally {
+    // Remove tag if needed
+    if (remove) {
+      log.log(`removing tag ${version} locally and from origin`)
+      await command("git", ["tag", "--delete", version], { log, dryrun })
+      await command("git", ["push", "--delete", "origin", version], { log, dryrun })
+      log.debug(`tag ${version} has been removed`)
     }
-  }, { minTimeout: delay, maxTimeout: delay, maxAttempts: attempts })
-  log.debug("webhook payload has been delivered")
 
-  // Wait for deno.land/x publishing
-  log.debug("waiting for deno.land/x publishing")
-  await retry(async () => {
-    const text = await request.fetch(url, { headers: { Accept: "text/html" } }).then((r) => r.text())
-    if (text.includes("404 - Not Found")) {
-      log.debug("package has not been published yet")
-      throw new Error("Package has not been published in the expected time frame")
+    // Deactivate hook if needed
+    if (reactive && (!hook.active)) {
+      log.log("hook was inactive prior publishing, restoring state")
+      await octokit.rest.repos.updateWebhook({ owner, repo, hook_id: hook.id, active: false })
+      log.debug("hook is now inactive")
     }
-  }, { minTimeout: delay, maxTimeout: delay, maxAttempts: attempts })
-  log.debug("published on deno.land/x")
-
-  // Remove tag if needed
-  if (remove) {
-    await command("git", ["tag", "--delete", version], { log, throw: true, dryrun })
-    await command("git", ["push", "--delete", "origin", version], { log, throw: true, dryrun })
-  }
-
-  // Deactivate hook if needed
-  if (reactive && (!hook.active)) {
-    log.log("hook was inactive prior publishing, restoring state")
-    await octokit.rest.repos.updateWebhook({ owner, repo, hook_id: hook.id, active: false })
   }
 
   return { name, version, url, changed: true }
