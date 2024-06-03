@@ -173,8 +173,8 @@ See table below for a list of available libraries and their features, compatibil
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/xml"><img src="https://jsr.io/badges/@libs/xml"></a></th>
-    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
-    <td rowspan="4"><ul data-for="xml">
+    <th rowspan="5"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
+    <td rowspan="5"><ul data-for="xml">
   <li>
     Parse XML to JavaScript object
     <ul>
@@ -194,7 +194,7 @@ See table below for a list of available libraries and their features, compatibil
   </li>
 </ul></td>
   </tr>
-  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/xml"><img src="https://img.shields.io/npm/v/@lowlighter%2Fxml?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/xml"><img src="https://img.shields.io/npm/v/@lowlighter%2Fxml?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>  <tr><th><a href="https://deno.land/x/xml"><img src="https://img.shields.io/badge/deno.land%2Fx-xml-0a3040?logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/xml"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/xml"><img src="https://libs-coverage.lecoq.io/xml/badge.svg"></a></th></tr></table>
 
