@@ -225,7 +225,6 @@ function xml_children(node: xml_node, options: options): Array<xml_node> {
       }
       return node
     }) as ReturnType<typeof xml_children>
-  //TODO(@lowlighter): Eventually add node["~children"] support for ordering and possibly bypass the children search
   return children
 }
 
