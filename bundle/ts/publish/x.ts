@@ -4,6 +4,11 @@ import { Logger } from "@libs/logger"
 import { assert } from "@std/assert"
 import { command } from "@libs/run/command"
 import { retry } from "@std/async/retry"
+import * as JSONC from "@std/jsonc"
+import { expandGlob } from "@std/fs"
+import { resolve } from "@std/path"
+import type { record } from "@libs/typing"
+import { unmap as _unmap } from "../unmap.ts"
 
 /** Publishing options */
 type options = {
@@ -19,6 +24,14 @@ type options = {
   name: string
   /** Version name. */
   version: string
+  /**
+   * Import map.
+   * If provided, a new temporary branch will be created.
+   * All imports in TypeScript files will be resolved against specified import map and committed,
+   * so an import map is no longer needed after publishing (as HTTP imports will not resolve remote import maps).
+   * This branch will be pushed to origin and deleted after publishing.
+   */
+  map?: string
   /**
    * Should hook be forcefully activated before proceeding ?
    * This option is useful when you manage a mono-repository with multiple packages and need to handle unrelated tags.
@@ -65,7 +78,7 @@ type options = {
  * })
  * ```
  */
-export async function publish({ log = new Logger(), token, repository, directory, name, version, reactive = false, remove = false, attempts = 30, delay = 30000, dryrun = false }: options): Promise<{ name: string; version: string; url: string; changed: boolean }> {
+export async function publish({ log = new Logger(), token, repository, directory, name, version, map, reactive = false, remove = false, attempts = 30, delay = 30000, dryrun = false }: options): Promise<{ name: string; version: string; url: string; changed: boolean }> {
   // Setup
   const [owner, repo] = repository.split("/")
   log = log.with({ owner, repo, name })
@@ -111,6 +124,23 @@ export async function publish({ log = new Logger(), token, repository, directory
   if (!check.includes("404 - Not Found")) {
     log.debug(`package is already published at ${url}, nothing to do`)
     return { name, version, url, changed: false }
+  }
+
+  // Resolve import map if needed
+  const branch = { current: "", temporary: "" }
+  if (map) {
+    branch.current = (await command("git", ["rev-parse", "--abbrev-ref", "HEAD"], { log, throw: true, dryrun })).stdout.trim()
+    branch.temporary = `x-${name}-${version}-${Date.now()}`
+    log.debug(`current branch: ${branch.current}`)
+    log.debug(`temporary branch: ${branch.temporary}`)
+    await command("git", ["switch", "--create", branch.temporary], { log, throw: true, dryrun })
+    log.log(`on ${branch.temporary}`)
+    unmap({ log, directory, map, dryrun })
+    log.info(`pushing changes on temporary branch ${branch.temporary} to origin`)
+    await command("git", ["add", "."], { log, throw: true, dryrun })
+    await command("git", ["commit", "--message", `build(${name}): deno.land/x@${version}`], { log, throw: true, dryrun })
+    await command("git", ["push", "origin", branch.temporary], { log, throw: true, dryrun })
+    log.debug(`pushed changes from temporary branch ${branch.temporary} to origin`)
   }
 
   // Fetch webhook
@@ -162,6 +192,13 @@ export async function publish({ log = new Logger(), token, repository, directory
     }, { minTimeout: delay, maxTimeout: delay, maxAttempts: attempts })
     log.debug("published on deno.land/x")
   } finally {
+    // Deactivate hook if needed
+    if (reactive && (!hook.active)) {
+      log.log("hook was inactive prior publishing, restoring state")
+      await octokit.rest.repos.updateWebhook({ owner, repo, hook_id: hook.id, active: false })
+      log.debug("hook is now inactive")
+    }
+
     // Remove tag if needed
     if (remove) {
       log.log(`removing tag ${version} locally and from origin`)
@@ -170,13 +207,39 @@ export async function publish({ log = new Logger(), token, repository, directory
       log.debug(`tag ${version} has been removed`)
     }
 
-    // Deactivate hook if needed
-    if (reactive && (!hook.active)) {
-      log.log("hook was inactive prior publishing, restoring state")
-      await octokit.rest.repos.updateWebhook({ owner, repo, hook_id: hook.id, active: false })
-      log.debug("hook is now inactive")
+    // Remove temporary branch if needed
+    if (map) {
+      log.info(`switching back to ${branch.current}`)
+      await command("git", ["switch", branch.current], { log, throw: true, dryrun })
+      log.debug(`on ${branch.current}`)
+      log.info(`deleting temporary branch ${branch.temporary}`)
+      await command("git", ["branch", "--delete", branch.temporary], { log, throw: true, dryrun })
+      await command("git", ["push", "origin", "--delete", branch.temporary], { log, throw: true, dryrun })
+      log.debug(`deleted temporary branch ${branch.temporary}`)
     }
   }
 
   return { name, version, url, changed: true }
+}
+
+/** Resolve import map. */
+async function unmap({ log: logger, map, directory = ".", exclude = [], dryrun }: { log: Logger; map: string; directory?: string; exclude?: string[]; dryrun?: boolean }) {
+  const root = resolve(`${directory}`).replaceAll("\\", "/")
+  const { imports } = JSONC.parse(await Deno.readTextFile(resolve(root, map))) as record<record<string>>
+  exclude.push("node_modules")
+  logger.log(`processing files in ${root}`)
+  for await (const { path } of expandGlob("**/*.ts", { root, exclude })) {
+    const log = logger.with({ path: path.replaceAll("\\", "/").replace(`${root}/`, "") }).debug("found")
+    const content = await Deno.readTextFile(path)
+    const { result, resolved } = _unmap(content, imports, { log })
+    if (resolved) {
+      log.debug(`resolved ${resolved} imports`)
+    } else {
+      log.debug("no imports to resolve")
+    }
+    if (!dryrun) {
+      await Deno.writeTextFile(path, result)
+      log.debug("file updated")
+    }
+  }
 }

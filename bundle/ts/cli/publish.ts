@@ -14,7 +14,7 @@ import * as JSONC from "@std/jsonc"
 const { help, loglevel, npm, x, _: [project] } = parseArgs(Deno.args, {
   boolean: ["help", "npm.dryrun", "npm.provenance", "x.reactive", "x.remove"],
   alias: { help: "h", loglevel: "l" },
-  string: ["loglevel", "npm.scope", "npm.name", "npm.registry", "npm.token", "npm.access", "x.token", "x.repository", "x.name", "x.version", "x.directory"],
+  string: ["loglevel", "npm.scope", "npm.name", "npm.registry", "npm.token", "npm.access", "x.token", "x.repository", "x.name", "x.version", "x.directory", "x.map"],
 })
 if (help) {
   console.log("Publish a TypeScript package on registries.")
@@ -54,6 +54,7 @@ if (help) {
   console.log("    --x.name [name=INHERITED_FROM_DENO_JSON]         Package name (optional if defined in deno.jsonc, scope will automatically be removed if present)")
   console.log("    --x.version [version=INHERITED_FROM_DENO_JSON]   Package version (optional if defined in deno.jsonc)")
   console.log("    --x.directory [directory]                        Package subdirectory (optional)")
+  console.log("    --x.map [map]                                    When specified, a temporary git branch will be created and all imports from map will be resolved to break free from it (optional, usually set to deno.jsonc)")
   console.log("    --x.reactive                                     Activate hook before publishing and restore its state after publishing")
   console.log("    --x.remove                                       Remove tag after publishing")
   console.log("    --x.attempts                                     Maximum number of attempts to performs for publishing operations to complete")

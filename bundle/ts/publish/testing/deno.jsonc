@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "@std/fmt/colors": "jsr:@std/fmt/colors"
+  }
+}
