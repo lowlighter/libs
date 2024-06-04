@@ -56,6 +56,9 @@ if (help) {
   console.log("    --x.directory [directory]                        Package subdirectory (optional)")
   console.log("    --x.reactive                                     Activate hook before publishing and restore its state after publishing")
   console.log("    --x.remove                                       Remove tag after publishing")
+  console.log("    --x.attempts                                     Maximum number of attempts to performs for publishing operations to complete")
+  console.log("    --x.delay                                        Delay between each attempt")
+  console.log("    --x.dryrun                                       Dry run (do not publish, no remote call will also be made)")
   Deno.exit(0)
 }
 
