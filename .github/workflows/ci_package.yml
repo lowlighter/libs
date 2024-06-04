@@ -209,5 +209,5 @@ jobs:
         working-directory: ${{ inputs.package }}
       - name: Run deno.land/x publish
         if: ${{ needs.test.outputs.has_x }}
-        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --x.repository '${{ github.repository }}' --x.token '${{ secrets.GH_TOKEN }}' --x.directory="$(git rev-parse --show-prefix)" --x.reactive --x.remove
+        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --x.repository '${{ github.repository }}' --x.token '${{ secrets.GH_TOKEN }}' --x.directory="$(git rev-parse --show-prefix)" --x.map deno.jsonc --x.reactive --x.remove
         working-directory: ${{ inputs.package }}
