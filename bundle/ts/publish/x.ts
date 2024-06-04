@@ -136,7 +136,7 @@ export async function publish({ log = new Logger(), token, repository, directory
     await command("git", ["switch", "--create", branch.temporary], { log, throw: true, dryrun })
     log.log(`on ${branch.temporary}`)
     log.info("resolving imports from map")
-    await unmap({ log, directory, map, dryrun })
+    await unmap({ log, map, dryrun })
     log.debug("imports have been resolved")
     log.info(`pushing changes on temporary branch ${branch.temporary} to origin`)
     await command("git", ["add", "."], { log, throw: true, dryrun })
@@ -213,7 +213,7 @@ export async function publish({ log = new Logger(), token, repository, directory
     if (map) {
       log.info(`switching back to ${branch.current}`)
       await command("git", ["switch", branch.current], { log, throw: true, dryrun })
-      log.debug(`on ${branch.current}`)
+      log.debug(`back on ${branch.current}`)
       log.info(`deleting temporary branch ${branch.temporary}`)
       await command("git", ["branch", "--delete", branch.temporary], { log, throw: true, dryrun })
       await command("git", ["push", "origin", "--delete", branch.temporary], { log, throw: true, dryrun })
@@ -225,8 +225,8 @@ export async function publish({ log = new Logger(), token, repository, directory
 }
 
 /** Resolve import map. */
-async function unmap({ log: logger, map, directory = ".", exclude = [], dryrun }: { log: Logger; map: string; directory?: string; exclude?: string[]; dryrun?: boolean }) {
-  const root = resolve(`${directory}`).replaceAll("\\", "/")
+async function unmap({ log: logger, map, exclude = [], dryrun }: { log: Logger; map: string; directory?: string; exclude?: string[]; dryrun?: boolean }) {
+  const root = resolve(".").replaceAll("\\", "/")
   const { imports } = JSONC.parse(await Deno.readTextFile(resolve(root, map))) as record<record<string>>
   exclude.push("node_modules")
   logger.log(`processing files in ${root}`)
