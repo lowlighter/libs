@@ -2,6 +2,7 @@ import { publish } from "./x.ts"
 import { expect, test } from "@libs/testing"
 import { Logger } from "@libs/logger"
 import { RetryError } from "@std/async/retry"
+import { fromFileUrl } from "@std/path/from-file-url"
 
 const name = "deno-world"
 const version = "1.0.0"
@@ -69,3 +70,22 @@ test("deno")("publish() handles publishing errors", async () => {
     delay: 100,
   })).rejects.toThrow(RetryError)
 })
+
+test("deno")("publish() handles imports map resolution", async () => {
+  const dir = Deno.cwd()
+  try {
+    Deno.chdir(fromFileUrl(import.meta.resolve("./testing")))
+    await expect(publish({
+      log: new Logger({ level: Logger.level.debug }),
+      token: "github_pat_",
+      repository: "octocat/hello-world",
+      map: "deno.jsonc",
+      name,
+      version,
+      dryrun: true,
+      delay: 100,
+    })).resolves.toMatchObject({ name, version, url, changed: true })
+  } finally {
+    Deno.chdir(dir)
+  }
+}, { permissions: { read: true } })
