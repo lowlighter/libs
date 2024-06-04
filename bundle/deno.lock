@@ -7,6 +7,7 @@
       "jsr:@libs/run@1": "jsr:@libs/run@1.0.1",
       "jsr:@libs/testing@1": "jsr:@libs/testing@1.0.7",
       "jsr:@libs/typing@2": "jsr:@libs/typing@2.1.0",
+      "jsr:@lowlighter/deno-dom@0.1.46-rc1": "jsr:@lowlighter/deno-dom@0.1.46-rc1",
       "jsr:@luca/esbuild-deno-loader@0.10.3": "jsr:@luca/esbuild-deno-loader@0.10.3",
       "jsr:@std/archive@0.224.0": "jsr:@std/archive@0.224.0",
       "jsr:@std/assert@0.225.3": "jsr:@std/assert@0.225.3",
@@ -43,15 +44,21 @@
       "npm:@mdn/browser-compat-data@5": "npm:@mdn/browser-compat-data@5.5.30",
       "npm:@types/node": "npm:@types/node@18.16.19",
       "npm:browserslist@4": "npm:browserslist@4.23.0",
+      "npm:browserslist@4.23.0": "npm:browserslist@4.23.0",
       "npm:css-tree@2": "npm:css-tree@2.3.1",
+      "npm:css-tree@2.3.1": "npm:css-tree@2.3.1",
       "npm:csso@5": "npm:csso@5.0.5",
+      "npm:csso@5.0.5": "npm:csso@5.0.5",
       "npm:esbuild@0.21.4": "npm:esbuild@0.21.4",
+      "npm:highlight.js@11.9.0": "npm:highlight.js@11.9.0",
       "npm:octokit": "npm:octokit@4.0.2_@octokit+core@6.1.2",
       "npm:octokit@4": "npm:octokit@4.0.2_@octokit+core@6.1.2",
+      "npm:octokit@4.0.2": "npm:octokit@4.0.2_@octokit+core@6.1.2",
       "npm:stylelint-config-idiomatic-order@10": "npm:stylelint-config-idiomatic-order@10.0.0_stylelint@16.6.1__@csstools+css-tokenizer@2.3.1__@csstools+css-parser-algorithms@2.6.3___@csstools+css-tokenizer@2.3.1__postcss-selector-parser@6.1.0__postcss@8.4.38",
       "npm:stylelint-config-recommended@14": "npm:stylelint-config-recommended@14.0.0_stylelint@16.6.1__@csstools+css-tokenizer@2.3.1__@csstools+css-parser-algorithms@2.6.3___@csstools+css-tokenizer@2.3.1__postcss-selector-parser@6.1.0__postcss@8.4.38",
       "npm:stylelint-order@6": "npm:stylelint-order@6.0.4_stylelint@16.6.1__@csstools+css-tokenizer@2.3.1__@csstools+css-parser-algorithms@2.6.3___@csstools+css-tokenizer@2.3.1__postcss-selector-parser@6.1.0__postcss@8.4.38_postcss@8.4.38",
       "npm:stylelint@16": "npm:stylelint@16.6.1_@csstools+css-tokenizer@2.3.1_@csstools+css-parser-algorithms@2.6.3__@csstools+css-tokenizer@2.3.1_postcss-selector-parser@6.1.0_postcss@8.4.38",
+      "npm:stylelint@16.6.1": "npm:stylelint@16.6.1_@csstools+css-tokenizer@2.3.1_@csstools+css-parser-algorithms@2.6.3__@csstools+css-tokenizer@2.3.1_postcss-selector-parser@6.1.0_postcss@8.4.38",
       "npm:terser@5": "npm:terser@5.31.0"
     },
     "jsr": {
@@ -83,6 +90,9 @@
       },
       "@libs/typing@2.1.0": {
         "integrity": "3c3b93e1da1e4bb45a22dde168fdfd1cc765edbdb371b46bf4ca7873ee79e15d"
+      },
+      "@lowlighter/deno-dom@0.1.46-rc1": {
+        "integrity": "144410c5186a80b8b43ff2698b3403b3c632cc0ee9b53b32551c42a906d80357"
       },
       "@luca/esbuild-deno-loader@0.10.3": {
         "integrity": "32fc93f7e7f78060234fd5929a740668aab1c742b808c6048b57f9aaea514921",
@@ -953,6 +963,10 @@
       },
       "has-flag@4.0.0": {
         "integrity": "sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==",
+        "dependencies": {}
+      },
+      "highlight.js@11.9.0": {
+        "integrity": "sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==",
         "dependencies": {}
       },
       "html-tags@3.3.1": {
