@@ -168,7 +168,7 @@ export async function publish({ log = new Logger(), token, repository, directory
     await command("git", ["tag", "--force", version], { log, throw: true, dryrun })
     await command("git", ["show-ref", "--tags", version], { log, throw: true, dryrun })
     log.info(`pushing tag ${version} to origin`)
-    //await command("git", ["pull", "--rebase"], { log, throw: true, dryrun })
+    await command("git", ["pull", "--rebase"], { log, throw: true, dryrun })
     await command("git", ["push", "origin", version], { log, throw: true, dryrun })
     log.debug(`tag ${version} has been pushed to origin`)
 
