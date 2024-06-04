@@ -1,6 +1,6 @@
 import { type options as parse_options, parse } from "./parse.ts"
 import { cdata, comment, type options as stringify_options, stringify } from "./stringify.ts"
-import { expect, test } from "@libs/testing"
+import { expect, test } from "jsr:@libs/testing@1"
 
 // This operation ensure that reforming a parsed XML will still yield same data
 const check = (xml: string, options?: parse_options & stringify_options) => {

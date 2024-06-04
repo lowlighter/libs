@@ -1,5 +1,5 @@
 // Imports
-import type { Nullable, record, rw } from "@libs/typing"
+import type { Nullable, record, rw } from "jsr:@libs/typing@2"
 import type { xml_document, xml_node, xml_text } from "./_types.ts"
 
 // Re-exports
