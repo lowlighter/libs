@@ -20,7 +20,7 @@ See table below for a list of available libraries and their features, compatibil
     <td rowspan="4"><ul data-for="bundle">
   <li>Lint, minify, license CSS code and check features compatibility against MDN data for each browser</li>
   <li>
-    Bundle, minify, anonymize local file paths, license and publish TypeScript code
+    Bundle, minify, anonymize local file paths, unmap imports, license and publish TypeScript code
     <ul>
       <li>Publish deno packages easily back to <a href="https://www.npmjs.com">NPM registries</a> and <a href="https://deno.land/x">deno.land/x</a></li>
     </ul>
