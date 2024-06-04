@@ -134,6 +134,7 @@ export async function publish({ log = new Logger(), token, repository, directory
     log.debug(`current branch: ${branch.current}`)
     log.debug(`temporary branch: ${branch.temporary}`)
     await command("git", ["switch", "--create", branch.temporary], { log, throw: true, dryrun })
+    await command("git", ["branch", "--set-upstream-to", `origin/${branch.current}`], { log, throw: true, dryrun })
     log.log(`on ${branch.temporary}`)
     log.info("resolving imports from map")
     await unmap({ log, map, dryrun })
@@ -141,7 +142,7 @@ export async function publish({ log = new Logger(), token, repository, directory
     log.info(`pushing changes on temporary branch ${branch.temporary} to origin`)
     await command("git", ["add", "."], { log, throw: true, dryrun })
     await command("git", ["commit", "--message", `build(${name}): deno.land/x@${version}`], { log, throw: true, dryrun })
-    await command("git", ["push", "origin", branch.temporary], { log, throw: true, dryrun })
+    await command("git", ["push"], { log, throw: true, dryrun })
     log.debug(`pushed changes from temporary branch ${branch.temporary} to origin`)
   }
 
