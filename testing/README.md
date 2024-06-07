@@ -3,18 +3,19 @@
 [![JSR](https://jsr.io/badges/@libs/testing)](https://jsr.io/@libs/testing) [![JSR Score](https://jsr.io/badges/@libs/testing/score)](https://jsr.io/@libs/testing)
 [![NPM](https://img.shields.io/npm/v/@lowlighter%2Ftesting?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/testing) [![Coverage](https://libs-coverage.lecoq.io/testing/badge.svg)](https://libs-coverage.lecoq.io/testing)
 
+Use [Deno](https://deno.com) to perform cross-platform testing on the [Deno](https://deno.com), [Node.js](https://nodejs.org) and [Bun](https://bun.sh) runtimes.
+
 - [`📚 Documentation`](https://jsr.io/@libs/testing/doc)
 
 ## ✨ Features
 
-- Use [deno](https://deno.com) to perform cross-platform testing on [deno](https://deno.com), [Node.js](https://nodejs.org) and [bun](https://bun.sh) runtimes
 - Specify which runtimes should be tested per test case
-- Automatically detect which runtime is available on current platform and skip tests accordingly for a streamlined development experience
-- Automatically install dependencies using `deno info` and the adequate package manager for each runtime
-- Permissions for deno test are defaulted to `"none"` rather than `"inherit"`
+- Automatically detect which runtimes are available and skip tests accordingly for a streamlined development experience.
+- Automatically install dependencies using `deno info` and the correct package manager for each runtime.
+- The permissions for deno test are defaulted to `"none"` rather than `"inherit"`.
 
-> [!WARNING]\
-> Although this library is designed for cross-platform testing, it must be run through deno. Test cases will be spawned in subprocesses using the adequate runtime and test runners.
+> [!WARNING]
+> Although this library is designed for cross-platform testing, it must be run through Deno. Test cases will be spawned in subprocesses.
 
 ## 🤖 Workflow usage
 
@@ -22,8 +23,9 @@ Below is an example on how it could be used within a [GitHub Actions](https://gi
 
 ```yaml
 on:
-  - push
-  - pull_request
+  push:
+  pull_request:
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -43,7 +45,7 @@ jobs:
 
 ## 📜 License
 
-```
+```plaintext
 Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 ```

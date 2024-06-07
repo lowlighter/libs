@@ -8,22 +8,22 @@
 
 ## ✨ Features
 
-- Based on [quick-xml](https://github.com/tafia/quick-xml) rust package (compiled to WASM)
-- Support `XML.parse` and `XML.stringify`
-- Support `<!-- -->` comments
-- Support XML entities (`&amp;`, `&#38;`, `&#x26;`, ...)
-- Support mixed content (text and nodes)
-- Large output transformation options
-  - Auto-flattening of nodes with a single child, text or attributes
-  - Auto-revival of `boolean`, `number`, etc.
-  - Auto-group same-named nodes into arrays
-  - Formatting options (indentation, break lines, etc.)
-  - Custom `reviver` and `replacer` functions
-- Metadata stored into non-enumerable properties for advanced usage
+- Based on the [quick-xml](https://github.com/tafia/quick-xml) Rust package (compiled to WASM).
+- Support for `XML.parse` and `XML.stringify` in the style of the `JSON` global.
+- Support for `<!-- -->` comments.
+- Support for XML entities (`&amp;`, `&#38;`, `&#x26;`, …).
+- Support for mixed content (both text and nodes).
+- Support for large output transformation options:
+  - Auto-flatten nodes with a single child, text or attributes
+  - Auto-revive `boolean`s, `number`s, etc.
+  - Auto-group same-named nodes into arrays.
+  - Format (indentation, break lines, etc.)
+  - Support for custom `reviver` and `replacer` functions
+- Support for metadata stored into non-enumerable properties (advanced usage).
 
 ## 🕊️ Migrating from `4.x.x` to `5.x.x`
 
-Starting from version `5.0.0`, this library use a WASM-compiled binding of the [quick-xml](https://github.com/tafia/quick-xml) rust package. It provides better performances while allowing to support more features.
+Prior to version version `5.0.0`, this library was fully written in TypeScript. It now uses a WASM-compiled binding of the [quick-xml](https://github.com/tafia/quick-xml) Rust package, which provides better performance while allowing us to support more features.
 
 ### Internal API changes
 
@@ -40,7 +40,7 @@ The `$XML` internal symbol has been replaced by a set of non-enumerable properti
 </root>
 ```
 
-```diff
+```diff js
   <ref *1> {
 -   [$XML]: { cdata: [ "root", "node" ] },
 +   "~parent": null,
@@ -70,7 +70,7 @@ Processing instructions (like XML stylesheets) are now parsed the same way as re
 <root/>
 ```
 
-```diff
+```diff js
   {
 -   xml: {
 -     "@version": "1.0",
@@ -90,7 +90,7 @@ Processing instructions (like XML stylesheets) are now parsed the same way as re
 
 ### Mixed content support
 
-This breaks any existing code that was expecting mixed content to always be a string. Now mixed content nodes will be parsed as usual, and the `#text` property will contain the "inner text" of the node.
+This breaks any existing code that was expecting mixed content to always be a string. Now, mixed content nodes will be parsed as usual, and the `#text` property will contain the "inner text" of the node.
 
 Note that `#text` is actually a getter that recursively gets the `#text` of children nodes (ignoring comment nodes), so it'll also handle nested mixed content correctly.
 
@@ -98,7 +98,7 @@ Note that `#text` is actually a getter that recursively gets the `#text` of chil
 <root>some <b>bold</b> text</root>
 ```
 
-```diff
+```diff js
   {
 -   root: "some <b>bold</b> text",
 +   root: {
@@ -118,7 +118,7 @@ Additionally, you can find comments into the `~children` property by searching f
 <root><!--some comment--></root>
 ```
 
-```diff
+```diff js
   {
     root: {
 -     "#comment": "some comment",
@@ -131,7 +131,7 @@ Additionally, you can find comments into the `~children` property by searching f
 
 #### Options
 
-Parse options are categorized into 4 groups:
+Parsing options are categorized into 4 groups:
 
 - `clean`, which can remove `attributes`, `comments`, xml `doctype` and `instructions` from the output
 - `flatten`, which can flatten nodes with only a `text` node, `empty` ones or transform `attributes` only nodes into objects without the `@` prefix
@@ -140,7 +140,7 @@ Parse options are categorized into 4 groups:
   - _Note that signature of the reviver function has changed_
 - `mode`, which can be either `xml` or `html`. Choosing the latter will be more permissive than the former.
 
-```diff
+```diff js
   const options = {
 -   reviveBooleans: true,
 -   reviveNumbers: true,
@@ -165,13 +165,13 @@ import { parse } from "./parse.ts"
 parse(await Deno.readTextFile("example.xml"))
 ```
 
-Async parsing is not supported yet, but might be added in the future.
+Async parsing is not supported yet, but might be added in the future (see [#49](https://github.com/lowlighter/libs/issues/49)).
 
 ### Stringifying
 
 #### Options
 
-Stringify options are now categorized into 2 groups:
+Stringifying options are now categorized into 2 groups:
 
 - `format`, which can configure the `indent` string and automatically `breakline` when a text node is too long
   - _Since you pass a string rather than a number for indent, it means that you can also use tabs instead of space too_
@@ -179,7 +179,7 @@ Stringify options are now categorized into 2 groups:
   - You can also provide a `custom` replacer function that will be called on each attribute and node
   - _Note that signature of the replacer function has changed_
 
-```diff
+```diff js
   const options = {
 -   indentSize: 2,
 +   format: { indent: "  " },
@@ -198,7 +198,7 @@ Please refer to the [documentation](https://jsr.io/@libs/xml/doc) for more infor
 
 Please refer to the above section about API changes. If you were handling XML document properties, using the `$XML` symbol or `#comment` property, or dealing with mixed nodes content, you'll most likely need to update your code.
 
-This library now provides `comment()` and `cdata()` helpers to respectively create comment and CDATA nodes.
+Additionally, the library now provides `comment()` and `cdata()` helpers to respectively create comment and CDATA nodes:
 
 ```ts
 import { cdata, comment, stringify } from "./stringify.ts"
@@ -234,16 +234,12 @@ stringify({
 </root>
 ```
 
-Note that while you can theorethically use internal API properties, we strongly advise against it currently. Supporting `~children` might be added in the future ([#57](https://github.com/lowlighter/libs/issues/57)) for mixed content, but its behavior is not well defined yet.
-Setting `~name` manually might lead to unexpected behaviors, especially if it differs from the parent key.
+Note that while you can _theoretically_ use internal API properties, currently, we strongly advise against doing so. Supporting `~children` might be added in the future ([#57](https://github.com/lowlighter/libs/issues/57)) for mixed content, but its behavior is not yet well
+defined. Setting `~name` manually might lead to unexpected behaviors, especially if it differs from the parent key.
 
 ## 📜 License and credits
 
-```
+```plaintext
 Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 ```
-
-This library used to be published at [deno.land/x/xml](https://deno.land/x/xml) and [jsr.io/@lowlighter/xml](https://jsr.io/@lowlighter/xml). It was moved into [jsr.io/@libs/xml](https://jsr.io/@libs/xml) starting version `5.0.0`.
-
-Version prior to `5.0.0` used to be fully written in TypeScript but it was rewritten in Rust to improve performances and support more features.

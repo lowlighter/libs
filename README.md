@@ -4,10 +4,10 @@
 [![deno.land/x](https://img.shields.io/badge/deno.land%2Fx-libs-0a3040?style=flat&logo=deno&labelColor=black)](https://deno.land/x/libs) [![Playground](https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black)](https://libs.lecoq.io)
 [![ci](https://github.com/lowlighter/libs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/lowlighter/libs/actions/workflows/ci.yml)
 
-This is a collection of carefully crafted _TypeScript_ libraries. These try to be minimal, unbloated and convenient.
+This is a collection of carefully crafted _TypeScript_ libraries. They try to be as minimal, unbloated and convenient as possible.
 
-They honor [web standards](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/The_web_and_web_standards) for maximum compatibility cross-runtimes which makes most of them compatible with [deno](https://deno.com) , [Node.js](https://nodejs.org),
-[bun](https://bun.sh) and even browsers out of the box.
+They honor [web standards](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/The_web_and_web_standards) for maximum compatibility cross-runtime, which makes most of them compatible with [Deno](https://deno.com), [Node.js](https://nodejs.org),
+[Bun](https://bun.sh) and even browsers out of the box.
 
 See table below for a list of available libraries and their features, compatibility, test coverage and playgrounds.
 
@@ -198,15 +198,17 @@ See table below for a list of available libraries and their features, compatibil
   <tr><th><a href="https://libs.lecoq.io/xml"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs-coverage.lecoq.io/xml"><img src="https://libs-coverage.lecoq.io/xml/badge.svg"></a></th></tr></table>
 
-> Each package is versioned independently. Releases are fully automated and are published on every push to the `main` branch. Versioning follows [semver](https://semver.org) rules.
+> Each package is versioned independently. Releases are fully automated and are published on every push to the `main` branch. Versioning follows [SemVer](https://semver.org) rules.
 
-## 🧑‍💻 Cli utilities
+## 🧑‍💻 CLI Utilities
 
-A set of useful CLI scripts are also provided. Please note that these can only be run on deno runtime.
+We also provide a set of useful CLI scripts.
+
+> [!IMPORTANT] Please note that these only run on the Deno runtime.
 
 ### TypeScript code coverage enhancer
 
-Enhance coverage reports generated with `deno coverage` by adding syntax highlighting and better styling thanks to [matcha.css](https://github.com/lowlighter/matcha).
+Enhance coverage reports generated with `deno coverage` by adding syntax highlighting and better styling using [matcha.css](https://github.com/lowlighter/matcha).
 
 ```sh
 deno run jsr:@libs/bundle/ts/cli/coverage --help
@@ -214,7 +216,7 @@ deno run jsr:@libs/bundle/ts/cli/coverage --help
 
 ### TypeScript package publisher
 
-Publish a TypeScript package to a npm registry (transpilation to JavaScript and conversion from `deno.jsonc` to `package.json` will automatically be performed) or to [deno.land/x](https://deno.land/x) (webhooks must be configured beforehand).
+Publish a TypeScript package to an npm registry (transpilation to JavaScript and conversion from `deno.jsonc` to `package.json` will automatically be performed) or to [deno.land/x](https://deno.land/x) (webhooks must be configured beforehand).
 
 ```sh
 deno run jsr:@libs/bundle/ts/cli/publish --help
@@ -222,7 +224,7 @@ deno run jsr:@libs/bundle/ts/cli/publish --help
 
 ### CSS formatter
 
-Format CSS code similarly to `prettier` or `deno fmt`. Can be used with `--check` to validate that CSS code is correctly formatted.
+Format CSS code similarly to `prettier` or `deno fmt`. Use `--check` to validate that CSS code is correctly formatted.
 
 ```sh
 deno run jsr:@libs/bundle/css/cli/fmt --help
@@ -238,10 +240,9 @@ deno run jsr:@libs/bundle/css/cli/check --help
 
 ### XHTML formatter
 
-Format HTML and HTML/XML code similarly `deno fmt`. Can be used with `--check` to validate that HTML/XML code is correctly formatted.
+Format HTML and HTML/XML code similarly `deno fmt`. Use `--check` to validate that HTML/XML code is correctly formatted.
 
-> [!WARNING]\
-> This formatter is currently experimental and may **break** your documents (mainly reorder nodes, remove comments, wrongly self-close tag in HTML, etc.). It requires `--unstable` flag to be run without `--check` flag.
+> This formatter is currently experimental and may **break** your documents (by reordering nodes, removing comments, wrongly self-closing tags in HTML, etc.). It requires `--unstable` flag to write changes; that is, to run without `--check` flag.
 
 ```sh
 deno run jsr:@libs/bundle/xhtml/cli/fmt --help
@@ -249,7 +250,7 @@ deno run jsr:@libs/bundle/xhtml/cli/fmt --help
 
 ### Web assembly builder
 
-Compile a rust project to Web assembly and minify output.
+Compile a Rust project to Web assembly and minify output.
 
 ```sh
 deno run jsr:@libs/bundle/wasm/cli/build --help
@@ -259,7 +260,6 @@ deno run jsr:@libs/bundle/wasm/cli/build --help
 
 This work is licensed under the [MIT License](./LICENSE).
 
-If you include a significant part of it in your own project, _**you should keep the license notice**_ with it, including the mention of the additional original authors if any.
+If you include a significant part of it in your own project, _**you must keep the license notice**_ with it, including the mention of the additional original authors if any.
 
-> [!IMPORTANT]\
-> Love these bytes ? Consider [`💝 sponsoring me`](https://github.com/sponsors/lowlighter), even one-time contributions are greatly appreciated !
+> [!IMPORTANT] Love these bytes? Consider [`💝 sponsoring me`](https://github.com/sponsors/lowlighter), even one-time contributions are greatly appreciated!

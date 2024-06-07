@@ -8,15 +8,15 @@
 
 ## ✨ Features
 
-- Support out-of-the-box `array`, `console` and `svg` outputs
-- Customizable colors and error correction level (ECL)
-- Modern implementation using EcmaScript modules and TypeScript
-- No external dependencies _(not even DOM's [`<canvas>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas))_
-- Runtime agnostic _(also works in the browser)_
+- Support for `array`, `console` and `svg` outputs out-of-the-box.
+- Support for custom colors and error correction level (ECL).
+- Has a modern implementation using TypeScript and EcmaScript modules.
+- Has no external dependencies _(not even the DOM's [`<canvas>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas) element)_!
+- Is runtime agnostic _(and even works in browsers)_!
 
 ## 📜 License and credits
 
-```
+```plaintext
 Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 
