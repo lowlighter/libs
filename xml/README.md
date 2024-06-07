@@ -23,7 +23,8 @@
 
 ## 🕊️ Migrating from `4.x.x` to `5.x.x`
 
-Prior to version version `5.0.0`, this library was fully written in TypeScript. It now uses a WASM-compiled binding of the [quick-xml](https://github.com/tafia/quick-xml) Rust package, which provides better performance while allowing us to support more features.
+Prior to version version `5.0.0`, this library was fully written in TypeScript.
+It now uses a WASM-compiled binding of the [quick-xml](https://github.com/tafia/quick-xml) Rust package, which provides better performance while allowing us to support more features.
 
 ### Internal API changes
 
@@ -90,7 +91,8 @@ Processing instructions (like XML stylesheets) are now parsed the same way as re
 
 ### Mixed content support
 
-This breaks any existing code that was expecting mixed content to always be a string. Now, mixed content nodes will be parsed as usual, and the `#text` property will contain the "inner text" of the node.
+This breaks any existing code that was expecting mixed content to always be a string.
+Now, mixed content nodes will be parsed as usual, and the `#text` property will contain the "inner text" of the node.
 
 Note that `#text` is actually a getter that recursively gets the `#text` of children nodes (ignoring comment nodes), so it'll also handle nested mixed content correctly.
 
@@ -110,9 +112,11 @@ Note that `#text` is actually a getter that recursively gets the `#text` of chil
 
 ### Comments
 
-Comments have been moved into `"#comments"` property. Note that this property is now always an array, even if there is only one comment.
+Comments have been moved into `"#comments"` property.
+Note that this property is now always an array, even if there is only one comment.
 
-Additionally, you can find comments into the `~children` property by searching for nodes with `"~name": "~comment"`. If you call the `#text` getter on a parent node containing comments, it will return the inner text without comments.
+Additionally, you can find comments into the `~children` property by searching for nodes with `"~name": "~comment"`.
+If you call the `#text` getter on a parent node containing comments, it will return the inner text without comments.
 
 ```xml
 <root><!--some comment--></root>
@@ -138,7 +142,8 @@ Parsing options are categorized into 4 groups:
 - `revive`, which can `trim` content (unless `xml:space="preserve"`), unescape xml `entities`, revive `booleans` and `numbers`
   - You can also provide a `custom` reviver function (applied after other revivals) that will be called on each attribute and node
   - _Note that signature of the reviver function has changed_
-- `mode`, which can be either `xml` or `html`. Choosing the latter will be more permissive than the former.
+- `mode`, which can be either `xml` or `html`.
+  Choosing the latter will be more permissive than the former.
 
 ```diff js
   const options = {
@@ -196,7 +201,8 @@ Please refer to the [documentation](https://jsr.io/@libs/xml/doc) for more infor
 
 ### Stringifying content
 
-Please refer to the above section about API changes. If you were handling XML document properties, using the `$XML` symbol or `#comment` property, or dealing with mixed nodes content, you'll most likely need to update your code.
+Please refer to the above section about API changes.
+If you were handling XML document properties, using the `$XML` symbol or `#comment` property, or dealing with mixed nodes content, you'll most likely need to update your code.
 
 Additionally, the library now provides `comment()` and `cdata()` helpers to respectively create comment and CDATA nodes:
 
@@ -234,8 +240,9 @@ stringify({
 </root>
 ```
 
-Note that while you can _theoretically_ use internal API properties, currently, we strongly advise against doing so. Supporting `~children` might be added in the future ([#57](https://github.com/lowlighter/libs/issues/57)) for mixed content, but its behavior is not yet well
-defined. Setting `~name` manually might lead to unexpected behaviors, especially if it differs from the parent key.
+Note that while you can _theoretically_ use internal API properties, currently, we strongly advise against doing so.
+Supporting `~children` might be added in the future ([#57](https://github.com/lowlighter/libs/issues/57)) for mixed content, but its behavior is not yet well defined.
+Setting `~name` manually might lead to unexpected behaviors, especially if it differs from the parent key.
 
 ## 📜 License and credits
 

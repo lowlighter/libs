@@ -44,4 +44,5 @@ https://github.com/lowlighter/libs/blob/main/LICENSE
 >
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 >
-> The author is not responsible for any damage that could be caused by the use of this library. It is your responsibility to use it properly and to understand the security implications of the choices you make.
+> The author is not responsible for any damage that could be caused by the use of this library.
+> It is your responsibility to use it properly and to understand the security implications of the choices you make.

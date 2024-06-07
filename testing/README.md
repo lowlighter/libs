@@ -15,7 +15,8 @@ Use [Deno](https://deno.com) to perform cross-platform testing on the [Deno](htt
 - The permissions for deno test are defaulted to `"none"` rather than `"inherit"`.
 
 > [!WARNING]
-> Although this library is designed for cross-platform testing, it must be run through Deno. Test cases will be spawned in subprocesses.
+> Although this library is designed for cross-platform testing, it must be run through Deno.
+> Test cases will be spawned in subprocesses.
 
 ## 🤖 Workflow usage
 
