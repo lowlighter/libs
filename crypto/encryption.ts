@@ -83,7 +83,7 @@ export async function hash(message: string, { algorithm = "SHA-256" as Algorithm
  * Encrypt message with key.
  *
  * It returns an hexadecimal string structured as follows:
- * ```
+ * ```plaintext
  * ┌──────────────────────┬─────────────────┬────────────┬───────────┬────────────┬╴╴╴╴╴╴╴╴╴╴╴╴╴╴┐
  * │ Initial Vector [16b] │ Signature [16b] │ Hash [64b] │ Size [8b] │ Value [Xb] │ Padding [Yb] ┊
  * └──────────────────────┴─────────────────┴────────────┴───────────┴────────────┴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┘
@@ -165,7 +165,7 @@ export async function decrypt(message: string, { key }: { key: CryptoKey | strin
  * Convert encryption key to {@link https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey | CryptoKey}.
  *
  * @example
- * ```
+ * ```ts
  * import { importKey } from "./encryption.ts"
  * console.assert(await importKey("e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47") instanceof CryptoKey)
  * ```
@@ -178,7 +178,7 @@ export async function importKey(key: string): Promise<CryptoKey> {
  * Generate encryption key from seed and salt.
  *
  * @example
- * ```
+ * ```ts
  * import { exportKey } from "./encryption.ts"
  * console.assert(typeof await exportKey({ seed: "", salt: "" }) === "string")
  * ```
