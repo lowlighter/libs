@@ -16,7 +16,7 @@
  * - Assertions were removed as only high-level generation is exposed
  * ________________________________________________________________________________
  *
- * Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+ * Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
  * https://github.com/lowlighter/libs/blob/main/LICENSE
  *
  * ________________________________________________________________________________

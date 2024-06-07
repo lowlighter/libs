@@ -11,7 +11,7 @@
  * - Lot of code has moved or has been rewritten to match lowlighter's coding style
  * ________________________________________________________________________________
  *
- * Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+ * Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
  * https://github.com/lowlighter/libs/blob/main/LICENSE
  *
  * ________________________________________________________________________________

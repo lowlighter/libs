@@ -18,7 +18,7 @@ Use the patience algorithm for practical purposes.
 ## 📜 License and credits
 
 ```plaintext
-Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 ```
 

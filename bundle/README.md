@@ -41,6 +41,6 @@ Launch `wasm-pack` for a Rust project, inject generated bindings as a base64 str
 ## 📜 License and credits
 
 ```plaintext
-Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 ```

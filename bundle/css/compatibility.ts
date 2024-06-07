@@ -93,7 +93,7 @@ const vendors = /^(?:@|::|:)?(?<prefix>-(?:webkit|moz|o|ms|__debug)-)/
  * ```
  * ________________________________________________________________________________
  *
- * Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+ * Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
  * https://github.com/lowlighter/libs/blob/main/LICENSE
  *
  * @author Simon Lecoq (lowlighter)
@@ -129,7 +129,7 @@ export async function compatibility(input: URL | string, { query = "defaults", l
  * ```
  * ________________________________________________________________________________
  *
- * Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+ * Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
  * https://github.com/lowlighter/libs/blob/main/LICENSE
  *
  * @author Simon Lecoq (lowlighter)
