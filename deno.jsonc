@@ -105,5 +105,21 @@
       "**/*.mjs"
     ],
     "proseWrap": "preserve"
-  }
+  },
+  "workspace": [
+    "bundle/",
+    "crypto/",
+    "diff/",
+    "logger/",
+    "orm/",
+    "qrcode/",
+    "reactive/",
+    "run/",
+    "testing/",
+    "typing/",
+    "xml/"
+  ],
+  "unstable": [
+    "workspaces"
+  ]
 }

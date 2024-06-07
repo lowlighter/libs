@@ -36,6 +36,7 @@ const order = [
   "tasks",
   "lint",
   "fmt",
+  "workspaces",
 ]
 
 // Load local configurations
