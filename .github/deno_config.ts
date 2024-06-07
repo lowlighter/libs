@@ -47,7 +47,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   // Register local imports
   for (const [key, value] of Object.entries(local.imports ?? {})) {
     if ((key in imports) && (imports[key] !== value)) {
-      log.warn({ package: packages.at(-1), dependency: key }).warn("previous registered with a different version")
+      log.warn({ package: packages.at(-1), dependency: key }).warn("previously registered with a different version")
     }
     imports[key] = value
   }
