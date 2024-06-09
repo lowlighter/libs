@@ -298,4 +298,6 @@ test("all")("stringify(): xml replacer", () =>
 
 //Errors checks
 
-test("all")("stringify(): xml syntax unique root", () => expect(() => stringify({ root: null, garbage: null })).toThrow(SyntaxError))
+test("all")("stringify(): xml syntax no root node", () => expect(() => stringify({})).toThrow(SyntaxError))
+
+test("all")("stringify(): xml syntax multiple root nodes", () => expect(() => stringify({ root: null, garbage: null })).toThrow(SyntaxError))
