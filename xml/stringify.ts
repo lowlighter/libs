@@ -87,6 +87,9 @@ export function stringify(document: Partial<xml_document>, options?: options): s
 
   // Add root node
   const [root, ...garbage] = xml_children(document as xml_document, _options)
+  if (!root) {
+    throw new SyntaxError("No root node detected")
+  }
   if (garbage.length) {
     throw new SyntaxError("Multiple root node detected")
   }
