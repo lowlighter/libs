@@ -10,17 +10,10 @@
 
 ### ✨ Features
 
-- Support passing either raw TypeScript string or file URL
-- Support for banner option
-- Minification enabled by default
-  - Support advanced minification through [Terser](https://terser.org)
-
-### 📜 License and credits
-
-```
-Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
-https://github.com/lowlighter/libs/blob/main/LICENSE
-```
+- Support for passing either a raw TypeScript string or a file URL.
+- Support for injecting comment banners (e.g., for licenses).
+- Minification is enabled by default.
+  - Support for advanced minification through [Terser](https://terser.org).
 
 ## 🎨 CSS
 
@@ -29,31 +22,25 @@ https://github.com/lowlighter/libs/blob/main/LICENSE
 
 ### ✨ Features
 
-- Support passing either raw CSS string or file URL
-- Support for banner option
-- Support minification through [CSSO](https://github.com/css/csso)
-- Support fomatting and linting through [StyleLint](https://github.com/stylelint/stylelint)
-- Compatibility checker against [MDN compatibility data](https://github.com/mdn/browser-compat-data)
-
-### 📜 License and credits
-
-```
-Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
-https://github.com/lowlighter/libs/blob/main/LICENSE
-```
+- Support for passing either a raw CSS string or a file URL.
+- Support for injecting comment banners (e.g., for licenses).
+- Support for minification through [CSSO](https://github.com/css/csso).
+- Support for formatting and linting through [StyleLint](https://github.com/stylelint/stylelint).
+- Support form compatibility checking against [MDN compatibility data](https://github.com/mdn/browser-compat-data).
 
 ## 🔬 WASM
+
+Launch `wasm-pack` for a Rust project, inject generated bindings as a base64 string and minify the JS output!
 
 - [`📚 Documentation`](https://jsr.io/@libs/bundle/doc/wasm/~)
 
 ### ✨ Features
 
-- Launch `wasm-pack` for a rust project, inject generated bindings as base64 string and minify JS output
-- Support for banner option
+- Support for injecting comment banners (e.g., for licenses).
 
-### 📜 License and credits
+## 📜 License and credits
 
-```
-Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+```plaintext
+Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 ```

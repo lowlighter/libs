@@ -5,10 +5,10 @@
  * https://hackernoon.com/how-to-implement-google-authenticator-two-factor-auth-in-javascript-091wy3vh3
  *
  * Significant changes includes:
- * - Use of native WebCrypto and Typed buffer APIs instead of Node.js APIs
- * - Follow the Google Authenticator spec at https://github.com/google/google-authenticator/wiki/Key-Uri-Format
- *   - Ignored parameters are hard-coded to their default values
- * - Code was condensed
+ * - Use of native WebCrypto and TypedBuffer APIs instead of Node.js APIs.
+ * - Follow the Google Authenticator spec at <https://github.com/google/google-authenticator/wiki/Key-Uri-Format>.
+ *   - Ignore parameters are hard-coded to their default values.
+ * - Condense code.
  *
  * @example
  * ```ts
@@ -30,7 +30,7 @@
  * https://www.verifyr.com/en/otp/check
  * ________________________________________________________________________________
  *
- * Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+ * Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
  * https://github.com/lowlighter/libs/blob/main/LICENSE
  * @module
  */

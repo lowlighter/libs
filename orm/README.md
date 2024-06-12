@@ -8,7 +8,7 @@
 
 ## 📜 Licenses
 
-```
-Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+```plaintext
+Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 ```

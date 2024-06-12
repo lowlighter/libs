@@ -11,7 +11,7 @@
  * - Lot of code has moved or has been rewritten to match lowlighter's coding style
  * ________________________________________________________________________________
  *
- * Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+ * Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
  * https://github.com/lowlighter/libs/blob/main/LICENSE
  *
  * ________________________________________________________________________________
@@ -27,7 +27,7 @@
  * This function was ported and modified by {@link https://gihub.com/lowlighter | Simon Lecoq} based on the previous work of {@link https://gihub.com/jonTrent | Jonathan Trent}.
  *
  * @example
- * ```
+ * ```ts
  * import { diff } from "./diff.ts"
  * diff("foo\n", "foo")
  * // Returns
@@ -122,7 +122,7 @@ export function diff(a: string, b: string, { context = 3 } = {}): string {
  * Tokenize text into text lines
  *
  * @example
- * ```
+ * ```ts
  * import { tokenize } from "./diff.ts"
  * tokenize("foo\nbar")
  * ``

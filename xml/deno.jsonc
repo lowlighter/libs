@@ -89,6 +89,7 @@
       "**/package-lock.json",
       "**/wasm_*",
       "**/*.mjs"
-    ]
+    ],
+    "proseWrap": "preserve"
   }
 }

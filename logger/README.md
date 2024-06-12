@@ -8,24 +8,24 @@
 
 ## ✨ Features
 
-- Colored output
-- Log levels
-- Tags
-- Timestamps
+- Support for colored output.
+- Support for log levels.
+- Support for tags.
+- Support for timestamps:
   - Date
   - Time
-- Delta
-- Caller information
+- Support for displaying deltas.
+- Support for displaying caller information:
   - File
   - Function name
   - Line and column
-- Log formatters
+- Support for multiple log formatters:
   - Text
   - JSON
 
 ## 📜 License and credits
 
-```
-Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+```plaintext
+Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 ```

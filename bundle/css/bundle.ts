@@ -17,14 +17,14 @@ import { SEPARATOR } from "@std/path/constants"
  * A banner option can be provided to prepend a comment to the output, which can be useful for licensing information.
  *
  * @example
- * ```
+ * ```ts
  * // From file
  * import { bundle } from "./bundle.ts"
  * console.log(await bundle(new URL("testing/test_bundle.css", import.meta.url)))
  * ```
  *
  * @example
- * ```
+ * ```ts
  * // From string
  * import { bundle } from "./bundle.ts"
  * console.log(await bundle(`body { color: salmon; }`))

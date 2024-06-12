@@ -6,9 +6,12 @@
 - [`🦕 Playground`](https://libs.lecoq.io/run)
 - [`📚 Documentation`](https://jsr.io/@libs/run/doc)
 
+> [!WARNING]
+> Deno exclusive!
+
 ## 📜 Licenses
 
-```
-Copyright (c) Lecoq Simon <@lowlighter>. (MIT License)
+```plaintext
+Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 ```

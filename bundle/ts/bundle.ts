@@ -19,20 +19,20 @@ import { delay } from "@std/async/delay"
  * Use the `shadow` option to replace the local URLs (using `file://` scheme) with a shadow url to avoid exposing real paths.
  *
  * @example
- * ```
+ * ```ts
  * // From file
  * import { bundle } from "./bundle.ts"
  * console.log(await bundle(new URL(import.meta.url)))
  * ```
  * @example
- * ```
+ * ```ts
  * // From string
  * import { bundle } from "./bundle.ts"
  * console.log(await bundle(new URL(import.meta.url), { config: new URL("deno.jsonc", import.meta.url) }))
  * ```
  *
  * @example
- * ```
+ * ```ts
  * // From string
  * import { bundle } from "./bundle.ts"
  * console.log(await bundle(`console.log("Hello world")`))
