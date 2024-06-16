@@ -53,7 +53,7 @@ import type { DeepMerge } from "@std/collections/deep-merge"
  * @author Simon Lecoq (lowlighter)
  * @license MIT
  */
-export class Context<T extends record> extends EventTarget {
+export class Context<T extends record = record> extends EventTarget {
   /** Constructor. */
   constructor(target = {} as T, { parent = null as Nullable<Context<record>> } = {}) {
     super()
