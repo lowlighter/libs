@@ -71,7 +71,7 @@ jobs:
           node-version: 22.x
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.x
+          bun-version: latest
       - name: Run deno task coverage
         run: |
           PACKAGES=$(echo '${{ needs.setup.outputs.packages }}' | jq -cr '.[]')
