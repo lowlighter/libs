@@ -9,6 +9,9 @@ export type callback = Function
 /** Record. */
 export type record<T = unknown> = Record<PropertyKey, T>
 
+/** Extract value type from Record. */
+export type RecordValue<T> = T extends Record<PropertyKey, infer U> ? U : never
+
 /** Extract key type from {@link https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map | Map}. */
 export type MapKey<T> = T extends Map<infer U, unknown> ? U : never
 
