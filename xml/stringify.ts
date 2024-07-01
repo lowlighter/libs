@@ -40,6 +40,9 @@ type _options = options & { format: NonNullable<options["format"]> }
 /** Internal symbol to store properties without erasing user-provided ones. */
 const internal = Symbol("internal")
 
+/** A laxer type for what can be stringified. We won’t ever create this, but we’ll accept it. */
+export type stringifyable = Partial<Omit<xml_document, "@version" | "@standalone"> & { "@version": string; "@standalone": string }>
+
 /**
  * Stringify an {@link xml_document} object into a XML string.
  *
@@ -50,6 +53,8 @@ const internal = Symbol("internal")
  * import { stringify } from "./stringify.ts"
  *
  * console.log(stringify({
+ *   "@version": "1.0",
+ *   "@standalone": "yes",
  *   root: {
  *     text: "hello",
  *     array: ["world", "monde", "世界", "🌏"],
@@ -63,7 +68,7 @@ const internal = Symbol("internal")
  * }))
  * ```
  */
-export function stringify(document: Partial<xml_document>, options?: options): string {
+export function stringify(document: stringifyable, options?: options): string {
   options ??= {}
   options.format ??= {}
   options.format.indent ??= "  "

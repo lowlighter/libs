@@ -244,6 +244,24 @@ Note that while you can _theoretically_ use internal API properties, currently, 
 Supporting `~children` might be added in the future ([#57](https://github.com/lowlighter/libs/issues/57)) for mixed content, but its behavior is not yet well defined.
 Setting `~name` manually might lead to unexpected behaviors, especially if it differs from the parent key.
 
+> [!TIP]
+> For more type-safety, write `satisfies Partial<xml_document>` after whatever you pass into `stringify`, like so:
+>
+> <!-- TODO(lishaduck): Add ts highlighting once denoland/deno#24164 is resolved -->
+>
+> ```
+> import { stringify, type xml_document } from "./stringify.ts"
+>
+> const ast = {
+>   "@version": "1.0",
+>   "@encoding": "UTF-8",
+>   "root": {},
+> } satisfies Partial<xml_document>
+> const result = stringify(ast)
+> ```
+>
+> We expose lax typing, but `Partial<xml_document>` uses the stricter typing we use internally.
+
 ## 📜 License and credits
 
 ```plaintext

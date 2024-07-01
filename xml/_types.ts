@@ -25,11 +25,11 @@ export type xml_node = {
 /** XML document. */
 export type xml_document = xml_node & {
   /** XML version. */
-  ["@version"]?: string
+  ["@version"]?: `1.${number}`
   /** XML character encoding. */
   ["@encoding"]?: string
   /** XML standalone. */
-  ["@standalone"]?: string
+  ["@standalone"]?: "yes" | "no"
   /** XML doctype. */
   ["#doctype"]?: xml_node
   /** XML instructions. */
