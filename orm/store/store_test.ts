@@ -53,50 +53,17 @@ test("deno")(`Store.set() sets key-values`, async () => {
     _set = fn(() => ({ ok, version }))
   } as testing
   const store = await new TestStore({ log }).ready
-  await expect(store.set(key, value)).resolves.toEqual({ value, version })
-  expect(store._set).toHaveBeenLastCalledWith(key, value, null, false)
-  ok = false
-  await expect(store.set(key, value)).rejects.toThrow("Failed")
-  expect(store._set).toHaveBeenLastCalledWith(key, value, null, false)
-})
-
-test("deno")(`Store.set() sets key-values transactionally`, async () => {
-  const key = ["key"], value = { foo: true }, version = "0"
-  let ok = true
-  const TestStore = class extends (Store as testing) {
-    _open() {}
-    _set = fn(() => ({ ok, version }))
-  } as testing
-  const store = await new TestStore({ log }).ready
-  await expect(store.set(key, value, version)).resolves.toEqual({ value, version })
-  expect(store._set).toHaveBeenLastCalledWith(key, value, "0", true)
-  ok = false
-  await expect(store.set(key, value, version)).rejects.toThrow("Failed")
-  expect(store._set).toHaveBeenLastCalledWith(key, value, "0", true)
+  for (const versionstamp of [null, version]) {
+    ok = true
+    await expect(store.set(key, value, versionstamp)).resolves.toEqual({ value, version })
+    expect(store._set).toHaveBeenLastCalledWith([key], value, versionstamp)
+    ok = false
+    await expect(store.set(key, value, versionstamp)).rejects.toThrow("Failed")
+    expect(store._set).toHaveBeenLastCalledWith([key], value, versionstamp)
+  }
 })
 
 test("deno")(`Store.delete() deletes key-values`, async () => {
-  const key = ["key"]
-  let ok = true, value = { foo: true } as testing
-  const TestStore = class extends (Store as testing) {
-    _open() {}
-    _get() {
-      return { value, version: value ? "0" : null }
-    }
-    _delete = fn(() => (value = null, { ok }))
-  } as testing
-  const store = await new TestStore({ log }).ready
-  await expect(store.delete(key)).resolves.toBe(true)
-  expect(store._delete).toHaveBeenLastCalledWith(key, null, false)
-  await expect(store.delete(key)).resolves.toBe(false)
-  expect(store._delete).toHaveBeenLastCalledWith(key, null, false)
-  ok = false
-  value = { foo: true }
-  await expect(store.delete(key)).rejects.toThrow("Failed")
-  expect(store._delete).toHaveBeenLastCalledWith(key, null, false)
-})
-
-test("deno")(`Store.delete() deletes key-values transactionally`, async () => {
   const key = ["key"], version = "0"
   let ok = true, value = { foo: true } as testing
   const TestStore = class extends (Store as testing) {
@@ -108,13 +75,13 @@ test("deno")(`Store.delete() deletes key-values transactionally`, async () => {
   } as testing
   const store = await new TestStore({ log }).ready
   await expect(store.delete(key, version)).resolves.toBe(true)
-  expect(store._delete).toHaveBeenLastCalledWith(key, version, true)
+  expect(store._delete).toHaveBeenLastCalledWith([key], version)
   await expect(store.delete(key, version)).resolves.toBe(false)
-  expect(store._delete).toHaveBeenLastCalledWith(key, version, true)
+  expect(store._delete).toHaveBeenLastCalledWith([key], version)
   ok = false
   value = { foo: true }
   await expect(store.delete(key, version)).rejects.toThrow("Failed")
-  expect(store._delete).toHaveBeenLastCalledWith(key, version, true)
+  expect(store._delete).toHaveBeenLastCalledWith([key], version)
 })
 
 test("deno")(`Store.list() lists key-values`, async () => {

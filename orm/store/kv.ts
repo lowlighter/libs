@@ -1,5 +1,5 @@
 // Imports
-import type { Nullable, Promisable, record, rw } from "@libs/typing"
+import type { callback, Nullable, Promisable, record, rw } from "@libs/typing"
 import { Store as _Store } from "./store.ts"
 import type { key, version } from "./store.ts"
 
@@ -31,41 +31,49 @@ export class Store extends _Store {
   }
 
   /** Set entry in {@link Store}. */
-  protected async _set<T extends record>(key: key, value: T, versionstamp: Nullable<version>, atomic: boolean): Promise<{ ok: boolean; version: version }> {
+  protected async _set<T extends record>(keys: key[], value: T, versionstamp: Nullable<version>): Promise<{ ok: boolean; version: version }> {
     let ok = false
     let version = null
-    if (atomic) {
-      ;({ ok, versionstamp: version } = await this.#kv.atomic().check({ key, versionstamp }).set(key, value).commit() as Deno.KvCommitResult)
-    } else {
-      ;({ ok, versionstamp: version } = await this.#kv.set(key, value))
+    const transaction = this.#kv.atomic()
+    for (const key of keys) {
+      transaction.check({ key, versionstamp }).set(key, value)
     }
+    ;({ ok, versionstamp: version } = await transaction.commit() as Deno.KvCommitResult)
     return { ok, version }
   }
 
   /** Delete entry from {@link Store}. */
-  protected async _delete(key: key, versionstamp: Nullable<version>, atomic: boolean): Promise<{ ok: boolean }> {
+  protected async _delete(keys: key[], versionstamp: Nullable<version>): Promise<{ ok: boolean }> {
     let ok = false
-    if (atomic) {
-      ;({ ok } = await this.#kv.atomic().check({ key, versionstamp }).delete(key).commit() as Deno.KvCommitResult)
-    } else {
-      await this.#kv.delete(key)
-      ok = true
+    const transaction = this.#kv.atomic()
+    for (const key of keys) {
+      transaction.check({ key, versionstamp }).delete(key)
     }
+    ;({ ok } = await transaction.commit() as Deno.KvCommitResult)
     return { ok }
   }
 
   /** List entries from {@link Store}. */
   protected _list<T extends record>(key: key | [key, key], { limit, reverse }: { limit?: number; reverse?: boolean }, array: boolean): Promisable<Array<{ key: key; value: T; version: version }> | AsyncGenerator<{ key: key; value: T; version: version }>> {
-    let list
+    let list: Deno.KvListIterator<T>
+    let last = null as Nullable<callback>
     if ((Array.isArray(key[0])) && (Array.isArray(key[1]))) {
       const [start, end] = key
       list = this.#kv.list<T>({ start, end }, { limit, reverse })
+      last = async () => (await Array.fromAsync(this.#kv.list({ prefix: [], start: end }, { limit: 1 })))[0]
     } else {
       list = this.#kv.list<T>({ prefix: key as key }, { limit, reverse })
     }
     const iterator = (async function* () {
+      const inclusive = await last?.()
+      if (inclusive && reverse) {
+        yield inclusive
+      }
       for await (const { key, value, versionstamp: version } of list) {
         yield { key: key as key, value, version }
+      }
+      if ((inclusive && !reverse)) {
+        yield inclusive
       }
     })()
     return array ? Array.fromAsync(iterator) : iterator

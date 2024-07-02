@@ -72,44 +72,46 @@ export abstract class Store {
   protected abstract _get<T extends record>(key: key): Promisable<{ value: Nullable<T>; version: Nullable<version> }>
 
   /** Set entry in {@link Store}. */
-  async set<T extends record>(key: key, value: T, version?: Nullable<version>): Promise<{ value: T; version: version }> {
+  async set<T extends record>(keys: key | key[], value: T, version = null as Nullable<version>): Promise<{ value: T; version: version }> {
     await this.ready
-    const atomic = version !== undefined
-    const { ok, version: _version } = await this._set(key, value, version ?? null, atomic)
+    const indexes = Array.isArray(keys[0]) ? keys as Array<key> : [keys as key]
+    const primary = indexes[0]
+    const { ok, version: _version } = await this._set(indexes, value, version)
     if (!ok) {
-      this.#log.with({ op: "set", key: f(key), version, atomic }).error(`${atomic ? "transaction " : ""}failed`)
-      throw new TypeError(`Failed to write: ${f(key)}@${version}`)
+      this.#log.with({ op: "set", key: f(primary), version }).error("failed")
+      throw new TypeError(`Failed to write: ${f(primary)}@${version}`)
     }
     version = _version
-    this.#log.with({ op: "set", key: f(key), version, atomic }).debug()
+    this.#log.with({ op: "set", key: f(primary), version }).debug()
     return { value, version }
   }
 
   /** Set entry in {@link Store}. This method is intended to be implemented by child classes. */
-  protected abstract _set<T extends record>(key: key, value: T, versionstamp: Nullable<version>, atomic: boolean): Promisable<{ ok: boolean; version: version }>
+  protected abstract _set<T extends record>(keys: key[], value: T, versionstamp: Nullable<version>): Promisable<{ ok: boolean; version: version }>
 
   /** Delete entry from {@link Store}. */
-  async delete(key: key, version?: version): Promise<boolean> {
+  async delete(keys: key | key[], version = null as Nullable<version>): Promise<boolean> {
     await this.ready
-    const atomic = version !== undefined
-    if (!await this.has(key)) {
-      this.#log.with({ op: "delete", key: f(key), version, atomic }).debug("no result")
+    const indexes = Array.isArray(keys[0]) ? keys as Array<key> : [keys as key]
+    const primary = indexes[0] as key
+    if (!await this.has(primary)) {
+      this.#log.with({ op: "delete", key: f(primary), version }).debug("no result")
       return false
     }
-    const { ok } = await this._delete(key, version ?? null, atomic)
+    const { ok } = await this._delete(indexes, version)
     if (!ok) {
-      this.#log.with({ op: "set", key: f(key), version, atomic }).error(`${atomic ? "transaction " : ""}failed`)
-      throw new TypeError(`Failed to delete: ${f(key)}@${version}`)
+      this.#log.with({ op: "set", key: f(primary), version }).error("failed")
+      throw new TypeError(`Failed to delete: ${f(primary)}@${version}`)
     }
-    this.#log.with({ op: "delete", key: f(key), version, atomic }).debug()
+    this.#log.with({ op: "delete", key: f(primary), version }).debug()
     return ok
   }
 
   /** Delete entry from {@link Store}. This method is intended to be implemented by child classes. */
-  protected abstract _delete(key: key, versionstamp: Nullable<version>, atomic: boolean): Promisable<{ ok: boolean }>
+  protected abstract _delete(keys: key[], versionstamp: Nullable<version>): Promisable<{ ok: boolean }>
 
   /** List entries from {@link Store}. */
-  async list<T extends record>(key: key | [key, key], options?: { limit?: number; reverse?: boolean; array?: true }): Promise<Array<{ key: key; value: T; version: version }>>
+  async list<T extends record>(key: key | [key, key], options?: { limit?: number; reverse?: boolean; array: true }): Promise<Array<{ key: key; value: T; version: version }>>
   async list<T extends record>(key: key | [key, key], options?: { limit?: number; reverse?: boolean; array?: false }): Promise<AsyncGenerator<{ key: key; value: T; version: version }>>
   async list<T extends record>(key: key | [key, key], { limit, reverse, array = true }: { limit?: number; reverse?: boolean; array?: boolean } = {}): Promise<Array<{ key: key; value: T; version: version }> | AsyncGenerator<{ key: key; value: T; version: version }>> {
     await this.ready
