@@ -21,7 +21,8 @@
   },
   "npm": true,
   "exports": {
-    ".": "./mod.ts"
+    ".": "./mod.ts",
+    "./is": "./is/mod.ts"
   },
   "unstable": [
     "kv"
