@@ -27,6 +27,7 @@
   "unstable": [
     "kv"
   ],
+  "types": "slow",
   "imports": {
     "@libs/testing": "jsr:@libs/testing@1",
     "@libs/typing": "jsr:@libs/typing@2",
@@ -34,7 +35,7 @@
   },
   "tasks": {
     "test": "deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
-    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty",
+    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --allow-slow-types --dry-run --quiet --allow-dirty",
     "dev:future": "DENO_FUTURE=1 && deno task dev",
     "coverage": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js",
     "ci": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
@@ -47,6 +48,9 @@
         "no-eval",
         "eqeqeq",
         "ban-untagged-todo"
+      ],
+      "exclude": [
+        "no-slow-types"
       ]
     },
     "exclude": [

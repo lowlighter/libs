@@ -8,9 +8,9 @@ import type { record } from "@libs/typing"
 // Load global configuration
 const root = fromFileUrl(import.meta.resolve("../"))
 const global = JSONC.parse(await Deno.readTextFile(resolve(root, "deno.jsonc"))) as Record<string, unknown>
-const imports = { "@std/jsonc": "jsr:@std/jsonc@0.224.0", "@std/yaml": "jsr:@std/yaml@0.224.0" } as record<string>
+const imports = { "@std/jsonc": "jsr:@std/jsonc@0.224.3", "@std/yaml": "jsr:@std/yaml@0.224.3" } as record<string>
 const log = new Logger()
-const order = ["icon", "name", "version", "description", "keywords", "license", "author", "funding", "homepage", "playground", "supported", "repository", "npm", "deno.land/x", "exports", "unstable", "lock", "imports", "test:permissions", "tasks", "lint", "fmt"]
+const order = ["icon", "name", "version", "description", "keywords", "license", "author", "funding", "homepage", "playground", "supported", "repository", "npm", "deno.land/x", "exports", "unstable", "types", "lock", "imports", "test:permissions", "tasks", "lint", "fmt"]
 
 // Load local configurations
 const packages = []
@@ -19,13 +19,18 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   const name = basename(dirname(path))
   packages.push(name)
   // Sync local configuration with global configuration
+  let slow = false
   local.author = global.author
   local.repository = global.repository
   local.homepage = global.homepage
   local.funding = global.funding
   local.license = global.license
-  local.lint = global.lint
-  local.fmt = global.fmt
+  local.lint = structuredClone(global.lint)
+  local.fmt = structuredClone(global.fmt)
+  if (local.types === "slow") {
+    (local.lint as {rules:{exclude:string[]}}).rules.exclude = ["no-slow-types"]
+    slow = true
+  }
   // Sync tasks
   local.tasks ??= {}
   const tasks = local.tasks as record<string>
@@ -36,7 +41,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   }
   const permissions = Object.entries(test).map(([key, value]) => `--allow-${key}${value === true ? "" : `=${value.join(",")}`}`).join(" ")
   tasks["test"] = `deno test ${permissions} --no-prompt --coverage --clean --trace-leaks --doc`
-  tasks["dev"] = "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty"
+  tasks["dev"] = `deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish ${slow ? "--allow-slow-types " : ""}--dry-run --quiet --allow-dirty`
   tasks["dev:future"] = "DENO_FUTURE=1 && deno task dev"
   tasks["coverage"] = "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js"
   tasks["ci"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
