@@ -130,7 +130,7 @@ export class Resource<T extends model> {
     try {
       if (typeof id === "string") {
         this.data.id = id
-        this.#log = (this.constructor as typeof Resource).log?.with({ id: this.id }) ?? null
+        this.#log = (this.constructor as typeof Resource).log?.with({ type: this.constructor.name, id: this.id }) ?? null
         this.log?.with({ op: "fetch" }).debug("fetching")
         await this.#dispatch("fetch")
         const { value, version } = await this.store.get<T>(this.keys[0])
@@ -143,7 +143,7 @@ export class Resource<T extends model> {
         this.log?.with({ op: "fetch" }).debug("fetched")
       } else {
         Object.assign(this.data, { id: ulid(), ...id })
-        this.#log = (this.constructor as typeof Resource).log?.with({ id: this.id }) ?? null
+        this.#log = (this.constructor as typeof Resource).log?.with({ type: this.constructor.name, id: this.id }) ?? null
         await this.#dispatch("created")
         this.log?.with({ op: "created" }).debug("created")
       }
