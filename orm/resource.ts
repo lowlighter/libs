@@ -1,15 +1,15 @@
 // Imports
-import type { key, Store } from "./store/store.ts"
+import type { key, Store, version } from "./store/store.ts"
 import type { Logger } from "@libs/logger"
 import { ulid } from "@std/ulid"
 import type { Arg, Arrayable, callback, DeepPartial, Nullable, record, rw } from "@libs/typing"
 import { is } from "./is/mod.ts"
 
 /** Resource identifier. */
-type id = ReturnType<typeof ulid>
+export type id = ReturnType<typeof ulid>
 
 /** Resource shape. */
-type shape = is.ZodRawShape
+export type shape = is.ZodRawShape
 
 /** Resource minimal model. */
 const model = is.object({
@@ -19,11 +19,11 @@ const model = is.object({
 })
 
 /** Resource minimal model. */
-type model = is.infer<typeof model>
+export type model = is.infer<typeof model>
 
 /** Resource extended model. */
 // deno-lint-ignore ban-types
-type model_extended<U extends {}> = is.infer<is.ZodObject<U>> & model
+export type model_extended<U extends {}> = is.infer<is.ZodObject<U>> & model
 
 /**
  * Resource.
@@ -71,7 +71,7 @@ export class Resource<T extends model> {
   }
 
   /** KV version. */
-  version = null as Nullable<string>
+  version = null as Nullable<version>
 
   /** KV keys. */
   get keys(): key[] {
