@@ -57,7 +57,7 @@ export abstract class Store {
   }
 
   /** Get entry from {@link Store}. */
-  async get<T extends record>(key: key): Promise<{ value: Nullable<T>; version: Nullable<version> }> {
+  async get<T extends object>(key: key): Promise<{ value: Nullable<T>; version: Nullable<version> }> {
     await this.ready
     const { value, version } = await this._get<T>(key)
     if (version === null) {
@@ -69,10 +69,10 @@ export abstract class Store {
   }
 
   /** Get entry from {@link Store}. This method is intended to be implemented by child classes. */
-  protected abstract _get<T extends record>(key: key): Promisable<{ value: Nullable<T>; version: Nullable<version> }>
+  protected abstract _get<T extends object>(key: key): Promisable<{ value: Nullable<T>; version: Nullable<version> }>
 
   /** Set entry in {@link Store}. */
-  async set<T extends record>(keys: key | key[], value: T, version = null as Nullable<version>): Promise<{ value: T; version: version }> {
+  async set<T extends object>(keys: key | key[], value: T, version = null as Nullable<version>): Promise<{ value: T; version: version }> {
     await this.ready
     const indexes = Array.isArray(keys[0]) ? keys as Array<key> : [keys as key]
     const primary = indexes[0]
@@ -87,7 +87,7 @@ export abstract class Store {
   }
 
   /** Set entry in {@link Store}. This method is intended to be implemented by child classes. */
-  protected abstract _set<T extends record>(keys: key[], value: T, versionstamp: Nullable<version>): Promisable<{ ok: boolean; version: version }>
+  protected abstract _set<T extends object>(keys: key[], value: T, versionstamp: Nullable<version>): Promisable<{ ok: boolean; version: version }>
 
   /** Delete entry from {@link Store}. */
   async delete(keys: key | key[], version = null as Nullable<version>): Promise<boolean> {

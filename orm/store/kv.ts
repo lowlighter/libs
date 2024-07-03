@@ -25,13 +25,13 @@ export class Store extends _Store {
   }
 
   /** Get entry from {@link Store}. */
-  protected async _get<T extends record>(key: key): Promise<{ value: Nullable<T>; version: Nullable<version> }> {
+  protected async _get<T extends object>(key: key): Promise<{ value: Nullable<T>; version: Nullable<version> }> {
     const { value, versionstamp: version } = await this.#kv.get<T>(key)
     return { value, version }
   }
 
   /** Set entry in {@link Store}. */
-  protected async _set<T extends record>(keys: key[], value: T, versionstamp: Nullable<version>): Promise<{ ok: boolean; version: version }> {
+  protected async _set<T extends object>(keys: key[], value: T, versionstamp: Nullable<version>): Promise<{ ok: boolean; version: version }> {
     let ok = false
     let version = null
     const transaction = this.#kv.atomic()
