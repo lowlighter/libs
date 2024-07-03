@@ -102,6 +102,7 @@ jobs:
       has_bench: ${{ steps.package.outputs.has_bench }}
       has_npm: ${{ steps.package.outputs.has_npm }}
       has_x: ${{ steps.package.outputs.has_x }}
+      slow_types: ${{ steps.package.outputs.slow_types }}
       tag: ${{ steps.tag.outputs.tag }}
       version: ${{ steps.tag.outputs.semver }}
     steps:
@@ -125,6 +126,7 @@ jobs:
           echo "has_bench=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.bench || ``)')" >> "$GITHUB_OUTPUT"
           echo "has_npm=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.npm || ``)')" >> "$GITHUB_OUTPUT"
           echo "has_x=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.[`deno.land/x`] || ``)')" >> "$GITHUB_OUTPUT"
+          echo "slow_types=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.types === `slow` ?  `--allow-slow-types`: ``)')" >> "$GITHUB_OUTPUT"
         working-directory: ${{ inputs.package }}
       # Build
       - run: deno task build
@@ -201,7 +203,7 @@ jobs:
           git push origin '${{ needs.test.outputs.tag }}'
         working-directory: ${{ inputs.package }}
       # Publish
-      - run: deno publish
+      - run: deno publish ${{ needs.test.outputs.slow_types }}
         working-directory: ${{ inputs.package }}
       - name: Run npm publish
         if: ${{ needs.test.outputs.has_npm }}
