@@ -29,7 +29,7 @@
     "./totp": "./totp.ts"
   },
   "imports": {
-    "@std/encoding/base32": "jsr:@std/encoding@0.224.3/base32",
+    "@std/encoding/base32": "jsr:@std/encoding@1/base32",
     "@libs/testing": "jsr:@libs/testing@1"
   },
   "tasks": {
