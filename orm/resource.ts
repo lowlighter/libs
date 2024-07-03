@@ -1,8 +1,8 @@
 // Imports
 import type { key, Store } from "./store/store.ts"
-import type { Logger } from "jsr:@libs/logger"
-import { ulid } from "jsr:@std/ulid"
-import type { Arg, Arrayable, callback, DeepPartial, Nullable, record, rw } from "jsr:@libs/typing"
+import type { Logger } from "@libs/logger"
+import { ulid } from "@std/ulid"
+import type { Arg, Arrayable, callback, DeepPartial, Nullable, record, rw } from "@libs/typing"
 import { is } from "./is/mod.ts"
 
 /** Resource identifier. */

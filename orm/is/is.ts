@@ -1,6 +1,6 @@
 // Imports
-import { z as is } from "npm:zod"
-import { type ErrorMessageOptions, generateErrorMessage } from "npm:zod-error"
+import { z as is } from "npm:zod@3"
+import { type ErrorMessageOptions, generateErrorMessage } from "npm:zod-error@1"
 
 /** Original methods. */
 const { parse, parseAsync } = is.ZodType.prototype

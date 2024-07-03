@@ -19,8 +19,11 @@
       "jsr:@std/path@0.225.1": "jsr:@std/path@0.225.1",
       "jsr:@std/streams@0.224.2": "jsr:@std/streams@0.224.2",
       "jsr:@std/ulid": "jsr:@std/ulid@0.224.0",
+      "jsr:@std/ulid@0.224.1": "jsr:@std/ulid@0.224.1",
       "npm:zod": "npm:zod@3.23.8",
-      "npm:zod-error": "npm:zod-error@1.5.0"
+      "npm:zod-error": "npm:zod-error@1.5.0",
+      "npm:zod-error@1": "npm:zod-error@1.5.0",
+      "npm:zod@3": "npm:zod@3.23.8"
     },
     "jsr": {
       "@libs/logger@1.1.2": {
@@ -88,6 +91,9 @@
       },
       "@std/ulid@0.224.0": {
         "integrity": "1b5622ac78ccdbca72dd8da40b2b3b29e6062e1eb3267973f2e60e871e6683de"
+      },
+      "@std/ulid@0.224.1": {
+        "integrity": "4de06fdb030ff3990b1b0344e330373c11ce6051ac449fc435667a485a6723fa"
       }
     },
     "npm": {
@@ -108,7 +114,8 @@
     "dependencies": [
       "jsr:@libs/logger@1",
       "jsr:@libs/testing@1",
-      "jsr:@libs/typing@2"
+      "jsr:@libs/typing@2",
+      "jsr:@std/ulid@0.224.1"
     ]
   }
 }
