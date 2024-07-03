@@ -47,6 +47,7 @@
     "highlight.js": "npm:highlight.js@11",
     "octokit": "npm:octokit@4",
     "@std/path/basename": "jsr:@std/path@0.225.2/basename",
+    "@std/ulid": "jsr:@std/ulid@0.224.1",
     "@std/collections/deep-merge": "jsr:@std/collections@1/deep-merge",
     "@std/async/debounce": "jsr:@std/async@0.224.2/debounce",
     "@std/expect": "jsr:@std/expect@0.224.5",
