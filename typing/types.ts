@@ -45,3 +45,6 @@ export type Arrayable<T> = T | Array<T>
 /** Extract function argument. */
 // deno-lint-ignore no-explicit-any
 export type Arg<T extends ((...args: any[]) => any), index extends number = 0, required extends boolean = false> = required extends true ? NonNullable<Parameters<T>[index]> : Parameters<T>[index]
+
+/** Deep partial type. */
+export type DeepPartial<T> = T extends object ? {[P in keyof T]?: DeepPartial<T[P]>} : T;
