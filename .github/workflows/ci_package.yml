@@ -126,7 +126,7 @@ jobs:
           echo "has_bench=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.bench || ``)')" >> "$GITHUB_OUTPUT"
           echo "has_npm=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.npm || ``)')" >> "$GITHUB_OUTPUT"
           echo "has_x=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.[`deno.land/x`] || ``)')" >> "$GITHUB_OUTPUT"
-          echo "slow_types=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.types === `slow` ?  `--allow-slow-types`: ``)')" >> "$GITHUB_OUTPUT"
+          echo "slow_types=$(deno eval 'console.log(JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.types === `slow` ?  `--allow-slow-types`: ``)')" >> "$GITHUB_OUTPUT"
         working-directory: ${{ inputs.package }}
       # Build
       - run: deno task build
