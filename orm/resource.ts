@@ -16,7 +16,6 @@ const model = is.object({
   id: is.string().describe("Unique identifier."),
   created: is.number().min(0).nullable().default(null).describe("Creation timestamp."),
   updated: is.number().min(0).nullable().default(null).describe("Last update timestamp."),
-  version: is.string().nullable().default(null).describe("KV versionstamp."),
 })
 
 /** Resource minimal model. */
@@ -64,22 +63,15 @@ export class Resource<T extends model> {
   readonly ready: Promise<this>
 
   /** KV data. */
-  get data(): Readonly<T> {
-    return this.#data
-  }
-
-  /** KV data. */
-  readonly #data = { id: null as unknown as id, created: null, updated: null, version: null } as T
+  readonly data = { id: null as unknown as id, created: null, updated: null } as T
 
   /** Unique identifier. */
   get id(): id {
-    return this.#data.id
+    return this.data?.id
   }
 
   /** KV version. */
-  get version(): Nullable<string> {
-    return this.#data.version
-  }
+  version = null as Nullable<string>
 
   /** KV keys. */
   get keys(): key[] {
@@ -92,8 +84,11 @@ export class Resource<T extends model> {
   protected static readonly log = null as Nullable<Logger>
 
   /** Logger. */
-  protected get log(): Nullable<Logger> {
-    return (this.constructor as typeof Resource).log
+  #log = null as Nullable<Logger>
+
+  /** Logger. */
+  get log(): Nullable<Logger> {
+    return this.#log
   }
 
   /** Store. */
@@ -121,7 +116,7 @@ export class Resource<T extends model> {
   }
 
   /** Dispatch event. */
-  async #dispatch(event: "fetch" | "fetched" | "load" | "loaded" | "save" | "saved" | "delete" | "deleted") {
+  async #dispatch(event: "created" | "fetch" | "fetched" | "load" | "loaded" | "save" | "saved" | "delete" | "deleted") {
     this.log?.with({ event }).debug("dispatching")
     if (this.#listeners[event]) {
       for (const listener of this.#listeners[event]) {
@@ -134,22 +129,27 @@ export class Resource<T extends model> {
   async #fetch(resolve: callback, reject: callback, id?: Nullable<id> | DeepPartial<T>) {
     try {
       if (typeof id === "string") {
-        Object.assign(this.#data, { id })
+        this.data.id = id
+        this.#log = (this.constructor as typeof Resource).log?.with({ id: this.id }) ?? null
         this.log?.with({ op: "fetch" }).debug("fetching")
         await this.#dispatch("fetch")
         const { value, version } = await this.store.get<T>(this.keys[0])
-        Object.assign(this.#data, { ...value, version })
         if (!version) {
           throw new Error(`Resource not found: [${this.keys[0].join(", ")}]`)
         }
+        this.version = version
+        Object.assign(this.data, value)
         await this.#dispatch("fetched")
         this.log?.with({ op: "fetch" }).debug("fetched")
       } else {
-        Object.assign(this.#data, { ...id, id: ulid() })
+        Object.assign(this.data, { id: ulid(), ...id })
+        this.#log = (this.constructor as typeof Resource).log?.with({ id: this.id }) ?? null
+        await this.#dispatch("created")
+        this.log?.with({ op: "created" }).debug("created")
       }
       Resource.#cache.set(this.id, new WeakRef(this))
       Resource.#gc.register(this, this.id)
-      Object.assign(this.#data, await this.model.strict().parseAsync(this.#data))
+      Object.assign(this.data, await this.model.strict().parseAsync(this.data))
       resolve(this)
     } catch (error) {
       reject(error)
@@ -162,7 +162,8 @@ export class Resource<T extends model> {
     this.log?.with({ op: "load" }).debug("loading")
     await this.#dispatch("load")
     const { value, version } = await this.store.get<T>(this.keys[0])
-    Object.assign(this.#data, { ...value, version })
+    this.version = version
+    Object.assign(this.data, value)
     if (!this.version) {
       this.log?.with({ op: "load" }).warn("no result")
       return null
@@ -176,12 +177,13 @@ export class Resource<T extends model> {
   async save(): Promise<this> {
     await this.ready
     this.log?.with({ op: "save" }).debug("saving")
-    this.#data.updated = Date.now()
-    this.#data.created ??= this.#data.updated
+    this.data.updated = Date.now()
+    this.data.created ??= this.data.updated
     await this.#dispatch("save")
-    await this.model.strict().parseAsync(this.#data)
-    const { version, value } = await this.store.set(this.keys, this.#data, this.version)
-    Object.assign(this.#data, { ...value, version })
+    await this.model.strict().parseAsync(this.data)
+    const { version, value } = await this.store.set(this.keys, this.data, this.version)
+    this.version = version
+    Object.assign(this.data, value)
     await this.#dispatch("saved")
     this.log?.with({ op: "save" }).debug("saved")
     return this
@@ -197,7 +199,8 @@ export class Resource<T extends model> {
       return null
     }
     await this.store.delete(this.keys, this.version)
-    Object.assign(this.#data, { version: null, created: null, updated: null })
+    this.version = null
+    Object.assign(this.data, { created: null, updated: null })
     await this.#dispatch("deleted")
     this.log?.with({ op: "delete" }).info("deleted")
     return this
@@ -206,7 +209,7 @@ export class Resource<T extends model> {
   /** Test if a resource with given id is present in store. */
   static async has<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key: id | key): Promise<boolean> {
     if (!Array.isArray(key)) {
-      key = [this.name, key] as key
+      key = [...this.prototype.keys[0].filter((part) => part !== undefined), key] as key
     }
     return await this.store.has(key)
   }
@@ -214,7 +217,7 @@ export class Resource<T extends model> {
   /** Get resource from {@link Store}. */
   static async get<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key: id | key): Promise<Nullable<InstanceType<T>>> {
     if (!Array.isArray(key)) {
-      key = [this.name, key] as key
+      key = [...this.prototype.keys[0].filter((part) => part !== undefined), key] as key
     }
     const { value } = await this.store.get<InstanceType<T>>(key)
     if (!value) {
