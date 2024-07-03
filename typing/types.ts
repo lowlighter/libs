@@ -48,3 +48,6 @@ export type Arg<T extends ((...args: any[]) => any), index extends number = 0, r
 
 /** Deep partial type. */
 export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T
+
+/** Typed array type. */
+export type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float16Array | Float32Array | Float64Array | BigInt64Array | BigUint64Array
