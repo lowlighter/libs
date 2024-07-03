@@ -1,7 +1,7 @@
 {
   "icon": "🔳",
   "name": "@libs/qrcode",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Pure TypeScript QRcode generator with no dependencies.",
   "keywords": [
     "qrcode",
