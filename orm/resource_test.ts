@@ -3,6 +3,7 @@ import { Resource } from "./resource.ts"
 import { Store } from "./store/kv.ts"
 import { Logger } from "@libs/logger"
 import { delay } from "jsr:@std/async@^0.224.2/delay"
+import { is } from "./mod.ts"
 
 const log = new Logger({ level: Logger.level.disabled })
 const store = await new Store({ path: ":memory:", log }).ready
@@ -12,18 +13,30 @@ test("deno")(`Resource cannot be instantiated without extending constructor with
 })
 
 test("deno")(`Resource.with returns a new resource constructor`, async () => {
-  const TestResource = await Resource.with({ store, log }).ready
-  expect(() => new TestResource()).not.toThrow()
+  const init1 = fn() as testing
+  const listeners1 = { save: fn() }
+  const TestResource = await Resource.with({ store, log, init: init1, listeners: listeners1 }).ready
+  expect(init1).toBeCalledTimes(1)
+  await expect(new TestResource().save()).resolves.toBeInstanceOf(TestResource)
+  expect(listeners1.save).toBeCalledTimes(1)
+  const init2 = fn() as testing
+  const listeners2 = { save: fn() }
+  const ChildTestResource = await TestResource.with({ init: init2, listeners: listeners2 }).ready
+  expect(init1).toBeCalledTimes(2)
+  expect(init2).toBeCalledTimes(1)
+  await expect(new ChildTestResource().save()).resolves.toBeInstanceOf(ChildTestResource)
+  expect(listeners1.save).toBeCalledTimes(2)
+  expect(listeners2.save).toBeCalledTimes(1)
 })
 
 test("deno")(`Resource.constructor fetches back data from store when id is given`, async () => {
-  const TestResource = await Resource.with({ name: "load", store, log }).ready
-  const resource = new TestResource(null, { foo: "bar" })
-  await resource.save()
+  const TestResource = await Resource.with({ name: "load", store, log, model: is.object({ foo: is.string() }) }).ready
+  const resource = await new TestResource({ foo: "bar" }).save()
   TestResource.uncache(resource.id)
   const reloaded = await new TestResource(resource.id).ready
   expect(reloaded.data).toEqual(resource.data)
   expect(new TestResource(reloaded.id)).toBe(reloaded)
+  await expect(new TestResource(reloaded.id).ready).resolves.toBe(reloaded)
   await expect(new TestResource("invalid").ready).rejects.toThrow(Error)
 })
 
@@ -56,6 +69,19 @@ test("deno")(`Resource.save saves data into store`, async () => {
   await expect(resource.save()).resolves.toBe(resource)
   expect(resource.data.created).not.toBe(resource.data.updated)
   await expect(resource.save()).resolves.toBe(resource)
+})
+
+test("deno")(`Resource.save prevents saving invalid data into store`, async () => {
+  const TestResource = await Resource.with({ name: "save", store, log, model: is.object({ foo: is.string() }) }).ready
+  await expect(new TestResource({ foo: true } as testing).ready).rejects.toThrow(TypeError)
+  await expect(new TestResource({ foo: "bar", foobar: true } as testing).ready).rejects.toThrow(TypeError)
+  await expect(new TestResource({ foo: "bar" }).save()).resolves.toBeInstanceOf(TestResource)
+})
+
+test("deno")(`Resource.save initialize defaults value in store`, async () => {
+  const TestResource = await Resource.with({ name: "save", store, log, model: is.object({ foo: is.string().default("bar") }) }).ready
+  const resource = await new TestResource().save()
+  expect(resource.data.foo).toBe("bar")
 })
 
 test("deno")(`Resource.delete deletes data from store`, async () => {
