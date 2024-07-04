@@ -122,11 +122,11 @@ jobs:
       - name: Check package requirements
         id: package
         run: |
-          echo "has_build=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.build || ``)')" >> "$GITHUB_OUTPUT"
-          echo "has_bench=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.bench || ``)')" >> "$GITHUB_OUTPUT"
-          echo "has_npm=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.npm || ``)')" >> "$GITHUB_OUTPUT"
-          echo "has_x=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.[`deno.land/x`] || ``)')" >> "$GITHUB_OUTPUT"
-          echo "slow_types=$(deno eval 'console.log(JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.types === `slow` ?  `--allow-slow-types`: ``)')" >> "$GITHUB_OUTPUT"
+          echo "has_build=$(jq '.tasks.build != null' deno.jsonc)" >> "$GITHUB_OUTPUT"
+          echo "has_bench=$(jq '.tasks.bench != null' deno.jsonc)" >> "$GITHUB_OUTPUT"
+          echo "has_npm=$(jq '.npm != null' deno.jsonc" >> "$GITHUB_OUTPUT"
+          echo "has_x=$(jq '."deno.land/x" != null' deno.jsonc" >> "$GITHUB_OUTPUT"
+          echo "slow_types=$(jq '.types == "slow"' deno.jsonc)" >> "$GITHUB_OUTPUT"
         working-directory: ${{ inputs.package }}
       # Build
       - run: deno task build
@@ -170,7 +170,9 @@ jobs:
           fetch-depth: 0
       - uses: denoland/setup-deno@v1
       - name: Configure git
-        run: git config user.name 'github-actions[bot]' && git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
       # Build
       - name: Run deno task build
         if: ${{ needs.test.outputs.has_build }}
@@ -203,7 +205,7 @@ jobs:
           git push origin '${{ needs.test.outputs.tag }}'
         working-directory: ${{ inputs.package }}
       # Publish
-      - run: deno publish ${{ needs.test.outputs.slow_types }}
+      - run: deno publish ${{ needs.test.outputs.slow_types && '--allow-slow-types' || '' }}
         working-directory: ${{ inputs.package }}
       - name: Run npm publish
         if: ${{ needs.test.outputs.has_npm }}
