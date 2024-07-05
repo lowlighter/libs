@@ -122,26 +122,11 @@ jobs:
       - name: Check package requirements
         id: package
         run: |
-          if jq -e '.tasks.build' deno.jsonc; then
-            echo -e "This package has a build task"
-            echo "has_build=true" >> "$GITHUB_OUTPUT"
-          fi
-          if jq -e '.tasks.bench' deno.jsonc; then
-            echo -e "This package has a bench task"
-            echo "has_bench=true" >> "$GITHUB_OUTPUT"
-          fi
-          if [ $(jq '.npm' deno.jsonc) = 'true' ]; then
-            echo -e "This has to be published on npm"
-            echo "has_npm=true" >> "$GITHUB_OUTPUT"
-          fi
-          if [ $(jq '."deno.land/x' deno.jsonc) = 'true' ]; then
-            echo -e "This has to be published on deno.land/x"
-            echo "has_x=true" >> "$GITHUB_OUTPUT"
-          fi
-          if [ $(jq -e '.types' deno.jsonc) = 'true' ]; then
-            echo -e "This package has slow types, will pass --allow-slow-types flag when publishing"
-            echo "slow_types=--allow-slow-types" >> "$GITHUB_OUTPUT"
-          fi
+          echo "has_build=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.build || ``)')" >> "$GITHUB_OUTPUT"
+          echo "has_bench=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.bench || ``)')" >> "$GITHUB_OUTPUT"
+          echo "has_npm=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.npm || ``)')" >> "$GITHUB_OUTPUT"
+          echo "has_x=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.[`deno.land/x`] || ``)')" >> "$GITHUB_OUTPUT"
+          echo "slow_types=$(deno eval 'console.log(JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.types === `slow` ?  `--allow-slow-types`: ``)')" >> "$GITHUB_OUTPUT"
         working-directory: ${{ inputs.package }}
       # Build
       - run: deno task build
