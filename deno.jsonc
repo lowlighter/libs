@@ -51,6 +51,7 @@
     "@std/collections/deep-merge": "jsr:@std/collections@1/deep-merge",
     "@std/async/debounce": "jsr:@std/async@0.224.2/debounce",
     "@std/expect": "jsr:@std/expect@0.224.5",
+    "@std/http/status": "jsr:@std/http@0.224.5/status",
     "@std/path/from-file-url": "jsr:@std/path@0.225.2/from-file-url",
     "bun:test": "./_stub.ts",
     "node:test": "./_stub.ts",

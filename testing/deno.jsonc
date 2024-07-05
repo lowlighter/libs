@@ -24,6 +24,7 @@
     "./expect": "./expect.ts"
   },
   "imports": {
+    "@std/assert": "jsr:@std/assert@0.226.0",
     "@std/expect": "jsr:@std/expect@0.224.5",
     "@std/http/status": "jsr:@std/http@0.224.5/status",
     "@std/path/from-file-url": "jsr:@std/path@0.225.2/from-file-url",
