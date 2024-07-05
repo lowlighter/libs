@@ -9,6 +9,8 @@ Use [Deno](https://deno.com) to perform cross-platform testing on the [Deno](htt
 
 ## ✨ Features
 
+- Extends [`@std/expect`](https://jsr.io/@std/expect) with additional matchers (`toMatchDescriptor`, `toBeImmutable`, `toBeIterable`, `toRespondWithStatus`, etc.)
+  - See [`@libs/testing/expect`](https://jsr.io/@libs/testing/doc/expect/~) for more information about available matchers.
 - Specify which runtimes should be tested per test case
 - Automatically detect which runtimes are available and skip tests accordingly for a streamlined development experience.
 - Automatically install dependencies using `deno info` and the correct package manager for each runtime.
