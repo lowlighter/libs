@@ -122,33 +122,24 @@ jobs:
       - name: Check package requirements
         id: package
         run: |
-          if jq -e '.tasks.build != null' deno.jsonc >/dev/null; then
-            echo -e "\033[0;36mThis package has a build task\033[0m"
+          if jq -e '.tasks.build' deno.jsonc; then
+            echo -e "This package has a build task"
             echo "has_build=true" >> "$GITHUB_OUTPUT"
-          else
-            echo -e "\033[0;90mThis package does not have a build task\033[0m"
           fi
-          if jq -e '.tasks.bench != null' deno.jsonc >/dev/null; then
-            echo -e "\033[0;36mThis package has a bench task\033[0m"
+          if jq -e '.tasks.bench' deno.jsonc; then
+            echo -e "This package has a bench task"
             echo "has_bench=true" >> "$GITHUB_OUTPUT"
-          else
-            echo -e "\033[0;90mThis package does not have a bench task\033[0m"
           fi
-          if jq -e '.npm != null' deno.jsonc >/dev/null; then
-            echo -e "\033[0;36mThis package should be published to npm\033[0m"
+          if [ $(jq '.npm' deno.jsonc) = 'true' ]; then
+            echo -e "This has to be published on npm"
             echo "has_npm=true" >> "$GITHUB_OUTPUT"
-          else
-            echo -e "\033[0;90mThis package does not have a npm task\033[0m"
-            echo "has_npm=" >> "$GITHUB_OUTPUT"
           fi
-          if jq -e '."deno.land/x" != null' deno.jsonc >/dev/null; then
-            echo -e "\033[0;36mThis package should be published on deno.land/x\033[0m"
+          if [ $(jq '."deno.land/x' deno.jsonc) = 'true' ]; then
+            echo -e "This has to be published on deno.land/x"
             echo "has_x=true" >> "$GITHUB_OUTPUT"
-          else
-            echo -e "\033[0;90mThis package does not have a deno.land/x task\033[0m"
           fi
-          if jq -e '.types == "slow"' deno.jsonc >/dev/null; then
-            echo -e "\033[0;33mThis package has slow types\033[0m"
+          if [ $(jq -e '.types' deno.jsonc) = 'true' ]; then
+            echo -e "This package has slow types, will pass --allow-slow-types flag when publishing"
             echo "slow_types=--allow-slow-types" >> "$GITHUB_OUTPUT"
           fi
         working-directory: ${{ inputs.package }}
