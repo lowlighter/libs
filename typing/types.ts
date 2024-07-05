@@ -46,8 +46,15 @@ export type Arrayable<T> = T | Array<T>
 // deno-lint-ignore no-explicit-any
 export type Arg<T extends ((...args: any[]) => any), index extends number = 0, required extends boolean = false> = required extends true ? NonNullable<Parameters<T>[index]> : Parameters<T>[index]
 
+/** Omit first argument from a function. */
+// deno-lint-ignore no-explicit-any
+export type OmitFirstArg<F> = F extends (_0: any, ...args: infer T) => infer ReturnType ? (...args: T) => ReturnType : never
+
 /** Deep partial type. */
 export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T
 
 /** Typed array type. */
 export type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float16Array | Float32Array | Float64Array | BigInt64Array | BigUint64Array
+
+/** Possible values to `typeof` operator. */
+export type TypeOf = "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function"
