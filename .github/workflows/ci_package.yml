@@ -122,11 +122,35 @@ jobs:
       - name: Check package requirements
         id: package
         run: |
-          echo "has_build=$(jq '.tasks.build // ""' deno.jsonc)" >> "$GITHUB_OUTPUT"
-          echo "has_bench=$(jq '.tasks.bench // ""' deno.jsonc)" >> "$GITHUB_OUTPUT"
-          echo "has_npm=$(jq '.npm // ""' deno.jsonc)" >> "$GITHUB_OUTPUT"
-          echo "has_x=$(jq '."deno.land/x" // ""' deno.jsonc)" >> "$GITHUB_OUTPUT"
-          echo "slow_types=$(jq '.types == "slow" // ""' deno.jsonc)" >> "$GITHUB_OUTPUT"
+          if jq -e '.tasks.build != null' deno.jsonc >/dev/null; then
+            echo -e "\033[0;36mThis package has a build task\033[0m"
+            echo "has_build=true" >> "$GITHUB_OUTPUT"
+          else
+            echo -e "\033[0;90mThis package does not have a build task\033[0m"
+          fi
+          if jq -e '.tasks.bench != null' deno.jsonc >/dev/null; then
+            echo -e "\033[0;36mThis package has a bench task\033[0m"
+            echo "has_bench=true" >> "$GITHUB_OUTPUT"
+          else
+            echo -e "\033[0;90mThis package does not have a bench task\033[0m"
+          fi
+          if jq -e '.npm != null' deno.jsonc >/dev/null; then
+            echo -e "\033[0;36mThis package should be published to npm\033[0m"
+            echo "has_npm=true" >> "$GITHUB_OUTPUT"
+          else
+            echo -e "\033[0;90mThis package does not have a npm task\033[0m"
+            echo "has_npm=" >> "$GITHUB_OUTPUT"
+          fi
+          if jq -e '."deno.land/x" != null' deno.jsonc >/dev/null; then
+            echo -e "\033[0;36mThis package should be published on deno.land/x\033[0m"
+            echo "has_x=true" >> "$GITHUB_OUTPUT"
+          else
+            echo -e "\033[0;90mThis package does not have a deno.land/x task\033[0m"
+          fi
+          if jq -e '.types == "slow"' deno.jsonc >/dev/null; then
+            echo -e "\033[0;33mThis package has slow types\033[0m"
+            echo "slow_types=--allow-slow-types" >> "$GITHUB_OUTPUT"
+          fi
         working-directory: ${{ inputs.package }}
       # Build
       - run: deno task build
