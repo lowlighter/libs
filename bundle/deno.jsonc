@@ -60,7 +60,7 @@
     "@std/archive/untar": "jsr:@std/archive@0.224.3/untar",
     "@std/cli": "jsr:@std/cli@0.224.7",
     "@std/fmt/colors": "jsr:@std/fmt@0.225.5/colors",
-    "@libs/logger": "jsr:@libs/logger@1",
+    "@libs/logger": "jsr:@libs/logger@1.1.3",
     "@libs/testing": "jsr:@libs/testing@2",
     "@libs/typing": "jsr:@libs/typing@2",
     "@libs/xml": "jsr:@libs/xml@5",
@@ -91,11 +91,12 @@
   },
   "tasks": {
     "test": "deno test --allow-read --allow-env --allow-sys --allow-net --allow-write --allow-run --no-prompt --coverage --clean --trace-leaks --doc",
-    "coverage": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js",
-    "test:deno": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty",
-    "test:deno-future": "DENO_FUTURE=1 && deno task dev",
+    "test:deno": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "test:deno-future": "DENO_FUTURE=1 && deno task test:deno",
     "test:others": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
-    "coverage:html": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
+    "coverage:html": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint",
+    "lint": "deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish --dry-run --quiet --allow-dirty"
   },
   "lint": {
     "rules": {
