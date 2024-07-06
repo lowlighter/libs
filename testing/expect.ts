@@ -2,9 +2,10 @@
 import { expect as _expect, type Expected, fn } from "@std/expect"
 import { assert, assertEquals, type AssertionError as _AssertionError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
 import type { Arg, Arrayable, callback, Nullable, record, TypeOf } from "@libs/typing"
-import type { testing } from "./mod.ts"
+import type { testing } from "./_testing.ts"
 import { STATUS_CODE as Status } from "@std/http/status"
 
+/** Asynchronous version of a record. */
 // deno-lint-ignore no-explicit-any
 type Async<T> = { [K in keyof T]: T[K] extends (...args: any[]) => unknown ? (...args: Parameters<T[K]>) => Promise<ReturnType<T[K]>> : T[K] }
 
@@ -375,3 +376,4 @@ _expect.extend({
 const expect = _expect as unknown as ((...args: Parameters<typeof _expect>) => ExtendedExpected) & { [K in keyof typeof _expect]: typeof _expect[K] }
 
 export { AssertionError, expect, fn, Status }
+export type { _AssertionError, _expect, Arg, Arrayable, Async, callback, Expected, Nullable, record, TypeOf }

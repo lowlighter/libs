@@ -2,6 +2,14 @@
 import type { Nullable, Promisable, rw } from "@libs/typing"
 import { fromFileUrl } from "@std/path/from-file-url"
 import { command } from "@libs/run/command"
+export type { Promisable }
+
+/** Alias for `any` that can be used for testing. */
+//deno-lint-ignore no-explicit-any
+export type testing = any
+
+/** TestingError can be used to test expected error behaviours in tests. */
+export class TestingError extends Error {}
 
 /**
  * Available runtimes.
@@ -29,7 +37,7 @@ export const paths = {
 export type runtime = "deno" | "bun" | "node"
 
 /** Test options. */
-type options = {
+export type options = {
   ignore?: Deno.TestDefinition["ignore"]
   only?: Deno.TestDefinition["only"]
   permissions?: Deno.TestDefinition["permissions"]
@@ -39,7 +47,7 @@ type options = {
 }
 
 /** Test runner. */
-type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn: () => Promisable<void>, options?: options) => Promisable<void>
+export type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn: () => Promisable<void>, options?: options) => Promisable<void>
 
 /**
  * Run a test case with selected runtimes using their own test engine.
