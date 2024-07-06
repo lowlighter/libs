@@ -31,16 +31,16 @@
   },
   "imports": {
     "@std/collections/deep-merge": "jsr:@std/collections@1/deep-merge",
-    "@libs/testing": "jsr:@libs/testing@1",
+    "@libs/testing": "jsr:@libs/testing@2",
     "@libs/typing": "jsr:@libs/typing@2"
   },
   "tasks": {
     "test": "deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
-    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty",
-    "dev:future": "DENO_FUTURE=1 && deno task dev",
-    "coverage": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js",
-    "ci": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
-    "ci:coverage": "deno task coverage --html && sleep 1 && mkdir -p ../coverage && rm -rf ../coverage/reactive && mv coverage/html ../coverage/reactive"
+    "test:deno": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "test:deno-future": "DENO_FUTURE=1 && deno task test:deno",
+    "test:others": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "coverage:html": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno doc --lint && deno publish --dry-run --quiet --allow-dirty"
   },
   "lint": {
     "rules": {

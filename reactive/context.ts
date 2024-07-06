@@ -1,6 +1,7 @@
 // Imports
 import type { Nullable, record } from "@libs/typing"
 import type { DeepMerge } from "@std/collections/deep-merge"
+export type { DeepMerge, record }
 
 /**
  * Reactive context.
