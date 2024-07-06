@@ -2,7 +2,7 @@
 import type { Nullable, Promisable, rw } from "@libs/typing"
 import { fromFileUrl } from "@std/path/from-file-url"
 import { command } from "@libs/run/command"
-export type { Promisable }
+export type { Promisable, Nullable }
 
 /** Alias for `any` that can be used for testing. */
 //deno-lint-ignore no-explicit-any

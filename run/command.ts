@@ -1,3 +1,8 @@
+/**
+ * @module
+ * A wrapper around `Deno.command` that provides a better handling of stdio for interactive processes.
+ */
+
 // Imports
 import type { Arg, Nullable, Promisable } from "@libs/typing"
 import { Logger, type loglevel } from "@libs/logger"

@@ -3,7 +3,7 @@ import type { Nullable, record, rw } from "@libs/typing"
 import type { stringifyable, xml_document, xml_node, xml_text } from "./_types.ts"
 
 // Re-exports
-export type { stringifyable, xml_document, xml_node, xml_text }
+export type { stringifyable, xml_document, xml_node, xml_text, Nullable }
 
 /** XML stringifier options. */
 export type options = {
