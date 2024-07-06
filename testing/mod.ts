@@ -1,3 +1,3 @@
 // Re-exports
-export * from "./testing.ts"
+export * from "./test.ts"
 export * from "./expect.ts"

@@ -170,7 +170,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
 }
 
 /** Install cache (skip install for tests within the same file).*/
-export const cache = new Set<string>()
+export const cache = new Set<string>() as Set<string>
 
 /** Resolve dependencies using `deno info` and install packages using the adequate package manager. */
 export function install([bin, ...args]: string[], filename: string, { winext = "" } = {}) {
