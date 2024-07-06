@@ -10,7 +10,7 @@ export const internal: unique symbol = Symbol.for("@@internal")
 
 /** Throws if {@link internal} symbol is not present in arguments. */
 export function illegal(args: IArguments): void {
-  if (!(internal in args[0])) {
+  if ((!args[0]) || (!(internal in args[0]))) {
     throw new TypeError("Illegal constructor")
   }
 }
