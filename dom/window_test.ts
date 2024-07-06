@@ -1,5 +1,5 @@
 import { expect, fn, test, type testing } from "@libs/testing"
-import { construct } from "./_.ts"
+import { internal } from "./_.ts"
 import { BarProp, Window } from "./window.ts"
 import { Navigator } from "./navigator.ts"
 import { yellow } from "@std/fmt/colors"
@@ -115,6 +115,10 @@ for (const property of ["mozInnerScreenX", "mozInnerScreenY"] as const) {
   })
 }
 
+test()(`Window.setRezizable() is supported`, () => {
+  expect(new Window().setRezizable()).toBeUndefined()
+})
+
 test()(`Window.resizeBy() is supported`, () => {
   const window = new Window()
   expect(() => (window as testing).resizeBy()).toThrow(TypeError)
@@ -127,10 +131,6 @@ test()(`Window.resizeTo() is supported`, () => {
   expect(window.resizeTo(0, 0)).toBeUndefined()
 })
 
-test()(`Window.setRezizable() is supported`, () => {
-  expect(new Window().setRezizable()).toBeUndefined()
-})
-
 test()(yellow(`Window.onresize is unimplemented`), () => {
   expect(new Window().onresize).toBeNull()
 })
@@ -139,7 +139,7 @@ test()(yellow(`Window.screen is unimplemented`), () => {
   expect(() => new Window().screen).toThrow(DOMException)
 })
 
-for (const property of ["screenX", "screenY", "screenTop", "screenLeft"] as const) {
+for (const property of ["screenX", "screenY", "screenLeft", "screenTop"] as const) {
   test()(`Window.${property} is supported`, () => {
     expect(new Window()).toHaveProperty(property, 0)
     expect(new Window()).not.toBeImmutable(property)
@@ -317,11 +317,17 @@ test()(yellow(`Window.postMessage() is unimplemented`), () => {
   expect(new Window().postMessage).toThrow(DOMException)
 })
 
+for (const property of ["onmessage", "onmessageerror"] as const) {
+  test()(yellow(`Window.${property} is unimplemented`), () => {
+    expect(new Window()[property]).toBeNull()
+  })
+}
+
 test()(yellow(`Window.reportError() is unimplemented`), () => {
   expect(new Window().reportError).toThrow(DOMException)
 })
 
-for (const property of ["onmessage", "onmessageerror"] as const) {
+for (const property of ["onerror", "onrejectionhandled", "onunhandledrejection"] as const) {
   test()(yellow(`Window.${property} is unimplemented`), () => {
     expect(new Window()[property]).toBeNull()
   })
@@ -337,8 +343,8 @@ test()(`Window.print() is supported`, () => {
   expect(new Window().print()).toBeUndefined()
 })
 
-test()(`Window.dump() is supported`, () => {
-  expect(new Window().dump()).toBeUndefined()
+test()(yellow(`Window.dump() is unimplemented`), () => {
+  expect(new Window().dump).toThrow(DOMException)
 })
 
 for (const property of ["onbeforeprint", "onafterprint"] as const) {
@@ -393,8 +399,8 @@ test()(`Window.closed is supported`, () => {
   expect(window).toHaveProperty("closed", true)
 })
 
-test()(`Window.stop() is supported`, () => {
-  expect(new Window().stop()).toBeUndefined()
+test()(yellow(`Window.stop() is unimplemented`), () => {
+  expect(new Window().stop).toThrow(DOMException)
 })
 
 test()(`Window.crossOriginIsolated is supported`, () => {
@@ -577,11 +583,6 @@ for (const property of ["ononline", "onoffline"] as const) {
   })
 }
 
-for (const property of ["onerror", "onrejectionhandled", "onunhandledrejection"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
-    expect(new Window()[property]).toBeNull()
-  })
-}
 for (
   const [key, value] of [
     ["fetch", fetch],
@@ -599,15 +600,10 @@ for (
 
 test()(`BarProp.constructor() is illegal`, () => {
   expect(() => new BarProp()).toThrow(TypeError)
-  new BarProp(construct)
+  new BarProp({ [internal]: true })
 })
 
 test()(`BarProp.visible is supported`, () => {
-  expect(new BarProp(construct)).toHaveProperty("visible", false)
-  expect(new BarProp(construct)).toBeImmutable("visible")
-})
-
-test()(`BarProp.enabled is supported`, () => {
-  expect(new BarProp(construct)).toHaveProperty("enabled", false)
-  expect(new BarProp(construct)).toBeImmutable("enabled")
+  expect(new BarProp({ [internal]: true })).toHaveProperty("visible", false)
+  expect(new BarProp({ [internal]: true })).toBeImmutable("visible")
 })

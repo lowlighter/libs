@@ -1,4 +1,4 @@
-import { expect, test, testing } from "@libs/testing"
+import { expect, test, type testing } from "@libs/testing"
 import { Element } from "./element.ts"
 import { internal } from "./_.ts"
 import { Attr } from "./attr.ts"

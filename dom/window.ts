@@ -1,14 +1,13 @@
 // Imports
 import type { callback, Nullable, Optional } from "@libs/typing"
-import { type _BarProp, type _Window, construct, illegalConstructor, unimplemented } from "./_.ts"
+import { type _BarProp, type _Window, illegal, internal, unimplemented } from "./_.ts"
 import { Navigator } from "./navigator.ts"
 
 /** https://developer.mozilla.org/en-US/docs/Web/API/Window */
 export class Window extends EventTarget implements _Window {
   // Client =============================================================================================================
 
-  readonly #navigator = new Navigator(construct)
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator
   get navigator(): Navigator {
     return this.#navigator
   }
@@ -17,6 +16,12 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  readonly #navigator = new Navigator({ [internal]: true })
+
+  onlanguagechange = null as _Window["onlanguagechange"] // unimplemented
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/clientInformation
+  // Note: alias of navigator
   get clientInformation(): Navigator {
     return this.navigator
   }
@@ -25,24 +30,27 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
-  readonly locationbar = new BarProp(construct)
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/locationbar
+  readonly locationbar = new BarProp({ [internal]: true })
 
-  readonly menubar = new BarProp(construct)
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/menubar
+  readonly menubar = new BarProp({ [internal]: true })
 
-  readonly personalbar = new BarProp(construct)
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/personalbar
+  readonly personalbar = new BarProp({ [internal]: true })
 
-  readonly scrollbars = new BarProp(construct)
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollbars
+  readonly scrollbars = new BarProp({ [internal]: true })
 
-  readonly statusbar = new BarProp(construct)
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/statusbar
+  readonly statusbar = new BarProp({ [internal]: true })
 
-  readonly toolbar = new BarProp(construct)
-
-  onlanguagechange = null as _Window["onlanguagechange"] // unimplemented
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/toolbar
+  readonly toolbar = new BarProp({ [internal]: true })
 
   // Document ============================================================================================================
 
-  #name = ""
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/name
   set name(name: string) {
     this.#name = `${name}`
   }
@@ -51,10 +59,15 @@ export class Window extends EventTarget implements _Window {
     return this.#name
   }
 
+  #name = ""
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/document
   get document(): Document {
     return unimplemented.getter<"immutable">()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/frameElement
+  // Note: forced as multiple windows are not supported
   get frameElement(): Nullable<Element> {
     return null
   }
@@ -63,6 +76,7 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/window
   get window(): WindowProxy & typeof globalThis {
     return this as unknown as WindowProxy & typeof globalThis
   }
@@ -71,14 +85,24 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/self
+  // Note: alias of window
   readonly self = this.window
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/frames
+  // Note: alias of window
   readonly frames = this.window
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/parent
+  // Note: forced as multiple windows are not supported
   readonly opener = null as Nullable<WindowProxy>
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/length
+  // Note: forced as multiple windows are not supported
   readonly length = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/top
+  // Note: forced as multiple windows are not supported
   get top(): WindowProxy {
     return this as unknown as WindowProxy
   }
@@ -87,6 +111,8 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/parent
+  // Note: forced as multiple windows are not supported
   get parent(): WindowProxy {
     return this as unknown as WindowProxy
   }
@@ -95,33 +121,51 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements
+  // Depends: CustomElementRegistry implementation
   get customElements(): CustomElementRegistry {
     return unimplemented.getter<"immutable">()
   }
 
   // Focus ==============================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/focus
+  // Note: N/A as no UI
   focus(): void {
     return
   }
 
+  onfocus = null as _Window["onfocus"] // unimplemented
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/blur
+  // Note: noop
   blur(): void {
     return
   }
 
-  onfocus = null as _Window["onfocus"] // unimplemented
   onblur = null as _Window["onblur"] // unimplemented
 
   // Sizing ==============================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight
+  // Note: forced as no UI
   readonly innerHeight = 0
 
+  // Note: forced as no UI
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
+  // Note: forced as no UI
   readonly innerWidth = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/outerHeight
+  // Note: forced as no UI
   readonly outerHeight = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/outerWidth
+  // Note: forced as no UI
   readonly outerWidth = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/mozInnerScreenX
+  // Note: forced as no UI
   get mozInnerScreenX(): number {
     return 0
   }
@@ -130,6 +174,8 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/mozInnerScreenY
+  // Note: forced as no UI
   get mozInnerScreenY(): number {
     return 0
   }
@@ -138,6 +184,14 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/setResizable
+  // Note: noop
+  setRezizable() {
+    return
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/resizeBy
+  // Note: N/A as no UI
   resizeBy(_dx: number, _dy: number): void {
     if (arguments.length < 2) {
       throw new TypeError(`At least 2 arguments required, but only ${arguments.length} passed`)
@@ -145,6 +199,8 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/resizeTo
+  // Note: N/A as no UI
   resizeTo(_x: number, _y: number): void {
     if (arguments.length < 2) {
       throw new TypeError(`At least 2 arguments required, but only ${arguments.length} passed`)
@@ -152,26 +208,30 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
-  setRezizable() {
-    return
-  }
-
   onresize = null as _Window["onresize"] // unimplemented
 
   // Positioning ========================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/screen
+  // Depends: Screen implementation
   get screen(): Screen {
     return unimplemented.getter()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/screenX
   readonly screenX = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/screenY
   readonly screenY = 0
 
-  readonly screenTop = 0
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/screenLeft
   readonly screenLeft = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/screenTop
+  readonly screenTop = 0
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/moveBy
+  // Note: N/A as no UI
   moveBy(_dx: number, _dy: number): void {
     if (arguments.length < 2) {
       throw new TypeError(`At least 2 arguments required, but only ${arguments.length} passed`)
@@ -179,6 +239,8 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/moveTo
+  // Note: N/A as no UI
   moveTo(_x: number, _y: number): void {
     if (arguments.length < 2) {
       throw new TypeError(`At least 2 arguments required, but only ${arguments.length} passed`)
@@ -188,40 +250,56 @@ export class Window extends EventTarget implements _Window {
 
   // Scrolling ==========================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
   readonly scrollX = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY
   readonly scrollY = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/pageXOffset
   readonly pageXOffset = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/pageYOffset
   readonly pageYOffset = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollMaxX
   readonly scrollMaxX = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollMaxY
   readonly scrollMaxY = 0
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll
+  // Depends: none
   scroll(_options: ScrollToOptions): void
   scroll(_x: number, _y: number): void
   scroll(_xOrOptions: number | ScrollToOptions, _y?: number): void {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+  // Depends: none
   scrollTo(_options: ScrollToOptions): void
   scrollTo(_x: number, _y: number): void
   scrollTo(_xOrOptions: number | ScrollToOptions, _y?: number): void {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollBy
+  // Depends: none
   scrollBy(_options: ScrollToOptions): void
   scrollBy(_x: number, _y: number): void
   scrollBy(_xOrOptions: number | ScrollToOptions, _y?: number): void {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollByLines
+  // Depends: none
   scrollByLines(_lines: number): void {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollByPages
+  // Depends: none
   scrollByPages(_pages: number): void {
     return unimplemented()
   }
@@ -231,6 +309,8 @@ export class Window extends EventTarget implements _Window {
 
   // Orientation ========================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/orientation
+  // Note: forced as no UI
   get orientation(): number {
     return 0
   }
@@ -246,8 +326,10 @@ export class Window extends EventTarget implements _Window {
 
   // Scheduling =========================================================================================================
 
+  /** Internal `setTimeout` handle used to keep track on spawned timeouts. */
   #timeouts = new Set<number>()
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout
   setTimeout(handler: TimerHandler, timeout?: number, ...args: unknown[]): number {
     const id = setTimeout(() => {
       const func = typeof handler === "string" ? new Function(handler) : handler
@@ -258,6 +340,7 @@ export class Window extends EventTarget implements _Window {
     return id
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout
   clearTimeout(id?: number): void {
     if (id) {
       this.#timeouts.delete(id)
@@ -265,8 +348,10 @@ export class Window extends EventTarget implements _Window {
     return clearTimeout(id)
   }
 
+  /** Internal `setInterval` handle used to keep track on spawned intervals. */
   #intervals = new Set<number>()
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval
   setInterval(handler: TimerHandler, timeout?: number, ...args: unknown[]): number {
     const id = setInterval(() => {
       const func = typeof handler === "string" ? new Function(handler) : handler
@@ -276,6 +361,7 @@ export class Window extends EventTarget implements _Window {
     return id
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
   clearInterval(id?: number): void {
     if (id) {
       this.#intervals.delete(id)
@@ -283,18 +369,26 @@ export class Window extends EventTarget implements _Window {
     return clearInterval(id)
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/queueMicrotask
+  // Depends: none
   queueMicrotask(_callback: VoidFunction): void {
     return unimplemented()
   }
 
   // Rendering ==========================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/visualViewport
+  // Depends: VisualViewport implementation
   get visualViewport(): VisualViewport {
     return unimplemented.getter()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
+  // Note: arbitrary set
   readonly devicePixelRatio = 1
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/fullScreen
+  // Note: arbitrary set
   get fullScreen(): boolean {
     return false
   }
@@ -303,32 +397,46 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/fullscreen
+  // Depends: none
   requestAnimationFrame(_callback: FrameRequestCallback): number {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame
+  // Depends: none
   cancelAnimationFrame(_handle: number): void {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
+  // Depends: none
   requestIdleCallback(_callback: callback, _options?: IdleRequestOptions): number {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelIdleCallback
+  // Depends: none
   cancelIdleCallback(_handle: number): void {
     return unimplemented()
   }
 
   // Styling and animations =============================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
+  // Depends: CSSStyleDeclaration implementation
   getComputedStyle(_element: Element, _pseudo?: Nullable<string>): CSSStyleDeclaration {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/getMatchedCSSRules
+  // Depends: CSSStyleDeclaration implementation
   getDefaultComputedStyle(_element: Element, _pseudo?: Nullable<string>): CSSStyleDeclaration {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+  // Depends: MediaQueryList implementation
   matchMedia(_query: string): MediaQueryList {
     return unimplemented()
   }
@@ -350,11 +458,14 @@ export class Window extends EventTarget implements _Window {
 
   // Messaging ==========================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone
   // deno-lint-ignore no-explicit-any
   structuredClone<T = any>(value: T, options?: StructuredSerializeOptions): T {
     return structuredClone(value, options)
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
+  // Depends: none
   // deno-lint-ignore no-explicit-any
   postMessage(message: any, targetOrigin: string, transfer?: Transferable[]): void
   // deno-lint-ignore no-explicit-any
@@ -367,28 +478,40 @@ export class Window extends EventTarget implements _Window {
   onmessage = null as _Window["onmessage"] // unimplemented
   onmessageerror = null as _Window["onmessageerror"] // unimplemented
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/reportError
   // deno-lint-ignore no-explicit-any
   reportError(_throwable: any): void {
     return unimplemented()
   }
 
+  onerror = null as _Window["onerror"] // unimplemented
+  onrejectionhandled = null as _Window["onrejectionhandled"] // unimplemented
+  onunhandledrejection = null as _Window["onunhandledrejection"] // unimplemented
+
   // Printing ==========================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/console
   readonly console = console
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/print
+  // Note: N/A as no printer
   print(): void {
-    return
-  }
-
-  dump(_message?: unknown): void {
     return
   }
 
   onbeforeprint = null as _Window["onbeforeprint"] // unimplemented
   onafterprint = null as _Window["onafterprint"] // unimplemented
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/dump
+  // Depends: none, should be designed to send data to stdout
+  dump(_message?: unknown): void {
+    return unimplemented()
+  }
+
   // Crypto utilities =================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/isSecureContext
+  // Note: arbitrary set
   get isSecureContext(): boolean {
     return true
   }
@@ -397,6 +520,7 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/crypto
   get crypto(): Crypto {
     return crypto
   }
@@ -405,32 +529,48 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/atob
   atob(base64: string): string {
     return atob(base64)
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/btoa
   btoa(string: string): string {
     return btoa(string)
   }
 
   // Navigation =========================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/location
+  // Depends: Location implementation (deno implementation cannot be used, and globalThis.location may be undefined)
   get location(): Location {
     return unimplemented.getter()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/origin
   get origin(): string {
     return unimplemented.getter()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/history
+  // Depends: History implementation
   get history(): History {
     return unimplemented.getter<"immutable">()
   }
 
+  onpageshow = null as _Window["onpageshow"] // unimplemented
+  onpagehide = null as _Window["onpagehide"] // unimplemented
+  onpopstate = null as _Window["onpopstate"] // unimplemented
+  onhashchange = null as _Window["onhashchange"] // unimplemented
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/open
+  // Depends: none
   open(_url?: string | URL, _target?: string, _windowFeatures?: string): Nullable<WindowProxy> {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/close
+  // Note: this is also used for cleanup
   close(): void {
     this.#timeouts.forEach(clearTimeout)
     this.#intervals.forEach(clearInterval)
@@ -444,8 +584,9 @@ export class Window extends EventTarget implements _Window {
     this.close()
   }
 
-  #closed = false
+  onclose = null as _Window["onclose"] // unimplemented
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/closed
   get closed(): boolean {
     return this.#closed
   }
@@ -454,10 +595,16 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  #closed = false
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/stop
+  // Depends: none
   stop(): void {
-    return
+    return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated
+  // Note: arbitrary set
   get crossOriginIsolated(): boolean {
     return false
   }
@@ -471,23 +618,22 @@ export class Window extends EventTarget implements _Window {
   onbeforeunload = null as _Window["onbeforeunload"] // unimplemented
   onunload = null as _Window["onunload"] // unimplemented
 
-  onpageshow = null as _Window["onpageshow"] // unimplemented
-  onpagehide = null as _Window["onpagehide"] // unimplemented
-  onpopstate = null as _Window["onpopstate"] // unimplemented
-  onhashchange = null as _Window["onhashchange"] // unimplemented
-
-  onclose = null as _Window["onclose"] // unimplemented
-
   // Storage ============================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/caches
+  // Depends: CacheStorage implementation
   get caches(): CacheStorage {
     return unimplemented.getter<"immutable">()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/indexedDB
+  // Depends: IDBFactory implementation
   get indexedDB(): IDBFactory {
     return unimplemented.getter<"immutable">()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+  // Note: inherited from Deno
   get localStorage(): Storage {
     return localStorage
   }
@@ -496,6 +642,8 @@ export class Window extends EventTarget implements _Window {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
+  // Note: inherited from Deno
   get sessionStorage(): Storage {
     return sessionStorage
   }
@@ -508,21 +656,29 @@ export class Window extends EventTarget implements _Window {
 
   // Diagogs ============================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
+  // Note: N/A as no UI
   // deno-lint-ignore no-explicit-any
   alert(_message?: any): void {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
+  // Note: N/A as no UI
   confirm(_message?: string): boolean {
     return false
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt
+  // Note: N/A as no UI, always returns defaults value
   prompt(_message?: string, defaults?: string): Nullable<string> {
     return defaults ?? null
   }
 
   // Clipboard ==========================================================================================================
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/clipboard
+  // Depends: Selection implementation
   getSelection(): Nullable<Selection> {
     return unimplemented()
   }
@@ -616,8 +772,8 @@ export class Window extends EventTarget implements _Window {
 
   // Other ==============================================================================================================
 
-  #status = ""
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/status
+  // Note: string-only
   get status(): string {
     return this.#status
   }
@@ -626,40 +782,53 @@ export class Window extends EventTarget implements _Window {
     this.#status = `${status}`
   }
 
+  #status = ""
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/speechSynthesis
+  // Depends: SpeechSynthesis implementation
   get speechSynthesis(): SpeechSynthesis {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/performance
   readonly performance = performance
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/external
+  // Depends: External implementation
   get external(): External {
     return unimplemented.getter()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/event
+  // Note: forced as undefined as not executed in event context
   readonly event = undefined as Optional<Event>
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/captureEvents
+  // Note: noop
   captureEvents(): void {
     return
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/releaseEvents
+  // Depends: none
   releaseEvents(_events?: number): void {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/find
+  // Depends: none
   find(_string?: string, _caseSensitive?: boolean, _backwards?: boolean, _wrapAround?: boolean, _wholeWord?: boolean, _searchInFrames?: boolean, _showDialog?: boolean): boolean {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/updateCommands
+  // Note: N/A in Deno
   updateCommands() {
     return
   }
 
   ononline = null as _Window["ononline"] // unimplemented
-  onoffline = null as _Window["onoffline"] // unimplemented
-
-  onerror = null as _Window["onerror"] // unimplemented
-  onrejectionhandled = null as _Window["onrejectionhandled"] // unimplemented
-  onunhandledrejection = null as _Window["onunhandledrejection"]; // unimplemented
+  onoffline = null as _Window["onoffline"]; // unimplemented
 
   // Globals ============================================================================================================
 
@@ -678,23 +847,17 @@ export class Window extends EventTarget implements _Window {
 
 /** https://developer.mozilla.org/en-US/docs/Web/API/BarProp */
 export class BarProp implements _BarProp {
-  constructor(_?: typeof construct) {
-    illegalConstructor(arguments)
+  constructor(_ = {} as { [internal]?: boolean }) {
+    illegal(arguments)
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/BarProp/visible
+  // Note: forced as no ui
   get visible(): boolean {
     return false
   }
 
   set visible(_: boolean) {
-    return
-  }
-
-  get enabled(): boolean {
-    return false
-  }
-
-  set enabled(_: boolean) {
     return
   }
 }
