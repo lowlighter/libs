@@ -208,7 +208,7 @@ See table below for a list of available libraries and their features, compatibil
 We also provide a set of useful CLI scripts.
 
 > [!IMPORTANT]
-Please note that these only run on the Deno runtime.
+> Please note that these only run on the Deno runtime.
 
 ### TypeScript code coverage enhancer
 
@@ -263,6 +263,11 @@ Compile a Rust project to Web assembly and minify output.
 deno run jsr:@libs/bundle/wasm/cli/build --help
 ```
 
+## 🦮 Contributing
+
+Contributions are welcome!
+Please read our [contribution guide](https://github.com/lowlighter/libs/blob/main/CONTRIBUTING.md) first.
+
 ## 📜 License
 
 This work is licensed under the [MIT License](./LICENSE).
@@ -270,4 +275,4 @@ This work is licensed under the [MIT License](./LICENSE).
 If you include a significant part of it in your own project, _**you must keep the license notice**_ with it, including the mention of the additional original authors if any.
 
 > [!IMPORTANT]
-Love these bytes? Consider [`💝 sponsoring me`](https://github.com/sponsors/lowlighter), even one-time contributions are greatly appreciated!
+> Love these bytes? Consider [`💝 sponsoring me`](https://github.com/sponsors/lowlighter), even one-time contributions are greatly appreciated!
