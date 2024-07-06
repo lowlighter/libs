@@ -47,10 +47,6 @@ export class MimeType implements _MimeType {
   }
 
   get enabledPlugin(): Plugin {
-    return unimplemented()
-  }
-
-  set enabledPlugin(_: Plugin) {
-    return
+    return unimplemented.getter<"immutable">()
   }
 }

@@ -95,10 +95,6 @@ export class ClipboardItem implements _ClipboardItem {
 /** https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent */
 export class ClipboardEvent extends Event implements _ClipboardEvent {
   get clipboardData(): DataTransfer {
-    return unimplemented()
-  }
-
-  set clipboardData(_: DataTransfer) {
-    return
+    return unimplemented.getter<"immutable">()
   }
 }
