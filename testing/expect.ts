@@ -139,7 +139,7 @@ _expect.extend({
       }
     }, `Expected value to {!NOT} be of type "${type}"${notnull ? " and not null but " : ""}`)
   },
-  toMatchDescriptor(context, key, expected) {
+  toHaveDescribedProperty(context, key, expected) {
     return process(context.isNot, () => {
       isType(context.value, "object", !null)
       const descriptor = Object.getOwnPropertyDescriptor(context.value, key)
@@ -149,7 +149,7 @@ _expect.extend({
       assertObjectMatch(descriptor, expected)
     }, `Property "${String(key)}" does {!NOT} match provided descriptor, `)
   },
-  toBeImmutable(context, key, testValue = Symbol()) {
+  toHaveImmutableProperty(context, key, testValue = Symbol()) {
     return process(context.isNot, () => {
       const value = context.value as Nullable<record>
       if ((value === null) || ((typeof value !== "function") && (typeof value !== "object"))) {
@@ -188,7 +188,7 @@ _expect.extend({
       assert(Object.isExtensible(context.value))
     }, `Expected value to {!NOT} be extensible`)
   },
-  toBeShallowCopy(context, expected) {
+  toBeShallowCopyOf(context, expected) {
     return process(context.isNot, () => {
       assertEquals(context.value, expected)
       assertNotStrictEquals(context.value, expected, `Detected same-reference`)
