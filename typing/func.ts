@@ -7,8 +7,11 @@ export const AsyncFunction = Object.getPrototypeOf(functions.async).constructor 
 
 /** Async function constructor interface. */
 export interface AsyncFunctionConstructor {
+  /** Constructor. */
   new <T = any>(...args: string[]): (...args: unknown[]) => Promise<T>
+  /** Signature. */
   <T = any>(...args: string[]): (...args: unknown[]) => Promise<T>
+  /** Prototype. */
   readonly prototype: <T = any>(...args: unknown[]) => Promise<T>
 }
 
@@ -17,8 +20,11 @@ export const GeneratorFunction = Object.getPrototypeOf(functions.generator).cons
 
 /** Generator function constructor interface. */
 export interface GeneratorFunctionConstructor {
+  /** Constructor. */
   new <T = unknown, TReturn = any, TNext = unknown>(...args: string[]): (...args: unknown[]) => Generator<T, TReturn, TNext>
+  /** Signature. */
   <T = unknown, TReturn = any, TNext = unknown>(...args: string[]): (...args: unknown[]) => Generator<T, TReturn, TNext>
+  /** Prototype. */
   readonly prototype: <T = unknown, TReturn = any, TNext = unknown>(...args: unknown[]) => Generator<T, TReturn, TNext>
 }
 
@@ -27,7 +33,10 @@ export const AsyncGeneratorFunction = Object.getPrototypeOf(functions.asyncGener
 
 /** Async generator function constructor interface. */
 export interface AsyncGeneratorFunctionConstructor {
+  /** Constructor. */
   new <T = unknown, TReturn = any, TNext = unknown>(...args: string[]): (...args: unknown[]) => AsyncGenerator<T, TReturn, TNext>
+  /** Signature. */
   <T = unknown, TReturn = any, TNext = unknown>(...args: string[]): (...args: unknown[]) => AsyncGenerator<T, TReturn, TNext>
+  /** Prototype. */
   readonly prototype: <T = unknown, TReturn = any, TNext = unknown>(...args: unknown[]) => AsyncGenerator<T, TReturn, TNext>
 }
