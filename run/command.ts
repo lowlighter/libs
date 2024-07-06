@@ -4,6 +4,7 @@ import { Logger, type loglevel } from "@libs/logger"
 import { TextLineStream } from "@std/streams"
 import { debounce } from "@std/async/debounce"
 import { delay } from "@std/async/delay"
+export type { Logger, loglevel, Promisable }
 
 /** Run options. */
 export type options = {
@@ -80,7 +81,9 @@ const encoder = new TextEncoder()
 /** Text decoder */
 const decoder = new TextDecoder()
 
+/** Asynchronous version of {@link command}. */
 export function command(bin: string, args: string[], options?: options & { sync?: false }): Promise<result>
+/** Synchronous version of {@link command}. */
 export function command(bin: string, args: string[], options?: options & { sync: true }): result
 /**
  * Run a command.
