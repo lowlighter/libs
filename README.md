@@ -207,7 +207,8 @@ See table below for a list of available libraries and their features, compatibil
 
 We also provide a set of useful CLI scripts.
 
-> [!IMPORTANT] Please note that these only run on the Deno runtime.
+> [!IMPORTANT]
+Please note that these only run on the Deno runtime.
 
 ### TypeScript code coverage enhancer
 
@@ -268,4 +269,5 @@ This work is licensed under the [MIT License](./LICENSE).
 
 If you include a significant part of it in your own project, _**you must keep the license notice**_ with it, including the mention of the additional original authors if any.
 
-> [!IMPORTANT] Love these bytes? Consider [`💝 sponsoring me`](https://github.com/sponsors/lowlighter), even one-time contributions are greatly appreciated!
+> [!IMPORTANT]
+Love these bytes? Consider [`💝 sponsoring me`](https://github.com/sponsors/lowlighter), even one-time contributions are greatly appreciated!
