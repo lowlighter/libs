@@ -66,13 +66,13 @@ export type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn:
  *
  * When a test case is run on `deno`, default permissions are set to `none` rather than `"inherit"` (they can still be set using the {@link options} parameter).
  *
- * > [!IMPORTANT]
+ * > [!WARNING]
  * > Since runtimes are executed using `Deno.command`, `--allow-run` permission must be specified:
  * > - `deno` is always required
  * > - `bun` is required when `bun` runtime is used
  * > - `node,npx` are required when `node` runtime is used
  *
- * > [!IMPORTANT]
+ * > [!WARNING]
  * > It is currently not possible to use `jsr:` specifiers in runtime other than deno, which is why it is advised to use an import map to alias dependencies.
  * > When publishing on {@link https://jsr.io | jsr.io}, these will be rewritten into fully qualified specifiers (see {@link https://jsr.io/docs/publishing-packages#dependency-manifest | dependency manifest}).
  *
