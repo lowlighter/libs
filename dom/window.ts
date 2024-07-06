@@ -691,7 +691,7 @@ export class Window extends EventTarget implements _Window {
   onselectionchange = null as _Window["onselectionchange"] // unimplemented
   onselectstart = null as _Window["onselectstart"] // unimplemented
 
-  // Inputs =============================================================================================================
+  // Events =============================================================================================================
 
   onmousedown = null as _Window["onmousedown"] // unimplemented
   onmouseup = null as _Window["onmouseup"] // unimplemented
