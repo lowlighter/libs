@@ -9,11 +9,13 @@ import * as semver from "jsr:@std/semver"
 // Load global configuration
 const upgrade = Deno.env.get("UPGRADE_PACKAGES") === "true"
 const root = fromFileUrl(import.meta.resolve("../"))
-const global = JSONC.parse(await Deno.readTextFile(resolve(root, "deno.jsonc"))) as Record<string, unknown>
+const global = JSONC.parse(await Deno.readTextFile(resolve(root, "deno.jsonc"))) as Record<string, unknown> & { imports?: record<string>; tasks: record<string> }
 const log = new Logger()
 const order = ["icon", "name", "version", "description", "keywords", "license", "author", "funding", "homepage", "playground", "supported", "repository", "npm", "deno.land/x", "exports", "unstable", "types", "lock", "imports", "test:permissions", "tasks", "lint", "fmt"]
 
 // Load local configurations
+global.tasks ??= {}
+global.tasks["test"] = ""
 const packages = []
 for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   const local = JSONC.parse(await Deno.readTextFile(path)) as Record<string, unknown>
@@ -42,15 +44,23 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   }
   const permissions = Object.entries(test).map(([key, value]) => `--allow-${key}${value === true ? "" : `=${value.join(",")}`}`).join(" ")
   tasks["test"] = `deno test ${permissions} --no-prompt --coverage --clean --trace-leaks --doc`
-  tasks["test:deno"] = `deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish ${slow ? "--allow-slow-types " : ""}--dry-run --quiet --allow-dirty`
-  tasks["test:deno-future"] = "DENO_FUTURE=1 && deno task dev"
+  tasks["test:deno"] = `deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint`
+  tasks["test:deno-future"] = "DENO_FUTURE=1 && deno task test:deno"
   tasks["test:others"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
-  tasks["coverage"] = "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js"
   tasks["coverage:html"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
+  tasks["dev"] = `deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint`
+  tasks["lint"] = `deno fmt --check && deno lint && deno doc --lint && deno publish ${slow ? "--allow-slow-types " : ""}--dry-run --quiet --allow-dirty`
+  global.tasks["test"] += `${global.tasks["test"] ? " && " : ""}cd ${name} && deno task test:deno && cd ..`
+  global.tasks["lint"] += `${global.tasks["lint"] ? " && " : ""}cd ${name} && deno task lint && cd ..`
   // Sync imports
   if (local.imports) {
+    const imports = local.imports as record<string>
+    for (const key of Object.keys(imports)) {
+      if (!(key in global.imports!)) {
+        log.warn({ package: packages.at(-1), dependency: key }).error("dependency not registered in global configuration, please add it")
+      }
+    }
     for (const [key, value] of Object.entries(global.imports ?? {})) {
-      const imports = local.imports as record<string>
       if (!(key in imports)) {
         continue
       }
@@ -86,3 +96,6 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   await Deno.writeTextFile(path, JSON.stringify(Object.fromEntries(order.map((key) => [key, local[key]]).filter(([_, value]) => value !== undefined)), null, 2))
   log.with({ package: packages.at(-1) }).info("written config")
 }
+
+// Save global configuration
+await Deno.writeTextFile(resolve(root, "deno.jsonc"), JSON.stringify(Object.fromEntries(order.map((key) => [key, global[key]]).filter(([_, value]) => value !== undefined)), null, 2))

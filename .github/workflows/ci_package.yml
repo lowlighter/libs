@@ -74,6 +74,10 @@ jobs:
         working-directory: ${{ inputs.package }}
       - run: deno fmt --check
         working-directory: ${{ inputs.package }}
+      - run: deno doc --lint mod.ts
+        working-directory: ${{ inputs.package }}
+      - run: deno publish --dry-run --quiet --allow-dirty
+        working-directory: ${{ inputs.package }}
 
   codeql:
     name: Code quality
