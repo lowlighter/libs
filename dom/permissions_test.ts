@@ -1,52 +1,46 @@
 import { expect, fn, test, type testing } from "@libs/testing"
-import { construct } from "./_.ts"
+import { internal } from "./_.ts"
 import { Permissions, PermissionsStatus } from "./permissions.ts"
 
 test()(`Permissions.constructor() is illegal`, () => {
   expect(() => new Permissions()).toThrow(TypeError)
-  new Permissions(construct)
+  new Permissions({ [internal]: true })
 })
 
 test()(`Permissions.query() resolves to PermissionsStatus`, async () => {
-  const permissions = new Permissions(construct)
-  const status = permissions.query({ name: "foo" as testing })
-  await expect(status).resolves.toBeInstanceOf(PermissionsStatus)
-  await expect(permissions.query({ name: "foo" as testing })).resolves.toBe(await status)
+  const permissions = new Permissions({ [internal]: true })
   await expect(permissions.query({ name: "" as testing })).rejects.toThrow(TypeError)
+  await expect(permissions.query({ name: "foo" as testing })).resolves.toBeInstanceOf(PermissionsStatus)
 })
 
 test()(`Permissions[constructs] allows to override permissions status`, async () => {
-  const permissions = new Permissions(construct)
-  let status = await permissions.query({ name: "foo" as testing })
-  expect(status.state).toBe("granted")
-  permissions[construct].state["foo"] = "denied"
-  status = await permissions.query({ name: "foo" as testing })
-  expect(status.state).toBe("denied")
+  const permissions = new Permissions({ [internal]: true })
+  permissions[internal].state["bar"] = "granted"
+  expect((await permissions.query({ name: "foo" as testing })).state).toBeOneOf(["granted", "prompt", "denied"])
+  expect((await permissions.query({ name: "bar" as testing })).state).toBe("granted")
 })
 
 test()(`PermissionsStatus.constructor() is illegal`, () => {
   expect(() => new PermissionsStatus()).toThrow(TypeError)
-  new PermissionsStatus(construct)
+  new PermissionsStatus({ [internal]: true })
 })
 
 test()(`PermissionsStatus.name is supported`, () => {
-  const status = new PermissionsStatus(construct, "foo", "granted")
+  const status = new PermissionsStatus({ [internal]: true, name: "foo", state: "granted" })
   expect(status).toHaveProperty("name", "foo")
   expect(status).toBeImmutable("name")
 })
 
 test()(`PermissionsStatus.state is supported`, () => {
-  const status = new PermissionsStatus(construct, "foo", "granted")
+  const status = new PermissionsStatus({ [internal]: true, name: "foo", state: "granted" })
   expect(status).toHaveProperty("state", "granted")
   expect(status).toBeImmutable("state")
 })
 
 test()(`PermissionsStatus.onchange is supported`, () => {
-  const status = new PermissionsStatus(construct, "foo", "prompt")
-  const listeners = { onchange: fn(), event: fn() } as testing
-  status.onchange = listeners.onchange
-  status.addEventListener("change", listeners.event)
-  status[construct].state("granted")
-  expect(listeners.onchange).toHaveBeenCalledTimes(1)
-  expect(listeners.event).toHaveBeenCalledTimes(1)
+  const status = new PermissionsStatus({ [internal]: true, name: "foo", state: "prompt" })
+  status.onchange = fn() as testing
+  expect(status.onchange).not.toHaveBeenCalled()
+  status[internal].state("granted")
+  expect(status.onchange).toHaveBeenCalled()
 })

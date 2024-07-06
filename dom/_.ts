@@ -1,16 +1,16 @@
 /// <reference lib="dom" />
 // Imports
-import type { record } from "@libs/typing"
+import type { record, rw } from "@libs/typing"
 
 /** Implementation version */
 export const version = "0.0"
 
 /** Pass as argument to allow instantiation of illegal constructors. */
-export const construct: unique symbol = Symbol.for("@@constructor")
+export const internal: unique symbol = Symbol.for("@@internal")
 
-/** Throws if {@link construct} symbol is not present in arguments. */
-export function illegalConstructor(args: IArguments): void {
-  if (!Array.from(args).includes(construct)) {
+/** Throws if {@link internal} symbol is not present in arguments. */
+export function illegal(args: IArguments): void {
+  if (!(internal in args[0])) {
     throw new TypeError("Illegal constructor")
   }
 }
@@ -24,30 +24,35 @@ export const unimplemented = Object.assign(function (): never {
   },
 })
 
+/** Dispatch event to listeners and to shorthand property */
+export function dispatch<T extends EventTarget>(element: T, event: Event) {
+  element.dispatchEvent(event)
+  if (`on${event.type}` in element) {
+    ;(element as rw)[`on${event.type}`]?.(event)
+  }
+}
+
 /** Indexable is an array-like class that makes the object indexable without implementing Array.prototype. */
 export class Indexable<T> extends Array<T> implements ArrayLike<T> {
   // deno-lint-ignore no-explicit-any
   constructor(..._: any[]) {
     super()
-    if (!Array.from(arguments).includes(construct)) {
-      throw new TypeError("Illegal constructor")
-    }
+    illegal(arguments)
   }
 
   get [Symbol.toStringTag](): string {
     return this.constructor.name
   }
 
-  get [construct](): Pick<Array<T>, "push" | "pop" | "find" | "shift" | "unshift" | "splice" | "indexOf" | "forEach" | "map" | "filter"> {
+  get [internal](): Pick<Array<T>, "push" | "pop" | "find" | "shift" | "unshift" | "splice" | "indexOf" | "map" | "filter"> {
     return {
       push: super.push.bind(this),
       pop: super.pop.bind(this),
-      find: super.find.bind(this),
       shift: super.shift.bind(this),
       unshift: super.unshift.bind(this),
       splice: super.splice.bind(this),
       indexOf: super.indexOf.bind(this),
-      forEach: super.forEach.bind(this),
+      find: super.find.bind(this),
       map: super.map.bind(this),
       filter: super.filter.bind(this),
     }
@@ -87,9 +92,9 @@ export type _ClipboardEvent = ClipboardEvent
 
 export type _Node = Node
 export type _NodeList = NodeList
-export type _NodeListOf<T extends _Node> = NodeListOf<T>
 export type _Document = Document
 export type _DocumentFragment = DocumentFragment
 export type _Element = Element
 export type _Window = Window
 export type _BarProp = BarProp
+export type _Attr = Attr

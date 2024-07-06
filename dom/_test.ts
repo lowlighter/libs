@@ -1,43 +1,56 @@
-import { expect, test } from "@libs/testing"
-import { construct, illegalConstructor, Indexable, unimplemented } from "./_.ts"
+import { expect, fn, test, type testing } from "@libs/testing"
+import { dispatch, illegal, Indexable, internal, unimplemented } from "./_.ts"
 
-test()("illegalConstructor() throws if construct symbol is not passed", () => {
+test()("illegal() throws if internal symbol is not passed in the first argument", () => {
   expect(() =>
     (function (..._: unknown[]) {
-      illegalConstructor(arguments)
-    })()
+      illegal(arguments)
+    })({})
   ).toThrow(TypeError)
   expect(() =>
     (function (..._: unknown[]) {
-      illegalConstructor(arguments)
-    })(construct)
+      illegal(arguments)
+    })({ [internal]: true })
   ).not.toThrow()
 })
 
-test()("unimplemented() and unimplemented.getter() throws a DOMException<'NotSupportedError'>", () => {
-  expect(() => unimplemented()).toThrow(DOMException)
-  expect(() => unimplemented.getter()).toThrow(DOMException)
+test()("unimplemented() throws a DOMException<'NotSupportedError'>", () => {
+  expect(unimplemented).toThrow(DOMException)
+})
+
+test()("unimplemented.getter() throws a DOMException<'NotSupportedError'>", () => {
+  expect(unimplemented.getter).toThrow(DOMException)
+})
+
+test()("dispatch() dispatches events", () => {
+  const target = new EventTarget()
+  const listener = fn() as testing
+  const onfoo = fn() as testing
+  target.addEventListener("foo", listener)
+  Object.assign(target, { onfoo })
+  dispatch(target, new Event("foo"))
+  expect(listener).toHaveBeenCalled()
+  expect(onfoo).toHaveBeenCalled()
 })
 
 test()("Indexable.constructor() is illegal", () => {
   expect(() => new Indexable()).toThrow(TypeError)
-  new Indexable(construct)
+  new Indexable({ [internal]: true })
 })
 
 test()("Indexable.length is supported", () => {
-  expect(new Indexable(construct).length).toBe(0)
+  expect(new Indexable({ [internal]: true })).toHaveProperty("length", 0)
 })
 
-test()("Indexable.toString() returns object name", () => {
+test()("Indexable.toString() is supported", () => {
   class Test extends Indexable<unknown> {}
-  expect(new Indexable(construct).toString()).toBe("[object Indexable]")
-  expect(new Test(construct).toString()).toBe("[object Test]")
+  expect(new Indexable({ [internal]: true }).toString()).toBe("[object Indexable]")
+  expect(new Test({ [internal]: true }).toString()).toBe("[object Test]")
 })
 
-test()("Indexable[construct] exposes Array methods", () => {
-  expect(new Indexable(construct)[construct]).toHaveProperty("push")
-})
-
-test()("Indexable[construct] hides Array methods", () => {
-  expect(new Indexable(construct).push).toBeUndefined()
+test()("Indexable[internal] exposes Array methods", () => {
+  for (const property of ["push", "pop", "shift", "unshift", "splice", "indexOf", "find", "map", "filter"] as const) {
+    expect(new Indexable({ [internal]: true })[property]).toBeUndefined()
+    expect(new Indexable({ [internal]: true })[internal][property]).toBeDefined()
+  }
 })

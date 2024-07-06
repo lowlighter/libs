@@ -1,20 +1,23 @@
 // Imports
 import type { Promisable } from "@libs/typing"
-import { type _Clipboard, type _ClipboardEvent, type _ClipboardItem, type construct, illegalConstructor, unimplemented } from "./_.ts"
+import { type _Clipboard, type _ClipboardEvent, type _ClipboardItem, illegal, type internal, unimplemented } from "./_.ts"
 import type { Navigator } from "./navigator.ts"
 
 /** https://developer.mozilla.org/en-US/docs/Web/API/Clipboard */
 export class Clipboard extends EventTarget implements _Clipboard {
-  constructor(_?: typeof construct, navigator?: Navigator) {
+  constructor({ navigator } = {} as { [internal]?: boolean; navigator?: Navigator }) {
     super()
-    illegalConstructor(arguments)
+    illegal(arguments)
     this.#navigator = navigator!
   }
 
+  /** {@link Navigator} */
   readonly #navigator: Navigator
 
+  /** {@link ClipboardItem} */
   readonly #items = [] as ClipboardItem[]
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/read
   async read(): Promise<ClipboardItem[]> {
     const permission = await this.#navigator.permissions.query({ name: "clipboard-read" as PermissionName })
     if (permission.state !== "granted") {
@@ -23,6 +26,17 @@ export class Clipboard extends EventTarget implements _Clipboard {
     return this.#items.slice()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/write
+  async write(items: ClipboardItem[]): Promise<void> {
+    const permission = await this.#navigator.permissions.query({ name: "clipboard-write" as PermissionName })
+    if (permission.state !== "granted") {
+      throw new DOMException(`Clipboard write operation is not allowed.`, "NotAllowedError")
+    }
+    this.#items.length = 0
+    this.#items.push(...items)
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/readText
   async readText(): Promise<string> {
     let text = ""
     for (const item of await this.read()) {
@@ -33,20 +47,13 @@ export class Clipboard extends EventTarget implements _Clipboard {
     return text
   }
 
-  async write(items: ClipboardItem[]): Promise<void> {
-    const permission = await this.#navigator.permissions.query({ name: "clipboard-write" as PermissionName })
-    if (permission.state !== "granted") {
-      throw new DOMException(`Clipboard write operation is not allowed.`, "NotAllowedError")
-    }
-    this.#items.length = 0
-    this.#items.push(...items)
-  }
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
   async writeText(text: string): Promise<void> {
     await this.write([new ClipboardItem({ "text/plain": text })])
   }
 }
 
+/** {@link ClipboardItem}.presentationStyle allowed values. */
 type ClipboardItemPresentationStyle = "unspecified" | "inline" | "attachment"
 
 /** https://developer.mozilla.org/en-US/docs/Web/API/ClipboardItem */
@@ -62,8 +69,7 @@ export class ClipboardItem implements _ClipboardItem {
 
   readonly #data
 
-  readonly #types
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/ClipboardItem/types
   get types(): string[] {
     return this.#types
   }
@@ -72,6 +78,9 @@ export class ClipboardItem implements _ClipboardItem {
     return
   }
 
+  readonly #types
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/ClipboardItem/getType
   async getType(type: string): Promise<Blob> {
     if (!this.#data[type]) {
       throw new DOMException(`The type '${type}' was not found`, "NotFoundError")
@@ -80,8 +89,7 @@ export class ClipboardItem implements _ClipboardItem {
     return (typeof data === "string") ? new Blob([data], { type }) : data
   }
 
-  readonly #presentationStyle = "unspecified" as ClipboardItemPresentationStyle
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/ClipboardItem/presentationStyle
   get presentationStyle(): ClipboardItemPresentationStyle {
     return this.#presentationStyle
   }
@@ -90,6 +98,11 @@ export class ClipboardItem implements _ClipboardItem {
     return
   }
 
+  readonly #presentationStyle
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/ClipboardItem/supports_static
+  // Note: plain text, HTML and PNG files are mandatory
+  // SVG and custom types support is optional
   static supports(type: string): boolean {
     return ["text/plain", "text/html", "image/png"].includes(type)
   }
@@ -97,6 +110,8 @@ export class ClipboardItem implements _ClipboardItem {
 
 /** https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent */
 export class ClipboardEvent extends Event implements _ClipboardEvent {
+  // https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
+  // Depends: DataTransfer implementation
   get clipboardData(): DataTransfer {
     return unimplemented.getter<"immutable">()
   }
