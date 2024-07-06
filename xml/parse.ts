@@ -5,7 +5,7 @@ import type { Nullable, ReaderSync, xml_document, xml_node, xml_text } from "./_
 initSync(source())
 
 // Re-exports
-export type { ReaderSync, xml_document, xml_node, xml_text, Nullable }
+export type { Nullable, ReaderSync, xml_document, xml_node, xml_text }
 
 /** XML parser options. */
 export type options = {

@@ -42,10 +42,12 @@ The following tasks are available from `@libs/*` scopes:
 - `test:deno-future`: Same as `test:deno` but with `DENO_FUTURE=1` environment variable set
 - `test:others`: Perform tests on other runtimes (node, bun)
 - `coverage:html`: Generate coverage report (html)
-- `dev`: Run `deno fmt`, `deno test` (deno only), print detailed coverage, `deno lint`, `deno doc --lint`, `deno publish --dry-run`
+- `dev`: Run `deno fmt`, `deno test` (deno only), print detailed coverage, and `deno task lint`
+- `lint`: Run `deno fmt`, `deno lint`, `deno doc --lint`, `deno publish --dry-run`
 
 The following tasks are available from `@libs` scope:
 
+- `lint`: Run `deno task lint` for all packages
 - `make:readme`<sub>🤖</sub>: Generate main `README.md` file
   - _This action is performed automatically by CI, do **NOT** submit changes resulting from this command in pull requests_
 - `make:config`<sub>🤖</sub>: Generate and sync all `*/deno.jsonc` to match metadata of main `deno.jsonc`
