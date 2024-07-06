@@ -13,7 +13,7 @@ export class Permissions implements _Permissions {
   readonly #permissions = new Map<string, PermissionsStatus>()
 
   // deno-lint-ignore require-await
-  async query({ name }: PermissionDescriptor): Promise<_PermissionsStatus> {
+  async query({ name }: PermissionDescriptor): Promise<PermissionsStatus> {
     if (!name) {
       throw new TypeError(`'${name}' (value of 'name' member of PermissionDescriptor) is not a valid value for enumeration PermissionName.`)
     }
@@ -27,7 +27,7 @@ export class Permissions implements _Permissions {
     return permission
   }
 
-  get [construct]() {
+  get [construct](): { state: Record<string, PermissionState> } {
     return {
       state: this.#state,
     }
@@ -63,7 +63,7 @@ export class PermissionsStatus extends EventTarget implements _PermissionsStatus
     return
   }
 
-  get [construct]() {
+  get [construct](): { state: (state: PermissionsStatus["state"]) => void } {
     return {
       state: (state: PermissionsStatus["state"]) => {
         const changed = this.#state !== state

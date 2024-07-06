@@ -185,17 +185,16 @@ test()(`Navigator.sendBeacon is supported`, async () => {
   const { promise: listening, resolve: url } = Promise.withResolvers<string>()
   const { promise: requested, resolve: got } = Promise.withResolvers<Request>()
   const navigator = new Navigator(construct)
-  const response = new Response()
   const server = Deno.serve({ onListen: ({ hostname, port }) => url(`http://${hostname}:${port}`) }, (request) => {
     got(request)
-    return response
+    return new Response()
   })
   expect(navigator.sendBeacon("http://test.invalid", "foo")).toBe(true)
   expect(navigator.sendBeacon(await listening, "foo")).toBe(true)
   const request = await requested
   expect(request.method).toBe("POST")
   await expect(request.text()).resolves.toBe("foo")
-  await response.body?.cancel()
+  await Promise.all(navigator[construct].beacons)
   await server.shutdown()
 }, { permissions: { net: true } })
 

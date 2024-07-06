@@ -56,13 +56,16 @@ export class ClipboardItem implements _ClipboardItem {
       throw new TypeError("At least one entry required")
     }
     this.#data = data
+    this.#types = Object.keys(data)
     this.#presentationStyle = options?.presentationStyle ?? "unspecified"
   }
 
   readonly #data
 
+  readonly #types
+
   get types(): string[] {
-    return Object.keys(this.#data)
+    return this.#types
   }
 
   set types(_: string[]) {

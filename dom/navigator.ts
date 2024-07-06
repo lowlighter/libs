@@ -216,11 +216,7 @@ export class Navigator implements _Navigator {
   }
 
   get plugins(): PluginArray {
-    return unimplemented()
-  }
-
-  set plugins(_: PluginArray) {
-    return
+    return unimplemented.getter<"immutable">()
   }
 
   get product(): "Gecko" {
@@ -251,8 +247,10 @@ export class Navigator implements _Navigator {
     return unimplemented()
   }
 
+  readonly #beacons = [] as Promise<unknown>[]
+
   sendBeacon(url: string, body?: BodyInit): boolean {
-    fetch(url, { method: "POST", body }).then((response) => response.body?.cancel()).catch(() => null)
+    this.#beacons.push(fetch(url, { method: "POST", body }).then((response) => response.body?.cancel()).catch(() => null))
     return true
   }
 
@@ -324,5 +322,11 @@ export class Navigator implements _Navigator {
 
   vibrate(_pattern: VibratePattern): boolean {
     return unimplemented()
+  }
+
+  get [construct](): { beacons: Promise<unknown>[] } {
+    return {
+      beacons: this.#beacons,
+    }
   }
 }
