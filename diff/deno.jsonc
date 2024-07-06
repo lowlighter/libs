@@ -30,7 +30,7 @@
     "./diff": "./diff.ts"
   },
   "imports": {
-    "@libs/testing": "jsr:@libs/testing@1"
+    "@libs/testing": "jsr:@libs/testing@2"
   },
   "test:permissions": {
     "read": true,
@@ -43,11 +43,12 @@
   },
   "tasks": {
     "test": "deno test --allow-read --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
-    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno lint && deno publish --dry-run --quiet --allow-dirty",
-    "dev:future": "DENO_FUTURE=1 && deno task dev",
-    "coverage": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js",
-    "ci": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
-    "ci:coverage": "deno task coverage --html && sleep 1 && mkdir -p ../coverage && rm -rf ../coverage/diff && mv coverage/html ../coverage/diff"
+    "test:deno": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "test:deno-future": "DENO_FUTURE=1 && deno task test:deno",
+    "test:others": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "coverage:html": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint",
+    "lint": "deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish --dry-run --quiet --allow-dirty"
   },
   "lint": {
     "rules": {
