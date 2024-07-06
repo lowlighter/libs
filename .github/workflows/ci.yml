@@ -77,7 +77,7 @@ jobs:
           PACKAGES=$(echo '${{ needs.setup.outputs.packages }}' | jq -cr '.[]')
           for PACKAGE in $PACKAGES; do
             pushd $PACKAGE
-            deno task ci:coverage
+            deno task coverage:html
             popd
           done
           deno run --allow-read --allow-write=coverage --allow-net jsr:@libs/bundle/ts/cli/coverage --root=coverage
@@ -102,18 +102,18 @@ jobs:
       - uses: denoland/setup-deno@v1
       - name: Configure git
         run: git config user.name 'github-actions[bot]' && git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-      - name: Run deno task config
+      - name: Run deno task make:config
         run: |
-          deno task config
+          deno task make:config
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -m 'chore: update `deno.jsonc`'
             git pull --rebase
             git push
           fi
-      - name: Run deno task readme
+      - name: Run deno task make:readme
         run: |
-          deno task readme
+          deno task make:readme
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -m 'doc: update `README.md`'

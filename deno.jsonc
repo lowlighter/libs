@@ -27,7 +27,7 @@
     "@std/cli": "jsr:@std/cli@0.224.7",
     "@std/fmt/colors": "jsr:@std/fmt@0.225.5/colors",
     "@libs/logger": "jsr:@libs/logger@1",
-    "@libs/testing": "jsr:@libs/testing@1",
+    "@libs/testing": "jsr:@libs/testing@2",
     "@libs/typing": "jsr:@libs/typing@2",
     "@libs/xml": "jsr:@libs/xml@5",
     "@libs/run": "jsr:@libs/run@1",
@@ -59,8 +59,9 @@
     "@std/fs/exists": "jsr:@std/fs@0.229.3/exists"
   },
   "tasks": {
-    "config": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=. .github/deno_config.ts && deno fmt **/deno.jsonc",
-    "readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
+    "make:readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
+    "make:config": "deno run --allow-env=LOG_LEVEL,UPGRADE_PACKAGES --allow-read=. --allow-write=. .github/deno_config.ts && deno fmt **/deno.jsonc",
+    "make:config-upgrade": "UPGRADE_PACKAGES=true deno task make:config",
     "tag": "deno run --allow-read --allow-write=. .github/deno_tag.ts"
   },
   "lint": {

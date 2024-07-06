@@ -133,11 +133,11 @@ jobs:
         if: ${{ steps.package.outputs.has_build }}
         working-directory: ${{ inputs.package }}
       # Tests
-      - run: deno task dev
+      - run: deno task test:deno
         working-directory: ${{ inputs.package }}
-      - run: deno task dev:future
+      - run: deno task test:deno-future
         working-directory: ${{ inputs.package }}
-      - run: deno task ci
+      - run: deno task test:others
         working-directory: ${{ inputs.package }}
       # Bench
       - run: deno task bench
