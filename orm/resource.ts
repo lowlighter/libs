@@ -4,6 +4,7 @@ import type { Logger } from "@libs/logger"
 import { ulid } from "@std/ulid"
 import type { Arg, Arrayable, callback, DeepPartial, Nullable, record, rw } from "@libs/typing"
 import { is } from "./is/mod.ts"
+export type { _model, Logger, Nullable, ulid }
 
 /** Resource identifier. */
 export type id = ReturnType<typeof ulid>
@@ -12,11 +13,14 @@ export type id = ReturnType<typeof ulid>
 export type shape = is.ZodRawShape
 
 /** Resource minimal model. */
-const model = is.object({
+const _model = {
   id: is.string().describe("Unique identifier."),
   created: is.number().min(0).nullable().default(null).describe("Creation timestamp."),
   updated: is.number().min(0).nullable().default(null).describe("Last update timestamp."),
-})
+}
+
+/** Resource minimal model. */
+const model = is.object(_model) as is.ZodObject<typeof _model>
 
 /** Resource minimal model. */
 export type model = is.infer<typeof model>
@@ -29,9 +33,11 @@ export type model_extended<U extends {}> = is.infer<is.ZodObject<U>> & model
  * Resource.
  */
 export class Resource<T extends model> {
-  /** Constructor */
+  /** Constructor. */
   constructor(data: DeepPartial<T>)
+  /** Constructor. */
   constructor(id?: Nullable<id>)
+  /** Constructor. */
   constructor(id?: Nullable<id> | DeepPartial<T>) {
     const { promise, resolve, reject } = Promise.withResolvers<this>()
     this.ready = promise
@@ -100,10 +106,12 @@ export class Resource<T extends model> {
   }
 
   /** Model. */
-  protected static readonly model = model
+  // deno-lint-ignore no-explicit-any
+  protected static readonly model = model as is.ZodObject<any>
 
   /** Model. */
-  protected get model() {
+  // deno-lint-ignore no-explicit-any
+  protected get model(): is.ZodObject<any> {
     return (this.constructor as typeof Resource).model
   }
 
@@ -239,7 +247,9 @@ export class Resource<T extends model> {
 
   /** List resources from {@link Store}. */
   static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array: true }): Promise<Array<InstanceType<T>>>
+  /** List resources from {@link Store}. */
   static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array?: false }): Promise<AsyncGenerator<InstanceType<T>>>
+  /** List resources from {@link Store}. */
   static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array?: boolean }) {
     if (!key) {
       key = []

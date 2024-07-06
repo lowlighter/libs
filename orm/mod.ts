@@ -1,5 +1,5 @@
 export { Store as DenoKvStore } from "./store/kv.ts"
 export { is } from "./is/mod.ts"
 export { Resource } from "./resource.ts"
-export type { key, version } from "./store/store.ts"
-export type { id, model, model_extended, shape } from "./resource.ts"
+export type * from "./store/store.ts"
+export type * from "./resource.ts"

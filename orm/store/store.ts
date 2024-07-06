@@ -1,6 +1,7 @@
 // Imports
 import type { Nullable, Promisable, record } from "@libs/typing"
 import { Logger } from "@libs/logger"
+export type { Promisable, record }
 
 /**
  * Key-Value store.
@@ -112,7 +113,9 @@ export abstract class Store {
 
   /** List entries from {@link Store}. */
   async list<T extends record>(key: key | [key, key], options?: { limit?: number; reverse?: boolean; array: true }): Promise<Array<{ key: key; value: T; version: version }>>
+  /** List entries from {@link Store}. */
   async list<T extends record>(key: key | [key, key], options?: { limit?: number; reverse?: boolean; array?: false }): Promise<AsyncGenerator<{ key: key; value: T; version: version }>>
+  /** List entries from {@link Store}. */
   async list<T extends record>(key: key | [key, key], { limit, reverse, array = true }: { limit?: number; reverse?: boolean; array?: boolean } = {}): Promise<Array<{ key: key; value: T; version: version }> | AsyncGenerator<{ key: key; value: T; version: version }>> {
     await this.ready
     const list = this._list<T>(key, { limit, reverse }, array)
