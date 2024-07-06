@@ -60,7 +60,9 @@ jobs:
       - id: files
         uses: tj-actions/changed-files@v44
         with:
-          files: ${{ inputs.package }}/**
+          files: |
+            ${{ inputs.package }}/**
+            .github/workflows/ci_package.yml
 
   lint:
     name: Lint
