@@ -2,6 +2,17 @@
 import { test } from "./_testing.ts"
 import { expect, Status } from "./expect.ts"
 
+test()("expect has typings", () => {
+  // Built-in properties
+  expect.any(null)
+  // Built-in matchers
+  expect(null).toBe(null)
+  expect(null).not.toBe(true)
+  // Extended matchers
+  expect(null).toSatisfy(() => true)
+  expect(null).not.toSatisfy(() => false)
+})
+
 test()("expect.toSatisfy() asserts predicate", () => {
   expect("foo").toSatisfy((value: string) => value.length > 0)
   expect("foo").not.toSatisfy((value: string) => value.length === 0)

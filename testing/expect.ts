@@ -369,6 +369,6 @@ _expect.extend({
 })
 
 /** https://jsr.io/@std/expect/doc/~/expect. */
-const expect = _expect as unknown as ((...args: Parameters<typeof _expect>) => ExtendedExpected)
+const expect = _expect as unknown as ((...args: Parameters<typeof _expect>) => ExtendedExpected) & { [K in keyof typeof _expect]: typeof _expect[K] }
 
 export { AssertionError, expect, Status }
