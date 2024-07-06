@@ -1,11 +1,11 @@
 // Imports
 import { initSync, JsReader, source, State, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
-import type { Nullable, record, rw } from "@libs/typing"
-import type { xml_document, xml_node, xml_text } from "./_types.ts"
+import type { record, rw } from "@libs/typing"
+import type { Nullable, ReaderSync, xml_document, xml_node, xml_text } from "./_types.ts"
 initSync(source())
 
 // Re-exports
-export type { xml_document, xml_node, xml_text }
+export type { ReaderSync, xml_document, xml_node, xml_text }
 
 /** XML parser options. */
 export type options = {
@@ -440,6 +440,3 @@ function revive(node: xml_node | xml_text, key: string, options: options) {
   }
   return value
 }
-
-/** Synchronous reader. */
-type ReaderSync = { readSync(buffer: Uint8Array): Nullable<number> }

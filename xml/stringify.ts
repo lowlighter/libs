@@ -1,9 +1,9 @@
 // Imports
 import type { Nullable, record, rw } from "@libs/typing"
-import type { xml_document, xml_node, xml_text } from "./_types.ts"
+import type { stringifyable, xml_document, xml_node, xml_text } from "./_types.ts"
 
 // Re-exports
-export type { xml_document, xml_node, xml_text }
+export type { stringifyable, xml_document, xml_node, xml_text }
 
 /** XML stringifier options. */
 export type options = {
@@ -39,9 +39,6 @@ type _options = options & { format: NonNullable<options["format"]> }
 
 /** Internal symbol to store properties without erasing user-provided ones. */
 const internal = Symbol("internal")
-
-/** A laxer type for what can be stringified. We won’t ever create this, but we’ll accept it. */
-export type stringifyable = Partial<Omit<xml_document, "@version" | "@standalone"> & { "@version": string; "@standalone": string }>
 
 /**
  * Stringify an {@link xml_document} object into a XML string.
