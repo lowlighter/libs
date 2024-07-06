@@ -31,20 +31,20 @@ test()("expect.toBeType() asserts typeof", () => {
   expect(() => expect(null).not.toBeType("object")).toThrow("to NOT be of type")
 })
 
-test()("expect.toMatchDescriptor() asserts Object.getOwnPropertyDescriptor", () => {
+test()("expect.toHaveDescribedProperty() asserts Object.getOwnPropertyDescriptor", () => {
   const record = Object.defineProperties({}, { foo: { value: "bar", writable: false, enumerable: false } })
-  expect(record).toMatchDescriptor("foo", { value: "bar" })
-  expect(record).not.toMatchDescriptor("foo", { value: "baz" })
-  expect(record).toMatchDescriptor("foo", { writable: false, enumerable: false })
-  expect(record).not.toMatchDescriptor("foo", { writable: true, enumerable: true })
-  expect(() => expect(record).toMatchDescriptor("foo", { value: "baz" })).toThrow("does match")
-  expect(() => expect(record).not.toMatchDescriptor("foo", { value: "bar" })).toThrow("does NOT match")
-  expect(() => expect(record).toMatchDescriptor("foo", { writable: true, enumerable: true })).toThrow("does match")
-  expect(() => expect(record).not.toMatchDescriptor("foo", { writable: false, enumerable: false })).toThrow("does NOT match")
-  expect(() => expect(record).toMatchDescriptor("bar", {})).toThrow("does not exist")
+  expect(record).toHaveDescribedProperty("foo", { value: "bar" })
+  expect(record).not.toHaveDescribedProperty("foo", { value: "baz" })
+  expect(record).toHaveDescribedProperty("foo", { writable: false, enumerable: false })
+  expect(record).not.toHaveDescribedProperty("foo", { writable: true, enumerable: true })
+  expect(() => expect(record).toHaveDescribedProperty("foo", { value: "baz" })).toThrow("does match")
+  expect(() => expect(record).not.toHaveDescribedProperty("foo", { value: "bar" })).toThrow("does NOT match")
+  expect(() => expect(record).toHaveDescribedProperty("foo", { writable: true, enumerable: true })).toThrow("does match")
+  expect(() => expect(record).not.toHaveDescribedProperty("foo", { writable: false, enumerable: false })).toThrow("does NOT match")
+  expect(() => expect(record).toHaveDescribedProperty("bar", {})).toThrow("does not exist")
 })
 
-test()("expect.toBeImmutable() asserts writable but not editable properties", () => {
+test()("expect.toHaveImmutableProperty() asserts writable but not editable properties", () => {
   for (const target of [{}, function () {}]) {
     const record = Object.defineProperties(target, {
       foo: {
@@ -60,17 +60,17 @@ test()("expect.toBeImmutable() asserts writable but not editable properties", ()
     })
     const original = { ...record }
     expect(record).toMatchObject(original)
-    expect(record).toBeImmutable("foo")
+    expect(record).toHaveImmutableProperty("foo")
     expect(record).toMatchObject(original)
-    expect(record).not.toBeImmutable("bar")
+    expect(record).not.toHaveImmutableProperty("bar")
     expect(record).toMatchObject(original)
-    expect(() => expect(record).not.toBeImmutable("foo")).toThrow("to NOT be")
+    expect(() => expect(record).not.toHaveImmutableProperty("foo")).toThrow("to NOT be")
     expect(record).toMatchObject(original)
-    expect(() => expect(record).toBeImmutable("bar")).toThrow("to be")
+    expect(() => expect(record).toHaveImmutableProperty("bar")).toThrow("to be")
     expect(record).toMatchObject(original)
   }
-  expect(() => expect(null).toBeImmutable("foo")).toThrow("value is not indexed")
-  expect(() => expect(1).toBeImmutable("foo")).toThrow("value is not indexed")
+  expect(() => expect(null).toHaveImmutableProperty("foo")).toThrow("value is not indexed")
+  expect(() => expect(1).toHaveImmutableProperty("foo")).toThrow("value is not indexed")
 })
 
 test()("expect.toBeIterable() asserts value is iterable", () => {
@@ -108,17 +108,17 @@ test()("expect.toBeExtensible() asserts value is extensible", () => {
   expect(() => expect(unextensible).toBeExtensible()).toThrow("to be extensible")
 })
 
-test()("expect.toBeShallowCopy() asserts value is a shallow copy", () => {
+test()("expect.toBeShallowCopyOf() asserts value is a shallow copy", () => {
   const object = { foo: "bar" }
   const array = [1, 2, 3]
-  expect(object).toBeShallowCopy({ ...object })
-  expect(object).not.toBeShallowCopy(object)
-  expect(array).toBeShallowCopy([...array])
-  expect(array).not.toBeShallowCopy(array)
-  expect(() => expect(object).not.toBeShallowCopy({ ...object })).toThrow("to NOT be a shallow copy")
-  expect(() => expect(object).toBeShallowCopy(object)).toThrow("to be a shallow copy")
-  expect(() => expect(array).not.toBeShallowCopy([...array])).toThrow("to NOT be a shallow copy")
-  expect(() => expect(array).toBeShallowCopy(array)).toThrow("to be a shallow copy")
+  expect(object).toBeShallowCopyOf({ ...object })
+  expect(object).not.toBeShallowCopyOf(object)
+  expect(array).toBeShallowCopyOf([...array])
+  expect(array).not.toBeShallowCopyOf(array)
+  expect(() => expect(object).not.toBeShallowCopyOf({ ...object })).toThrow("to NOT be a shallow copy")
+  expect(() => expect(object).toBeShallowCopyOf(object)).toThrow("to be a shallow copy")
+  expect(() => expect(array).not.toBeShallowCopyOf([...array])).toThrow("to NOT be a shallow copy")
+  expect(() => expect(array).toBeShallowCopyOf(array)).toThrow("to be a shallow copy")
 })
 
 test()("expect.toBeEmpty() asserts value is empty", () => {

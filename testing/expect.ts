@@ -15,9 +15,9 @@ export interface ExtendedExpected<IsAsync = false> extends Expected {
   /** Asserts a value is of a given type (using `typeof` operator). */
   toBeType: (type: string, notnull?: boolean) => unknown
   /** Asserts a property matches a given descriptor (using `Object.getOwnPropertyDescriptor`). */
-  toMatchDescriptor: (key: PropertyKey, expected: PropertyDescriptor) => unknown
+  toHaveDescribedProperty: (key: PropertyKey, expected: PropertyDescriptor) => unknown
   /** Asserts a writable property is immutable (i.e. setting its value does not throw but does not change its value either). Note that it will actually proceed to assign `testValue` and restore it to original value after test. */
-  toBeImmutable: (key: PropertyKey, testValue?: unknown) => unknown
+  toHaveImmutableProperty: (key: PropertyKey, testValue?: unknown) => unknown
   /** Assert an object is iterable (checking `Symbol.iterator` presence). */
   toBeIterable: () => unknown
   /** Assert an object is sealed (using `Object.isSealed`). */
@@ -27,7 +27,7 @@ export interface ExtendedExpected<IsAsync = false> extends Expected {
   /** Assert an object is extensible (using `Object.isExtensible`). */
   toBeExtensible: () => unknown
   /** Asserts an object is a shallow copy (i.e. its content is identical but reference is not). */
-  toBeShallowCopy: (expected?: Iterable<unknown> | record) => unknown
+  toBeShallowCopyOf: (expected?: Iterable<unknown> | record) => unknown
   /** Asserts an iterable is empty. */
   toBeEmpty: () => unknown
   /** Asserts an iterable to be sorted. */
