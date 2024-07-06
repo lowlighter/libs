@@ -34,27 +34,32 @@ test()("expect.toMatchDescriptor() asserts Object.getOwnPropertyDescriptor", () 
 })
 
 test()("expect.toBeImmutable() asserts writable but not editable properties", () => {
-  const record = Object.defineProperties({}, {
-    foo: {
-      get() {
-        return true
+  for (const target of [{}, function () {}]) {
+    const record = Object.defineProperties(target, {
+      foo: {
+        get() {
+          return true
+        },
+        set() {
+          return
+        },
+        enumerable: true,
       },
-      set() {
-        return
-      },
-      enumerable: true,
-    },
-    bar: { value: true, writable: true, enumerable: true },
-  })
-  expect(record).toEqual({ foo: true, bar: true })
-  expect(record).toBeImmutable("foo")
-  expect(record).toEqual({ foo: true, bar: true })
-  expect(record).not.toBeImmutable("bar")
-  expect(record).toEqual({ foo: true, bar: true })
-  expect(() => expect(record).not.toBeImmutable("foo")).toThrow("to NOT be")
-  expect(record).toEqual({ foo: true, bar: true })
-  expect(() => expect(record).toBeImmutable("bar")).toThrow("to be")
-  expect(record).toEqual({ foo: true, bar: true })
+      bar: { value: true, writable: true, enumerable: true },
+    })
+    const original = { ...record }
+    expect(record).toMatchObject(original)
+    expect(record).toBeImmutable("foo")
+    expect(record).toMatchObject(original)
+    expect(record).not.toBeImmutable("bar")
+    expect(record).toMatchObject(original)
+    expect(() => expect(record).not.toBeImmutable("foo")).toThrow("to NOT be")
+    expect(record).toMatchObject(original)
+    expect(() => expect(record).toBeImmutable("bar")).toThrow("to be")
+    expect(record).toMatchObject(original)
+  }
+  expect(() => expect(null).toBeImmutable("foo")).toThrow("value is not indexed")
+  expect(() => expect(1).toBeImmutable("foo")).toThrow("value is not indexed")
 })
 
 test()("expect.toBeIterable() asserts value is iterable", () => {

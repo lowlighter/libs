@@ -151,8 +151,10 @@ _expect.extend({
   },
   toBeImmutable(context, key, testValue = Symbol()) {
     return process(context.isNot, () => {
-      isType(context.value, "object", !null)
-      const value = context.value
+      const value = context.value as Nullable<record>
+      if ((value === null) || ((typeof value !== "function") && (typeof value !== "object"))) {
+        throw new TypeError("Cannot be processed as value is not indexed")
+      }
       const current = value[key]
       try {
         value[key] = testValue
