@@ -1,5 +1,5 @@
 // Imports
-import { expect as _expect, type Expected } from "@std/expect"
+import { expect as _expect, type Expected, fn } from "@std/expect"
 import { assert, assertEquals, type AssertionError as _AssertionError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
 import type { Arg, Arrayable, callback, Nullable, record, TypeOf } from "@libs/typing"
 import type { testing } from "./mod.ts"
@@ -371,4 +371,4 @@ _expect.extend({
 /** https://jsr.io/@std/expect/doc/~/expect. */
 const expect = _expect as unknown as ((...args: Parameters<typeof _expect>) => ExtendedExpected) & { [K in keyof typeof _expect]: typeof _expect[K] }
 
-export { AssertionError, expect, Status }
+export { AssertionError, expect, fn, Status }

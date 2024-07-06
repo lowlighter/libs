@@ -1,7 +1,6 @@
 // Re-exports
-export { fn } from "@std/expect"
 export { test } from "./_testing.ts"
-export { AssertionError, expect } from "./expect.ts"
+export { AssertionError, expect, fn } from "./expect.ts"
 
 /** Alias for `any` that can be used for testing. */
 //deno-lint-ignore no-explicit-any
