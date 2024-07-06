@@ -336,6 +336,9 @@ _expect.extend({
       } as record<number>
       if (algorithms[algorithm]) {
         assertStrictEquals(context.value.length, algorithms[algorithm])
+        if (!/^[a-z0-9]+$/i.test(context.value)) {
+          throw new TypeError("Value contains non-hexadecimal characters")
+        }
         return
       }
       if (algorithm === "bcrypt") {

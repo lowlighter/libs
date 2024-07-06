@@ -267,6 +267,7 @@ test()("expect.toRespondWithStatus() asserts response status", () => {
 test()("expect.toBeHashed() asserts value is hashed with specified algorithm", () => {
   expect(() => expect(null).toBeHashed("md5")).toThrow("is not of type")
   expect(() => expect("acbd18db4cc2f85cedef654fccc4a4d8").toBeHashed("<invalid>")).toThrow("is unknown")
+  expect(() => expect("same length as hash but not one!").toBeHashed("md5")).toThrow("contains non-hexadecimal characters")
   expect("acbd18db4cc2f85cedef654fccc4a4d8").toBeHashed("md5")
   expect("0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33").toBeHashed("sha1")
   expect("0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33").toBeHashed("SHA1")
