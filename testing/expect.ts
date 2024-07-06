@@ -1,3 +1,8 @@
+/**
+ * @module
+ * Extended version of `@std/expect`.
+ */
+
 // Imports
 import { expect as _expect, type Expected, fn } from "@std/expect"
 import { assert, assertEquals, type AssertionError as _AssertionError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
