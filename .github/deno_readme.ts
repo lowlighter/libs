@@ -14,7 +14,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   const { icon, description, supported = [], playground, npm, ["deno.land/x"]: denoland } = JSONC.parse(await Deno.readTextFile(path)) as Record<string, unknown>
   const name = basename(dirname(path))
   const log = logger.with({ name, icon, supported, playground })
-  const features = document.querySelector(`[data-for="${name}"]`)?.outerHTML!
+  const features = document.querySelector(`[data-for="${name}"]`)?.outerHTML ?? ""
   log.info()
   log.debug(features)
   table += `

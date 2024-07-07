@@ -90,7 +90,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
         }
         continue
       }
-      if ((/^\d+$/.test(project))&&(project !== scope)) {
+      if ((/^\d+$/.test(project)) && (project !== scope)) {
         if (upgrade) {
           imports[key] = value
           log.info(`set: ${key} → ${project}`)
