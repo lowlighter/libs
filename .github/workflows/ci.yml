@@ -74,15 +74,7 @@ jobs:
           bun-version: latest
       - name: Run deno task coverage
         run: |
-          PACKAGES=$(echo '${{ needs.setup.outputs.packages }}' | jq -cr '.[]')
-          for PACKAGE in $PACKAGES; do
-            pushd $PACKAGE > /dev/null
-            deno task coverage:html
-            popd > /dev/null
-          done
-          echo "Generated coverage reports"
-          tree .
-          ls -l coverage
+          deno task coverage
           deno run --allow-read --allow-write=coverage --allow-net jsr:@libs/bundle/ts/cli/coverage --root=coverage
           mv coverage _site
       - uses: actions/upload-pages-artifact@v3
