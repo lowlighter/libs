@@ -31,6 +31,12 @@ This is why all commits **MUST** follow [Conventional Commits](https://www.conve
 
 The new version will be computed automatically based on the changes introduced in the pull request and published on applicable package managers.
 
+> [!WARNING]
+> [deno.land/x/libs] is not published under semantically versioned tags, but under a date-based tag (`YYYY.MM.DD`).
+>
+> This is because it contains multiple packages so it's not possible to determine a single version for the whole repository.
+> Because of this limitation, it also means that only a single release can be made per day on this registry.
+
 ## Tasks
 
 To ease maintenance, a set of tasks are available to contributors through `deno task`.
