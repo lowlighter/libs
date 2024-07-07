@@ -63,7 +63,18 @@ See table below for a list of available libraries and their features, compatibil
   <tr>
     <th><a href="https://jsr.io/@libs/dom"><img src="https://jsr.io/badges/@libs/dom"></a></th>
     <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
-    <td rowspan="4">undefined</td>
+    <td rowspan="4"><ul data-for="dom">
+  <li>Implements typings from `lib.dom.d.ts` while following web standards</li>
+  <li>Reuse built-ins whenever possible</li>
+  <li>
+    Ideal for:
+    <ul>
+      <li>Server-Side Rendering</li>
+      <li>Unit testing for browser support</li>
+      <li>HTML parsing and scraping</li>
+    </ul>
+  </li>
+</ul></td>
   </tr>
   <tr><th></th></tr>
   <tr><th><a href="https://libs.lecoq.io/dom"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
