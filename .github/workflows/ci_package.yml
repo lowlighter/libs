@@ -104,6 +104,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup
     outputs:
+      releasable: ${{ steps.published.outputs.releasable }}
       has_build: ${{ steps.package.outputs.has_build }}
       has_bench: ${{ steps.package.outputs.has_bench }}
       has_npm: ${{ steps.package.outputs.has_npm }}
@@ -150,8 +151,12 @@ jobs:
         if: ${{ steps.package.outputs.has_bench }}
         working-directory: ${{ inputs.package }}
       # Tag
+      - id: releasable
+        name: git tag --list '${{ inputs.package }}-*'
+        run: |
+          echo "releasable=$(git tag --list '${{ inputs.package }}-*')" >> "$GITHUB_OUTPUT"
       - id: tag
-        if: inputs.ref == 'refs/heads/main' && inputs.event == 'push'
+        if: inputs.ref == 'refs/heads/main' && inputs.event == 'push' && steps.releasable.outputs.releasable
         uses: ldelarue/git-next-tag@v0.4
         with:
           tag-prefix: ${{ inputs.package }}-
@@ -159,7 +164,7 @@ jobs:
 
   publish:
     name: Publish
-    if: inputs.ref == 'refs/heads/main' && inputs.event == 'push' && inputs.publish
+    if: inputs.ref == 'refs/heads/main' && inputs.event == 'push' && inputs.publish && needs.test.outputs.releasable
     runs-on: ubuntu-latest
     needs:
       - lint
