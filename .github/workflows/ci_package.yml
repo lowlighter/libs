@@ -76,9 +76,11 @@ jobs:
         working-directory: ${{ inputs.package }}
       - run: deno doc --lint mod.ts
         working-directory: ${{ inputs.package }}
-      - run: deno publish --dry-run --quiet --allow-dirty
+      - name: deno publish --dry-run
         working-directory: ${{ inputs.package }}
-
+        run: |
+          SLOW_TYPES="$(deno eval 'console.log(JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.types === `slow` ?  `--allow-slow-types`: ``)')"
+          deno publish --dry-run --quiet --allow-dirty $SLOW_TYPES
   codeql:
     name: Code quality
     if: (inputs.ref == 'refs/heads/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
