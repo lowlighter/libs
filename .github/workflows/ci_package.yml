@@ -154,7 +154,7 @@ jobs:
       - id: releasable
         name: git tag --list '${{ inputs.package }}-*'
         run: |
-          echo "releasable=$(git tag --list '${{ inputs.package }}-*')" >> "$GITHUB_OUTPUT"
+          echo "releasable=$(git tag --list '${{ inputs.package }}-*' | tail -1)" >> "$GITHUB_OUTPUT"
       - id: tag
         if: inputs.ref == 'refs/heads/main' && inputs.event == 'push' && steps.releasable.outputs.releasable
         uses: ldelarue/git-next-tag@v0.4
