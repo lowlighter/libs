@@ -1,3 +1,8 @@
+/**
+ * Bundle CSS.
+ * @module
+ */
+
 // Imports
 import { minify as csso } from "csso"
 import stylelint from "stylelint"
