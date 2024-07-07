@@ -49,7 +49,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   tasks["test:deno"] = `deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint`
   tasks["test:deno-future"] = "DENO_FUTURE=1 && deno task test:deno"
   tasks["test:others"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
-  tasks["coverage:html"] = "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js --html"
+  tasks["coverage:html"] = "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js --html && sleep 1"
   tasks["dev"] = `deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint`
   tasks["lint"] = `deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish ${slow ? "--allow-slow-types " : ""}--dry-run --quiet --allow-dirty`
   global.tasks["test"] += `${global.tasks["test"] ? " && " : ""}cd ${name} && deno task test:deno && cd ..`
