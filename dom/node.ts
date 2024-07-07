@@ -5,158 +5,257 @@ import type { Document } from "./document.ts"
 
 /** https://developer.mozilla.org/en-US/docs/Web/API/Node */
 export class Node extends EventTarget implements _Node {
-  constructor({ ownerDocument = null } = {} as { [internal]?: boolean; ownerDocument?: Nullable<Document> }) {
+  constructor({ ownerDocument = null, nodeName = "", nodeValue = null, parentNode = null } = {} as { [internal]?: boolean; ownerDocument?: Nullable<Document>; parentNode?: Nullable<ParentNode>; nodeName?: string; nodeValue?: Nullable<string> }) {
     super()
     illegal(arguments)
     this.#ownerDocument = ownerDocument
+    this.#parentNode = parentNode
+    this.#nodeName = nodeName!.toLocaleUpperCase()
+    this.#nodeValue = nodeValue
   }
 
   get [Symbol.toStringTag](): string {
     return this.constructor.name
   }
 
-  get baseURI(): string {
-    return globalThis.location.href
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/ownerDocument
+  get ownerDocument(): Nullable<Document> {
+    return this.#ownerDocument
   }
 
-  readonly #childNodes = new NodeList<ChildNode>({ [internal]: true })
-
-  get childNodes(): NodeListOf<ChildNode> {
-    return this.#childNodes
+  set ownerDocument(_: Nullable<Document>) {
+    return
   }
 
-  get firstChild(): Nullable<ChildNode> {
-    return this.#childNodes.item(0)
-  }
+  #ownerDocument = null as Nullable<Document>
 
-  readonly #isConnected = false
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/isConnected
   get isConnected(): boolean {
-    return this.#isConnected
+    return unimplemented.getter<"immutable">()
   }
 
-  get lastChild(): Nullable<ChildNode> {
-    return this.#childNodes.item(this.#childNodes.length - 1)
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/baseURI
+  get baseURI(): string {
+    return unimplemented.getter<"immutable">()
   }
 
-  get nextSibling(): Nullable<ChildNode> {
-    return this.parentElement?.childNodes.item((this.parentElement!.childNodes as NodeList<ChildNode>)[internal].indexOf(this as unknown as ChildNode) + 1) ?? null
-  }
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeName
   get nodeName(): string {
-    return ""
+    return this.#nodeName
   }
 
-  get nodeType(): number {
-    return NaN
+  set nodeName(_: string) {
+    return
   }
 
+  readonly #nodeName
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeValue
   get nodeValue(): Nullable<string> {
-    return null
+    return this.#nodeValue
   }
 
   set nodeValue(_: Nullable<string>) {
     return
   }
 
-  #ownerDocument = null as Nullable<Document>
+  readonly #nodeValue
 
-  get ownerDocument(): Nullable<Document> {
-    return this.#ownerDocument
-  }
-
-  get parentNode(): Nullable<ParentNode> {
-    return this.parentElement
-  }
-
-  get parentElement(): Nullable<HTMLElement> {
-    return null
-  }
-
-  get previousSibling(): Nullable<ChildNode> {
-    return this.parentElement?.childNodes[(this.parentElement!.childNodes as NodeList<ChildNode>)[internal].indexOf(this as unknown as ChildNode) - 1] ?? null
-  }
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
+  // Note: to override in child classes
   get textContent(): Nullable<string> {
     return null
   }
 
+  set textContent(_: Nullable<string>) {
+    return
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/parentNode
+  get parentNode(): Nullable<ParentNode> {
+    return this.#parentNode
+  }
+
+  set parentNode(_: Nullable<ParentNode>) {
+    return
+  }
+
+  #parentNode
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/parentElement
+  get parentElement(): Nullable<HTMLElement> {
+    let node = this.parentNode
+    while (node) {
+      if (node instanceof Element) {
+        return node as HTMLElement
+      }
+      node = node.parentNode
+    }
+    return null
+  }
+
+  set parentElement(_: Nullable<HTMLElement>) {
+    return
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes
+  get childNodes(): NodeListOf<ChildNode> {
+    return this.#childNodes
+  }
+
+  set childNodes(_: NodeListOf<ChildNode>) {
+    return
+  }
+
+  readonly #childNodes = new NodeList<ChildNode>({ [internal]: true })
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/firstChild
+  get firstChild(): Nullable<ChildNode> {
+    return this.#childNodes.item(0)
+  }
+
+  set firstChild(_: Nullable<ChildNode>) {
+    return
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/lastChild
+  get lastChild(): Nullable<ChildNode> {
+    return this.#childNodes.item(this.#childNodes.length - 1)
+  }
+
+  set lastChild(_: Nullable<ChildNode>) {
+    return
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/previousSibling
+  get previousSibling(): Nullable<ChildNode> {
+    return this.parentElement?.childNodes[(this.parentElement!.childNodes as NodeList<ChildNode>)[internal].indexOf(this as unknown as ChildNode) - 1] ?? null
+  }
+
+  set previousSibling(_: Nullable<ChildNode>) {
+    return
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling
+  get nextSibling(): Nullable<ChildNode> {
+    return this.parentElement?.childNodes.item((this.parentElement!.childNodes as NodeList<ChildNode>)[internal].indexOf(this as unknown as ChildNode) + 1) ?? null
+  }
+
+  set nextSibling(_: Nullable<ChildNode>) {
+    return
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
   appendChild<T extends _Node>(child: T): T {
     let ancestor = child as unknown as Nullable<HTMLElement | Node>
     while (ancestor) {
       if (ancestor === this) {
         throw new DOMException("The new child is an ancestor of the parent.", "HierarchyRequestError")
       }
-      ancestor = ancestor.parentElement
+      ancestor = ancestor.parentNode as Nullable<HTMLElement | Node>
     }
     if (child.parentNode) {
       child.parentNode.removeChild(child)
     }
+    ;(child as unknown as Node).#parentNode = this as unknown as ParentNode
     this.#childNodes[internal].push(child as unknown as ChildNode)
-    // TODO(@lowlighter): dispatch mutation
-    // child.#connectToParent(this)
+
+    // TODO(@lowlighter): dispatch mutation, set parent
     return child
   }
 
-  cloneNode(deep?: boolean): _Node {
-    const node = this.constructor(this.ownerDocument, internal)
-    if (deep) {
-      node.#childNodes[internal].push(...this.#childNodes[internal].map((child) => child.cloneNode(deep)))
-    }
-    return node
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/removeChild
+  removeChild<T extends _Node>(child: T): T {
+    ;(child as unknown as Node).#parentNode = null
+    this.#childNodes[internal].splice(this.#childNodes[internal].indexOf(child as unknown as ChildNode), 1)
+    return child
   }
 
-  compareDocumentPosition(_other: _Node): number {
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild
+  replaceChild<T extends _Node>(_newChild: _Node, _oldChild: T): T {
     return unimplemented()
   }
 
-  contains(_other: Nullable<_Node>): boolean {
-    return unimplemented()
-  }
-
-  getRootNode(_options?: GetRootNodeOptions): _Node {
-    return unimplemented()
-  }
-
-  hasChildNodes(): boolean {
-    return this.#childNodes.length > 0
-  }
-
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore
   insertBefore<T extends _Node>(_newNode: T, _referenceNode: Nullable<_Node>): T {
     return unimplemented()
   }
 
-  isDefaultNamespace(_namespace: string): boolean {
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode
+  cloneNode(_deep?: boolean): _Node {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/hasChildNodes
+  hasChildNodes(): boolean {
+    return this.#childNodes.length > 0
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/contains
+  contains(_other: Nullable<_Node>): boolean {
+    return unimplemented()
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/isEqualNode
   isEqualNode(_other: Nullable<_Node>): boolean {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/isSameNode
   isSameNode(_other: Nullable<_Node>): boolean {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/isDefaultNamespace
+  isDefaultNamespace(_namespace: string): boolean {
+    return unimplemented()
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/lookupPrefix
   lookupPrefix(_namespace: Nullable<string>): Nullable<string> {
     return unimplemented()
   }
 
-  lookupNamespaceURI(_prefix: string): Nullable<string> {
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/lookupNamespaceURI
+  lookupNamespaceURI(_prefix: Nullable<string>): Nullable<string> {
     return unimplemented()
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/compareDocumentPosition
+  // Depends: none
+  compareDocumentPosition(_other: _Node): number {
+    return unimplemented()
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/getRootNode
+  // Depends: none
+  getRootNode(_options?: GetRootNodeOptions): _Node {
+    return unimplemented()
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/normalize
+  // Depends: TextNode implementation
   normalize(): void {
     return unimplemented()
   }
 
-  removeChild<T extends _Node>(_child: T): T {
-    return unimplemented()
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
+  get nodeType(): number {
+    return NaN
   }
 
-  replaceChild<T extends _Node>(_newChild: _Node, _oldChild: T): T {
-    return unimplemented()
+  set nodeType(_: number) {
+    return
   }
+
+  /** Internal acessor. */
+  get [internal](): { parent: (parent: Node["parentNode"]) => void } {
+    return {
+      parent: (parent: Node["parentNode"]) => this.#parentNode = parent,
+    }
+  }
+
+  // Enum ========================================================================================
 
   get ELEMENT_NODE(): 1 {
     return Node.ELEMENT_NODE
@@ -449,12 +548,15 @@ export class Node extends EventTarget implements _Node {
 
 /** https://developer.mozilla.org/en-US/docs/Web/API/NodeList */
 export class NodeList<T extends _Node> extends Indexable<T> implements _NodeList, NodeListOf<T> {
+  // https://developer.mozilla.org/en-US/docs/Web/API/NodeList/item
   item(index: number): T {
     return this[index] ?? null
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach
   // deno-lint-ignore no-explicit-any
   forEach(callbackfn: (value: T, index: number, array: this) => void, thisArg?: any): void {
-    return this.forEach(callbackfn, thisArg)
+    // deno-lint-ignore no-explicit-any
+    return super.forEach(callbackfn as any, thisArg)
   }
 }

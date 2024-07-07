@@ -16,6 +16,14 @@ test()(`MimeTypeArray.item() returns MimeType`, () => {
   expect(array.item(0)).toBe(mime)
 })
 
+test()(`MimeTypeArray[] returns MimeType`, () => {
+  const array = new MimeTypeArray({ [internal]: true })
+  const mime = new MimeType({ [internal]: true, type: "application/foo" })
+  expect(array[0]).toBeUndefined()
+  array[internal].push(mime)
+  expect(array[0]).toBe(mime)
+})
+
 test()(`MimeTypeArray.namedItem() searches for MimeType`, () => {
   const array = new MimeTypeArray({ [internal]: true })
   const mime = new MimeType({ [internal]: true, type: "application/foo" })
