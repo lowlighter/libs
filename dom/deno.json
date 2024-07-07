@@ -1,0 +1,77 @@
+{
+  "icon": "🦊",
+  "name": "@libs/dom",
+  "version": "0.0.0",
+  "description": "Virtual DOM for unit testing and server side rendering.",
+  "keywords": [
+    "dom",
+    "esm"
+  ],
+  "license": "MIT",
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
+  "playground": "https://libs.lecoq.io/dom",
+  "supported": [
+    "deno"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lowlighter/libs.git"
+  },
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "imports": {
+    "@std/fmt/colors": "jsr:@std/fmt@0.225.5/colors",
+    "@libs/testing": "jsr:@libs/testing@2",
+    "@libs/typing": "jsr:@libs/typing@2",
+    "@libs/logger": "jsr:@libs/logger@1"
+  },
+  "test:permissions": {
+    "net": true,
+    "run": [
+      "deno",
+      "node",
+      "bun",
+      "npx"
+    ]
+  },
+  "tasks": {
+    "test": "deno test --allow-net --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
+    "test:deno": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "test:deno-future": "DENO_FUTURE=1 && deno task test:deno",
+    "test:others": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "coverage:html": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint",
+    "lint": "deno fmt --check && deno lint && deno doc --lint && deno publish --dry-run --quiet --allow-dirty"
+  },
+  "lint": {
+    "rules": {
+      "include": [
+        "no-throw-literal",
+        "no-eval",
+        "eqeqeq",
+        "ban-untagged-todo"
+      ]
+    },
+    "exclude": [
+      "**/wasm_*",
+      "**/*.mjs"
+    ]
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false,
+    "exclude": [
+      "coverage",
+      "**/coverage",
+      "**/node_modules",
+      "**/package.json",
+      "**/package-lock.json",
+      "**/wasm_*",
+      "**/*.mjs"
+    ],
+    "proseWrap": "preserve"
+  }
+}
