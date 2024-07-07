@@ -120,7 +120,7 @@
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@libs/logger@1.1.3",
+      "jsr:@libs/logger@1",
       "jsr:@libs/testing@2",
       "jsr:@libs/typing@2",
       "jsr:@std/ulid@0.224.1"
