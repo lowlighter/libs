@@ -1,6 +1,7 @@
 // Imports
 import { Logger } from "@libs/logger"
 import type { Nullable, record } from "@libs/typing"
+export type { record }
 
 /** Regex for `imports` parsing. */
 const regex = /^(?<statement>import\s*(?:(?:\s+type)?\s+(?:[^\n]+?|(?:\{[\s\S]*?\}))\s+from\s+)?(?<quote>["']))(?<module>[^\n]+?)\k<quote>/gm

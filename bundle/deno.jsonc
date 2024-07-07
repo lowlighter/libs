@@ -28,6 +28,7 @@
   },
   "npm": false,
   "exports": {
+    ".": "./mod.ts",
     "./ts": "./ts/mod.ts",
     "./ts/bundle": "./ts/bundle.ts",
     "./ts/publish": "./ts/publish/mod.ts",

@@ -1,3 +1,9 @@
+/**
+ * Build WASM, bundle and minify JavaScript.
+ *
+ * @module
+ */
+
 // Imports
 import { encodeBase64 } from "@std/encoding/base64"
 import { bundle as bundle_ts } from "../ts/bundle.ts"
@@ -9,6 +15,7 @@ import { basename, dirname, resolve, toFileUrl } from "@std/path"
 import { type level as loglevel, Logger } from "@libs/logger"
 import type { record } from "@libs/typing"
 import { command } from "@libs/run/command"
+export type { loglevel, record }
 
 /**
  * Build WASM, bundle and minify JavaScript.

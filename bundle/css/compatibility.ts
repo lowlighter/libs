@@ -1,3 +1,8 @@
+/**
+ * Compatibility data generator.
+ * @module
+ */
+
 // Imports
 import { generate, parse, walk } from "css-tree"
 import browserslist from "browserslist"
@@ -7,6 +12,7 @@ import type { Arg, Arrayable, Nullable, rw } from "@libs/typing"
 import { type level as loglevel, Logger } from "@libs/logger"
 import { brightGreen, brightMagenta, gray, green, italic, red, yellow } from "@std/fmt/colors"
 import { Table } from "@cliffy/table"
+export type { Arg, Arrayable, loglevel, Nullable }
 
 /** Browsers list */
 const browsers = {
@@ -700,16 +706,16 @@ export class Report {
 }
 
 /** Browser name */
-type browser = string
+export type browser = string
 
 /** Browser version */
-type version = string
+export type version = string
 
 /** CSS feature name */
-type feature = string
+export type feature = string
 
 /** CSS value */
-type value = string
+export type value = string
 
 /** Feature tag (internal) */
 type tag = string
@@ -718,10 +724,10 @@ type tag = string
 type status = { nonstandard: boolean; deprecated: boolean; experimental: boolean }
 
 /** Declaration location */
-type location = { file: unknown; line: number; column: number }
+export type location = { file: unknown; line: number; column: number }
 
 /** Support level */
-type level = "unknown" | "unsupported" | "partial" | "prefixed" | "supported"
+export type level = "unknown" | "unsupported" | "partial" | "prefixed" | "supported"
 
 /** Browser compat data section */
 type bcd_section = "selectors" | "properties" | "types" | "at-rules"
@@ -778,13 +784,13 @@ type data = Array<{
 }>
 
 /** Feature map report */
-type feature_map = Record<feature, Record<browser, Record<version, Array<{ location: location; value: Nullable<value> }>>>>
+export type feature_map = Record<feature, Record<browser, Record<version, Array<{ location: location; value: Nullable<value> }>>>>
 
 /** Browser map report */
-type browser_map = Record<feature, Array<{ location: location; value: Nullable<value> }>>
+export type browser_map = Record<feature, Array<{ location: location; value: Nullable<value> }>>
 
 /** Report */
-type report = {
+export type report = {
   features: {
     list: feature[]
     status: {

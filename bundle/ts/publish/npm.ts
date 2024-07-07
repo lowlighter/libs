@@ -1,3 +1,8 @@
+/**
+ * Publish a TypeScript package on npm registries.
+ * @module
+ */
+
 // Imports
 import * as JSONC from "@std/jsonc"
 import type { Arg, Optional, record } from "@libs/typing"
@@ -6,6 +11,7 @@ import { Logger } from "@libs/logger"
 import { bundle } from "../bundle.ts"
 import { dirname, resolve, toFileUrl } from "@std/path"
 import { command } from "@libs/run/command"
+export type { Arg, Logger, record }
 
 /** Transform a `deno.jsonc` file into a `package.json` and bundle exported entrypoints to make package publishable on json. */
 export async function packaged(path = "deno.jsonc", { log = new Logger(), scope = undefined as Optional<string>, name = undefined as Optional<string> } = {}): Promise<package_output> {
@@ -97,7 +103,7 @@ export async function publish(
 }
 
 /** Package output. */
-type package_output = {
+export type package_output = {
   /** Package directory. */
   directory: string
   /** Package scope. */
@@ -126,7 +132,7 @@ type package_output = {
 }
 
 /** Registry configuration. */
-type registry = {
+export type registry = {
   /** Registry URL. */
   url: string
   /** Registry publishing token. */

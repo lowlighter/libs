@@ -1,3 +1,8 @@
+/**
+ * Bundle and transpile TypeScript to JavaScript.
+ * @module
+ */
+
 // Imports
 import * as esbuild from "esbuild"
 import { denoPlugins as plugins } from "@luca/esbuild-deno-loader"

@@ -1,3 +1,8 @@
+/**
+ * Publish a TypeScript package on deno.land/x.
+ * @module
+ */
+
 // Imports
 import { Octokit } from "octokit"
 import { Logger } from "@libs/logger"
@@ -9,9 +14,10 @@ import { expandGlob } from "@std/fs"
 import { resolve } from "@std/path"
 import type { record } from "@libs/typing"
 import { unmap as _unmap } from "../unmap.ts"
+export type { Logger }
 
 /** Publishing options */
-type options = {
+export type options = {
   /** Logger instance. */
   log?: Logger
   /** GitHub API token. */
