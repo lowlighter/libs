@@ -32,7 +32,7 @@
  */
 export class Logger {
   /** Constructor. */
-  constructor({ level, format, output, tags, options }: { level?: level; format?: format; output?: output; tags?: tags; options?: Partial<Omit<options, "caller">> & { caller?: Partial<Exclude<options["caller"], false>> | false } } = {}) {
+  constructor({ level, format, output, tags, options }: { level?: level | loglevel | "disabled"; format?: format; output?: output; tags?: tags; options?: Partial<Omit<options, "caller">> & { caller?: Partial<Exclude<options["caller"], false>> | false } } = {}) {
     if (globalThis.Deno?.permissions.querySync?.({ name: "env", variable: "LOG_LEVEL" }).state === "granted") {
       const env = globalThis.Deno?.env.get("LOG_LEVEL") ?? ""
       if (env in Logger.level) {
@@ -42,7 +42,7 @@ export class Logger {
         level ??= Number.parseInt(env)
       }
     }
-    this.level = level ?? Logger.level.log
+    this.level = (typeof level === "string" ? Logger.level[level] : level) ?? Logger.level.log
     this.#output = output || (output === null) ? output : console
     this.#format = format ?? Logger.format.text
     this.tags = tags ?? {}
@@ -258,7 +258,7 @@ type format = (logger: Logger, options: { level: level; content: unknown[] }) =>
 type output = Record<loglevel, Function> | null
 
 /** Logger tags. */
-type tags = Record<PropertyKey, unknown>
+export type tags = Record<PropertyKey, unknown>
 
 /** Logger options. */
 export type options = {

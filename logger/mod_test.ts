@@ -34,6 +34,13 @@ for (const level of levels) {
   })
 }
 
+test("all")(`Logger.constructor() accepts number and string for loglevel`, () => {
+  expect(new Logger({ output: null, level: Logger.level.error }).level).toBe(Logger.level.error)
+  expect(new Logger({ output: null, level: "error" }).level).toBe(Logger.level.error)
+  expect(new Logger({ output: null, level: 0 }).level).toBe(Logger.level.error)
+  expect(new Logger({ output: null, level: "unknown" as testing }).level).toBe(Logger.level.log)
+})
+
 test("all")("Logger.with() creates a new Logger with additional tags", () => {
   const log = new Logger()
   expect(log.with({ foo: true }).tags).toEqual({ foo: true })
