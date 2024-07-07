@@ -38,7 +38,7 @@ test()(`ClipboardItem.constructor() is valid`, () => {
 test()(`ClipboardItem.types is supported`, () => {
   const item = new ClipboardItem({ "text/plain": "foo" })
   expect(item.types).toEqual(["text/plain"])
-  expect(item).toBeImmutable("types")
+  expect(item).toHaveImmutableProperty("types")
 })
 
 test()(`ClipboardItem.getType() is supported`, async () => {
@@ -50,7 +50,7 @@ test()(`ClipboardItem.getType() is supported`, async () => {
 test()(`ClipboardItem.presentationStyle is supported`, () => {
   expect(new ClipboardItem({ "text/plain": "foo" })).toHaveProperty("presentationStyle", "unspecified")
   expect(new ClipboardItem({ "text/plain": "foo" }, { presentationStyle: "inline" })).toHaveProperty("presentationStyle", "inline")
-  expect(new ClipboardItem({ "text/plain": "foo" })).toBeImmutable("presentationStyle")
+  expect(new ClipboardItem({ "text/plain": "foo" })).toHaveImmutableProperty("presentationStyle")
 })
 
 test()(`ClipboardItem.prototype.supports() is supported`, () => {

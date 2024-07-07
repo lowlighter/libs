@@ -10,11 +10,11 @@ test()(`UserActivation.constructor() is illegal`, () => {
 test()(`UserActivation.isActive is supported`, () => {
   const activation = new UserActivation({ [internal]: true })
   expect(activation).toHaveProperty("isActive", false)
-  expect(activation).toBeImmutable("isActive")
+  expect(activation).toHaveImmutableProperty("isActive")
 })
 
 test()(`UserActivation.hasBeenActive is supported`, () => {
   const activation = new UserActivation({ [internal]: true })
   expect(activation).toHaveProperty("hasBeenActive", false)
-  expect(activation).toBeImmutable("hasBeenActive")
+  expect(activation).toHaveImmutableProperty("hasBeenActive")
 })

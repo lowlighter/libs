@@ -14,82 +14,82 @@ test()(`Navigator.constructor() is illegal`, () => {
 
 test()(`Navigator.appCodeName is "Mozilla"`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("appCodeName", "Mozilla")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("appCodeName")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("appCodeName")
 })
 
 test()(`Navigator.appName is "Netscape"`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("appName", "Netscape")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("appName")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("appName")
 })
 
 test()(`Navigator.appVersion is "4.0"`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("appVersion", "4.0")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("appVersion")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("appVersion")
 })
 
 test()(`Navigator.buildID is "20181001000000"`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("buildID", "20181001000000")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("buildID")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("buildID")
 })
 
 test()(`Navigator.product is "Gecko"`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("product", "Gecko")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("product")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("product")
 })
 
 test()(`Navigator.productSub is "20100101"`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("productSub", "20100101")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("productSub")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("productSub")
 })
 
 test()(`Navigator.vendor is empty string`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("vendor", "")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("vendor")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("vendor")
 })
 
 test()(`Navigator.vendorSub is empty string`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("vendorSub", "")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("vendorSub")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("vendorSub")
 })
 
 test()(`Navigator.userAgent is supported`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("userAgent", navigator.userAgent)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("userAgent")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("userAgent")
 })
 
 test()(`Navigator.platform is supported`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("platform")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("platform")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("platform")
 })
 
 test()(`Navigator.oscpu is supported`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("oscpu")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("oscpu")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("oscpu")
 })
 
 test()(`Navigator.hardwareConcurrency is supported`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("hardwareConcurrency", navigator.hardwareConcurrency)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("hardwareConcurrency")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("hardwareConcurrency")
 })
 
 test()(`Navigator.language is supported`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("language", navigator.language)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("language")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("language")
 })
 
 test()(`Navigator.languages is supported`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("languages", navigator.languages)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("languages")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("languages")
 })
 
 test()(`Navigator.cookieEnabled is false`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("cookieEnabled", false)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("cookieEnabled")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("cookieEnabled")
 })
 
 test()(`Navigator.doNotTrack is "1"`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("doNotTrack", "1")
-  expect(new Navigator({ [internal]: true })).toBeImmutable("doNotTrack")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("doNotTrack")
 })
 
 test()(`Navigator.globalPrivacyControl() is supported`, () => {
@@ -98,22 +98,22 @@ test()(`Navigator.globalPrivacyControl() is supported`, () => {
 
 test()(`Navigator.webdriver is true`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("webdriver", true)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("webdriver")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("webdriver")
 })
 
 test()(`Navigator.userActivation is supported`, () => {
   expect(new Navigator({ [internal]: true }).userActivation).toBeInstanceOf(UserActivation)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("userActivation")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("userActivation")
 })
 
 test()(`Navigator.permissions is Permissions`, () => {
   expect(new Navigator({ [internal]: true }).permissions).toBeInstanceOf(Permissions)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("permissions")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("permissions")
 })
 
 test()(`Navigator.clipboard is supported`, () => {
   expect(new Navigator({ [internal]: true }).clipboard).toBeInstanceOf(Clipboard)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("clipboard")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("clipboard")
 })
 
 test()(yellow("Navigator.credentials is unimplemented"), () => {
@@ -150,7 +150,7 @@ test()(yellow("Navigator.plugins is unimplemented"), () => {
 
 test()(`Navigator.mimeTypes is MimeTypeArray`, () => {
   expect(new Navigator({ [internal]: true }).mimeTypes).toBeInstanceOf(MimeTypeArray)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("mimeTypes")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("mimeTypes")
 })
 
 test()(`Navigator.setAppBadge() is supported`, async () => {
@@ -175,7 +175,7 @@ test()(`Navigator.share() is supported`, async () => {
 
 test()(`Navigator.maxTouchPoints is 0`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("maxTouchPoints", 0)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("maxTouchPoints")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("maxTouchPoints")
 })
 
 test()(`Navigator.getGamepads() is supported`, () => {
@@ -222,12 +222,12 @@ test()(yellow("Navigator.registerProtocolHandler() is unimplemented"), () => {
 
 test()(`Navigator.pdfViewerEnabled is false`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("pdfViewerEnabled", false)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("pdfViewerEnabled")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("pdfViewerEnabled")
 })
 
 test()(`Navigator.onLine is true`, () => {
   expect(new Navigator({ [internal]: true })).toHaveProperty("onLine", true)
-  expect(new Navigator({ [internal]: true })).toBeImmutable("onLine")
+  expect(new Navigator({ [internal]: true })).toHaveImmutableProperty("onLine")
 })
 
 test()(`Navigator.sendBeacon is supported`, async () => {

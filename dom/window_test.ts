@@ -11,19 +11,19 @@ test()(`Window.constructor() is legal`, () => {
 
 test()(`Window.navigator is instanceof Navigator`, () => {
   expect(new Window().navigator).toBeInstanceOf(Navigator)
-  expect(new Window()).toBeImmutable("navigator")
+  expect(new Window()).toHaveImmutableProperty("navigator")
 })
 
 test()(`Window.clientInformation is alias for Window.navigator`, () => {
   const window = new Window()
   expect(window.clientInformation).toBe(window.navigator)
-  expect(window).toBeImmutable("clientInformation")
+  expect(window).toHaveImmutableProperty("clientInformation")
 })
 
 for (const bar of ["locationbar", "menubar", "personalbar", "scrollbars", "statusbar", "toolbar"] as const) {
   test()(`Window.${bar} is supported`, () => {
     expect(new Window()[bar]).toBeInstanceOf(BarProp)
-    expect(new Window()[bar]).not.toBeImmutable(bar)
+    expect(new Window()[bar]).not.toHaveImmutableProperty(bar)
   })
 }
 
@@ -46,38 +46,38 @@ test()(yellow("Window.document is unimplemented"), () => {
 
 test()(`Window.frameElement is supported`, () => {
   expect(new Window()).toHaveProperty("frameElement", null)
-  expect(new Window()).toBeImmutable("frameElement")
+  expect(new Window()).toHaveImmutableProperty("frameElement")
 })
 
 test()(`Window.window is supported`, () => {
   const window = new Window()
   expect(window).toHaveProperty("window", window)
-  expect(window).toBeImmutable("window")
+  expect(window).toHaveImmutableProperty("window")
 })
 
 for (const property of ["self", "frames"] as const) {
   test()(`Window.${property} is alias for itself`, () => {
     const window = new Window()
     expect(window[property]).toBe(window)
-    expect(window).not.toBeImmutable(property)
+    expect(window).not.toHaveImmutableProperty(property)
   })
 }
 
 test()(`Window.opener is null`, () => {
   expect(new Window().opener).toBeNull()
-  expect(new Window()).not.toBeImmutable("opener")
+  expect(new Window()).not.toHaveImmutableProperty("opener")
 })
 
 test()(`Window.length is 0`, () => {
   expect(new Window().length).toBe(0)
-  expect(new Window()).not.toBeImmutable("length")
+  expect(new Window()).not.toHaveImmutableProperty("length")
 })
 
 for (const property of ["top", "parent"] as const) {
   test()(`Window.${property} is alias for itself`, () => {
     const window = new Window()
     expect(window[property]).toBe(window)
-    expect(window).toBeImmutable(property)
+    expect(window).toHaveImmutableProperty(property)
   })
 }
 test()(yellow("Window.customElements is unimplemented"), () => {
@@ -105,13 +105,13 @@ for (const property of ["onfocus", "onblur"] as const) {
 for (const property of ["innerHeight", "innerWidth", "outerHeight", "outerWidth"] as const) {
   test()(`Window.${property} is supported`, () => {
     expect(new Window()).toHaveProperty(property, 0)
-    expect(new Window()).not.toBeImmutable(property)
+    expect(new Window()).not.toHaveImmutableProperty(property)
   })
 }
 for (const property of ["mozInnerScreenX", "mozInnerScreenY"] as const) {
   test()(`Window.${property} is supported`, () => {
     expect(new Window()).toHaveProperty(property, 0)
-    expect(new Window()).toBeImmutable(property)
+    expect(new Window()).toHaveImmutableProperty(property)
   })
 }
 
@@ -142,7 +142,7 @@ test()(yellow(`Window.screen is unimplemented`), () => {
 for (const property of ["screenX", "screenY", "screenLeft", "screenTop"] as const) {
   test()(`Window.${property} is supported`, () => {
     expect(new Window()).toHaveProperty(property, 0)
-    expect(new Window()).not.toBeImmutable(property)
+    expect(new Window()).not.toHaveImmutableProperty(property)
   })
 }
 
@@ -161,7 +161,7 @@ test()(`Window.moveTo() is supported`, () => {
 for (const property of ["scrollX", "scrollY", "pageXOffset", "pageYOffset", "scrollMaxX", "scrollMaxY"] as const) {
   test()(`Window.${property} is supported`, () => {
     expect(new Window()).toHaveProperty(property, 0)
-    expect(new Window()).not.toBeImmutable(property)
+    expect(new Window()).not.toHaveImmutableProperty(property)
   })
 }
 
@@ -193,7 +193,7 @@ for (const property of ["onscroll", "onscrollend"] as const) {
 
 test()(`Window.orientation is supported`, () => {
   expect(new Window()).toHaveProperty("orientation", 0)
-  expect(new Window()).toBeImmutable("orientation")
+  expect(new Window()).toHaveImmutableProperty("orientation")
 })
 
 for (const property of ["ondevicemotion", "ondeviceorientation", "onorientationchange", "ondeviceorientationabsolute"] as const) {
@@ -250,13 +250,13 @@ test()(yellow(`Window.visualViewport is unimplemented`), () => {
 
 test()(`Window.devicePixelRatio is 1`, () => {
   expect(new Window()).toHaveProperty("devicePixelRatio", 1)
-  expect(new Window()).not.toBeImmutable("devicePixelRatio")
+  expect(new Window()).not.toHaveImmutableProperty("devicePixelRatio")
 })
 
 test()(`Window.fullScreen is false`, () => {
   const window = new Window()
   expect(window.fullScreen).toBe(false)
-  expect(window).toBeImmutable("fullScreen")
+  expect(window).toHaveImmutableProperty("fullScreen")
 })
 
 test()(yellow(`Window.requestAnimationFrame() is unimplemented`), () => {
@@ -336,7 +336,7 @@ for (const property of ["onerror", "onrejectionhandled", "onunhandledrejection"]
 test()(`Window.console is supported`, () => {
   const window = new Window()
   expect(window.console).toBe(console)
-  expect(window).not.toBeImmutable("console")
+  expect(window).not.toHaveImmutableProperty("console")
 })
 
 test()(`Window.print() is supported`, () => {
@@ -355,12 +355,12 @@ for (const property of ["onbeforeprint", "onafterprint"] as const) {
 
 test()(`Window.isSecureContext is true`, () => {
   expect(new Window().isSecureContext).toBe(true)
-  expect(new Window()).toBeImmutable("isSecureContext")
+  expect(new Window()).toHaveImmutableProperty("isSecureContext")
 })
 
 test()(`Window.crypto is supported`, () => {
   expect(new Window().crypto).toBe(crypto)
-  expect(new Window()).toBeImmutable("crypto")
+  expect(new Window()).toHaveImmutableProperty("crypto")
 })
 
 test()(`Window.atob() is supported`, () => {
@@ -394,7 +394,7 @@ test()(`Window.close() is supported`, () => {
 test()(`Window.closed is supported`, () => {
   const window = new Window()
   expect(window).toHaveProperty("closed", false)
-  expect(window).toBeImmutable("closed")
+  expect(window).toHaveImmutableProperty("closed")
   window.close()
   expect(window).toHaveProperty("closed", true)
 })
@@ -405,7 +405,7 @@ test()(yellow(`Window.stop() is unimplemented`), () => {
 
 test()(`Window.crossOriginIsolated is supported`, () => {
   expect(new Window()).toHaveProperty("crossOriginIsolated", false)
-  expect(new Window()).toBeImmutable("crossOriginIsolated")
+  expect(new Window()).toHaveImmutableProperty("crossOriginIsolated")
 })
 
 for (const property of ["onload", "onbeforeunload", "onunload", "onpageshow", "onpagehide", "onpopstate", "onhashchange", "onclose"] as const) {
@@ -424,12 +424,12 @@ test()(yellow(`Window.indexedDB is unimplemented`), () => {
 
 test()(`Window.localStorage is supported`, () => {
   expect(new Window().localStorage).toBe(localStorage)
-  expect(new Window()).toBeImmutable("localStorage")
+  expect(new Window()).toHaveImmutableProperty("localStorage")
 })
 
 test()(`Window.sessionStorage is supported`, () => {
   expect(new Window().sessionStorage).toBe(sessionStorage)
-  expect(new Window()).toBeImmutable("sessionStorage")
+  expect(new Window()).toHaveImmutableProperty("sessionStorage")
 })
 
 test()(yellow(`Window.onstorage is unimplemented`), () => {
@@ -558,7 +558,7 @@ test()(yellow(`Window.external is unimplemented`), () => {
 
 test()(`Window.event is undefined`, () => {
   expect(new Window().event).toBeUndefined()
-  expect(new Window()).not.toBeImmutable("event")
+  expect(new Window()).not.toHaveImmutableProperty("event")
 })
 
 test()(`Window.captureEvents is supported`, () => {
@@ -594,7 +594,7 @@ for (
 ) {
   test()(`Window.${key} is supported`, () => {
     expect(new Window()).toHaveProperty(key, value)
-    expect(new Window()).not.toBeImmutable(key)
+    expect(new Window()).not.toHaveImmutableProperty(key)
   })
 }
 
@@ -605,5 +605,5 @@ test()(`BarProp.constructor() is illegal`, () => {
 
 test()(`BarProp.visible is supported`, () => {
   expect(new BarProp({ [internal]: true })).toHaveProperty("visible", false)
-  expect(new BarProp({ [internal]: true })).toBeImmutable("visible")
+  expect(new BarProp({ [internal]: true })).toHaveImmutableProperty("visible")
 })

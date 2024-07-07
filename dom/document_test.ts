@@ -11,7 +11,7 @@ test()(`Document.constructor() is legal`, () => {
 
 test()(`Document.ownerDocument is null`, () => {
   expect(new Document()).toHaveProperty("ownerDocument", null)
-  expect(new Document()).toBeImmutable("ownerDocument")
+  expect(new Document()).toHaveImmutableProperty("ownerDocument")
 })
 
 test()(`Document.title is supported`, () => {
@@ -41,24 +41,24 @@ test()(yellow(`Document.URL is unimplemented`), () => {
 
 test()(`Document.characterSet is "UTF-8"`, () => {
   expect(new Document()).toHaveProperty("characterSet", "UTF-8")
-  expect(new Document()).toBeImmutable("characterSet")
+  expect(new Document()).toHaveImmutableProperty("characterSet")
 })
 
 for (const property of ["charset", "inputEncoding"] as const) {
   test()(`Document.${property} is alias for Document.characterSet`, () => {
     expect(new Document()).toHaveProperty(property, "UTF-8")
-    expect(new Document()).toBeImmutable(property)
+    expect(new Document()).toHaveImmutableProperty(property)
   })
 }
 
 test()(`Document.characterSet is supported`, () => {
   expect(new Document().compatMode).toBeOneOf(["BackCompat", "CSS1Compat"])
-  expect(new Document()).toBeImmutable("compatMode")
+  expect(new Document()).toHaveImmutableProperty("compatMode")
 })
 
 test()(`Document.contentType is "UTF-8"`, () => {
   expect(new Document()).toHaveProperty("contentType", "text/html")
-  expect(new Document()).toBeImmutable("contentType")
+  expect(new Document()).toHaveImmutableProperty("contentType")
 })
 
 test()(yellow(`Document.cookie is partially unimplemented`), () => {
@@ -77,12 +77,12 @@ test()(`Document.designMode is supported`, () => {
 
 test()(`Document.hidden is false`, () => {
   expect(new Document()).toHaveProperty("hidden", false)
-  expect(new Document()).toBeImmutable("hidden")
+  expect(new Document()).toHaveImmutableProperty("hidden")
 })
 
 test()(`Document.visibilityState is supported`, () => {
   expect(new Document()).toHaveProperty("visibilityState", "visible")
-  expect(new Document()).toBeImmutable("visibilityState")
+  expect(new Document()).toHaveImmutableProperty("visibilityState")
 })
 
 test()(yellow(`Document.onvisibilitychange is unimplemented`), () => {
@@ -91,22 +91,22 @@ test()(yellow(`Document.onvisibilitychange is unimplemented`), () => {
 
 test()(`Document.fullscreen is supported`, () => {
   expect(new Document()).toHaveProperty("fullscreen", false)
-  expect(new Document()).toBeImmutable("fullscreen")
+  expect(new Document()).toHaveImmutableProperty("fullscreen")
 })
 
 test()(`Document.fullscreenEnabled is supported`, () => {
   expect(new Document()).toHaveProperty("fullscreenEnabled", false)
-  expect(new Document()).toBeImmutable("fullscreenEnabled")
+  expect(new Document()).toHaveImmutableProperty("fullscreenEnabled")
 })
 
 test()(`Document.pictureInPictureEnabled is supported`, () => {
   expect(new Document()).toHaveProperty("pictureInPictureEnabled", false)
-  expect(new Document()).toBeImmutable("pictureInPictureEnabled")
+  expect(new Document()).toHaveImmutableProperty("pictureInPictureEnabled")
 })
 
 test()(`Document.referrer is supported`, () => {
   expect(new Document()).toHaveProperty("referrer", "")
-  expect(new Document()).toBeImmutable("referrer")
+  expect(new Document()).toHaveImmutableProperty("referrer")
 })
 
 test()(yellow(`Document.hasFocus() is unimplemented`), () => {
@@ -123,17 +123,17 @@ test()(yellow(`Document.styleSheetSets is unimplemented`), () => {
 
 test()(yellow(`Document.adoptedStyleSheets is unimplemented`), () => {
   expect(new Document().adoptedStyleSheets).toEqual([])
-  expect(new Document()).toBeImmutable("adoptedStyleSheets")
+  expect(new Document()).toHaveImmutableProperty("adoptedStyleSheets")
 })
 
 test()(yellow(`Document.selectedStyleSheetSet is supported`), () => {
   expect(new Document()).toHaveProperty("selectedStyleSheetSet", null)
-  expect(new Document()).toBeImmutable("selectedStyleSheetSet")
+  expect(new Document()).toHaveImmutableProperty("selectedStyleSheetSet")
 })
 
 test()(yellow(`Document.lastStyleSheetSet is supported`), () => {
   expect(new Document()).toHaveProperty("lastStyleSheetSet", null)
-  expect(new Document()).toBeImmutable("lastStyleSheetSet")
+  expect(new Document()).toHaveImmutableProperty("lastStyleSheetSet")
 })
 
 test()(yellow(`Document.enableStyleSheetsForSet() is unimplemented`), () => {
@@ -142,7 +142,7 @@ test()(yellow(`Document.enableStyleSheetsForSet() is unimplemented`), () => {
 
 test()(yellow(`Document.preferredStyleSheetSet is supported`), () => {
   expect(new Document()).toHaveProperty("preferredStyleSheetSet", "")
-  expect(new Document()).toBeImmutable("preferredStyleSheetSet")
+  expect(new Document()).toHaveImmutableProperty("preferredStyleSheetSet")
 })
 
 test()(yellow(`Document.mozSetImageElement() is unimplemented`), () => {
@@ -222,11 +222,11 @@ test()(yellow(`Document.prototype.parseHTMLUnsafe() is unimplemented`), () => {
 
 test()(yellow(`Document.defaultView is supported`), () => {
   expect(new Document()).toHaveProperty("defaultView", null)
-  expect(new Document()).toBeImmutable("defaultView")
+  expect(new Document()).toHaveImmutableProperty("defaultView")
   const window = new Window()
   const document = new Document({ [internal]: true, defaultView: window })
   expect(document).toHaveProperty("defaultView", window)
-  expect(document).toBeImmutable("defaultView")
+  expect(document).toHaveImmutableProperty("defaultView")
 })
 
 test()(yellow(`Document.doctype is unimplemented`), () => {
@@ -279,7 +279,7 @@ test()(yellow(`Document.plugins is unimplemented`), () => {
 
 test()(`Document.rootElement is supported`, () => {
   expect(new Document()).toHaveProperty("rootElement", null)
-  expect(new Document()).toBeImmutable("rootElement")
+  expect(new Document()).toHaveImmutableProperty("rootElement")
 })
 
 test()(yellow(`Document.documentElement is unimplemented`), () => {
@@ -288,7 +288,7 @@ test()(yellow(`Document.documentElement is unimplemented`), () => {
 
 test()(`Document.activeElement is supported`, () => {
   expect(new Document()).toHaveProperty("activeElement", null)
-  expect(new Document()).toBeImmutable("activeElement")
+  expect(new Document()).toHaveImmutableProperty("activeElement")
 })
 
 test()(yellow(`Document.scrollingElement is unimplemented`), () => {
@@ -297,22 +297,22 @@ test()(yellow(`Document.scrollingElement is unimplemented`), () => {
 
 test()(`Document.fullscreenElement is supported`, () => {
   expect(new Document()).toHaveProperty("fullscreenElement", null)
-  expect(new Document()).toBeImmutable("fullscreenElement")
+  expect(new Document()).toHaveImmutableProperty("fullscreenElement")
 })
 
 test()(`Document.pictureInPictureElement is supported`, () => {
   expect(new Document()).toHaveProperty("pictureInPictureElement", null)
-  expect(new Document()).toBeImmutable("pictureInPictureElement")
+  expect(new Document()).toHaveImmutableProperty("pictureInPictureElement")
 })
 
 test()(`Document.pointerLockElement is supported`, () => {
   expect(new Document()).toHaveProperty("pointerLockElement", null)
-  expect(new Document()).toBeImmutable("pointerLockElement")
+  expect(new Document()).toHaveImmutableProperty("pointerLockElement")
 })
 
 test()(`Document.currentScript is supported`, () => {
   expect(new Document()).toHaveProperty("currentScript", null)
-  expect(new Document()).toBeImmutable("currentScript")
+  expect(new Document()).toHaveImmutableProperty("currentScript")
 })
 
 test()(yellow(`Document.implementation is unimplemented`), () => {
@@ -325,7 +325,7 @@ test()(yellow(`Document.children is unimplemented`), () => {
 
 test()(`Document.childElementCount is supported`, () => {
   expect(new Document()).toHaveProperty("childElementCount", 1)
-  expect(new Document()).toBeImmutable("childElementCount")
+  expect(new Document()).toHaveImmutableProperty("childElementCount")
 })
 
 test()(yellow(`Document.firstElementChild is unimplemented`), () => {

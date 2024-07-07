@@ -28,13 +28,13 @@ test()(`PermissionsStatus.constructor() is illegal`, () => {
 test()(`PermissionsStatus.name is supported`, () => {
   const status = new PermissionsStatus({ [internal]: true, name: "foo", state: "granted" })
   expect(status).toHaveProperty("name", "foo")
-  expect(status).toBeImmutable("name")
+  expect(status).toHaveImmutableProperty("name")
 })
 
 test()(`PermissionsStatus.state is supported`, () => {
   const status = new PermissionsStatus({ [internal]: true, name: "foo", state: "granted" })
   expect(status).toHaveProperty("state", "granted")
-  expect(status).toBeImmutable("state")
+  expect(status).toHaveImmutableProperty("state")
 })
 
 test()(`PermissionsStatus.onchange is supported`, () => {

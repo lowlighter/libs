@@ -32,19 +32,19 @@ test()(`MimeType.constructor() is illegal`, () => {
 test()(`MimeType.type is supported`, () => {
   const mime = new MimeType({ [internal]: true, type: "application/foo" })
   expect(mime).toHaveProperty("type", "application/foo")
-  expect(mime).toBeImmutable("type")
+  expect(mime).toHaveImmutableProperty("type")
 })
 
 test()(`MimeType.description is supported`, () => {
   const mime = new MimeType({ [internal]: true, description: "Foo" })
   expect(mime).toHaveProperty("description", "Foo")
-  expect(mime).toBeImmutable("description")
+  expect(mime).toHaveImmutableProperty("description")
 })
 
 test()(`MimeType.suffixes is supported`, () => {
   const mime = new MimeType({ [internal]: true, suffixes: "foo" })
   expect(mime).toHaveProperty("suffixes", "foo")
-  expect(mime).toBeImmutable("suffixes")
+  expect(mime).toHaveImmutableProperty("suffixes")
 })
 
 test()(yellow("MimeType.enabledPlugin is unimplemented"), () => {
