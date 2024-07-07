@@ -32,7 +32,7 @@
     "@std/ulid": "jsr:@std/ulid@0.224.1",
     "@libs/testing": "jsr:@libs/testing@2",
     "@libs/typing": "jsr:@libs/typing@2",
-    "@libs/logger": "jsr:@libs/logger@1.1.3"
+    "@libs/logger": "jsr:@libs/logger@1"
   },
   "tasks": {
     "test": "deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
