@@ -17,6 +17,7 @@ const order = ["icon", "name", "version", "description", "keywords", "license", 
 global.tasks ??= {}
 global.tasks["test"] = ""
 global.tasks["lint"] = ""
+global.tasks["coverage"] = "rm -rf coverage && mkdir -p coverage"
 const packages = []
 for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   const local = JSONC.parse(await Deno.readTextFile(path)) as Record<string, unknown>
@@ -48,16 +49,12 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   tasks["test:deno"] = `deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint`
   tasks["test:deno-future"] = "DENO_FUTURE=1 && deno task test:deno"
   tasks["test:others"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
-  tasks["coverage:html"] = "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint"
+  tasks["coverage:html"] = "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js --html"
   tasks["dev"] = `deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint`
   tasks["lint"] = `deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish ${slow ? "--allow-slow-types " : ""}--dry-run --quiet --allow-dirty`
   global.tasks["test"] += `${global.tasks["test"] ? " && " : ""}cd ${name} && deno task test:deno && cd ..`
   global.tasks["lint"] += `${global.tasks["lint"] ? " && " : ""}cd ${name} && deno task lint && cd ..`
-  delete tasks["dev:future"]
-  delete tasks["coverage"]
-  delete tasks["ci"]
-  delete tasks["ci:coverage"]
-
+  global.tasks["coverage"] += `${global.tasks["coverage"] ? " && " : ""}cd ${name} && deno task coverage:html && mv coverage/html ../coverage/${name} && cd ..`
   // Sync imports
   if (local.imports) {
     const imports = local.imports as record<string>
@@ -93,7 +90,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
         }
         continue
       }
-      if (/^\d+$/.test(project)) {
+      if ((/^\d+$/.test(project))&&(project !== scope)) {
         if (upgrade) {
           imports[key] = value
           log.info(`set: ${key} → ${project}`)

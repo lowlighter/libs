@@ -40,7 +40,7 @@
     "test:deno": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
     "test:deno-future": "DENO_FUTURE=1 && deno task test:deno",
     "test:others": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
-    "coverage:html": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "coverage:html": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js --html",
     "lint": "deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish --allow-slow-types --dry-run --quiet --allow-dirty"
   },
   "lint": {
