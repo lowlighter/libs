@@ -281,16 +281,17 @@ export class Resource<T extends model> {
   protected static async init() {}
 
   /** Instantiate a new {@link Resource} constructor with specified {@link Store}, {@link Logger}, listeners and initialization function. */
-  static with<U extends shape, T extends typeof Resource<model_extended<U>>>(
-    { store = this.store, name = this.name, log = this.log, listeners = {}, init = () => Promise.resolve(), model: _model = is.object({} as U) }: {
+  static with<U extends shape, V extends record, T extends typeof Resource<model_extended<U>>>(
+    { store = this.store, name = this.name, log = this.log, listeners = {}, init = () => Promise.resolve(), model: _model = is.object({} as U), bind }: {
       store?: Store
       name?: string
       log?: Nullable<Logger>
       listeners?: record<Arrayable<callback>>
       init?: (_: T) => Promise<unknown>
       model?: is.ZodObject<U>
+      bind?: V
     },
-  ): T & { ready: Promise<T> } {
+  ): T & { ready: Promise<T & { bound: V }> } {
     const { promise, resolve, reject } = Promise.withResolvers()
     // deno-lint-ignore no-this-alias
     const that = this
@@ -301,11 +302,12 @@ export class Resource<T extends model> {
       static ready = promise
       static listeners = Object.fromEntries(Object.entries(listeners).map(([key, value]) => [key, [...(this.listeners[key] ?? []), value].flat()])) as typeof Resource["listeners"]
       static model = that.model.merge(_model)
+      static bound = bind
       protected static async init() {
         await super.init()
         await init(this as unknown as T)
       }
-    } as unknown as T & { ready: Promise<T> }
+    } as unknown as T & { ready: Promise<T & { bound: V }> }
     Object.defineProperty(extended, "name", { value: name })
     extended.init().then(() => resolve(extended)).catch(reject)
     return extended

@@ -15,8 +15,9 @@ test("deno")(`Resource cannot be instantiated without extending constructor with
 test("deno")(`Resource.with returns a new resource constructor`, async () => {
   const init1 = fn() as testing
   const listeners1 = { save: fn() }
-  const TestResource = await Resource.with({ store, log, init: init1, listeners: listeners1 }).ready
+  const TestResource = await Resource.with({ store, log, init: init1, listeners: listeners1, bind: { foo: true } }).ready
   expect(init1).toBeCalledTimes(1)
+  expect(TestResource.bound).toEqual({ foo: true })
   await expect(new TestResource().save()).resolves.toBeInstanceOf(TestResource)
   expect(listeners1.save).toBeCalledTimes(1)
   const init2 = fn() as testing
