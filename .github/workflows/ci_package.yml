@@ -49,6 +49,11 @@ on:
       GH_TOKEN:
         description: GitHub token
         required: true
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
   setup:
     name: Setup
@@ -60,26 +65,28 @@ jobs:
       - id: files
         uses: tj-actions/changed-files@v44
         with:
-          files: ${{ inputs.package }}/**
+          files: |
+            ${{ inputs.package }}/**
+            .github/workflows/ci_package.yml
 
   lint:
     name: Lint
     if: (inputs.ref == 'refs/heads/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
     runs-on: ubuntu-latest
     needs: setup
+    defaults:
+      run:
+        working-directory: ${{ inputs.package }}
+
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
       - run: deno lint
-        working-directory: ${{ inputs.package }}
       - run: deno fmt --check
-        working-directory: ${{ inputs.package }}
       - run: deno doc --lint mod.ts
-        working-directory: ${{ inputs.package }}
       - name: deno publish --dry-run
-        working-directory: ${{ inputs.package }}
         run: |
-          SLOW_TYPES="$(deno eval 'console.log(JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.types === `slow` ?  `--allow-slow-types`: ``)')"
+          SLOW_TYPES="$(jq -r 'if .types == "slow" then "--allow-slow-types" else "" end' deno.jsonc)"
           deno publish --dry-run --quiet --allow-dirty $SLOW_TYPES
   codeql:
     name: Code quality
@@ -88,6 +95,7 @@ jobs:
     needs: setup
     permissions:
       security-events: write
+
     steps:
       - uses: actions/checkout@v4
       - uses: github/codeql-action/init@v3
@@ -112,6 +120,10 @@ jobs:
       slow_types: ${{ steps.package.outputs.slow_types }}
       tag: ${{ steps.tag.outputs.tag }}
       version: ${{ steps.tag.outputs.semver }}
+    defaults:
+      run:
+        working-directory: ${{ inputs.package }}
+
     steps:
       # Setup
       - uses: actions/checkout@v4
@@ -129,27 +141,21 @@ jobs:
       - name: Check package requirements
         id: package
         run: |
-          echo "has_build=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.build || ``)')" >> "$GITHUB_OUTPUT"
-          echo "has_bench=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.tasks?.bench || ``)')" >> "$GITHUB_OUTPUT"
-          echo "has_npm=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.npm || ``)')" >> "$GITHUB_OUTPUT"
-          echo "has_x=$(deno eval 'console.log(!!JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.[`deno.land/x`] || ``)')" >> "$GITHUB_OUTPUT"
-          echo "slow_types=$(deno eval 'console.log(JSON.parse(Deno.readTextFileSync(`deno.jsonc`))?.types === `slow` ?  `--allow-slow-types`: ``)')" >> "$GITHUB_OUTPUT"
-        working-directory: ${{ inputs.package }}
+          echo "has_build=$(jq -r 'if .tasks.build then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
+          echo "has_bench=$(jq -r 'if .tasks.bench then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
+          echo "has_npm=$(jq -r 'if .npm then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
+          echo "has_x=$(jq -r 'if .["deno.land/x"] then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
+          echo "slow_types=$(jq -r 'if .types == "slow" then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
       # Build
       - run: deno task build
         if: ${{ steps.package.outputs.has_build }}
-        working-directory: ${{ inputs.package }}
       # Tests
       - run: deno task test:deno
-        working-directory: ${{ inputs.package }}
       - run: deno task test:deno-future
-        working-directory: ${{ inputs.package }}
       - run: deno task test:others
-        working-directory: ${{ inputs.package }}
       # Bench
       - run: deno task bench
         if: ${{ steps.package.outputs.has_bench }}
-        working-directory: ${{ inputs.package }}
       # Tag
       - id: releasable
         name: git tag --list '${{ inputs.package }}-*'
@@ -174,6 +180,10 @@ jobs:
       id-token: write
       contents: write
       packages: write
+    defaults:
+      run:
+        working-directory: ${{ inputs.package }}
+
     steps:
       # Setup
       - uses: actions/checkout@v4
@@ -195,7 +205,6 @@ jobs:
             git pull --rebase
             git push
           fi
-        working-directory: ${{ inputs.package }}
       # Tag
       - name: Run deno task tag
         if: ${{ needs.test.outputs.tag }}
@@ -214,15 +223,13 @@ jobs:
           git show-ref --tags '${{ needs.test.outputs.tag }}'
           git pull --rebase
           git push origin '${{ needs.test.outputs.tag }}'
-        working-directory: ${{ inputs.package }}
       # Publish
-      - run: deno publish ${{ needs.test.outputs.slow_types }}
+      - run: deno publish ${{ needs.test.outputs.slow_types && '--allow-slow-types' || '' }}
         working-directory: ${{ inputs.package }}
+        shell: bash
       - name: Run npm publish
         if: ${{ needs.test.outputs.has_npm }}
         run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --npm.registry 'https://registry.npmjs.org' --npm.token '${{ secrets.NPM_TOKEN }}' --npm.scope '@lowlighter' --npm.access public
-        working-directory: ${{ inputs.package }}
       - name: Run deno.land/x publish
         if: ${{ needs.test.outputs.has_x }}
         run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --x.repository '${{ github.repository }}' --x.token '${{ secrets.GH_TOKEN }}' --x.directory="$(git rev-parse --show-prefix)" --x.map deno.jsonc --x.reactive --x.remove
-        working-directory: ${{ inputs.package }}
