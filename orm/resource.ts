@@ -4,7 +4,7 @@ import type { Logger } from "@libs/logger"
 import { ulid } from "@std/ulid"
 import type { Arg, Arrayable, callback, DeepPartial, Nullable, record, rw } from "@libs/typing"
 import { is, schema } from "./is/mod.ts"
-export type { _model, Logger, Nullable, ulid }
+export type { _model, DeepPartial, Logger, Nullable, ulid }
 
 /** Resource identifier. */
 export type id = ReturnType<typeof ulid>
@@ -14,9 +14,9 @@ export type shape = is.ZodRawShape
 
 /** Resource minimal model. */
 const _model = {
-  id: is.string().describe("Unique identifier."),
-  created: is.number().int().min(0).nullable().default(null).describe("Creation timestamp."),
-  updated: is.number().int().min(0).nullable().default(null).describe("Last update timestamp."),
+  id: is.string().describe("Unique identifier. @readonly"),
+  created: is.number().int().min(0).nullable().default(null).describe("Creation timestamp. @readonly"),
+  updated: is.number().int().min(0).nullable().default(null).describe("Last update timestamp. @readonly"),
 } as {
   id: is.ZodString
   created: is.ZodDefault<is.ZodNullable<is.ZodNumber>>
@@ -76,7 +76,7 @@ export class Resource<T extends model> {
   #_data = { id: null as unknown as id, created: null, updated: null } as T
 
   /** KV data (readonly). */
-  #_data_readonly = {} as T
+  #_data_readonly = Object.freeze(this.#_data)
 
   /** KV data (Note: this record should ALWAYS be re-assigned to change its content) to prevent representation desync. */
   get #data() {
@@ -143,6 +143,14 @@ export class Resource<T extends model> {
     return (this.constructor as typeof Resource).model
   }
 
+  /** Readonly fields (these are computed looking at `@readonly` presence in model descriptions). */
+  protected static readonly readonly = {} as record<true>
+
+  /** Readonly fields (these are computed looking at `@readonly` presence in model descriptions). */
+  protected get readonly(): record<true> {
+    return (this.constructor as typeof Resource).readonly
+  }
+
   /** Listeners. */
   protected static readonly listeners = {} as record<Array<callback>>
 
@@ -178,7 +186,8 @@ export class Resource<T extends model> {
         await this.#dispatch("fetched")
         this.log?.with({ op: "fetch" }).debug("fetched")
       } else {
-        this.#data = { ...this.#data, ...id, id: ulid() } as T
+        const picked = Object.fromEntries(Object.keys(id ?? {}).map((key) => [key, true]))
+        this.#data = { ...this.#data, ...await this.model.strict().omit({ id: true, created: true, updated: true }).pick(picked as rw).parseAsync(id ?? {}), id: ulid() } as T
         this.#log = (this.constructor as typeof Resource).log?.with({ type: this.constructor.name, id: this.id }) ?? null
         await this.#dispatch("created")
         this.log?.with({ op: "created" }).debug("created")
@@ -190,6 +199,20 @@ export class Resource<T extends model> {
     } catch (error) {
       reject(error)
     }
+  }
+
+  /** Validate patch and update resource data without comitting changes. */
+  async patch(patch: Omit<DeepPartial<T>, "id" | "created" | "updated">, { readonly = true } = {}): Promise<this> {
+    await this.ready
+    this.log?.with({ op: "patch" }).debug("patching")
+    await this.#dispatch("patch")
+    const picked = Object.fromEntries(Object.keys(patch).map((key) => [key, true]))
+    patch = await this.model.strict().omit({ id: true, created: true, updated: true, ...(readonly ? this.readonly : {}) }).pick(picked as rw).parseAsync(patch) as DeepPartial<T>
+    this.#data = { ...this.#data, ...patch, updated: Date.now() }
+    await this.model.strict().parseAsync(this.#data)
+    await this.#dispatch("patched")
+    this.log?.with({ op: "patch" }).debug("patched")
+    return this
   }
 
   /** Load resource from {@link Store}. */
@@ -249,6 +272,9 @@ export class Resource<T extends model> {
     if (!Array.isArray(key)) {
       key = [...this.lookup, key] as key
     }
+    if (key.includes(null as rw)) {
+      return false
+    }
     return await this.store.has(key)
   }
 
@@ -260,6 +286,10 @@ export class Resource<T extends model> {
   static async get<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key: id | key, options?: { raw?: boolean }) {
     if (!Array.isArray(key)) {
       key = [...this.lookup, key] as key
+    }
+    if (key.includes(null as rw)) {
+      this.log?.with({ op: "get", key }).warn("no result as key is partially null")
+      return null
     }
     const { value } = await this.store.get<InstanceType<T>>(key)
     if (!value) {
@@ -349,6 +379,7 @@ export class Resource<T extends model> {
       static listeners = Object.fromEntries(Object.entries(listeners).map(([key, value]) => [key, [...(this.listeners[key] ?? []), value].flat()])) as typeof Resource["listeners"]
       static model = that.model.merge(_model)
       static bound = bind
+      static readonly = Object.fromEntries(Object.entries(that.model.merge(_model).shape).filter(([_, value]) => (value as { description?: string }).description?.includes("@readonly")).map(([key]) => [key, true]))
       protected static async init() {
         await super.init()
         await init(this as unknown as T)

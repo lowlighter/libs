@@ -48,6 +48,30 @@ test("deno")(`Resource.data is not writable`, async () => {
   expect(() => (resource as testing).data = { foo: { bar: true } }).toThrow(TypeError)
   expect(() => (resource.data as testing).foo = { bar: true }).toThrow(TypeError)
   expect(() => (resource.data as testing).foo.bar = true).toThrow(TypeError)
+  await expect(new TestResource({ baz: true } as testing).ready).rejects.toThrow(TypeError)
+})
+
+test("deno")(`Resource.{id, created, updated} are readonly`, async () => {
+  const TestResource = await Resource.with({ name: "data_ro", store, log }).ready
+  await expect(new TestResource({ id: "<invalid>" } as testing).ready).rejects.toThrow(TypeError)
+  await expect(new TestResource({ created: -1 } as testing).ready).rejects.toThrow(TypeError)
+  await expect(new TestResource({ updated: -1 } as testing).ready).rejects.toThrow(TypeError)
+})
+
+test("deno")(`Resource.patch patches resource data`, async () => {
+  const listeners = { patch: fn(), patched: fn() }
+  const TestResource = await Resource.with({ name: "patch", store, log, model: is.object({ foo: is.boolean().default(false).describe("@readonly"), bar: is.boolean().default(false) }), listeners }).ready
+  const resource = await new TestResource({ foo: true }).ready
+  expect(resource.data).toMatchObject({ foo: true, bar: false })
+  await resource.patch({ bar: true })
+  expect(listeners.patch).toBeCalled()
+  expect(listeners.patched).toBeCalled()
+  expect(resource.data).toMatchObject({ foo: true, bar: true })
+  await expect(resource.patch({ foo: false })).rejects.toThrow(TypeError)
+  expect(resource.data).toMatchObject({ foo: true, bar: true })
+  await resource.patch({ foo: false }, { readonly: false })
+  expect(resource.data).toMatchObject({ foo: false, bar: true })
+  await expect(resource.patch({ baz: false } as testing)).rejects.toThrow(TypeError)
 })
 
 test("deno")(`Resource.load loads data from store`, async () => {
@@ -129,6 +153,7 @@ test("deno")(`Resource.get gets resource from store and is the same instance eac
   await expect(TestResource.get(resource.id)).resolves.toBe(resource)
   TestResource.uncache(resource.id)
   await expect(TestResource.get(resource.id)).resolves.toHaveProperty("id", resource.id)
+  await expect(TestResource.get(["unknown"])).resolves.toBeNull()
 })
 
 test("deno")(`Resource.get gets resource data from store`, async () => {
