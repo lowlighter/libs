@@ -61,7 +61,10 @@
     "graphql-tag": "npm:graphql-tag@2",
     "zod": "npm:zod@3",
     "zod-error": "npm:zod-error@1",
-    "zod-to-json-schema": "npm:zod-to-json-schema@3"
+    "zod-to-json-schema": "npm:zod-to-json-schema@3",
+    "@std/text/case": "jsr:@std/text@0.224.3/case",
+    "@graphql-tools/merge": "npm:@graphql-tools/merge@9",
+    "@lowlighter/gql": "jsr:@lowlighter/gql@2.0.2-rc1"
   },
   "tasks": {
     "make:readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",

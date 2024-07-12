@@ -59,9 +59,6 @@
         "no-eval",
         "eqeqeq",
         "ban-untagged-todo"
-      ],
-      "exclude": [
-        "no-slow-types"
       ]
     },
     "exclude": [
