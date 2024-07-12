@@ -58,7 +58,8 @@ test("deno")(`graphql() returns an executable graphql schema`, async () => {
     name: "TestResource",
     store,
     model: is.object({
-      foo: is.string(),
+      foo: is.string().describe("@readonly"),
+      bar: is.boolean().nullable().default(null),
     }),
   }).ready
   const resources = []
@@ -68,11 +69,19 @@ test("deno")(`graphql() returns an executable graphql schema`, async () => {
   }
   const resolver = fn(() => "ok")
   const { handler } = graphql([TestResource], { typedefs: `type Query { test: String! }`, resolvers: { Query: { test: resolver } } })
-  const gql = (query: string) => handler(new Request("https://example.invalid/graphql", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query }) })).then((response) => response.json()).then((json) => json.data)
+  const gql = (query: string) => handler(new Request("https://example.invalid/graphql", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query }) })).then((response) => response.json()).then((json) => json.data ?? json)
   await expect(gql(`{ testResources { foo } }`)).resolves.toEqual({ testResources: [{ foo: "bar" }, { foo: "baz" }, { foo: "qux" }] })
   await expect(gql(`{ testResource(id: "${resources[0].id}") { foo } }`)).resolves.toEqual({ testResource: { foo: "bar" } })
   await expect(gql(`{ test }`)).resolves.toEqual({ test: "ok" })
   expect(resolver).toBeCalledTimes(1)
   expect(() => graphql([TestResource, TestResource])).toThrow(TypeError)
-  await expect(gql(`mutation { deleteTestResource(id: "${resources[0].id}") { created } }`)).resolves.toEqual({ deleteTestResource: { created: null } })
+  await expect(gql(`mutation { updateTestResource(id: "<invalid>", input: { bar: true }) { id, created } }`)).resolves.toMatchObject({ updateTestResource: null })
+  const { createTestResource: resource } = await gql(`mutation { createTestResource(input: { foo: "bar", bar: false }) { id, created, foo, bar } }`)
+  expect(resource.id).toBeType("string")
+  expect(resource.created).toBeType("number")
+  expect(resource).toMatchObject({ foo: "bar", bar: false })
+  await expect(gql(`mutation { updateTestResource(id: "${resource.id}", input: { bar: true }) { foo, bar } }`)).resolves.toMatchObject({ updateTestResource: { foo: "bar", bar: true } })
+  await expect(gql(`mutation { updateTestResource(id: "${resource.id}", input: { foo: "baz" }) { foo, bar } }`)).resolves.toMatchObject({ errors: [] })
+  await expect(gql(`mutation { deleteTestResource(id: "${resource.id}") { id, created } }`)).resolves.toEqual({ deleteTestResource: { id: resource.id, created: null } })
+  await expect(gql(`mutation { deleteTestResource(id: "${resource.id}") { id, created } }`)).resolves.toEqual({ deleteTestResource: null })
 })

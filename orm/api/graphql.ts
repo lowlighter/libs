@@ -5,15 +5,15 @@ import type { Resource } from "../resource.ts"
 import { makeExecutableSchema } from "@graphql-tools/schema"
 import { mergeResolvers, mergeTypeDefs } from "@graphql-tools/merge"
 import { GraphQLHTTP } from "@lowlighter/gql"
-import type { schema as json_schema } from "../is/is.ts"
+import { schema as json_schema } from "../is/is.ts"
 export { GraphQLHTTP, makeExecutableSchema, mergeResolvers, mergeTypeDefs }
 
 /** Convert a JSON schema to a GraphQL type definition. */
-export function toGraphQLDefinition(name: string, schema: ReturnType<typeof json_schema>): string {
+export function toGraphQLDefinition(name: string, schema: ReturnType<typeof json_schema>, { type = "type" as "type" | "input" } = {}): string {
   if ((typeof schema !== "object") || (!schema?.["$schema"])) {
     throw new TypeError("Expected object to be a JSON schema.")
   }
-  return toGraphQLType(titleCase(name), structuredClone(schema))
+  return toGraphQLType(titleCase(name), structuredClone(schema), { type })
 }
 
 /** Create a comment for documentation. */
@@ -27,7 +27,7 @@ function comment(description = "", { indent = "" } = {}) {
 }
 
 /** Convert object typings from a JSON schema to a GraphQL type definition. */
-function toGraphQLType(name: string, schema: rw, { definitions = [] as string[] } = {}) {
+function toGraphQLType(name: string, schema: rw, { type = "type" as string, definitions = [] as string[] } = {}) {
   if (schema.type !== "object") {
     throw new TypeError(`Schema must be of type "object", not "${schema.type}"`)
   }
@@ -35,7 +35,7 @@ function toGraphQLType(name: string, schema: rw, { definitions = [] as string[] 
   if (schema.description) {
     output += comment(schema.description)
   }
-  output += `type ${name} {\n`
+  output += `${type} ${name} {\n`
   for (const property in schema.properties) {
     if (schema.properties[property].description) {
       output += comment(schema.properties[property].description, { indent: "  " })
@@ -131,10 +131,12 @@ export function graphql(
       `  ${toCamelCase(name)}(id: ID!): ${name}`,
       `}`,
       `type Mutation {`,
-      //`  create${name}(data: ): ${name}`,
-      //`  update${name}(id: ID!, data: ): ${name}`,
+      `  create${name}(input: ${name}CreateInput): ${name}`,
+      `  update${name}(id: ID!, input: ${name}UpdateInput): ${name}`,
       `  delete${name}(id: ID!): ${name}`,
       `}`,
+      toGraphQLDefinition(`${name}CreateInput`, json_schema((resource as rw).model.omit({ id: true, created: true, updated: true })), { type: "input" }),
+      toGraphQLDefinition(`${name}UpdateInput`, json_schema((resource as rw).model.omit({ id: true, created: true, updated: true, ...(resource as rw).readonly })), { type: "input" }),
     ].join("\n")
     definitions.set(name, definition)
     resolvers.set(name, {
@@ -147,18 +149,20 @@ export function graphql(
         },
       },
       Mutation: {
-        /*[`create${name}`](_: unknown, { data }: { data: unknown }) {
+        async [`create${name}`](_: unknown, { input }: { input: unknown }) {
           // deno-lint-ignore no-explicit-any
-          return new resource(data as any).save()
+          const instance = await new resource(input as any).save()
+          return instance.data
         },
-        async [`update${name}`](_: unknown, { id, data }: { id: string; data: unknown }) {
+        async [`update${name}`](_: unknown, { id, input }: { id: string; input: unknown }) {
           const instance = await resource.get(id)
           if (!instance) {
             return null
           }
-          await instance.patch(data as rw)
-          return instance.save()
-        },*/
+          await instance.patch(input as rw)
+          await instance.save()
+          return instance.data
+        },
         async [`delete${name}`](_: unknown, { id }: { id: string }) {
           const instance = await resource.delete(id)
           return instance?.data
