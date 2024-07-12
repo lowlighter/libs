@@ -53,6 +53,9 @@ export type OmitFirstArg<F> = F extends (_0: any, ...args: infer T) => infer Ret
 /** Deep partial type. */
 export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T
 
+/** Deep readonly type. */
+export type DeepReadonly<T> = T extends object ? { readonly [P in keyof T]: DeepReadonly<T[P]> } : T
+
 /** Typed array type. */
 export type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float16Array | Float32Array | Float64Array | BigInt64Array | BigUint64Array
 
