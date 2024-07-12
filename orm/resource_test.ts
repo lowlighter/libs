@@ -30,6 +30,26 @@ test("deno")(`Resource.with returns a new resource constructor`, async () => {
   expect(listeners2.save).toBeCalledTimes(1)
 })
 
+test("deno")(`Resource.with returns a new resource constructor with correct typings and can be extended`, () => {
+  class TestResource extends Resource.with({ store, log, bind: { bar: true } }) {
+    static readonly foo = true
+    static bar() {
+      return this.bound.bar
+    }
+  }
+  class AggregatedTestResource extends Resource.with({ store, log }) {
+    readonly test = TestResource.with({ store, log, bind: { baz: true } })
+  }
+  expect(TestResource).toHaveProperty("name", "TestResource")
+  expect(TestResource.foo).toBe(true)
+  expect(TestResource.bound.bar).toBe(true)
+  expect(TestResource.bar()).toBe(true)
+  expect(new AggregatedTestResource().test.bound.bar).toBe(true)
+  expect(new AggregatedTestResource().test.bound.baz).toBe(true)
+  expect(new AggregatedTestResource().test.foo).toBe(true)
+  expect(new AggregatedTestResource().test.bar()).toBe(true)
+})
+
 test("deno")(`Resource.constructor fetches back data from store when id is given`, async () => {
   const TestResource = await Resource.with({ name: "load", store, log, model: is.object({ foo: is.string() }) }).ready
   const resource = await new TestResource({ foo: "bar" }).save()

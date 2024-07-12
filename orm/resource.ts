@@ -357,7 +357,8 @@ export class Resource<T extends model> {
   }
 
   /** Instantiate a new {@link Resource} constructor with specified {@link Store}, {@link Logger}, listeners and initialization function. */
-  static with<U extends shape, V extends record, T extends typeof Resource<model_extended<U>>>(
+  static with<U extends shape, V extends record, W extends record, T extends typeof Resource<model_extended<U>>, Z extends typeof Resource<rw>, X = T & Z & { ready: Promise<T & Z & { bound: V & W }>; bound: V & W }>(
+    this: Z,
     { store = this.store, name = this.name, log = this.log, listeners = {}, init = () => Promise.resolve(), model: _model = is.object({} as U), bind }: {
       store?: Store
       name?: string
@@ -367,10 +368,9 @@ export class Resource<T extends model> {
       model?: is.ZodObject<U>
       bind?: V
     },
-  ): T & { ready: Promise<T & { bound: V }> } {
+  ): X {
     const { promise, resolve, reject } = Promise.withResolvers()
-    // deno-lint-ignore no-this-alias
-    const that = this
+    const that = this as rw
     // @ts-expect-error: `extended` has same signature as `this`
     const extended = class extends this {
       static log = log
@@ -378,15 +378,15 @@ export class Resource<T extends model> {
       static ready = promise
       static listeners = Object.fromEntries(Object.entries(listeners).map(([key, value]) => [key, [...(this.listeners[key] ?? []), value].flat()])) as typeof Resource["listeners"]
       static model = that.model.merge(_model)
-      static bound = bind
+      static bound = { ...that.bound, ...bind }
       static readonly = Object.fromEntries(Object.entries(that.model.merge(_model).shape).filter(([_, value]) => (value as { description?: string }).description?.includes("@readonly")).map(([key]) => [key, true]))
       protected static async init() {
         await super.init()
         await init(this as unknown as T)
       }
-    } as unknown as T & { ready: Promise<T & { bound: V }> }
+    } as unknown as X
     Object.defineProperty(extended, "name", { value: name })
-    extended.init().then(() => resolve(extended)).catch(reject)
+    ;(extended as rw).init().then(() => resolve(extended)).catch(reject)
     return extended
   }
 }
