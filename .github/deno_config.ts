@@ -4,7 +4,7 @@ import { basename, dirname, fromFileUrl, resolve } from "@std/path"
 import { Logger } from "@libs/logger"
 import * as JSONC from "@std/jsonc"
 import type { record } from "@libs/typing"
-import * as semver from "jsr:@std/semver"
+import * as semver from "@std/semver"
 
 // Load global configuration
 const upgrade = Deno.env.get("UPGRADE_PACKAGES") === "true"

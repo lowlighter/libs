@@ -3,7 +3,7 @@ import { internal } from "./_.ts"
 import { BarProp, Window } from "./window.ts"
 import { Navigator } from "./navigator.ts"
 import { yellow } from "@std/fmt/colors"
-import { delay } from "jsr:@std/async@0.224.2/delay"
+import { delay } from "@std/async/delay"
 
 test()(`Window.constructor() is legal`, () => {
   new Window()

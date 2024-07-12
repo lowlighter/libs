@@ -56,7 +56,12 @@
     "bun:test": "./_stub.ts",
     "node:test": "./_stub.ts",
     "@std/fs/expand-glob": "jsr:@std/fs@0.229.3/expand-glob",
-    "@std/fs/exists": "jsr:@std/fs@0.229.3/exists"
+    "@std/fs/exists": "jsr:@std/fs@0.229.3/exists",
+    "@graphql-tools/schema": "npm:@graphql-tools/schema@10",
+    "graphql-tag": "npm:graphql-tag@2",
+    "zod": "npm:zod@3",
+    "zod-error": "npm:zod-error@1",
+    "zod-to-json-schema": "npm:zod-to-json-schema@3"
   },
   "tasks": {
     "make:readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
