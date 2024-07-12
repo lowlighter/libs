@@ -32,10 +32,13 @@
     "./ts": "./ts/mod.ts",
     "./ts/bundle": "./ts/bundle.ts",
     "./ts/publish": "./ts/publish/mod.ts",
+    "./ts/mirror": "./ts/mirror/mod.ts",
     "./ts/publish/npm": "./ts/publish/npm.ts",
     "./ts/publish/x": "./ts/publish/x.ts",
+    "./ts/mirror/jsr": "./ts/mirror/jsr.ts",
     "./ts/cli/coverage": "./ts/cli/coverage.ts",
     "./ts/cli/publish": "./ts/cli/publish.ts",
+    "./ts/cli/mirror": "./ts/cli/mirror.ts",
     "./css": "./css/mod.ts",
     "./css/bundle": "./css/bundle.ts",
     "./css/compatibility": "./css/compatibility.ts",
@@ -80,7 +83,8 @@
     "stylelint-config-recommended": "npm:stylelint-config-recommended@14",
     "stylelint-config-idiomatic-order": "npm:stylelint-config-idiomatic-order@10",
     "highlight.js": "npm:highlight.js@11",
-    "octokit": "npm:octokit@4"
+    "octokit": "npm:octokit@4",
+    "@std/http/status": "jsr:@std/http@0.224.5/status"
   },
   "test:permissions": {
     "read": true,
