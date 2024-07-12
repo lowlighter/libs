@@ -1,5 +1,6 @@
 {
   "name": "@lowlighter/libs",
+  "version": "0.0.0",
   "description": "Collection of carefully crafted TypeScript standalone libraries. Minimal, unbloated, convenient.",
   "license": "MIT",
   "author": "lowlighter (Simon Lecoq)",
@@ -9,6 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/lowlighter/libs.git"
   },
+  "exports": {},
   "lock": false,
   "imports": {
     "@std/jsonc": "jsr:@std/jsonc@0.224.3",
@@ -68,12 +70,12 @@
   },
   "tasks": {
     "make:readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
-    "make:config": "deno run --allow-env=LOG_LEVEL,UPGRADE_PACKAGES --allow-read=. --allow-write=. .github/deno_config.ts && deno fmt **/deno.jsonc",
+    "make:config": "deno run --allow-env=LOG_LEVEL,UPGRADE_PACKAGES --allow-read=. --allow-write=. .github/deno_config.ts",
     "make:config-upgrade": "UPGRADE_PACKAGES=true deno task make:config",
     "tag": "deno run --allow-read --allow-write=. .github/deno_tag.ts",
-    "test": "cd bundle && deno task test:deno && cd .. && cd crypto && deno task test:deno && cd .. && cd diff && deno task test:deno && cd .. && cd dom && deno task test:deno && cd .. && cd logger && deno task test:deno && cd .. && cd orm && deno task test:deno && cd .. && cd qrcode && deno task test:deno && cd .. && cd reactive && deno task test:deno && cd .. && cd run && deno task test:deno && cd .. && cd testing && deno task test:deno && cd .. && cd typing && deno task test:deno && cd .. && cd xml && deno task test:deno && cd ..",
-    "lint": "cd bundle && deno task lint && cd .. && cd crypto && deno task lint && cd .. && cd diff && deno task lint && cd .. && cd dom && deno task lint && cd .. && cd logger && deno task lint && cd .. && cd orm && deno task lint && cd .. && cd qrcode && deno task lint && cd .. && cd reactive && deno task lint && cd .. && cd run && deno task lint && cd .. && cd testing && deno task lint && cd .. && cd typing && deno task lint && cd .. && cd xml && deno task lint && cd ..",
-    "coverage": "rm -rf coverage && mkdir -p coverage && cd bundle && deno task coverage:html && mv coverage/html ../coverage/bundle && cd .. && cd crypto && deno task coverage:html && mv coverage/html ../coverage/crypto && cd .. && cd diff && deno task coverage:html && mv coverage/html ../coverage/diff && cd .. && cd dom && deno task coverage:html && mv coverage/html ../coverage/dom && cd .. && cd logger && deno task coverage:html && mv coverage/html ../coverage/logger && cd .. && cd orm && deno task coverage:html && mv coverage/html ../coverage/orm && cd .. && cd qrcode && deno task coverage:html && mv coverage/html ../coverage/qrcode && cd .. && cd reactive && deno task coverage:html && mv coverage/html ../coverage/reactive && cd .. && cd run && deno task coverage:html && mv coverage/html ../coverage/run && cd .. && cd testing && deno task coverage:html && mv coverage/html ../coverage/testing && cd .. && cd typing && deno task coverage:html && mv coverage/html ../coverage/typing && cd .. && cd xml && deno task coverage:html && mv coverage/html ../coverage/xml && cd .."
+    "test": "cd bundle && deno task test:deno && cd .. && cd crypto && deno task test:deno && cd .. && cd diff && deno task test:deno && cd .. && cd dom && deno task test:deno && cd .. && cd logger && deno task test:deno && cd .. && cd orm && deno task test:deno && cd .. && cd qrcode && deno task test:deno && cd .. && cd reactive && deno task test:deno && cd .. && cd run && deno task test:deno && cd .. && cd std && deno task test:deno && cd .. && cd testing && deno task test:deno && cd .. && cd typing && deno task test:deno && cd .. && cd xml && deno task test:deno && cd ..",
+    "lint": "cd bundle && deno task lint && cd .. && cd crypto && deno task lint && cd .. && cd diff && deno task lint && cd .. && cd dom && deno task lint && cd .. && cd logger && deno task lint && cd .. && cd orm && deno task lint && cd .. && cd qrcode && deno task lint && cd .. && cd reactive && deno task lint && cd .. && cd run && deno task lint && cd .. && cd std && deno task lint && cd .. && cd testing && deno task lint && cd .. && cd typing && deno task lint && cd .. && cd xml && deno task lint && cd ..",
+    "coverage": "rm -rf coverage && mkdir -p coverage && cd bundle && deno task coverage:html && mv coverage/html ../coverage/bundle && cd .. && cd crypto && deno task coverage:html && mv coverage/html ../coverage/crypto && cd .. && cd diff && deno task coverage:html && mv coverage/html ../coverage/diff && cd .. && cd dom && deno task coverage:html && mv coverage/html ../coverage/dom && cd .. && cd logger && deno task coverage:html && mv coverage/html ../coverage/logger && cd .. && cd orm && deno task coverage:html && mv coverage/html ../coverage/orm && cd .. && cd qrcode && deno task coverage:html && mv coverage/html ../coverage/qrcode && cd .. && cd reactive && deno task coverage:html && mv coverage/html ../coverage/reactive && cd .. && cd run && deno task coverage:html && mv coverage/html ../coverage/run && cd .. && cd std && deno task coverage:html && mv coverage/html ../coverage/std && cd .. && cd testing && deno task coverage:html && mv coverage/html ../coverage/testing && cd .. && cd typing && deno task coverage:html && mv coverage/html ../coverage/typing && cd .. && cd xml && deno task coverage:html && mv coverage/html ../coverage/xml && cd .."
   },
   "lint": {
     "rules": {

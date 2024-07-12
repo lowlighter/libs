@@ -105,9 +105,9 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
     }
   }
   // Save local configuration
-  await Deno.writeTextFile(path, JSON.stringify(Object.fromEntries(order.map((key) => [key, local[key]]).filter(([_, value]) => value !== undefined)), null, 2))
+  await Deno.writeTextFile(path, `${JSON.stringify(Object.fromEntries(order.map((key) => [key, local[key]]).filter(([_, value]) => value !== undefined)), null, 2)}\n`)
   log.with({ package: packages.at(-1) }).info("written config")
 }
 
 // Save global configuration
-await Deno.writeTextFile(resolve(root, "deno.jsonc"), JSON.stringify(Object.fromEntries(order.map((key) => [key, global[key]]).filter(([_, value]) => value !== undefined)), null, 2))
+await Deno.writeTextFile(resolve(root, "deno.jsonc"), `${JSON.stringify(Object.fromEntries(order.map((key) => [key, global[key]]).filter(([_, value]) => value !== undefined)), null, 2)}\n`)
