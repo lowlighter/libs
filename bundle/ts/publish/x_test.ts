@@ -76,7 +76,7 @@ test("deno")("publish() handles imports map resolution", async () => {
   try {
     Deno.chdir(fromFileUrl(import.meta.resolve("./testing")))
     await expect(publish({
-      log: new Logger({ level: Logger.level.debug }),
+      log: new Logger({ level: Logger.level.disabled }),
       token: "github_pat_",
       repository: "octocat/hello-world",
       map: "deno.jsonc",
