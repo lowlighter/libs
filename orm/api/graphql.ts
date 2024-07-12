@@ -1,6 +1,6 @@
 // Imports
 import { toCamelCase, toPascalCase as titleCase } from "@std/text/case"
-import type { record } from "@libs/typing"
+import type { record, rw } from "@libs/typing"
 import type { Resource } from "../resource.ts"
 import { makeExecutableSchema } from "@graphql-tools/schema"
 import { mergeResolvers, mergeTypeDefs } from "@graphql-tools/merge"
@@ -27,7 +27,7 @@ function comment(description = "", { indent = "" } = {}) {
 }
 
 /** Convert object typings from a JSON schema to a GraphQL type definition. */
-function toGraphQLType(name: string, schema: json_schema, { definitions = [] as string[] } = {}) {
+function toGraphQLType(name: string, schema: rw, { definitions = [] as string[] } = {}) {
   if (schema.type !== "object") {
     throw new TypeError(`Schema must be of type "object", not "${schema.type}"`)
   }
@@ -50,7 +50,7 @@ function toGraphQLType(name: string, schema: json_schema, { definitions = [] as 
 }
 
 /** Convert primitives typing from a JSON schema to a GraphQL type definition. */
-function toGraphQLPrimitive(name: string, property: string, schema: json_schema, { subtype = false, definitions = [] as string[] }) {
+function toGraphQLPrimitive(name: string, property: string, schema: rw, { subtype = false, definitions = [] as string[] }) {
   if (Array.isArray(schema.type)) {
     return toGraphQLPrimitive(name, property, { anyOf: schema.type.map((type: string) => ({ type })) }, { subtype, definitions })
   }
@@ -60,7 +60,7 @@ function toGraphQLPrimitive(name: string, property: string, schema: json_schema,
   const nullable = schema.anyOf.some(({ type }: { type: string }) => type === "null")
   const types = new Set<string>()
   const namepath = titleCase(`${name} ${property}`)
-  schema.anyOf.forEach((validation: json_schema_type) => {
+  schema.anyOf.forEach((validation: rw) => {
     if ((validation.enum) || (validation.const)) {
       definitions.push(`enum ${namepath} {\n${(validation.enum ?? [validation.const]).map((choice: string) => `  ${choice}`).join("\n")}\n}`)
       return types.add(namepath)
@@ -122,13 +122,18 @@ export function graphql(
   for (const resource of resources) {
     const name = titleCase(resource.name)
     if (definitions.has(name)) {
-      throw new ReferenceError(`Redefining resource "${name}". Each resource should have a unique name.`)
+      throw new TypeError(`Redefining resource "${name}". Each resource should have a unique name.`)
     }
     let definition = toGraphQLDefinition(name, resource.schema)
     definition += [
       `type Query {`,
       `  ${toCamelCase(pluralize(name))}: [${name}]`,
       `  ${toCamelCase(name)}(id: ID!): ${name}`,
+      `}`,
+      `type Mutation {`,
+      //`  create${name}(data: ): ${name}`,
+      //`  update${name}(id: ID!, data: ): ${name}`,
+      `  delete${name}(id: ID!): ${name}`,
       `}`,
     ].join("\n")
     definitions.set(name, definition)
@@ -141,7 +146,24 @@ export function graphql(
           return resource.get(id, { raw: true })
         },
       },
-      //Mutation: {},
+      Mutation: {
+        /*[`create${name}`](_: unknown, { data }: { data: unknown }) {
+          // deno-lint-ignore no-explicit-any
+          return new resource(data as any).save()
+        },
+        async [`update${name}`](_: unknown, { id, data }: { id: string; data: unknown }) {
+          const instance = await resource.get(id)
+          if (!instance) {
+            return null
+          }
+          await instance.patch(data as rw)
+          return instance.save()
+        },*/
+        async [`delete${name}`](_: unknown, { id }: { id: string }) {
+          const instance = await resource.delete(id)
+          return instance?.data
+        },
+      },
     })
   }
   const schema = makeExecutableSchema({ typeDefs: mergeTypeDefs([...definitions.values(), _typedefs]), resolvers: mergeResolvers([...resolvers.values(), _resolvers]) })
@@ -150,14 +172,6 @@ export function graphql(
     handler: GraphQLHTTP({ schema, graphiql }),
   }
 }
-
-/** JSON schema. */
-// deno-lint-ignore no-explicit-any
-type json_schema = any
-
-/** JSON schema type. */
-// deno-lint-ignore no-explicit-any
-type json_schema_type = any
 
 /** GraphQL resolvers. */
 // deno-lint-ignore no-explicit-any

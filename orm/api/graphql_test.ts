@@ -73,4 +73,6 @@ test("deno")(`graphql() returns an executable graphql schema`, async () => {
   await expect(gql(`{ testResource(id: "${resources[0].id}") { foo } }`)).resolves.toEqual({ testResource: { foo: "bar" } })
   await expect(gql(`{ test }`)).resolves.toEqual({ test: "ok" })
   expect(resolver).toBeCalledTimes(1)
+  expect(() => graphql([TestResource, TestResource])).toThrow(TypeError)
+  await expect(gql(`mutation { deleteTestResource(id: "${resources[0].id}") { created } }`)).resolves.toEqual({ deleteTestResource: { created: null } })
 })
