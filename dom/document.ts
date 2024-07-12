@@ -698,69 +698,9 @@ export class Document extends Node implements _Document {
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent
   // Depends: Event implementation
-  createEvent(eventInterface: "AnimationEvent"): AnimationEvent
-  createEvent(eventInterface: "AnimationPlaybackEvent"): AnimationPlaybackEvent
-  createEvent(eventInterface: "AudioProcessingEvent"): AudioProcessingEvent
-  createEvent(eventInterface: "BeforeUnloadEvent"): BeforeUnloadEvent
-  createEvent(eventInterface: "BlobEvent"): BlobEvent
-  createEvent(eventInterface: "ClipboardEvent"): ClipboardEvent
-  createEvent(eventInterface: "CloseEvent"): CloseEvent
-  createEvent(eventInterface: "CompositionEvent"): CompositionEvent
-  createEvent(eventInterface: "CustomEvent"): CustomEvent
-  createEvent(eventInterface: "DeviceMotionEvent"): DeviceMotionEvent
-  createEvent(eventInterface: "DeviceOrientationEvent"): DeviceOrientationEvent
-  createEvent(eventInterface: "DragEvent"): DragEvent
-  createEvent(eventInterface: "ErrorEvent"): ErrorEvent
-  createEvent(eventInterface: "Event"): Event
-  createEvent(eventInterface: "Events"): Event
-  createEvent(eventInterface: "FocusEvent"): FocusEvent
-  createEvent(eventInterface: "FontFaceSetLoadEvent"): FontFaceSetLoadEvent
-  createEvent(eventInterface: "FormDataEvent"): FormDataEvent
-  createEvent(eventInterface: "GamepadEvent"): GamepadEvent
-  createEvent(eventInterface: "HashChangeEvent"): HashChangeEvent
-  createEvent(eventInterface: "IDBVersionChangeEvent"): IDBVersionChangeEvent
-  createEvent(eventInterface: "InputEvent"): InputEvent
-  createEvent(eventInterface: "KeyboardEvent"): KeyboardEvent
-  createEvent(eventInterface: "MIDIConnectionEvent"): MIDIConnectionEvent
-  createEvent(eventInterface: "MIDIMessageEvent"): MIDIMessageEvent
-  createEvent(eventInterface: "MediaEncryptedEvent"): MediaEncryptedEvent
-  createEvent(eventInterface: "MediaKeyMessageEvent"): MediaKeyMessageEvent
-  createEvent(eventInterface: "MediaQueryListEvent"): MediaQueryListEvent
-  createEvent(eventInterface: "MediaStreamTrackEvent"): MediaStreamTrackEvent
-  createEvent(eventInterface: "MessageEvent"): MessageEvent
-  createEvent(eventInterface: "MouseEvent"): MouseEvent
-  createEvent(eventInterface: "MouseEvents"): MouseEvent
-  createEvent(eventInterface: "MutationEvent"): MutationEvent
-  createEvent(eventInterface: "MutationEvents"): MutationEvent
-  createEvent(eventInterface: "OfflineAudioCompletionEvent"): OfflineAudioCompletionEvent
-  createEvent(eventInterface: "PageTransitionEvent"): PageTransitionEvent
-  createEvent(eventInterface: "PaymentMethodChangeEvent"): PaymentMethodChangeEvent
-  createEvent(eventInterface: "PaymentRequestUpdateEvent"): PaymentRequestUpdateEvent
-  createEvent(eventInterface: "PictureInPictureEvent"): PictureInPictureEvent
-  createEvent(eventInterface: "PointerEvent"): PointerEvent
-  createEvent(eventInterface: "PopStateEvent"): PopStateEvent
-  createEvent(eventInterface: "ProgressEvent"): ProgressEvent
-  createEvent(eventInterface: "PromiseRejectionEvent"): PromiseRejectionEvent
-  createEvent(eventInterface: "RTCDTMFToneChangeEvent"): RTCDTMFToneChangeEvent
-  createEvent(eventInterface: "RTCDataChannelEvent"): RTCDataChannelEvent
-  createEvent(eventInterface: "RTCErrorEvent"): RTCErrorEvent
-  createEvent(eventInterface: "RTCPeerConnectionIceErrorEvent"): RTCPeerConnectionIceErrorEvent
-  createEvent(eventInterface: "RTCPeerConnectionIceEvent"): RTCPeerConnectionIceEvent
-  createEvent(eventInterface: "RTCTrackEvent"): RTCTrackEvent
-  createEvent(eventInterface: "SecurityPolicyViolationEvent"): SecurityPolicyViolationEvent
-  createEvent(eventInterface: "SpeechSynthesisErrorEvent"): SpeechSynthesisErrorEvent
-  createEvent(eventInterface: "SpeechSynthesisEvent"): SpeechSynthesisEvent
-  createEvent(eventInterface: "StorageEvent"): StorageEvent
-  createEvent(eventInterface: "SubmitEvent"): SubmitEvent
-  createEvent(eventInterface: "ToggleEvent"): ToggleEvent
-  createEvent(eventInterface: "TouchEvent"): TouchEvent
-  createEvent(eventInterface: "TrackEvent"): TrackEvent
-  createEvent(eventInterface: "TransitionEvent"): TransitionEvent
-  createEvent(eventInterface: "UIEvent"): UIEvent
-  createEvent(eventInterface: "UIEvents"): UIEvent
-  createEvent(eventInterface: "WebGLContextEvent"): WebGLContextEvent
-  createEvent(eventInterface: "WheelEvent"): WheelEvent
-  createEvent(_eventInterface: string): Event {
+  // TODO(@lowlighter): had to revert the overrides because it was causing type errors
+  // deno-lint-ignore no-explicit-any
+  createEvent(_eventInterface: string): any {
     return unimplemented()
   }
 

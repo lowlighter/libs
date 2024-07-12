@@ -407,6 +407,8 @@ export class Element extends Node implements _Element {
   ariaAtomic = null as Nullable<string>
   ariaAutoComplete = null as Nullable<string>
   ariaBusy = null as Nullable<string>
+  ariaBrailleLabel = null as Nullable<string>
+  ariaBrailleRoleDescription = null as Nullable<string>
   ariaChecked = null as Nullable<string>
   ariaColCount = null as Nullable<string>
   ariaColIndex = null as Nullable<string>
