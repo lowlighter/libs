@@ -2,7 +2,7 @@ import { expect, fn, test, type testing } from "@libs/testing"
 import { Resource } from "./resource.ts"
 import { Store } from "./store/kv.ts"
 import { Logger } from "@libs/logger"
-import { delay } from "jsr:@std/async@^0.224.2/delay"
+import { delay } from "@std/async/delay"
 import { is } from "./mod.ts"
 
 const log = new Logger({ level: Logger.level.disabled })
@@ -122,6 +122,14 @@ test("deno")(`Resource.get gets resource from store and is the same instance eac
   await expect(TestResource.get(resource.id)).resolves.toHaveProperty("id", resource.id)
 })
 
+test("deno")(`Resource.get gets resource data from store`, async () => {
+  const TestResource = await Resource.with({ name: "get_data", store, log }).ready
+  const resource = new TestResource()
+  await expect(TestResource.get(resource.id, { raw: true })).resolves.toBeNull()
+  await resource.save()
+  await expect(TestResource.get(resource.id, { raw: true })).resolves.toEqual(resource.data)
+})
+
 test("deno")(`Resource.delete deletes resource from store`, async () => {
   const TestResource = await Resource.with({ name: "delete", store, log }).ready
   const resource = new TestResource()
@@ -145,4 +153,28 @@ test("deno")(`Resource.list lists resources from store`, async () => {
   await expect(TestResource.list([], { array: true })).resolves.toEqual(resources)
   await expect(TestResource.list([[resources.at(0)!.id], [resources.at(-1)!.id]], { array: true })).resolves.toEqual(resources)
   await expect(Array.fromAsync(await TestResource.list([], { array: false }))).resolves.toEqual(resources)
+})
+
+test("deno")(`Resource.list lists resource data from store`, async () => {
+  const TestResource = await Resource.with({ name: "list_data", store, log }).ready
+  await expect(TestResource.list(undefined, { array: true })).resolves.toEqual([])
+  const data = []
+  for (let i = 0; i < 5; i++) {
+    const resource = await new TestResource().save()
+    data.push(resource.data)
+    await delay(1)
+  }
+  await expect(TestResource.list([], { array: true, raw: true })).resolves.toEqual(data)
+  await expect(Array.fromAsync(await TestResource.list([], { array: false, raw: true }))).resolves.toEqual(data)
+})
+
+test("deno")(`Resource.schema returns a JSON schema of the resource`, async () => {
+  const TestResource = await Resource.with({ name: "schema", store, log, model: is.object({ foo: is.boolean().describe("foobar") }) }).ready
+  expect(TestResource.schema).toMatchObject({
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    type: "object",
+    properties: {
+      foo: { type: "boolean", description: "foobar" },
+    },
+  })
 })

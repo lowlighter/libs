@@ -1,5 +1,7 @@
 export { Store as DenoKvStore } from "./store/kv.ts"
-export { is } from "./is/mod.ts"
+export { is, schema } from "./is/mod.ts"
 export { Resource } from "./resource.ts"
+export { graphql, toGraphQLDefinition } from "./api/graphql.ts"
 export type * from "./store/store.ts"
+export type * from "./api/graphql.ts"
 export type * from "./resource.ts"

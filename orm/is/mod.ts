@@ -5,4 +5,4 @@
  *
  * @module
  */
-export { is } from "./is.ts"
+export { is, schema } from "./is.ts"

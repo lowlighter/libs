@@ -1,6 +1,7 @@
 // Imports
-import { z as is } from "npm:zod@3"
-import { type ErrorMessageOptions, generateErrorMessage } from "npm:zod-error@1"
+import { z as is } from "zod"
+import { type ErrorMessageOptions, generateErrorMessage } from "zod-error"
+import { zodToJsonSchema as schema } from "zod-to-json-schema"
 
 /** Original methods. */
 const { parse, parseAsync } = is.ZodType.prototype
@@ -56,4 +57,4 @@ is.ZodType.prototype.parseAsync = async function (...args: Parameters<typeof par
 }
 
 /** Input validation. */
-export { is }
+export { is, schema }

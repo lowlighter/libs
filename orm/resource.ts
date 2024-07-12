@@ -3,7 +3,7 @@ import type { key, Store, version } from "./store/store.ts"
 import type { Logger } from "@libs/logger"
 import { ulid } from "@std/ulid"
 import type { Arg, Arrayable, callback, DeepPartial, Nullable, record, rw } from "@libs/typing"
-import { is } from "./is/mod.ts"
+import { is, schema } from "./is/mod.ts"
 export type { _model, Logger, Nullable, ulid }
 
 /** Resource identifier. */
@@ -15,8 +15,12 @@ export type shape = is.ZodRawShape
 /** Resource minimal model. */
 const _model = {
   id: is.string().describe("Unique identifier."),
-  created: is.number().min(0).nullable().default(null).describe("Creation timestamp."),
-  updated: is.number().min(0).nullable().default(null).describe("Last update timestamp."),
+  created: is.number().int().min(0).nullable().default(null).describe("Creation timestamp."),
+  updated: is.number().int().min(0).nullable().default(null).describe("Last update timestamp."),
+} as {
+  id: is.ZodString
+  created: is.ZodDefault<is.ZodNullable<is.ZodNumber>>
+  updated: is.ZodDefault<is.ZodNullable<is.ZodNumber>>
 }
 
 /** Resource minimal model. */
@@ -222,8 +226,12 @@ export class Resource<T extends model> {
     return await this.store.has(key)
   }
 
+  /** Get resource data from {@link Store}. */
+  static async get<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key: id | key, options: { raw: false }): Promise<Nullable<T>>
   /** Get resource from {@link Store}. */
-  static async get<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key: id | key): Promise<Nullable<InstanceType<T>>> {
+  static async get<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key: id | key, options?: { raw?: true }): Promise<Nullable<InstanceType<T>>>
+  /** Get resource from {@link Store}. */
+  static async get<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key: id | key, options?: { raw?: boolean }) {
     if (!Array.isArray(key)) {
       key = [...this.prototype.keys[0].filter((part) => part !== undefined), key] as key
     }
@@ -231,6 +239,9 @@ export class Resource<T extends model> {
     if (!value) {
       this.log?.with({ op: "get", key }).warn("no result")
       return null
+    }
+    if (options?.raw) {
+      return value
     }
     return Resource.#cache.get(value.id)?.deref() as rw ?? new this(value.id).ready
   }
@@ -245,12 +256,16 @@ export class Resource<T extends model> {
     return await resource.delete()
   }
 
+  /** List resources data from {@link Store}. */
+  static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array: true; raw: true }): Promise<Array<T>>
+  /** List resources data from {@link Store}. */
+  static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array?: false; raw: true }): Promise<AsyncGenerator<T>>
   /** List resources from {@link Store}. */
-  static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array: true }): Promise<Array<InstanceType<T>>>
+  static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array: true; raw?: false }): Promise<Array<InstanceType<T>>>
   /** List resources from {@link Store}. */
-  static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array?: false }): Promise<AsyncGenerator<InstanceType<T>>>
+  static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array?: false; raw?: false }): Promise<AsyncGenerator<InstanceType<T>>>
   /** List resources from {@link Store}. */
-  static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array?: boolean }) {
+  static async list<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key?: key | [key, key], options?: Omit<Arg<Store["list"], 1>, "array"> & { array?: boolean; raw?: boolean }) {
     if (!key) {
       key = []
     }
@@ -271,7 +286,7 @@ export class Resource<T extends model> {
     const list = await this.store.list(key, { ...options, array: false })
     const iterator = (async function* () {
       for await (const { key } of list) {
-        yield await self.get(key)
+        yield await self.get(key, options as Arg<typeof self["get"], 1>)
       }
     })()
     return options?.array ? Array.fromAsync(iterator) : iterator
@@ -279,6 +294,11 @@ export class Resource<T extends model> {
 
   /** Initialize {@link Resource}. */
   protected static async init() {}
+
+  /** JSON schema. */
+  static get schema(): ReturnType<typeof schema> {
+    return schema(this.model)
+  }
 
   /** Instantiate a new {@link Resource} constructor with specified {@link Store}, {@link Logger}, listeners and initialization function. */
   static with<U extends shape, V extends record, T extends typeof Resource<model_extended<U>>>(
