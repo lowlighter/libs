@@ -48,10 +48,6 @@ export async function bundle(input: URL | string, { minify = false, banner = "",
       fix: true,
     },
     code,
-    // TODO(@lowlighter): remove this when fixed upstream (https://github.com/denoland/deno/issues/23996)
-    // This should bypass the lstatCall for now
-    // https://github.com/stylelint/stylelint/blob/72ec18af4292a96e1feec2e1b64235ea961f6d49/lib/utils/getCacheFile.mjs#L36-L39
-    cache: false,
     cacheLocation: `/dev/null/${SEPARATOR}`,
   })
   result.code ??= ""
