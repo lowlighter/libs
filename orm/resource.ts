@@ -73,21 +73,45 @@ export class Resource<T extends model> {
   readonly ready: Promise<this>
 
   /** KV data. */
-  readonly data = { id: null as unknown as id, created: null, updated: null } as T
+  #_data = { id: null as unknown as id, created: null, updated: null } as T
+
+  /** KV data (readonly). */
+  #_data_readonly = {} as T
+
+  /** KV data (Note: this record should ALWAYS be re-assigned to change its content) to prevent representation desync. */
+  get #data() {
+    return this.#_data
+  }
+
+  /** KV data (Note: this record should ALWAYS be re-assigned to change its content) to prevent representation desync. */
+  set #data(data: T) {
+    this.#_data = data
+    this.#_data_readonly = JSON.parse(JSON.stringify(this.#_data), (_, v) => Object.freeze(v))
+  }
+
+  /** KV data. */
+  get data(): Readonly<T> {
+    return this.#_data_readonly
+  }
 
   /** Unique identifier. */
   get id(): id {
-    return this.data?.id
+    return this.#_data?.id
   }
 
   /** KV version. */
   version = null as Nullable<version>
 
-  /** KV keys. */
+  /** KV keys. The first key returned will be used as "primary index" and shall be used for read operations. */
   get keys(): key[] {
     return [
-      [this.constructor.name, this.id],
+      [...(this.constructor as typeof Resource).lookup, this.id],
     ]
+  }
+
+  /** KV keys lookup for read operations. */
+  static get lookup(): key {
+    return [this.name]
   }
 
   /** Logger. */
@@ -128,7 +152,7 @@ export class Resource<T extends model> {
   }
 
   /** Dispatch event. */
-  async #dispatch(event: "created" | "fetch" | "fetched" | "load" | "loaded" | "save" | "saved" | "delete" | "deleted") {
+  async #dispatch(event: "created" | "fetch" | "fetched" | "load" | "loaded" | "patch" | "patched" | "save" | "saved" | "delete" | "deleted") {
     this.log?.with({ event }).debug("dispatching")
     if (this.#listeners[event]) {
       for (const listener of this.#listeners[event]) {
@@ -141,7 +165,7 @@ export class Resource<T extends model> {
   async #fetch(resolve: callback, reject: callback, id?: Nullable<id> | DeepPartial<T>) {
     try {
       if (typeof id === "string") {
-        this.data.id = id
+        this.#data = { ...this.#data, id } as T
         this.#log = (this.constructor as typeof Resource).log?.with({ type: this.constructor.name, id: this.id }) ?? null
         this.log?.with({ op: "fetch" }).debug("fetching")
         await this.#dispatch("fetch")
@@ -150,18 +174,18 @@ export class Resource<T extends model> {
           throw new Error(`Resource not found: [${this.keys[0].join(", ")}]`)
         }
         this.version = version
-        Object.assign(this.data, value)
+        this.#data = value!
         await this.#dispatch("fetched")
         this.log?.with({ op: "fetch" }).debug("fetched")
       } else {
-        Object.assign(this.data, { id: ulid(), ...id })
+        this.#data = { ...this.#data, ...id, id: ulid() } as T
         this.#log = (this.constructor as typeof Resource).log?.with({ type: this.constructor.name, id: this.id }) ?? null
         await this.#dispatch("created")
         this.log?.with({ op: "created" }).debug("created")
       }
       Resource.#cache.set(this.id, new WeakRef(this))
       Resource.#gc.register(this, this.id)
-      Object.assign(this.data, await this.model.strict().parseAsync(this.data))
+      this.#data = await this.model.strict().parseAsync(this.#data) as T
       resolve(this)
     } catch (error) {
       reject(error)
@@ -175,11 +199,11 @@ export class Resource<T extends model> {
     await this.#dispatch("load")
     const { value, version } = await this.store.get<T>(this.keys[0])
     this.version = version
-    Object.assign(this.data, value)
     if (!this.version) {
       this.log?.with({ op: "load" }).warn("no result")
       return null
     }
+    this.#data = value!
     await this.#dispatch("loaded")
     this.log?.with({ op: "load" }).debug("loaded")
     return this
@@ -189,13 +213,15 @@ export class Resource<T extends model> {
   async save(): Promise<this> {
     await this.ready
     this.log?.with({ op: "save" }).debug("saving")
-    this.data.updated = Date.now()
-    this.data.created ??= this.data.updated
+    this.#data = { ...this.#data, updated: Date.now() }
+    if (!this.#data.created) {
+      this.#data = { ...this.#data, created: this.#data.updated }
+    }
     await this.#dispatch("save")
-    await this.model.strict().parseAsync(this.data)
-    const { version, value } = await this.store.set(this.keys, this.data, this.version)
+    await this.model.strict().parseAsync(this.#data)
+    const { version, value } = await this.store.set(this.keys, this.#data, this.version)
     this.version = version
-    Object.assign(this.data, value)
+    this.#data = value
     await this.#dispatch("saved")
     this.log?.with({ op: "save" }).debug("saved")
     return this
@@ -212,7 +238,7 @@ export class Resource<T extends model> {
     }
     await this.store.delete(this.keys, this.version)
     this.version = null
-    Object.assign(this.data, { created: null, updated: null })
+    this.#data = { ...this.#data, created: null, updated: null }
     await this.#dispatch("deleted")
     this.log?.with({ op: "delete" }).info("deleted")
     return this
@@ -221,7 +247,7 @@ export class Resource<T extends model> {
   /** Test if a resource with given id is present in store. */
   static async has<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key: id | key): Promise<boolean> {
     if (!Array.isArray(key)) {
-      key = [...this.prototype.keys[0].filter((part) => part !== undefined), key] as key
+      key = [...this.lookup, key] as key
     }
     return await this.store.has(key)
   }
@@ -233,7 +259,7 @@ export class Resource<T extends model> {
   /** Get resource from {@link Store}. */
   static async get<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key: id | key, options?: { raw?: boolean }) {
     if (!Array.isArray(key)) {
-      key = [...this.prototype.keys[0].filter((part) => part !== undefined), key] as key
+      key = [...this.lookup, key] as key
     }
     const { value } = await this.store.get<InstanceType<T>>(key)
     if (!value) {

@@ -41,6 +41,15 @@ test("deno")(`Resource.constructor fetches back data from store when id is given
   await expect(new TestResource("invalid").ready).rejects.toThrow(Error)
 })
 
+test("deno")(`Resource.data is not writable`, async () => {
+  const TestResource = await Resource.with({ name: "data", store, log, model: is.object({ foo: is.object({ bar: is.boolean() }) }) }).ready
+  const resource = await new TestResource({ foo: { bar: true } }).save()
+  expect(resource.data).toMatchObject({ foo: { bar: true } })
+  expect(() => (resource as testing).data = { foo: { bar: true } }).toThrow(TypeError)
+  expect(() => (resource.data as testing).foo = { bar: true }).toThrow(TypeError)
+  expect(() => (resource.data as testing).foo.bar = true).toThrow(TypeError)
+})
+
 test("deno")(`Resource.load loads data from store`, async () => {
   const listeners = { load: fn(), loaded: fn() }
   const TestResource = await Resource.with({ name: "load", store, log, listeners }).ready
