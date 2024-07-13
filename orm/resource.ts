@@ -161,7 +161,7 @@ export class Resource<T extends model> {
 
   /** Dispatch event. */
   async #dispatch(event: "created" | "fetch" | "fetched" | "load" | "loaded" | "patch" | "patched" | "save" | "saved" | "delete" | "deleted") {
-    this.log?.with({ event }).debug("dispatching")
+    this.log?.with({ event }).trace("dispatching")
     if (this.#listeners[event]) {
       for (const listener of this.#listeners[event]) {
         await listener()
@@ -175,7 +175,7 @@ export class Resource<T extends model> {
       if (typeof id === "string") {
         this.#data = { ...this.#data, id } as T
         this.#log = (this.constructor as typeof Resource).log?.with({ type: this.constructor.name, id: this.id }) ?? null
-        this.log?.with({ op: "fetch" }).debug("fetching")
+        this.log?.with({ op: "fetch" }).trace("fetching")
         await this.#dispatch("fetch")
         const { value, version } = await this.store.get<T>(this.keys[0])
         if (!version) {
@@ -204,7 +204,7 @@ export class Resource<T extends model> {
   /** Validate patch and update resource data without comitting changes. */
   async patch(patch: Omit<DeepPartial<T>, "id" | "created" | "updated">, { readonly = true } = {}): Promise<this> {
     await this.ready
-    this.log?.with({ op: "patch" }).debug("patching")
+    this.log?.with({ op: "patch" }).trace("patching")
     await this.#dispatch("patch")
     const picked = Object.fromEntries(Object.keys(patch).map((key) => [key, true]))
     patch = await this.model.strict().omit({ id: true, created: true, updated: true, ...(readonly ? this.readonly : {}) }).pick(picked as rw).parseAsync(patch) as DeepPartial<T>
@@ -218,12 +218,12 @@ export class Resource<T extends model> {
   /** Load resource from {@link Store}. */
   async load(): Promise<Nullable<this>> {
     await this.ready
-    this.log?.with({ op: "load" }).debug("loading")
+    this.log?.with({ op: "load" }).trace("loading")
     await this.#dispatch("load")
     const { value, version } = await this.store.get<T>(this.keys[0])
     this.version = version
     if (!this.version) {
-      this.log?.with({ op: "load" }).warn("no result")
+      this.log?.with({ op: "load" }).wdebug("no result")
       return null
     }
     this.#data = value!
@@ -235,7 +235,7 @@ export class Resource<T extends model> {
   /** Save resource in {@link Store}. */
   async save(): Promise<this> {
     await this.ready
-    this.log?.with({ op: "save" }).debug("saving")
+    this.log?.with({ op: "save" }).trace("saving")
     this.#data = { ...this.#data, updated: Date.now() }
     if (!this.#data.created) {
       this.#data = { ...this.#data, created: this.#data.updated }
@@ -253,17 +253,17 @@ export class Resource<T extends model> {
   /** Delete resource from {@link Store}. */
   async delete(): Promise<Nullable<this>> {
     await this.ready
-    this.log?.with({ op: "delete" }).debug("deleting")
+    this.log?.with({ op: "delete" }).trace("deleting")
     await this.#dispatch("delete")
     if ((!this.version) || (!await this.store.has(this.keys[0]))) {
-      this.log?.with({ op: "delete" }).warn("no result")
+      this.log?.with({ op: "delete" }).wdebug("no result")
       return null
     }
     await this.store.delete(this.keys, this.version)
     this.version = null
     this.#data = { ...this.#data, created: null, updated: null }
     await this.#dispatch("deleted")
-    this.log?.with({ op: "delete" }).info("deleted")
+    this.log?.with({ op: "delete" }).debug("deleted")
     return this
   }
 
@@ -288,12 +288,12 @@ export class Resource<T extends model> {
       key = [...this.lookup, key] as key
     }
     if (key.includes(null as rw)) {
-      this.log?.with({ op: "get", key }).warn("no result as key is partially null")
+      this.log?.with({ op: "get", key }).wdebug("no result as key is partially null")
       return null
     }
     const { value } = await this.store.get<InstanceType<T>>(key)
     if (!value) {
-      this.log?.with({ op: "get", key }).warn("no result")
+      this.log?.with({ op: "get", key }).wdebug("no result")
       return null
     }
     if (options?.raw) {
@@ -306,7 +306,7 @@ export class Resource<T extends model> {
   static async delete<U extends shape, T extends typeof Resource<model_extended<U>>>(this: T, key: id | key): Promise<Nullable<InstanceType<T>>> {
     const resource = await this.get(key)
     if (!resource) {
-      this.log?.with({ op: "delete", key }).warn("no result")
+      this.log?.with({ op: "delete", key }).wdebug("no result")
       return null
     }
     return await resource.delete()
