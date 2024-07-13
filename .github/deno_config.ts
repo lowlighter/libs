@@ -11,7 +11,32 @@ const upgrade = Deno.env.get("UPGRADE_PACKAGES") === "true"
 const root = fromFileUrl(import.meta.resolve("../"))
 const global = JSONC.parse(await Deno.readTextFile(resolve(root, "deno.jsonc"))) as Record<string, unknown> & { imports?: record<string>; tasks: record<string> }
 const log = new Logger()
-const order = ["icon", "name", "version", "description", "keywords", "license", "author", "funding", "homepage", "playground", "supported", "repository", "npm", "deno.land/x", "exports", "unstable", "types", "lock", "imports", "test:permissions", "tasks", "lint", "fmt"]
+const order = [
+  "icon",
+  "name",
+  "version",
+  "versioning",
+  "description",
+  "keywords",
+  "license",
+  "author",
+  "funding",
+  "homepage",
+  "playground",
+  "supported",
+  "repository",
+  "npm",
+  "deno.land/x",
+  "exports",
+  "unstable",
+  "types",
+  "lock",
+  "imports",
+  "test:permissions",
+  "tasks",
+  "lint",
+  "fmt",
+]
 
 // Load local configurations
 global.tasks ??= {}

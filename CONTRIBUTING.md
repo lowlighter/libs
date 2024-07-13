@@ -61,6 +61,7 @@ The following tasks are available from `@libs` scope:
   - The following properties additonal properties to `*/deno.jsonc` are supported:
     - `icon:string`: Package icon
     - `description:string`: Package description
+    - `versioning:"semver"|"date"`: Versioning scheme (should be `"semver"` in most cases)
     - `keywords:Array<string>`: Package keywords (for npm)
     - `supported:Array<"deno"|"node"|"bun"|"cloudflare-workers"|"browsers">`: List of supported runtimes
     - `playground?:string`: URL to playground

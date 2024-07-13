@@ -119,6 +119,7 @@ jobs:
       has_npm: ${{ steps.package.outputs.has_npm }}
       has_x: ${{ steps.package.outputs.has_x }}
       slow_types: ${{ steps.package.outputs.slow_types }}
+      versioning: ${{ steps.package.outputs.versioning }}
       tag: ${{ steps.tag.outputs.tag }}
       version: ${{ steps.tag.outputs.semver }}
     steps:
@@ -142,7 +143,8 @@ jobs:
           echo "has_bench=$(jq -r 'if .tasks.bench then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
           echo "has_npm=$(jq -r 'if .npm then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
           echo "has_x=$(jq -r 'if .["deno.land/x"] then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
-          echo "slow_types=$(jq -r 'if .types == "slow" then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
+          echo "slow_types=$(jq -r 'if .types == "slow" then "--allow-slow-types" else "" end' deno.jsonc)" >> "$GITHUB_OUTPUT"
+          echo "versioning=$(jq -r 'if .versioning == "date" then "date" else "semver" end' deno.jsonc)" >> "$GITHUB_OUTPUT
       # Build
       - run: deno task build
         if: ${{ steps.package.outputs.has_build }}
@@ -158,12 +160,27 @@ jobs:
         id: releasable
         run: |
           echo "releasable=$(git tag --list '${{ inputs.package }}-*' | tail -1)" >> "$GITHUB_OUTPUT"
-      - id: tag
+      - id: tag-next
         if: inputs.ref == 'refs/heads/main' && inputs.event == 'push' && steps.releasable.outputs.releasable
         uses: ldelarue/git-next-tag@v0.4
         with:
           tag-prefix: ${{ inputs.package }}-
           scope: ${{ inputs.package }}
+      - name:
+        id: tag
+        run: |
+          if [ "${{ steps.package.outputs.versioning }}" == "date" ]; then
+            TAG="${{ inputs.package }}-$(date '+%Y.%m.%d')"
+            SEMVER="$(date '+%Y.%m.%d')"
+          else
+            TAG="${{ steps.tag-next.outputs.tag }}"
+            SEMVER="${{ steps.tag-next.outputs.semver }}"
+          fi
+          echo "versioning: ${{ steps.package.outputs.versioning }}"
+          echo "tag: $TAG"
+          echo "semver: $SEMVER"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "semver=$SEMVER" >> "$GITHUB_OUTPUT"
 
   publish:
     name: Publish
@@ -221,7 +238,7 @@ jobs:
           git pull --rebase
           git push origin '${{ needs.test.outputs.tag }}'
       # Publish
-      - run: deno publish ${{ needs.test.outputs.slow_types && '--allow-slow-types' || '' }}
+      - run: deno publish ${{ needs.test.outputs.slow_types }}
       - name: Run npm publish
         if: ${{ needs.test.outputs.has_npm }}
         run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --npm.registry 'https://registry.npmjs.org' --npm.token '${{ secrets.NPM_TOKEN }}' --npm.scope '@lowlighter' --npm.access public
