@@ -379,7 +379,7 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
 // deno-lint-ignore ban-types
 export type LoggerOptions<T extends Record<PropertyKey, unknown> = {}> = {
   /** Logger level initial value. */
-  level?: level | loglevel | "disabled" | "always"
+  level?: levellike
   /** Logger formatter. */
   format?: formatter | "text" | "json"
   /**
@@ -439,6 +439,9 @@ export type level = number
 
 /** Logger level (named). */
 export type loglevel = Exclude<keyof typeof Logger.level, "disabled" | "always">
+
+/** Logger level like. */
+export type levellike = level | loglevel | "disabled" | "always"
 
 /** Logger formatter. */
 export type formatter = (logger: Logger, options: { level: loglevel; content: unknown[]; options: options }) => unknown[]
