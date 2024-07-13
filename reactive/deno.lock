@@ -27,6 +27,7 @@
         "integrity": "22486240b0df3dfbe5cdba1c799c7b038b90e2888092065b649220a5ee9a55ba",
         "dependencies": [
           "jsr:@libs/logger@1",
+          "jsr:@libs/typing@2",
           "jsr:@std/async@0.224.2",
           "jsr:@std/streams@0.224.5"
         ]
@@ -35,6 +36,7 @@
         "integrity": "a1cb40f127ec8ab3a37814beb13ff604b5aacbf9da633b413b243b7fcbd2309a",
         "dependencies": [
           "jsr:@libs/run@1",
+          "jsr:@libs/typing@2",
           "jsr:@std/assert@0.226.0",
           "jsr:@std/expect@0.224.5",
           "jsr:@std/http@0.224.5",
@@ -51,7 +53,10 @@
         ]
       },
       "@std/assert@1.0.0-rc.2": {
-        "integrity": "0484eab1d76b55fca1c3beaff485a274e67dd3b9f065edcbe70030dfc0b964d3"
+        "integrity": "0484eab1d76b55fca1c3beaff485a274e67dd3b9f065edcbe70030dfc0b964d3",
+        "dependencies": [
+          "jsr:@std/internal@^1.0.0"
+        ]
       },
       "@std/async@0.224.2": {
         "integrity": "4d277d6e165df43d5e061ba0ef3edfddb8e8d558f5b920e3e6b1d2614b44d074"
