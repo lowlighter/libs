@@ -98,16 +98,25 @@ test("all")(`Logger.level() sets logger options`, () => {
   expect(new Logger().level(Logger.level.log).level("unknown" as testing).level()).toBe(Logger.level.log)
 })
 
-const levels = Object.keys(Logger.level).filter((level) => level !== "disabled") as loglevel[]
+const levels = Object.keys(Logger.level).filter((level) => !["always", "disabled"].includes(level)) as loglevel[]
 for (const level of levels) {
   test("all")(`Logger.${level}() prints content to Logger.output`, () => {
     const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
-    const log = new Logger({ output, level: Infinity, format: "json" })
+    const log = new Logger({ output, level: "always", format: "json" })
     log[level]("foo")
     expect(output[channel(level)]).toBeCalledTimes(1)
     expect(json(output[channel(level)])).toMatchObject({ level, content: ["foo"] })
     for (const other of levels.filter((other) => (other !== "probe") && (channel(other) !== channel(level)))) {
       expect(output[channel(other)]).not.toBeCalled()
+    }
+  })
+
+  test("all")(`Logger.${level}() does not print content to Logger.output when log level is disabled`, () => {
+    const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
+    const log = new Logger({ output, level: "disabled", format: "json" })
+    for (const level of levels.filter((channel) => (channel !== "probe"))) {
+      log[level]("foo")
+      expect(output[channel(level)]).not.toBeCalled()
     }
   })
 }

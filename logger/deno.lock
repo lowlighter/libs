@@ -2,6 +2,7 @@
   "version": "3",
   "packages": {
     "specifiers": {
+      "jsr:@libs/logger@1": "jsr:@libs/logger@1.2.0",
       "jsr:@libs/run@1": "jsr:@libs/run@1.0.2",
       "jsr:@libs/testing@2": "jsr:@libs/testing@2.0.0",
       "jsr:@libs/typing@2": "jsr:@libs/typing@2.6.0",
@@ -19,6 +20,9 @@
       "jsr:@std/streams@0.224.5": "jsr:@std/streams@0.224.5"
     },
     "jsr": {
+      "@libs/logger@1.2.0": {
+        "integrity": "83fc3f646077bf7fa09d631c86c5ac041381a9cd76aee26826e88d0e1227eabc"
+      },
       "@libs/run@1.0.2": {
         "integrity": "22486240b0df3dfbe5cdba1c799c7b038b90e2888092065b649220a5ee9a55ba",
         "dependencies": [

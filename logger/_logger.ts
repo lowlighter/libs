@@ -114,7 +114,7 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
   /** Set or get logger level. */
   level(level?: LoggerOptions<T>["level"]): this | level {
     if (!arguments.length) {
-      return this.#level
+      return this.#level >= 0 ? this.#level : NaN
     }
     if (!Number.isNaN(Number.parseInt(`${level}`))) {
       level = Number.parseInt(`${level}`)
@@ -123,7 +123,7 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
       level = Logger.level[level]
     }
     if (typeof level === "number") {
-      this.#level = level >= 0 ? level : Logger.level.disabled
+      this.#level = (!Number.isNaN(level)) && (level >= 0) ? level : -1
     }
     return this
   }
@@ -131,7 +131,6 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
   /** Logger levels. */
   static readonly level = Object.freeze({
     disabled: NaN,
-    probe: NaN,
     error: 0,
     warn: 1,
     info: 2,
@@ -140,9 +139,10 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
     debug: 4,
     wdebug: 4,
     trace: 5,
+    probe: NaN,
+    always: Infinity,
   }) as Readonly<{
     disabled: number
-    probe: number
     error: 0
     warn: 1
     info: 2
@@ -151,6 +151,8 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
     debug: 4
     wdebug: 4
     trace: 5
+    probe: number
+    always: number
   }>
 
   /** Write content in error stream. */
@@ -377,7 +379,7 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
 // deno-lint-ignore ban-types
 export type LoggerOptions<T extends Record<PropertyKey, unknown> = {}> = {
   /** Logger level initial value. */
-  level?: level | loglevel | "disabled"
+  level?: level | loglevel | "disabled" | "always"
   /** Logger formatter. */
   format?: formatter | "text" | "json"
   /**
@@ -436,7 +438,7 @@ export type options = DeepNonNullable<Pick<LoggerOptions, "date" | "time" | "del
 export type level = number
 
 /** Logger level (named). */
-export type loglevel = Exclude<keyof typeof Logger.level, "disabled">
+export type loglevel = Exclude<keyof typeof Logger.level, "disabled" | "always">
 
 /** Logger formatter. */
 export type formatter = (logger: Logger, options: { level: loglevel; content: unknown[]; options: options }) => unknown[]
