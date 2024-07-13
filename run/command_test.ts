@@ -49,7 +49,7 @@ for (const sync of [false, true]) {
   for (const mode of ["inherit", "piped", null, "debug", "log", "info", "warn", "error"] as const) {
     test("deno")(`command() supports stdio set to "${mode}" in "${sync ? "sync" : "async"}" mode`, async () => {
       const result = await command("deno", ["--version"], {
-        logger: new Logger({ level: Logger.level.disabled }),
+        logger: new Logger({ level: "disabled" }),
         env: { NO_COLOR: "true" },
         stdin: mode,
         stdout: mode,

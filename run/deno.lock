@@ -2,8 +2,10 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@libs/logger": "jsr:@libs/logger@2.0.0",
-      "jsr:@libs/logger@2": "jsr:@libs/logger@2.0.0",
+      "jsr:@libs/logger": "jsr:@libs/logger@2.0.1",
+      "jsr:@libs/logger@1.1.3": "jsr:@libs/logger@1.1.3",
+      "jsr:@libs/logger@2": "jsr:@libs/logger@2.0.1",
+      "jsr:@libs/run@1": "jsr:@libs/run@1.0.3",
       "jsr:@libs/testing@2": "jsr:@libs/testing@2.0.0",
       "jsr:@libs/typing@2": "jsr:@libs/typing@2.6.0",
       "jsr:@std/assert@0.226.0": "jsr:@std/assert@0.226.0",
@@ -19,8 +21,20 @@
       "jsr:@std/streams@0.224.5": "jsr:@std/streams@0.224.5"
     },
     "jsr": {
-      "@libs/logger@2.0.0": {
-        "integrity": "f92b53802c94651a07abcd4995387c290f08433ad34030079779337d0bfbfe7e"
+      "@libs/logger@1.1.3": {
+        "integrity": "a359d5ce4aa9f2508b1515ad6f48f41e9dfbc2250ebaa1fd9059930b3a9bab3a"
+      },
+      "@libs/logger@2.0.1": {
+        "integrity": "b712d36396dfbd8018af092afdba919afc1f92062d11ce27a83724fe7eb22b13"
+      },
+      "@libs/run@1.0.3": {
+        "integrity": "21eeabe1f8fdcc8d5ebb20e950bc8de3142eb74b6edaa2281572ce890ce1f5a0",
+        "dependencies": [
+          "jsr:@libs/logger@1.1.3",
+          "jsr:@libs/typing@2",
+          "jsr:@std/async@0.224.2",
+          "jsr:@std/streams@0.224.5"
+        ]
       },
       "@libs/testing@2.0.0": {
         "integrity": "a1cb40f127ec8ab3a37814beb13ff604b5aacbf9da633b413b243b7fcbd2309a",
