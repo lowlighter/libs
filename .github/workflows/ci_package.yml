@@ -82,7 +82,7 @@ jobs:
       - run: deno lint
       - run: deno fmt --check
       - run: deno doc --lint mod.ts
-      - name: deno publish --dry-run
+      - name: Run deno publish --dry-run
         run: |
           SLOW_TYPES="$(jq -r 'if .types == "slow" then "--allow-slow-types" else "" end' deno.jsonc)"
           deno publish --dry-run --quiet --allow-dirty $SLOW_TYPES
@@ -156,7 +156,7 @@ jobs:
       - run: deno task bench
         if: ${{ steps.package.outputs.has_bench }}
       # Tag
-      - name: git tag --list '${{ inputs.package }}-*'
+      - name: Run git tag --list '${{ inputs.package }}-*'
         id: releasable
         run: |
           echo "releasable=$(git tag --list '${{ inputs.package }}-*' | tail -1)" >> "$GITHUB_OUTPUT"
@@ -169,10 +169,12 @@ jobs:
       - name: Compute tag and semantic version
         id: tag
         run: |
+          CURRENT_SEMVER="$(jq -r .version deno.jsonc)"
+          CURRENT_TAG="$(git tag --list '${{ inputs.package }}-*' | tail -1)"
           if [ "${{ steps.package.outputs.versioning }}" == "date" ]; then
             TAG="${{ inputs.package }}-$(date '+%Y.%m.%d')"
             SEMVER="$(date '+%Y.%-m.%-d')"
-            if [ "$(jq -r .version deno.jsonc)" == "$SEMVER" ]; then
+            if [ "$CURRENT_SEMVER" == "$SEMVER" ]; then
               echo -e "\033[33mversion $SEMVER is already published, skipping\033[0m"
               TAG=""
               SEMVER=""
@@ -182,8 +184,14 @@ jobs:
             SEMVER="${{ steps.tag-next.outputs.semver }}"
           fi
           echo "versioning: ${{ steps.package.outputs.versioning }}"
-          echo "tag: $TAG"
-          echo "semver: $SEMVER"
+          echo   "┌──────────────┬──────────────┬──────────────┐"
+          printf "│ %-12s │ %-12s │ %-12s │\n" "" "CURRENT" "NEXT"
+          printf "│ %-12s │ %-12s │ %-12s │\n" "TAG" "$CURRENT_TAG" "$TAG"
+          printf "│ %-12s │ %-12s │ %-12s │\n" "SEMVER" "$CURRENT_SEMVER" "$SEMVER"
+          echo   "├──────────────┴──────────────┴──────────────┤"
+          printf "│ %-12s │ %-27s │\n" "VERSIONING" "${{ steps.package.outputs.versioning }}"
+          echo   "└────────────────────────────────────────────┘"
+
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "semver=$SEMVER" >> "$GITHUB_OUTPUT"
 
