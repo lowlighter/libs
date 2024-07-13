@@ -189,6 +189,11 @@ export class Resource<T extends model> {
         const picked = Object.fromEntries(Object.keys(id ?? {}).map((key) => [key, true]))
         this.#data = { ...this.#data, ...await this.model.strict().omit({ id: true, created: true, updated: true }).pick(picked as rw).parseAsync(id ?? {}), id: ulid() } as T
         this.#log = (this.constructor as typeof Resource).log?.with({ type: this.constructor.name, id: this.id }) ?? null
+        for (const key of this.keys) {
+          if (await (this.constructor as typeof Resource).has(key)) {
+            throw new TypeError(`Resource already exists: [${key.join(", ")}]`)
+          }
+        }
         await this.#dispatch("created")
         this.log?.with({ op: "created" }).debug("created")
       }

@@ -61,6 +61,20 @@ test("deno")(`Resource.constructor fetches back data from store when id is given
   await expect(new TestResource("invalid").ready).rejects.toThrow(Error)
 })
 
+test("deno")(`Resource.constructor prevents duplicates`, async () => {
+  class TestResource extends Resource.with({ name: "duplicates", store, log, model: is.object({ foo: is.string() }) }) {
+    get keys() {
+      return [
+        [this.constructor.name, this.id],
+        [this.constructor.name, this.data.foo],
+      ]
+    }
+  }
+  await new TestResource({ foo: "bar" }).save()
+  await new TestResource({ foo: "baz" }).save()
+  await expect(new TestResource({ foo: "bar" }).save()).rejects.toThrow(Error)
+})
+
 test("deno")(`Resource.data is not writable`, async () => {
   const TestResource = await Resource.with({ name: "data", store, log, model: is.object({ foo: is.object({ bar: is.boolean() }) }) }).ready
   const resource = await new TestResource({ foo: { bar: true } }).save()
