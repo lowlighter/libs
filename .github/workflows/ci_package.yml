@@ -166,12 +166,12 @@ jobs:
         with:
           tag-prefix: ${{ inputs.package }}-
           scope: ${{ inputs.package }}
-      - name:
+      - name: Compute tag and semantic version
         id: tag
         run: |
           if [ "${{ steps.package.outputs.versioning }}" == "date" ]; then
             TAG="${{ inputs.package }}-$(date '+%Y.%m.%d')"
-            SEMVER="$(date '+%Y.%m.%d')"
+            SEMVER="$(date '+%Y.%-m.%-d')"
           else
             TAG="${{ steps.tag-next.outputs.tag }}"
             SEMVER="${{ steps.tag-next.outputs.semver }}"
