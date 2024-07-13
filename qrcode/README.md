@@ -20,8 +20,6 @@
 Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
 https://github.com/lowlighter/libs/blob/main/LICENSE
 
-________________________________________________________________________________
-
 Copyright (c) Project Nayuki. (MIT License)
 https://www.nayuki.io/page/qr-code-generator-library
 ```
