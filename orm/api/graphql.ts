@@ -1,96 +1,28 @@
 // Imports
 import { toCamelCase, toPascalCase as titleCase } from "@std/text/case"
-import type { record, rw } from "@libs/typing"
+import type { Arg, Arrayable, record, rw } from "@libs/typing"
 import type { Resource } from "../resource.ts"
 import { makeExecutableSchema } from "@graphql-tools/schema"
+import { printWithComments } from "@graphql-tools/utils"
 import { mergeResolvers, mergeTypeDefs } from "@graphql-tools/merge"
 import { GraphQLHTTP } from "@lowlighter/gql"
 import { schema as json_schema } from "../is/is.ts"
-export { GraphQLHTTP, makeExecutableSchema, mergeResolvers, mergeTypeDefs }
+export { type Arg, type Arrayable, GraphQLHTTP, makeExecutableSchema, mergeResolvers, mergeTypeDefs }
 
+/** Convert a {@link Resource} to a GraphQL type definition. */
+export function toGraphQLDefinition(resource: Arrayable<typeof Resource>): string
 /** Convert a JSON schema to a GraphQL type definition. */
-export function toGraphQLDefinition(name: string, schema: ReturnType<typeof json_schema>, { type = "type" as "type" | "input" } = {}): string {
+export function toGraphQLDefinition(name: string, schema: ReturnType<typeof json_schema>, options?: { type: "type" | "input" }): string
+/** Convert a JSON schema or {@link Resource} to a GraphQL type definition. */
+export function toGraphQLDefinition(name: string | Arrayable<typeof Resource>, schema?: ReturnType<typeof json_schema>, { type = "type" as "type" | "input" } = {}): string {
+  if (typeof name !== "string") {
+    const resources = name
+    return toGraphQLSchema([resources].flat())
+  }
   if ((typeof schema !== "object") || (!schema?.["$schema"])) {
     throw new TypeError("Expected object to be a JSON schema.")
   }
   return toGraphQLType(titleCase(name), structuredClone(schema), { type })
-}
-
-/** Create a comment for documentation. */
-function comment(description = "", { indent = "" } = {}) {
-  return [
-    `${indent}"""`,
-    ...description.split("\n").map((line: string) => `${indent}${line}`),
-    `${indent}"""`,
-    "",
-  ].join("\n")
-}
-
-/** Convert object typings from a JSON schema to a GraphQL type definition. */
-function toGraphQLType(name: string, schema: rw, { type = "type" as string, definitions = [] as string[] } = {}) {
-  if (schema.type !== "object") {
-    throw new TypeError(`Schema must be of type "object", not "${schema.type}"`)
-  }
-  let output = ""
-  if (schema.description) {
-    output += comment(schema.description)
-  }
-  output += `${type} ${name} {\n`
-  for (const property in schema.properties) {
-    if (schema.properties[property].description) {
-      output += comment(schema.properties[property].description, { indent: "  " })
-    }
-    output += toGraphQLPrimitive(name, property, schema.properties[property], { definitions })
-  }
-  output += "}\n"
-  for (const definition of definitions) {
-    output += `\n${definition}\n`
-  }
-  return output
-}
-
-/** Convert primitives typing from a JSON schema to a GraphQL type definition. */
-function toGraphQLPrimitive(name: string, property: string, schema: rw, { subtype = false, definitions = [] as string[] }) {
-  if (Array.isArray(schema.type)) {
-    return toGraphQLPrimitive(name, property, { anyOf: schema.type.map((type: string) => ({ type })) }, { subtype, definitions })
-  }
-  if (!schema.anyOf) {
-    return toGraphQLPrimitive(name, property, { anyOf: [schema] }, { subtype, definitions })
-  }
-  const nullable = schema.anyOf.some(({ type }: { type: string }) => type === "null")
-  const types = new Set<string>()
-  const namepath = titleCase(`${name} ${property}`)
-  schema.anyOf.forEach((validation: rw) => {
-    if ((validation.enum) || (validation.const)) {
-      definitions.push(`enum ${namepath} {\n${(validation.enum ?? [validation.const]).map((choice: string) => `  ${choice}`).join("\n")}\n}`)
-      return types.add(namepath)
-    }
-    if ((validation.type === "string") && (property === "id")) {
-      return types.add("ID")
-    }
-    switch (validation.type) {
-      case "integer":
-      case "number":
-        return types.add("Float")
-      case "string":
-        return types.add("String")
-      case "boolean":
-        return types.add("Boolean")
-      case "array":
-        return types.add(`[${toGraphQLPrimitive(name, property, validation.items, { subtype: true, definitions })}]`)
-      case "object": {
-        definitions.push(toGraphQLType(namepath, validation))
-        return types.add(namepath)
-      }
-    }
-  })
-  if (!types.size) {
-    throw new TypeError(`Unsupported type: ${name}.${property}`)
-  }
-  if (types.size > 1) {
-    throw new TypeError(`Union types are not supported: ${name}.${property}`)
-  }
-  return subtype ? `${[...types][0]}${nullable ? "" : "!"}` : `  ${property}: ${[...types][0]}${nullable ? "" : "!"}\n`
 }
 
 /**
@@ -114,9 +46,19 @@ function toGraphQLPrimitive(name: string, property: string, schema: rw, { subtyp
  * ```
  */
 export function graphql(
-  resources: Array<typeof Resource>,
-  { graphiql = true, typedefs: _typedefs = "", resolvers: _resolvers = {} } = {} as { graphiql?: boolean; typedefs?: string; resolvers?: record },
+  resources: Arrayable<typeof Resource>,
+  { graphiql = true, ...options } = {} as { graphiql?: boolean; typedefs?: string; resolvers?: record },
 ): { schema: ReturnType<typeof makeExecutableSchema>; handler: ReturnType<typeof GraphQLHTTP> } {
+  const schema = makeExecutableSchema(toGraphQLSchema([resources].flat(), { raw: true, ...options }))
+  return { schema, handler: GraphQLHTTP({ schema, graphiql }) }
+}
+
+/** Convert a {@link Resource} to a GraphQL schema. */
+function toGraphQLSchema(resources: Array<typeof Resource>, options?: { raw?: false; typedefs?: string; resolvers?: record }): string
+/** Convert a {@link Resource} to a GraphQL schema components. */
+function toGraphQLSchema(resources: Array<typeof Resource>, options: { raw: true; typedefs?: string; resolvers?: record }): { typeDefs: ast; resolvers: resolvers }
+/** Convert a {@link Resource} to a GraphQL schema or schema components. */
+function toGraphQLSchema(resources: Array<typeof Resource>, { raw = false, typedefs: _typedefs = "", resolvers: _resolvers = {} } = {} as { raw?: boolean; typedefs?: string; resolvers?: record }): string | { typeDefs: ast; resolvers: resolvers } {
   const definitions = new Map<string, string>()
   const resolvers = new Map<string, resolvers>()
   for (const resource of resources) {
@@ -170,16 +112,100 @@ export function graphql(
       },
     })
   }
-  const schema = makeExecutableSchema({ typeDefs: mergeTypeDefs([...definitions.values(), _typedefs]), resolvers: mergeResolvers([...resolvers.values(), _resolvers]) })
-  return {
-    schema,
-    handler: GraphQLHTTP({ schema, graphiql }),
+  const result = {
+    typeDefs: mergeTypeDefs([...definitions.values(), _typedefs]),
+    resolvers: mergeResolvers([...resolvers.values(), _resolvers]),
   }
+  return raw ? result : printWithComments(result.typeDefs)
+}
+
+/** Document a field. */
+function documentation(description = "", { indent = "" } = {}) {
+  return [
+    `${indent}"""`,
+    ...description.split("\n").map((line: string) => `${indent}${line}`),
+    `${indent}"""`,
+    "",
+  ].join("\n")
+}
+
+/** Convert object typings from a JSON schema to a GraphQL type definition. */
+function toGraphQLType(name: string, schema: rw, { type = "type" as string, definitions = [] as string[] } = {}) {
+  if (schema.type !== "object") {
+    throw new TypeError(`Schema must be of type "object", not "${schema.type}"`)
+  }
+  let output = ""
+  if (schema.description) {
+    output += documentation(schema.description)
+  }
+  output += `${type} ${name} {\n`
+  for (const property in schema.properties) {
+    if (schema.properties[property].description) {
+      output += documentation(schema.properties[property].description, { indent: "  " })
+    }
+    output += toGraphQLPrimitive(name, property, schema.properties[property], { definitions })
+  }
+  if (!Object.keys(schema.properties).length) {
+    output += `  """\n  This field has no effect.\n  """\n  _: Boolean\n`
+  }
+  output += "}\n"
+  for (const definition of definitions) {
+    output += `\n${definition}\n`
+  }
+  return output
+}
+
+/** Convert primitives typing from a JSON schema to a GraphQL type definition. */
+function toGraphQLPrimitive(name: string, property: string, schema: rw, { subtype = false, definitions = [] as string[] }) {
+  if (Array.isArray(schema.type)) {
+    return toGraphQLPrimitive(name, property, { anyOf: schema.type.map((type: string) => ({ type })) }, { subtype, definitions })
+  }
+  if (!schema.anyOf) {
+    return toGraphQLPrimitive(name, property, { anyOf: [schema] }, { subtype, definitions })
+  }
+  const nullable = schema.anyOf.some(({ type }: { type: string }) => type === "null")
+  const types = new Set<string>()
+  const namepath = titleCase(`${name} ${property}`)
+  schema.anyOf.forEach((validation: rw) => {
+    if ((validation.enum) || (validation.const)) {
+      definitions.push(`enum ${namepath} {\n${(validation.enum ?? [validation.const]).map((choice: string) => `  ${choice}`).join("\n")}\n}`)
+      return types.add(namepath)
+    }
+    if ((validation.type === "string") && (property === "id")) {
+      return types.add("ID")
+    }
+    switch (validation.type) {
+      case "integer":
+      case "number":
+        return types.add("Float")
+      case "string":
+        return types.add("String")
+      case "boolean":
+        return types.add("Boolean")
+      case "array":
+        return types.add(`[${toGraphQLPrimitive(name, property, validation.items, { subtype: true, definitions })}]`)
+      case "object": {
+        definitions.push(toGraphQLType(namepath, validation))
+        return types.add(namepath)
+      }
+    }
+  })
+  if (!types.size) {
+    throw new TypeError(`Unsupported type: ${name}.${property}`)
+  }
+  if (types.size > 1) {
+    throw new TypeError(`Union types are not supported: ${name}.${property}`)
+  }
+  return subtype ? `${[...types][0]}${nullable ? "" : "!"}` : `  ${property}: ${[...types][0]}${nullable ? "" : "!"}\n`
 }
 
 /** GraphQL resolvers. */
 // deno-lint-ignore no-explicit-any
 type resolvers = any
+
+/** GraphQL AST. */
+// deno-lint-ignore no-explicit-any
+type ast = any
 
 /** Pluralize a word. */
 function pluralize(word: string) {

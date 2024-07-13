@@ -52,8 +52,15 @@ test("deno")(`toGraphQLDefinition() throws on invalid types`, () => {
   expect(() => toGraphQLDefinition("Schema", schema(is.object({ foo: is.union([is.number(), is.string()]) })))).toThrow(TypeError)
 })
 
+test("deno")(`toGraphQLDefinition() suppports Resource definition`, () => {
+  class TestResource extends Resource.with({ model: is.object({ foo: is.string().describe("foobar") }) }) {}
+  expect(toGraphQLDefinition(TestResource)).toMatch(/type TestResource/)
+  expect(toGraphQLDefinition(TestResource)).toMatch(/"""\s*foobar\s*"""\s*foo:/)
+  expect(toGraphQLDefinition(Resource)).toMatch(/This field has no effect/i)
+})
+
 test("deno")(`graphql() returns an executable graphql schema`, async () => {
-  await using store = await new Store({ path: ":memory:", log: new Logger({ level: Logger.level.disabled }) }).ready
+  await using store = await new Store({ path: ":memory:", log: new Logger({ level: "disabled" }) }).ready
   const TestResource = await Resource.with({
     name: "TestResource",
     store,
