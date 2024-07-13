@@ -184,14 +184,13 @@ jobs:
             SEMVER="${{ steps.tag-next.outputs.semver }}"
           fi
           echo "versioning: ${{ steps.package.outputs.versioning }}"
-          echo   "┌──────────────┬──────────────┬──────────────┐"
-          printf "│ %-12s │ %-12s │ %-12s │\n" "" "CURRENT" "NEXT"
-          printf "│ %-12s │ %-12s │ %-12s │\n" "TAG" "$CURRENT_TAG" "$TAG"
-          printf "│ %-12s │ %-12s │ %-12s │\n" "SEMVER" "$CURRENT_SEMVER" "$SEMVER"
-          echo   "├──────────────┴──────────────┴──────────────┤"
-          printf "│ %-12s │ %-27s │\n" "VERSIONING" "${{ steps.package.outputs.versioning }}"
-          echo   "└────────────────────────────────────────────┘"
-
+          echo   "┌──────────────┬──────────────────────┬──────────────────────┐"
+          printf "│ %-12s │ %-20s │ %-20s │\n" "" "CURRENT" "NEXT"
+          printf "│ %-12s │ %-20s │ %-20s │\n" "TAG" "$CURRENT_TAG" "$TAG"
+          printf "│ %-12s │ %-20s │ %-20s │\n" "SEMVER" "$CURRENT_SEMVER" "$SEMVER"
+          echo   "├──────────────┴──────────────────────┴──────────────────────┤"
+          printf "│ %-12s │ %-43s │\n" "VERSIONING" "${{ steps.package.outputs.versioning }}"
+          echo   "└────────────────────────────────────────────────────────────┘"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "semver=$SEMVER" >> "$GITHUB_OUTPUT"
 
