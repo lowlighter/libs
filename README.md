@@ -156,7 +156,17 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/run"><img src="https://img.shields.io/npm/v/@lowlighter%2Frun?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/run"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/run"><img src="https://libs-coverage.lecoq.io/run/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/testing"><code>🧪 @libs/testing</code></a></h2>Testing utilities for cross-platform testing on Deno, Node.js and Bun.</th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/run"><img src="https://libs-coverage.lecoq.io/run/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/std"><code>🦕 @libs/std</code></a></h2>All-in-one mirror of Deno's Standard Library.</th></tr>
+  <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
+  <tr><td colspan="3"></td></tr>
+  <tr>
+    <th><a href="https://jsr.io/@libs/std"><img src="https://jsr.io/badges/@libs/std"></a></th>
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
+    <td rowspan="4"></td>
+  </tr>
+  <tr><th></th></tr>
+  <tr><th></th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/std"><img src="https://libs-coverage.lecoq.io/std/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/testing"><code>🧪 @libs/testing</code></a></h2>Testing utilities for cross-platform testing on Deno, Node.js and Bun.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
