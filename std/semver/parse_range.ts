@@ -1,1 +1,1 @@
-export * from "jsr:@std/semver@0.224.3/parse-range"
+export { parseRange } from "jsr:@std/semver@0.224.3/parse-range"

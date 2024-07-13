@@ -1,1 +1,1 @@
-export * from "jsr:@std/media-types@1.0.1/parse-media-type"
+export { parseMediaType } from "jsr:@std/media-types@1.0.1/parse-media-type"

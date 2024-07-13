@@ -1,1 +1,1 @@
-export * from "jsr:@std/path@1.0.0/windows/normalize"
+export { normalize } from "jsr:@std/path@1.0.0/windows/normalize"

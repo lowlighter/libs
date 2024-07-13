@@ -1,1 +1,1 @@
-export * from "jsr:@std/assert@1.0.0/not-match"
+export { assertNotMatch } from "jsr:@std/assert@1.0.0/not-match"

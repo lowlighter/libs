@@ -1,1 +1,1 @@
-export * from "jsr:@std/msgpack@1.0.0/encode"
+export { encode, type ValueMap, type ValueType } from "jsr:@std/msgpack@1.0.0/encode"

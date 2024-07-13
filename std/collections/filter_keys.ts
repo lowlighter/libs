@@ -1,1 +1,1 @@
-export * from "jsr:@std/collections@1.0.4/filter-keys"
+export { filterKeys } from "jsr:@std/collections@1.0.4/filter-keys"

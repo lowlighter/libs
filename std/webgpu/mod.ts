@@ -1,1 +1,1 @@
-export * from "jsr:@std/webgpu@0.224.5"
+export { BYTES_PER_PIXEL, COPY_BYTES_PER_ROW_ALIGNMENT, type CreateCapture, createCapture, createTextureWithData, describeTextureFormat, getRowPadding, type Padding, resliceBufferWithPadding, type TextureFormatInfo } from "jsr:@std/webgpu@0.224.5"

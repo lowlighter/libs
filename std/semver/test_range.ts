@@ -1,1 +1,1 @@
-export * from "jsr:@std/semver@0.224.3/test-range"
+export { testRange } from "jsr:@std/semver@0.224.3/test-range"

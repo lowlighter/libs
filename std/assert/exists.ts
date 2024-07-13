@@ -1,1 +1,1 @@
-export * from "jsr:@std/assert@1.0.0/exists"
+export { assertExists } from "jsr:@std/assert@1.0.0/exists"

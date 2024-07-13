@@ -1,1 +1,1 @@
-export * from "jsr:@std/uuid@1.0.0/v4"
+export { validate } from "jsr:@std/uuid@1.0.0/v4"

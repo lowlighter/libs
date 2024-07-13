@@ -1,1 +1,1 @@
-export * from "jsr:@std/regexp@1.0.0/escape"
+export { escape } from "jsr:@std/regexp@1.0.0/escape"

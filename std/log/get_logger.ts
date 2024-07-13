@@ -1,1 +1,1 @@
-export * from "jsr:@std/log@0.224.5/get-logger"
+export { getLogger } from "jsr:@std/log@0.224.5/get-logger"

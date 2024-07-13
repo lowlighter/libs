@@ -1,1 +1,1 @@
-export * from "jsr:@std/url@0.224.1/join"
+export { join } from "jsr:@std/url@0.224.1/join"

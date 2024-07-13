@@ -1,1 +1,19 @@
-export * from "jsr:@std/http@0.224.5/status"
+export {
+  type ClientErrorStatus,
+  type ErrorStatus,
+  type InformationalStatus,
+  isClientErrorStatus,
+  isErrorStatus,
+  isInformationalStatus,
+  isRedirectStatus,
+  isServerErrorStatus,
+  isStatus,
+  isSuccessfulStatus,
+  type RedirectStatus,
+  type ServerErrorStatus,
+  STATUS_CODE,
+  STATUS_TEXT,
+  type StatusCode,
+  type StatusText,
+  type SuccessfulStatus,
+} from "jsr:@std/http@0.224.5/status"

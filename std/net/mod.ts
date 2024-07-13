@@ -1,1 +1,1 @@
-export * from "jsr:@std/net@0.224.5"
+export { getAvailablePort, type GetAvailablePortOptions, getNetworkAddress } from "jsr:@std/net@0.224.5"

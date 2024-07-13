@@ -1,1 +1,1 @@
-export * from "jsr:@std/assert@1.0.0/object-match"
+export { assertObjectMatch } from "jsr:@std/assert@1.0.0/object-match"

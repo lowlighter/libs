@@ -1,1 +1,1 @@
-export * from "jsr:@std/media-types@1.0.1"
+export { allExtensions, contentType, type ContentTypeToExtension, type DB, extension, formatMediaType, getCharset, type KnownExtensionOrType, parseMediaType, typeByExtension } from "jsr:@std/media-types@1.0.1"

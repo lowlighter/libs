@@ -1,1 +1,1 @@
-export * from "jsr:@std/semver@0.224.3/range-max"
+export { rangeMax } from "jsr:@std/semver@0.224.3/range-max"

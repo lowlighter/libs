@@ -1,1 +1,1 @@
-export * from "jsr:@std/console@0.224.0"
+export { unicodeWidth } from "jsr:@std/console@0.224.0"

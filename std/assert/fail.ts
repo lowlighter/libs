@@ -1,1 +1,1 @@
-export * from "jsr:@std/assert@1.0.0/fail"
+export { fail } from "jsr:@std/assert@1.0.0/fail"

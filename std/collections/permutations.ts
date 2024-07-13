@@ -1,1 +1,1 @@
-export * from "jsr:@std/collections@1.0.4/permutations"
+export { permutations } from "jsr:@std/collections@1.0.4/permutations"

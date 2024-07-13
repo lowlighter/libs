@@ -1,1 +1,1 @@
-export * from "jsr:@std/semver@0.224.3/less-than"
+export { lessThan } from "jsr:@std/semver@0.224.3/less-than"

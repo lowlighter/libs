@@ -1,1 +1,21 @@
-export * from "jsr:@std/async@0.224.2"
+export {
+  abortable,
+  abortableAsyncIterable,
+  abortablePromise,
+  deadline,
+  DeadlineError,
+  type DeadlineOptions,
+  debounce,
+  type DebouncedFunction,
+  delay,
+  type DelayOptions,
+  ERROR_WHILE_MAPPING_MESSAGE,
+  MuxAsyncIterator,
+  pooledMap,
+  retry,
+  RetryError,
+  type RetryOptions,
+  tee,
+  type Tuple,
+  type TupleOf,
+} from "jsr:@std/async@0.224.2"

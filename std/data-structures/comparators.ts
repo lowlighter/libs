@@ -1,1 +1,1 @@
-export * from "jsr:@std/data-structures@1.0.0/comparators"
+export { ascend, descend } from "jsr:@std/data-structures@1.0.0/comparators"

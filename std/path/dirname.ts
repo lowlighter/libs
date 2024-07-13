@@ -1,1 +1,1 @@
-export * from "jsr:@std/path@1.0.0/dirname"
+export { dirname } from "jsr:@std/path@1.0.0/dirname"

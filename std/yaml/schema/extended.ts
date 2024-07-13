@@ -1,1 +1,1 @@
-export * from "jsr:@std/yaml@0.224.3/schema/extended"
+export { extended, EXTENDED_SCHEMA } from "jsr:@std/yaml@0.224.3/schema/extended"

@@ -1,1 +1,1 @@
-export * from "jsr:@std/log@0.224.5/critical"
+export { critical } from "jsr:@std/log@0.224.5/critical"

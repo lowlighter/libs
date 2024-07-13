@@ -1,1 +1,1 @@
-export * from "jsr:@std/expect@0.224.5"
+export { type AnyConstructor, type Async, expect, type Expected, fn } from "jsr:@std/expect@0.224.5"

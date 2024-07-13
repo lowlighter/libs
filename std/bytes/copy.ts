@@ -1,1 +1,1 @@
-export * from "jsr:@std/bytes@1.0.2/copy"
+export { copy } from "jsr:@std/bytes@1.0.2/copy"

@@ -1,1 +1,1 @@
-export * from "jsr:@std/assert@1.0.0/not-instance-of"
+export { assertNotInstanceOf } from "jsr:@std/assert@1.0.0/not-instance-of"

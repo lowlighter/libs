@@ -1,1 +1,1 @@
-export * from "jsr:@std/toml@1.0.0"
+export { parse, stringify, type StringifyOptions } from "jsr:@std/toml@1.0.0"

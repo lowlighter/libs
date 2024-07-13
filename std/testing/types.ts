@@ -1,1 +1,19 @@
-export * from "jsr:@std/testing@0.225.3/types"
+export {
+  type AnyBrand,
+  type AnyToBrand,
+  type Assert,
+  type AssertFalse,
+  type AssertTrue,
+  assertType,
+  type DeepPrepareIsExact,
+  type DeepPrepareIsExactProp,
+  type Has,
+  type IsAny,
+  type IsExact,
+  type IsNever,
+  type IsNullable,
+  type IsUnknown,
+  type Matches,
+  type NotHas,
+  type TupleMatches,
+} from "jsr:@std/testing@0.225.3/types"

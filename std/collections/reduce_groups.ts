@@ -1,1 +1,1 @@
-export * from "jsr:@std/collections@1.0.4/reduce-groups"
+export { reduceGroups } from "jsr:@std/collections@1.0.4/reduce-groups"

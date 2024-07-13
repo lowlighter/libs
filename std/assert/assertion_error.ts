@@ -1,1 +1,1 @@
-export * from "jsr:@std/assert@1.0.0/assertion-error"
+export { AssertionError } from "jsr:@std/assert@1.0.0/assertion-error"

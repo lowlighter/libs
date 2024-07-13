@@ -1,1 +1,1 @@
-export * from "jsr:@std/io@0.224.3/limited-reader"
+export { LimitedReader } from "jsr:@std/io@0.224.3/limited-reader"

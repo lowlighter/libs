@@ -1,1 +1,1 @@
-export * from "jsr:@std/semver@0.224.3/difference"
+export { difference } from "jsr:@std/semver@0.224.3/difference"
