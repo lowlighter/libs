@@ -9,6 +9,15 @@
 > [!WARNING]
 > Deno exclusive!
 
+## ✨ Features
+
+- Supports `stdin` interactivity through callbacks.
+  - Make it possible to monitor `stdout` and `stderr` content and react accordingly.
+- Auto-detects os and can automatically append an extension when running on Windows.
+- Supports both `sync` and `async` modes in a single function.
+  - Optionally decide to throw an error when the process exits with a non-zero code.
+- Generates a `stdio` history that contains timestamped entries with configurable buffering
+
 ## 📜 Licenses
 
 ```plaintext

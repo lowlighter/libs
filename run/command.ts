@@ -1,8 +1,3 @@
-/**
- * @module
- * A wrapper around `Deno.command` that provides a better handling of stdio for interactive processes.
- */
-
 // Imports
 import type { Arg, Nullable, Promisable } from "@libs/typing"
 import { Logger, type loglevel } from "@libs/logger"
@@ -13,8 +8,8 @@ export type { Logger, loglevel, Promisable }
 
 /** Run options. */
 export type options = {
-  /** Logger. */
-  log?: Logger
+  /** Logger instance. */
+  logger?: Logger
   /** Environment variables. */
   env?: Deno.CommandOptions["env"]
   /** Current working directory. */
@@ -86,47 +81,82 @@ const encoder = new TextEncoder()
 /** Text decoder */
 const decoder = new TextDecoder()
 
-/** Asynchronous version of {@link command}. */
+/**
+ * Asynchronous version of {@link command}.
+ *
+ * Note that stdin is not usable in sync mode and will always be empty.
+ *
+ * @example
+ * ```ts
+ * import { command } from "./command.ts"
+ * command("deno", ["version"], { sync: true })
+ * ```
+ * @example
+ * ```
+ * import { command } from "./command.ts"
+ * try {
+ *   command("deno", ["eval", "Deno.exit(1)"], { sync: true, throw: true })
+ * }
+ * catch (error) {
+ *   console.log(error)
+ * }
+ * ```
+ */
 export function command(bin: string, args: string[], options?: options & { sync?: false }): Promise<result>
-/** Synchronous version of {@link command}. */
+/**
+ * Synchronous version of {@link command}.
+ *
+ * @example
+ * ```
+ * import { command } from "./command.ts"
+ * try {
+ *   await command("deno", ["eval", "Deno.exit(1)"], { throw: true })
+ * }
+ * catch (error) {
+ *   console.log(error)
+ * }
+ * ```
+ */
 export function command(bin: string, args: string[], options?: options & { sync: true }): result
 /**
  * Run a command.
  *
- * This is a wrapper around `Deno.command` that provides a better handling of stdio for interactive processes.
+ * This is a wrapper around {@link https://docs.deno.com/api/deno/~/Deno.Command | Deno.command} that provides a better handling of stdio for interactive processes.
  *
- * `stdin`, `stdout` and `stderr` can be set to allowed `Deno.command` values (`"inherit"`, `"null"`, `"piped"`),
- * or can be set to a supported log level of `@libs/logger` library. In the later case, the content will be piped and
- * logged to the specified level.
+ * Like `Deno.command`, the `env`, `cwd`, and `raw` (alias for `windowsRawArguments`) options are supported.
  *
- * Like `Deno.command`, it is possible to pass `env`, `cwd`, and `raw` (alias for `windowsRawArguments`).
+ * The `stdin`, `stdout` and `stderr` options can be either set to an allowed {@link https://docs.deno.com/api/deno/~/Deno.Command | Deno.command} values (`"inherit"`, `"null"`, `"piped"`), or either to a supported log level of {@link Logger}.
+ * In the later case, the content will be always be "piped" and logged to the specified level of the provided {@link Logger} instance.
  *
- * You can pass the `sync` option to run the process synchronously. Note that stdin is not usable in sync mode and will
- * always be empty.
+ * Set `winext` option to automatically append an extension to the binary path on Windows (like `.cmd` or `.exe`).
+ * This is useful when the binary path isn't automatically resolved on Windows.
  *
- * You can pass the `throw` option to throw an error if the process exits with a non-zero code rather than returning a result.
+ * Pass a `callback` option to interact with the process stdin and stdout.
+ * It is called each time data is received on of the piped channels, after input buffering.
+ * It will receive an object with the current stdio content, the current command index (based on the content written to stdin), along with a few additional functions:
+ * - `write(content: string, newline?: boolean): Promise<void>` encodes and writes content to stdin.
+ *   - A newline is automatically appended by default but can be toggled off by passing `false` as second argument.
+ * - `close(): Promise<void>` closes stdin.
+ *   - Note that you **need** to eventually call this method to prevent most processes from hanging as they're waiting for more input.
+ * - `wait(dt: number): Promise<void>` waits for a given amount of time before calling the callback again.
+ *   - It is especially useful for polling, like checking if a specific line has been written to stdio or not.
  *
- * You can pass the `winext` option to append an extension to the binary path on Windows (like `.cmd` or `.exe`) when it won't
- * automatically be resolved.
+ * The `buffering` option is used to merge messages that are received relatively closely.
+ * Setting this option to a low value will also increase the rate at which the `callback` is called.
  *
- * Resulted object contains the same properties as `Deno.CommandStatus` with additional `stdio` property that contains an array
- * of ordered tuples with the delta timestamp since process start, the channel (0:stdin, 1:stdout, 2:stderr) and the content.
- * This allows to easily track the order of messages and have a proper history rather than a merged output.
+ * Resulting object contains the same properties as {@link https://docs.deno.com/api/deno/~/Deno.CommandStatus | Deno.CommandStatus}
+ * with an additional `stdio` property that contains an array of ordered tuples with the delta timestamp since process start, the channel idenfitier (0:stdin, 1:stdout, 2:stderr) and the content.
+ * This offers a proper history of exchanged content.
  *
- * Additionally, you can buffer output using the `buffering` option to merge messages that are received relatively closely.
- *
- * Finally, you can pass a `callback` option to interact with the process stdin and stdout.
- * This callback receives an object with the current stdio content, the current command index (based on the content written to stdin),
- * along with a few additional methods:
- * - `write(content: string, newline?: boolean): Promise<void>` encodes and writes content to stdin. It automatically appends a newline
- * by default but can be toggled off by setting `newline` to `false`.
- * - `close(): Promise<void>` closes stdin. Note that you **need** to eventually call this method to prevent most processes from hanging as
- * they're waiting for more input.
- * - `wait(dt: number): Promise<void>` waits for a given amount of time before calling the callback again. This can be useful for polling,
- * like checking if a specific line has been written to stdio or not.
- *
- * The callback is called at each new line from piped channels, except that it is debounced by the `buffering` option which makes it more
- * likely to send input when the process is actually expecting it.
+ * @example
+ * ```ts
+ * import { command } from "./command.ts"
+ * import { Logger } from "jsr:@libs/logger"
+ * await command("deno", ["version"], { env: { NO_COLOR: "true" }, cwd: "/tmp", raw: true })
+ * await command("deno", ["version"], { stdout: "piped" })
+ * await command("deno", ["version"], { logger: new Logger(), stdout: "debug" })
+ * await command("deno", ["version"], { winext: ".exe" })
+ * ```
  *
  * @example
  * ```ts
@@ -138,11 +168,9 @@ export function command(bin: string, args: string[], options?: options & { sync:
  * console.assert(stdout.includes("hello"))
  * ```
  *
- * @example
- * ```ts
- * import { command } from "./command.ts"
- * command("deno", ["eval", "Deno.exit(1)"], { throw: true, sync: true })
- * ```
+ * @author Simon Lecoq (lowlighter)
+ * @license MIT
+ * @module
  */
 export function command(bin: string, args: string[], { log = new Logger(), stdin = null, stdout = "debug", stderr = "error", env, cwd, raw, callback, buffering, sync, throw: _throw, dryrun, winext = "", os = Deno.build.os } = {} as options): Promisable<result> {
   if (os === "windows") {
@@ -154,7 +182,7 @@ export function command(bin: string, args: string[], { log = new Logger(), stdin
   }
   const command = new Deno.Command(bin, { args, stdin: !sync ? handle(stdin) : "null", stdout: handle(stdout), stderr: handle(stderr), env, cwd, windowsRawArguments: raw })
   if (dryrun) {
-    log.debug(`dryrun: ${bin} not executed`)
+    log.wdebug(`dryrun: ${bin} not executed`)
     const result = { success: true, code: 0, stdio: [], stdin: "", stdout: "", stderr: "" }
     return sync ? result : Promise.resolve(result)
   }
@@ -216,7 +244,7 @@ async function spawn(
   const options = {} as Pick<Arg<callback>, "write" | "close" | "wait">
   let last = ""
   const debounced = debounce(async (t: number) => {
-    log.with({ t }).debug("debounced")
+    log.with({ t }).trace("debounced")
     last = ""
     await callback({ stdio, i: stdio.stdin.length, ...options })
   }, buffering)
@@ -241,14 +269,14 @@ async function spawn(
         try {
           writer.releaseLock()
           await process.stdin.close()
-          log.with({ t: Date.now() - start, closed: "stdin" }).debug()
+          log.with({ t: Date.now() - start, closed: "stdin" }).trace()
         } catch {
           // Ignore
         }
       },
       async wait(dt = 1000) {
         const t = Date.now() - start
-        log.with({ t, waiting: dt }).debug()
+        log.with({ t, waiting: dt }).trace()
         await delay(dt)
         debounced(t)
       },
