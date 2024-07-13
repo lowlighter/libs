@@ -86,7 +86,7 @@ See table below for a list of available libraries and their features, compatibil
     <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
     <td rowspan="4"><ul data-for="logger">
   <li>
-    Simple logger library with configurable log level
+    Simple logger library with configurable log level and tags
     <ul>
       <li>Support date, time and delta stamps</li>
       <li>Support caller info (file, name, line) using internal V8's <code>Error.prepareStackTrace</code> API</li>
