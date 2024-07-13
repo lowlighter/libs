@@ -59,7 +59,7 @@ export type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn:
  *
  * All runtimes mentioned above can be selected at once using the `all` keyword.
  *
- * If a runtime is not available, the test will be skipped meaning that it is not necessary to install all runtimes on the system for development.
+ * If a runtime is not available on current system, the test will be skipped so developpers do not need to install all runtimes.
  *
  * Dependencies are resolved from `deno info` and are installed using the adequate package manager.
  * This is done only once per test file.

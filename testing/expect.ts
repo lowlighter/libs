@@ -1,8 +1,3 @@
-/**
- * @module
- * Extended version of `@std/expect`.
- */
-
 // Imports
 import { expect as _expect, type Expected, fn } from "@std/expect"
 import { assert, assertEquals, type AssertionError as _AssertionError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
@@ -14,55 +9,284 @@ import { STATUS_CODE as Status } from "@std/http/status"
 // deno-lint-ignore no-explicit-any
 type Async<T> = { [K in keyof T]: T[K] extends (...args: any[]) => unknown ? (...args: Parameters<T[K]>) => Promise<ReturnType<T[K]>> : T[K] }
 
-/** The ExtendedExpected interface defines the available assertion methods. */
+/**
+ * The ExtendedExpected interface defines the available assertion methods.
+ *
+ * @module
+ */
 export interface ExtendedExpected<IsAsync = false> extends Expected {
-  /** Asserts a value matches the given predicate. */
+  /**
+   * Asserts a value matches the given predicate.
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect("foo").toSatisfy((value:string) => value.length > 1)
+   * ```
+   */
   toSatisfy: (evaluate: callback) => unknown
-  /** Asserts a value is of a given type (using `typeof` operator). */
+  /**
+   * Asserts a value is of a given type (using `typeof` operator).
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect("foo").toBeType("string")
+   * expect({}).toBeType("object")
+   * expect(null).toBeType("object")
+   * expect(null).not.toBeType("object", !null)
+   * ```
+   */
   toBeType: (type: string, notnull?: boolean) => unknown
-  /** Asserts a property matches a given descriptor (using `Object.getOwnPropertyDescriptor`). */
+  /**
+   * Asserts a property matches a given descriptor (using `Object.getOwnPropertyDescriptor`).
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * const foo = Object.defineProperties({}, { bar: { value: true, writable: false, enumerable: true } })
+   * expect(foo).toHaveDescribedProperty("bar", { writable: false, enumerable: true })
+   * ```
+   */
   toHaveDescribedProperty: (key: PropertyKey, expected: PropertyDescriptor) => unknown
-  /** Asserts a writable property is immutable (i.e. setting its value does not throw but does not change its value either). Note that it will actually proceed to assign `testValue` and restore it to original value after test. */
+  /**
+   * Asserts a writable property is immutable (i.e. setting its value does not throw but does not change its value either).
+   *
+   * Note that it will actually proceed to assign `testValue` and restore it to original value after test.
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * const foo = new (class {
+   *   #bar = true
+   *   get bar() {
+   *     return this.#bar
+   *   }
+   *   set bar(_:unknown) {
+   *     return
+   *   }
+   * })()
+   * expect(foo).toHaveImmutableProperty("bar")
+   * ```
+   */
   toHaveImmutableProperty: (key: PropertyKey, testValue?: unknown) => unknown
-  /** Assert an object is iterable (checking `Symbol.iterator` presence). */
+  /**
+   * Assert an object is iterable (checking `Symbol.iterator` presence).
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect([]).toBeIterable()
+   * expect(new Map()).toBeIterable()
+   * expect(new Set()).toBeIterable()
+   * ```
+   */
   toBeIterable: () => unknown
-  /** Assert an object is sealed (using `Object.isSealed`). */
+  /**
+   * Assert an object is sealed (using `Object.isSealed`).
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect(Object.seal({})).toBeSealed()
+   * ```
+   */
   toBeSealed: () => unknown
-  /** Assert an object is frozen (using `Object.isFrozen`). */
+  /**
+   * Assert an object is frozen (using `Object.isFrozen`).
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect(Object.freeze({})).toBeFrozen()
+   * ```
+   */
   toBeFrozen: () => unknown
-  /** Assert an object is extensible (using `Object.isExtensible`). */
+  /**
+   * Assert an object is extensible (using `Object.isExtensible`).
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect(Object.preventExtensions({})).not.toBeExtensible()
+   * ```
+   */
   toBeExtensible: () => unknown
-  /** Asserts an object is a shallow copy (i.e. its content is identical but reference is not). */
+  /**
+   * Asserts an object is a shallow copy (i.e. its content is identical but reference is not).
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * const foo = { bar: true }
+   * expect({...foo}).toBeShallowCopyOf(foo)
+   * ```
+   */
   toBeShallowCopyOf: (expected?: Iterable<unknown> | record) => unknown
-  /** Asserts an iterable is empty. */
+  /**
+   * Asserts an iterable is empty.
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect([]).toBeEmpty()
+   * expect(new Map()).toBeEmpty()
+   * expect(new Set()).toBeEmpty()
+   * ```
+   */
   toBeEmpty: () => unknown
-  /** Asserts an iterable to be sorted. */
+  /**
+   * Asserts an iterable to be sorted.
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect([1, 2, 3]).toBeSorted()
+   * ```
+   */
   toBeSorted: (compare?: Arg<Array<unknown>["sort"]>) => unknown
-  /** Asserts an iterable to be reverse sorted. */
+  /**
+   * Asserts an iterable to be reverse sorted.
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect([3, 2, 1]).toBeReverseSorted()
+   * ```
+   */
   toBeReverseSorted: (compare?: Arg<Array<unknown>["sort"]>) => unknown
-  /** Asserts a value is one of expected value. */
+  /**
+   * Asserts a value is one of expected value.
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect("foo").toBeOneOf(["foo", "bar"])
+   * ```
+   */
   toBeOneOf: (values: Iterable<unknown>) => unknown
-  /** Asserts a number is with a given range. */
+  /**
+   * Asserts a number is with a given range.
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect(Math.PI).toBeWithin([3, 4])
+   * ```
+   */
   toBeWithin: (range: [number, number], exclusive?: boolean) => unknown
-  /** Asserts a number to be finite. */
+  /**
+   * Asserts a number to be finite.
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect(1).toBeFinite()
+   * expect(Infinity).not.toBeFinite()
+   * ```
+   */
   toBeFinite: () => unknown
-  /** Asserts a string to be parseable JSON. */
+  /**
+   * Asserts a string to be parseable JSON.
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect('{"foo":"bar"}').toBeParseableJSON()
+   * ```
+   */
   toBeParseableJSON: (reviver?: Arg<JSON["parse"], 1>) => unknown
-  /** Asserts a string is a valid email address (using https://pdw.ex-parrot.com/Mail-RFC822-Address.html). */
+  /**
+   * Asserts a string is a valid email address (using https://pdw.ex-parrot.com/Mail-RFC822-Address.html).
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect("foo@example.com").toBeEmail()
+   * expect("foo+bar@example.com").toBeEmail()
+   * ```
+   */
   toBeEmail(): () => unknown
-  /** Asserts a string is a valid url (using `URL`). */
+  /**
+   * Asserts a string is a valid url (using `URL`).
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect("https://example.com").toBeUrl()
+   * ```
+   */
   toBeUrl(): () => unknown
-  /** Asserts a string is a valid base64 string. */
+  /**
+   * Asserts a string is a valid base64 string.
+   *
+   * @example
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect(btoa("foo")).toBeBase64()
+   * ```
+   */
   toBeBase64: () => unknown
-  /** Asserts a response to have a given status code. Note that `Response.body.cancel()` is automatically called to prevent leaks. If you need to perform more assertions on a response, it is advised use separate matchers instead. */
+  /**
+   * Asserts a response to have a given status code.
+   *
+   * Note that `Response.body.cancel()` is automatically called to prevent leaks.
+   * If you need to perform more assertions on a response, it is advised use separate matchers instead.
+   *
+   * @example
+   * ```ts
+   * import { expect, Status } from "./expect.ts"
+   * expect(new Response(null, { status: Status.OK })).toRespondWithStatus(Status.OK)
+   * expect(new Response(null, { status: Status.OK })).toRespondWithStatus([Status.OK, Status.Created])
+   * expect(new Response(null, { status: Status.OK })).toRespondWithStatus("2XX")
+   * ```
+   */
   toRespondWithStatus: (status: Arrayable<number> | "informational" | "1XX" | "successful" | "2XX" | "redirect" | "3XX" | "client_error" | "4XX" | "server_error" | "5XX") => unknown
-  /** Asserts a string is hashed by specified algorithm. Algorithm may be either lowercase or uppercase, and contains dashes or not (e.g. `sha256`, `SHA256` and `SHA-256` will all be treated as the same). Will throw if an unknown algorithm is specified. */
+  /**
+   * Asserts a string is hashed by specified algorithm.
+   *
+   * Algorithm may be either lowercase or uppercase, and contains dashes or not (e.g. `sha256`, `SHA256` and `SHA-256` will all be treated as the same).
+   * Will throw if an unknown algorithm is specified.
+   *
+   * Please note that it only checks whether it could be a valid output of specified hash algorithm.
+   *
+   * @example
+   * ```ts
+   * import { expect, Status } from "./expect.ts"
+   * expect("$2a$12$lpGSoVPZ8erLDF93Sqyic.U73v0/w0owPb3dIP9goO7iC5Wp/I8OG").toBeHashed("bcrypt")
+   * ```
+   */
   toBeHashed: (algorithm: string) => unknown
-  /** Asserts a value is a valid date (using `Date`). */
+  /**
+   * Asserts a value is a valid date (using `Date`).
+   *
+   * @example
+   * ```ts
+   * import { expect, Status } from "./expect.ts"
+   * expect("2024-07-13T20:30:57.958Z").toBeDate()
+   * expect(new Date()).toBeDate()
+   * ```
+   */
   toBeDate: () => unknown
-  /** Asserts a date is before another date. */
+  /**
+   * Asserts a date is before another date.
+   *
+   * @example
+   * ```ts
+   * import { expect, Status } from "./expect.ts"
+   * expect(new Date(Date.now() - 5000)).toBePast()
+   * ```
+   */
   toBePast: (date?: number | string | Date) => unknown
-  /** Asserts a date is after another date. */
+  /**
+   * Asserts a date is after another date.
+   *
+   * @example
+   * ```ts
+   * import { expect, Status } from "./expect.ts"
+   * expect(new Date(Date.now() + 5000)).toBeFuture()
+   * ```
+   */
   toBeFuture: (date?: number | string | Date) => unknown
   /** The negation object that allows chaining negated assertions. */
   not: IsAsync extends true ? Async<ExtendedExpected<true>> : ExtendedExpected<false>
