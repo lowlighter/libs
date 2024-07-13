@@ -1,5 +1,5 @@
 /**
- * CLI utility to mirror a JSR scope and its packages
+ * CLI utility to mirror a JSR scope and its packages.
  *
  * @module
  */
@@ -7,7 +7,7 @@
 // Imports
 import { ensureDir } from "@std/fs"
 import { dirname } from "@std/path"
-import { Logger, type loglevel } from "@libs/logger"
+import { type levellike as loglevel, Logger } from "@libs/logger"
 import { mirror } from "../mirror/jsr.ts"
 import { parseArgs } from "@std/cli"
 import { assert } from "@std/assert"
@@ -43,11 +43,11 @@ if (help) {
   Deno.exit(0)
 }
 assert(scope, "scope is required")
-const logger = new Logger({ level: Logger.level[loglevel as loglevel] })
+const logger = new Logger({ level: loglevel as loglevel })
 
 const { files } = await mirror({ scope: scope!, packages, mod, config, registry, registryApi, logger, expand })
 for (const [path, content] of Object.entries(files) as [string, string][]) {
-  logger.info(`writing ${path}`)
+  logger.log(`writing ${path}`)
   await ensureDir(dirname(path))
   await Deno.writeTextFile(path, content)
 }

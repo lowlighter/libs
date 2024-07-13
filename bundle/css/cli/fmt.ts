@@ -1,7 +1,7 @@
 /**
- * CLI utility to format CSS files
+ * CLI utility to format CSS files.
  *
- * Can also be used to check if files are formatted using the `--check` flag
+ * Can also be used to check if files are formatted using the `--check` flag.
  *
  * @module
  */

@@ -1,15 +1,10 @@
-/**
- * Compatibility data generator.
- * @module
- */
-
 // Imports
 import { generate, parse, walk } from "css-tree"
 import browserslist from "browserslist"
 import bcd from "@mdn/browser-compat-data" with { type: "json" }
 import * as semver from "@std/semver"
 import type { Arg, Arrayable, Nullable, rw } from "@libs/typing"
-import { type level as loglevel, Logger } from "@libs/logger"
+import { type levellike as loglevel, Logger } from "@libs/logger"
 import { brightGreen, brightMagenta, gray, green, italic, red, yellow } from "@std/fmt/colors"
 import { Table } from "@cliffy/table"
 export type { Arg, Arrayable, loglevel, Nullable }
@@ -97,13 +92,14 @@ const vendors = /^(?:@|::|:)?(?<prefix>-(?:webkit|moz|o|ms|__debug)-)/
  * // Use `style: false` to remove <style> tag from output and use your own styling instead
  * await compatibility(new URL("testing/test_bundle.css", import.meta.url), { query:"defaults", output:"html", style:true })
  * ```
- * ________________________________________________________________________________
  *
+ * ```
  * Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
  * https://github.com/lowlighter/libs/blob/main/LICENSE
- *
+ * ```
  * @author Simon Lecoq (lowlighter)
  * @license MIT
+ * @module
  */
 export async function compatibility(input: URL | string, { query = "defaults", loglevel, ...options }: { query?: Arrayable<string>; loglevel?: loglevel } & Arg<Report["print"], 1> = {}): Promise<string> {
   const code = input instanceof URL ? await fetch(input).then((response) => response.text()) : input
@@ -133,17 +129,18 @@ export async function compatibility(input: URL | string, { query = "defaults", l
  * // Console table reports
  * report.print(result, { output: "console", verbose: false })
  * ```
- * ________________________________________________________________________________
  *
+ * ```
  * Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
  * https://github.com/lowlighter/libs/blob/main/LICENSE
+ * ```
  *
  * @author Simon Lecoq (lowlighter)
  * @license MIT
  */
 export class Report {
   /** Constructor */
-  constructor(query: Arrayable<string>, { loglevel = Logger.level.error as loglevel } = {}) {
+  constructor(query: Arrayable<string>, { loglevel = "error" as loglevel } = {}) {
     this.#log = new Logger({ level: loglevel })
     browserslist(query).forEach((line: string) => {
       const [browser, version] = line.split(" ")
@@ -250,7 +247,7 @@ export class Report {
     }
     const feature = this.#search(section, name)
     if (feature) {
-      log.debug(`found ${name} in [${feature}]`)
+      log.trace(`found ${name} in [${feature}]`)
       realname = name
       name = feature
     }
@@ -258,10 +255,10 @@ export class Report {
       skipped = true
     }
     if (original[1] !== section) {
-      log.debug(`changed section from "${original[1]}" to "${section}"`)
+      log.trace(`changed section from "${original[1]}" to "${section}"`)
     }
     if (realname !== null) {
-      log.debug(`changed name from "${original[3]}" to "${name}"`)
+      log.trace(`changed name from "${original[3]}" to "${name}"`)
     }
     return { section, name, _values: values, realname, prefix, skipped }
   }
@@ -373,7 +370,7 @@ export class Report {
         keywords.push(...Array.from(description.matchAll(/^<code>([\s\S]+?)<\/code>$/g)).map((match) => (match as string[])[1]))
       }
       if (keywords.includes(tag)) {
-        log.debug(`matched granular rule "${key}"`)
+        log.trace(`matched granular rule "${key}"`)
         return compatibility[key] as bcd_compatibility
       }
       const _compatibility = this.#value_compatibility(log, compatibility[key] as bcd_compatibility, tag)
@@ -393,30 +390,30 @@ export class Report {
     }
     const added = this.#version(support.version_added)
     if (!semver.greaterOrEqual(tested, added)) {
-      log.debug(`unsupported prior version ${support.version_added}`)
+      log.trace(`unsupported prior version ${support.version_added}`)
       return level
     }
     if (support.version_removed) {
       const removed = this.#version(support.version_removed)
       if (semver.greaterOrEqual(tested, removed)) {
-        log.debug(`support removed in version ${support.version_removed}`)
+        log.trace(`support removed in version ${support.version_removed}`)
         return level
       }
     }
     if (support.partial_implementation) {
-      log.debug(`partially supported since version ${support.version_added}`)
+      log.trace(`partially supported since version ${support.version_added}`)
       level = "partial"
       return level
     }
     if (support.prefix) {
-      log.debug(`supported with ${support.prefix} since version ${support.version_added}`)
+      log.trace(`supported with ${support.prefix} since version ${support.version_added}`)
       if (prefix !== support.prefix) {
-        log.debug(`"${prefix}" does not match required "${support.prefix}"`)
+        log.trace(`"${prefix}" does not match required "${support.prefix}"`)
         return "prefixed"
       }
       level = "supported"
     } else {
-      log.debug(`supported since version ${support.version_added}`)
+      log.trace(`supported since version ${support.version_added}`)
       level = "supported"
     }
     return level

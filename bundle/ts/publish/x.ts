@@ -19,7 +19,7 @@ export type { Logger }
 /** Publishing options */
 export type options = {
   /** Logger instance. */
-  log?: Logger
+  logger?: Logger
   /** GitHub API token. */
   token: string
   /** GitHub repository. */
@@ -84,7 +84,7 @@ export type options = {
  * })
  * ```
  */
-export async function publish({ log = new Logger(), token, repository, directory, name, version, map, reactive = false, remove = false, attempts = 30, delay = 30000, dryrun = false }: options): Promise<{ name: string; version: string; url: string; changed: boolean }> {
+export async function publish({ logger: log = new Logger(), token, repository, directory, name, version, map, reactive = false, remove = false, attempts = 30, delay = 30000, dryrun = false }: options): Promise<{ name: string; version: string; url: string; changed: boolean }> {
   // Setup
   const [owner, repo] = repository.split("/")
   log = log.with({ owner, repo, name })
@@ -128,29 +128,29 @@ export async function publish({ log = new Logger(), token, repository, directory
   // Check if package is already published
   const check = await request.fetch(`${url}?check`, { headers: { Accept: "text/html" } }).then((r) => r.text())
   if (!check.includes("404 - Not Found")) {
-    log.debug(`package is already published at ${url}, nothing to do`)
+    log.warn(`package is already published at ${url}, nothing to do`)
     return { name, version, url, changed: false }
   }
 
   // Resolve import map if needed
   const branch = { current: "", temporary: "" }
   if (map) {
-    branch.current = (await command("git", ["rev-parse", "--abbrev-ref", "HEAD"], { log, throw: true, dryrun })).stdout.trim()
+    branch.current = (await command("git", ["rev-parse", "--abbrev-ref", "HEAD"], { logger: log, throw: true, dryrun })).stdout.trim()
     branch.temporary = `x-${name}-${version}-${Date.now()}`
     log.debug(`current branch: ${branch.current}`)
     log.debug(`temporary branch: ${branch.temporary}`)
-    await command("git", ["switch", "--create", branch.temporary], { log, throw: true, dryrun })
-    await command("git", ["push", "origin", branch.temporary], { log, throw: true, dryrun })
-    await command("git", ["branch", "--set-upstream-to", `origin/${branch.temporary}`], { log, throw: true, dryrun })
-    log.log(`on ${branch.temporary}`)
-    log.info("resolving imports from map")
+    await command("git", ["switch", "--create", branch.temporary], { logger: log, throw: true, dryrun })
+    await command("git", ["push", "origin", branch.temporary], { logger: log, throw: true, dryrun })
+    await command("git", ["branch", "--set-upstream-to", `origin/${branch.temporary}`], { logger: log, throw: true, dryrun })
+    log.info(`on ${branch.temporary}`)
+    log.debug("resolving imports from map")
     await unmap({ log, map, dryrun })
-    log.debug("imports have been resolved")
-    log.info(`pushing changes on temporary branch ${branch.temporary} to origin`)
-    await command("git", ["add", "."], { log, throw: true, dryrun })
-    await command("git", ["commit", "--message", `build(${name}): deno.land/x@${version}`], { log, throw: true, dryrun })
-    await command("git", ["push"], { log, throw: true, dryrun })
-    log.debug(`pushed changes from temporary branch ${branch.temporary} to origin`)
+    log.ok("imports have been resolved")
+    log.debug(`pushing changes on temporary branch ${branch.temporary} to origin`)
+    await command("git", ["add", "."], { logger: log, throw: true, dryrun })
+    await command("git", ["commit", "--message", `build(${name}): deno.land/x@${version}`], { logger: log, throw: true, dryrun })
+    await command("git", ["push"], { logger: log, throw: true, dryrun })
+    log.ok(`pushed changes from temporary branch ${branch.temporary} to origin`)
   }
 
   // Fetch webhook
@@ -158,13 +158,13 @@ export async function publish({ log = new Logger(), token, repository, directory
   const { data: webhooks } = await octokit.rest.repos.listWebhooks({ owner, repo })
   const hook = webhooks.filter(({ config }: { config: { url?: string } }) => config.url === api)[0]!
   assert(hook, `Could not find a hook with expected url: ${api}`)
-  log.debug(`found hook: ${hook.id}`)
+  log.ok(`found hook: ${hook.id}`)
 
   // Active hook if needed
   if (reactive && (!hook.active)) {
-    log.log("hook is inactive prior publishing, activating")
+    log.debug("hook is inactive prior publishing, activating")
     await octokit.rest.repos.updateWebhook({ owner, repo, hook_id: hook.id, active: true })
-    log.debug("hook is now active")
+    log.ok("hook is now active")
   }
 
   try {
@@ -173,59 +173,59 @@ export async function publish({ log = new Logger(), token, repository, directory
     const { stdout: email } = await command("git", ["config", "user.email"], { throw: true, dryrun })
     const { stdout: author } = await command("git", ["config", "user.name"], { throw: true, dryrun })
     log.info(`creating tag ${version} on commit ${object} by ${author} <${email}>`)
-    await command("git", ["tag", "--force", version], { log, throw: true, dryrun })
-    await command("git", ["show-ref", "--tags", version], { log, throw: true, dryrun })
+    await command("git", ["tag", "--force", version], { logger: log, throw: true, dryrun })
+    await command("git", ["show-ref", "--tags", version], { logger: log, throw: true, dryrun })
     log.info(`pushing tag ${version} to origin`)
-    await command("git", ["pull", "--rebase"], { log, throw: true, dryrun })
-    await command("git", ["push", "origin", version], { log, throw: true, dryrun })
-    log.debug(`tag ${version} has been pushed to origin`)
+    await command("git", ["pull", "--rebase"], { logger: log, throw: true, dryrun })
+    await command("git", ["push", "origin", version], { logger: log, throw: true, dryrun })
+    log.ok(`tag ${version} has been pushed to origin`)
 
     // Wait for webhook payload delivery
     log.debug("waiting for webhook payload delivery")
     await retry(async () => {
       const { data: deliveries } = await octokit.rest.repos.listWebhookDeliveries({ owner, repo, hook_id: hook.id })
       if (!deliveries.some(({ event, delivered_at }: { event: string; delivered_at: string }) => (event === "create") && (new Date().getTime() >= new Date(delivered_at).getTime()))) {
-        log.debug("webhook payload has not been delivered yet")
+        log.wdebug("webhook payload has not been delivered yet")
         throw new Error("Webhook payload has not been delivered in the expected time frame")
       }
     }, { minTimeout: delay, maxTimeout: delay, maxAttempts: attempts })
-    log.debug("webhook payload has been delivered")
+    log.ok("webhook payload has been delivered")
 
     // Wait for deno.land/x publishing
     log.debug("waiting for deno.land/x publishing")
     await retry(async () => {
       const text = await request.fetch(url, { headers: { Accept: "text/html" } }).then((r) => r.text())
       if (text.includes("404 - Not Found")) {
-        log.debug("package has not been published yet")
+        log.wdebug("package has not been published yet")
         throw new Error("Package has not been published in the expected time frame")
       }
     }, { minTimeout: delay, maxTimeout: delay, maxAttempts: attempts })
-    log.debug("published on deno.land/x")
+    log.ok("published on deno.land/x")
   } finally {
     // Deactivate hook if needed
     if (reactive && (!hook.active)) {
-      log.log("hook was inactive prior publishing, restoring state")
+      log.debug("hook was inactive prior publishing, restoring state")
       await octokit.rest.repos.updateWebhook({ owner, repo, hook_id: hook.id, active: false })
-      log.debug("hook is now inactive")
+      log.ok("hook is now inactive")
     }
 
     // Remove tag if needed
     if (remove) {
-      log.log(`removing tag ${version} locally and from origin`)
-      await command("git", ["tag", "--delete", version], { log, dryrun })
-      await command("git", ["push", "--delete", "origin", version], { log, dryrun })
-      log.debug(`tag ${version} has been removed`)
+      log.debug(`removing tag ${version} locally and from origin`)
+      await command("git", ["tag", "--delete", version], { logger: log, dryrun })
+      await command("git", ["push", "--delete", "origin", version], { logger: log, dryrun })
+      log.ok(`tag ${version} has been removed`)
     }
 
     // Remove temporary branch if needed
     if (map) {
-      log.info(`switching back to ${branch.current}`)
-      await command("git", ["switch", branch.current], { log, throw: true, dryrun })
-      log.debug(`back on ${branch.current}`)
-      log.info(`deleting temporary branch ${branch.temporary}`)
-      await command("git", ["branch", "--delete", branch.temporary], { log, throw: true, dryrun })
-      await command("git", ["push", "origin", "--delete", branch.temporary], { log, throw: true, dryrun })
-      log.debug(`deleted temporary branch ${branch.temporary}`)
+      log.debug(`switching back to ${branch.current}`)
+      await command("git", ["switch", branch.current], { logger: log, throw: true, dryrun })
+      log.info(`back on ${branch.current}`)
+      log.debug(`deleting temporary branch ${branch.temporary}`)
+      await command("git", ["branch", "--delete", branch.temporary], { logger: log, throw: true, dryrun })
+      await command("git", ["push", "origin", "--delete", branch.temporary], { logger: log, throw: true, dryrun })
+      log.ok(`deleted temporary branch ${branch.temporary}`)
     }
   }
 
@@ -241,11 +241,11 @@ async function unmap({ log: logger, map, exclude = [], dryrun }: { log: Logger; 
   for await (const { path } of expandGlob("**/*.ts", { root, exclude })) {
     const log = logger.with({ path: path.replaceAll("\\", "/").replace(`${root}/`, "") }).debug("found")
     const content = await Deno.readTextFile(path)
-    const { result, resolved } = _unmap(content, imports, { log })
+    const { result, resolved } = _unmap(content, imports, { logger: log })
     if (resolved) {
       log.debug(`resolved ${resolved} imports`)
     } else {
-      log.debug("no imports to resolve")
+      log.wdebug("no imports to resolve")
     }
     if (!dryrun) {
       await Deno.writeTextFile(path, result)

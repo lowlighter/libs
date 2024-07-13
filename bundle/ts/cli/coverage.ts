@@ -1,5 +1,5 @@
 /**
- * CLI utility to enhance code coverage reports with matcha theme and create SVG badges
+ * CLI utility to enhance code coverage reports with matcha theme and create SVG badges.
  *
  * @module
  */
@@ -11,7 +11,7 @@ import { default as syntax } from "highlight.js"
 import { DOMParser } from "@lowlighter/deno-dom/deno-dom-wasm"
 import { basename } from "@std/path"
 import { parseArgs } from "@std/cli"
-import { Logger, type loglevel } from "@libs/logger"
+import { type levellike as loglevel, Logger } from "@libs/logger"
 
 const { help, loglevel, root = "coverage", exclude, _: globs, ...flags } = parseArgs(Deno.args, {
   boolean: ["help", "summary", "no-matcha", "no-highlight", "no-write", "no-badge"],
@@ -44,7 +44,7 @@ if (help) {
   Deno.exit(0)
 }
 
-const logger = new Logger({ level: Logger.level[loglevel as loglevel] })
+const logger = new Logger({ level: loglevel as loglevel })
 if (!globs.length) {
   globs.push("**/*.html")
 }
@@ -56,23 +56,23 @@ for (const glob of globs) {
   for await (const { path } of expandGlob(`${glob}`, { root, exclude })) {
     // Parse document
     const log = logger.with({ path })
-    log.debug("parsing document")
+    log.trace("parsing document")
     const document = new DOMParser().parseFromString(await Deno.readTextFile(path), "text/html")!
     if (document.querySelector("table.global-summary")) {
-      log.debug("skipped as it was the global summary")
+      log.trace("skipped as it was the global summary")
       continue
     }
     if (!document.title.includes("Coverage report")) {
-      log.warn("skipped as it does not seem to be a coverage report")
+      log.wdebug("skipped as it does not seem to be a coverage report")
       continue
     }
 
     // Matcha theme
     if ((!flags["no-write"]) && (!flags["no-matcha"])) {
-      log.debug("applying matcha theme")
+      log.trace("applying matcha theme")
       for (const name of ["@root", "@syntax-highlighting", "@istanbul-coverage"]) {
         if (document.querySelector(`link[href*="${name}"]`)) {
-          log.debug(`skipped as it has already been themed with matcha/${name}`)
+          log.wdebug(`skipped as it has already been themed with matcha/${name}`)
           continue
         }
         const stylesheet = document.createElement("link")
@@ -81,28 +81,28 @@ for (const glob of globs) {
         document.head.append(stylesheet)
         log.debug(`added stylesheet: matcha/${name}`)
       }
-      log.log("themed with matcha")
+      log.ok("themed with matcha")
     }
 
     // Syntax highlighting
     if ((!flags["no-write"]) && (!flags["no-highlight"])) {
-      log.debug("highlighting document")
+      log.trace("highlighting document")
       document.querySelectorAll(".prettyprint").forEach((_element) => {
         const element = _element as unknown as HTMLElement
         if (element.dataset.highlighted === "true") {
-          log.debug("skipped as it has already been highlighted")
+          log.wdebug("skipped as it has already been highlighted")
           return
         }
         element.innerHTML = syntax.highlight(element.innerText, { language: "ts" }).value
         element.dataset.highlighted = "true"
-        log.log("highlighted")
+        log.ok("highlighted")
       })
     }
 
     // Write file
     if (!flags["no-write"]) {
       await Deno.writeTextFile(path, `<!DOCTYPE html>${document.documentElement!.outerHTML}`)
-      log.info("updated")
+      log.ok("updated")
     }
 
     // Generate badges
@@ -112,7 +112,7 @@ for (const glob of globs) {
       const color = Number.isFinite(value) ? (value >= 80 ? "#3fb950" : value >= 60 ? "#db6d28" : "#f85149") : "#656d76"
       const svg = await fetch(`https://img.shields.io/badge/${encodeURIComponent(`Coverage-${coverage}-${color}`)}`).then((response) => response.text())
       await Deno.writeTextFile(resolve(dirname(path), "badge.svg"), svg)
-      log.log(`generated badge: ${resolve(dirname(path), "badge.svg")}`)
+      log.ok(`generated badge: ${resolve(dirname(path), "badge.svg")}`)
     }
 
     // Global summary
@@ -140,5 +140,5 @@ for (const glob of globs) {
 if (!flags.summary) {
   const path = resolve(root, "index.html")
   await Deno.writeTextFile(resolve(root, "index.html"), `<!DOCTYPE html>${summary.documentElement!.outerHTML}`)
-  logger.with({ path }).info("updated summary")
+  logger.with({ path }).ok("updated summary")
 }

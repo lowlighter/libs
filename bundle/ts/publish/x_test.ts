@@ -10,7 +10,7 @@ const url = `https://deno.land/x/${name}@${version}`
 
 test("deno")("publish() publishes package to deno.land/x", async () => {
   await expect(publish({
-    log: new Logger({ level: Logger.level.disabled }),
+    logger: new Logger({ level: "disabled" }),
     token: "github_pat_",
     repository: "octocat/hello-world",
     name,
@@ -22,7 +22,7 @@ test("deno")("publish() publishes package to deno.land/x", async () => {
 
 test("deno")("publish() publishes package subdirectory to deno.land/x", async () => {
   await expect(publish({
-    log: new Logger({ level: Logger.level.disabled }),
+    logger: new Logger({ level: "disabled" }),
     token: "github_pat_",
     repository: "octocat/hello-world",
     directory: "subdirectory",
@@ -35,7 +35,7 @@ test("deno")("publish() publishes package subdirectory to deno.land/x", async ()
 
 test("deno")("publish() supports `reactive` and `remove` options", async () => {
   await expect(publish({
-    log: new Logger({ level: Logger.level.disabled }),
+    logger: new Logger({ level: "disabled" }),
     token: "github_pat_",
     repository: "octocat/hello-world",
     name,
@@ -49,7 +49,7 @@ test("deno")("publish() supports `reactive` and `remove` options", async () => {
 
 test("deno")("publish() has no effect if package version is already published on deno.land/x", async () => {
   await expect(publish({
-    log: new Logger({ level: Logger.level.disabled }),
+    logger: new Logger({ level: "disabled" }),
     token: "github_pat_",
     repository: "octocat/hello-world",
     name,
@@ -61,7 +61,7 @@ test("deno")("publish() has no effect if package version is already published on
 
 test("deno")("publish() handles publishing errors", async () => {
   await expect(publish({
-    log: new Logger({ level: Logger.level.disabled }),
+    logger: new Logger({ level: "disabled" }),
     token: "github_pat_",
     repository: "octocat/hello-world",
     name,
@@ -76,7 +76,7 @@ test("deno")("publish() handles imports map resolution", async () => {
   try {
     Deno.chdir(fromFileUrl(import.meta.resolve("./testing")))
     await expect(publish({
-      log: new Logger({ level: Logger.level.disabled }),
+      logger: new Logger({ level: "disabled" }),
       token: "github_pat_",
       repository: "octocat/hello-world",
       map: "deno.jsonc",

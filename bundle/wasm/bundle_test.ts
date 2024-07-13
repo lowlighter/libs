@@ -10,7 +10,7 @@ const project = resolve(root, "wasm_test")
 test("deno")("bundle() compiles rust projects to wasm", async () => {
   for (const _ of [1, 2]) {
     try {
-      await expect(bundle(project, { bin: resolve(root, "wasm-pack", "wasm-pack"), autoinstall: true, loglevel: Logger.level.disabled })).not.resolves.toThrow()
+      await expect(bundle(project, { bin: resolve(root, "wasm-pack", "wasm-pack"), autoinstall: true, logger: new Logger({ level: "disabled" }) })).not.resolves.toThrow()
     } finally {
       await Deno.remove(resolve(root, "wasm-pack"), { recursive: true }).catch(() => null)
     }
@@ -18,5 +18,5 @@ test("deno")("bundle() compiles rust projects to wasm", async () => {
 }, { permissions: { read: true, write: [root], run: true, env: true, net: ["api.github.com", "github.com", "objects.githubusercontent.com"] } })
 
 test("deno")("bundle() throws when wasm-pack is not installed", async () => {
-  await expect(bundle(project, { bin: resolve(root, "wasm-pack-not-found"), autoinstall: false, loglevel: Logger.level.disabled })).rejects.toThrow(Deno.errors.NotFound)
+  await expect(bundle(project, { bin: resolve(root, "wasm-pack-not-found"), autoinstall: false, logger: new Logger({ level: "disabled" }) })).rejects.toThrow(Deno.errors.NotFound)
 }, { permissions: { read: true, run: true } })

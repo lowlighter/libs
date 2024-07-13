@@ -7,11 +7,11 @@ export type { record }
 const regex = /^(?<statement>import\s*(?:(?:\s+type)?\s+(?:[^\n]+?|(?:\{[\s\S]*?\}))\s+from\s+)?(?<quote>["']))(?<module>[^\n]+?)\k<quote>/gm
 
 /** Resolves all imports from file content against an import map. */
-export function unmap(content: string, imports: record<string>, { log = new Logger() } = {}): { result: string; resolved: number } {
+export function unmap(content: string, imports: record<string>, { logger: log = new Logger() } = {}): { result: string; resolved: number } {
   let resolved = 0
   const directories = Object.keys(imports).filter((module) => module.endsWith("/")) as string[]
   const result = content.replace(regex, function (match, statement, quote, module, i) {
-    log.with({ i }).debug(match)
+    log.with({ i }).trace(match)
     let mapped = null as Nullable<string>
     if (module in imports) {
       mapped = imports[module]
@@ -21,7 +21,7 @@ export function unmap(content: string, imports: record<string>, { log = new Logg
     }
     if (typeof mapped === "string") {
       resolved++
-      log.with({ i }).log(`${module} → ${mapped}`)
+      log.with({ i }).debug(`${module} → ${mapped}`)
       return `${statement}${mapped}${quote}`
     }
     return match

@@ -6,7 +6,7 @@
 
 // Imports
 import { parseArgs } from "@std/cli"
-import { Logger, type loglevel } from "@libs/logger"
+import { type levellike as loglevel, Logger } from "@libs/logger"
 import { assert } from "@std/assert"
 import type { Arg } from "@libs/typing"
 import * as JSONC from "@std/jsonc"
@@ -63,7 +63,7 @@ if (help) {
   Deno.exit(0)
 }
 
-const logger = new Logger({ level: Logger.level[loglevel as loglevel] })
+const logger = new Logger({ level: loglevel as loglevel })
 
 // NPM publishing
 if (npm.token) {
@@ -74,7 +74,7 @@ if (npm.token) {
   delete npm.registry
   delete npm.token
   delete npm.access
-  await publish(`${project}`, { log, ...npm, registries })
+  await publish(`${project}`, { logger: log, ...npm, registries })
 }
 
 // deno.land/x publishing
@@ -83,16 +83,16 @@ if (x.token) {
   const { publish } = await import("../publish/x.ts")
   const log = logger.with({ type: "deno.land/x" })
   if (project) {
-    log.debug(`loading project metadata from ${project}`)
+    log.trace(`loading project metadata from ${project}`)
     const { name, version } = JSONC.parse(await Deno.readTextFile(`${project}`)) as { name: string; version: string }
     x.name ??= name
     x.version ??= version
   }
   if (x.name?.includes("/")) {
-    log.debug("removing scope from package name for publishing")
+    log.trace("removing scope from package name for publishing")
     x.name = x.name.split("/")[1]
   }
   assert(x.name, "No package name specified")
   assert(x.version, "No package version specified")
-  await publish({ log, ...x, token: x.token!, repository: x.repository!, name: x.name!, version: x.version! })
+  await publish({ logger: log, ...x, token: x.token!, repository: x.repository!, name: x.name!, version: x.version! })
 }

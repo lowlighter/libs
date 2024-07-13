@@ -1,5 +1,5 @@
 /**
- * CLI utility to build WASM projects
+ * CLI utility to build WASM projects.
  *
  * @module
  */
@@ -7,7 +7,7 @@
 // Imports
 import { bundle } from "../bundle.ts"
 import { parseArgs } from "@std/cli"
-import { Logger, type loglevel } from "@libs/logger"
+import { type levellike as loglevel, Logger } from "@libs/logger"
 
 let { help, ["auto-install"]: autoinstall, bin, banner, loglevel, _: [project] } = parseArgs(Deno.args, {
   boolean: ["help", "auto-install"],
@@ -34,4 +34,4 @@ if (help) {
 if ((Deno.permissions.querySync({ name: "env", variable: "CI" }).state === "granted") && (Deno.env.get("CI"))) {
   autoinstall ??= true
 }
-await bundle(`${project || Deno.cwd()}`, { bin, banner, autoinstall, loglevel: Logger.level[loglevel as loglevel] })
+await bundle(`${project || Deno.cwd()}`, { bin, banner, autoinstall, logger: new Logger({ level: loglevel as loglevel }) })

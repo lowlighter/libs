@@ -47,7 +47,7 @@ test("deno")("mirror() generates a dictionary with everything necessary to creat
     registry,
     registryApi: registry,
     cwd: import.meta.dirname!,
-    logger: new Logger({ level: Logger.level.disabled }),
+    logger: new Logger({ level: "disabled" }),
     config: "testing/deno.jsonc",
   })
   const files = Object.fromEntries(Object.entries(_files).map(([key, value]) => [`.${key.replace(resolve(import.meta.dirname!), "").replaceAll("\\", "/")}`, value]))
@@ -89,7 +89,7 @@ test("deno")("mirror() supports expanded exports symbols", async () => {
     packages: ["fmt"],
     expand: true,
     cwd: import.meta.dirname!,
-    logger: new Logger({ level: Logger.level.disabled }),
+    logger: new Logger({ level: "disabled" }),
   })
   for (const content of Object.values(files)) {
     expect(content).toMatch(/export \{.*\} from/)

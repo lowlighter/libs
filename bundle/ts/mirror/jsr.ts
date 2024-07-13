@@ -47,7 +47,7 @@ export async function mirror(
     if ((filter?.length) && (!filter.includes(name))) {
       continue
     }
-    const log = logger.with({ scope, name, version }).info("processing")
+    const log = logger.with({ scope, name, version }).log("processing")
 
     // Fetch exports
     let exports = null
@@ -58,7 +58,7 @@ export async function mirror(
         response.body?.cancel()
         continue
       }
-      log.log(`found ${url}`)
+      log.trace(`found ${url}`)
       ;({ exports } = await response.json())
     }
     if (!exports) {
@@ -82,7 +82,7 @@ export async function mirror(
       if (jsr.endsWith("/")) {
         jsr = jsr.replace(/\/$/, "")
       }
-      log.log(`std${path.replace(cwd, "").replaceAll("\\", "/")} → ${jsr}`)
+      log.trace(`std${path.replace(cwd, "").replaceAll("\\", "/")} → ${jsr}`)
       if (extname(exported) === ".json") {
         const url = new URL(exported, `${registry}/@${scope}/${name}/${version}/`).href
         output.files[path] = await fetch(url).then((response) => response.text())
@@ -98,7 +98,7 @@ export async function mirror(
           const temp = await Deno.makeTempFile()
           try {
             await Deno.writeTextFile(temp, output.files[path])
-            const { stdout } = await command("deno", ["doc", "--json", temp], { log })
+            const { stdout } = await command("deno", ["doc", "--json", temp], { logger: log })
             const symbols = new Set<string>()
             for (const { kind, name } of JSON.parse(stdout)) {
               switch (kind) {

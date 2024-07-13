@@ -1,5 +1,5 @@
 /**
- * CLI utility to check CSS browser support
+ * CLI utility to check CSS browser support.
  *
  * @module
  */

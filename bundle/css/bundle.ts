@@ -1,8 +1,3 @@
-/**
- * Bundle CSS.
- * @module
- */
-
 // Imports
 import { minify as csso } from "csso"
 import stylelint from "stylelint"
@@ -34,6 +29,8 @@ import { SEPARATOR } from "@std/path/constants"
  * import { bundle } from "./bundle.ts"
  * console.log(await bundle(`body { color: salmon; }`))
  * ```
+ *
+ * @module
  */
 export async function bundle(input: URL | string, { minify = false, banner = "", rules = {} as Rules } = {}): Promise<string> {
   const code = input instanceof URL ? await fetch(input).then((response) => response.text()) : input

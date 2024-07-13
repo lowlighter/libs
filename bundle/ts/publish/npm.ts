@@ -14,7 +14,7 @@ import { command } from "@libs/run/command"
 export type { Arg, Logger, record }
 
 /** Transform a `deno.jsonc` file into a `package.json` and bundle exported entrypoints to make package publishable on json. */
-export async function packaged(path = "deno.jsonc", { log = new Logger(), scope = undefined as Optional<string>, name = undefined as Optional<string> } = {}): Promise<package_output> {
+export async function packaged(path = "deno.jsonc", { logger: log = new Logger(), scope = undefined as Optional<string>, name = undefined as Optional<string> } = {}): Promise<package_output> {
   path = resolve(path)
   log.debug(`processing: ${path}`)
   const mod = JSONC.parse(await Deno.readTextFile(path)) as record<string> & { exports?: record<string> }
@@ -23,8 +23,7 @@ export async function packaged(path = "deno.jsonc", { log = new Logger(), scope 
   const [_scope, _name] = mod.name.split("/")
   scope ??= _scope
   name ??= _name
-  log = log.with({ scope, name })
-  log.debug()
+  log = log.with({ scope, name }).debug()
 
   // Setup package.json
   const json = {
@@ -35,15 +34,15 @@ export async function packaged(path = "deno.jsonc", { log = new Logger(), scope 
     dependencies: {},
     devDependencies: {},
   } as package_output["json"]
-  log.debug(`set version: ${json.version}`)
+  log.trace(`set version: ${json.version}`)
 
   // Copy optional fields
   for (const key of ["description", "keywords", "license", "author", "homepage", "repository", "funding"] as const) {
     if (mod[key]) {
       json[key] = mod[key]
-      log.debug(`set ${key}: ${json[key]}`)
+      log.trace(`set ${key}: ${json[key]}`)
     } else {
-      log.debug(`skipped ${key}`)
+      log.trace(`skipped ${key}`)
     }
   }
 
@@ -54,7 +53,7 @@ export async function packaged(path = "deno.jsonc", { log = new Logger(), scope 
     for (const [key, value] of Object.entries(mod.exports) as [string, string][]) {
       const url = toFileUrl(resolve(dirname(path), value))
       const file = value.replace(/\.ts$/, ".mjs")
-      log.debug(`bundling: ${file}`)
+      log.trace(`bundling: ${file}`)
       const code = await bundle(url, { config: toFileUrl(path) })
       json.exports[key] = file
       exports[file] = code
@@ -67,7 +66,7 @@ export async function packaged(path = "deno.jsonc", { log = new Logger(), scope 
 /** Publish a TypeScript package on npm registries. */
 export async function publish(
   path: Arg<typeof packaged>,
-  { log = new Logger(), registries = [], dryrun, provenance, ...options }: Arg<typeof packaged, 1> & { log?: Logger; registries?: registry[]; dryrun?: boolean; provenance?: boolean },
+  { logger: log = new Logger(), registries = [], dryrun, provenance, ...options }: Arg<typeof packaged, 1> & { logger?: Logger; registries?: registry[]; dryrun?: boolean; provenance?: boolean },
 ): Promise<Pick<package_output, "scope" | "name" | "json">> {
   const { directory, scope, name, json, exports } = await packaged(path, options)
   log = log.with({ scope, name })
@@ -81,8 +80,8 @@ export async function publish(
   try {
     for (const { url, token, access } of registries) {
       Deno.chdir(directory)
-      await command("npm", ["set", "--location", "project", "registry", url], { log, winext: ".cmd", throw: true })
-      await command("npm", ["set", "--location", "project", `//${new URL(url).host}/:_authToken`, token], { log, winext: ".cmd", throw: true })
+      await command("npm", ["set", "--location", "project", "registry", url], { logger: log, winext: ".cmd", throw: true })
+      await command("npm", ["set", "--location", "project", `//${new URL(url).host}/:_authToken`, token], { logger: log, winext: ".cmd", throw: true })
       const args = ["publish", "--access", { public: "public", private: "restricted" }[access]]
       if (dryrun) {
         args.push("--dry-run")
@@ -91,7 +90,7 @@ export async function publish(
         args.push("--provenance")
       }
       log.debug(`publishing to: ${url} (${access})`)
-      const { success, stdout, stderr } = await command("npm", args, { log, env: { NPM_TOKEN: token }, winext: ".cmd" })
+      const { success, stdout, stderr } = await command("npm", args, { logger: log, env: { NPM_TOKEN: token }, winext: ".cmd" })
       if ((!success) && (!`${stdout}\n${stderr}`.includes("You cannot publish over the previously published versions"))) {
         throw new Error(`npm publish failed: ${stdout}\n${stderr}`)
       }

@@ -2,4 +2,4 @@
  * Mirorring utilities.
  * @module
  */
-export { mirror as mirror_jsr } from "./jsr.ts"
+export { mirror as mirrorJsr } from "./jsr.ts"

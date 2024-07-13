@@ -1,5 +1,5 @@
 /**
- * CLI utility to format HTML and XML files
+ * CLI utility to format HTML and XML files.
  *
  * Can also be used to check if files are formatted using the `--check` flag
  *
