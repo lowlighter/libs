@@ -2,10 +2,8 @@
 import { initSync, JsReader, source, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
 import type { record, rw } from "@libs/typing"
 import type { Nullable, ReaderSync, xml_document, xml_node, xml_text } from "./_types.ts"
-initSync(source())
-
-// Re-exports
 export type { Nullable, ReaderSync, xml_document, xml_node, xml_text }
+initSync(source())
 
 /** XML parser options. */
 export type options = {
@@ -113,6 +111,8 @@ export type options = {
  * using file = await Deno.open("bench/assets/small.xml")
  * console.log(parse(file))
  * ```
+ *
+ * @module
  */
 export function parse(content: string | ReaderSync, options?: options): xml_document {
   const xml = xml_node("~xml") as xml_document

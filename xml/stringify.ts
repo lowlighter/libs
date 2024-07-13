@@ -1,8 +1,6 @@
 // Imports
 import type { Nullable, record, rw } from "@libs/typing"
 import type { stringifyable, xml_document, xml_node, xml_text } from "./_types.ts"
-
-// Re-exports
 export type { Nullable, stringifyable, xml_document, xml_node, xml_text }
 
 /** XML stringifier options. */
@@ -64,6 +62,8 @@ const internal = Symbol("internal")
  *   }
  * }))
  * ```
+ *
+ * @module
  */
 export function stringify(document: stringifyable, options?: options): string {
   options ??= {}
@@ -100,7 +100,16 @@ export function stringify(document: stringifyable, options?: options): string {
   return text.trim()
 }
 
-/** Helper to create a CDATA node. */
+/**
+ * Helper to create a CDATA node.
+ *
+ * @example
+ * ```ts
+ * import { stringify, cdata } from "./stringify.ts"
+ * stringify({ string: cdata(`hello <world>`) })
+ * // <string><![CDATA[hello <world>]]></string>
+ * ```
+ */
 export function cdata(text: string): Omit<xml_text, "~parent"> {
   return {
     "~name": "~cdata",
@@ -108,7 +117,16 @@ export function cdata(text: string): Omit<xml_text, "~parent"> {
   }
 }
 
-/** Helper to create a comment node. */
+/**
+ * Helper to create a comment node.
+ *
+ * @example
+ * ```ts
+ * import { stringify, comment } from "./stringify.ts"
+ * stringify({ string: comment(`hello world`) })
+ * // <string><!--hello world--></string>
+ * ```
+ */
 export function comment(text: string): Omit<xml_text, "~parent"> {
   return {
     "~name": "~comment",
