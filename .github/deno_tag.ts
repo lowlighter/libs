@@ -21,4 +21,4 @@ const { version: previous } = config
 config.version = version
 console.log(`version: ${previous} → ${version}`)
 await Deno.writeTextFile(path, `${JSON.stringify(config, null, 2)}\n`)
-assert(semver.greaterThan(semver.parse(version), semver.parse(previous)), "expected new version to be grater than previous one")
+assert(semver.greaterThan(semver.parse(version), semver.parse(previous)), "expected new version to be greater than previous one")

@@ -172,6 +172,11 @@ jobs:
           if [ "${{ steps.package.outputs.versioning }}" == "date" ]; then
             TAG="${{ inputs.package }}-$(date '+%Y.%m.%d')"
             SEMVER="$(date '+%Y.%-m.%-d')"
+            if [ "$(jq -r .version deno.jsonc)" == "$SEMVER" ]; then
+              echo -e "\033[33mversion $SEMVER is already published, skipping\033[0m"
+              TAG=""
+              SEMVER=""
+            fi
           else
             TAG="${{ steps.tag-next.outputs.tag }}"
             SEMVER="${{ steps.tag-next.outputs.semver }}"
