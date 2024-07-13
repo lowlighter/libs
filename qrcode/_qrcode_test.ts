@@ -1,4 +1,4 @@
-import { qrcode } from "./mod.ts"
+import { qrcode } from "./_qrcode.ts"
 import { expect, fn, test } from "@libs/testing"
 
 test("all")(`qrcode() for numeric mode`, () => {
