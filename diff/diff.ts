@@ -18,6 +18,8 @@
  *
  * Original work was public domain. (The Unlicense)
  * https://raw.githubusercontent.com/jonTrent/PatienceDiff/master/UNLICENSE.txt
+ *
+ * @module
  */
 
 /**
