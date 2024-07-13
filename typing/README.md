@@ -5,6 +5,11 @@
 
 - [`📚 Documentation`](https://jsr.io/@libs/typing/doc)
 
+## ✨ Features
+
+- `AsyncFunction`, `GeneratorFunction` and `AsyncGeneratorFunction` constructors.
+- Addtional useful type utilites.
+
 ## 📜 License
 
 ```plaintext
