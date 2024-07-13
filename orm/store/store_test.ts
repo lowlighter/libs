@@ -1,7 +1,7 @@
 import { expect, fn, test, type testing } from "@libs/testing"
 import { Store } from "./store.ts"
 import { Logger } from "@libs/logger"
-const log = new Logger({ level: Logger.level.disabled })
+const log = new Logger({ level: "disabled" })
 
 test("deno")(`Store calls open() upon construction and close() upon destruction`, async () => {
   const _open = fn()

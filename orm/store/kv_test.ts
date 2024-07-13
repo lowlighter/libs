@@ -1,7 +1,7 @@
 import { expect, test, type testing } from "@libs/testing"
 import { Store } from "./kv.ts"
 import { Logger } from "@libs/logger"
-const log = new Logger({ level: Logger.level.disabled })
+const log = new Logger({ level: "disabled" })
 
 test("deno")(`Store[Deno.Kv] implements Store interface`, async () => {
   await using store = await new Store({ path: ":memory:", log }).ready

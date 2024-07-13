@@ -5,7 +5,7 @@ import { Logger } from "@libs/logger"
 import { delay } from "@std/async/delay"
 import { is } from "./mod.ts"
 
-const log = new Logger({ level: Logger.level.disabled })
+const log = new Logger({ level: "disabled" })
 const store = await new Store({ path: ":memory:", log }).ready
 
 test("deno")(`Resource cannot be instantiated without extending constructor with Resource.with`, () => {

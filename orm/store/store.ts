@@ -1,6 +1,6 @@
 // Imports
-import type { Nullable, Promisable, record } from "@libs/typing"
 import { Logger } from "@libs/logger"
+import type { Nullable, Promisable, record } from "@libs/typing"
 export type { Promisable, record }
 
 /**
@@ -62,10 +62,10 @@ export abstract class Store {
     await this.ready
     const { value, version } = await this._get<T>(key)
     if (version === null) {
-      this.#log.with({ op: "get", key: f(key) }).debug("no result")
+      this.#log.with({ op: "get", key: f(key) }).wdebug("no result")
       return { value: null, version: null }
     }
-    this.#log.with({ op: "get", key: f(key), version }).debug()
+    this.#log.with({ op: "get", key: f(key), version }).trace()
     return { value, version }
   }
 
@@ -96,12 +96,12 @@ export abstract class Store {
     const indexes = Array.isArray(keys[0]) ? keys as Array<key> : [keys as key]
     const primary = indexes[0] as key
     if (!await this.has(primary)) {
-      this.#log.with({ op: "delete", key: f(primary), version }).debug("no result")
+      this.#log.with({ op: "delete", key: f(primary), version }).wdebug("no result")
       return false
     }
     const { ok } = await this._delete(indexes, version)
     if (!ok) {
-      this.#log.with({ op: "set", key: f(primary), version }).error("failed")
+      this.#log.with({ op: "delete", key: f(primary), version }).error("failed")
       throw new TypeError(`Failed to delete: ${f(primary)}@${version}`)
     }
     this.#log.with({ op: "delete", key: f(primary), version }).debug()
@@ -119,7 +119,7 @@ export abstract class Store {
   async list<T extends record>(key: key | [key, key], { limit, reverse, array = true }: { limit?: number; reverse?: boolean; array?: boolean } = {}): Promise<Array<{ key: key; value: T; version: version }> | AsyncGenerator<{ key: key; value: T; version: version }>> {
     await this.ready
     const list = this._list<T>(key, { limit, reverse }, array)
-    this.#log.with({ op: "list", key: f(key), limit, reverse, array }).debug()
+    this.#log.with({ op: "list", key: f(key), limit, reverse, array }).trace()
     return list
   }
 
