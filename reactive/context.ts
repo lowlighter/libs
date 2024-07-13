@@ -53,6 +53,7 @@ export type { DeepMerge, record }
  *
  * @author Simon Lecoq (lowlighter)
  * @license MIT
+ * @module
  */
 export class Context<T extends record = record> extends EventTarget {
   /** Constructor. */
