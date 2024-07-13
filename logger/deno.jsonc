@@ -28,8 +28,8 @@
     ".": "./mod.ts"
   },
   "imports": {
-    "@std/fmt/colors": "jsr:@std/fmt@0.225.5/colors",
-    "@std/path/basename": "jsr:@std/path@0.225.2/basename",
+    "@std/fmt/colors": "jsr:@std/fmt@0.225.6/colors",
+    "@std/path/basename": "jsr:@std/path@1/basename",
     "@libs/testing": "jsr:@libs/testing@2"
   },
   "test:permissions": {
