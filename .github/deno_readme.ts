@@ -38,4 +38,4 @@ table += "</table>"
 let readme = await Deno.readTextFile(resolve(root, "README.md"))
 readme = readme.replace(/<table>[\s\S]*<\/table>/, table)
 await Deno.writeTextFile(resolve(root, "README.md"), readme)
-logger.info("Updated README.md")
+logger.ok("Updated README.md")

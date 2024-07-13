@@ -108,17 +108,17 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
       const semproject = semver.parseRange(project).at(0)!.filter(({ operator }) => (operator === ">=") || (!operator)).map(({ major, minor, patch }) => ({ major, minor, patch })).at(0)!
       const semscope = semver.parseRange(scope).at(0)!.filter(({ operator }) => (operator === ">=") || (!operator)).map(({ major, minor, patch }) => ({ major, minor, patch })).at(0)!
       if (semver.greaterThan(semproject, semscope)) {
-        logger.warn(`upgrade available`)
+        logger.info(`upgrade available`)
         if (upgrade) {
           imports[key] = value
-          log.info(`upgraded: ${key} → ${project}`)
+          log.ok(`upgraded: ${key} → ${project}`)
         }
         continue
       }
       if ((/^\d+$/.test(project)) && (project !== scope)) {
         if (upgrade) {
           imports[key] = value
-          log.info(`set: ${key} → ${project}`)
+          log.ok(`set: ${key} → ${project}`)
         } else {
           logger.warn(`mismatching specificity: ${project} ≠ ${scope}`)
           continue
@@ -131,7 +131,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   }
   // Save local configuration
   await Deno.writeTextFile(path, `${JSON.stringify(Object.fromEntries(order.map((key) => [key, local[key]]).filter(([_, value]) => value !== undefined)), null, 2)}\n`)
-  log.with({ package: packages.at(-1) }).info("written config")
+  log.with({ package: packages.at(-1) }).ok("written config")
 }
 
 // Save global configuration
