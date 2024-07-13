@@ -172,7 +172,7 @@ export function command(bin: string, args: string[], options?: options & { sync:
  * @license MIT
  * @module
  */
-export function command(bin: string, args: string[], { log = new Logger(), stdin = null, stdout = "debug", stderr = "error", env, cwd, raw, callback, buffering, sync, throw: _throw, dryrun, winext = "", os = Deno.build.os } = {} as options): Promisable<result> {
+export function command(bin: string, args: string[], { logger: log = new Logger(), stdin = null, stdout = "debug", stderr = "error", env, cwd, raw, callback, buffering, sync, throw: _throw, dryrun, winext = "", os = Deno.build.os } = {} as options): Promisable<result> {
   if (os === "windows") {
     bin = `${bin}${winext}`
   }
