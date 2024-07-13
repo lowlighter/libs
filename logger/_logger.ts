@@ -32,7 +32,6 @@
  *
  * @author Simon Lecoq (lowlighter)
  * @license MIT
- * @module
  */
 // deno-lint-ignore ban-types
 export class Logger<T extends Record<PropertyKey, unknown> = {}> {
@@ -57,7 +56,10 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
 
   /** Get logger options. */
   options(): options
-  /** Set logger options. */
+  /**
+   * Set logger options.
+   * Only provided options will be updated, other options will be left untouched.
+   */
   options(options: LoggerOptions<T>): this
   /** Set or get logger options. */
   options(options?: LoggerOptions<T>): this | options {
@@ -104,7 +106,10 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
 
   /** Get logger level. */
   level(): level
-  /** Set logger level. */
+  /**
+   * Set logger level.
+   * Both numeric and named levels are supported.
+   */
   level(level: LoggerOptions<T>["level"]): this
   /** Set or get logger level. */
   level(level?: LoggerOptions<T>["level"]): this | level {
@@ -213,7 +218,7 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
   }
 
   /**
-   * Write content in debug stream bypassing log level.
+   * Write content in debug stream bypassing current log level.
    * This method is intended to be used for debugging.
    */
   probe(...content: unknown[]): this {
