@@ -144,7 +144,7 @@ jobs:
           echo "has_npm=$(jq -r 'if .npm then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
           echo "has_x=$(jq -r 'if .["deno.land/x"] then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
           echo "slow_types=$(jq -r 'if .types == "slow" then "--allow-slow-types" else "" end' deno.jsonc)" >> "$GITHUB_OUTPUT"
-          echo "versioning=$(jq -r 'if .versioning == "date" then "date" else "semver" end' deno.jsonc)" >> "$GITHUB_OUTPUT
+          echo "versioning=$(jq -r 'if .versioning == "date" then "date" else "semver" end' deno.jsonc)" >> "$GITHUB_OUTPUT"
       # Build
       - run: deno task build
         if: ${{ steps.package.outputs.has_build }}
