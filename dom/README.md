@@ -17,7 +17,7 @@ Implemention follows [Mozilla Developer Network documentation](https://developer
 
 It tries to match standards as closely as possible (so many classes cannot be instantiated directly for example) but behavior may differ slightly in some cases (please open an issue in this case).
 
-## 📦 Features
+## ✨ Features
 
 This library implements web APIs based on `lib.dom.d.ts` type definitions, which means it'll satisfy any code that relies on these types:
 
