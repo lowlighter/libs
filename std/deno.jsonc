@@ -434,7 +434,7 @@
   },
   "imports": {},
   "tasks": {
-    "build": "deno run --allow-read --allow-net=jsr.io,api.jsr.io --allow-write=. jsr:@libs/bundle/ts/cli/mirror --scope std --config deno.jsonc",
+    "build": "deno run --allow-read --allow-net=jsr.io,api.jsr.io --allow-write=.,$TMP --allow-run=deno jsr:@libs/bundle/ts/cli/mirror --scope std --config deno.jsonc --expand",
     "test": "deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
     "test:deno": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
     "test:deno-future": "DENO_FUTURE=1 && deno task test:deno",
