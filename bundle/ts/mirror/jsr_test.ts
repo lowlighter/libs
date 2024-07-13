@@ -82,3 +82,16 @@ test("deno")("mirror() generates a dictionary with everything necessary to creat
     version: `${new Date().getFullYear()}.${new Date().getMonth() + 1}.${new Date().getDate()}`,
   })
 }, { permissions: { read: true, net: true } })
+
+test("deno")("mirror() supports expanded exports symbols", async () => {
+  const { files } = await mirror({
+    scope: "std",
+    packages: ["fmt"],
+    expand: true,
+    cwd: import.meta.dirname!,
+    logger: new Logger({ level: Logger.level.disabled }),
+  })
+  for (const content of Object.values(files)) {
+    expect(content).toMatch(/export \{.*\} from/)
+  }
+}, { permissions: { read: true, net: true, write: "inherit", run: ["deno"] } })

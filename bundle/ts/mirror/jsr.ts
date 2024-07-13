@@ -4,6 +4,7 @@ import { extname, join, parse, resolve } from "@std/path"
 import * as JSONC from "@std/jsonc"
 import { STATUS_CODE as StatusCode } from "@std/http/status"
 import type { record } from "@libs/typing"
+import { command } from "@libs/run"
 
 /**
  * Mirror a list of packages from a scope from jsr.io.
@@ -19,9 +20,11 @@ import type { record } from "@libs/typing"
  * If `config` is set to a deno configuration file path, it'll be read and update the `exports` fields with all found exports.
  * The `version` field will also be updated to format `YYYY.MM.DD` (without leading zeros).
  * Note that any comments in the configuration file will be lost.
+ *
+ * If `expand` flag is set, the tool will expand the list of exported symbols (i.e. use `export { ... } from` instead of `export * from`).
  */
 export async function mirror(
-  { scope, packages: filter, mod, config, registry = "https://jsr.io", registryApi = "https://api.jsr.io", cwd = resolve(), logger = new Logger() }: {
+  { scope, packages: filter, mod, config, registry = "https://jsr.io", registryApi = "https://api.jsr.io", cwd = resolve(), logger = new Logger(), expand = false }: {
     scope: string
     packages?: string[]
     mod?: boolean
@@ -30,6 +33,7 @@ export async function mirror(
     registryApi?: string
     cwd?: string
     logger?: Logger
+    expand?: boolean
   },
 ): Promise<{ files: record<string>; exports: record<string> }> {
   // List packages
@@ -90,6 +94,34 @@ export async function mirror(
         ])
       } else {
         output.files[path] = `export * from "${jsr}"\n`
+        if (expand) {
+          const temp = await Deno.makeTempFile()
+          try {
+            await Deno.writeTextFile(temp, output.files[path])
+            const { stdout } = await command("deno", ["doc", "--json", temp], { log })
+            const symbols = new Set<string>()
+            for (const { kind, name } of JSON.parse(stdout)) {
+              switch (kind) {
+                case "class":
+                case "function":
+                case "variable":
+                  symbols.add(name)
+                  symbols.delete(`type ${name}`)
+                  break
+                case "namespace":
+                case "interface":
+                case "typeAlias":
+                  if (!symbols.has(name)) {
+                    symbols.add(`type ${name}`)
+                  }
+                  break
+              }
+            }
+            output.files[path] = `export { ${[...symbols].join(", ")} } from "${jsr}"\n`
+          } finally {
+            await Deno.remove(temp)
+          }
+        }
         modts.push(`export * from "${exports.b}"`)
       }
       output.exports[exports.a] = exports.b
