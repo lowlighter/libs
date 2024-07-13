@@ -28,10 +28,12 @@
  *
  * The following resource can be used to validate the implementation:
  * https://www.verifyr.com/en/otp/check
- * ________________________________________________________________________________
  *
+ * ```
  * Copyright (c) Simon Lecoq <@lowlighter>. (MIT License)
  * https://github.com/lowlighter/libs/blob/main/LICENSE
+ * ```
+ *
  * @module
  */
 
@@ -53,6 +55,13 @@ async function htop(secret: string, counter: bigint): Promise<string> {
 
 /**
  * Returns a Time-based OTP.
+ *
+ * @example
+ * ```ts
+ * import { totp, otpsecret } from "./totp.ts"
+ * const secret = otpsecret()
+ * console.log(totp(secret, { t: Date.now() }))
+ * ```
  */
 export async function totp(secret: string, { t = Date.now(), dt = 0 } = {}): Promise<string> {
   return await htop(secret, BigInt(Math.floor(t / 1000 / 30) + dt))
@@ -78,7 +87,7 @@ export function otpsecret(): string {
  * @example
  * ```ts
  * import { otpauth } from "./totp.ts"
- * import { qrcode } from "../qrcode/mod.ts"
+ * import { qrcode } from "jsr:@libs/qrcode"
  * const url = otpauth({ issuer: "example.com", account: "alice" })
  * console.log(`Please scan the following QR Code:`)
  * qrcode(url.href, { output: "console" })

@@ -26,6 +26,7 @@
  * const decrypted = await decrypt(secret, { key })
  * console.assert(decrypted === message)
  * ```
+ *
  * @module
  */
 
