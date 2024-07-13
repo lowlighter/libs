@@ -20,13 +20,7 @@ pub enum Token {
     Text = 7,
     CData = 8,
     Comment = 9,
-}
-
-// State enum.
-#[wasm_bindgen]
-#[repr(u8)]
-pub enum State {
-    ParseAttribute = 1,
+    StateParseAttribute = 129,
 }
 
 // Tokenize XML document.
@@ -70,7 +64,11 @@ pub fn tokenize(js_reader: JsReader, tokens: Array, states: Array, _html: Option
                     &reader.decoder().decode(e.name().as_ref()).unwrap(),
                     None,
                 );
-                add_state(&states, State::ParseAttribute, reader.buffer_position());
+                add_state(
+                    &states,
+                    Token::StateParseAttribute,
+                    reader.buffer_position(),
+                );
                 let attributes = if html {
                     e.html_attributes()
                 } else {
@@ -94,7 +92,11 @@ pub fn tokenize(js_reader: JsReader, tokens: Array, states: Array, _html: Option
                     &reader.decoder().decode(e.name().as_ref()).unwrap(),
                     None,
                 );
-                add_state(&states, State::ParseAttribute, reader.buffer_position());
+                add_state(
+                    &states,
+                    Token::StateParseAttribute,
+                    reader.buffer_position(),
+                );
                 let attributes = if html {
                     e.html_attributes()
                 } else {
@@ -171,7 +173,7 @@ fn add_attributes(tokens: &Array, reader: &Reader<BufReader<JsReader>>, attrs: A
 }
 
 // Add state.
-fn add_state(states: &Array, id: State, value: usize) {
+fn add_state(states: &Array, id: Token, value: usize) {
     let state = Array::new();
     state.push(&JsValue::from(id));
     state.push(&JsValue::from(value));

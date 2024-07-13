@@ -1,5 +1,5 @@
 // Imports
-import { initSync, JsReader, source, State, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
+import { initSync, JsReader, source, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
 import type { record, rw } from "@libs/typing"
 import type { Nullable, ReaderSync, xml_document, xml_node, xml_text } from "./_types.ts"
 initSync(source())
@@ -124,7 +124,7 @@ export function parse(content: string | ReaderSync, options?: options): xml_docu
     const reader = new JsReader(new TextEncoder().encode(content as string), typeof content === "object" ? content : undefined)
     tokenize(reader, tokens, states, options?.mode === "html")
   } catch (error) {
-    if (states.at(-1)?.[0] === State.ParseAttribute) {
+    if (states.at(-1)?.[0] === Token.StateParseAttribute) {
       tokens.push([Token.Error, `Failed to parse attribute around position ${states.at(-1)![1]}`])
     }
     if (!states.length) {
