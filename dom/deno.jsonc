@@ -47,33 +47,5 @@
     "coverage:html": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js --html && sleep 1",
     "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint",
     "lint": "deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish --dry-run --quiet --allow-dirty"
-  },
-  "lint": {
-    "rules": {
-      "include": [
-        "no-throw-literal",
-        "no-eval",
-        "eqeqeq",
-        "ban-untagged-todo"
-      ]
-    },
-    "exclude": [
-      "**/wasm_*",
-      "**/*.mjs"
-    ]
-  },
-  "fmt": {
-    "lineWidth": 280,
-    "semiColons": false,
-    "exclude": [
-      "coverage",
-      "**/coverage",
-      "**/node_modules",
-      "**/package.json",
-      "**/package-lock.json",
-      "**/wasm_*",
-      "**/*.mjs"
-    ],
-    "proseWrap": "preserve"
   }
 }
