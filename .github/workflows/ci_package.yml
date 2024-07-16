@@ -83,9 +83,7 @@ jobs:
       - run: deno fmt --check
       - run: deno doc --lint mod.ts
       - name: Run deno publish --dry-run
-        run: |
-          SLOW_TYPES="$(jq -r 'if .types == "slow" then "--allow-slow-types" else "" end' deno.jsonc)"
-          deno publish --dry-run --quiet --allow-dirty $SLOW_TYPES
+        run: deno publish --dry-run --quiet --allow-dirty
 
   codeql:
     name: Code quality
@@ -143,7 +141,6 @@ jobs:
           echo "has_bench=$(jq -r 'if .tasks.bench then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
           echo "has_npm=$(jq -r 'if .npm then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
           echo "has_x=$(jq -r 'if .["deno.land/x"] then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
-          echo "slow_types=$(jq -r 'if .types == "slow" then "--allow-slow-types" else "" end' deno.jsonc)" >> "$GITHUB_OUTPUT"
           echo "versioning=$(jq -r 'if .versioning == "date" then "date" else "semver" end' deno.jsonc)" >> "$GITHUB_OUTPUT"
       # Build
       - run: deno task build

@@ -11,7 +11,10 @@
     "url": "git+https://github.com/lowlighter/libs.git"
   },
   "exports": {},
-  "lock": false,
+  "unstable": [
+    "workspaces",
+    "kv"
+  ],
   "imports": {
     "@std/jsonc": "jsr:@std/jsonc@0.224.3",
     "@std/yaml": "jsr:@std/yaml@0.224.3",
@@ -105,21 +108,5 @@
       "**/*.mjs"
     ],
     "proseWrap": "preserve"
-  },
-  "workspace": [
-    "bundle/",
-    "crypto/",
-    "diff/",
-    "logger/",
-    "orm/",
-    "qrcode/",
-    "reactive/",
-    "run/",
-    "testing/",
-    "typing/",
-    "xml/"
-  ],
-  "unstable": [
-    "workspaces"
-  ]
+  }
 }

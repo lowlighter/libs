@@ -29,7 +29,6 @@ const order = [
   "deno.land/x",
   "exports",
   "unstable",
-  "types",
   "lock",
   "imports",
   "test:permissions",
@@ -50,18 +49,11 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   const name = basename(dirname(path))
   packages.push(name)
   // Sync local configuration with global configuration
-  let slow = false
   local.author = global.author
   local.repository = global.repository
   local.homepage = global.homepage
   local.funding = global.funding
   local.license = global.license
-  local.lint = structuredClone(global.lint)
-  local.fmt = structuredClone(global.fmt)
-  if (local.types === "slow") {
-    ;(local.lint as { rules: { exclude: string[] } }).rules.exclude = ["no-slow-types"]
-    slow = true
-  }
   // Sync tasks
   local.tasks ??= {}
   const tasks = local.tasks as record<string>
