@@ -72,7 +72,7 @@ export async function bundle(input: URL | string, { minify = "terser" as false |
     await delay(500)
   }
   if (minify === "terser") {
-    code = await terser(code, { module: true, sourceMap: debug ? { url: "inline" } : false }).then((response) => response.code!)
+    code = await terser(code, { format: { comments: false }, module: true, sourceMap: debug ? { url: "inline" } : false }).then((response) => response.code!)
   }
   if (banner) {
     if (banner.includes("\n")) {
