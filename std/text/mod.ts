@@ -1,1 +1,1 @@
-export { closestString, compareSimilarity, levenshteinDistance, toCamelCase, toKebabCase, toPascalCase, toSnakeCase, wordSimilaritySort } from "jsr:@std/text@0.224.3"
+export { closestString, type ClosestStringOptions, compareSimilarity, type CompareSimilarityOptions, levenshteinDistance, toCamelCase, toKebabCase, toPascalCase, toSnakeCase, wordSimilaritySort, type WordSimilaritySortOptions } from "jsr:@std/text@1.0.0"

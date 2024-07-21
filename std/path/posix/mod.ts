@@ -22,4 +22,4 @@ export {
   SEPARATOR_PATTERN,
   toFileUrl,
   toNamespacedPath,
-} from "jsr:@std/path@1.0.0/posix"
+} from "jsr:@std/path@1.0.1/posix"

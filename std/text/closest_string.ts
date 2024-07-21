@@ -1,1 +1,1 @@
-export { closestString } from "jsr:@std/text@0.224.3/closest-string"
+export { closestString, type ClosestStringOptions } from "jsr:@std/text@1.0.0/closest-string"

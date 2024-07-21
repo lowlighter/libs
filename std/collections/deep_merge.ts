@@ -17,4 +17,4 @@ export {
   type OmitComplexes,
   type PartialByType,
   type SetValueType,
-} from "jsr:@std/collections@1.0.4/deep-merge"
+} from "jsr:@std/collections@1.0.5/deep-merge"

@@ -1,1 +1,1 @@
-export { deadline, DeadlineError, type DeadlineOptions } from "jsr:@std/async@0.224.2/deadline"
+export { deadline, type DeadlineOptions } from "jsr:@std/async@1.0.0/deadline"

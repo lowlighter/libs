@@ -1,1 +1,1 @@
-export { fromFileUrl } from "jsr:@std/path@1.0.0/from-file-url"
+export { fromFileUrl } from "jsr:@std/path@1.0.1/from-file-url"

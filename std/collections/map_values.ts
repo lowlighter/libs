@@ -1,1 +1,1 @@
-export { mapValues } from "jsr:@std/collections@1.0.4/map-values"
+export { mapValues } from "jsr:@std/collections@1.0.5/map-values"

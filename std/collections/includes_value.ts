@@ -1,1 +1,1 @@
-export { includesValue } from "jsr:@std/collections@1.0.4/includes-value"
+export { includesValue } from "jsr:@std/collections@1.0.5/includes-value"

@@ -1,1 +1,1 @@
-export { tee, type Tuple, type TupleOf } from "jsr:@std/async@0.224.2/tee"
+export { tee, type Tuple, type TupleOf } from "jsr:@std/async@1.0.0/tee"

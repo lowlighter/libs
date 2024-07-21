@@ -1,1 +1,1 @@
-export { stringify } from "jsr:@std/dotenv@0.224.2/stringify"
+export { stringify } from "jsr:@std/dotenv@0.225.0/stringify"

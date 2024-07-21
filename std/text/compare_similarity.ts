@@ -1,1 +1,1 @@
-export { compareSimilarity } from "jsr:@std/text@0.224.3/compare-similarity"
+export { compareSimilarity, type CompareSimilarityOptions } from "jsr:@std/text@1.0.0/compare-similarity"

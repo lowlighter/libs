@@ -1,1 +1,1 @@
-export { mapNotNullish } from "jsr:@std/collections@1.0.4/map-not-nullish"
+export { mapNotNullish } from "jsr:@std/collections@1.0.5/map-not-nullish"

@@ -1,1 +1,1 @@
-export { ERROR_WHILE_MAPPING_MESSAGE, pooledMap } from "jsr:@std/async@0.224.2/pool"
+export { pooledMap } from "jsr:@std/async@1.0.0/pool"

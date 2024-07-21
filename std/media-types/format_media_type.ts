@@ -1,1 +1,1 @@
-export { formatMediaType } from "jsr:@std/media-types@1.0.1/format-media-type"
+export { formatMediaType } from "jsr:@std/media-types@1.0.2/format-media-type"

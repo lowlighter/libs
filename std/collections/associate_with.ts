@@ -1,1 +1,1 @@
-export { associateWith } from "jsr:@std/collections@1.0.4/associate-with"
+export { associateWith } from "jsr:@std/collections@1.0.5/associate-with"

@@ -1,1 +1,1 @@
-export { runningReduce } from "jsr:@std/collections@1.0.4/running-reduce"
+export { runningReduce } from "jsr:@std/collections@1.0.5/running-reduce"

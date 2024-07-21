@@ -1,1 +1,1 @@
-export { type GlobOptions, normalizeGlob } from "jsr:@std/path@1.0.0/posix/normalize-glob"
+export { type GlobOptions, normalizeGlob } from "jsr:@std/path@1.0.1/posix/normalize-glob"

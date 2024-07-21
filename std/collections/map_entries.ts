@@ -1,1 +1,1 @@
-export { mapEntries } from "jsr:@std/collections@1.0.4/map-entries"
+export { mapEntries } from "jsr:@std/collections@1.0.5/map-entries"

@@ -1,1 +1,1 @@
-export { toNamespacedPath } from "jsr:@std/path@1.0.0/windows/to-namespaced-path"
+export { toNamespacedPath } from "jsr:@std/path@1.0.1/windows/to-namespaced-path"

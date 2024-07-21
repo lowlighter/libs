@@ -68,4 +68,4 @@ export {
   unzip,
   withoutAll,
   zip,
-} from "jsr:@std/collections@1.0.4"
+} from "jsr:@std/collections@1.0.5"

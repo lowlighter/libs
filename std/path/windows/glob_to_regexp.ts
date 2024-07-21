@@ -1,1 +1,1 @@
-export { globToRegExp } from "jsr:@std/path@1.0.0/windows/glob-to-regexp"
+export { globToRegExp } from "jsr:@std/path@1.0.1/windows/glob-to-regexp"

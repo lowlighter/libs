@@ -1,1 +1,1 @@
-export { wordSimilaritySort } from "jsr:@std/text@0.224.3/word-similarity-sort"
+export { wordSimilaritySort, type WordSimilaritySortOptions } from "jsr:@std/text@1.0.0/word-similarity-sort"

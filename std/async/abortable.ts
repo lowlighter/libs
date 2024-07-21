@@ -1,1 +1,1 @@
-export { abortable, abortableAsyncIterable, abortablePromise } from "jsr:@std/async@0.224.2/abortable"
+export { abortable } from "jsr:@std/async@1.0.0/abortable"

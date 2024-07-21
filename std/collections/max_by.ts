@@ -1,1 +1,1 @@
-export { maxBy } from "jsr:@std/collections@1.0.4/max-by"
+export { maxBy } from "jsr:@std/collections@1.0.5/max-by"

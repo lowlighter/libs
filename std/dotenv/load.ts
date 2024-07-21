@@ -1,1 +1,1 @@
-export {} from "jsr:@std/dotenv@0.224.2/load"
+export {} from "jsr:@std/dotenv@0.225.0/load"

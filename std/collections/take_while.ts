@@ -1,1 +1,1 @@
-export { takeWhile } from "jsr:@std/collections@1.0.4/take-while"
+export { takeWhile } from "jsr:@std/collections@1.0.5/take-while"
