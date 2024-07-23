@@ -1,1 +1,4 @@
-export { warn } from "jsr:@std/log@0.224.5/warn"
+import { warn as _function_warn } from "jsr:@std/log@0.224.5/warn"
+/** UNDOCUMENTED */
+const warn = _function_warn
+export { warn }
