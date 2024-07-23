@@ -38,6 +38,7 @@
     "@lowlighter/deno-dom/deno-dom-wasm": "jsr:@lowlighter/deno-dom@0.1.46-rc1/deno-dom-wasm",
     "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@0.10.3",
     "@graphql-tools/utils": "npm:@graphql-tools/utils@10",
+    "@deno/doc": "jsr:@deno/doc@0.143.0",
     "esbuild": "npm:esbuild@0.23.0",
     "terser": "npm:terser@5",
     "browserslist": "npm:browserslist@4",
