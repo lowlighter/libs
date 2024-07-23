@@ -25,6 +25,7 @@ const order = [
   "playground",
   "supported",
   "repository",
+  "mirror",
   "npm",
   "deno.land/x",
   "exports",
@@ -33,7 +34,6 @@ const order = [
   "lock",
   "imports",
   "test:permissions",
-  "test:doc",
   "tasks",
   "lint",
   "fmt",
@@ -62,6 +62,11 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
     ;(local.lint as { rules: { exclude: string[] } }).rules.exclude = ["no-slow-types"]
     slow = true
   }
+  if (local.mirror) {
+    const lint = local.lint as { rules: { exclude?: string[] } }
+    lint.rules.exclude ??= []
+    lint.rules.exclude.push("no-explicit-any")
+  }
   // Sync tasks
   local.tasks ??= {}
   const tasks = local.tasks as record<string>
@@ -71,7 +76,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
     test.run = [...new Set(["deno", "node", "bun", "npx", ...test.run])]
   }
   const permissions = Object.entries(test).map(([key, value]) => `--allow-${key}${value === true ? "" : `=${value.join(",")}`}`).join(" ")
-  tasks["test"] = `deno test ${permissions} --no-prompt --coverage --clean --trace-leaks ${local["test:doc"] === false ? "" : "--doc"}`
+  tasks["test"] = `deno test ${permissions} --no-prompt --coverage --clean --trace-leaks ${local.mirror === true ? "" : "--doc"}`
   tasks["test:deno"] = `deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint`
   tasks["test:deno-future"] = "DENO_FUTURE=1 && deno task test:deno"
   tasks["test:others"] = "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"

@@ -20,12 +20,12 @@
     "type": "git",
     "url": "git+https://github.com/lowlighter/libs.git"
   },
+  "mirror": true,
   "exports": {},
   "unstable": [
     "webgpu"
   ],
   "imports": {},
-  "test:doc": false,
   "tasks": {
     "build": "deno run --allow-read --allow-net=jsr.io,api.jsr.io --allow-write --allow-run=deno jsr:@libs/bundle/ts/cli/mirror --scope std --packages-exclude internal --config deno.jsonc --mod --patches patches.yml && deno fmt",
     "test": "deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks ",
@@ -43,6 +43,9 @@
         "no-eval",
         "eqeqeq",
         "ban-untagged-todo"
+      ],
+      "exclude": [
+        "no-explicit-any"
       ]
     },
     "exclude": [
