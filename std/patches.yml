@@ -1,0 +1,184 @@
+inject:
+  ./mod.ts: |
+    /**
+     * All-in-one mirror of Deno standard library <jsr.io/@std>.
+     * Note that some exports from the `default export` may have been renamed to avoid conflicts.
+     * @module
+     */
+  ./cli/mod.ts: |
+    /** @internal */
+    type BooleanType = boolean | string | undefined;
+    /** @internal */
+    type StringType = string | undefined;
+    /** @internal */
+    type Collectable = string | undefined;
+    /** @internal */
+    type Negatable = string | undefined;
+    /** @internal */
+    type Aliases<TArgNames = string, TAliasNames extends string = string> = Partial<Record<Extract<TArgNames, string>, TAliasNames | ReadonlyArray<TAliasNames>>>;
+  ./cli/parse_args.ts: |
+    /** @internal */
+    type BooleanType = boolean | string | undefined;
+    /** @internal */
+    type StringType = string | undefined;
+    /** @internal */
+    type Collectable = string | undefined;
+    /** @internal */
+    type Negatable = string | undefined;
+    /** @internal */
+    type Aliases<TArgNames = string, TAliasNames extends string = string> = Partial<Record<Extract<TArgNames, string>, TAliasNames | ReadonlyArray<TAliasNames>>>;
+  ./flags/mod.ts: |
+    /** @internal */
+    type BooleanType = boolean | string | undefined;
+    /** @internal */
+    type StringType = string | undefined;
+    /** @internal */
+    type Collectable = string | undefined;
+    /** @internal */
+    type Negatable = string | undefined;
+    /** @internal */
+    type Aliases<TArgNames = string, TAliasNames extends string = string> = Partial<Record<Extract<TArgNames, string>, TAliasNames | ReadonlyArray<TAliasNames>>>;
+
+aliases:
+
+  ./console/mod.ts#unicodeWidth: ~
+
+  ./flags/mod.ts#Args: ~
+  ./flags/mod.ts#ParseOptions: ParseFlagsOptions
+  ./flags/mod.ts#parse: parseFlags
+
+  ./dotenv/mod.ts#parse: parseDotEnv
+  ./dotenv/mod.ts#stringify: stringifyDotEnv
+  ./dotenv/mod.ts#load: loadDotEnv
+  ./dotenv/mod.ts#loadSync: loadDotEnvSync
+
+  ./ini/mod.ts#ParseOptions: ParseIniOptions
+  ./ini/mod.ts#StringifyOptions: StringifyIniOptions
+  ./ini/mod.ts#parse: parseIni
+  ./ini/mod.ts#stringify: stringifyIni
+
+  ./jsonc/mod.ts#ParseOptions: ParseJsoncOptions
+  ./jsonc/mod.ts#parse: parseJsonc
+  ./jsonc/mod.ts#JsonValue: ~
+
+  ./csv/mod.ts#ParseOptions: ParseCsvOptions
+  ./csv/mod.ts#StringifyOptions: StringifyCsvOptions
+  ./csv/mod.ts#parse: parseCsv
+  ./csv/mod.ts#stringify: stringifyCsv
+  ./csv/mod.ts#Column: CsvColumn
+  ./csv/mod.ts#RowType: CsvRowType
+  ./csv/mod.ts#DataItem: CsvDataItem
+  ./csv/mod.ts#RecordWithColumn: CsvRecordWithColumn
+  ./csv/mod.ts#StringifyError: StringifyCsvError
+  ./csv/mod.ts#ParseError: ParseCsvError
+  ./csv/mod.ts#ParseResult: ParseCsvResult
+  ./csv/mod.ts#ReadOptions: ReadCsvOptions
+
+  ./toml/mod.ts#ParseOptions: ParseTomlOptions
+  ./toml/mod.ts#StringifyOptions: StringifyTomlOptions
+  ./toml/mod.ts#parse: parseToml
+  ./toml/mod.ts#stringify: stringifyToml
+
+  ./yaml/mod.ts#ParseOptions: ParseYamlOptions
+  ./yaml/mod.ts#StringifyOptions: StringifyYamlOptions
+  ./yaml/mod.ts#parse: parseYaml
+  ./yaml/mod.ts#stringify: stringifyYaml
+  ./yaml/mod.ts#DumpOptions: DumpYamlOptions
+  ./yaml/mod.ts#KindType: YamlKindType
+  ./yaml/mod.ts#StyleVariant: YamlStyleVariant
+  ./yaml/mod.ts#RepresentFn: YamlRepresentFn
+  ./yaml/mod.ts#Type: YamlType
+
+  ./front-matter/mod.ts#test: testFrontMatter
+  ./front-matter/mod.ts#Extract: FrontMatterExtract
+  ./front-matter/mod.ts#Extractor: FrontMatterExtractor
+  ./front-matter/mod.ts#Parser: FrontMatterParser
+  ./front-matter/mod.ts#Format: FrontMatterFormat
+
+  ./expect/mod.ts#AnyConstructor: ~
+
+  ./assert/mod.ts#unimplemented: ~
+  ./assert/mod.ts#unreachable: ~
+  ./assert/mod.ts#test: ~
+
+  ./testing/asserts.ts#AssertionError: ~
+  ./testing/asserts.ts#assert: ~
+  ./testing/asserts.ts#assertAlmostEquals: ~
+  ./testing/asserts.ts#assertArrayIncludes: ~
+  ./testing/asserts.ts#assertEquals: ~
+  ./testing/asserts.ts#assertExists: ~
+  ./testing/asserts.ts#assertFalse: ~
+  ./testing/asserts.ts#assertGreater: ~
+  ./testing/asserts.ts#assertGreaterOrEqual: ~
+  ./testing/asserts.ts#assertInstanceOf: ~
+  ./testing/asserts.ts#assertIsError: ~
+  ./testing/asserts.ts#assertLess: ~
+  ./testing/asserts.ts#assertLessOrEqual: ~
+  ./testing/asserts.ts#assertMatch: ~
+  ./testing/asserts.ts#assertNotEquals: ~
+  ./testing/asserts.ts#assertNotInstanceOf: ~
+  ./testing/asserts.ts#assertNotMatch: ~
+  ./testing/asserts.ts#assertNotStrictEquals: ~
+  ./testing/asserts.ts#assertObjectMatch: ~
+  ./testing/asserts.ts#assertRejects: ~
+  ./testing/asserts.ts#assertStrictEquals: ~
+  ./testing/asserts.ts#assertStringIncludes: ~
+  ./testing/asserts.ts#assertThrows: ~
+  ./testing/asserts.ts#equal: ~
+  ./testing/asserts.ts#fail: ~
+  ./testing/asserts.ts#Falsy: ~
+  ./testing/asserts.ts#AnyConstructor: ~
+  ./testing/asserts.ts#ArrayLikeArg: ~
+  ./testing/asserts.ts#GetConstructorType: ~
+
+  ./streams/mod.ts#Buffer: ~
+  ./streams/mod.ts#iterateReader: ~
+  ./streams/mod.ts#iterateReaderSync: ~
+  ./streams/mod.ts#readerFromStreamReader: ~
+  ./streams/mod.ts#Reader: ~
+  ./streams/mod.ts#ReaderSync: ~
+  ./streams/mod.ts#Closer: ~
+  ./streams/mod.ts#Writer: ~
+
+  ./bytes/mod.ts#concat: concatBytes
+  ./bytes/mod.ts#copy: copyBytes
+  ./bytes/mod.ts#equals: equalsBytes
+  ./bytes/mod.ts#endsWith: endsWithBytes
+  ./bytes/mod.ts#startsWith: startsWithBytes
+  ./bytes/mod.ts#repeat: repeatBytes
+
+  ./io/mod.ts#copy: ioCopy
+
+  ./fs/mod.ts#format: formatFs
+
+  ./path/mod.ts#format: formatPath
+  ./path/mod.ts#parse: parsePath
+  ./path/mod.ts#GlobOptions: ~
+
+  ./url/mod.ts#basename: urlBasename
+  ./url/mod.ts#dirname: urlDirname
+  ./url/mod.ts#extname: urlExtname
+  ./url/mod.ts#join: urlJoin
+  ./url/mod.ts#normalize: urlNormalize
+
+  ./datetime/mod.ts#FormatOptions: DateTimeFormatOptions
+  ./datetime/mod.ts#format: formatDateTime
+  ./datetime/mod.ts#parse: parseDateTime
+  ./datetime/mod.ts#difference: differenceDateTime
+
+  ./semver/mod.ts#difference: semverDifference
+  ./semver/mod.ts#equals: semverEquals
+  ./semver/mod.ts#format: semverFormat
+  ./semver/mod.ts#parse: semverParse
+
+  ./regexp/mod.ts#escape: regexpEscape
+
+  ./html/mod.ts#escape: escapeHtml
+  ./html/mod.ts#unescape: unescapeHtml
+
+  ./fmt/bytes.ts#format: formatBytes
+  ./fmt/duration.ts#format: formatDuration
+
+  ./uuid/mod.ts#isNil: isNilUuid
+  ./uuid/mod.ts#validate: validateUuid
+  ./uuid/mod.ts#version: uuidVersion
