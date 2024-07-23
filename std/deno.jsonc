@@ -21,6 +21,9 @@
     "url": "git+https://github.com/lowlighter/libs.git"
   },
   "exports": {},
+  "unstable": [
+    "webgpu"
+  ],
   "imports": {},
   "test:doc": false,
   "tasks": {
