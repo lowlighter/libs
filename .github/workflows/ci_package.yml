@@ -81,7 +81,10 @@ jobs:
       - uses: denoland/setup-deno@v1
       - run: deno lint
       - run: deno fmt --check
-      - run: deno doc --lint mod.ts
+      - run: |
+          if [ "$(jq -r '.mirror' deno.jsonc)" != "true"]; then
+            deno doc --lint mod.ts
+          fi
       - name: Run deno publish --dry-run
         run: |
           SLOW_TYPES="$(jq -r 'if .types == "slow" then "--allow-slow-types" else "" end' deno.jsonc)"
