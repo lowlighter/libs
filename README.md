@@ -162,7 +162,9 @@ See table below for a list of available libraries and their features, compatibil
   <tr>
     <th><a href="https://jsr.io/@libs/std"><img src="https://jsr.io/badges/@libs/std"></a></th>
     <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
-    <td rowspan="4"></td>
+    <td rowspan="4"><ul data-for="std">
+  <li>All-in-one mirror of <a href="https://jsr.io/@std">Deno's Standard Library.</a></li>
+</ul></td>
   </tr>
   <tr><th></th></tr>
   <tr><th></th></tr>
