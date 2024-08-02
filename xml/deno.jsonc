@@ -33,8 +33,8 @@
     "./stringify": "./stringify.ts"
   },
   "imports": {
-    "@std/fs/expand-glob": "jsr:@std/fs@0.229.3/expand-glob",
-    "@std/fs/exists": "jsr:@std/fs@0.229.3/exists",
+    "@std/fs/expand-glob": "jsr:@std/fs@1/expand-glob",
+    "@std/fs/exists": "jsr:@std/fs@1/exists",
     "@std/path/from-file-url": "jsr:@std/path@1/from-file-url",
     "@libs/typing": "jsr:@libs/typing@2",
     "@libs/testing": "jsr:@libs/testing@2"
