@@ -25,9 +25,9 @@
     "./command": "./command.ts"
   },
   "imports": {
-    "@std/async/delay": "jsr:@std/async@0.224.2/delay",
-    "@std/async/debounce": "jsr:@std/async@0.224.2/debounce",
-    "@std/streams": "jsr:@std/streams@0.224.5",
+    "@std/async/delay": "jsr:@std/async@1/delay",
+    "@std/async/debounce": "jsr:@std/async@1/debounce",
+    "@std/streams": "jsr:@std/streams@1",
     "@libs/logger": "jsr:@libs/logger@2",
     "@libs/testing": "jsr:@libs/testing@2",
     "@libs/typing": "jsr:@libs/typing@2"
