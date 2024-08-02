@@ -130,6 +130,7 @@ aliases:
   ./testing/asserts.ts#AnyConstructor: ~
   ./testing/asserts.ts#ArrayLikeArg: ~
   ./testing/asserts.ts#GetConstructorType: ~
+  ./testing/time.ts#DelayOptions: ~
 
   ./streams/mod.ts#Buffer: ~
   ./streams/mod.ts#iterateReader: ~
@@ -177,7 +178,9 @@ aliases:
   ./html/mod.ts#unescape: unescapeHtml
 
   ./fmt/bytes.ts#format: formatBytes
+  ./fmt/bytes.ts#FormatOptions: BytesFormatOptions
   ./fmt/duration.ts#format: formatDuration
+  ./fmt/duration.ts#FormatOptions: DurationFormatOptions
 
   ./uuid/mod.ts#isNil: isNilUuid
   ./uuid/mod.ts#validate: validateUuid
