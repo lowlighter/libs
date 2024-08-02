@@ -2,6 +2,7 @@ import { Logger, type loglevel } from "./_logger.ts"
 import { stripAnsiCode } from "@std/fmt/colors"
 import { basename } from "@std/path/basename"
 import { expect, fn, test, type testing } from "@libs/testing"
+import { fromFileUrl } from "@std/path/from-file-url"
 
 function args(f: ReturnType<typeof fn>, { call = 0 } = {}) {
   return (f as testing)[Symbol.for("@MOCK")]?.calls[call]?.args
@@ -166,17 +167,17 @@ test("all")("Logger.prototype.format.text() formats output", () => {
     log.log("bar")
   }
   test()
-  expect(text(output.log, { call: 1 }).header).toContain(import.meta.url)
+  expect(text(output.log, { call: 1 }).header).toContain(fromFileUrl(import.meta.url))
   expect(text(output.log, { call: 1 }).header).toMatch(new RegExp(`${test.name}:\\d+:\\d+`))
   expect(text(output.log, { call: 1 }).content).toEqual(['"bar"'])
   log.options({ caller: { fileformat: [/.*\/(?<file>.*)$/, "$<file>"] } })
   log.log("baz")
-  expect(text(output.log, { call: 2 }).header).not.toContain(import.meta.url)
-  expect(text(output.log, { call: 2 }).header).toContain(basename(import.meta.url))
+  expect(text(output.log, { call: 2 }).header).not.toContain(fromFileUrl(import.meta.url))
+  expect(text(output.log, { call: 2 }).header).toContain(basename(fromFileUrl(import.meta.url)))
   expect(text(output.log, { call: 2 }).content).toEqual(['"baz"'])
   log.options({ caller: false })
   log.log("qux")
-  expect(text(output.log, { call: 3 }).header).not.toContain(basename(import.meta.url))
+  expect(text(output.log, { call: 3 }).header).not.toContain(basename(fromFileUrl(import.meta.url)))
   expect(text(output.log, { call: 3 }).content).toEqual(['"qux"'])
   log.options({ date: true, time: true })
   log.log("quux")
@@ -228,11 +229,11 @@ test("all")("Logger.prototype.format.json() formats output", () => {
     log.log("bar")
   }
   test()
-  expect(json(output.log, { call: 1 })).toMatchObject({ caller: { file: import.meta.url, name: test.name } })
+  expect(json(output.log, { call: 1 })).toMatchObject({ caller: { file: fromFileUrl(import.meta.url), name: test.name } })
   expect(json(output.log, { call: 1 })).toMatchObject({ content: ["bar"] })
   log.options({ caller: { fileformat: [/.*\/(?<file>.*)$/, "$<file>"] } })
   log.log("baz")
-  expect(json(output.log, { call: 2 })).toMatchObject({ caller: { file: basename(import.meta.url) } })
+  expect(json(output.log, { call: 2 })).toMatchObject({ caller: { file: basename(fromFileUrl(import.meta.url)) } })
   expect(json(output.log, { call: 2 })).toMatchObject({ content: ["baz"] })
   log.options({ caller: false })
   log.log("qux")
