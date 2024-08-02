@@ -1,11 +1,12 @@
 // Imports
-import { toCamelCase, toPascalCase as titleCase } from "@std/text/case"
+import { toCamelCase } from "@std/text/to-camel-case"
+import { toPascalCase as titleCase } from "@std/text/to-pascal-case"
 import type { Arg, Arrayable, record, rw } from "@libs/typing"
 import type { Resource } from "../resource.ts"
 import { makeExecutableSchema } from "@graphql-tools/schema"
 import { printWithComments } from "@graphql-tools/utils"
 import { mergeResolvers, mergeTypeDefs } from "@graphql-tools/merge"
-import { GraphQLHTTP } from "@lowlighter/gql"
+import { GraphQLHTTP } from "@deno-libs/gql"
 import { schema as json_schema } from "../is/is.ts"
 export { type Arg, type Arrayable, GraphQLHTTP, makeExecutableSchema, mergeResolvers, mergeTypeDefs }
 
