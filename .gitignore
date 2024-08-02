@@ -7,6 +7,7 @@ coverage
 node_modules
 package.json
 package-lock.json
+bun.lockb
 
 # Vercel
 .vercel
