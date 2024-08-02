@@ -1,4 +1,4 @@
-import { basename as _function_basename } from "jsr:@std/path@1.0.1/windows/basename"
+import { basename as _function_basename } from "jsr:@std/path@1.0.2/windows/basename"
 /**
  * Return the last portion of a `path`.
  * Trailing directory separators are ignored, and optional suffix is removed.

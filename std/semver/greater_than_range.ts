@@ -1,16 +1,17 @@
-import { greaterThanRange as _function_greaterThanRange } from "jsr:@std/semver@0.224.3/greater-than-range"
+import { greaterThanRange as _function_greaterThanRange } from "jsr:@std/semver@1.0.0/greater-than-range"
 /**
  * Check if the SemVer is greater than the range.
  *
  * @example Usage
  * ```ts
  * import { parse, parseRange, greaterThanRange } from "@std/semver";
- * import { assert, assertFalse } from "@std/assert";
+ * import { assert } from "@std/assert";
  *
  * const v0 = parse("1.2.3");
  * const v1 = parse("1.2.4");
  * const range = parseRange(">=1.2.3 <1.2.4");
- * assertFalse(greaterThanRange(v0, range));
+ *
+ * assert(!greaterThanRange(v0, range));
  * assert(greaterThanRange(v1, range));
  * ```
  *

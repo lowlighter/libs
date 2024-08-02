@@ -1,11 +1,11 @@
-import type { LimitedBytesTransformStreamOptions as _interface_LimitedBytesTransformStreamOptions } from "jsr:@std/streams@0.224.5/limited-bytes-transform-stream"
+import type { LimitedBytesTransformStreamOptions as _interface_LimitedBytesTransformStreamOptions } from "jsr:@std/streams@1.0.0/limited-bytes-transform-stream"
 /**
  * Options for {@linkcode LimitedBytesTransformStream}.
  */
 interface LimitedBytesTransformStreamOptions extends _interface_LimitedBytesTransformStreamOptions {}
 export type { LimitedBytesTransformStreamOptions }
 
-import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } from "jsr:@std/streams@0.224.5/limited-bytes-transform-stream"
+import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } from "jsr:@std/streams@1.0.0/limited-bytes-transform-stream"
 /**
  * A {@linkcode TransformStream} that will only read & enqueue chunks until the
  * total amount of enqueued data exceeds `size`. The last chunk that would
@@ -16,7 +16,7 @@ import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } fro
  * @example `size` is equal to the total byte length of the chunks
  * ```ts
  * import { LimitedBytesTransformStream } from "@std/streams/limited-bytes-transform-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(new TextEncoderStream()).pipeThrough(
@@ -33,7 +33,7 @@ import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } fro
  * boundary of the chunks
  * ```ts
  * import { LimitedBytesTransformStream } from "@std/streams/limited-bytes-transform-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(new TextEncoderStream()).pipeThrough(
@@ -52,7 +52,7 @@ import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } fro
  * the boundary of the chunks
  * ```ts
  * import { LimitedBytesTransformStream } from "@std/streams/limited-bytes-transform-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(new TextEncoderStream()).pipeThrough(
@@ -67,10 +67,14 @@ import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } fro
  * );
  * ```
  *
- * @example error: true
+ * @example Throw error when the total byte length of the chunks exceeds the
+ * specified size
+ *
+ * To do so, set `options.error` to `true`.
+ *
  * ```ts
  * import { LimitedBytesTransformStream } from "@std/streams/limited-bytes-transform-stream";
- * import { assertRejects } from "@std/assert/assert-rejects";
+ * import { assertRejects } from "@std/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(new TextEncoderStream()).pipeThrough(

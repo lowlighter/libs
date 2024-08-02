@@ -1,4 +1,4 @@
-import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@0.224.5/status"
+import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@1.0.0/status"
 /**
  * Contains the {@linkcode STATUS_CODE} object which contains standard HTTP
  * status codes and provides several type guards for handling status codes
@@ -31,77 +31,77 @@ import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@0.224.5/stat
 const STATUS_CODE = _variable_STATUS_CODE
 export { STATUS_CODE }
 
-import type { StatusCode as _typeAlias_StatusCode } from "jsr:@std/http@0.224.5/status"
+import type { StatusCode as _typeAlias_StatusCode } from "jsr:@std/http@1.0.0/status"
 /**
  * An HTTP status code.
  */
 type StatusCode = _typeAlias_StatusCode
 export type { StatusCode }
 
-import { STATUS_TEXT as _variable_STATUS_TEXT } from "jsr:@std/http@0.224.5/status"
+import { STATUS_TEXT as _variable_STATUS_TEXT } from "jsr:@std/http@1.0.0/status"
 /**
  * A record of all the status codes text.
  */
 const STATUS_TEXT = _variable_STATUS_TEXT
 export { STATUS_TEXT }
 
-import type { StatusText as _typeAlias_StatusText } from "jsr:@std/http@0.224.5/status"
+import type { StatusText as _typeAlias_StatusText } from "jsr:@std/http@1.0.0/status"
 /**
  * An HTTP status text.
  */
 type StatusText = _typeAlias_StatusText
 export type { StatusText }
 
-import type { InformationalStatus as _typeAlias_InformationalStatus } from "jsr:@std/http@0.224.5/status"
+import type { InformationalStatus as _typeAlias_InformationalStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * An HTTP status that is a informational (1XX).
  */
 type InformationalStatus = _typeAlias_InformationalStatus
 export type { InformationalStatus }
 
-import type { SuccessfulStatus as _typeAlias_SuccessfulStatus } from "jsr:@std/http@0.224.5/status"
+import type { SuccessfulStatus as _typeAlias_SuccessfulStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * An HTTP status that is a success (2XX).
  */
 type SuccessfulStatus = _typeAlias_SuccessfulStatus
 export type { SuccessfulStatus }
 
-import type { RedirectStatus as _typeAlias_RedirectStatus } from "jsr:@std/http@0.224.5/status"
+import type { RedirectStatus as _typeAlias_RedirectStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * An HTTP status that is a redirect (3XX).
  */
 type RedirectStatus = _typeAlias_RedirectStatus
 export type { RedirectStatus }
 
-import type { ClientErrorStatus as _typeAlias_ClientErrorStatus } from "jsr:@std/http@0.224.5/status"
+import type { ClientErrorStatus as _typeAlias_ClientErrorStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * An HTTP status that is a client error (4XX).
  */
 type ClientErrorStatus = _typeAlias_ClientErrorStatus
 export type { ClientErrorStatus }
 
-import type { ServerErrorStatus as _typeAlias_ServerErrorStatus } from "jsr:@std/http@0.224.5/status"
+import type { ServerErrorStatus as _typeAlias_ServerErrorStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * An HTTP status that is a server error (5XX).
  */
 type ServerErrorStatus = _typeAlias_ServerErrorStatus
 export type { ServerErrorStatus }
 
-import type { ErrorStatus as _typeAlias_ErrorStatus } from "jsr:@std/http@0.224.5/status"
+import type { ErrorStatus as _typeAlias_ErrorStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * An HTTP status that is an error (4XX and 5XX).
  */
 type ErrorStatus = _typeAlias_ErrorStatus
 export type { ErrorStatus }
 
-import { isStatus as _function_isStatus } from "jsr:@std/http@0.224.5/status"
+import { isStatus as _function_isStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * Returns whether the provided number is a valid HTTP status code.
  *
  * @example Usage
  * ```ts
  * import { isStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isStatus(404));
  * ```
@@ -112,14 +112,14 @@ import { isStatus as _function_isStatus } from "jsr:@std/http@0.224.5/status"
 const isStatus = _function_isStatus
 export { isStatus }
 
-import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@std/http@0.224.5/status"
+import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * A type guard that determines if the status code is informational.
  *
  * @example Usage
  * ```ts
  * import { isInformationalStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isInformationalStatus(100));
  * ```
@@ -130,14 +130,14 @@ import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@s
 const isInformationalStatus = _function_isInformationalStatus
 export { isInformationalStatus }
 
-import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/http@0.224.5/status"
+import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * A type guard that determines if the status code is successful.
  *
  * @example Usage
  * ```ts
  * import { isSuccessfulStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isSuccessfulStatus(200));
  * ```
@@ -148,14 +148,14 @@ import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/htt
 const isSuccessfulStatus = _function_isSuccessfulStatus
 export { isSuccessfulStatus }
 
-import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@0.224.5/status"
+import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * A type guard that determines if the status code is a redirection.
  *
  * @example Usage
  * ```ts
  * import { isRedirectStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isRedirectStatus(302));
  * ```
@@ -166,14 +166,14 @@ import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@0.
 const isRedirectStatus = _function_isRedirectStatus
 export { isRedirectStatus }
 
-import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/http@0.224.5/status"
+import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * A type guard that determines if the status code is a client error.
  *
  * @example Usage
  * ```ts
  * import { isClientErrorStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isClientErrorStatus(404));
  * ```
@@ -184,14 +184,14 @@ import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/h
 const isClientErrorStatus = _function_isClientErrorStatus
 export { isClientErrorStatus }
 
-import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/http@0.224.5/status"
+import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * A type guard that determines if the status code is a server error.
  *
  * @example Usage
  * ```ts
  * import { isServerErrorStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isServerErrorStatus(502));
  * ```
@@ -202,14 +202,14 @@ import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/h
 const isServerErrorStatus = _function_isServerErrorStatus
 export { isServerErrorStatus }
 
-import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@0.224.5/status"
+import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@1.0.0/status"
 /**
  * A type guard that determines if the status code is an error.
  *
  * @example Usage
  * ```ts
  * import { isErrorStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isErrorStatus(502));
  * ```

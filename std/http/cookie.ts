@@ -1,4 +1,4 @@
-import type { Cookie as _interface_Cookie } from "jsr:@std/http@0.224.5/cookie"
+import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.0/cookie"
 /**
  * Represents an HTTP Cookie.
  *
@@ -7,14 +7,14 @@ import type { Cookie as _interface_Cookie } from "jsr:@std/http@0.224.5/cookie"
 interface Cookie extends _interface_Cookie {}
 export type { Cookie }
 
-import { getCookies as _function_getCookies } from "jsr:@std/http@0.224.5/cookie"
+import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.0/cookie"
 /**
  * Parse cookies of a header
  *
  * @example Usage
  * ```ts
  * import { getCookies } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const headers = new Headers();
  * headers.set("Cookie", "full=of; tasty=chocolate");
@@ -29,14 +29,14 @@ import { getCookies as _function_getCookies } from "jsr:@std/http@0.224.5/cookie
 const getCookies = _function_getCookies
 export { getCookies }
 
-import { setCookie as _function_setCookie } from "jsr:@std/http@0.224.5/cookie"
+import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.0/cookie"
 /**
  * Set the cookie header properly in the headers
  *
  * @example Usage
  * ```ts
  * import { Cookie, setCookie } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const headers = new Headers();
  * const cookie: Cookie = { name: "Space", value: "Cat" };
@@ -53,9 +53,12 @@ import { setCookie as _function_setCookie } from "jsr:@std/http@0.224.5/cookie"
 const setCookie = _function_setCookie
 export { setCookie }
 
-import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@0.224.5/cookie"
+import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.0/cookie"
 /**
- * Set the cookie header with empty value in the headers to delete it
+ * Set the cookie header with empty value in the headers to delete it.
+ *
+ * The attributes (`path`, `domain`, `secure`, `httpOnly`, `partitioned`) need
+ * to match the values when the cookie was set.
  *
  * > Note: Deleting a `Cookie` will set its expiration date before now. Forcing
  * > the browser to delete it.
@@ -63,7 +66,7 @@ import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@0.224.5/co
  * @example Usage
  * ```ts
  * import { deleteCookie } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const headers = new Headers();
  * deleteCookie(headers, "deno");
@@ -80,14 +83,14 @@ import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@0.224.5/co
 const deleteCookie = _function_deleteCookie
 export { deleteCookie }
 
-import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@0.224.5/cookie"
+import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.0/cookie"
 /**
  * Parse set-cookies of a header
  *
  * @example Usage
  * ```ts
  * import { getSetCookies } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const headers = new Headers([
  *   ["Set-Cookie", "lulu=meow; Secure; Max-Age=3600"],

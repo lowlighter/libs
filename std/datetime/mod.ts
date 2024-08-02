@@ -15,7 +15,7 @@
  *
  * @module
  */
-import { SECOND as _variable_SECOND } from "jsr:@std/datetime@0.224.3"
+import { SECOND as _variable_SECOND } from "jsr:@std/datetime@0.224.4"
 /**
  * The number of milliseconds in a second.
  *
@@ -28,7 +28,7 @@ import { SECOND as _variable_SECOND } from "jsr:@std/datetime@0.224.3"
 const SECOND = _variable_SECOND
 export { SECOND }
 
-import { MINUTE as _variable_MINUTE } from "jsr:@std/datetime@0.224.3"
+import { MINUTE as _variable_MINUTE } from "jsr:@std/datetime@0.224.4"
 /**
  * The number of milliseconds in a minute.
  *
@@ -41,7 +41,7 @@ import { MINUTE as _variable_MINUTE } from "jsr:@std/datetime@0.224.3"
 const MINUTE = _variable_MINUTE
 export { MINUTE }
 
-import { HOUR as _variable_HOUR } from "jsr:@std/datetime@0.224.3"
+import { HOUR as _variable_HOUR } from "jsr:@std/datetime@0.224.4"
 /**
  * The number of milliseconds in an hour.
  *
@@ -54,7 +54,7 @@ import { HOUR as _variable_HOUR } from "jsr:@std/datetime@0.224.3"
 const HOUR = _variable_HOUR
 export { HOUR }
 
-import { DAY as _variable_DAY } from "jsr:@std/datetime@0.224.3"
+import { DAY as _variable_DAY } from "jsr:@std/datetime@0.224.4"
 /**
  * The number of milliseconds in a day.
  *
@@ -67,7 +67,7 @@ import { DAY as _variable_DAY } from "jsr:@std/datetime@0.224.3"
 const DAY = _variable_DAY
 export { DAY }
 
-import { WEEK as _variable_WEEK } from "jsr:@std/datetime@0.224.3"
+import { WEEK as _variable_WEEK } from "jsr:@std/datetime@0.224.4"
 /**
  * The number of milliseconds in a week.
  *
@@ -80,7 +80,7 @@ import { WEEK as _variable_WEEK } from "jsr:@std/datetime@0.224.3"
 const WEEK = _variable_WEEK
 export { WEEK }
 
-import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.224.3"
+import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.224.4"
 /**
  * Returns the number of the day in the year in the local time zone.
  *
@@ -98,7 +98,7 @@ import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.224.3"
 const dayOfYear = _function_dayOfYear
 export { dayOfYear }
 
-import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.224.3"
+import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.224.4"
 /**
  * Returns the number of the day in the year in UTC time.
  *
@@ -116,7 +116,7 @@ import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.224.
 const dayOfYearUtc = _function_dayOfYearUtc
 export { dayOfYearUtc }
 
-import type { Unit as _typeAlias_Unit } from "jsr:@std/datetime@0.224.3"
+import type { Unit as _typeAlias_Unit } from "jsr:@std/datetime@0.224.4"
 /**
  * Duration units for {@linkcode DifferenceFormat} and
  * {@linkcode DifferenceOptions}.
@@ -124,21 +124,21 @@ import type { Unit as _typeAlias_Unit } from "jsr:@std/datetime@0.224.3"
 type Unit = _typeAlias_Unit
 export type { Unit }
 
-import type { DifferenceFormat as _typeAlias_DifferenceFormat } from "jsr:@std/datetime@0.224.3"
+import type { DifferenceFormat as _typeAlias_DifferenceFormat } from "jsr:@std/datetime@0.224.4"
 /**
  * Return type for {@linkcode difference}.
  */
 type DifferenceFormat = _typeAlias_DifferenceFormat
 export type { DifferenceFormat }
 
-import type { DifferenceOptions as _typeAlias_DifferenceOptions } from "jsr:@std/datetime@0.224.3"
+import type { DifferenceOptions as _typeAlias_DifferenceOptions } from "jsr:@std/datetime@0.224.4"
 /**
  * Options for {@linkcode difference}.
  */
 type DifferenceOptions = _typeAlias_DifferenceOptions
 export type { DifferenceOptions }
 
-import { difference as _function_difference } from "jsr:@std/datetime@0.224.3"
+import { difference as _function_difference } from "jsr:@std/datetime@0.224.4"
 /**
  * Calculates the difference of the 2 given dates in various units. If the units
  * are omitted, it returns the difference in the all available units.
@@ -192,14 +192,14 @@ import { difference as _function_difference } from "jsr:@std/datetime@0.224.3"
 const difference = _function_difference
 export { difference }
 
-import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/datetime@0.224.3"
+import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/datetime@0.224.4"
 /**
  * Options for {@linkcode format}.
  */
 interface FormatOptions extends _interface_FormatOptions {}
 export type { FormatOptions }
 
-import { format as _function_format } from "jsr:@std/datetime@0.224.3"
+import { format as _function_format } from "jsr:@std/datetime@0.224.4"
 /**
  * Formats a date to a string with the specified format.
  *
@@ -262,7 +262,7 @@ import { format as _function_format } from "jsr:@std/datetime@0.224.3"
 const format = _function_format
 export { format }
 
-import { isLeap as _function_isLeap } from "jsr:@std/datetime@0.224.3"
+import { isLeap as _function_isLeap } from "jsr:@std/datetime@0.224.4"
 /**
  * Returns whether the given year is a leap year. Passing in a
  * {@linkcode Date} object will return the leap year status of the year of that
@@ -304,7 +304,7 @@ import { isLeap as _function_isLeap } from "jsr:@std/datetime@0.224.3"
 const isLeap = _function_isLeap
 export { isLeap }
 
-import { isUtcLeap as _function_isUtcLeap } from "jsr:@std/datetime@0.224.3"
+import { isUtcLeap as _function_isUtcLeap } from "jsr:@std/datetime@0.224.4"
 /**
  * Returns whether the given year is a leap year in UTC time. This always
  * returns the same value regardless of the local timezone.
@@ -332,7 +332,7 @@ import { isUtcLeap as _function_isUtcLeap } from "jsr:@std/datetime@0.224.3"
 const isUtcLeap = _function_isUtcLeap
 export { isUtcLeap }
 
-import { parse as _function_parse } from "jsr:@std/datetime@0.224.3"
+import { parse as _function_parse } from "jsr:@std/datetime@0.224.4"
 /**
  * Parses a date string using the specified format string.
  *
@@ -377,7 +377,7 @@ import { parse as _function_parse } from "jsr:@std/datetime@0.224.3"
 const parse = _function_parse
 export { parse }
 
-import { weekOfYear as _function_weekOfYear } from "jsr:@std/datetime@0.224.3"
+import { weekOfYear as _function_weekOfYear } from "jsr:@std/datetime@0.224.4"
 /**
  * Returns the ISO week number of the provided date (1-53).
  *

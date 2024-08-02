@@ -1,4 +1,4 @@
-import { basename as _function_basename } from "jsr:@std/path@1.0.1/basename"
+import { basename as _function_basename } from "jsr:@std/path@1.0.2/basename"
 /**
  * Return the last portion of a path.
  *

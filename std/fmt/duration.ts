@@ -1,11 +1,11 @@
-import type { PrettyDurationOptions as _interface_PrettyDurationOptions } from "jsr:@std/fmt@0.225.6/duration"
+import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/fmt@1.0.0/duration"
 /**
  * Options for {@linkcode format}.
  */
-interface PrettyDurationOptions extends _interface_PrettyDurationOptions {}
-export type { PrettyDurationOptions }
+interface FormatOptions extends _interface_FormatOptions {}
+export type { FormatOptions }
 
-import { format as _function_format } from "jsr:@std/fmt@0.225.6/duration"
+import { format as _function_format } from "jsr:@std/fmt@1.0.0/duration"
 /**
  * Format milliseconds to time duration.
  *

@@ -1,4 +1,4 @@
-import { isSemVer as _function_isSemVer } from "jsr:@std/semver@0.224.3/is-semver"
+import { isSemVer as _function_isSemVer } from "jsr:@std/semver@1.0.0/is-semver"
 /**
  * Checks to see if value is a valid SemVer object. It does a check
  * into each field including prerelease and build.
@@ -15,7 +15,7 @@ import { isSemVer as _function_isSemVer } from "jsr:@std/semver@0.224.3/is-semve
  * @example Usage
  * ```ts
  * import { isSemVer } from "@std/semver/is-semver";
- * import { assert, assertFalse } from "@std/assert";
+ * import { assert } from "@std/assert";
  *
  * const value = {
  *   major: 1,
@@ -24,7 +24,7 @@ import { isSemVer as _function_isSemVer } from "jsr:@std/semver@0.224.3/is-semve
  * };
  *
  * assert(isSemVer(value));
- * assertFalse(isSemVer({ major: 1, minor: 2 }));
+ * assert(!isSemVer({ major: 1, minor: 2 }));
  * ```
  *
  * @param value The value to check to see if its a valid SemVer object

@@ -1,18 +1,19 @@
-import { lessOrEqual as _function_lessOrEqual } from "jsr:@std/semver@0.224.3/less-or-equal"
+import { lessOrEqual as _function_lessOrEqual } from "jsr:@std/semver@1.0.0/less-or-equal"
 /**
- * Less than or equal to comparison
+ * Less than or equal to comparison for two SemVers.
  *
  * This is equal to `compare(s0, s1) <= 0`.
  *
  * @example Usage
  * ```ts
  * import { parse, lessOrEqual } from "@std/semver";
- * import { assert, assertFalse } from "@std/assert";
+ * import { assert } from "@std/assert";
  *
  * const s0 = parse("1.2.3");
  * const s1 = parse("1.2.4");
+ *
  * assert(lessOrEqual(s0, s1));
- * assertFalse(lessOrEqual(s1, s0));
+ * assert(!lessOrEqual(s1, s0));
  * assert(lessOrEqual(s0, s0));
  * ```
  *

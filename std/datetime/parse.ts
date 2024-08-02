@@ -1,4 +1,4 @@
-import { parse as _function_parse } from "jsr:@std/datetime@0.224.3/parse"
+import { parse as _function_parse } from "jsr:@std/datetime@0.224.4/parse"
 /**
  * Parses a date string using the specified format string.
  *

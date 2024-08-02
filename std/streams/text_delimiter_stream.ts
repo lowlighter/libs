@@ -1,4 +1,4 @@
-import { TextDelimiterStream as _class_TextDelimiterStream } from "jsr:@std/streams@0.224.5/text-delimiter-stream"
+import { TextDelimiterStream as _class_TextDelimiterStream } from "jsr:@std/streams@1.0.0/text-delimiter-stream"
 /**
  * Transform a stream `string` into a stream where each chunk is divided by a
  * given delimiter.
@@ -10,7 +10,7 @@ import { TextDelimiterStream as _class_TextDelimiterStream } from "jsr:@std/stre
  * @example Comma-separated values
  * ```ts
  * import { TextDelimiterStream } from "@std/streams/text-delimiter-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream = ReadableStream.from([
  *   "alice,20,",
@@ -28,7 +28,7 @@ import { TextDelimiterStream as _class_TextDelimiterStream } from "jsr:@std/stre
  * @example Semicolon-separated values with suffix disposition
  * ```ts
  * import { TextDelimiterStream } from "@std/streams/text-delimiter-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream = ReadableStream.from([
  *   "const a = 42;;let b =",

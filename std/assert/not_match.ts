@@ -1,4 +1,4 @@
-import { assertNotMatch as _function_assertNotMatch } from "jsr:@std/assert@1.0.0/not-match"
+import { assertNotMatch as _function_assertNotMatch } from "jsr:@std/assert@1.0.2/not-match"
 /**
  * Make an assertion that `actual` not match RegExp `expected`. If match
  * then throw.

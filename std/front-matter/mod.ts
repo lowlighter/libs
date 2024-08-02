@@ -1,4 +1,4 @@
-import { extractJson as _variable_extractJson } from "jsr:@std/front-matter@0.224.3"
+import { extractJson as _function_extractJson } from "jsr:@std/front-matter@1.0.1"
 /**
  * Extracts and parses {@link https://www.json.org/ | JSON } from the metadata
  * of front matter content.
@@ -9,24 +9,26 @@ import { extractJson as _variable_extractJson } from "jsr:@std/front-matter@0.22
  * import { assertEquals } from "@std/assert";
  *
  * const output = `---json
- * {
- *   "title": "Three dashes marks the spot"
- * }
+ * { "title": "Three dashes marks the spot" }
  * ---
  * Hello, world!`;
  * const result = extract(output);
  *
  * assertEquals(result, {
- *   frontMatter: '{\n  "title": "Three dashes marks the spot"\n}',
+ *   frontMatter: '{ "title": "Three dashes marks the spot" }',
  *   body: "Hello, world!",
  *   attrs: { title: "Three dashes marks the spot" },
  * });
  * ```
+ *
+ * @template T The type of the parsed front matter.
+ * @param text The text to extract JSON front matter from.
+ * @return The extracted JSON front matter and body content.
  */
-const extractJson = _variable_extractJson
+const extractJson = _function_extractJson
 export { extractJson }
 
-import { extractToml as _variable_extractToml } from "jsr:@std/front-matter@0.224.3"
+import { extractToml as _function_extractToml } from "jsr:@std/front-matter@1.0.1"
 /**
  * Extracts and parses {@link https://toml.io | TOML} from the metadata of
  * front matter content.
@@ -48,11 +50,15 @@ import { extractToml as _variable_extractToml } from "jsr:@std/front-matter@0.22
  *   attrs: { title: "Three dashes marks the spot" },
  * });
  * ```
+ *
+ * @template T The type of the parsed front matter.
+ * @param text The text to extract TOML front matter from.
+ * @return The extracted TOML front matter and body content.
  */
-const extractToml = _variable_extractToml
+const extractToml = _function_extractToml
 export { extractToml }
 
-import { extractYaml as _variable_extractYaml } from "jsr:@std/front-matter@0.224.3"
+import { extractYaml as _function_extractYaml } from "jsr:@std/front-matter@1.0.1"
 /**
  * Extracts and parses {@link https://yaml.org | YAML} from the metadata of
  * front matter content.
@@ -74,131 +80,15 @@ import { extractYaml as _variable_extractYaml } from "jsr:@std/front-matter@0.22
  *   attrs: { title: "Three dashes marks the spot" },
  * });
  * ```
+ *
+ * @template T The type of the parsed front matter.
+ * @param text The text to extract YAML front matter from.
+ * @return The extracted YAML front matter and body content.
  */
-const extractYaml = _variable_extractYaml
+const extractYaml = _function_extractYaml
 export { extractYaml }
 
-import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@0.224.3"
-/**
- * Return type for {@linkcode Extractor}.
- */
-type Extract<T> = _typeAlias_Extract<T>
-export type { Extract }
-
-import type { Extractor as _typeAlias_Extractor } from "jsr:@std/front-matter@0.224.3"
-/**
- * Function return type for {@linkcode createExtractor}.
- */
-type Extractor = _typeAlias_Extractor
-export type { Extractor }
-
-import type { Parser as _typeAlias_Parser } from "jsr:@std/front-matter@0.224.3"
-/**
- * Parser function type used alongside {@linkcode createExtractor}.
- */
-type Parser = _typeAlias_Parser
-export type { Parser }
-
-import { createExtractor as _function_createExtractor } from "jsr:@std/front-matter@0.224.3"
-/**
- * Factory that creates a function that extracts front matter from a string with
- * the given parsers. Supports {@link https://yaml.org | YAML},
- * {@link https://toml.io | TOML} and {@link https://www.json.org/ | JSON}.
- *
- * For simple use cases where you know which format to parse in advance, use the
- * pre-built extractors:
- *
- * - {@linkcode https://jsr.io/@std/front-matter/doc/yaml/~/extract | extractYaml}
- * - {@linkcode https://jsr.io/@std/front-matter/doc/toml/~/extract | extractToml}
- * - {@linkcode https://jsr.io/@std/front-matter/doc/json/~/extract | extractJson}
- *
- * @param formats A descriptor containing Format-parser pairs to use for each format.
- * @return A function that extracts front matter from a string with the given parsers.
- *
- * @example Extract YAML front matter
- * ```ts
- * import { createExtractor, Parser } from "@std/front-matter";
- * import { assertEquals } from "@std/assert";
- * import { parse as parseYaml } from "@std/yaml/parse";
- *
- * const extractYaml = createExtractor({ yaml: parseYaml as Parser });
- * const { attrs, body, frontMatter } = extractYaml<{ title: string }>(
- * `---
- * title: Three dashes marks the spot
- * ---
- * ferret`);
- * assertEquals(attrs.title, "Three dashes marks the spot");
- * assertEquals(body, "ferret");
- * assertEquals(frontMatter, "title: Three dashes marks the spot");
- * ```
- *
- * @example Extract TOML front matter
- * ```ts
- * import { createExtractor, Parser } from "@std/front-matter";
- * import { assertEquals } from "@std/assert";
- * import { parse as parseToml } from "@std/toml/parse";
- *
- * const extractToml = createExtractor({ toml: parseToml as Parser });
- * const { attrs, body, frontMatter } = extractToml<{ title: string }>(
- * `---toml
- * title = 'Three dashes followed by format marks the spot'
- * ---
- * `);
- * assertEquals(attrs.title, "Three dashes followed by format marks the spot");
- * assertEquals(body, "");
- * assertEquals(frontMatter, "title = 'Three dashes followed by format marks the spot'");
- * ```
- *
- * @example Extract JSON front matter
- * ```ts
- * import { createExtractor, Parser } from "@std/front-matter";
- * import { assertEquals } from "@std/assert";
- *
- * const extractJson = createExtractor({ json: JSON.parse as Parser });
- * const { attrs, body, frontMatter } = extractJson<{ title: string }>(
- * `---json
- * {"title": "Three dashes followed by format marks the spot"}
- * ---
- * goat`);
- * assertEquals(attrs.title, "Three dashes followed by format marks the spot");
- * assertEquals(body, "goat");
- * assertEquals(frontMatter, `{"title": "Three dashes followed by format marks the spot"}`);
- * ```
- *
- * @example Extract YAML or JSON front matter
- * ```ts
- * import { createExtractor, Parser } from "@std/front-matter";
- * import { assertEquals } from "@std/assert";
- * import { parse as parseYaml } from "@std/yaml/parse";
- *
- * const extractYamlOrJson = createExtractor({
- *   yaml: parseYaml as Parser,
- *   json: JSON.parse as Parser,
- * });
- *
- * let { attrs, body, frontMatter } = extractYamlOrJson<{ title: string }>(
- * `---
- * title: Three dashes marks the spot
- * ---
- * ferret`);
- * assertEquals(attrs.title, "Three dashes marks the spot");
- * assertEquals(body, "ferret");
- * assertEquals(frontMatter, "title: Three dashes marks the spot");
- *
- * ({ attrs, body, frontMatter } = extractYamlOrJson<{ title: string }>(
- * `---json
- * {"title": "Three dashes followed by format marks the spot"}
- * ---
- * goat`));
- * assertEquals(attrs.title, "Three dashes followed by format marks the spot");
- * assertEquals(body, "goat");
- * assertEquals(frontMatter, `{"title": "Three dashes followed by format marks the spot"}`);
- * ```
- */
-const createExtractor = _function_createExtractor
-export { createExtractor }
-
-import type { Format as _typeAlias_Format } from "jsr:@std/front-matter@0.224.3"
+import type { Format as _typeAlias_Format } from "jsr:@std/front-matter@1.0.1"
 /**
  * Supported format for front matter. `"unknown"` is used when auto format
  * detection logic fails.
@@ -206,7 +96,7 @@ import type { Format as _typeAlias_Format } from "jsr:@std/front-matter@0.224.3"
 type Format = _typeAlias_Format
 export type { Format }
 
-import { test as _function_test } from "jsr:@std/front-matter@0.224.3"
+import { test as _function_test } from "jsr:@std/front-matter@1.0.1"
 /**
  * Tests if a string has valid front matter.
  * Supports {@link https://yaml.org | YAML}, {@link https://toml.io | TOML} and
@@ -270,3 +160,10 @@ import { test as _function_test } from "jsr:@std/front-matter@0.224.3"
  */
 const test = _function_test
 export { test }
+
+import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.1"
+/**
+ * Return type for {@linkcode extract} function.
+ */
+type Extract<T> = _typeAlias_Extract<T>
+export type { Extract }

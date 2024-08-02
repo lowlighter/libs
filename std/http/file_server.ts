@@ -1,13 +1,13 @@
-import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@0.224.5/file-server"
+import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@1.0.0/file-server"
 /**
- * Interface for serveFile options.
+ * Options for {@linkcode serveFile}.
  */
 interface ServeFileOptions extends _interface_ServeFileOptions {}
 export type { ServeFileOptions }
 
-import { serveFile as _function_serveFile } from "jsr:@std/http@0.224.5/file-server"
+import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.0/file-server"
 /**
- * Returns an HTTP Response with the requested file as the body.
+ * Resolves a {@linkcode Response} with the requested file as the body.
  *
  * @example Usage
  * ```ts no-eval
@@ -20,19 +20,20 @@ import { serveFile as _function_serveFile } from "jsr:@std/http@0.224.5/file-ser
  *
  * @param req The server request context used to cleanup the file handle.
  * @param filePath Path of the file to serve.
+ * @param options Additional options.
  * @return A response for the request.
  */
 const serveFile = _function_serveFile
 export { serveFile }
 
-import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@0.224.5/file-server"
+import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@1.0.0/file-server"
 /**
  * Interface for serveDir options.
  */
 interface ServeDirOptions extends _interface_ServeDirOptions {}
 export type { ServeDirOptions }
 
-import { serveDir as _function_serveDir } from "jsr:@std/http@0.224.5/file-server"
+import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.0/file-server"
 /**
  * Serves the files under the given directory root (opts.fsRoot).
  *
@@ -52,19 +53,18 @@ import { serveDir as _function_serveDir } from "jsr:@std/http@0.224.5/file-serve
  * });
  * ```
  *
- * @example Optionally you can pass `urlRoot` option. If it's specified that part is stripped from the beginning of the requested pathname.
+ * @example Changing the URL root
+ *
+ * Requests to `/static/path/to/file` will be served from `./public/path/to/file`.
  *
  * ```ts no-eval
  * import { serveDir } from "@std/http/file-server";
  *
- * // ...
- * serveDir(new Request("http://localhost/static/path/to/file"), {
+ * Deno.serve((req) => serveDir(req, {
  *   fsRoot: "public",
  *   urlRoot: "static",
- * });
+ * }));
  * ```
- *
- * The above example serves `./public/path/to/file` for the request to `/static/path/to/file`.
  *
  * @param req The request to handle
  * @param opts Additional options.

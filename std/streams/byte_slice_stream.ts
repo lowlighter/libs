@@ -1,4 +1,4 @@
-import { ByteSliceStream as _class_ByteSliceStream } from "jsr:@std/streams@0.224.5/byte-slice-stream"
+import { ByteSliceStream as _class_ByteSliceStream } from "jsr:@std/streams@1.0.0/byte-slice-stream"
 /**
  * A transform stream that only transforms from the zero-indexed `start` and
  * `end` bytes (both inclusive).
@@ -6,7 +6,7 @@ import { ByteSliceStream as _class_ByteSliceStream } from "jsr:@std/streams@0.22
  * @example Basic usage
  * ```ts
  * import { ByteSliceStream } from "@std/streams/byte-slice-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream = ReadableStream.from([
  *   new Uint8Array([0, 1]),
@@ -23,7 +23,7 @@ import { ByteSliceStream as _class_ByteSliceStream } from "jsr:@std/streams@0.22
  * @example Get a range of bytes from a fetch response body
  * ```ts
  * import { ByteSliceStream } from "@std/streams/byte-slice-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const response = await fetch("https://example.com");
  * const rangedStream = response.body!

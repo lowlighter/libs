@@ -1,4 +1,4 @@
-import { common as _function_common } from "jsr:@std/path@1.0.1/posix/common"
+import { common as _function_common } from "jsr:@std/path@1.0.2/posix/common"
 /**
  * Determines the common path from a set of paths for POSIX systems.
  *

@@ -1,11 +1,11 @@
-import type { PromptSecretOptions as _typeAlias_PromptSecretOptions } from "jsr:@std/cli@1.0.0/prompt-secret"
+import type { PromptSecretOptions as _typeAlias_PromptSecretOptions } from "jsr:@std/cli@1.0.2/prompt-secret"
 /**
  * Options for {@linkcode promptSecret}.
  */
 type PromptSecretOptions = _typeAlias_PromptSecretOptions
 export type { PromptSecretOptions }
 
-import { promptSecret as _function_promptSecret } from "jsr:@std/cli@1.0.0/prompt-secret"
+import { promptSecret as _function_promptSecret } from "jsr:@std/cli@1.0.2/prompt-secret"
 /**
  * Shows the given message and waits for the user's input. Returns the user's input as string.
  * This is similar to `prompt()` but it print user's input as `*` to prevent password from being shown.

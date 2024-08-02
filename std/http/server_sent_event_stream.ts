@@ -1,4 +1,4 @@
-import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from "jsr:@std/http@0.224.5/server-sent-event-stream"
+import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from "jsr:@std/http@1.0.0/server-sent-event-stream"
 /**
  * Represents a message in the Server-Sent Event (SSE) protocol.
  *
@@ -7,7 +7,7 @@ import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from
 interface ServerSentEventMessage extends _interface_ServerSentEventMessage {}
 export type { ServerSentEventMessage }
 
-import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/http@0.224.5/server-sent-event-stream"
+import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/http@1.0.0/server-sent-event-stream"
 /**
  * Transforms server-sent message objects into strings for the client.
  *

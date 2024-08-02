@@ -1,39 +1,39 @@
-import type { DescribeDefinition as _interface_DescribeDefinition } from "jsr:@std/testing@0.225.3/bdd"
+import type { DescribeDefinition as _interface_DescribeDefinition } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * The options for creating a test suite with the describe function.
  */
 interface DescribeDefinition<T> extends _interface_DescribeDefinition<T> {}
 export type { DescribeDefinition }
 
-import type { ItDefinition as _interface_ItDefinition } from "jsr:@std/testing@0.225.3/bdd"
+import type { ItDefinition as _interface_ItDefinition } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * The options for creating an individual test case with the it function.
  */
 interface ItDefinition<T> extends _interface_ItDefinition<T> {}
 export type { ItDefinition }
 
-import type { TestSuite as _interface_TestSuite } from "jsr:@std/testing@0.225.3/bdd"
+import type { TestSuite as _interface_TestSuite } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * A group of tests.
  */
 interface TestSuite<T> extends _interface_TestSuite<T> {}
 export type { TestSuite }
 
-import type { ItArgs as _typeAlias_ItArgs } from "jsr:@std/testing@0.225.3/bdd"
+import type { ItArgs as _typeAlias_ItArgs } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * The arguments for an ItFunction.
  */
 type ItArgs<T> = _typeAlias_ItArgs<T>
 export type { ItArgs }
 
-import { it as _namespace_it } from "jsr:@std/testing@0.225.3/bdd"
+import { it as _namespace_it } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Additional properties on the `it` function.
  */
 const it = _namespace_it
 export { it }
 
-import { test as _function_test } from "jsr:@std/testing@0.225.3/bdd"
+import { test as _function_test } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Alias of {@linkcode it}
  *
@@ -42,7 +42,7 @@ import { test as _function_test } from "jsr:@std/testing@0.225.3/bdd"
  * @example Usage
  * ```ts
  * import { test } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * test("a test case", () => {
  *   // test case
@@ -56,14 +56,14 @@ import { test as _function_test } from "jsr:@std/testing@0.225.3/bdd"
 const test = _function_test
 export { test }
 
-import { beforeAll as _function_beforeAll } from "jsr:@std/testing@0.225.3/bdd"
+import { beforeAll as _function_beforeAll } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Run some shared setup before all of the tests in the suite.
  *
  * @example Usage
  * ```ts
  * import { describe, it, beforeAll } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * beforeAll(() => {
  *  console.log("beforeAll");
@@ -83,7 +83,7 @@ import { beforeAll as _function_beforeAll } from "jsr:@std/testing@0.225.3/bdd"
 const beforeAll = _function_beforeAll
 export { beforeAll }
 
-import { before as _function_before } from "jsr:@std/testing@0.225.3/bdd"
+import { before as _function_before } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Alias of {@linkcode beforeAll}
  *
@@ -92,7 +92,7 @@ import { before as _function_before } from "jsr:@std/testing@0.225.3/bdd"
  * @example Usage
  * ```ts
  * import { describe, it, before } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * before(() => {
  *  console.log("before");
@@ -112,14 +112,14 @@ import { before as _function_before } from "jsr:@std/testing@0.225.3/bdd"
 const before = _function_before
 export { before }
 
-import { afterAll as _function_afterAll } from "jsr:@std/testing@0.225.3/bdd"
+import { afterAll as _function_afterAll } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Run some shared teardown after all of the tests in the suite.
  *
  * @example Usage
  * ```ts
  * import { describe, it, afterAll } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * afterAll(() => {
  *  console.log("afterAll");
@@ -139,7 +139,7 @@ import { afterAll as _function_afterAll } from "jsr:@std/testing@0.225.3/bdd"
 const afterAll = _function_afterAll
 export { afterAll }
 
-import { after as _function_after } from "jsr:@std/testing@0.225.3/bdd"
+import { after as _function_after } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Alias of {@linkcode afterAll}.
  *
@@ -148,7 +148,7 @@ import { after as _function_after } from "jsr:@std/testing@0.225.3/bdd"
  * @example Usage
  * ```ts
  * import { describe, it, after } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * after(() => {
  *  console.log("after");
@@ -168,14 +168,14 @@ import { after as _function_after } from "jsr:@std/testing@0.225.3/bdd"
 const after = _function_after
 export { after }
 
-import { beforeEach as _function_beforeEach } from "jsr:@std/testing@0.225.3/bdd"
+import { beforeEach as _function_beforeEach } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Run some shared setup before each test in the suite.
  *
  * @example Usage
  * ```ts
  * import { describe, it, beforeEach } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * beforeEach(() => {
  *  console.log("beforeEach");
@@ -195,14 +195,14 @@ import { beforeEach as _function_beforeEach } from "jsr:@std/testing@0.225.3/bdd
 const beforeEach = _function_beforeEach
 export { beforeEach }
 
-import { afterEach as _function_afterEach } from "jsr:@std/testing@0.225.3/bdd"
+import { afterEach as _function_afterEach } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Run some shared teardown after each test in the suite.
  *
  * @example Usage
  * ```ts
  * import { describe, it, afterEach } from "@std/testing/bdd";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * afterEach(() => {
  *  console.log("afterEach");
@@ -222,14 +222,14 @@ import { afterEach as _function_afterEach } from "jsr:@std/testing@0.225.3/bdd"
 const afterEach = _function_afterEach
 export { afterEach }
 
-import type { DescribeArgs as _typeAlias_DescribeArgs } from "jsr:@std/testing@0.225.3/bdd"
+import type { DescribeArgs as _typeAlias_DescribeArgs } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * The arguments for a DescribeFunction.
  */
 type DescribeArgs<T> = _typeAlias_DescribeArgs<T>
 export type { DescribeArgs }
 
-import { describe as _namespace_describe } from "jsr:@std/testing@0.225.3/bdd"
+import { describe as _namespace_describe } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Additional properties on the `describe` function.
  */

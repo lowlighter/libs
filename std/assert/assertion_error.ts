@@ -1,4 +1,4 @@
-import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.0/assertion-error"
+import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.2/assertion-error"
 /**
  * Error thrown when an assertion fails.
  *
@@ -6,7 +6,14 @@ import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.0/a
  * ```ts no-eval
  * import { AssertionError } from "@std/assert";
  *
- * throw new AssertionError("Assertion failed");
+ * try {
+ *   throw new AssertionError("foo", { cause: "bar" });
+ * } catch (error) {
+ *   if (error instanceof AssertionError) {
+ *     error.message === "foo"; // true
+ *     error.cause === "bar"; // true
+ *   }
+ * }
  * ```
  */
 class AssertionError extends _class_AssertionError {}

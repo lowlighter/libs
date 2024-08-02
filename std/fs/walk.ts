@@ -1,33 +1,11 @@
-import { WalkError as _class_WalkError } from "jsr:@std/fs@0.229.3/walk"
-/**
- * Error thrown in {@linkcode walk} or {@linkcode walkSync} during iteration.
- *
- * @example Usage
- * ```ts no-eval
- * import { walk, WalkError } from "@std/fs/walk";
- *
- * try {
- *   for await (const entry of walk("./non_existent_root")) {
- *     console.log(entry.path);
- *   }
- * } catch (error) {
- *   if (error instanceof WalkError) {
- *     console.error(error.message);
- *   }
- * }
- * ```
- */
-class WalkError extends _class_WalkError {}
-export { WalkError }
-
-import type { WalkOptions as _interface_WalkOptions } from "jsr:@std/fs@0.229.3/walk"
+import type { WalkOptions as _interface_WalkOptions } from "jsr:@std/fs@1.0.1/walk"
 /**
  * Options for {@linkcode walk} and {@linkcode walkSync}.
  */
 interface WalkOptions extends _interface_WalkOptions {}
 export type { WalkOptions }
 
-import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@0.229.3/walk"
+import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.1/walk"
 /**
  * Walk entry for {@linkcode walk}, {@linkcode walkSync},
  * {@linkcode expandGlob} and {@linkcode expandGlobSync}.
@@ -35,13 +13,13 @@ import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@0.229.3/walk
 interface WalkEntry extends _interface_WalkEntry {}
 export type { WalkEntry }
 
-import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
+import { walk as _function_walk } from "jsr:@std/fs@1.0.1/walk"
 /**
  * Recursively walks through a directory and yields information about each file
  * and directory encountered.
  *
- * The file paths are absolute paths. The root directory is included in the
- * yielded entries.
+ * The root path determines whether the file paths are relative or absolute.
+ * The root directory is included in the yielded entries.
  *
  * Requires `--allow-read` permission.
  *
@@ -50,6 +28,7 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  *
  * @param root The root directory to start the walk from, as a string or URL.
  * @param options The options for the walk.
+ * @throws If the root directory does not exist.
  *
  * @return An async iterable iterator that yields the walk entry objects.
  *
@@ -68,21 +47,21 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  * await Array.fromAsync(walk("."));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/foo.ts",
+ * //     path: "foo.ts",
  * //     name: "foo.ts",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -110,21 +89,21 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  * await Array.fromAsync(walk(".", { maxDepth: 1 }));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/foo",
+ * //     path: "foo",
  * //     name: "foo",
  * //     isFile: false,
  * //     isDirectory: true,
@@ -150,14 +129,14 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  * await Array.fromAsync(walk(".", { includeFiles: false }));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/foo",
+ * //     path: "foo",
  * //     name: "foo",
  * //     isFile: false,
  * //     isDirectory: true,
@@ -183,7 +162,7 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  * await Array.fromAsync(walk(".", { includeDirs: false }));
  * // [
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -210,14 +189,14 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  * await Array.fromAsync(walk(".", { includeSymlinks: false }));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -244,21 +223,21 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  * await Array.fromAsync(walk(".", { followSymlinks: true }));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "link",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -286,21 +265,21 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  * await Array.fromAsync(walk(".", { followSymlinks: true, canonicalize: true }));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/link",
+ * //     path: "link",
  * //     name: "link",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -311,8 +290,8 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  *
  * @example Filter by file extensions
  *
- * Setting the `exts` option to `[".ts"]` will only include entries with the
- * `.ts` file extension.
+ * Setting the `exts` option to `[".ts"]` or `["ts"]` will only include entries
+ * with the `.ts` file extension.
  *
  * File structure:
  * ```
@@ -327,7 +306,7 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  * await Array.fromAsync(walk(".", { exts: [".ts"] }));
  * // [
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -354,7 +333,7 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  * await Array.fromAsync(walk(".", { match: [/s/] }));
  * // [
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -381,7 +360,7 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
  * await Array.fromAsync(walk(".", { skip: [/s/] }));
  * // [
  * //   {
- * //     path: "/Users/user/folder/README.md",
+ * //     path: "README.md",
  * //     name: "README.md",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -393,13 +372,13 @@ import { walk as _function_walk } from "jsr:@std/fs@0.229.3/walk"
 const walk = _function_walk
 export { walk }
 
-import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
+import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.1/walk"
 /**
  * Recursively walks through a directory and yields information about each file
  * and directory encountered.
  *
- * The file paths are absolute paths. The root directory is included in the
- * yielded entries.
+ * The root path determines whether the file paths is relative or absolute.
+ * The root directory is included in the yielded entries.
  *
  * Requires `--allow-read` permission.
  *
@@ -426,21 +405,21 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  * Array.from(walkSync("."));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/foo.ts",
+ * //     path: "foo.ts",
  * //     name: "foo.ts",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -468,21 +447,21 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  * Array.from(walkSync(".", { maxDepth: 1 }));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/foo",
+ * //     path: "foo",
  * //     name: "foo",
  * //     isFile: false,
  * //     isDirectory: true,
@@ -508,14 +487,14 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  * Array.from(walkSync(".", { includeFiles: false }));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/foo",
+ * //     path: "foo",
  * //     name: "foo",
  * //     isFile: false,
  * //     isDirectory: true,
@@ -541,7 +520,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  * Array.from(walkSync(".", { includeDirs: false }));
  * // [
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -568,14 +547,14 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  * Array.from(walkSync(".", { includeSymlinks: false }));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -602,21 +581,21 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  * Array.from(walkSync(".", { followSymlinks: true }));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "link",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -644,21 +623,21 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  * Array.from(walkSync(".", { followSymlinks: true, canonicalize: true }));
  * // [
  * //   {
- * //     path: "/Users/user/folder",
- * //     name: "folder",
+ * //     path: ".",
+ * //     name: ".",
  * //     isFile: false,
  * //     isDirectory: true,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
  * //     isSymlink: false
  * //   },
  * //   {
- * //     path: "/Users/user/folder/link",
+ * //     path: "link",
  * //     name: "link",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -669,8 +648,8 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  *
  * @example Filter by file extensions
  *
- * Setting the `exts` option to `[".ts"]` will only include entries with the
- * `.ts` file extension.
+ * Setting the `exts` option to `[".ts"]` or `["ts"]` will only include entries
+ * with the `.ts` file extension.
  *
  * File structure:
  * ```
@@ -685,7 +664,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  * Array.from(walkSync(".", { exts: [".ts"] }));
  * // [
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -712,7 +691,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  * Array.from(walkSync(".", { match: [/s/] }));
  * // [
  * //   {
- * //     path: "/Users/user/folder/script.ts",
+ * //     path: "script.ts",
  * //     name: "script.ts",
  * //     isFile: true,
  * //     isDirectory: false,
@@ -739,7 +718,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@0.229.3/walk"
  * Array.from(walkSync(".", { skip: [/s/] }));
  * // [
  * //   {
- * //     path: "/Users/user/folder/README.md",
+ * //     path: "README.md",
  * //     name: "README.md",
  * //     isFile: true,
  * //     isDirectory: false,

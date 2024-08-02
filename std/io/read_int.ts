@@ -1,4 +1,4 @@
-import { readInt as _function_readInt } from "jsr:@std/io@0.224.3/read-int"
+import { readInt as _function_readInt } from "jsr:@std/io@0.224.4/read-int"
 /**
  * Read big endian 32bit integer from BufReader
  * @param buf

@@ -1,16 +1,16 @@
-import { compare as _function_compare } from "jsr:@std/semver@0.224.3/compare"
+import { compare as _function_compare } from "jsr:@std/semver@1.0.0/compare"
 /**
- * Compare two semantic version objects.
+ * Compare two SemVers.
  *
- * Returns `0` if `s0 === s1`, or `1` if `s0` is greater, or `-1` if `s1` is
+ * Returns `0` if `s0` equals `s1`, or `1` if `s0` is greater, or `-1` if `s1` is
  * greater.
  *
- * Sorts in ascending order if passed to `Array.sort()`,
+ * Sorts in ascending order if passed to {@linkcode Array.sort}.
  *
  * @example Usage
  * ```ts
  * import { parse, compare } from "@std/semver";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const s0 = parse("1.2.3");
  * const s1 = parse("1.2.4");

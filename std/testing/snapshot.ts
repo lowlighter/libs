@@ -1,25 +1,25 @@
-import type { SnapshotMode as _typeAlias_SnapshotMode } from "jsr:@std/testing@0.225.3/snapshot"
+import type { SnapshotMode as _typeAlias_SnapshotMode } from "jsr:@std/testing@1.0.0/snapshot"
 /**
  * The mode of snapshot testing.
  */
 type SnapshotMode = _typeAlias_SnapshotMode
 export type { SnapshotMode }
 
-import type { SnapshotOptions as _typeAlias_SnapshotOptions } from "jsr:@std/testing@0.225.3/snapshot"
+import type { SnapshotOptions as _typeAlias_SnapshotOptions } from "jsr:@std/testing@1.0.0/snapshot"
 /**
  * The options for {@linkcode assertSnapshot}.
  */
 type SnapshotOptions<T = unknown> = _typeAlias_SnapshotOptions<T>
 export type { SnapshotOptions }
 
-import { serialize as _function_serialize } from "jsr:@std/testing@0.225.3/snapshot"
+import { serialize as _function_serialize } from "jsr:@std/testing@1.0.0/snapshot"
 /**
  * Default serializer for `assertSnapshot`.
  *
  * @example Usage
  * ```ts
  * import { serialize } from "@std/testing/snapshot";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(serialize({ foo: 42 }), "{\n  foo: 42,\n}")
  * ```
@@ -30,12 +30,12 @@ import { serialize as _function_serialize } from "jsr:@std/testing@0.225.3/snaps
 const serialize = _function_serialize
 export { serialize }
 
-import { assertSnapshot as _function_assertSnapshot } from "jsr:@std/testing@0.225.3/snapshot"
+import { assertSnapshot as _function_assertSnapshot } from "jsr:@std/testing@1.0.0/snapshot"
 /** UNDOCUMENTED */
 const assertSnapshot = _function_assertSnapshot
 export { assertSnapshot }
 
-import { createAssertSnapshot as _function_createAssertSnapshot } from "jsr:@std/testing@0.225.3/snapshot"
+import { createAssertSnapshot as _function_createAssertSnapshot } from "jsr:@std/testing@1.0.0/snapshot"
 /**
  * Create {@linkcode assertSnapshot} function with the given options.
  *

@@ -1,11 +1,12 @@
-import { rangeIntersects as _function_rangeIntersects } from "jsr:@std/semver@0.224.3/range-intersects"
+import { rangeIntersects as _function_rangeIntersects } from "jsr:@std/semver@1.0.0/range-intersects"
 /**
- * The ranges intersect every range of AND comparators intersects with a least one range of OR ranges.
+ * The ranges intersect every range of AND comparators intersects with a least
+ * one range of OR ranges.
  *
  * @example Usage
  * ```ts
  * import { parseRange, rangeIntersects } from "@std/semver";
- * import { assert, assertFalse } from "@std/assert";
+ * import { assert } from "@std/assert";
  *
  * const r0 = parseRange(">=1.0.0 <2.0.0");
  * const r1 = parseRange(">=1.0.0 <1.2.3");
@@ -13,7 +14,7 @@ import { rangeIntersects as _function_rangeIntersects } from "jsr:@std/semver@0.
  *
  * assert(rangeIntersects(r0, r1));
  * assert(rangeIntersects(r0, r2));
- * assertFalse(rangeIntersects(r1, r2));
+ * assert(!rangeIntersects(r1, r2));
  * ```
  *
  * @param r0 range 0

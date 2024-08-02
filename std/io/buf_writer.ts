@@ -1,4 +1,4 @@
-import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.3/buf-writer"
+import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.4/buf-writer"
 /**
  * BufWriter implements buffering for an deno.Writer object.
  * If an error occurs writing to a Writer, no more data will be
@@ -12,7 +12,7 @@ import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.3/buf-writer"
 class BufWriter extends _class_BufWriter {}
 export { BufWriter }
 
-import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.3/buf-writer"
+import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.4/buf-writer"
 /**
  * BufWriterSync implements buffering for a deno.WriterSync object.
  * If an error occurs writing to a WriterSync, no more data will be

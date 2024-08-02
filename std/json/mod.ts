@@ -1,46 +1,54 @@
 /**
  * Utilities for parsing streaming JSON data.
  *
+ * ```ts
+ * import { JsonStringifyStream } from "@std/json";
+ * import { assertEquals } from "@std/assert";
+ *
+ * const stream = ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
+ *   .pipeThrough(new JsonStringifyStream());
+ *
+ * assertEquals(await Array.fromAsync(stream), [
+ *   `{"foo":"bar"}\n`,
+ *   `{"baz":100}\n`
+ * ]);
+ * ```
+ *
  * @module
  */
-import { ConcatenatedJsonParseStream as _class_ConcatenatedJsonParseStream } from "jsr:@std/json@0.224.1"
+import { ConcatenatedJsonParseStream as _class_ConcatenatedJsonParseStream } from "jsr:@std/json@1.0.0"
 /**
- * Stream to parse {@link https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON|Concatenated JSON}.
+ * Stream to parse
+ * {@link https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON | Concatenated JSON}.
  *
- * @example ```ts
+ * @example Usage
+ *
+ * ```ts
  * import { ConcatenatedJsonParseStream } from "@std/json/concatenated-json-parse-stream";
+ * import { assertEquals } from "@std/assert";
  *
- * const url = "@std/json/testdata/test.concatenated-json";
- * const { body } = await fetch(url);
+ * const stream = ReadableStream.from([
+ *   `{"foo":"bar"}`,
+ *   `{"baz":100}`,
+ * ]).pipeThrough(new ConcatenatedJsonParseStream());
  *
- * const readable = body!
- *   .pipeThrough(new TextDecoderStream()) // convert Uint8Array to string
- *   .pipeThrough(new ConcatenatedJsonParseStream()); // parse Concatenated JSON
- *
- * for await (const data of readable) {
- *   console.log(data);
- * }
+ * assertEquals(await Array.fromAsync(stream), [
+ *   { foo: "bar" },
+ *   { baz: 100 },
+ * ]);
  * ```
  */
 class ConcatenatedJsonParseStream extends _class_ConcatenatedJsonParseStream {}
 export { ConcatenatedJsonParseStream }
 
-import type { JsonValue as _typeAlias_JsonValue } from "jsr:@std/json@0.224.1"
+import type { JsonValue as _typeAlias_JsonValue } from "jsr:@std/json@1.0.0"
 /**
  * The type of the result of parsing JSON.
  */
 type JsonValue = _typeAlias_JsonValue
 export type { JsonValue }
 
-import type { ParseStreamOptions as _interface_ParseStreamOptions } from "jsr:@std/json@0.224.1"
-/**
- * Options for {@linkcode JsonParseStream} and
- * {@linkcode ConcatenatedJsonParseStream}.
- */
-interface ParseStreamOptions extends _interface_ParseStreamOptions {}
-export type { ParseStreamOptions }
-
-import { JsonParseStream as _class_JsonParseStream } from "jsr:@std/json@0.224.1"
+import { JsonParseStream as _class_JsonParseStream } from "jsr:@std/json@1.0.0"
 /**
  * Parse each chunk as JSON.
  *
@@ -49,55 +57,54 @@ import { JsonParseStream as _class_JsonParseStream } from "jsr:@std/json@0.224.1
  * {@link https://www.rfc-editor.org/rfc/rfc7464.html | JSON Text Sequences}.
  * Chunks consisting of spaces, tab characters, or newline characters will be ignored.
  *
- * @example parse JSON lines or NDJSON
+ * @example Basic usage
+ *
+ * ```ts
+ * import { JsonParseStream } from "@std/json/parse-stream";
+ * import { assertEquals } from "@std/assert";
+ *
+ * const stream = ReadableStream.from([
+ *   `{"foo":"bar"}\n`,
+ *   `{"baz":100}\n`
+ * ]).pipeThrough(new JsonParseStream());
+ *
+ * assertEquals(await Array.fromAsync(stream), [
+ *   { foo: "bar" },
+ *   { baz: 100 }
+ * ]);
+ * ```
+ *
+ * @example parse JSON lines or NDJSON from a file
  * ```ts
  * import { TextLineStream } from "@std/streams/text-line-stream";
- * import { JsonParseStream } from "@std/json/json-parse-stream";
+ * import { JsonParseStream } from "@std/json/parse-stream";
+ * import { assertEquals } from "@std/assert";
  *
- * const url = "@std/json/testdata/test.jsonl";
- * const { body } = await fetch(url);
+ * const file = await Deno.open("json/testdata/test.jsonl");
  *
- * const readable = body!
+ * const readable = file.readable
  *   .pipeThrough(new TextDecoderStream())  // convert Uint8Array to string
  *   .pipeThrough(new TextLineStream()) // transform into a stream where each chunk is divided by a newline
  *   .pipeThrough(new JsonParseStream()); // parse each chunk as JSON
  *
- * for await (const data of readable) {
- *   console.log(data);
- * }
- * ```
- *
- * @example parse JSON Text Sequences
- * ```ts
- * import { TextDelimiterStream } from "@std/streams/text-delimiter-stream";
- * import { JsonParseStream } from "@std/json/json-parse-stream";
- *
- * const url =
- *   "@std/json/testdata/test.json-seq";
- * const { body } = await fetch(url);
- *
- * const delimiter = "\x1E";
- * const readable = body!
- *   .pipeThrough(new TextDecoderStream())
- *   .pipeThrough(new TextDelimiterStream(delimiter)) // transform into a stream where each chunk is divided by a delimiter
- *   .pipeThrough(new JsonParseStream());
- *
- * for await (const data of readable) {
- *   console.log(data);
- * }
+ * assertEquals(await Array.fromAsync(readable), [
+ *  {"hello": "world"},
+ *  ["👋", "👋", "👋"],
+ *  {"deno": "🦕"},
+ * ]);
  * ```
  */
 class JsonParseStream extends _class_JsonParseStream {}
 export { JsonParseStream }
 
-import type { StringifyStreamOptions as _interface_StringifyStreamOptions } from "jsr:@std/json@0.224.1"
+import type { StringifyStreamOptions as _interface_StringifyStreamOptions } from "jsr:@std/json@1.0.0"
 /**
  * Options for {@linkcode JsonStringifyStream}.
  */
 interface StringifyStreamOptions extends _interface_StringifyStreamOptions {}
 export type { StringifyStreamOptions }
 
-import { JsonStringifyStream as _class_JsonStringifyStream } from "jsr:@std/json@0.224.1"
+import { JsonStringifyStream as _class_JsonStringifyStream } from "jsr:@std/json@1.0.0"
 /**
  * Convert each chunk to JSON string.
  *
@@ -108,42 +115,50 @@ import { JsonStringifyStream as _class_JsonStringifyStream } from "jsr:@std/json
  *
  * You can optionally specify a prefix and suffix for each chunk. The default prefix is `""` and the default suffix is `"\n"`.
  *
- * @example ```ts
- * import { JsonStringifyStream } from "@std/json/json-stringify-stream";
+ * @example Basic usage
  *
- * const file = await Deno.open("./tmp.jsonl", { create: true, write: true });
+ * ```ts
+ * import { JsonStringifyStream } from "@std/json/stringify-stream";
+ * import { assertEquals } from "@std/assert";
  *
- * ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
- *   .pipeThrough(new JsonStringifyStream()) // convert to JSON lines (ndjson)
- *   .pipeThrough(new TextEncoderStream()) // convert a string to a Uint8Array
- *   .pipeTo(file.writable)
- *   .then(() => console.log("write success"));
+ * const stream = ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
+ *   .pipeThrough(new JsonStringifyStream());
+ *
+ * assertEquals(await Array.fromAsync(stream), [
+ *   `{"foo":"bar"}\n`,
+ *   `{"baz":100}\n`
+ * ]);
  * ```
  *
- * @example To convert to [JSON Text Sequences](https://www.rfc-editor.org/rfc/rfc7464.html), set the
- * prefix to the delimiter "\x1E" as options.
+ * @example Stringify stream of JSON text sequences
+ *
+ * Set `options.prefix` to `\x1E` to stringify
+ * {@linkcode https://www.rfc-editor.org/rfc/rfc7464.html | JSON Text Sequences}.
+ *
  * ```ts
- * import { JsonStringifyStream } from "@std/json/json-stringify-stream";
+ * import { JsonStringifyStream } from "@std/json/stringify-stream";
+ * import { assertEquals } from "@std/assert";
  *
- * const file = await Deno.open("./tmp.jsonl", { create: true, write: true });
+ * const stream = ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
+ *   .pipeThrough(new JsonStringifyStream({ prefix: "\x1E", suffix: "\n" }));
  *
- * ReadableStream.from([{ foo: "bar" }, { baz: 100 }])
- *   .pipeThrough(new JsonStringifyStream({ prefix: "\x1E", suffix: "\n" })) // convert to JSON Text Sequences
- *   .pipeThrough(new TextEncoderStream())
- *   .pipeTo(file.writable)
- *   .then(() => console.log("write success"));
+ * assertEquals(await Array.fromAsync(stream), [
+ *   `\x1E{"foo":"bar"}\n`,
+ *   `\x1E{"baz":100}\n`
+ * ]);
  * ```
  *
- * @example If you want to stream [JSON lines](https://jsonlines.org/) from the server:
- * ```ts
- * import { JsonStringifyStream } from "@std/json/json-stringify-stream";
+ * @example Stringify JSON lines from a server
+ *
+ * ```ts no-eval no-assert
+ * import { JsonStringifyStream } from "@std/json/stringify-stream";
  *
  * // A server that streams one line of JSON every second
  * Deno.serve(() => {
  *   let intervalId: number | undefined;
  *   const readable = new ReadableStream({
  *     start(controller) {
- *       // enqueue data once per second
+ *       // Enqueue data once per second
  *       intervalId = setInterval(() => {
  *         controller.enqueue({ now: new Date() });
  *       }, 1000);
@@ -154,8 +169,8 @@ import { JsonStringifyStream as _class_JsonStringifyStream } from "jsr:@std/json
  *   });
  *
  *   const body = readable
- *     .pipeThrough(new JsonStringifyStream()) // convert data to JSON lines
- *     .pipeThrough(new TextEncoderStream()); // convert a string to a Uint8Array
+ *     .pipeThrough(new JsonStringifyStream()) // Convert data to JSON lines
+ *     .pipeThrough(new TextEncoderStream()); // Convert a string to a Uint8Array
  *
  *   return new Response(body);
  * });

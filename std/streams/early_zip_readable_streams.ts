@@ -1,4 +1,4 @@
-import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "jsr:@std/streams@0.224.5/early-zip-readable-streams"
+import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "jsr:@std/streams@1.0.0/early-zip-readable-streams"
 /**
  * Merge multiple streams into a single one, taking order into account, and each
  * stream will wait for a chunk to enqueue before the next stream can append
@@ -15,7 +15,7 @@ import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "js
  * @example Zip 2 streams with the same length
  * ```ts
  * import { earlyZipReadableStreams } from "@std/streams/early-zip-readable-streams";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream1 = ReadableStream.from(["1", "2", "3"]);
  * const stream2 = ReadableStream.from(["a", "b", "c"]);
@@ -30,7 +30,7 @@ import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "js
  * @example Zip 2 streams with different length (first one is shorter)
  * ```ts
  * import { earlyZipReadableStreams } from "@std/streams/early-zip-readable-streams";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream1 = ReadableStream.from(["1", "2"]);
  * const stream2 = ReadableStream.from(["a", "b", "c", "d"]);
@@ -48,7 +48,7 @@ import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "js
  * @example Zip 2 streams with different length (first one is longer)
  * ```ts
  * import { earlyZipReadableStreams } from "@std/streams/early-zip-readable-streams";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream1 = ReadableStream.from(["1", "2", "3", "4"]);
  * const stream2 = ReadableStream.from(["a", "b"]);
@@ -66,7 +66,7 @@ import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "js
  * @example Zip 3 streams
  * ```ts
  * import { earlyZipReadableStreams } from "@std/streams/early-zip-readable-streams";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream1 = ReadableStream.from(["1"]);
  * const stream2 = ReadableStream.from(["a", "b"]);

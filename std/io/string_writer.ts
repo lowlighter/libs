@@ -1,4 +1,4 @@
-import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.3/string-writer"
+import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.4/string-writer"
 /**
  * Writer utility for buffering string chunks.
  *

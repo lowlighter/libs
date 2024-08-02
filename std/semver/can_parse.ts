@@ -1,4 +1,4 @@
-import { canParse as _function_canParse } from "jsr:@std/semver@0.224.3/can-parse"
+import { canParse as _function_canParse } from "jsr:@std/semver@1.0.0/can-parse"
 /**
  * Returns true if the string can be parsed as SemVer.
  *

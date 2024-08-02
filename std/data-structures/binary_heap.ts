@@ -1,4 +1,4 @@
-import { BinaryHeap as _class_BinaryHeap } from "jsr:@std/data-structures@1.0.0/binary-heap"
+import { BinaryHeap as _class_BinaryHeap } from "jsr:@std/data-structures@1.0.1/binary-heap"
 /**
  * A priority queue implemented with a binary heap. The heap is in descending
  * order by default, using JavaScript's built-in comparison operators to sort

@@ -1,4 +1,4 @@
-import { copyN as _function_copyN } from "jsr:@std/io@0.224.3/copy-n"
+import { copyN as _function_copyN } from "jsr:@std/io@0.224.4/copy-n"
 /**
  * Copy N size at the most. If read size is lesser than N, then returns nread
  * @param r Reader

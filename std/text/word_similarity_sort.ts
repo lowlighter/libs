@@ -1,11 +1,11 @@
-import type { WordSimilaritySortOptions as _interface_WordSimilaritySortOptions } from "jsr:@std/text@1.0.0/word-similarity-sort"
+import type { WordSimilaritySortOptions as _interface_WordSimilaritySortOptions } from "jsr:@std/text@1.0.2/word-similarity-sort"
 /**
  * Options for {@linkcode wordSimilaritySort}.
  */
 interface WordSimilaritySortOptions extends _interface_WordSimilaritySortOptions {}
 export type { WordSimilaritySortOptions }
 
-import { wordSimilaritySort as _function_wordSimilaritySort } from "jsr:@std/text@1.0.0/word-similarity-sort"
+import { wordSimilaritySort as _function_wordSimilaritySort } from "jsr:@std/text@1.0.2/word-similarity-sort"
 /**
  * Sorts a string-array by similarity to a given string.
  *

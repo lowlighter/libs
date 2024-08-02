@@ -1,4 +1,4 @@
-import { ascend as _function_ascend } from "jsr:@std/data-structures@1.0.0/comparators"
+import { ascend as _function_ascend } from "jsr:@std/data-structures@1.0.1/comparators"
 /**
  * Compare two values in ascending order using JavaScript's built in comparison
  * operators.
@@ -21,7 +21,7 @@ import { ascend as _function_ascend } from "jsr:@std/data-structures@1.0.0/compa
 const ascend = _function_ascend
 export { ascend }
 
-import { descend as _function_descend } from "jsr:@std/data-structures@1.0.0/comparators"
+import { descend as _function_descend } from "jsr:@std/data-structures@1.0.1/comparators"
 /**
  * Compare two values in descending order using JavaScript's built in comparison
  * operators.

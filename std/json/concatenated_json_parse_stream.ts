@@ -1,20 +1,23 @@
-import { ConcatenatedJsonParseStream as _class_ConcatenatedJsonParseStream } from "jsr:@std/json@0.224.1/concatenated-json-parse-stream"
+import { ConcatenatedJsonParseStream as _class_ConcatenatedJsonParseStream } from "jsr:@std/json@1.0.0/concatenated-json-parse-stream"
 /**
- * Stream to parse {@link https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON|Concatenated JSON}.
+ * Stream to parse
+ * {@link https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON | Concatenated JSON}.
  *
- * @example ```ts
+ * @example Usage
+ *
+ * ```ts
  * import { ConcatenatedJsonParseStream } from "@std/json/concatenated-json-parse-stream";
+ * import { assertEquals } from "@std/assert";
  *
- * const url = "@std/json/testdata/test.concatenated-json";
- * const { body } = await fetch(url);
+ * const stream = ReadableStream.from([
+ *   `{"foo":"bar"}`,
+ *   `{"baz":100}`,
+ * ]).pipeThrough(new ConcatenatedJsonParseStream());
  *
- * const readable = body!
- *   .pipeThrough(new TextDecoderStream()) // convert Uint8Array to string
- *   .pipeThrough(new ConcatenatedJsonParseStream()); // parse Concatenated JSON
- *
- * for await (const data of readable) {
- *   console.log(data);
- * }
+ * assertEquals(await Array.fromAsync(stream), [
+ *   { foo: "bar" },
+ *   { baz: 100 },
+ * ]);
  * ```
  */
 class ConcatenatedJsonParseStream extends _class_ConcatenatedJsonParseStream {}

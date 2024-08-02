@@ -1,12 +1,12 @@
-import { minSatisfying as _function_minSatisfying } from "jsr:@std/semver@0.224.3/min-satisfying"
+import { minSatisfying as _function_minSatisfying } from "jsr:@std/semver@1.0.0/min-satisfying"
 /**
- * Returns the lowest version in the list that satisfies the range, or `undefined` if
+ * Returns the lowest SemVer in the list that satisfies the range, or `undefined` if
  * none of them do.
  *
  * @example Usage
  * ```ts
  * import { parse, parseRange, minSatisfying } from "@std/semver";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const versions = ["0.2.0", "1.2.3", "1.3.0", "2.0.0", "2.1.0"].map(parse);
  * const range = parseRange(">=1.0.0 <2.0.0");

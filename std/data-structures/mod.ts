@@ -21,7 +21,7 @@
  *
  * @module
  */
-import { BinaryHeap as _class_BinaryHeap } from "jsr:@std/data-structures@1.0.0"
+import { BinaryHeap as _class_BinaryHeap } from "jsr:@std/data-structures@1.0.1"
 /**
  * A priority queue implemented with a binary heap. The heap is in descending
  * order by default, using JavaScript's built-in comparison operators to sort
@@ -69,7 +69,7 @@ import { BinaryHeap as _class_BinaryHeap } from "jsr:@std/data-structures@1.0.0"
 class BinaryHeap<T> extends _class_BinaryHeap<T> {}
 export { BinaryHeap }
 
-import { BinarySearchTree as _class_BinarySearchTree } from "jsr:@std/data-structures@1.0.0"
+import { BinarySearchTree as _class_BinarySearchTree } from "jsr:@std/data-structures@1.0.1"
 /**
  * An unbalanced binary search tree. The values are in ascending order by default,
  * using JavaScript's built-in comparison operators to sort the values.
@@ -156,7 +156,7 @@ import { BinarySearchTree as _class_BinarySearchTree } from "jsr:@std/data-struc
 class BinarySearchTree<T> extends _class_BinarySearchTree<T> {}
 export { BinarySearchTree }
 
-import { ascend as _function_ascend } from "jsr:@std/data-structures@1.0.0"
+import { ascend as _function_ascend } from "jsr:@std/data-structures@1.0.1"
 /**
  * Compare two values in ascending order using JavaScript's built in comparison
  * operators.
@@ -179,7 +179,7 @@ import { ascend as _function_ascend } from "jsr:@std/data-structures@1.0.0"
 const ascend = _function_ascend
 export { ascend }
 
-import { descend as _function_descend } from "jsr:@std/data-structures@1.0.0"
+import { descend as _function_descend } from "jsr:@std/data-structures@1.0.1"
 /**
  * Compare two values in descending order using JavaScript's built in comparison
  * operators.
@@ -202,7 +202,7 @@ import { descend as _function_descend } from "jsr:@std/data-structures@1.0.0"
 const descend = _function_descend
 export { descend }
 
-import { RedBlackTree as _class_RedBlackTree } from "jsr:@std/data-structures@1.0.0"
+import { RedBlackTree as _class_RedBlackTree } from "jsr:@std/data-structures@1.0.1"
 /**
  * A red-black tree. This is a kind of self-balancing binary search tree. The
  * values are in ascending order by default, using JavaScript's built-in

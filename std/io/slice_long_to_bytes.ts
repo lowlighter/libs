@@ -1,4 +1,4 @@
-import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.224.3/slice-long-to-bytes"
+import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.224.4/slice-long-to-bytes"
 /**
  * Slice number into 64bit big endian byte array
  * @param d The number to be sliced

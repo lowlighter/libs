@@ -1,11 +1,11 @@
-import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/datetime@0.224.3/format"
+import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/datetime@0.224.4/format"
 /**
  * Options for {@linkcode format}.
  */
 interface FormatOptions extends _interface_FormatOptions {}
 export type { FormatOptions }
 
-import { format as _function_format } from "jsr:@std/datetime@0.224.3/format"
+import { format as _function_format } from "jsr:@std/datetime@0.224.4/format"
 /**
  * Formats a date to a string with the specified format.
  *

@@ -1,6 +1,13 @@
-import { increment as _function_increment } from "jsr:@std/semver@0.224.3/increment"
+import type { IncrementOptions as _interface_IncrementOptions } from "jsr:@std/semver@1.0.0/increment"
 /**
- * Returns the new version resulting from an increment by release type.
+ * Options for {@linkcode increment}.
+ */
+interface IncrementOptions extends _interface_IncrementOptions {}
+export type { IncrementOptions }
+
+import { increment as _function_increment } from "jsr:@std/semver@1.0.0/increment"
+/**
+ * Returns the new SemVer resulting from an increment by release type.
  *
  * `premajor`, `preminor` and `prepatch` will bump the version up to the next version,
  * based on the type, and will also add prerelease metadata.
@@ -23,7 +30,7 @@ import { increment as _function_increment } from "jsr:@std/semver@0.224.3/increm
  * @example Usage
  * ```ts
  * import { increment, parse } from "@std/semver";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const version = parse("1.2.3");
  * assertEquals(increment(version, "major"), parse("2.0.0"));
@@ -37,8 +44,7 @@ import { increment as _function_increment } from "jsr:@std/semver@0.224.3/increm
  *
  * @param version The version to increment
  * @param release The type of increment to perform
- * @param prerelease The pre-release metadata of the new version
- * @param buildmetadata The build metadata of the new version
+ * @param options Additional options
  * @return The new version
  */
 const increment = _function_increment

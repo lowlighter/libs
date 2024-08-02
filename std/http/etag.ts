@@ -1,4 +1,4 @@
-import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@0.224.5/etag"
+import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.0/etag"
 /**
  * Just the part of {@linkcode Deno.FileInfo} that is required to calculate an `ETag`,
  * so partial or user generated file information can be passed.
@@ -6,47 +6,19 @@ import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@0.224.5/etag
 interface FileInfo extends _interface_FileInfo {}
 export type { FileInfo }
 
-import type { Entity as _typeAlias_Entity } from "jsr:@std/http@0.224.5/etag"
+import type { ETagOptions as _interface_ETagOptions } from "jsr:@std/http@1.0.0/etag"
 /**
- * Represents an entity that can be used for generating an ETag.
- */
-type Entity = _typeAlias_Entity
-export type { Entity }
-
-import type { ETagOptions as _interface_ETagOptions } from "jsr:@std/http@0.224.5/etag"
-/**
- * Options for {@linkcode calculate}.
+ * Options for {@linkcode eTag}.
  */
 interface ETagOptions extends _interface_ETagOptions {}
 export type { ETagOptions }
 
-import { calculate as _function_calculate } from "jsr:@std/http@0.224.5/etag"
-/**
- * Calculate an ETag for an entity. When the entity is a specific set of data
- * it will be fingerprinted as a "strong" tag, otherwise if it is just file
- * information, it will be calculated as a weak tag.
- *
- * @example Usage
- * ```ts
- * import { calculate } from "@std/http/etag";
- * import { assert } from "@std/assert/assert";
- *
- * const body = "hello deno!";
- *
- * const etag = await calculate(body);
- * assert(etag);
- *
- * const res = new Response(body, { headers: { etag } });
- * ```
- *
- * @param entity The entity to get the ETag for.
- * @param options Various additional options.
- * @return The calculated ETag.
- */
-const calculate = _function_calculate
-export { calculate }
+import { eTag as _function_eTag } from "jsr:@std/http@1.0.0/etag"
+/** UNDOCUMENTED */
+const eTag = _function_eTag
+export { eTag }
 
-import { ifMatch as _function_ifMatch } from "jsr:@std/http@0.224.5/etag"
+import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.0/etag"
 /**
  * A helper function that takes the value from the `If-Match` header and a
  * calculated etag for the target. By using strong comparison, return `true` if
@@ -58,16 +30,16 @@ import { ifMatch as _function_ifMatch } from "jsr:@std/http@0.224.5/etag"
  * @example Usage
  * ```ts no-eval
  * import {
- *   calculate,
+ *   eTag,
  *   ifMatch,
  * } from "@std/http/etag";
- * import { assert } from "@std/assert/assert"
+ * import { assert } from "@std/assert";
  *
  * const body = "hello deno!";
  *
  * Deno.serve(async (req) => {
  *   const ifMatchValue = req.headers.get("if-match");
- *   const etag = await calculate(body);
+ *   const etag = await eTag(body);
  *   assert(etag);
  *   if (!ifMatchValue || ifMatch(ifMatchValue, etag)) {
  *     return new Response(body, { status: 200, headers: { etag } });
@@ -84,7 +56,7 @@ import { ifMatch as _function_ifMatch } from "jsr:@std/http@0.224.5/etag"
 const ifMatch = _function_ifMatch
 export { ifMatch }
 
-import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@0.224.5/etag"
+import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.0/etag"
 /**
  * A helper function that takes the value from the `If-None-Match` header and
  * a calculated etag for the target entity and returns `false` if the etag for
@@ -96,16 +68,16 @@ import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@0.224.5/etag
  * @example Usage
  * ```ts no-eval
  * import {
- *   calculate,
+ *   eTag,
  *   ifNoneMatch,
  * } from "@std/http/etag";
- * import { assert } from "@std/assert/assert"
+ * import { assert } from "@std/assert";
  *
  * const body = "hello deno!";
  *
  * Deno.serve(async (req) => {
  *   const ifNoneMatchValue = req.headers.get("if-none-match");
- *   const etag = await calculate(body);
+ *   const etag = await eTag(body);
  *   assert(etag);
  *   if (!ifNoneMatch(ifNoneMatchValue, etag)) {
  *     return new Response(null, { status: 304, headers: { etag } });

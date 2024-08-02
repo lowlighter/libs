@@ -1,11 +1,11 @@
-import { parseRange as _function_parseRange } from "jsr:@std/semver@0.224.3/parse-range"
+import { parseRange as _function_parseRange } from "jsr:@std/semver@1.0.0/parse-range"
 /**
- * Parses a range string into a Range object or throws a TypeError.
+ * Parses a range string into a {@linkcode Range} object.
  *
  * @example Usage
  * ```ts
  * import { parseRange } from "@std/semver/parse-range";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const range = parseRange(">=1.0.0 <2.0.0 || >=3.0.0");
  * assertEquals(range, [
@@ -19,8 +19,9 @@ import { parseRange as _function_parseRange } from "jsr:@std/semver@0.224.3/pars
  * ]);
  * ```
  *
+ * @throws If the input range is invalid.
  * @param range The range set string
- * @return A valid semantic range
+ * @return A valid SemVer range
  */
 const parseRange = _function_parseRange
 export { parseRange }

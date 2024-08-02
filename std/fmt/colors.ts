@@ -1,11 +1,11 @@
-import type { Rgb as _interface_Rgb } from "jsr:@std/fmt@0.225.6/colors"
+import type { Rgb as _interface_Rgb } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * RGB 8-bits per channel. Each in range `0->255` or `0x00->0xff`
  */
 interface Rgb extends _interface_Rgb {}
 export type { Rgb }
 
-import { setColorEnabled as _function_setColorEnabled } from "jsr:@std/fmt@0.225.6/colors"
+import { setColorEnabled as _function_setColorEnabled } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Enable or disable text color when styling.
  *
@@ -29,7 +29,7 @@ import { setColorEnabled as _function_setColorEnabled } from "jsr:@std/fmt@0.225
 const setColorEnabled = _function_setColorEnabled
 export { setColorEnabled }
 
-import { getColorEnabled as _function_getColorEnabled } from "jsr:@std/fmt@0.225.6/colors"
+import { getColorEnabled as _function_getColorEnabled } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Get whether text color change is enabled or disabled.
  *
@@ -44,7 +44,7 @@ import { getColorEnabled as _function_getColorEnabled } from "jsr:@std/fmt@0.225
 const getColorEnabled = _function_getColorEnabled
 export { getColorEnabled }
 
-import { reset as _function_reset } from "jsr:@std/fmt@0.225.6/colors"
+import { reset as _function_reset } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Reset the text modified.
  *
@@ -61,7 +61,7 @@ import { reset as _function_reset } from "jsr:@std/fmt@0.225.6/colors"
 const reset = _function_reset
 export { reset }
 
-import { bold as _function_bold } from "jsr:@std/fmt@0.225.6/colors"
+import { bold as _function_bold } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Make the text bold.
  *
@@ -78,7 +78,7 @@ import { bold as _function_bold } from "jsr:@std/fmt@0.225.6/colors"
 const bold = _function_bold
 export { bold }
 
-import { dim as _function_dim } from "jsr:@std/fmt@0.225.6/colors"
+import { dim as _function_dim } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * The text emits only a small amount of light.
  *
@@ -98,7 +98,7 @@ import { dim as _function_dim } from "jsr:@std/fmt@0.225.6/colors"
 const dim = _function_dim
 export { dim }
 
-import { italic as _function_italic } from "jsr:@std/fmt@0.225.6/colors"
+import { italic as _function_italic } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Make the text italic.
  *
@@ -115,7 +115,7 @@ import { italic as _function_italic } from "jsr:@std/fmt@0.225.6/colors"
 const italic = _function_italic
 export { italic }
 
-import { underline as _function_underline } from "jsr:@std/fmt@0.225.6/colors"
+import { underline as _function_underline } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Make the text underline.
  *
@@ -132,7 +132,7 @@ import { underline as _function_underline } from "jsr:@std/fmt@0.225.6/colors"
 const underline = _function_underline
 export { underline }
 
-import { inverse as _function_inverse } from "jsr:@std/fmt@0.225.6/colors"
+import { inverse as _function_inverse } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Invert background color and text color.
  *
@@ -149,7 +149,7 @@ import { inverse as _function_inverse } from "jsr:@std/fmt@0.225.6/colors"
 const inverse = _function_inverse
 export { inverse }
 
-import { hidden as _function_hidden } from "jsr:@std/fmt@0.225.6/colors"
+import { hidden as _function_hidden } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Make the text hidden.
  *
@@ -166,7 +166,7 @@ import { hidden as _function_hidden } from "jsr:@std/fmt@0.225.6/colors"
 const hidden = _function_hidden
 export { hidden }
 
-import { strikethrough as _function_strikethrough } from "jsr:@std/fmt@0.225.6/colors"
+import { strikethrough as _function_strikethrough } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Put horizontal line through the center of the text.
  *
@@ -183,7 +183,7 @@ import { strikethrough as _function_strikethrough } from "jsr:@std/fmt@0.225.6/c
 const strikethrough = _function_strikethrough
 export { strikethrough }
 
-import { black as _function_black } from "jsr:@std/fmt@0.225.6/colors"
+import { black as _function_black } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to black.
  *
@@ -200,7 +200,7 @@ import { black as _function_black } from "jsr:@std/fmt@0.225.6/colors"
 const black = _function_black
 export { black }
 
-import { red as _function_red } from "jsr:@std/fmt@0.225.6/colors"
+import { red as _function_red } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to red.
  *
@@ -217,7 +217,7 @@ import { red as _function_red } from "jsr:@std/fmt@0.225.6/colors"
 const red = _function_red
 export { red }
 
-import { green as _function_green } from "jsr:@std/fmt@0.225.6/colors"
+import { green as _function_green } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to green.
  *
@@ -234,7 +234,7 @@ import { green as _function_green } from "jsr:@std/fmt@0.225.6/colors"
 const green = _function_green
 export { green }
 
-import { yellow as _function_yellow } from "jsr:@std/fmt@0.225.6/colors"
+import { yellow as _function_yellow } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to yellow.
  *
@@ -251,7 +251,7 @@ import { yellow as _function_yellow } from "jsr:@std/fmt@0.225.6/colors"
 const yellow = _function_yellow
 export { yellow }
 
-import { blue as _function_blue } from "jsr:@std/fmt@0.225.6/colors"
+import { blue as _function_blue } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to blue.
  *
@@ -268,7 +268,7 @@ import { blue as _function_blue } from "jsr:@std/fmt@0.225.6/colors"
 const blue = _function_blue
 export { blue }
 
-import { magenta as _function_magenta } from "jsr:@std/fmt@0.225.6/colors"
+import { magenta as _function_magenta } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to magenta.
  *
@@ -285,7 +285,7 @@ import { magenta as _function_magenta } from "jsr:@std/fmt@0.225.6/colors"
 const magenta = _function_magenta
 export { magenta }
 
-import { cyan as _function_cyan } from "jsr:@std/fmt@0.225.6/colors"
+import { cyan as _function_cyan } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to cyan.
  *
@@ -302,7 +302,7 @@ import { cyan as _function_cyan } from "jsr:@std/fmt@0.225.6/colors"
 const cyan = _function_cyan
 export { cyan }
 
-import { white as _function_white } from "jsr:@std/fmt@0.225.6/colors"
+import { white as _function_white } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to white.
  *
@@ -319,7 +319,7 @@ import { white as _function_white } from "jsr:@std/fmt@0.225.6/colors"
 const white = _function_white
 export { white }
 
-import { gray as _function_gray } from "jsr:@std/fmt@0.225.6/colors"
+import { gray as _function_gray } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to gray.
  *
@@ -336,7 +336,7 @@ import { gray as _function_gray } from "jsr:@std/fmt@0.225.6/colors"
 const gray = _function_gray
 export { gray }
 
-import { brightBlack as _function_brightBlack } from "jsr:@std/fmt@0.225.6/colors"
+import { brightBlack as _function_brightBlack } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to bright black.
  *
@@ -353,7 +353,7 @@ import { brightBlack as _function_brightBlack } from "jsr:@std/fmt@0.225.6/color
 const brightBlack = _function_brightBlack
 export { brightBlack }
 
-import { brightRed as _function_brightRed } from "jsr:@std/fmt@0.225.6/colors"
+import { brightRed as _function_brightRed } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to bright red.
  *
@@ -370,7 +370,7 @@ import { brightRed as _function_brightRed } from "jsr:@std/fmt@0.225.6/colors"
 const brightRed = _function_brightRed
 export { brightRed }
 
-import { brightGreen as _function_brightGreen } from "jsr:@std/fmt@0.225.6/colors"
+import { brightGreen as _function_brightGreen } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to bright green.
  *
@@ -387,7 +387,7 @@ import { brightGreen as _function_brightGreen } from "jsr:@std/fmt@0.225.6/color
 const brightGreen = _function_brightGreen
 export { brightGreen }
 
-import { brightYellow as _function_brightYellow } from "jsr:@std/fmt@0.225.6/colors"
+import { brightYellow as _function_brightYellow } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to bright yellow.
  *
@@ -404,7 +404,7 @@ import { brightYellow as _function_brightYellow } from "jsr:@std/fmt@0.225.6/col
 const brightYellow = _function_brightYellow
 export { brightYellow }
 
-import { brightBlue as _function_brightBlue } from "jsr:@std/fmt@0.225.6/colors"
+import { brightBlue as _function_brightBlue } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to bright blue.
  *
@@ -421,7 +421,7 @@ import { brightBlue as _function_brightBlue } from "jsr:@std/fmt@0.225.6/colors"
 const brightBlue = _function_brightBlue
 export { brightBlue }
 
-import { brightMagenta as _function_brightMagenta } from "jsr:@std/fmt@0.225.6/colors"
+import { brightMagenta as _function_brightMagenta } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to bright magenta.
  *
@@ -438,7 +438,7 @@ import { brightMagenta as _function_brightMagenta } from "jsr:@std/fmt@0.225.6/c
 const brightMagenta = _function_brightMagenta
 export { brightMagenta }
 
-import { brightCyan as _function_brightCyan } from "jsr:@std/fmt@0.225.6/colors"
+import { brightCyan as _function_brightCyan } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to bright cyan.
  *
@@ -455,7 +455,7 @@ import { brightCyan as _function_brightCyan } from "jsr:@std/fmt@0.225.6/colors"
 const brightCyan = _function_brightCyan
 export { brightCyan }
 
-import { brightWhite as _function_brightWhite } from "jsr:@std/fmt@0.225.6/colors"
+import { brightWhite as _function_brightWhite } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color to bright white.
  *
@@ -472,7 +472,7 @@ import { brightWhite as _function_brightWhite } from "jsr:@std/fmt@0.225.6/color
 const brightWhite = _function_brightWhite
 export { brightWhite }
 
-import { bgBlack as _function_bgBlack } from "jsr:@std/fmt@0.225.6/colors"
+import { bgBlack as _function_bgBlack } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to black.
  *
@@ -489,7 +489,7 @@ import { bgBlack as _function_bgBlack } from "jsr:@std/fmt@0.225.6/colors"
 const bgBlack = _function_bgBlack
 export { bgBlack }
 
-import { bgRed as _function_bgRed } from "jsr:@std/fmt@0.225.6/colors"
+import { bgRed as _function_bgRed } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to red.
  *
@@ -506,7 +506,7 @@ import { bgRed as _function_bgRed } from "jsr:@std/fmt@0.225.6/colors"
 const bgRed = _function_bgRed
 export { bgRed }
 
-import { bgGreen as _function_bgGreen } from "jsr:@std/fmt@0.225.6/colors"
+import { bgGreen as _function_bgGreen } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to green.
  *
@@ -523,7 +523,7 @@ import { bgGreen as _function_bgGreen } from "jsr:@std/fmt@0.225.6/colors"
 const bgGreen = _function_bgGreen
 export { bgGreen }
 
-import { bgYellow as _function_bgYellow } from "jsr:@std/fmt@0.225.6/colors"
+import { bgYellow as _function_bgYellow } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to yellow.
  *
@@ -540,7 +540,7 @@ import { bgYellow as _function_bgYellow } from "jsr:@std/fmt@0.225.6/colors"
 const bgYellow = _function_bgYellow
 export { bgYellow }
 
-import { bgBlue as _function_bgBlue } from "jsr:@std/fmt@0.225.6/colors"
+import { bgBlue as _function_bgBlue } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to blue.
  *
@@ -557,7 +557,7 @@ import { bgBlue as _function_bgBlue } from "jsr:@std/fmt@0.225.6/colors"
 const bgBlue = _function_bgBlue
 export { bgBlue }
 
-import { bgMagenta as _function_bgMagenta } from "jsr:@std/fmt@0.225.6/colors"
+import { bgMagenta as _function_bgMagenta } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to magenta.
  *
@@ -574,7 +574,7 @@ import { bgMagenta as _function_bgMagenta } from "jsr:@std/fmt@0.225.6/colors"
 const bgMagenta = _function_bgMagenta
 export { bgMagenta }
 
-import { bgCyan as _function_bgCyan } from "jsr:@std/fmt@0.225.6/colors"
+import { bgCyan as _function_bgCyan } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to cyan.
  *
@@ -591,7 +591,7 @@ import { bgCyan as _function_bgCyan } from "jsr:@std/fmt@0.225.6/colors"
 const bgCyan = _function_bgCyan
 export { bgCyan }
 
-import { bgWhite as _function_bgWhite } from "jsr:@std/fmt@0.225.6/colors"
+import { bgWhite as _function_bgWhite } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to white.
  *
@@ -608,7 +608,7 @@ import { bgWhite as _function_bgWhite } from "jsr:@std/fmt@0.225.6/colors"
 const bgWhite = _function_bgWhite
 export { bgWhite }
 
-import { bgBrightBlack as _function_bgBrightBlack } from "jsr:@std/fmt@0.225.6/colors"
+import { bgBrightBlack as _function_bgBrightBlack } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to bright black.
  *
@@ -625,7 +625,7 @@ import { bgBrightBlack as _function_bgBrightBlack } from "jsr:@std/fmt@0.225.6/c
 const bgBrightBlack = _function_bgBrightBlack
 export { bgBrightBlack }
 
-import { bgBrightRed as _function_bgBrightRed } from "jsr:@std/fmt@0.225.6/colors"
+import { bgBrightRed as _function_bgBrightRed } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to bright red.
  *
@@ -642,7 +642,7 @@ import { bgBrightRed as _function_bgBrightRed } from "jsr:@std/fmt@0.225.6/color
 const bgBrightRed = _function_bgBrightRed
 export { bgBrightRed }
 
-import { bgBrightGreen as _function_bgBrightGreen } from "jsr:@std/fmt@0.225.6/colors"
+import { bgBrightGreen as _function_bgBrightGreen } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to bright green.
  *
@@ -659,7 +659,7 @@ import { bgBrightGreen as _function_bgBrightGreen } from "jsr:@std/fmt@0.225.6/c
 const bgBrightGreen = _function_bgBrightGreen
 export { bgBrightGreen }
 
-import { bgBrightYellow as _function_bgBrightYellow } from "jsr:@std/fmt@0.225.6/colors"
+import { bgBrightYellow as _function_bgBrightYellow } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to bright yellow.
  *
@@ -676,7 +676,7 @@ import { bgBrightYellow as _function_bgBrightYellow } from "jsr:@std/fmt@0.225.6
 const bgBrightYellow = _function_bgBrightYellow
 export { bgBrightYellow }
 
-import { bgBrightBlue as _function_bgBrightBlue } from "jsr:@std/fmt@0.225.6/colors"
+import { bgBrightBlue as _function_bgBrightBlue } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to bright blue.
  *
@@ -693,7 +693,7 @@ import { bgBrightBlue as _function_bgBrightBlue } from "jsr:@std/fmt@0.225.6/col
 const bgBrightBlue = _function_bgBrightBlue
 export { bgBrightBlue }
 
-import { bgBrightMagenta as _function_bgBrightMagenta } from "jsr:@std/fmt@0.225.6/colors"
+import { bgBrightMagenta as _function_bgBrightMagenta } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to bright magenta.
  *
@@ -710,7 +710,7 @@ import { bgBrightMagenta as _function_bgBrightMagenta } from "jsr:@std/fmt@0.225
 const bgBrightMagenta = _function_bgBrightMagenta
 export { bgBrightMagenta }
 
-import { bgBrightCyan as _function_bgBrightCyan } from "jsr:@std/fmt@0.225.6/colors"
+import { bgBrightCyan as _function_bgBrightCyan } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to bright cyan.
  *
@@ -727,7 +727,7 @@ import { bgBrightCyan as _function_bgBrightCyan } from "jsr:@std/fmt@0.225.6/col
 const bgBrightCyan = _function_bgBrightCyan
 export { bgBrightCyan }
 
-import { bgBrightWhite as _function_bgBrightWhite } from "jsr:@std/fmt@0.225.6/colors"
+import { bgBrightWhite as _function_bgBrightWhite } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color to bright white.
  *
@@ -744,7 +744,7 @@ import { bgBrightWhite as _function_bgBrightWhite } from "jsr:@std/fmt@0.225.6/c
 const bgBrightWhite = _function_bgBrightWhite
 export { bgBrightWhite }
 
-import { rgb8 as _function_rgb8 } from "jsr:@std/fmt@0.225.6/colors"
+import { rgb8 as _function_rgb8 } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color using paletted 8bit colors.
  * https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
@@ -763,7 +763,7 @@ import { rgb8 as _function_rgb8 } from "jsr:@std/fmt@0.225.6/colors"
 const rgb8 = _function_rgb8
 export { rgb8 }
 
-import { bgRgb8 as _function_bgRgb8 } from "jsr:@std/fmt@0.225.6/colors"
+import { bgRgb8 as _function_bgRgb8 } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color using paletted 8bit colors.
  * https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
@@ -782,7 +782,7 @@ import { bgRgb8 as _function_bgRgb8 } from "jsr:@std/fmt@0.225.6/colors"
 const bgRgb8 = _function_bgRgb8
 export { bgRgb8 }
 
-import { rgb24 as _function_rgb24 } from "jsr:@std/fmt@0.225.6/colors"
+import { rgb24 as _function_rgb24 } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set text color using 24bit rgb.
  * `color` can be a number in range `0x000000` to `0xffffff` or
@@ -802,7 +802,7 @@ import { rgb24 as _function_rgb24 } from "jsr:@std/fmt@0.225.6/colors"
 const rgb24 = _function_rgb24
 export { rgb24 }
 
-import { bgRgb24 as _function_bgRgb24 } from "jsr:@std/fmt@0.225.6/colors"
+import { bgRgb24 as _function_bgRgb24 } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Set background color using 24bit rgb.
  * `color` can be a number in range `0x000000` to `0xffffff` or
@@ -822,26 +822,7 @@ import { bgRgb24 as _function_bgRgb24 } from "jsr:@std/fmt@0.225.6/colors"
 const bgRgb24 = _function_bgRgb24
 export { bgRgb24 }
 
-import { stripColor as _function_stripColor } from "jsr:@std/fmt@0.225.6/colors"
-/**
- * Remove ANSI escape codes from the string.
- *
- * @example Usage
- * ```ts no-assert
- * import { stripColor, red } from "@std/fmt/colors";
- *
- * console.log(stripColor(red("Hello, world!")));
- * ```
- *
- * @param string The text to remove ANSI escape codes from
- * @return The text without ANSI escape codes
- *
- * @deprecated This will be removed in 1.0.0. Use {@linkcode stripAnsiCode} instead.
- */
-const stripColor = _function_stripColor
-export { stripColor }
-
-import { stripAnsiCode as _function_stripAnsiCode } from "jsr:@std/fmt@0.225.6/colors"
+import { stripAnsiCode as _function_stripAnsiCode } from "jsr:@std/fmt@1.0.0/colors"
 /**
  * Remove ANSI escape codes from the string.
  *

@@ -5,21 +5,24 @@
  * Ported from
  * {@link https://github.com/nodeca/js-yaml/commit/665aadda42349dcae869f12040d9b10ef18d12da | js-yaml v3.13.1}.
  *
- * If your YAML contains multiple documents in it, you can use {@linkcode parseAll} for
- * handling it.
+ * Use {@linkcode parseAll} for parsing multiple documents in a single YAML
+ * string.
  *
- * To handle `regexp`, and `undefined` types, use {@linkcode EXTENDED_SCHEMA}.
- * You can also use custom types by extending schemas.
+ * This package generally supports
+ * {@link https://yaml.org/spec/1.2.2/ | YAML 1.2.x} (latest) and some
+ * {@link https://yaml.org/spec/1.1/current.html | YAML 1.1} features that are
+ * commonly used in the wild.
  *
- * ## :warning: Limitations
- * - `binary` type is currently not stable.
+ * Supported YAML 1.1 features include:
+ * - {@link https://yaml.org/type/merge.html | Merge} type (`<<` symbol)
  *
- * For further examples see https://github.com/nodeca/js-yaml/tree/master/examples.
- * @example ```ts
- * import {
- *   parse,
- *   stringify,
- * } from "@std/yaml";
+ * Unsupported YAML 1.1 features include:
+ * - Yes, No, On, Off literals for bool type
+ * - Sexagesimal numbers (e.g. `3:25:45`)
+ *
+ * ```ts
+ * import { parse, stringify } from "@std/yaml";
+ * import { assertEquals } from "@std/assert";
  *
  * const data = parse(`
  * foo: bar
@@ -27,38 +30,65 @@
  *   - qux
  *   - quux
  * `);
- * console.log(data);
- * // => { foo: "bar", baz: [ "qux", "quux" ] }
+ * assertEquals(data, { foo: "bar", baz: [ "qux", "quux" ] });
  *
  * const yaml = stringify({ foo: "bar", baz: ["qux", "quux"] });
- * console.log(yaml);
- * // =>
- * // foo: bar
- * // baz:
- * //   - qux
- * //   - quux
+ * assertEquals(yaml, `foo: bar
+ * baz:
+ *   - qux
+ *   - quux
+ * `);
  * ```
+ *
+ * ## Limitations
+ * - `binary` type is currently not stable.
  *
  * @module
  */
-import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/yaml@0.224.3"
+import type { SchemaType as _typeAlias_SchemaType } from "jsr:@std/yaml@1.0.1"
 /**
- * Options for parsing YAML.
+ * Name of the schema to use.
+ *
+ * > [!NOTE]
+ * > It is recommended to use the schema that is most appropriate for your use
+ * > case. Doing so will avoid any unnecessary processing and benefit
+ * > performance.
+ *
+ * Options include:
+ * - `failsafe`: supports generic mappings, generic sequences and generic
+ * strings.
+ * - `json`: extends `failsafe` schema by also supporting nulls, booleans,
+ * integers and floats.
+ * - `core`: functionally the same as `json` schema.
+ * - `default`: extends `core` schema by also supporting binary, omap, pairs and
+ * set types.
+ * - `extended`: extends `default` schema by also supporting regular
+ * expressions and undefined values.
+ *
+ * See
+ * {@link https://yaml.org/spec/1.2.2/#chapter-10-recommended-schemas | YAML 1.2 spec}
+ * for more details on the `failsafe`, `json` and `core` schemas.
+ */
+type SchemaType = _typeAlias_SchemaType
+export type { SchemaType }
+
+import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/yaml@1.0.1"
+/**
+ * Options for {@linkcode parse}.
  */
 interface ParseOptions extends _interface_ParseOptions {}
 export type { ParseOptions }
 
-import { parse as _function_parse } from "jsr:@std/yaml@0.224.3"
+import { parse as _function_parse } from "jsr:@std/yaml@1.0.1"
 /**
- * Parse `content` as single YAML document, and return it.
+ * Parse and return a YAML string as a parsed YAML document object.
  *
- * This function does not support regexps, functions, and undefined by default.
- * This method is safe for parsing untrusted data.
+ * Note: This does not support functions. Untrusted data is safe to parse.
  *
  * @example Usage
  * ```ts
  * import { parse } from "@std/yaml/parse";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const data = parse(`
  * id: 1
@@ -76,28 +106,59 @@ import { parse as _function_parse } from "jsr:@std/yaml@0.224.3"
 const parse = _function_parse
 export { parse }
 
-import { parseAll as _function_parseAll } from "jsr:@std/yaml@0.224.3"
-/** UNDOCUMENTED */
+import { parseAll as _function_parseAll } from "jsr:@std/yaml@1.0.1"
+/**
+ * Same as {@linkcode parse}, but understands multi-document YAML sources, and
+ * returns multiple parsed YAML document objects.
+ *
+ * @example Usage
+ * ```ts
+ * import { parseAll } from "@std/yaml/parse";
+ * import { assertEquals } from "@std/assert";
+ *
+ * const data = parseAll(`
+ * ---
+ * id: 1
+ * name: Alice
+ * ---
+ * id: 2
+ * name: Bob
+ * ---
+ * id: 3
+ * name: Eve
+ * `);
+ * assertEquals(data, [ { id: 1, name: "Alice" }, { id: 2, name: "Bob" }, { id: 3, name: "Eve" }]);
+ * ```
+ *
+ * @param content YAML string to parse.
+ * @param options Parsing options.
+ * @return Array of parsed documents.
+ */
 const parseAll = _function_parseAll
 export { parseAll }
 
-import type { DumpOptions as _typeAlias_DumpOptions } from "jsr:@std/yaml@0.224.3"
+import type { StyleVariant as _typeAlias_StyleVariant } from "jsr:@std/yaml@1.0.1"
 /**
- * The option for strinigfy.
+ * The style variation for `styles` option of {@linkcode stringify}
  */
-type DumpOptions = _typeAlias_DumpOptions
-export type { DumpOptions }
+type StyleVariant = _typeAlias_StyleVariant
+export type { StyleVariant }
 
-import { stringify as _function_stringify } from "jsr:@std/yaml@0.224.3"
+import type { StringifyOptions as _typeAlias_StringifyOptions } from "jsr:@std/yaml@1.0.1"
 /**
- * Serializes `data` as a YAML document.
- *
- * You can disable exceptions by setting the skipInvalid option to true.
+ * Options for {@linkcode stringify}.
+ */
+type StringifyOptions = _typeAlias_StringifyOptions
+export type { StringifyOptions }
+
+import { stringify as _function_stringify } from "jsr:@std/yaml@1.0.1"
+/**
+ * Converts a JavaScript object or value to a YAML document string.
  *
  * @example Usage
  * ```ts
  * import { stringify } from "@std/yaml/stringify";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const data = { id: 1, name: "Alice" };
  * const yaml = stringify(data);
@@ -105,102 +166,10 @@ import { stringify as _function_stringify } from "jsr:@std/yaml@0.224.3"
  * assertEquals(yaml, "id: 1\nname: Alice\n");
  * ```
  *
+ * @throws If `data` contains invalid types.
  * @param data The data to serialize.
  * @param options The options for serialization.
  * @return A YAML string.
  */
 const stringify = _function_stringify
 export { stringify }
-
-import type { KindType as _typeAlias_KindType } from "jsr:@std/yaml@0.224.3"
-/** UNDOCUMENTED */
-type KindType = _typeAlias_KindType
-export type { KindType }
-
-import type { StyleVariant as _typeAlias_StyleVariant } from "jsr:@std/yaml@0.224.3"
-/** UNDOCUMENTED */
-type StyleVariant = _typeAlias_StyleVariant
-export type { StyleVariant }
-
-import type { RepresentFn as _typeAlias_RepresentFn } from "jsr:@std/yaml@0.224.3"
-/** UNDOCUMENTED */
-type RepresentFn = _typeAlias_RepresentFn
-export type { RepresentFn }
-
-import { Type as _class_Type } from "jsr:@std/yaml@0.224.3"
-/** UNDOCUMENTED */
-class Type extends _class_Type {}
-export { Type }
-
-import { CORE_SCHEMA as _variable_CORE_SCHEMA } from "jsr:@std/yaml@0.224.3"
-/**
- * Standard YAML's core schema.
- *
- * @see {@link http://www.yaml.org/spec/1.2/spec.html#id2804923}
- */
-const CORE_SCHEMA = _variable_CORE_SCHEMA
-export { CORE_SCHEMA }
-
-import { DEFAULT_SCHEMA as _variable_DEFAULT_SCHEMA } from "jsr:@std/yaml@0.224.3"
-/**
- * Default YAML schema. It is not described in the YAML specification.
- */
-const DEFAULT_SCHEMA = _variable_DEFAULT_SCHEMA
-export { DEFAULT_SCHEMA }
-
-import { EXTENDED_SCHEMA as _variable_EXTENDED_SCHEMA } from "jsr:@std/yaml@0.224.3"
-/**
- * *
- * Extends JS-YAML default schema with additional JavaScript types
- * It is not described in the YAML specification.
- * Functions are no longer supported for security reasons.
- *
- * @example ```ts
- * import {
- *   EXTENDED_SCHEMA,
- *   parse,
- * } from "@std/yaml";
- *
- * const data = parse(
- *   `
- *   regexp:
- *     simple: !!js/regexp foobar
- *     modifiers: !!js/regexp /foobar/mi
- *   undefined: !!js/undefined ~
- * # Disabled, see: https://github.com/denoland/deno_std/pull/1275
- * #  function: !!js/function >
- * #    function foobar() {
- * #      return 'hello world!';
- * #    }
- * `,
- *   { schema: EXTENDED_SCHEMA },
- * );
- * ```
- */
-const EXTENDED_SCHEMA = _variable_EXTENDED_SCHEMA
-export { EXTENDED_SCHEMA }
-
-import { FAILSAFE_SCHEMA as _variable_FAILSAFE_SCHEMA } from "jsr:@std/yaml@0.224.3"
-/**
- * Standard YAML's failsafe schema.
- *
- * @see {@link http://www.yaml.org/spec/1.2/spec.html#id2802346}
- */
-const FAILSAFE_SCHEMA = _variable_FAILSAFE_SCHEMA
-export { FAILSAFE_SCHEMA }
-
-import { JSON_SCHEMA as _variable_JSON_SCHEMA } from "jsr:@std/yaml@0.224.3"
-/**
- * Standard YAML's JSON schema.
- *
- * @see {@link http://www.yaml.org/spec/1.2/spec.html#id2803231}
- *
- * @deprecated This will be removed in 1.0.0. Use {@link JSON_SCHEMA} instead.
- */
-const JSON_SCHEMA = _variable_JSON_SCHEMA
-export { JSON_SCHEMA }
-
-import { replaceSchemaNameWithSchemaClass as _function_replaceSchemaNameWithSchemaClass } from "jsr:@std/yaml@0.224.3"
-/** UNDOCUMENTED */
-const replaceSchemaNameWithSchemaClass = _function_replaceSchemaNameWithSchemaClass
-export { replaceSchemaNameWithSchemaClass }

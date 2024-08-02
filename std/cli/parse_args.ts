@@ -9,14 +9,14 @@ type Negatable = string | undefined
 /** @internal */
 type Aliases<TArgNames = string, TAliasNames extends string = string> = Partial<Record<Extract<TArgNames, string>, TAliasNames | ReadonlyArray<TAliasNames>>>
 
-import type { Args as _typeAlias_Args } from "jsr:@std/cli@1.0.0/parse-args"
+import type { Args as _typeAlias_Args } from "jsr:@std/cli@1.0.2/parse-args"
 /**
  * The value returned from {@linkcode parseArgs}.
  */
 type Args<TArgs extends Record<string, unknown> = Record<string, any>, TDoubleDash extends boolean | undefined = undefined> = _typeAlias_Args<TArgs, TDoubleDash>
 export type { Args }
 
-import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/cli@1.0.0/parse-args"
+import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/cli@1.0.2/parse-args"
 /**
  * Options for {@linkcode parseArgs}.
  */
@@ -31,7 +31,7 @@ interface ParseOptions<
 > extends _interface_ParseOptions<TBooleans, TStrings, TCollectable, TNegatable, TDefault, TAliases, TDoubleDash> {}
 export type { ParseOptions }
 
-import { parseArgs as _function_parseArgs } from "jsr:@std/cli@1.0.0/parse-args"
+import { parseArgs as _function_parseArgs } from "jsr:@std/cli@1.0.2/parse-args"
 /**
  * Take a set of command line arguments, optionally with a set of options, and
  * return an object representing the flags found in the passed arguments.

@@ -1,8 +1,8 @@
-import { fn as _function_fn } from "jsr:@std/expect@0.224.5/fn"
+import { fn as _function_fn } from "jsr:@std/expect@1.0.0/fn"
 /**
  * Creates a mock function that can be used for testing and assertions.
  *
- * @param stubs - functions to be used as stubs for different calls.
+ * @param stubs Functions to be used as stubs for different calls.
  * @return A mock function that keeps track of calls and returns values based on the provided stubs.
  *
  * @example Usage

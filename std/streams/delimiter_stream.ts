@@ -1,18 +1,18 @@
-import type { DelimiterDisposition as _typeAlias_DelimiterDisposition } from "jsr:@std/streams@0.224.5/delimiter-stream"
+import type { DelimiterDisposition as _typeAlias_DelimiterDisposition } from "jsr:@std/streams@1.0.0/delimiter-stream"
 /**
  * Disposition of the delimiter for {@linkcode DelimiterStreamOptions}.
  */
 type DelimiterDisposition = _typeAlias_DelimiterDisposition
 export type { DelimiterDisposition }
 
-import type { DelimiterStreamOptions as _interface_DelimiterStreamOptions } from "jsr:@std/streams@0.224.5/delimiter-stream"
+import type { DelimiterStreamOptions as _interface_DelimiterStreamOptions } from "jsr:@std/streams@1.0.0/delimiter-stream"
 /**
  * Options for {@linkcode DelimiterStream}.
  */
 interface DelimiterStreamOptions extends _interface_DelimiterStreamOptions {}
 export type { DelimiterStreamOptions }
 
-import { DelimiterStream as _class_DelimiterStream } from "jsr:@std/streams@0.224.5/delimiter-stream"
+import { DelimiterStream as _class_DelimiterStream } from "jsr:@std/streams@1.0.0/delimiter-stream"
 /**
  * Divide a stream into chunks delimited by a given byte sequence.
  *
@@ -21,7 +21,7 @@ import { DelimiterStream as _class_DelimiterStream } from "jsr:@std/streams@0.22
  * @example Divide a CSV stream by commas, discarding the commas:
  * ```ts
  * import { DelimiterStream } from "@std/streams/delimiter-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const inputStream = ReadableStream.from(["foo,bar", ",baz"]);
  *
@@ -35,7 +35,7 @@ import { DelimiterStream as _class_DelimiterStream } from "jsr:@std/streams@0.22
  * @example Divide a stream after semi-colons, keeping the semicolons in the output:
  * ```ts
  * import { DelimiterStream } from "@std/streams/delimiter-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const inputStream = ReadableStream.from(["foo;", "bar;baz", ";"]);
  *

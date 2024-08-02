@@ -1,4 +1,4 @@
-import { toKebabCase as _function_toKebabCase } from "jsr:@std/text@1.0.0/to-kebab-case"
+import { toKebabCase as _function_toKebabCase } from "jsr:@std/text@1.0.2/to-kebab-case"
 /**
  * Converts a string into kebab-case.
  *

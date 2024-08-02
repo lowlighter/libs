@@ -1,4 +1,4 @@
-import { relative as _function_relative } from "jsr:@std/path@1.0.1/relative"
+import { relative as _function_relative } from "jsr:@std/path@1.0.2/relative"
 /**
  * Return the relative path from `from` to `to` based on current working
  * directory.

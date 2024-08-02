@@ -1,4 +1,4 @@
-import { extname as _function_extname } from "jsr:@std/path@1.0.1/windows/extname"
+import { extname as _function_extname } from "jsr:@std/path@1.0.2/windows/extname"
 /**
  * Return the extension of the `path` with leading period.
  *

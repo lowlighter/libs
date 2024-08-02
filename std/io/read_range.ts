@@ -1,11 +1,11 @@
-import type { ByteRange as _interface_ByteRange } from "jsr:@std/io@0.224.3/read-range"
+import type { ByteRange as _interface_ByteRange } from "jsr:@std/io@0.224.4/read-range"
 /**
  * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
  */
 interface ByteRange extends _interface_ByteRange {}
 export type { ByteRange }
 
-import { readRange as _function_readRange } from "jsr:@std/io@0.224.3/read-range"
+import { readRange as _function_readRange } from "jsr:@std/io@0.224.4/read-range"
 /**
  * Read a range of bytes from a file or other resource that is readable and
  * seekable.  The range start and end are inclusive of the bytes within that
@@ -26,7 +26,7 @@ import { readRange as _function_readRange } from "jsr:@std/io@0.224.3/read-range
 const readRange = _function_readRange
 export { readRange }
 
-import { readRangeSync as _function_readRangeSync } from "jsr:@std/io@0.224.3/read-range"
+import { readRangeSync as _function_readRangeSync } from "jsr:@std/io@0.224.4/read-range"
 /**
  * Read a range of bytes synchronously from a file or other resource that is
  * readable and seekable.  The range start and end are inclusive of the bytes

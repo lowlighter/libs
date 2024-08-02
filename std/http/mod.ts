@@ -7,9 +7,14 @@
  * A small program for serving local files over HTTP.
  *
  * ```sh
- * deno run --allow-net --allow-read --allow-sys jsr:@std/http/file-server
- * > HTTP server listening on http://localhost:4507/
+ * deno run --allow-net --allow-read jsr:@std/http/file-server
+ * Listening on:
+ * - Local: http://localhost:8000
  * ```
+ *
+ * When the `--allow-sys=networkInterfaces` permission is provided, the file
+ * server will also display the local area network addresses that can be used to
+ * access the server.
  *
  * ## HTTP Status Code and Status Text
  *
@@ -34,12 +39,6 @@
  * > {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Charset | clients omit and servers should ignore}
  * > therefore is not provided.
  *
- * ## Cookie maps
- *
- * An alternative to `cookie.ts` is `cookie_map.ts` which provides `CookieMap`,
- * `SecureCookieMap`, and `mergeHeaders` to manage request and response cookies
- * with the familiar `Map` interface.
- *
  * ## User agent handling
  *
  * The {@linkcode UserAgent} class provides user agent string parsing, allowing
@@ -60,7 +59,7 @@
  *
  * @module
  */
-import type { Cookie as _interface_Cookie } from "jsr:@std/http@0.224.5"
+import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.0"
 /**
  * Represents an HTTP Cookie.
  *
@@ -69,14 +68,14 @@ import type { Cookie as _interface_Cookie } from "jsr:@std/http@0.224.5"
 interface Cookie extends _interface_Cookie {}
 export type { Cookie }
 
-import { getCookies as _function_getCookies } from "jsr:@std/http@0.224.5"
+import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.0"
 /**
  * Parse cookies of a header
  *
  * @example Usage
  * ```ts
  * import { getCookies } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const headers = new Headers();
  * headers.set("Cookie", "full=of; tasty=chocolate");
@@ -91,14 +90,14 @@ import { getCookies as _function_getCookies } from "jsr:@std/http@0.224.5"
 const getCookies = _function_getCookies
 export { getCookies }
 
-import { setCookie as _function_setCookie } from "jsr:@std/http@0.224.5"
+import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.0"
 /**
  * Set the cookie header properly in the headers
  *
  * @example Usage
  * ```ts
  * import { Cookie, setCookie } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const headers = new Headers();
  * const cookie: Cookie = { name: "Space", value: "Cat" };
@@ -115,9 +114,12 @@ import { setCookie as _function_setCookie } from "jsr:@std/http@0.224.5"
 const setCookie = _function_setCookie
 export { setCookie }
 
-import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@0.224.5"
+import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.0"
 /**
- * Set the cookie header with empty value in the headers to delete it
+ * Set the cookie header with empty value in the headers to delete it.
+ *
+ * The attributes (`path`, `domain`, `secure`, `httpOnly`, `partitioned`) need
+ * to match the values when the cookie was set.
  *
  * > Note: Deleting a `Cookie` will set its expiration date before now. Forcing
  * > the browser to delete it.
@@ -125,7 +127,7 @@ import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@0.224.5"
  * @example Usage
  * ```ts
  * import { deleteCookie } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const headers = new Headers();
  * deleteCookie(headers, "deno");
@@ -142,14 +144,14 @@ import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@0.224.5"
 const deleteCookie = _function_deleteCookie
 export { deleteCookie }
 
-import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@0.224.5"
+import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.0"
 /**
  * Parse set-cookies of a header
  *
  * @example Usage
  * ```ts
  * import { getSetCookies } from "@std/http/cookie";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const headers = new Headers([
  *   ["Set-Cookie", "lulu=meow; Secure; Max-Age=3600"],
@@ -172,7 +174,7 @@ import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@0.224.5"
 const getSetCookies = _function_getSetCookies
 export { getSetCookies }
 
-import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@0.224.5"
+import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.0"
 /**
  * Just the part of {@linkcode Deno.FileInfo} that is required to calculate an `ETag`,
  * so partial or user generated file information can be passed.
@@ -180,47 +182,19 @@ import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@0.224.5"
 interface FileInfo extends _interface_FileInfo {}
 export type { FileInfo }
 
-import type { Entity as _typeAlias_Entity } from "jsr:@std/http@0.224.5"
+import type { ETagOptions as _interface_ETagOptions } from "jsr:@std/http@1.0.0"
 /**
- * Represents an entity that can be used for generating an ETag.
- */
-type Entity = _typeAlias_Entity
-export type { Entity }
-
-import type { ETagOptions as _interface_ETagOptions } from "jsr:@std/http@0.224.5"
-/**
- * Options for {@linkcode calculate}.
+ * Options for {@linkcode eTag}.
  */
 interface ETagOptions extends _interface_ETagOptions {}
 export type { ETagOptions }
 
-import { calculate as _function_calculate } from "jsr:@std/http@0.224.5"
-/**
- * Calculate an ETag for an entity. When the entity is a specific set of data
- * it will be fingerprinted as a "strong" tag, otherwise if it is just file
- * information, it will be calculated as a weak tag.
- *
- * @example Usage
- * ```ts
- * import { calculate } from "@std/http/etag";
- * import { assert } from "@std/assert/assert";
- *
- * const body = "hello deno!";
- *
- * const etag = await calculate(body);
- * assert(etag);
- *
- * const res = new Response(body, { headers: { etag } });
- * ```
- *
- * @param entity The entity to get the ETag for.
- * @param options Various additional options.
- * @return The calculated ETag.
- */
-const calculate = _function_calculate
-export { calculate }
+import { eTag as _function_eTag } from "jsr:@std/http@1.0.0"
+/** UNDOCUMENTED */
+const eTag = _function_eTag
+export { eTag }
 
-import { ifMatch as _function_ifMatch } from "jsr:@std/http@0.224.5"
+import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.0"
 /**
  * A helper function that takes the value from the `If-Match` header and a
  * calculated etag for the target. By using strong comparison, return `true` if
@@ -232,16 +206,16 @@ import { ifMatch as _function_ifMatch } from "jsr:@std/http@0.224.5"
  * @example Usage
  * ```ts no-eval
  * import {
- *   calculate,
+ *   eTag,
  *   ifMatch,
  * } from "@std/http/etag";
- * import { assert } from "@std/assert/assert"
+ * import { assert } from "@std/assert";
  *
  * const body = "hello deno!";
  *
  * Deno.serve(async (req) => {
  *   const ifMatchValue = req.headers.get("if-match");
- *   const etag = await calculate(body);
+ *   const etag = await eTag(body);
  *   assert(etag);
  *   if (!ifMatchValue || ifMatch(ifMatchValue, etag)) {
  *     return new Response(body, { status: 200, headers: { etag } });
@@ -258,7 +232,7 @@ import { ifMatch as _function_ifMatch } from "jsr:@std/http@0.224.5"
 const ifMatch = _function_ifMatch
 export { ifMatch }
 
-import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@0.224.5"
+import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.0"
 /**
  * A helper function that takes the value from the `If-None-Match` header and
  * a calculated etag for the target entity and returns `false` if the etag for
@@ -270,16 +244,16 @@ import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@0.224.5"
  * @example Usage
  * ```ts no-eval
  * import {
- *   calculate,
+ *   eTag,
  *   ifNoneMatch,
  * } from "@std/http/etag";
- * import { assert } from "@std/assert/assert"
+ * import { assert } from "@std/assert";
  *
  * const body = "hello deno!";
  *
  * Deno.serve(async (req) => {
  *   const ifNoneMatchValue = req.headers.get("if-none-match");
- *   const etag = await calculate(body);
+ *   const etag = await eTag(body);
  *   assert(etag);
  *   if (!ifNoneMatch(ifNoneMatchValue, etag)) {
  *     return new Response(null, { status: 304, headers: { etag } });
@@ -296,7 +270,7 @@ import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@0.224.5"
 const ifNoneMatch = _function_ifNoneMatch
 export { ifNoneMatch }
 
-import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@0.224.5"
+import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@1.0.0"
 /**
  * Contains the {@linkcode STATUS_CODE} object which contains standard HTTP
  * status codes and provides several type guards for handling status codes
@@ -329,77 +303,77 @@ import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@0.224.5"
 const STATUS_CODE = _variable_STATUS_CODE
 export { STATUS_CODE }
 
-import type { StatusCode as _typeAlias_StatusCode } from "jsr:@std/http@0.224.5"
+import type { StatusCode as _typeAlias_StatusCode } from "jsr:@std/http@1.0.0"
 /**
  * An HTTP status code.
  */
 type StatusCode = _typeAlias_StatusCode
 export type { StatusCode }
 
-import { STATUS_TEXT as _variable_STATUS_TEXT } from "jsr:@std/http@0.224.5"
+import { STATUS_TEXT as _variable_STATUS_TEXT } from "jsr:@std/http@1.0.0"
 /**
  * A record of all the status codes text.
  */
 const STATUS_TEXT = _variable_STATUS_TEXT
 export { STATUS_TEXT }
 
-import type { StatusText as _typeAlias_StatusText } from "jsr:@std/http@0.224.5"
+import type { StatusText as _typeAlias_StatusText } from "jsr:@std/http@1.0.0"
 /**
  * An HTTP status text.
  */
 type StatusText = _typeAlias_StatusText
 export type { StatusText }
 
-import type { InformationalStatus as _typeAlias_InformationalStatus } from "jsr:@std/http@0.224.5"
+import type { InformationalStatus as _typeAlias_InformationalStatus } from "jsr:@std/http@1.0.0"
 /**
  * An HTTP status that is a informational (1XX).
  */
 type InformationalStatus = _typeAlias_InformationalStatus
 export type { InformationalStatus }
 
-import type { SuccessfulStatus as _typeAlias_SuccessfulStatus } from "jsr:@std/http@0.224.5"
+import type { SuccessfulStatus as _typeAlias_SuccessfulStatus } from "jsr:@std/http@1.0.0"
 /**
  * An HTTP status that is a success (2XX).
  */
 type SuccessfulStatus = _typeAlias_SuccessfulStatus
 export type { SuccessfulStatus }
 
-import type { RedirectStatus as _typeAlias_RedirectStatus } from "jsr:@std/http@0.224.5"
+import type { RedirectStatus as _typeAlias_RedirectStatus } from "jsr:@std/http@1.0.0"
 /**
  * An HTTP status that is a redirect (3XX).
  */
 type RedirectStatus = _typeAlias_RedirectStatus
 export type { RedirectStatus }
 
-import type { ClientErrorStatus as _typeAlias_ClientErrorStatus } from "jsr:@std/http@0.224.5"
+import type { ClientErrorStatus as _typeAlias_ClientErrorStatus } from "jsr:@std/http@1.0.0"
 /**
  * An HTTP status that is a client error (4XX).
  */
 type ClientErrorStatus = _typeAlias_ClientErrorStatus
 export type { ClientErrorStatus }
 
-import type { ServerErrorStatus as _typeAlias_ServerErrorStatus } from "jsr:@std/http@0.224.5"
+import type { ServerErrorStatus as _typeAlias_ServerErrorStatus } from "jsr:@std/http@1.0.0"
 /**
  * An HTTP status that is a server error (5XX).
  */
 type ServerErrorStatus = _typeAlias_ServerErrorStatus
 export type { ServerErrorStatus }
 
-import type { ErrorStatus as _typeAlias_ErrorStatus } from "jsr:@std/http@0.224.5"
+import type { ErrorStatus as _typeAlias_ErrorStatus } from "jsr:@std/http@1.0.0"
 /**
  * An HTTP status that is an error (4XX and 5XX).
  */
 type ErrorStatus = _typeAlias_ErrorStatus
 export type { ErrorStatus }
 
-import { isStatus as _function_isStatus } from "jsr:@std/http@0.224.5"
+import { isStatus as _function_isStatus } from "jsr:@std/http@1.0.0"
 /**
  * Returns whether the provided number is a valid HTTP status code.
  *
  * @example Usage
  * ```ts
  * import { isStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isStatus(404));
  * ```
@@ -410,14 +384,14 @@ import { isStatus as _function_isStatus } from "jsr:@std/http@0.224.5"
 const isStatus = _function_isStatus
 export { isStatus }
 
-import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@std/http@0.224.5"
+import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@std/http@1.0.0"
 /**
  * A type guard that determines if the status code is informational.
  *
  * @example Usage
  * ```ts
  * import { isInformationalStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isInformationalStatus(100));
  * ```
@@ -428,14 +402,14 @@ import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@s
 const isInformationalStatus = _function_isInformationalStatus
 export { isInformationalStatus }
 
-import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/http@0.224.5"
+import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/http@1.0.0"
 /**
  * A type guard that determines if the status code is successful.
  *
  * @example Usage
  * ```ts
  * import { isSuccessfulStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isSuccessfulStatus(200));
  * ```
@@ -446,14 +420,14 @@ import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/htt
 const isSuccessfulStatus = _function_isSuccessfulStatus
 export { isSuccessfulStatus }
 
-import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@0.224.5"
+import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@1.0.0"
 /**
  * A type guard that determines if the status code is a redirection.
  *
  * @example Usage
  * ```ts
  * import { isRedirectStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isRedirectStatus(302));
  * ```
@@ -464,14 +438,14 @@ import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@0.
 const isRedirectStatus = _function_isRedirectStatus
 export { isRedirectStatus }
 
-import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/http@0.224.5"
+import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/http@1.0.0"
 /**
  * A type guard that determines if the status code is a client error.
  *
  * @example Usage
  * ```ts
  * import { isClientErrorStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isClientErrorStatus(404));
  * ```
@@ -482,14 +456,14 @@ import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/h
 const isClientErrorStatus = _function_isClientErrorStatus
 export { isClientErrorStatus }
 
-import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/http@0.224.5"
+import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/http@1.0.0"
 /**
  * A type guard that determines if the status code is a server error.
  *
  * @example Usage
  * ```ts
  * import { isServerErrorStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isServerErrorStatus(502));
  * ```
@@ -500,14 +474,14 @@ import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/h
 const isServerErrorStatus = _function_isServerErrorStatus
 export { isServerErrorStatus }
 
-import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@0.224.5"
+import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@1.0.0"
 /**
  * A type guard that determines if the status code is an error.
  *
  * @example Usage
  * ```ts
  * import { isErrorStatus } from "@std/http/status";
- * import { assert } from "@std/assert/assert";
+ * import { assert } from "@std/assert";
  *
  * assert(isErrorStatus(502));
  * ```
@@ -518,265 +492,33 @@ import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@0.224.5"
 const isErrorStatus = _function_isErrorStatus
 export { isErrorStatus }
 
-import type { Request as _typeAlias_Request } from "jsr:@std/http@0.224.5"
-/**
- * Loose copy of {@linkcode Request}.
- */
-type Request = _typeAlias_Request
-export type { Request }
-
-import { accepts as _function_accepts } from "jsr:@std/http@0.224.5"
+import { accepts as _function_accepts } from "jsr:@std/http@1.0.0"
 /** UNDOCUMENTED */
 const accepts = _function_accepts
 export { accepts }
 
-import { acceptsEncodings as _function_acceptsEncodings } from "jsr:@std/http@0.224.5"
+import { acceptsEncodings as _function_acceptsEncodings } from "jsr:@std/http@1.0.0"
 /** UNDOCUMENTED */
 const acceptsEncodings = _function_acceptsEncodings
 export { acceptsEncodings }
 
-import { acceptsLanguages as _function_acceptsLanguages } from "jsr:@std/http@0.224.5"
+import { acceptsLanguages as _function_acceptsLanguages } from "jsr:@std/http@1.0.0"
 /** UNDOCUMENTED */
 const acceptsLanguages = _function_acceptsLanguages
 export { acceptsLanguages }
 
-import type { ConnInfo as _interface_ConnInfo } from "jsr:@std/http@0.224.5"
-/**
- * Information about the connection a request arrived on.
- *
- * @deprecated This will be removed in 1.0.0. Use {@linkcode Deno.ServeHandlerInfo} instead.
- */
-interface ConnInfo extends _interface_ConnInfo {}
-export type { ConnInfo }
-
-import type { Handler as _typeAlias_Handler } from "jsr:@std/http@0.224.5"
-/**
- * A handler for HTTP requests. Consumes a request and connection information
- * and returns a response.
- *
- * If a handler throws, the server calling the handler will assume the impact
- * of the error is isolated to the individual request. It will catch the error
- * and close the underlying connection.
- *
- * @deprecated This will be removed in 1.0.0. Use {@linkcode Deno.ServeHandler} instead.
- */
-type Handler = _typeAlias_Handler
-export type { Handler }
-
-import type { ServerInit as _interface_ServerInit } from "jsr:@std/http@0.224.5"
-/**
- * Options for running an HTTP server.
- *
- * @deprecated This will be removed in 1.0.0. Use {@linkcode Deno.ServeInit} instead.
- */
-interface ServerInit extends _interface_ServerInit {}
-export type { ServerInit }
-
-import { Server as _class_Server } from "jsr:@std/http@0.224.5"
-/**
- * Used to construct an HTTP server.
- *
- * @deprecated This will be removed in 1.0.0. Use {@linkcode Deno.serve} instead.
- *
- * @example Usage
- * ```ts no-eval
- * import { Server } from "@std/http/server";
- *
- * const port = 4505;
- * const handler = (request: Request) => {
- *   const body = `Your user-agent is:\n\n${request.headers.get(
- *    "user-agent",
- *   ) ?? "Unknown"}`;
- *
- *   return new Response(body, { status: 200 });
- * };
- *
- * const server = new Server({ port, handler });
- * ```
- */
-class Server extends _class_Server {}
-export { Server }
-
-import type { ServeInit as _interface_ServeInit } from "jsr:@std/http@0.224.5"
-/**
- * Additional serve options.
- *
- * @deprecated This will be removed in 1.0.0. Use {@linkcode Deno.ServeInit} instead.
- */
-interface ServeInit extends _interface_ServeInit {}
-export type { ServeInit }
-
-import type { ServeListenerOptions as _interface_ServeListenerOptions } from "jsr:@std/http@0.224.5"
-/**
- * Additional serve listener options.
- *
- * @deprecated This will be removed in 1.0.0. Use {@linkcode Deno.ServeOptions} instead.
- */
-interface ServeListenerOptions extends _interface_ServeListenerOptions {}
-export type { ServeListenerOptions }
-
-import { serveListener as _function_serveListener } from "jsr:@std/http@0.224.5"
-/**
- * Constructs a server, accepts incoming connections on the given listener, and
- * handles requests on these connections with the given handler.
- *
- * @example Usage
- * ```ts no-eval
- * import { serveListener } from "@std/http/server";
- *
- * const listener = Deno.listen({ port: 4505 });
- *
- * console.log("server listening on http://localhost:4505");
- *
- * await serveListener(listener, (request) => {
- *   const body = `Your user-agent is:\n\n${request.headers.get(
- *     "user-agent",
- *   ) ?? "Unknown"}`;
- *
- *   return new Response(body, { status: 200 });
- * });
- * ```
- *
- * @param listener The listener to accept connections from.
- * @param handler The handler for individual HTTP requests.
- * @param options Optional serve options.
- *
- * @deprecated This will be removed in 1.0.0. Use {@linkcode Deno.serve} instead.
- */
-const serveListener = _function_serveListener
-export { serveListener }
-
-import { serve as _function_serve } from "jsr:@std/http@0.224.5"
-/**
- * Serves HTTP requests with the given handler.
- *
- * You can specify an object with a port and hostname option, which is the
- * address to listen on. The default is port 8000 on hostname "0.0.0.0".
- *
- * @example The below example serves with the port 8000.
- * ```ts no-eval
- * import { serve } from "@std/http/server";
- * serve((_req) => new Response("Hello, world"));
- * ```
- *
- * @example You can change the listening address by the `hostname` and `port` options.
- * The below example serves with the port 3000.
- *
- * ```ts no-eval
- * import { serve } from "@std/http/server";
- * serve((_req) => new Response("Hello, world"), { port: 3000 });
- * ```
- *
- * @example `serve` function prints the message `Listening on http://<hostname>:<port>/`
- * on start-up by default. If you like to change this message, you can specify
- * `onListen` option to override it.
- *
- * ```ts no-eval
- * import { serve } from "@std/http/server";
- * serve((_req) => new Response("Hello, world"), {
- *   onListen({ port, hostname }) {
- *     console.log(`Server started at http://${hostname}:${port}`);
- *     // ... more info specific to your server ..
- *   },
- * });
- * ```
- *
- * @example You can also specify `undefined` or `null` to stop the logging behavior.
- *
- * ```ts no-eval
- * import { serve } from "@std/http/server";
- * serve((_req) => new Response("Hello, world"), { onListen: undefined });
- * ```
- *
- * @param handler The handler for individual HTTP requests.
- * @param options The options. See `ServeInit` documentation for details.
- *
- * @deprecated This will be removed in 1.0.0. Use {@linkcode Deno.serve} instead.
- */
-const serve = _function_serve
-export { serve }
-
-import type { ServeTlsInit as _interface_ServeTlsInit } from "jsr:@std/http@0.224.5"
-/**
- * Initialization parameters for {@linkcode serveTls}.
- *
- * @deprecated This will be removed in 1.0.0. Use {@linkcode Deno.ServeTlsOptions} instead.
- */
-interface ServeTlsInit extends _interface_ServeTlsInit {}
-export type { ServeTlsInit }
-
-import { serveTls as _function_serveTls } from "jsr:@std/http@0.224.5"
-/**
- * Serves HTTPS requests with the given handler.
- *
- * You must specify `key` or `keyFile` and `cert` or `certFile` options.
- *
- * You can specify an object with a port and hostname option, which is the
- * address to listen on. The default is port 8443 on hostname "0.0.0.0".
- *
- * @example The below example serves with the default port 8443.
- *
- * ```ts no-eval
- * import { serveTls } from "@std/http/server";
- *
- * const cert = "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n";
- * const key = "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n";
- * serveTls((_req) => new Response("Hello, world"), { cert, key });
- *
- * // Or
- *
- * const certFile = "/path/to/certFile.crt";
- * const keyFile = "/path/to/keyFile.key";
- * serveTls((_req) => new Response("Hello, world"), { certFile, keyFile });
- * ```
- *
- * @example `serveTls` function prints the message `Listening on https://<hostname>:<port>/`
- * on start-up by default. If you like to change this message, you can specify
- * `onListen` option to override it.
- *
- * ```ts no-eval
- * import { serveTls } from "@std/http/server";
- * const certFile = "/path/to/certFile.crt";
- * const keyFile = "/path/to/keyFile.key";
- * serveTls((_req) => new Response("Hello, world"), {
- *   certFile,
- *   keyFile,
- *   onListen({ port, hostname }) {
- *     console.log(`Server started at https://${hostname}:${port}`);
- *     // ... more info specific to your server ..
- *   },
- * });
- * ```
- *
- * @example You can also specify `undefined` or `null` to stop the logging behavior.
- *
- * ```ts no-eval
- * import { serveTls } from "@std/http/server";
- * const certFile = "/path/to/certFile.crt";
- * const keyFile = "/path/to/keyFile.key";
- * serveTls((_req) => new Response("Hello, world"), {
- *   certFile,
- *   keyFile,
- *   onListen: undefined,
- * });
- * ```
- *
- * @param handler The handler for individual HTTPS requests.
- * @param options The options. See `ServeTlsInit` documentation for details.
- * @return
- * @deprecated This will be removed in 1.0.0. Use {@linkcode Deno.serve} instead.
- */
-const serveTls = _function_serveTls
-export { serveTls }
-
-import { signCookie as _function_signCookie } from "jsr:@std/http@0.224.5"
+import { signCookie as _function_signCookie } from "jsr:@std/http@1.0.0"
 /**
  * Returns a promise with the signed cookie value from the given cryptographic
  * key.
  *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
  * @example Usage
  * ```ts no-eval no-assert
- * import { signCookie } from "@std/http/unstable-signed-cookie";
+ * import { signCookie } from "@std/http/signed-cookie";
  * import { setCookie } from "@std/http/cookie";
  *
  * const key = await crypto.subtle.generateKey(
@@ -802,13 +544,17 @@ import { signCookie as _function_signCookie } from "jsr:@std/http@0.224.5"
 const signCookie = _function_signCookie
 export { signCookie }
 
-import { verifyCookie as _function_verifyCookie } from "jsr:@std/http@0.224.5"
+import { verifySignedCookie as _function_verifySignedCookie } from "jsr:@std/http@1.0.0"
 /**
  * Returns a promise of a boolean indicating whether the signed cookie is valid.
  *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
  * @example Usage
  * ```ts no-eval no-assert
- * import { verifyCookie } from "@std/http/unstable-signed-cookie";
+ * import { verifySignedCookie } from "@std/http/signed-cookie";
  * import { getCookies } from "@std/http/cookie";
  *
  * const key = await crypto.subtle.generateKey(
@@ -822,25 +568,29 @@ import { verifyCookie as _function_verifyCookie } from "jsr:@std/http@0.224.5"
  * });
  * const signedCookie = getCookies(headers)["location"];
  * if (signedCookie === undefined) throw new Error("Cookie not found");
- * await verifyCookie(signedCookie, key);
+ * await verifySignedCookie(signedCookie, key);
  * ```
  *
  * @param signedCookie The signed cookie to verify.
  * @param key The cryptographic key to verify the cookie with.
  * @return Whether or not the cookie is valid.
  */
-const verifyCookie = _function_verifyCookie
-export { verifyCookie }
+const verifySignedCookie = _function_verifySignedCookie
+export { verifySignedCookie }
 
-import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@0.224.5"
+import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@1.0.0"
 /**
  * Parses a signed cookie to get its value.
  *
- * Important: always verify the cookie using {@linkcode verifyCookie} first.
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
  *
+ * Important: always verify the cookie using {@linkcode verifySignedCookie} first.
+ *
+ * @experimental
  * @example Usage
  * ```ts no-eval no-assert
- * import { verifyCookie, parseSignedCookie } from "@std/http/unstable-signed-cookie";
+ * import { verifySignedCookie, parseSignedCookie } from "@std/http/signed-cookie";
  * import { getCookies } from "@std/http/cookie";
  *
  * const key = await crypto.subtle.generateKey(
@@ -854,7 +604,7 @@ import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@
  * });
  * const signedCookie = getCookies(headers)["location"];
  * if (signedCookie === undefined) throw new Error("Cookie not found");
- * await verifyCookie(signedCookie, key);
+ * await verifySignedCookie(signedCookie, key);
  * const cookie = parseSignedCookie(signedCookie);
  * ```
  *
@@ -864,7 +614,7 @@ import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@
 const parseSignedCookie = _function_parseSignedCookie
 export { parseSignedCookie }
 
-import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from "jsr:@std/http@0.224.5"
+import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from "jsr:@std/http@1.0.0"
 /**
  * Represents a message in the Server-Sent Event (SSE) protocol.
  *
@@ -873,7 +623,7 @@ import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from
 interface ServerSentEventMessage extends _interface_ServerSentEventMessage {}
 export type { ServerSentEventMessage }
 
-import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/http@0.224.5"
+import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/http@1.0.0"
 /**
  * Transforms server-sent message objects into strings for the client.
  *
@@ -900,42 +650,42 @@ import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/
 class ServerSentEventStream extends _class_ServerSentEventStream {}
 export { ServerSentEventStream }
 
-import type { Browser as _interface_Browser } from "jsr:@std/http@0.224.5"
+import type { Browser as _interface_Browser } from "jsr:@std/http@1.0.0"
 /**
  * The browser as described by a user agent string.
  */
 interface Browser extends _interface_Browser {}
 export type { Browser }
 
-import type { Device as _interface_Device } from "jsr:@std/http@0.224.5"
+import type { Device as _interface_Device } from "jsr:@std/http@1.0.0"
 /**
  * The device as described by a user agent string.
  */
 interface Device extends _interface_Device {}
 export type { Device }
 
-import type { Engine as _interface_Engine } from "jsr:@std/http@0.224.5"
+import type { Engine as _interface_Engine } from "jsr:@std/http@1.0.0"
 /**
  * The browser engine as described by a user agent string.
  */
 interface Engine extends _interface_Engine {}
 export type { Engine }
 
-import type { Os as _interface_Os } from "jsr:@std/http@0.224.5"
+import type { Os as _interface_Os } from "jsr:@std/http@1.0.0"
 /**
  * The OS as described by a user agent string.
  */
 interface Os extends _interface_Os {}
 export type { Os }
 
-import type { Cpu as _interface_Cpu } from "jsr:@std/http@0.224.5"
+import type { Cpu as _interface_Cpu } from "jsr:@std/http@1.0.0"
 /**
  * The CPU information as described by a user agent string.
  */
 interface Cpu extends _interface_Cpu {}
 export type { Cpu }
 
-import { UserAgent as _class_UserAgent } from "jsr:@std/http@0.224.5"
+import { UserAgent as _class_UserAgent } from "jsr:@std/http@1.0.0"
 /**
  * A representation of user agent string, which can be used to determine
  * environmental information represented by the string. All properties are
@@ -955,16 +705,16 @@ import { UserAgent as _class_UserAgent } from "jsr:@std/http@0.224.5"
 class UserAgent extends _class_UserAgent {}
 export { UserAgent }
 
-import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@0.224.5"
+import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@1.0.0"
 /**
- * Interface for serveFile options.
+ * Options for {@linkcode serveFile}.
  */
 interface ServeFileOptions extends _interface_ServeFileOptions {}
 export type { ServeFileOptions }
 
-import { serveFile as _function_serveFile } from "jsr:@std/http@0.224.5"
+import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.0"
 /**
- * Returns an HTTP Response with the requested file as the body.
+ * Resolves a {@linkcode Response} with the requested file as the body.
  *
  * @example Usage
  * ```ts no-eval
@@ -977,19 +727,20 @@ import { serveFile as _function_serveFile } from "jsr:@std/http@0.224.5"
  *
  * @param req The server request context used to cleanup the file handle.
  * @param filePath Path of the file to serve.
+ * @param options Additional options.
  * @return A response for the request.
  */
 const serveFile = _function_serveFile
 export { serveFile }
 
-import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@0.224.5"
+import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@1.0.0"
 /**
  * Interface for serveDir options.
  */
 interface ServeDirOptions extends _interface_ServeDirOptions {}
 export type { ServeDirOptions }
 
-import { serveDir as _function_serveDir } from "jsr:@std/http@0.224.5"
+import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.0"
 /**
  * Serves the files under the given directory root (opts.fsRoot).
  *
@@ -1009,19 +760,18 @@ import { serveDir as _function_serveDir } from "jsr:@std/http@0.224.5"
  * });
  * ```
  *
- * @example Optionally you can pass `urlRoot` option. If it's specified that part is stripped from the beginning of the requested pathname.
+ * @example Changing the URL root
+ *
+ * Requests to `/static/path/to/file` will be served from `./public/path/to/file`.
  *
  * ```ts no-eval
  * import { serveDir } from "@std/http/file-server";
  *
- * // ...
- * serveDir(new Request("http://localhost/static/path/to/file"), {
+ * Deno.serve((req) => serveDir(req, {
  *   fsRoot: "public",
  *   urlRoot: "static",
- * });
+ * }));
  * ```
- *
- * The above example serves `./public/path/to/file` for the request to `/static/path/to/file`.
  *
  * @param req The request to handle
  * @param opts Additional options.

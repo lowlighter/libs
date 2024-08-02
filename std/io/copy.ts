@@ -1,4 +1,4 @@
-import { copy as _function_copy } from "jsr:@std/io@0.224.3/copy"
+import { copy as _function_copy } from "jsr:@std/io@0.224.4/copy"
 /**
  * Copies from `src` to `dst` until either EOF (`null`) is read from `src` or
  * an error occurs. It resolves to the number of bytes copied or rejects with
@@ -16,6 +16,7 @@ import { copy as _function_copy } from "jsr:@std/io@0.224.3/copy"
  * @param src The source to copy from
  * @param dst The destination to copy to
  * @param options Can be used to tune size of the buffer. Default size is 32kB
+ * @return Number of bytes copied
  */
 const copy = _function_copy
 export { copy }

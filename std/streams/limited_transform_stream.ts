@@ -1,11 +1,11 @@
-import type { LimitedTransformStreamOptions as _interface_LimitedTransformStreamOptions } from "jsr:@std/streams@0.224.5/limited-transform-stream"
+import type { LimitedTransformStreamOptions as _interface_LimitedTransformStreamOptions } from "jsr:@std/streams@1.0.0/limited-transform-stream"
 /**
  * Options for {@linkcode LimitedTransformStream}
  */
 interface LimitedTransformStreamOptions extends _interface_LimitedTransformStreamOptions {}
 export type { LimitedTransformStreamOptions }
 
-import { LimitedTransformStream as _class_LimitedTransformStream } from "jsr:@std/streams@0.224.5/limited-transform-stream"
+import { LimitedTransformStream as _class_LimitedTransformStream } from "jsr:@std/streams@1.0.0/limited-transform-stream"
 /**
  * A {@linkcode TransformStream} that will only read & enqueue `size` amount of
  * chunks.
@@ -19,7 +19,7 @@ import { LimitedTransformStream as _class_LimitedTransformStream } from "jsr:@st
  * @example `size` is equal to the total number of chunks
  * ```ts
  * import { LimitedTransformStream } from "@std/streams/limited-transform-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(
@@ -36,7 +36,7 @@ import { LimitedTransformStream as _class_LimitedTransformStream } from "jsr:@st
  * @example `size` is less than the total number of chunks
  * ```ts
  * import { LimitedTransformStream } from "@std/streams/limited-transform-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(
@@ -50,10 +50,14 @@ import { LimitedTransformStream as _class_LimitedTransformStream } from "jsr:@st
  * );
  * ```
  *
- * @example error: true
+ * @example Throw a {@linkcode RangeError} when the total number of chunks is
+ * about to exceed the specified limit
+ *
+ * Do this by setting `options.error` to `true`.
+ *
  * ```ts
  * import { LimitedTransformStream } from "@std/streams/limited-transform-stream";
- * import { assertRejects } from "@std/assert/assert-rejects";
+ * import { assertRejects } from "@std/assert";
  *
  * const stream = ReadableStream.from(["1234", "5678"]);
  * const transformed = stream.pipeThrough(

@@ -1,4 +1,4 @@
-import { isRange as _function_isRange } from "jsr:@std/semver@0.224.3/is-range"
+import { isRange as _function_isRange } from "jsr:@std/semver@1.0.0/is-range"
 /**
  * Does a deep check on the object to determine if its a valid range.
  *
@@ -10,11 +10,11 @@ import { isRange as _function_isRange } from "jsr:@std/semver@0.224.3/is-range"
  * @example Usage
  * ```ts
  * import { isRange } from "@std/semver/is-range";
- * import { assert, assertFalse } from "@std/assert";
+ * import { assert } from "@std/assert";
  *
  * const range = [[{ major: 1, minor: 2, patch: 3 }]];
  * assert(isRange(range));
- * assertFalse(isRange({}));
+ * assert(!isRange({}));
  * ```
  * @param value The value to check if its a valid Range
  * @return True if its a valid Range otherwise false.

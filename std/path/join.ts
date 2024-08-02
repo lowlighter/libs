@@ -1,4 +1,4 @@
-import { join as _function_join } from "jsr:@std/path@1.0.1/join"
+import { join as _function_join } from "jsr:@std/path@1.0.2/join"
 /**
  * Joins a sequence of paths, then normalizes the resulting path.
  *

@@ -1,18 +1,18 @@
-import { LF as _variable_LF } from "jsr:@std/fs@0.229.3/eol"
+import { LF as _variable_LF } from "jsr:@std/fs@1.0.1/eol"
 /**
  * End-of-line character for POSIX platforms such as macOS and Linux.
  */
 const LF = _variable_LF
 export { LF }
 
-import { CRLF as _variable_CRLF } from "jsr:@std/fs@0.229.3/eol"
+import { CRLF as _variable_CRLF } from "jsr:@std/fs@1.0.1/eol"
 /**
  * End-of-line character for Windows platforms.
  */
 const CRLF = _variable_CRLF
 export { CRLF }
 
-import { EOL as _variable_EOL } from "jsr:@std/fs@0.229.3/eol"
+import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.1/eol"
 /**
  * End-of-line character evaluated for the current platform.
  *
@@ -26,7 +26,7 @@ import { EOL as _variable_EOL } from "jsr:@std/fs@0.229.3/eol"
 const EOL = _variable_EOL
 export { EOL }
 
-import { detect as _function_detect } from "jsr:@std/fs@0.229.3/eol"
+import { detect as _function_detect } from "jsr:@std/fs@1.0.1/eol"
 /**
  * Returns the detected EOL character(s) detected in the input string. If no EOL
  * character is detected, `null` is returned.
@@ -48,7 +48,7 @@ import { detect as _function_detect } from "jsr:@std/fs@0.229.3/eol"
 const detect = _function_detect
 export { detect }
 
-import { format as _function_format } from "jsr:@std/fs@0.229.3/eol"
+import { format as _function_format } from "jsr:@std/fs@1.0.1/eol"
 /**
  * Normalize the input string to the targeted EOL.
  *

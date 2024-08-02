@@ -1,11 +1,15 @@
-import { signCookie as _function_signCookie } from "jsr:@std/http@0.224.5/unstable-signed-cookie"
+import { signCookie as _function_signCookie } from "jsr:@std/http@1.0.0/signed-cookie"
 /**
  * Returns a promise with the signed cookie value from the given cryptographic
  * key.
  *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
  * @example Usage
  * ```ts no-eval no-assert
- * import { signCookie } from "@std/http/unstable-signed-cookie";
+ * import { signCookie } from "@std/http/signed-cookie";
  * import { setCookie } from "@std/http/cookie";
  *
  * const key = await crypto.subtle.generateKey(
@@ -31,13 +35,17 @@ import { signCookie as _function_signCookie } from "jsr:@std/http@0.224.5/unstab
 const signCookie = _function_signCookie
 export { signCookie }
 
-import { verifyCookie as _function_verifyCookie } from "jsr:@std/http@0.224.5/unstable-signed-cookie"
+import { verifySignedCookie as _function_verifySignedCookie } from "jsr:@std/http@1.0.0/signed-cookie"
 /**
  * Returns a promise of a boolean indicating whether the signed cookie is valid.
  *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
  * @example Usage
  * ```ts no-eval no-assert
- * import { verifyCookie } from "@std/http/unstable-signed-cookie";
+ * import { verifySignedCookie } from "@std/http/signed-cookie";
  * import { getCookies } from "@std/http/cookie";
  *
  * const key = await crypto.subtle.generateKey(
@@ -51,25 +59,29 @@ import { verifyCookie as _function_verifyCookie } from "jsr:@std/http@0.224.5/un
  * });
  * const signedCookie = getCookies(headers)["location"];
  * if (signedCookie === undefined) throw new Error("Cookie not found");
- * await verifyCookie(signedCookie, key);
+ * await verifySignedCookie(signedCookie, key);
  * ```
  *
  * @param signedCookie The signed cookie to verify.
  * @param key The cryptographic key to verify the cookie with.
  * @return Whether or not the cookie is valid.
  */
-const verifyCookie = _function_verifyCookie
-export { verifyCookie }
+const verifySignedCookie = _function_verifySignedCookie
+export { verifySignedCookie }
 
-import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@0.224.5/unstable-signed-cookie"
+import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@1.0.0/signed-cookie"
 /**
  * Parses a signed cookie to get its value.
  *
- * Important: always verify the cookie using {@linkcode verifyCookie} first.
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
  *
+ * Important: always verify the cookie using {@linkcode verifySignedCookie} first.
+ *
+ * @experimental
  * @example Usage
  * ```ts no-eval no-assert
- * import { verifyCookie, parseSignedCookie } from "@std/http/unstable-signed-cookie";
+ * import { verifySignedCookie, parseSignedCookie } from "@std/http/signed-cookie";
  * import { getCookies } from "@std/http/cookie";
  *
  * const key = await crypto.subtle.generateKey(
@@ -83,7 +95,7 @@ import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@
  * });
  * const signedCookie = getCookies(headers)["location"];
  * if (signedCookie === undefined) throw new Error("Cookie not found");
- * await verifyCookie(signedCookie, key);
+ * await verifySignedCookie(signedCookie, key);
  * const cookie = parseSignedCookie(signedCookie);
  * ```
  *

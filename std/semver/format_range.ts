@@ -1,6 +1,7 @@
-import { formatRange as _function_formatRange } from "jsr:@std/semver@0.224.3/format-range"
+import { formatRange as _function_formatRange } from "jsr:@std/semver@1.0.0/format-range"
 /**
- * Formats the range into a string
+ * Formats the SemVerrange into a string.
+ *
  * @example Usage
  * ```ts
  * import { formatRange, parseRange } from "@std/semver";
@@ -11,7 +12,7 @@ import { formatRange as _function_formatRange } from "jsr:@std/semver@0.224.3/fo
  * ```
  *
  * @param range The range to format
- * @return A string representation of the range
+ * @return A string representation of the SemVer range
  */
 const formatRange = _function_formatRange
 export { formatRange }

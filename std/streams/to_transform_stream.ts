@@ -1,4 +1,4 @@
-import { toTransformStream as _function_toTransformStream } from "jsr:@std/streams@0.224.5/to-transform-stream"
+import { toTransformStream as _function_toTransformStream } from "jsr:@std/streams@1.0.0/to-transform-stream"
 /**
  * Convert the generator function into a {@linkcode TransformStream}.
  *
@@ -12,7 +12,7 @@ import { toTransformStream as _function_toTransformStream } from "jsr:@std/strea
  * @example Build a transform stream that multiplies each value by 100
  * ```ts
  * import { toTransformStream } from "@std/streams/to-transform-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream = ReadableStream.from([0, 1, 2])
  *   .pipeThrough(toTransformStream(async function* (src) {
@@ -31,7 +31,7 @@ import { toTransformStream as _function_toTransformStream } from "jsr:@std/strea
  * ```ts
  * import { TextLineStream } from "@std/streams/text-line-stream";
  * import { toTransformStream } from "@std/streams/to-transform-stream";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream = ReadableStream.from([
  *   '{"name": "Alice", "age": ',

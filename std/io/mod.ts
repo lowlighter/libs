@@ -6,21 +6,21 @@
  *
  * @module
  */
-import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.3"
+import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.4"
 /**
  * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
  */
 class BufferFullError extends _class_BufferFullError {}
 export { BufferFullError }
 
-import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.3"
+import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.4"
 /**
  * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
  */
 class PartialReadError extends _class_PartialReadError {}
 export { PartialReadError }
 
-import type { ReadLineResult as _interface_ReadLineResult } from "jsr:@std/io@0.224.3"
+import type { ReadLineResult as _interface_ReadLineResult } from "jsr:@std/io@0.224.4"
 /**
  * Result type returned by of BufReader.readLine().
  *
@@ -29,14 +29,14 @@ import type { ReadLineResult as _interface_ReadLineResult } from "jsr:@std/io@0.
 interface ReadLineResult extends _interface_ReadLineResult {}
 export type { ReadLineResult }
 
-import { BufReader as _class_BufReader } from "jsr:@std/io@0.224.3"
+import { BufReader as _class_BufReader } from "jsr:@std/io@0.224.4"
 /**
  * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
  */
 class BufReader extends _class_BufReader {}
 export { BufReader }
 
-import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.3"
+import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.4"
 /**
  * BufWriter implements buffering for an deno.Writer object.
  * If an error occurs writing to a Writer, no more data will be
@@ -50,7 +50,7 @@ import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.3"
 class BufWriter extends _class_BufWriter {}
 export { BufWriter }
 
-import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.3"
+import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.4"
 /**
  * BufWriterSync implements buffering for a deno.WriterSync object.
  * If an error occurs writing to a WriterSync, no more data will be
@@ -64,7 +64,7 @@ import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.3"
 class BufWriterSync extends _class_BufWriterSync {}
 export { BufWriterSync }
 
-import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.3"
+import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.4"
 /**
  * A variable-sized buffer of bytes with `read()` and `write()` methods.
  *
@@ -84,7 +84,7 @@ import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.3"
 class Buffer extends _class_Buffer {}
 export { Buffer }
 
-import { copy as _function_copy } from "jsr:@std/io@0.224.3"
+import { copy as _function_copy } from "jsr:@std/io@0.224.4"
 /**
  * Copies from `src` to `dst` until either EOF (`null`) is read from `src` or
  * an error occurs. It resolves to the number of bytes copied or rejects with
@@ -102,11 +102,12 @@ import { copy as _function_copy } from "jsr:@std/io@0.224.3"
  * @param src The source to copy from
  * @param dst The destination to copy to
  * @param options Can be used to tune size of the buffer. Default size is 32kB
+ * @return Number of bytes copied
  */
 const copy = _function_copy
 export { copy }
 
-import { copyN as _function_copyN } from "jsr:@std/io@0.224.3"
+import { copyN as _function_copyN } from "jsr:@std/io@0.224.4"
 /**
  * Copy N size at the most. If read size is lesser than N, then returns nread
  * @param r Reader
@@ -118,21 +119,21 @@ import { copyN as _function_copyN } from "jsr:@std/io@0.224.3"
 const copyN = _function_copyN
 export { copyN }
 
-import type { Reader as _interface_Reader } from "jsr:@std/io@0.224.3"
+import type { Reader as _interface_Reader } from "jsr:@std/io@0.224.4"
 /**
  * An abstract interface which when implemented provides an interface to read bytes into an array buffer asynchronously.
  */
 interface Reader extends _interface_Reader {}
 export type { Reader }
 
-import type { ReaderSync as _interface_ReaderSync } from "jsr:@std/io@0.224.3"
+import type { ReaderSync as _interface_ReaderSync } from "jsr:@std/io@0.224.4"
 /**
  * An abstract interface which when implemented provides an interface to read bytes into an array buffer synchronously.
  */
 interface ReaderSync extends _interface_ReaderSync {}
 export type { ReaderSync }
 
-import { iterateReader as _function_iterateReader } from "jsr:@std/io@0.224.3"
+import { iterateReader as _function_iterateReader } from "jsr:@std/io@0.224.4"
 /**
  * Turns a {@linkcode Reader} into an async iterator.
  *
@@ -163,7 +164,7 @@ import { iterateReader as _function_iterateReader } from "jsr:@std/io@0.224.3"
 const iterateReader = _function_iterateReader
 export { iterateReader }
 
-import { iterateReaderSync as _function_iterateReaderSync } from "jsr:@std/io@0.224.3"
+import { iterateReaderSync as _function_iterateReaderSync } from "jsr:@std/io@0.224.4"
 /**
  * Turns a {@linkcode ReaderSync} into an iterator.
  *
@@ -199,14 +200,14 @@ import { iterateReaderSync as _function_iterateReaderSync } from "jsr:@std/io@0.
 const iterateReaderSync = _function_iterateReaderSync
 export { iterateReaderSync }
 
-import { LimitedReader as _class_LimitedReader } from "jsr:@std/io@0.224.3"
+import { LimitedReader as _class_LimitedReader } from "jsr:@std/io@0.224.4"
 /**
  * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
  */
 class LimitedReader extends _class_LimitedReader {}
 export { LimitedReader }
 
-import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.3"
+import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.4"
 /**
  * Reader utility for combining multiple readers
  *
@@ -215,7 +216,7 @@ import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.3"
 class MultiReader extends _class_MultiReader {}
 export { MultiReader }
 
-import { readAll as _function_readAll } from "jsr:@std/io@0.224.3"
+import { readAll as _function_readAll } from "jsr:@std/io@0.224.4"
 /**
  * Read {@linkcode Reader} `r` until EOF (`null`) and resolve to the content as
  * {@linkcode Uint8Array}.
@@ -234,7 +235,7 @@ import { readAll as _function_readAll } from "jsr:@std/io@0.224.3"
 const readAll = _function_readAll
 export { readAll }
 
-import { readAllSync as _function_readAllSync } from "jsr:@std/io@0.224.3"
+import { readAllSync as _function_readAllSync } from "jsr:@std/io@0.224.4"
 /**
  * Synchronously reads {@linkcode ReaderSync} `r` until EOF (`null`) and returns
  * the content as {@linkcode Uint8Array}.
@@ -253,7 +254,7 @@ import { readAllSync as _function_readAllSync } from "jsr:@std/io@0.224.3"
 const readAllSync = _function_readAllSync
 export { readAllSync }
 
-import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.3"
+import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.4"
 /**
  * Read delimited bytes from a Reader.
  *
@@ -262,7 +263,7 @@ import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.3"
 const readDelim = _function_readDelim
 export { readDelim }
 
-import { readInt as _function_readInt } from "jsr:@std/io@0.224.3"
+import { readInt as _function_readInt } from "jsr:@std/io@0.224.4"
 /**
  * Read big endian 32bit integer from BufReader
  * @param buf
@@ -271,7 +272,7 @@ import { readInt as _function_readInt } from "jsr:@std/io@0.224.3"
 const readInt = _function_readInt
 export { readInt }
 
-import { readLines as _function_readLines } from "jsr:@std/io@0.224.3"
+import { readLines as _function_readLines } from "jsr:@std/io@0.224.4"
 /**
  * Read strings line-by-line from a Reader.
  *
@@ -292,7 +293,7 @@ import { readLines as _function_readLines } from "jsr:@std/io@0.224.3"
 const readLines = _function_readLines
 export { readLines }
 
-import { readLong as _function_readLong } from "jsr:@std/io@0.224.3"
+import { readLong as _function_readLong } from "jsr:@std/io@0.224.4"
 /**
  * Read big endian 64bit long from BufReader
  * @param buf
@@ -301,14 +302,14 @@ import { readLong as _function_readLong } from "jsr:@std/io@0.224.3"
 const readLong = _function_readLong
 export { readLong }
 
-import type { ByteRange as _interface_ByteRange } from "jsr:@std/io@0.224.3"
+import type { ByteRange as _interface_ByteRange } from "jsr:@std/io@0.224.4"
 /**
  * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
  */
 interface ByteRange extends _interface_ByteRange {}
 export type { ByteRange }
 
-import { readRange as _function_readRange } from "jsr:@std/io@0.224.3"
+import { readRange as _function_readRange } from "jsr:@std/io@0.224.4"
 /**
  * Read a range of bytes from a file or other resource that is readable and
  * seekable.  The range start and end are inclusive of the bytes within that
@@ -329,7 +330,7 @@ import { readRange as _function_readRange } from "jsr:@std/io@0.224.3"
 const readRange = _function_readRange
 export { readRange }
 
-import { readRangeSync as _function_readRangeSync } from "jsr:@std/io@0.224.3"
+import { readRangeSync as _function_readRangeSync } from "jsr:@std/io@0.224.4"
 /**
  * Read a range of bytes synchronously from a file or other resource that is
  * readable and seekable.  The range start and end are inclusive of the bytes
@@ -350,7 +351,7 @@ import { readRangeSync as _function_readRangeSync } from "jsr:@std/io@0.224.3"
 const readRangeSync = _function_readRangeSync
 export { readRangeSync }
 
-import { readShort as _function_readShort } from "jsr:@std/io@0.224.3"
+import { readShort as _function_readShort } from "jsr:@std/io@0.224.4"
 /**
  * Read big endian 16bit short from BufReader
  * @param buf
@@ -359,7 +360,7 @@ import { readShort as _function_readShort } from "jsr:@std/io@0.224.3"
 const readShort = _function_readShort
 export { readShort }
 
-import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.3"
+import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.4"
 /**
  * Read Reader chunk by chunk, splitting based on delimiter.
  *
@@ -380,7 +381,7 @@ import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.
 const readStringDelim = _function_readStringDelim
 export { readStringDelim }
 
-import { readerFromStreamReader as _function_readerFromStreamReader } from "jsr:@std/io@0.224.3"
+import { readerFromStreamReader as _function_readerFromStreamReader } from "jsr:@std/io@0.224.4"
 /**
  * Create a {@linkcode Reader} from a {@linkcode ReadableStreamDefaultReader}.
  *
@@ -398,7 +399,7 @@ import { readerFromStreamReader as _function_readerFromStreamReader } from "jsr:
 const readerFromStreamReader = _function_readerFromStreamReader
 export { readerFromStreamReader }
 
-import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.224.3"
+import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.224.4"
 /**
  * Slice number into 64bit big endian byte array
  * @param d The number to be sliced
@@ -409,7 +410,7 @@ import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.22
 const sliceLongToBytes = _function_sliceLongToBytes
 export { sliceLongToBytes }
 
-import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.3"
+import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.4"
 /**
  * Reader utility for strings.
  *
@@ -443,7 +444,7 @@ import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.3"
 class StringReader extends _class_StringReader {}
 export { StringReader }
 
-import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.3"
+import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.4"
 /**
  * Writer utility for buffering string chunks.
  *
@@ -478,14 +479,14 @@ import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.3"
 class StringWriter extends _class_StringWriter {}
 export { StringWriter }
 
-import type { ToReadableStreamOptions as _interface_ToReadableStreamOptions } from "jsr:@std/io@0.224.3"
+import type { ToReadableStreamOptions as _interface_ToReadableStreamOptions } from "jsr:@std/io@0.224.4"
 /**
  * Options for {@linkcode toReadableStream}.
  */
 interface ToReadableStreamOptions extends _interface_ToReadableStreamOptions {}
 export type { ToReadableStreamOptions }
 
-import { toReadableStream as _function_toReadableStream } from "jsr:@std/io@0.224.3"
+import { toReadableStream as _function_toReadableStream } from "jsr:@std/io@0.224.4"
 /**
  * Create a {@linkcode ReadableStream} of {@linkcode Uint8Array}s from a
  * {@linkcode Reader}.
@@ -504,14 +505,14 @@ import { toReadableStream as _function_toReadableStream } from "jsr:@std/io@0.22
 const toReadableStream = _function_toReadableStream
 export { toReadableStream }
 
-import type { toWritableStreamOptions as _interface_toWritableStreamOptions } from "jsr:@std/io@0.224.3"
+import type { toWritableStreamOptions as _interface_toWritableStreamOptions } from "jsr:@std/io@0.224.4"
 /**
  * Options for {@linkcode toWritableStream}.
  */
 interface toWritableStreamOptions extends _interface_toWritableStreamOptions {}
 export type { toWritableStreamOptions }
 
-import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.224.3"
+import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.224.4"
 /**
  * Create a {@linkcode WritableStream} from a {@linkcode Writer}.
  *
@@ -527,28 +528,28 @@ import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.22
 const toWritableStream = _function_toWritableStream
 export { toWritableStream }
 
-import type { Writer as _interface_Writer } from "jsr:@std/io@0.224.3"
+import type { Writer as _interface_Writer } from "jsr:@std/io@0.224.4"
 /**
  * An abstract interface which when implemented provides an interface to write bytes from an array buffer to a file/resource asynchronously.
  */
 interface Writer extends _interface_Writer {}
 export type { Writer }
 
-import type { WriterSync as _interface_WriterSync } from "jsr:@std/io@0.224.3"
+import type { WriterSync as _interface_WriterSync } from "jsr:@std/io@0.224.4"
 /**
  * An abstract interface which when implemented provides an interface to write bytes from an array buffer to a file/resource synchronously.
  */
 interface WriterSync extends _interface_WriterSync {}
 export type { WriterSync }
 
-import type { Closer as _interface_Closer } from "jsr:@std/io@0.224.3"
+import type { Closer as _interface_Closer } from "jsr:@std/io@0.224.4"
 /**
  * An abstract interface which when implemented provides an interface to close files/resources that were previously opened.
  */
 interface Closer extends _interface_Closer {}
 export type { Closer }
 
-import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.3"
+import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.4"
 /**
  * Write all the content of the array buffer (`arr`) to the writer (`w`).
  *
@@ -568,7 +569,7 @@ import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.3"
 const writeAll = _function_writeAll
 export { writeAll }
 
-import { writeAllSync as _function_writeAllSync } from "jsr:@std/io@0.224.3"
+import { writeAllSync as _function_writeAllSync } from "jsr:@std/io@0.224.4"
 /**
  * Synchronously write all the content of the array buffer (`arr`) to the
  * writer (`w`).

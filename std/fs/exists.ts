@@ -1,11 +1,11 @@
-import type { ExistsOptions as _interface_ExistsOptions } from "jsr:@std/fs@0.229.3/exists"
+import type { ExistsOptions as _interface_ExistsOptions } from "jsr:@std/fs@1.0.1/exists"
 /**
  * Options for {@linkcode exists} and {@linkcode existsSync.}
  */
 interface ExistsOptions extends _interface_ExistsOptions {}
 export type { ExistsOptions }
 
-import { exists as _function_exists } from "jsr:@std/fs@0.229.3/exists"
+import { exists as _function_exists } from "jsr:@std/fs@1.0.1/exists"
 /**
  * Asynchronously test whether or not the given path exists by checking with
  * the file system.
@@ -96,7 +96,7 @@ import { exists as _function_exists } from "jsr:@std/fs@0.229.3/exists"
 const exists = _function_exists
 export { exists }
 
-import { existsSync as _function_existsSync } from "jsr:@std/fs@0.229.3/exists"
+import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.1/exists"
 /**
  * Synchronously test whether or not the given path exists by checking with
  * the file system.

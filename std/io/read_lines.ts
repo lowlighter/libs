@@ -1,4 +1,4 @@
-import { readLines as _function_readLines } from "jsr:@std/io@0.224.3/read-lines"
+import { readLines as _function_readLines } from "jsr:@std/io@0.224.4/read-lines"
 /**
  * Read strings line-by-line from a Reader.
  *

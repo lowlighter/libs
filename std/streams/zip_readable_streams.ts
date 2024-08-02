@@ -1,4 +1,4 @@
-import { zipReadableStreams as _function_zipReadableStreams } from "jsr:@std/streams@0.224.5/zip-readable-streams"
+import { zipReadableStreams as _function_zipReadableStreams } from "jsr:@std/streams@1.0.0/zip-readable-streams"
 /**
  * Merge multiple streams into a single one, taking order into account, and
  * each stream will wait for a chunk to enqueue before the next stream can
@@ -14,7 +14,7 @@ import { zipReadableStreams as _function_zipReadableStreams } from "jsr:@std/str
  * @example Zip 2 streams with the same length
  * ```ts
  * import { zipReadableStreams } from "@std/streams/zip-readable-streams";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream1 = ReadableStream.from(["1", "2", "3"]);
  * const stream2 = ReadableStream.from(["a", "b", "c"]);
@@ -29,7 +29,7 @@ import { zipReadableStreams as _function_zipReadableStreams } from "jsr:@std/str
  * @example Zip 2 streams with different length (first one is shorter)
  * ```ts
  * import { zipReadableStreams } from "@std/streams/zip-readable-streams";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream1 = ReadableStream.from(["1", "2"]);
  * const stream2 = ReadableStream.from(["a", "b", "c", "d"]);
@@ -44,7 +44,7 @@ import { zipReadableStreams as _function_zipReadableStreams } from "jsr:@std/str
  * @example Zip 2 streams with different length (first one is longer)
  * ```ts
  * import { zipReadableStreams } from "@std/streams/zip-readable-streams";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream1 = ReadableStream.from(["1", "2", "3", "4"]);
  * const stream2 = ReadableStream.from(["a", "b"]);
@@ -59,7 +59,7 @@ import { zipReadableStreams as _function_zipReadableStreams } from "jsr:@std/str
  * @example Zip 3 streams
  * ```ts
  * import { zipReadableStreams } from "@std/streams/zip-readable-streams";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const stream1 = ReadableStream.from(["1"]);
  * const stream2 = ReadableStream.from(["a", "b"]);

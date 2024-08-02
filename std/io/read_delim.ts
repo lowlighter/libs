@@ -1,4 +1,4 @@
-import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.3/read-delim"
+import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.4/read-delim"
 /**
  * Read delimited bytes from a Reader.
  *

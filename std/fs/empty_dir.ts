@@ -1,4 +1,4 @@
-import { emptyDir as _function_emptyDir } from "jsr:@std/fs@0.229.3/empty-dir"
+import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.1/empty-dir"
 /**
  * Asynchronously ensures that a directory is empty.
  *
@@ -24,7 +24,7 @@ import { emptyDir as _function_emptyDir } from "jsr:@std/fs@0.229.3/empty-dir"
 const emptyDir = _function_emptyDir
 export { emptyDir }
 
-import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@0.229.3/empty-dir"
+import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.1/empty-dir"
 /**
  * Synchronously ensures that a directory is empty deletes the directory
  * contents it is not empty.

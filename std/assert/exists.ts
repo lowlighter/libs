@@ -1,4 +1,4 @@
-import { assertExists as _function_assertExists } from "jsr:@std/assert@1.0.0/exists"
+import { assertExists as _function_assertExists } from "jsr:@std/assert@1.0.2/exists"
 /**
  * Make an assertion that actual is not null or undefined.
  * If not then throw.

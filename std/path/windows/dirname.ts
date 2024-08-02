@@ -1,4 +1,4 @@
-import { dirname as _function_dirname } from "jsr:@std/path@1.0.1/windows/dirname"
+import { dirname as _function_dirname } from "jsr:@std/path@1.0.2/windows/dirname"
 /**
  * Return the directory path of a `path`.
  *
