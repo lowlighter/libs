@@ -196,6 +196,7 @@ export class Report {
     if (version.includes("-")) {
       version = version.split("-")[1]
     }
+    version = version.replace("≤", "<=").replace("≥", ">=")
     const [[{ major, minor, patch }]] = semver.parseRange(version)
     return { major, minor, patch }
   }

@@ -54,8 +54,8 @@ export async function bundle(project: string, { bin = "wasm-pack", autoinstall =
 
   // Build wasm
   log.debug("building wasm")
-  const { success } = await command(bin, ["build", "--release", "--target", "web"], { logger: log, cwd: project, env })
-  assert(success, "wasm build failed")
+  const { success, stderr } = await command(bin, ["build", "--release", "--target", "web"], { logger: log, cwd: project, env })
+  assert(success, `wasm build failed: ${stderr}`)
   log.ok("built wasm")
 
   // Inject wasm so it can be loaded without permissions, and export a source function so it can be loaded synchronously using `initSync()`

@@ -9,7 +9,11 @@ ENV PATH=${DENO_INSTALL}/bin:${PATH} \
     DENO_DIR=${DENO_INSTALL}/.cache/deno
 
 # Install Rust and Cargo
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV RUSTUP_HOME=/rustup
+ENV CARGO_HOME=/cargo
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
+    && chown -R vscode /rustup /cargo
+ENV PATH=${CARGO_HOME}/bin:${PATH}
 
 # Install Node.js
 RUN apt-get update \
@@ -17,5 +21,6 @@ RUN apt-get update \
 
 # Install Bun
 ENV BUN_INSTALL=/bun
-RUN curl -fsSL https://bun.sh/install | bash
+RUN curl -fsSL https://bun.sh/install | bash \
+    && chown -R vscode /bun
 ENV PATH=${BUN_INSTALL}/bin:${PATH}
