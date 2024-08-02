@@ -208,7 +208,7 @@ function caller() {
   const { stack } = new Error()
   Trace.prepareStackTrace = _
   const caller = (stack as unknown as CallSite[])[2]
-  return fromFileUrl(caller.getFileName()).replaceAll("\\", "/")
+  return caller.getFileName().replaceAll("\\", "/")
 }
 
 /** V8 CallSite (subset). */
