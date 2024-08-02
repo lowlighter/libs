@@ -1,20 +1,16 @@
 // Imports
-import { expect as _expect, type Expected, fn } from "@std/expect"
+import { type Async, expect as _expect, type Expected, fn } from "@std/expect"
 import { assert, assertEquals, type AssertionError as _AssertionError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
 import type { Arg, Arrayable, callback, Nullable, record, TypeOf } from "@libs/typing"
 import type { testing } from "./_testing.ts"
 import { STATUS_CODE as Status } from "@std/http/status"
-
-/** Asynchronous version of a record. */
-// deno-lint-ignore no-explicit-any
-type Async<T> = { [K in keyof T]: T[K] extends (...args: any[]) => unknown ? (...args: Parameters<T[K]>) => Promise<ReturnType<T[K]>> : T[K] }
 
 /**
  * The ExtendedExpected interface defines the available assertion methods.
  *
  * @module
  */
-export interface ExtendedExpected<IsAsync = false> extends Expected {
+export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a value matches the given predicate.
    *
