@@ -7,56 +7,56 @@ export type { DeepMerge, record }
  * Reactive context.
  *
  * Create an object where every `get`, `set`, `delete`, and `call` operations are observable.
- * These events can be tracked using the `EventTarget` interface. Observability is applied 
- * recursively to all properties of the object, including functions and collections such as 
+ * These events can be tracked using the `EventTarget` interface. Observability is applied
+ * recursively to all properties of the object, including functions and collections such as
  * `Map`, `Set`, and `Array`.
  *
  * ## Key Concepts
  *
  * ### Isolated Data
  * - **Isolated data** refers to properties that are explicitly defined in a child context and do not
- *   affect or inherit from the parent context's properties. Changes made to isolated data in a child 
+ *   affect or inherit from the parent context's properties. Changes made to isolated data in a child
  *   context do not propagate back to the parent context or affect sibling contexts.
- * - **Example**: When creating a child context, you can specify new properties or reassign existing 
- *   ones. These properties are isolated to that child context unless explicitly shared back with the 
+ * - **Example**: When creating a child context, you can specify new properties or reassign existing
+ *   ones. These properties are isolated to that child context unless explicitly shared back with the
  *   parent.
  *
  * ### Shared Data
- * - **Shared data** refers to properties that are inherited from the parent context. These properties 
- *   can be accessed and modified by child contexts. Changes made to shared data in a child context 
+ * - **Shared data** refers to properties that are inherited from the parent context. These properties
+ *   can be accessed and modified by child contexts. Changes made to shared data in a child context
  *   propagate back to the parent context.
- * - **Example**: Shared data is inherited from the parent context by default. When a child modifies 
+ * - **Example**: Shared data is inherited from the parent context by default. When a child modifies
  *   shared data, the changes are reflected across all contexts that share the same data.
  *
  * ## Key Features
  *
  * 1. **Observable Properties**:
- *    - Properties in the context can be tracked and reacted to via events like `get`, `set`, `delete`, 
+ *    - Properties in the context can be tracked and reacted to via events like `get`, `set`, `delete`,
  *      and `call`.
- * 
+ *
  * 2. **Context Inheritance**:
- *    - Child contexts inherit properties from their parent contexts, making it easy to share 
+ *    - Child contexts inherit properties from their parent contexts, making it easy to share
  *      data across multiple related contexts.
  *    - Properties set in a child context can override parent context properties, but inherited
  *      properties are still accessible unless explicitly overridden.
- * 
+ *
  * 3. **Handling of Native Classes**:
  *    - Specific native classes such as `Set`, `Map`, `ArrayBuffer`, `WeakMap`, and others are handled
- *      carefully to avoid proxy-related issues. These objects are accessed directly without 
+ *      carefully to avoid proxy-related issues. These objects are accessed directly without
  *      unnecessary proxy traps.
  *
  * 4. **Bidirectional Data Flow**:
- *    - Inherited properties propagate down to child contexts, and changes to shared properties reflect 
+ *    - Inherited properties propagate down to child contexts, and changes to shared properties reflect
  *      back up to parent contexts. Isolated properties remain unique to the child context.
  *
  * **Note:** Properties specified in `.with({ ... })` are automatically isolated from the parent
- * and sibling contexts. This means that properties defined or modified in a child context do not 
+ * and sibling contexts. This means that properties defined or modified in a child context do not
  * propagate to parent or sibling contexts unless explicitly shared.
- * 
+ *
  * @example Example: Observing Property Changes in a Context
  * This example demonstrates the setup of listeners for observing `get`, `set`, `delete`, and `call` operations.
  * We initialize a context and attach listeners to capture events as we interact with the context's target object.
- * 
+ *
  * ```ts
  * import { Context } from "./context.ts"
  *
@@ -75,9 +75,9 @@ export type { DeepMerge, record }
  * ```
  *
  * @example Example: Basic Usage with Shared and Isolated Properties
- * This example illustrates how shared and isolated properties work across contexts. Shared properties are accessible 
+ * This example illustrates how shared and isolated properties work across contexts. Shared properties are accessible
  * and modifiable across contexts, whereas isolated properties remain unique to each context.
- * 
+ *
  * ```ts
  * import { Context } from "./context.ts"
  *
@@ -94,14 +94,14 @@ export type { DeepMerge, record }
  * // Modify isolated and shared properties
  * childContext.target.isolatedSetOfUrls.add("bar");  // Only affects the child context
  * childContext.target.setOfUrls.add("https://child.com");  // Affects all contexts sharing this property
- * 
+ *
  * console.log(parentContext.target.setOfUrls);  // Includes 'https://child.com'
  * console.log(childContext.target.isolatedSetOfUrls);  // Only 'bar' in the child context
  * ```
  *
  * @example Example: Accessing Properties Across Multiple Levels of Context
  * This example demonstrates how properties are inherited across multiple context levels and how updates propagate.
- * 
+ *
  * ```ts
  * import { Context } from "./context.ts"
  *
@@ -122,7 +122,7 @@ export type { DeepMerge, record }
  * @example Example: Handling Native Classes with Proxies
  * This example shows how native classes such as `Set` and `Map` are handled within a context, allowing
  * seamless modification without proxy interference.
- * 
+ *
  * ```ts
  * import { Context } from "./context.ts"
  *
@@ -134,14 +134,14 @@ export type { DeepMerge, record }
  * // Add to the set and update the map
  * context.target.mySet.add(4);
  * context.target.myMap.set("newKey", "newValue");
- * 
+ *
  * console.log(context.target.mySet); // Set { 1, 2, 3, 4 }
  * console.log(context.target.myMap); // Map { "key" => "value", "newKey" => "newValue" }
  * ```
  *
  * @example Example: Shared and Isolated Data with Buffer and Date
  * This example highlights how `ArrayBuffer` and `Date` instances can be shared across contexts or isolated to specific contexts.
- * 
+ *
  * ```ts
  * import { Context } from "./context.ts"
  *
@@ -165,12 +165,12 @@ export type { DeepMerge, record }
  * ```
  *
  * @example Example: Working with WeakMap, WeakSet, and Symbol
- * This example shows how `WeakMap`, `WeakSet`, and `Symbol` are handled within the context, with support for 
+ * This example shows how `WeakMap`, `WeakSet`, and `Symbol` are handled within the context, with support for
  * isolated symbols across child contexts.
- * 
+ *
  * ```ts
  * import { Context } from "./context.ts"
- * 
+ *
  * const weakMap = new WeakMap<object, number>();
  * const symbolKey = Symbol("uniqueKey");
  * const context = new Context({ weakMap, symbolKey });
@@ -187,9 +187,9 @@ export type { DeepMerge, record }
  * ```
  *
  * @example Example: Streams and Transferables
- * This example demonstrates how `ReadableStream` and `WritableStream` can be utilized within the context 
+ * This example demonstrates how `ReadableStream` and `WritableStream` can be utilized within the context
  * and connected via the `pipeTo` method.
- * 
+ *
  * ```ts
  * import { Context } from "./context.ts"
  *
@@ -214,9 +214,9 @@ export type { DeepMerge, record }
  * ```
  *
  * @example Example: Using AudioData and VideoFrame (for environments that support them)
- * This example highlights the handling of `AudioData` and `VideoFrame` objects in contexts that support them, 
+ * This example highlights the handling of `AudioData` and `VideoFrame` objects in contexts that support them,
  * such as web browsers with media capabilities.
- * 
+ *
  * ```ts
  * import { Context } from "./context.ts"
  *
@@ -245,7 +245,7 @@ export class Context<T extends record = record> extends EventTarget {
     super()
     this.#parent = parent
     this.#target = target
-    this.#isolated = new Set<PropertyKey>(Object.keys(this.#target))
+    this.#isolated = new Set(Object.keys(this.#target))
     this.target = this.#proxify(this.#target)
   }
 
@@ -261,7 +261,15 @@ export class Context<T extends record = record> extends EventTarget {
    */
   readonly #children = new Set<Context<record>>()
 
-  readonly #isolated
+  /**
+   * A set of properties that are considered isolated in the current {@link Context | context}.
+   *
+   * - **Isolated properties** are those that are explicitly defined in a child context.
+   * - These properties do not propagate changes to the parent context or sibling contexts.
+   * - Changes made to isolated properties in the child context are restricted to that context
+   *   and do not affect shared data or other contexts.
+   */
+  readonly #isolated: Set<PropertyKey>
 
   /**
    * Actual target value.
@@ -296,14 +304,14 @@ export class Context<T extends record = record> extends EventTarget {
   /**
    * Proxify an object.
    *
-   * This method creates a proxy for the target object and attaches traps for `get`, `set`, 
-   * `delete`, and other operations. The traps are designed to enforce the observable nature 
+   * This method creates a proxy for the target object and attaches traps for `get`, `set`,
+   * `delete`, and other operations. The traps are designed to enforce the observable nature
    * of the context, while respecting the rules for specific native classes and types.
    *
    * Example:
    * ```ts
    * import { Context } from "./context.ts"
-   * 
+   *
    * const context = new Context({ foo: "bar" });
    * const proxied = context.target; // Returns a proxied object
    * ```
@@ -342,14 +350,14 @@ export class Context<T extends record = record> extends EventTarget {
   /**
    * Trap function calls.
    *
-   * This trap has been updated to handle native classes like `Map` and `Set`, 
-   * ensuring that these objects are not proxied. Additionally, the trap now correctly 
+   * This trap has been updated to handle native classes like `Map` and `Set`,
+   * ensuring that these objects are not proxied. Additionally, the trap now correctly
    * accesses properties across multiple context levels.
    *
    * Example:
    * ```ts
    * import { Context } from "./context.ts"
-   * 
+   *
    * const context = new Context({ setFunc: new Set([1, 2, 3]) });
    * context.target.setFunc.add(4); // Works correctly without proxy interference
    * ```
@@ -365,7 +373,7 @@ export class Context<T extends record = record> extends EventTarget {
       return Reflect.apply(callable, that, args)
     } finally {
       const target = this.#access(path.slice(0, -1))
-      const property = path.at(-1)!;
+      const property = path.at(-1)!
       if (target && Reflect.has(target, property)) {
         this.#dispatch("call", { path, target, property, args })
       }
@@ -375,14 +383,14 @@ export class Context<T extends record = record> extends EventTarget {
   /**
    * Trap property access.
    *
-   * This trap has been updated to correctly access properties across multiple levels 
-   * in the context hierarchy, as well as handling specific native classes and types 
+   * This trap has been updated to correctly access properties across multiple levels
+   * in the context hierarchy, as well as handling specific native classes and types
    * that should not be proxied.
    *
    * Example:
    * ```ts
    * import { Context } from "./context.ts"
-   * 
+   *
    * const parent = new Context({ foo: "parent" });
    * const child = parent.with({ bar: "child" });
    *
@@ -397,7 +405,7 @@ export class Context<T extends record = record> extends EventTarget {
   #trap_get(path: PropertyKey[], target: trap<"get", 0>, property: trap<"get", 1>) {
     if ((this.#parent) && (!path.length)) {
       if (!this.#isolated.has(property) && !Reflect.has(target, property)) {
-        return Reflect.get(this.#parent.target, property);
+        return Reflect.get(this.#parent.target, property)
       }
     }
 
@@ -461,23 +469,23 @@ export class Context<T extends record = record> extends EventTarget {
 
   /** Trap property keys. */
   #trap_keys(target: trap<"ownKeys", 0>) {
-    const isolatedKeys = this.#isolated; // Convert isolated Set to array
-    const parentKeys = Reflect.ownKeys(this.#parent!.target);
-    const targetKeys = Reflect.ownKeys(target);
+    const isolatedKeys = this.#isolated // Convert isolated Set to array
+    const parentKeys = Reflect.ownKeys(this.#parent!.target)
+    const targetKeys = Reflect.ownKeys(target)
 
     // Create the filtered result
     const allKeys = Array.from(new Set(parentKeys.concat(targetKeys)))
       .filter((key) => {
-        const inIsolated = isolatedKeys.has(key);
-        const inTarget = targetKeys.includes(key);
+        const inIsolated = isolatedKeys.has(key)
+        const inTarget = targetKeys.includes(key)
 
         // Keep the key if:
         // - It is in both isolatedKeys and targetKeys (keep it)
         // - It is not in isolatedKeys (keep it)
-        return (inIsolated && inTarget) || !inIsolated;
-      });
+        return (inIsolated && inTarget) || !inIsolated
+      })
 
-    return allKeys;
+    return allKeys
   }
 
   /** Trap property descriptors. */
@@ -508,11 +516,11 @@ export class Context<T extends record = record> extends EventTarget {
     }
   }
 
-  /** 
+  /**
    * Check if object is a native class or type that should not be proxied.
    *
    * The following objects are avoided by default because:
-   * 
+   *
    * - **Map, Set, WeakMap, WeakSet**: These collections have internal slots that rely on the object being intact for correct behavior.
    * - **WeakRef**: Holds a weak reference to an object, preventing interference with garbage collection.
    * - **Promise**: Proxying promises can interfere with their state management and chaining.
@@ -535,43 +543,43 @@ export class Context<T extends record = record> extends EventTarget {
    */
   static #isNotProxyable(obj: unknown): boolean {
     return (
-      ('Map' in globalThis && obj instanceof globalThis.Map) ||
-      ('Set' in globalThis && obj instanceof globalThis.Set) ||
-      ('WeakMap' in globalThis && obj instanceof globalThis.WeakMap) ||
-      ('WeakSet' in globalThis && obj instanceof globalThis.WeakSet) ||
-      ('WeakRef' in globalThis && obj instanceof globalThis.WeakRef) ||
-      ('Promise' in globalThis && obj instanceof globalThis.Promise) ||
-      ('Error' in globalThis && obj instanceof globalThis.Error) ||
-      ('RegExp' in globalThis && obj instanceof globalThis.RegExp) ||
-      ('Date' in globalThis && obj instanceof globalThis.Date) ||
-      ('ArrayBuffer' in globalThis && obj instanceof globalThis.ArrayBuffer) ||
-      ('ArrayBuffer' in globalThis && globalThis.ArrayBuffer.isView(obj)) || // Covers TypedArrays (Uint8Array, Float32Array, etc.)
-      ('Function' in globalThis && obj instanceof globalThis.Function) ||
-      ('BigInt' in globalThis && typeof obj === 'bigint') ||
-      ('Symbol' in globalThis && typeof obj === 'symbol') ||
-      ('Intl' in globalThis && 'DateTimeFormat' in globalThis.Intl && obj instanceof globalThis.Intl.DateTimeFormat) ||
-      ('Intl' in globalThis && 'NumberFormat' in globalThis.Intl && obj instanceof globalThis.Intl.NumberFormat) ||
-      ('Intl' in globalThis && 'Collator' in globalThis.Intl && obj instanceof globalThis.Intl.Collator) ||
-      ('Worker' in globalThis && obj instanceof globalThis.Worker) ||
+      ("Map" in globalThis && obj instanceof globalThis.Map) ||
+      ("Set" in globalThis && obj instanceof globalThis.Set) ||
+      ("WeakMap" in globalThis && obj instanceof globalThis.WeakMap) ||
+      ("WeakSet" in globalThis && obj instanceof globalThis.WeakSet) ||
+      ("WeakRef" in globalThis && obj instanceof globalThis.WeakRef) ||
+      ("Promise" in globalThis && obj instanceof globalThis.Promise) ||
+      ("Error" in globalThis && obj instanceof globalThis.Error) ||
+      ("RegExp" in globalThis && obj instanceof globalThis.RegExp) ||
+      ("Date" in globalThis && obj instanceof globalThis.Date) ||
+      ("ArrayBuffer" in globalThis && obj instanceof globalThis.ArrayBuffer) ||
+      ("ArrayBuffer" in globalThis && globalThis.ArrayBuffer.isView(obj)) || // Covers TypedArrays (Uint8Array, Float32Array, etc.)
+      ("Function" in globalThis && obj instanceof globalThis.Function) ||
+      ("BigInt" in globalThis && typeof obj === "bigint") ||
+      ("Symbol" in globalThis && typeof obj === "symbol") ||
+      ("Intl" in globalThis && "DateTimeFormat" in globalThis.Intl && obj instanceof globalThis.Intl.DateTimeFormat) ||
+      ("Intl" in globalThis && "NumberFormat" in globalThis.Intl && obj instanceof globalThis.Intl.NumberFormat) ||
+      ("Intl" in globalThis && "Collator" in globalThis.Intl && obj instanceof globalThis.Intl.Collator) ||
+      ("Worker" in globalThis && obj instanceof globalThis.Worker) ||
       // @ts-ignore Not all environments support SharedWorkers
-      ('SharedWorker' in globalThis && obj instanceof globalThis.SharedWorker) ||
-      ('MessageChannel' in globalThis && obj instanceof globalThis.MessageChannel) ||
-      ('MessagePort' in globalThis && obj instanceof globalThis.MessagePort) ||
-      ('ImageBitmap' in globalThis && obj instanceof globalThis.ImageBitmap) ||
+      ("SharedWorker" in globalThis && obj instanceof globalThis.SharedWorker) ||
+      ("MessageChannel" in globalThis && obj instanceof globalThis.MessageChannel) ||
+      ("MessagePort" in globalThis && obj instanceof globalThis.MessagePort) ||
+      ("ImageBitmap" in globalThis && obj instanceof globalThis.ImageBitmap) ||
       // @ts-ignore Deno doesn't support `OffscreenCanvas`, but the browsers do
-      ('OffscreenCanvas' in globalThis && obj instanceof globalThis.OffscreenCanvas) ||
-      ('ReadableStream' in globalThis && obj instanceof globalThis.ReadableStream) ||
-      ('WritableStream' in globalThis && obj instanceof globalThis.WritableStream) ||
-      ('TransformStream' in globalThis && obj instanceof globalThis.TransformStream) ||
+      ("OffscreenCanvas" in globalThis && obj instanceof globalThis.OffscreenCanvas) ||
+      ("ReadableStream" in globalThis && obj instanceof globalThis.ReadableStream) ||
+      ("WritableStream" in globalThis && obj instanceof globalThis.WritableStream) ||
+      ("TransformStream" in globalThis && obj instanceof globalThis.TransformStream) ||
       // @ts-ignore Deno doesn't support `AudioData`, but the browsers do
-      ('AudioData' in globalThis && obj instanceof globalThis.AudioData) ||
+      ("AudioData" in globalThis && obj instanceof globalThis.AudioData) ||
       // @ts-ignore Deno doesn't support `VideoFrame`, but the browsers do
-      ('VideoFrame' in globalThis && obj instanceof globalThis.VideoFrame)
-    );
+      ("VideoFrame" in globalThis && obj instanceof globalThis.VideoFrame)
+    )
   }
 
   /** Context event. */
-  static readonly Event = class ContextEvent extends CustomEvent<detail> { } as typeof CustomEvent
+  static readonly Event = class ContextEvent extends CustomEvent<detail> {} as typeof CustomEvent
 }
 
 /** Context target. */
