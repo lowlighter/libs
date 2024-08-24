@@ -22,8 +22,7 @@ function fn() {
 
 // The `observe` function creates a context object around the target and attaches event listeners
 // for the 'get', 'set', 'delete', and 'call' events. These listeners allow us to observe changes.
-function observe(target: target) {
-  const context = new Context(target)
+function observe(target: target, context = new Context(target)) {
   const listeners = { get: fn(), set: fn(), delete: fn(), call: fn() }
 
   // We attach the appropriate listeners to the corresponding events.
@@ -37,14 +36,34 @@ function observe(target: target) {
 
 test("all")("Scope.target reacts to read operations", () => {
   const { observable, target, listeners } = observe({ property: false, nested: { property: false } })
+
   observable.property
   expect(listeners.get.event).toMatchObject({ path: [], target, property: "property", value: false })
+  expect(listeners.get).toBeCalledTimes(1)
+
   observable.nested.property
   expect(listeners.get.event).toMatchObject({ path: ["nested"], target: target.nested, property: "property", value: false })
+  expect(listeners.get).toBeCalledTimes(3)
+
   observable.undefined
-  expect(listeners.get.event).toMatchObject({ path: [], target, property: "undefined", value: undefined })
-  observable.recursive = { property: false }
+  expect(listeners.get.event).toMatchObject({ path: ["nested"], target: target.nested, property: "property", value: false })
+  expect(listeners.get).toBeCalledTimes(3)
+
+  observable.recursive = { property: true }
+  expect(listeners.set).toBeCalledTimes(1)
+  expect(listeners.get).toBeCalledTimes(3)
+
+  observable.recursive.property = false
+  expect(listeners.set).toBeCalledTimes(2)
+  expect(listeners.get).toBeCalledTimes(4)
+
+  observable.recursive.next = true
+  expect(listeners.set).toBeCalledTimes(3)
+  expect(listeners.get).toBeCalledTimes(5)
+
   observable.recursive.property
+  expect(listeners.set).toBeCalledTimes(3)
+  expect(listeners.get).toBeCalledTimes(7)
   expect(listeners.get.event).toMatchObject({ path: ["recursive"], target: target.recursive, property: "property", value: false })
 })
 
@@ -128,8 +147,6 @@ test("all")("Scope.target skips proxification of built-in objects that are not w
     weakset: new WeakSet(),
     weakref: new WeakRef({}),
     promise: Promise.resolve(),
-    set: new Set(),
-    map: new Map(),
     date: new Date(),
     arraybuf: uint8.buffer,
     typedarr: uint8,
@@ -146,8 +163,8 @@ test("all")("Scope.target skips proxification of built-in objects that are not w
 
   messagechannel?.port1?.close?.()
   messagechannel?.port2?.close?.()
-  target.worker?.terminate?.()
-  URL.revokeObjectURL(worker_url)
+  target?.worker?.terminate?.()
+  URL?.revokeObjectURL?.(worker_url)
 })
 
 test("all")("Scope.with() returns a new context that inherits parent context", () => {
@@ -216,16 +233,19 @@ test("all")("Scope.target works as expected when run within a `with` context", (
   expect(observable.foo).toBe(true)
 })
 
-test("all")("Scope.target works with isolated and shared properties", () => {
+test("all")("Scope.target works with isolated and shared sets", () => {
   const { context, listeners } = observe({
     setOfUrls: new Set<string>(["https://example.com"]),
     name: "ParentContext",
   })
 
-  const childContext = context.with({
-    name: "ChildContext",
-    isolatedSetOfUrls: new Set<string>(),
-  })
+  const { context: childContext, listeners: childListeners } = observe(
+    {},
+    context.with({
+      name: "ChildContext",
+      isolatedSetOfUrls: new Set<string>(),
+    }),
+  )
 
   // Access the isolated set in the child context
   childContext.target.isolatedSetOfUrls.add("isolated-url")
@@ -234,23 +254,83 @@ test("all")("Scope.target works with isolated and shared properties", () => {
 
   // Access the shared set in both contexts
   childContext.target.setOfUrls.add("https://child.com")
+  expect(childContext.target.setOfUrls.size).toBe(2)
   expect(context.target.setOfUrls.has("https://child.com")).toBe(true)
-  expect(listeners.set).toHaveBeenCalledTimes(0) // No shared change event is fired
+  expect(listeners.set).toHaveBeenCalledTimes(0) // No change event is fired on the parent contexts
+  expect(listeners.call).toHaveBeenCalledTimes(2) // 2 call event are fired on the parent contexts, `add` & `has` for `setOfUrls`
+  expect(childListeners.set).toHaveBeenCalledTimes(0) // No change event is fired on the child contexts
+  expect(childListeners.call).toHaveBeenCalledTimes(4) // 4 call events are fired on the child context, `add` & `has` for `setOfUrls` & `isolatedSetOfUrls`
+
+  // Access the shared set in both contexts
+  context.target.setOfUrls.add("https://child-another-one.com")
+  expect(context.target.setOfUrls.size).toBe(3)
+  expect(childContext.target.setOfUrls.has("https://child-another-one.com")).toBe(true)
+  expect(listeners.set).toHaveBeenCalledTimes(0) // No change event is fired on the parent contexts
+  expect(listeners.call).toHaveBeenCalledTimes(4) // 2 + 2 call event is fired on the parent contexts, `add` & `has` for `setOfUrls`
+  expect(childListeners.set).toHaveBeenCalledTimes(0) // No change event is fired on the child contexts
+  expect(childListeners.call).toHaveBeenCalledTimes(6) // 4 + 2 call events are fired on the child context, `add` & `has` for `setOfUrls`
 })
 
 test("all")("Scope.target handles deep inheritance of properties", () => {
-  const { context } = observe({ foo: "parent value" })
-  const childContext = context.with({ bar: "child value" })
-  const grandchildContext = childContext.with({ baz: "grandchild value" })
+  const { context, listeners } = observe({ foo: "parent value" })
+  const { context: childContext, listeners: childListeners } = observe({}, context.with({ bar: "child value" }))
+  const { context: grandchildContext, listeners: grandchildListeners } = observe({}, childContext.with({ baz: "grandchild value" }))
 
   expect(grandchildContext.target.foo).toBe("parent value")
   expect(grandchildContext.target.bar).toBe("child value")
   expect(grandchildContext.target.baz).toBe("grandchild value")
 
+  // Remember `foo` is a shared property so all contexts with access to `foo`
+  // are dispatched `get` events
+  // Notice, how the parent, child and grandchild `get` listeners are called 3 times
+  expect(listeners.get).toBeCalledTimes(1)
+  expect(childListeners.get).toBeCalledTimes(2)
+  expect(grandchildListeners.get).toBeCalledTimes(3)
+
   grandchildContext.target.foo = "updated value"
   expect(context.target.foo).toBe("updated value")
   expect(childContext.target.foo).toBe("updated value")
   expect(grandchildContext.target.foo).toBe("updated value")
+
+  // Remember `foo` is a shared property so all contexts with access to `foo`
+  // are dispatched `get` events
+  // Notice, how the parent, child and grandchild `get` listeners are called 3 times
+  expect(listeners.get).toBeCalledTimes(4)
+  expect(childListeners.get).toBeCalledTimes(5)
+  expect(grandchildListeners.get).toBeCalledTimes(6)
+
+  context.target.foo = "updated value 2"
+  expect(context.target.foo).toBe("updated value 2")
+  expect(childContext.target.foo).toBe("updated value 2")
+  expect(grandchildContext.target.foo).toBe("updated value 2")
+
+  // Ensure properties are correctly inherited across the hierarchy
+  expect(grandchildContext.target.foo).toBe("updated value 2")
+
+  // Remember `foo` is a shared property so all contexts with access to `foo`
+  // are dispatched `get` events
+  // Notice, how the parent, child and grandchild `get` listeners are called 4 times
+  expect(listeners.get).toBeCalledTimes(8)
+  expect(childListeners.get).toBeCalledTimes(9)
+  expect(grandchildListeners.get).toBeCalledTimes(10)
+
+  expect(grandchildContext.target.bar).toBe("child value")
+  expect(childContext.target.bar).toBe("child value")
+  expect(context.target.bar).toBe(undefined)
+
+  expect(listeners.get).toBeCalledTimes(8)
+  // Notice, how the child and grandchild `get` listeners are called twice
+  expect(childListeners.get).toBeCalledTimes(11)
+  expect(grandchildListeners.get).toBeCalledTimes(12)
+
+  expect(grandchildContext.target.baz).toBe("grandchild value")
+  expect(childContext.target.baz).toBe(undefined)
+  expect(context.target.baz).toBe(undefined)
+
+  expect(listeners.get).toBeCalledTimes(8)
+  expect(childListeners.get).toBeCalledTimes(11)
+  // Notice, how only the grandchild's `get` listener is called once
+  expect(grandchildListeners.get).toBeCalledTimes(13)
 })
 
 test("all")("Scope.target function call from a grandchild context triggers correct events", () => {
@@ -299,16 +379,6 @@ test("all")("Scope.target function call from a grandchild context triggers corre
 
   // Verify the function output
   expect(result).toBe("Message: Hello")
-
-  // Ensure properties are correctly inherited across the hierarchy
-  expect(grandchildContext.target.foo).toBe("bar")
-  expect(listeners.get).toBeCalledTimes(3)
-
-  expect(grandchildContext.target.bar).toBe("baz")
-  expect(listeners.get).toBeCalledTimes(3)
-
-  expect(grandchildContext.target.baz).toBe("qux")
-  expect(listeners.get).toBeCalledTimes(3)
 })
 
 // Test case for unidirectional context inheritance behavior during delete operations.
@@ -632,51 +702,68 @@ test("all")("Scope.with() contexts operates unidirectionally when value is overr
   expect(Object.keys(a.target.nested).sort()).toEqual(["b", "func"])
 })
 
-test("all")("Scope.target works with Set, Map, Date, and ArrayBuffer", () => {
-  const { observable, context } = observe({
-    setOfUrls: new Set(["https://example.com"]),
-    date: new Date(),
+test("all")("Scope.with() creates and works with isolated and shared Map, Set, Date and ArrayBuffer without disrupting internal slots", () => {
+  const currentDate = new Date()
+  const { context, observable } = observe({
+    currentDate,
     buffer: new ArrayBuffer(16),
+    setOfUrls: new Set(["https://example.com"]),
     myMap: new Map([["key", "value"]]),
   })
 
-  const childContext = context.with({
-    date: new Date("2025-01-01T00:00:00Z"),
-    buffer: new ArrayBuffer(32),
-  })
+  const { context: childContext, observable: childObservable } = observe(
+    {},
+    context.with({
+      buffer: new ArrayBuffer(32),
+      currentDate: new Date("2025-01-01T00:00:00Z"),
+    }),
+  )
+
+  const { observable: grandchildObservable } = observe(
+    {},
+    childContext.with({
+      currentDate: new Date("2026-01-01T00:00:00Z"),
+    }),
+  )
+
+  const dataview = new DataView(observable.buffer)
+  dataview.setUint8(0, 128)
+  dataview.setUint8(1, 128)
+
+  expect(dataview.buffer).toBe(observable.buffer)
+  expect(observable.buffer.byteLength).toBe(16)
+
+  const childdataview = new DataView(childObservable.buffer)
+  childdataview.setUint8(2, 128)
+  childdataview.setUint8(3, 128)
+
+  expect(childdataview.buffer).toBe(childObservable.buffer)
+  expect(childObservable.buffer.byteLength).toBe(32)
+
+  const grandchilddataview = new DataView(grandchildObservable.buffer)
+  grandchilddataview.setUint8(4, 156)
+  grandchilddataview.setUint8(5, 156)
+
+  expect(grandchilddataview.buffer).toBe(grandchildObservable.buffer)
+  expect(grandchildObservable.buffer.byteLength).toBe(32)
 
   expect(observable.setOfUrls.has("https://example.com")).toBe(true)
-  expect(childContext.target.setOfUrls.has("https://example.com")).toBe(true)
+  expect(childObservable.setOfUrls.has("https://example.com")).toBe(true)
+  expect(grandchildObservable.setOfUrls.has("https://example.com")).toBe(true)
 
-  expect(observable.buffer.byteLength).toBe(16)
-  expect(childContext.target.buffer.byteLength).toBe(32)
+  expect(observable.currentDate.toISOString()).toBe(currentDate.toISOString())
+  expect(childObservable.currentDate.toISOString()).toBe("2025-01-01T00:00:00.000Z")
+  expect(grandchildObservable.currentDate.toISOString()).toBe("2026-01-01T00:00:00.000Z")
 
-  const date = childContext.target.date
-  expect(date.toISOString()).toBe("2025-01-01T00:00:00.000Z")
-
-  childContext.target.myMap.set("newKey", "newValue")
+  childObservable.myMap.set("newKey", "newValue")
   expect(observable.myMap.has("newKey")).toBe(true)
   expect(observable.myMap.get("newKey")).toBe("newValue")
-})
 
-test("all")("Scope.with() creates isolated and shared Date and ArrayBuffer", () => {
-  const { context, observable } = observe({
-    currentDate: new Date(),
-    buffer: new ArrayBuffer(16),
-  })
+  expect(childObservable.myMap.has("newKey")).toBe(true)
+  expect(childObservable.myMap.get("newKey")).toBe("newValue")
 
-  const childContext = context.with({
-    buffer: new ArrayBuffer(32),
-    currentDate: new Date("2025-01-01T00:00:00Z"),
-  })
-
-  const grandchildContext = childContext.with({
-    currentDate: new Date("2026-01-01T00:00:00Z"),
-  })
-
-  expect(observable.buffer.byteLength).toBe(16)
-  expect(childContext.target.buffer.byteLength).toBe(32)
-  expect(grandchildContext.target.currentDate.toISOString()).toBe("2026-01-01T00:00:00.000Z")
+  expect(grandchildObservable.myMap.has("newKey")).toBe(true)
+  expect(grandchildObservable.myMap.get("newKey")).toBe("newValue")
 })
 
 test("all")("Scope.with() contexts handle WeakMap, WeakSet, and Symbol", () => {

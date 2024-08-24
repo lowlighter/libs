@@ -83,11 +83,11 @@ export type { DeepMerge, record }
  *
  * const parentContext = new Context({
  *   setOfUrls: new Set<string>(),   // Shared across contexts
- *   isolatedSetOfUrls: new Set<string>(), // Isolated to each child context
  *   name: "ParentContext",
  * });
  *
  * const childContext = parentContext.with({
+ *   isolatedSetOfUrls: new Set<string>(), // Isolated to each child context
  *   name: "ChildContext",           // Isolated in child context
  * });
  *
@@ -96,6 +96,8 @@ export type { DeepMerge, record }
  * childContext.target.setOfUrls.add("https://child.com");  // Affects all contexts sharing this property
  *
  * console.log(parentContext.target.setOfUrls);  // Includes 'https://child.com'
+ * // @ts-expect-error `isolatedSetOfUrls` shouldn't exist in the parent context
+ * console.log(parentContext.target?.isolatedSetOfUrls);  // undefined
  * console.log(childContext.target.isolatedSetOfUrls);  // Only 'bar' in the child context
  * ```
  *
@@ -291,8 +293,8 @@ export class Context<T extends record = record> extends EventTarget {
   }
 
   /** Access target value from a property path. */
-  #access(path = [] as PropertyKey[]) {
-    return path.reduce((value, property) => (value as target)?.[property], this.#target)
+  #access(path = [] as PropertyKey[], target: record = this.#target) {
+    return path.reduce((value, property) => (value as target)?.[property], target)
   }
 
   /**
@@ -364,19 +366,29 @@ export class Context<T extends record = record> extends EventTarget {
    *
    * @param path - The path to the function being called.
    * @param callable - The function to call.
-   * @param that - The `this` context for the function call.
+   * @param _that - The `this` context for the function call.
    * @param args - The arguments to pass to the function.
    * @returns The result of the function call.
    */
-  #trap_apply(path: PropertyKey[], callable: trap<"apply", 0>, that: trap<"apply", 1>, args: trap<"apply", 2>) {
+  #trap_apply(path: PropertyKey[], callable: trap<"apply", 0>, _that: trap<"apply", 1>, args: trap<"apply", 2>) {
+    // deno-lint-ignore no-this-alias
+    let parent: Context<record> | null = this
+    let target = null
+
+    while (!target && parent) {
+      target = this.#access(path.slice(0, -1), parent.#target)
+      parent = this.#parent!
+    }
+
+    // Reset the parent to avoid memory leaks
+    parent = null
+
     try {
-      return Reflect.apply(callable, that, args)
+      // Objects with internal slots such as Map and Set must use the unproxified target for reflection to work,
+      // so let's just skip right ahead to get the direct source and use it directly for all methods
+      return Reflect.apply(callable, target, args)
     } finally {
-      const target = this.#access(path.slice(0, -1))
-      const property = path.at(-1)!
-      if (target && Reflect.has(target, property)) {
-        this.#dispatch("call", { path, target, property, args })
-      }
+      this.#dispatch("call", { path, target, property: path.at(-1)!, args })
     }
   }
 
@@ -421,7 +433,7 @@ export class Context<T extends record = record> extends EventTarget {
           proxify = true
         } else if (typeof value === "object") {
           // Skip some built-in objects
-          if (Context.#isNotProxyable(value)) {
+          if (Context.#isNotProxyable(value) && !(value instanceof Set || value instanceof Map)) {
             return value
           }
           proxify = true
@@ -435,7 +447,9 @@ export class Context<T extends record = record> extends EventTarget {
       }
       return value
     } finally {
-      this.#dispatch("get", { path, target, property, value })
+      if (Reflect.has(target, property)) {
+        this.#dispatch("get", { path, target, property, value })
+      }
     }
   }
 
@@ -507,7 +521,6 @@ export class Context<T extends record = record> extends EventTarget {
       this.dispatchEvent(new Context.Event("change", { detail }))
     }
 
-    this.dispatchEvent(new Context.Event("all", { detail }))
     for (const child of this.#children) {
       const property = detail.path[0] ?? detail.property
       if (!child.#isolated.has(property) && !Reflect.has(child.#target, property)) {
