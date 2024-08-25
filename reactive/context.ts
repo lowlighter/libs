@@ -1,245 +1,141 @@
+/**
+ * Reactive contexts.
+ *
+ * ## Terminology
+ *
+ * ### Ancestor contexts
+ * Any {@link Context} that is further up in the chain of creation of a given {@link Context}.
+ * A "parent context" refers to the immediate ancestor context.
+ *
+ * ### Descendant contexts
+ * Any new {@link Context} created from a given {@link Context}.
+ * A "child context" refers to the immediate descendant context.
+ *
+ * ### Sibling contexts
+ * Any child context that shares the same parent context.
+ *
+ * ## Concepts
+ *
+ * ### Isolated data
+ *
+ * Refers to properties that are explicitly (re)defined in a child context and do not affect nor inherit from ancestor contexts properties.
+ * Changes made to isolated data in a child context do not propagate back to ancestor and sibling contexts.
+ * Isolated data becomes shared data in all descendant contexts unless isolated again.
+ *
+ * ### Shared Data
+ * Refers to properties that are inherited from ancestor contexts.
+ * These properties can be accessed and modified by descendant contexts.
+ * Changes made to shared data in a descendant context propagate back to ancestor contexts and vice-versa.
+ *
+ * ## Features
+ *
+ * ### Observable properties
+ * {@link Context} implements `EventTarget` interface and accepts event listeners.
+ * Properties in the {@link Context.target} can be tracked and reacted to via events like `get`, `set`, `delete`, and `call`.
+ * A `change` event is also dispatched whenever a property is set, deleted, or called.
+ *
+ * ### Context inheritance
+ * Child contexts inherit properties from their parent contexts, making it easy to share data across multiple related contexts.
+ * Properties set in a child context can override parent context properties, but inherited properties are still accessible unless explicitly overridden.
+ *
+ * ### Handling of specific classes:
+ * Classes listed in {@link Context.unproxyable} are not proxied by default to avoid proxy-related issues and allow reflection.
+ * It includes various built-in such as `Map`, `Set`, `Promise`, etc. and can be modified to fit specific use cases.
+ *
+ * ### Bidirectional data flow
+ * Inherited properties propagate down to descendant contexts, and changes to shared properties reflect back up to ancestor contexts.
+ * Isolated properties remain unique to the child context.
+ *
+ * > [!NOTE]
+ * >
+ * > Properties specified in {@link Context.with} are automatically isolated from the parent and sibling contexts.
+ *
+ * @module
+ */
+
 // Imports
-import type { Nullable, record } from "@libs/typing"
+import type { callback, Nullable, record } from "@libs/typing"
 import type { DeepMerge } from "@std/collections/deep-merge"
 export type { DeepMerge, record }
+import { AsyncFunction, AsyncGeneratorFunction, GeneratorFunction } from "@libs/typing"
 
 /**
  * Reactive context.
  *
  * Create an object where every `get`, `set`, `delete`, and `call` operations are observable.
- * These events can be tracked using the `EventTarget` interface. Observability is applied
- * recursively to all properties of the object, including functions and collections such as
- * `Map`, `Set`, and `Array`.
+ * These events can be tracked using the `EventTarget` interface.
+ * Observability is applied recursively to all properties of the object, including functions and collections such as `Map`, `Set`, and `Array`.
  *
- * ## Key Concepts
- *
- * ### Isolated Data
- * - **Isolated data** refers to properties that are explicitly defined in a child context and do not
- *   affect or inherit from the parent context's properties. Changes made to isolated data in a child
- *   context do not propagate back to the parent context or affect sibling contexts.
- * - **Example**: When creating a child context, you can specify new properties or reassign existing
- *   ones. These properties are isolated to that child context unless explicitly shared back with the
- *   parent.
- *
- * ### Shared Data
- * - **Shared data** refers to properties that are inherited from the parent context. These properties
- *   can be accessed and modified by child contexts. Changes made to shared data in a child context
- *   propagate back to the parent context.
- * - **Example**: Shared data is inherited from the parent context by default. When a child modifies
- *   shared data, the changes are reflected across all contexts that share the same data.
- *
- * ## Key Features
- *
- * 1. **Observable Properties**:
- *    - Properties in the context can be tracked and reacted to via events like `get`, `set`, `delete`,
- *      and `call`.
- *
- * 2. **Context Inheritance**:
- *    - Child contexts inherit properties from their parent contexts, making it easy to share
- *      data across multiple related contexts.
- *    - Properties set in a child context can override parent context properties, but inherited
- *      properties are still accessible unless explicitly overridden.
- *
- * 3. **Handling of Native Classes**:
- *    - Specific native classes such as `Set`, `Map`, `ArrayBuffer`, `WeakMap`, and others are handled
- *      carefully to avoid proxy-related issues. These objects are accessed directly without
- *      unnecessary proxy traps.
- *
- * 4. **Bidirectional Data Flow**:
- *    - Inherited properties propagate down to child contexts, and changes to shared properties reflect
- *      back up to parent contexts. Isolated properties remain unique to the child context.
- *
- * **Note:** Properties specified in `.with({ ... })` are automatically isolated from the parent
- * and sibling contexts. This means that properties defined or modified in a child context do not
- * propagate to parent or sibling contexts unless explicitly shared.
- *
- * @example Example: Observing Property Changes in a Context
- * This example demonstrates the setup of listeners for observing `get`, `set`, `delete`, and `call` operations.
- * We initialize a context and attach listeners to capture events as we interact with the context's target object.
- *
+ * @example Observing `get`, `set`, `delete`, and `call` operations
  * ```ts
  * import { Context } from "./context.ts"
  *
- * const context = new Context({ foo: "bar", bar: () => null });
+ * const context = new Context({ foo: "bar", bar: () => null })
  *
  * // Attach listeners
- * context.addEventListener("get", ({detail:{property}}: any) => console.log(`get: ${property}`));
- * context.addEventListener("set", ({detail:{property, value}}: any) => console.log(`set: ${property}: ${value.old} => ${value.new}`));
- * context.addEventListener("delete", ({detail:{property}}: any) => console.log(`delete: ${property}`));
- * context.addEventListener("call", ({detail:{property, args}}: any) => console.log(`call: ${property}(${args.join(", ")})`));
- * context.addEventListener("change", ({detail:{type}}: any) => console.log(`change: ${type}`));
+ * context.addEventListener("get", ({detail:{property}}: any) => console.log(`get: ${property}`))
+ * context.addEventListener("set", ({detail:{property, value}}: any) => console.log(`set: ${property}: ${value.old} => ${value.new}`))
+ * context.addEventListener("delete", ({detail:{property}}: any) => console.log(`delete: ${property}`))
+ * context.addEventListener("call", ({detail:{property, args}}: any) => console.log(`call: ${property}(${args.join(", ")})`))
+ * context.addEventListener("change", ({detail:{type}}: any) => console.log(`change: ${type}`))
  *
  * // Operate on the context
- * context.target.foo = "baz";  // Triggers the "set" and "change" events
- * context.target.bar();        // Triggers the "call" and "change" events
+ * context.target.foo = "baz"  // Triggers the "set" and "change" events
+ * context.target.bar()        // Triggers the "call" and "change" events
  * ```
  *
- * @example Example: Basic Usage with Shared and Isolated Properties
- * This example illustrates how shared and isolated properties work across contexts. Shared properties are accessible
- * and modifiable across contexts, whereas isolated properties remain unique to each context.
- *
+ * @example Understanding how properties inheritance work
  * ```ts
  * import { Context } from "./context.ts"
  *
- * const parentContext = new Context({
- *   setOfUrls: new Set<string>(),   // Shared across contexts
- *   name: "ParentContext",
- * });
+ * const a = new Context({ foo: "a", bar: "a" })
+ * const b = a.with({ bar: "b", baz: "b" })
+ * const c = b.with({ baz: "c" })
  *
- * const childContext = parentContext.with({
- *   isolatedSetOfUrls: new Set<string>(), // Isolated to each child context
- *   name: "ChildContext",           // Isolated in child context
- * });
+ * console.log(JSON.stringify(a.target)) // {"foo":"a","bar":"a"}
+ * console.log(JSON.stringify(b.target)) // {"foo":"a","bar":"b","baz":"b"}
+ * console.log(JSON.stringify(c.target)) // {"foo":"a","bar":"b","baz":"c"}
  *
- * // Modify isolated and shared properties
- * childContext.target.isolatedSetOfUrls.add("bar");  // Only affects the child context
- * childContext.target.setOfUrls.add("https://child.com");  // Affects all contexts sharing this property
+ * a.target.foo = "A"
+ * b.target.bar = "B"
+ * c.target.baz = "C"
  *
- * console.log(parentContext.target.setOfUrls);  // Includes 'https://child.com'
- * // @ts-expect-error `isolatedSetOfUrls` shouldn't exist in the parent context
- * console.log(parentContext.target?.isolatedSetOfUrls);  // undefined
- * console.log(childContext.target.isolatedSetOfUrls);  // Only 'bar' in the child context
+ * console.log(JSON.stringify(a.target)) // {"foo":"A","bar":"a"}
+ * console.log(JSON.stringify(b.target)) // {"foo":"A","bar":"B","baz":"b"}
+ * console.log(JSON.stringify(c.target)) // {"foo":"A","bar":"B","baz":"C"}
  * ```
  *
- * @example Example: Accessing Properties Across Multiple Levels of Context
- * This example demonstrates how properties are inherited across multiple context levels and how updates propagate.
- *
- * ```ts
- * import { Context } from "./context.ts"
- *
- * const parentContext = new Context({ foo: "parent value" });
- * const childContext = parentContext.with({ bar: "child value" });
- * const grandchildContext = childContext.with({ baz: "grandchild value" });
- *
- * // Access inherited properties across levels
- * console.log(grandchildContext.target.foo); // "parent value" (inherited from parentContext)
- * console.log(grandchildContext.target.bar); // "child value" (inherited from childContext)
- * console.log(grandchildContext.target.baz); // "grandchild value" (from grandchildContext)
- *
- * // Updating a shared property propagates to the parent context
- * grandchildContext.target.foo = "updated value";
- * console.log(parentContext.target.foo); // "updated value"
- * ```
- *
- * @example Example: Handling Native Classes with Proxies
- * This example shows how native classes such as `Set` and `Map` are handled within a context, allowing
- * seamless modification without proxy interference.
- *
+ * @example Handling built-in classes like `Set` or `Map`
  * ```ts
  * import { Context } from "./context.ts"
  *
  * const context = new Context({
- *   mySet: new Set([1, 2, 3]),
- *   myMap: new Map([["key", "value"]]),
- * });
+ *   set: new Set([1, 2, 3]),
+ * })
  *
- * // Add to the set and update the map
- * context.target.mySet.add(4);
- * context.target.myMap.set("newKey", "newValue");
+ * // Attach listeners
+ * let detail = null
+ * context.addEventListener("call", (event: any) => detail = event.detail)
  *
- * console.log(context.target.mySet); // Set { 1, 2, 3, 4 }
- * console.log(context.target.myMap); // Map { "key" => "value", "newKey" => "newValue" }
+ * // Operate on the context
+ * context.target.set.add(4)
+ *
+ * // Log details
+ * console.log(detail)
+ * ```
+ * The `detail` object would contain the following information:
+ * ```json
+ * {
+ *   "target": {}, // Reference to the target `Set`
+ *   "path": [ "set", "add" ],
+ *   "property": "add",
+ *   "args": [ 4 ],
+ *   "type": "call"
+ * }
  * ```
  *
- * @example Example: Shared and Isolated Data with Buffer and Date
- * This example highlights how `ArrayBuffer` and `Date` instances can be shared across contexts or isolated to specific contexts.
- *
- * ```ts
- * import { Context } from "./context.ts"
- *
- * const context = new Context({
- *   buffer: new ArrayBuffer(16),  // Shared buffer
- *   currentDate: new Date(),      // Shared Date
- * });
- *
- * const childContext = context.with({
- *   buffer: new ArrayBuffer(32),  // Isolated buffer
- * });
- *
- * const grandchildContext = childContext.with({
- *   currentDate: new Date("2025-01-01T00:00:00Z"),  // Isolated Date
- * });
- *
- * // Check data in different contexts
- * console.log(context.target.buffer.byteLength);  // 16 bytes (shared)
- * console.log(childContext.target.buffer.byteLength);  // 32 bytes (isolated)
- * console.log(grandchildContext.target.currentDate);  // 2025-01-01T00:00:00.000Z
- * ```
- *
- * @example Example: Working with WeakMap, WeakSet, and Symbol
- * This example shows how `WeakMap`, `WeakSet`, and `Symbol` are handled within the context, with support for
- * isolated symbols across child contexts.
- *
- * ```ts
- * import { Context } from "./context.ts"
- *
- * const weakMap = new WeakMap<object, number>();
- * const symbolKey = Symbol("uniqueKey");
- * const context = new Context({ weakMap, symbolKey });
- *
- * const obj = {};
- * context.target.weakMap.set(obj, 123);
- *
- * const childContext = context.with({
- *   symbolKey: Symbol("childSymbol"),  // Isolated Symbol
- * });
- *
- * console.log(context.target.weakMap.get(obj));  // 123 (shared WeakMap)
- * console.log(childContext.target.symbolKey);    // Symbol("childSymbol") (isolated Symbol)
- * ```
- *
- * @example Example: Streams and Transferables
- * This example demonstrates how `ReadableStream` and `WritableStream` can be utilized within the context
- * and connected via the `pipeTo` method.
- *
- * ```ts
- * import { Context } from "./context.ts"
- *
- * const readableStream = new ReadableStream({
- *   start(controller) {
- *     controller.enqueue("data");
- *     controller.close();
- *   },
- * });
- *
- * const writableStream = new WritableStream({
- *   write(chunk) {
- *     console.log(chunk);  // "data"
- *   },
- * });
- *
- * const context = new Context({ readable: readableStream, writable: writableStream });
- *
- * const childContext = context.with({});
- *
- * childContext.target.readable.pipeTo(childContext.target.writable);
- * ```
- *
- * @example Example: Using AudioData and VideoFrame (for environments that support them)
- * This example highlights the handling of `AudioData` and `VideoFrame` objects in contexts that support them,
- * such as web browsers with media capabilities.
- *
- * ```ts
- * import { Context } from "./context.ts"
- *
- * // @ts-ignore Some runtimes don't support AudioData
- * const audioData = new AudioData({ numberOfChannels: 1, sampleRate: 44100, timestamp: 0 });
- * // @ts-ignore Some runtimes don't support VideoFrame
- * const videoFrame = new VideoFrame({ displayWidth: 1920, displayHeight: 1080 });
- *
- * const context = new Context({ audio: audioData, video: videoFrame });
- *
- * const childContext = context.with({
- *   // @ts-ignore Some runtimes don't support VideoFrame
- *   video: new VideoFrame({ displayWidth: 1280, displayHeight: 720 }),  // Isolated VideoFrame
- * });
- *
- * console.log(context.target.video.displayWidth);  // 1920 (shared)
- * console.log(childContext.target.video.displayWidth);  // 1280 (isolated)
- * ```
  * @author Simon Lecoq (lowlighter)
  * @license MIT
- * @module
  */
 export class Context<T extends record = record> extends EventTarget {
   /** Constructor. */
@@ -247,7 +143,7 @@ export class Context<T extends record = record> extends EventTarget {
     super()
     this.#parent = parent
     this.#target = target
-    this.#isolated = new Set(Object.keys(this.#target))
+    this.#own = new Set(Object.keys(this.#target))
     this.target = this.#proxify(this.#target)
   }
 
@@ -264,28 +160,37 @@ export class Context<T extends record = record> extends EventTarget {
   readonly #children = new Set<Context<record>>()
 
   /**
-   * A set of properties that are considered isolated in the current {@link Context | context}.
-   *
-   * - **Isolated properties** are those that are explicitly defined in a child context.
-   * - These properties do not propagate changes to the parent context or sibling contexts.
-   * - Changes made to isolated properties in the child context are restricted to that context
-   *   and do not affect shared data or other contexts.
+   * Properties owned by the current {@link Context}.
+   * These were explicitly redefined with {@link Context.with} and thus are not inherited from the parent context.
    */
-  readonly #isolated: Set<PropertyKey>
+  readonly #own: Set<PropertyKey>
 
   /**
    * Actual target value.
-   * This value is not proxified.
+   * This value is not proxied.
    */
   readonly #target
 
   /**
    * Observable target value.
-   * This value is proxified.
+   * This value is proxied.
    */
   readonly target: T
 
-  /** Instantiate a new inherited {@link Context} with superseded value. */
+  /**
+   * Instantiate a new inherited {@link Context} with superseded value.
+   *
+   * @example
+   * ```ts
+   * import { Context } from "./context.ts"
+   *
+   * const parent = new Context({ foo: true })
+   * const child = parent.with({ bar: true })
+   *
+   * console.assert(child.target.foo)
+   * console.assert(child.target.bar)
+   * ```
+   */
   with<U extends record>(target: U): Context<DeepMerge<T, U>> {
     const context = new Context(target, { parent: this })
     this.#children.add(context)
@@ -298,30 +203,12 @@ export class Context<T extends record = record> extends EventTarget {
   }
 
   /**
-   * Proxified cache.
+   * Proxied cache.
    * Used to avoid creating multiple proxies for the same object.
    */
   readonly #cache = new WeakMap()
 
-  /**
-   * Proxify an object.
-   *
-   * This method creates a proxy for the target object and attaches traps for `get`, `set`,
-   * `delete`, and other operations. The traps are designed to enforce the observable nature
-   * of the context, while respecting the rules for specific native classes and types.
-   *
-   * Example:
-   * ```ts
-   * import { Context } from "./context.ts"
-   *
-   * const context = new Context({ foo: "bar" });
-   * const proxied = context.target; // Returns a proxied object
-   * ```
-   *
-   * @param target - The object to proxify.
-   * @param path - The property path associated with the object (default is an empty array).
-   * @returns A proxied version of the target object.
-   */
+  /** Proxify an object while handling special cases to avoid proxy-related issues. */
   #proxify(target: target, { path = [] as PropertyKey[] } = {}) {
     return new Proxy(target, this.#trap(target, path))
   }
@@ -351,92 +238,37 @@ export class Context<T extends record = record> extends EventTarget {
 
   /**
    * Trap function calls.
-   *
-   * This trap has been updated to handle native classes like `Map` and `Set`,
-   * ensuring that these objects are not proxied. Additionally, the trap now correctly
-   * accesses properties across multiple context levels.
-   *
-   * Example:
-   * ```ts
-   * import { Context } from "./context.ts"
-   *
-   * const context = new Context({ setFunc: new Set([1, 2, 3]) });
-   * context.target.setFunc.add(4); // Works correctly without proxy interference
-   * ```
-   *
-   * @param path - The path to the function being called.
-   * @param callable - The function to call.
-   * @param _that - The `this` context for the function call.
-   * @param args - The arguments to pass to the function.
-   * @returns The result of the function call.
+   * Objects from {@link Context.unproxyable} are not proxied to avoid issues with internal slots and allow reflection.
    */
   #trap_apply(path: PropertyKey[], callable: trap<"apply", 0>, _that: trap<"apply", 1>, args: trap<"apply", 2>) {
-    // deno-lint-ignore no-this-alias
-    let parent: Context<record> | null = this
+    let parent = this as Nullable<Context>
     let target = null
-
-    while (!target && parent) {
-      target = this.#access(path.slice(0, -1), parent.#target)
-      parent = this.#parent!
-    }
-
-    // Reset the parent to avoid memory leaks
+    do {
+      target = this.#access(path.slice(0, -1), parent!.#target)
+      parent = this.#parent
+    } while ((!target) && parent)
     parent = null
-
     try {
-      // Objects with internal slots such as Map and Set must use the unproxified target for reflection to work,
-      // so let's just skip right ahead to get the direct source and use it directly for all methods
       return Reflect.apply(callable, target, args)
     } finally {
       this.#dispatch("call", { path, target, property: path.at(-1)!, args })
     }
   }
 
-  /**
-   * Trap property access.
-   *
-   * This trap has been updated to correctly access properties across multiple levels
-   * in the context hierarchy, as well as handling specific native classes and types
-   * that should not be proxied.
-   *
-   * Example:
-   * ```ts
-   * import { Context } from "./context.ts"
-   *
-   * const parent = new Context({ foo: "parent" });
-   * const child = parent.with({ bar: "child" });
-   *
-   * console.log(child.target.foo); // Accesses "foo" from parent context
-   * ```
-   *
-   * @param path - The path to the property being accessed.
-   * @param target - The target object.
-   * @param property - The property key.
-   * @returns The value of the property.
-   */
+  /** Trap property access. */
   #trap_get(path: PropertyKey[], target: trap<"get", 0>, property: trap<"get", 1>) {
-    if ((this.#parent) && (!path.length)) {
-      if (!this.#isolated.has(property) && !Reflect.has(target, property)) {
-        return Reflect.get(this.#parent.target, property)
-      }
+    // Reflect on parent root property if current context does not own it
+    if ((this.#parent) && (!path.length) && (!this.#own.has(property)) && (!Reflect.has(target, property))) {
+      return Reflect.get(this.#parent.target, property)
     }
 
+    // Reflect on target property
     const value = Reflect.get(target, property)
     try {
       if (value) {
-        let proxify = false
-        if (typeof value === "function") {
-          // Skip and constructors
-          if ((property === "constructor") && (value !== Object.prototype.constructor)) {
-            return value
-          }
-          proxify = true
-        } else if (typeof value === "object") {
-          // Skip some built-in objects
-          if (Context.#isNotProxyable(value) && !(value instanceof Set || value instanceof Map)) {
-            return value
-          }
-          proxify = true
+        const proxify = (typeof value === "object") || (typeof value === "function")
+        if ((typeof value === "object") && (Context.#unproxyable(value))) {
+          return value
         }
         if (proxify) {
           if (!this.#cache.has(value)) {
@@ -455,10 +287,12 @@ export class Context<T extends record = record> extends EventTarget {
 
   /** Trap property assignment. */
   #trap_set(path: PropertyKey[], target: trap<"set", 0>, property: trap<"set", 1>, value: trap<"set", 2>) {
-    if ((this.#parent) && (!path.length) && (!Reflect.has(this.#target, property)) && (Reflect.has(this.#parent.target, property)) && !this.#isolated.has(property)) {
+    // Reflect on parent root property if current context does not own it
+    if ((this.#parent) && (!path.length) && (!Reflect.has(this.#target, property)) && (Reflect.has(this.#parent.target, property)) && (!this.#own.has(property))) {
       return Reflect.set(this.#parent.target, property, value)
     }
 
+    // Reflect on target property
     const old = Reflect.get(target, property)
     try {
       return Reflect.set(target, property, value)
@@ -469,10 +303,11 @@ export class Context<T extends record = record> extends EventTarget {
 
   /** Trap property deletion. */
   #trap_delete(path: PropertyKey[], target: trap<"deleteProperty", 0>, property: trap<"deleteProperty", 1>) {
-    if ((this.#parent) && (!path.length) && (!Reflect.has(this.#target, property)) && (Reflect.has(this.#parent.target, property)) && !this.#isolated.has(property)) {
+    if ((this.#parent) && (!path.length) && (!Reflect.has(this.#target, property)) && (Reflect.has(this.#parent.target, property)) && (!this.#own.has(property))) {
       return Reflect.deleteProperty(this.#parent.target, property)
     }
 
+    // Reflect on target property
     const deleted = Reflect.get(target, property)
     try {
       return Reflect.deleteProperty(target, property)
@@ -481,36 +316,28 @@ export class Context<T extends record = record> extends EventTarget {
     }
   }
 
-  /** Trap property keys. */
+  /**
+   * Trap property keys.
+   * Keys are kept if:
+   * - They are not owned by current context (i.e. inherited from parent context)
+   * - They are owned by current context and defined in the target
+   */
   #trap_keys(target: trap<"ownKeys", 0>) {
-    const isolatedKeys = this.#isolated // Convert isolated Set to array
-    const parentKeys = Reflect.ownKeys(this.#parent!.target)
-    const targetKeys = Reflect.ownKeys(target)
-
-    // Create the filtered result
-    const allKeys = Array.from(new Set(parentKeys.concat(targetKeys)))
-      .filter((key) => {
-        const inIsolated = isolatedKeys.has(key)
-        const inTarget = targetKeys.includes(key)
-
-        // Keep the key if:
-        // - It is in both isolatedKeys and targetKeys (keep it)
-        // - It is not in isolatedKeys (keep it)
-        return (inIsolated && inTarget) || !inIsolated
-      })
-
-    return allKeys
+    const inherited = Reflect.ownKeys(this.#parent!.target)
+    const defined = Reflect.ownKeys(target)
+    return Array
+      .from(new Set(inherited.concat(defined)))
+      .filter((key) => (this.#own.has(key) && defined.includes(key)) || !this.#own.has(key))
   }
 
   /** Trap property descriptors. */
   #trap_descriptors(target: trap<"getOwnPropertyDescriptor", 0>, property: trap<"getOwnPropertyDescriptor", 1>) {
-    const descriptor = Reflect.getOwnPropertyDescriptor(target, property)
-    return descriptor ?? (!this.#isolated.has(property) ? Reflect.getOwnPropertyDescriptor(this.#parent!.target, property) : descriptor)
+    return this.#own.has(property) ? Reflect.getOwnPropertyDescriptor(target, property) : Reflect.getOwnPropertyDescriptor(this.#parent!.target, property)
   }
 
   /** Trap property existence tests. */
   #trap_has(target: trap<"has", 0>, property: trap<"has", 1>) {
-    return Reflect.has(target, property) || (!this.#isolated.has(property) && Reflect.has(this.#parent!.target, property))
+    return this.#own.has(property) ? Reflect.has(target, property) : Reflect.has(this.#parent!.target, property)
   }
 
   /** Dispatch event. */
@@ -520,76 +347,89 @@ export class Context<T extends record = record> extends EventTarget {
     if ((type === "set") || (type === "delete") || (type === "call")) {
       this.dispatchEvent(new Context.Event("change", { detail }))
     }
-
     for (const child of this.#children) {
       const property = detail.path[0] ?? detail.property
-      if (!child.#isolated.has(property) && !Reflect.has(child.#target, property)) {
+      if ((!child.#own.has(property)) && (!Reflect.has(child.#target, property))) {
         child.#dispatch(type, detail)
       }
     }
   }
 
-  /**
-   * Check if object is a native class or type that should not be proxied.
-   *
-   * The following objects are avoided by default because:
-   *
-   * - **Map, Set, WeakMap, WeakSet**: These collections have internal slots that rely on the object being intact for correct behavior.
-   * - **WeakRef**: Holds a weak reference to an object, preventing interference with garbage collection.
-   * - **Promise**: Proxying promises can interfere with their state management and chaining.
-   * - **Error**: Proxying errors can disrupt stack traces and error handling mechanisms.
-   * - **RegExp**: Regular expressions rely on internal optimizations that can be disrupted by proxying.
-   * - **Date**: Dates have special methods like `getTime()` and `toISOString()` that are tightly coupled with the internal state of the `Date` object.
-   * - **ArrayBuffer, TypedArray**: These represent binary data and are performance-critical. Proxying them could cause significant performance degradation.
-   * - **Function**: Functions have special behavior when called or applied. Proxying can lead to unexpected side effects.
-   * - **Symbol**: Symbols are unique and immutable, making proxying unnecessary and potentially harmful.
-   * - **BigInt**: BigInts are immutable and behave like primitives; proxying them is not meaningful.
-   * - **Intl Objects**: Objects like `Intl.DateTimeFormat`, `Intl.NumberFormat`, and `Intl.Collator` are optimized for locale-aware formatting and should not be altered.
-   * - **MessagePort, MessageChannel, Worker, SharedWorker**: Used for communication between contexts; proxying could disrupt message-passing mechanisms.
-   * - **ImageBitmap**: Represents image data optimized for performance; proxying could slow down rendering operations.
-   * - **OffscreenCanvas**: Enables off-main-thread rendering; proxying could break parallel rendering tasks.
-   * - **ReadableStream, WritableStream, TransformStream**: Streams are designed for efficient data handling. Proxying could introduce latency or disrupt data flow.
-   * - **AudioData, VideoFrame**: Media-related transferables used in real-time processing; proxying could cause performance issues.
-   *
-   * @param obj - The object to check.
-   * @returns `true` if the object is a native class or type that should not be proxied, otherwise `false`.
-   */
-  static #isNotProxyable(obj: unknown): boolean {
-    return (
-      ("Map" in globalThis && obj instanceof globalThis.Map) ||
-      ("Set" in globalThis && obj instanceof globalThis.Set) ||
-      ("WeakMap" in globalThis && obj instanceof globalThis.WeakMap) ||
-      ("WeakSet" in globalThis && obj instanceof globalThis.WeakSet) ||
-      ("WeakRef" in globalThis && obj instanceof globalThis.WeakRef) ||
-      ("Promise" in globalThis && obj instanceof globalThis.Promise) ||
-      ("Error" in globalThis && obj instanceof globalThis.Error) ||
-      ("RegExp" in globalThis && obj instanceof globalThis.RegExp) ||
-      ("Date" in globalThis && obj instanceof globalThis.Date) ||
-      ("ArrayBuffer" in globalThis && obj instanceof globalThis.ArrayBuffer) ||
-      ("ArrayBuffer" in globalThis && globalThis.ArrayBuffer.isView(obj)) || // Covers TypedArrays (Uint8Array, Float32Array, etc.)
-      ("Function" in globalThis && obj instanceof globalThis.Function) ||
-      ("BigInt" in globalThis && typeof obj === "bigint") ||
-      ("Symbol" in globalThis && typeof obj === "symbol") ||
-      ("Intl" in globalThis && "DateTimeFormat" in globalThis.Intl && obj instanceof globalThis.Intl.DateTimeFormat) ||
-      ("Intl" in globalThis && "NumberFormat" in globalThis.Intl && obj instanceof globalThis.Intl.NumberFormat) ||
-      ("Intl" in globalThis && "Collator" in globalThis.Intl && obj instanceof globalThis.Intl.Collator) ||
-      ("Worker" in globalThis && obj instanceof globalThis.Worker) ||
-      // @ts-ignore Not all environments support SharedWorkers
-      ("SharedWorker" in globalThis && obj instanceof globalThis.SharedWorker) ||
-      ("MessageChannel" in globalThis && obj instanceof globalThis.MessageChannel) ||
-      ("MessagePort" in globalThis && obj instanceof globalThis.MessagePort) ||
-      ("ImageBitmap" in globalThis && obj instanceof globalThis.ImageBitmap) ||
-      // @ts-ignore Deno doesn't support `OffscreenCanvas`, but the browsers do
-      ("OffscreenCanvas" in globalThis && obj instanceof globalThis.OffscreenCanvas) ||
-      ("ReadableStream" in globalThis && obj instanceof globalThis.ReadableStream) ||
-      ("WritableStream" in globalThis && obj instanceof globalThis.WritableStream) ||
-      ("TransformStream" in globalThis && obj instanceof globalThis.TransformStream) ||
-      // @ts-ignore Deno doesn't support `AudioData`, but the browsers do
-      ("AudioData" in globalThis && obj instanceof globalThis.AudioData) ||
-      // @ts-ignore Deno doesn't support `VideoFrame`, but the browsers do
-      ("VideoFrame" in globalThis && obj instanceof globalThis.VideoFrame)
-    )
+  /** Check if object should not be proxied. */
+  static #unproxyable(object: unknown): boolean {
+    return Context.unproxyable.some((type) => (typeof type === "function") && (object instanceof type))
   }
+
+  static #_unproxyable = { intl: null as Nullable<string[]> }
+
+  /**
+   * List of classes that should not be proxied.
+   *
+   * The following built-in are avoided by default for the following reasons:
+   * - `Map`, `Set`: Prevent interference with internal data structures and iteration.
+   * - `Function`, `AsyncFunction`, `GeneratorFunction`, `AsyncGeneratorFunction`: Prevent interference with internal state.
+   * - `Date`: Prevent interference with methods like `Date.getTime()` and `Date.toISOString()` which are tightly coupled to internal state.
+   * - `RegExp`: Prevent interference with internal optimizations and state.
+   * - `Promise`: Prevent interference with state management and chaining.
+   * - `Error`: Prevent interference with stack traces and error handling mechanisms.
+   * - `WeakMap`, `WeakSet` and `WeakRef`: Prevent interference with garbage collection.
+   * - `ArrayBuffer`, `TypedArray`, `ReadableStream`, `WritableStream`, `TransformStream`: Prevent interference with stream data flow and handling.
+   * - `Worker`, `SharedWorker`, `MessageChannel`, `MessagePort`: Prevent interference with message-passing mechanisms.
+   * - `ImageBitmap`, `OffscreenCanvas`, `AudioData`, `VideoFrame`: Prevent interference with media real-time processing and rendering operations.
+   * - `Intl.*`: Prevent interference with locale-aware formatting that should not be altered.
+   *
+   * You can add additional classes to this list to prevent them from being proxied.
+   *
+   * You can also remove classes from this list if you know what you are doing or if you are sure to never work with them to increase performance.
+   */
+  static unproxyable = [
+    Map,
+    Set,
+    Function,
+    AsyncFunction,
+    GeneratorFunction,
+    AsyncGeneratorFunction,
+    Date,
+    RegExp,
+    Promise,
+    Error,
+    WeakMap,
+    WeakSet,
+    WeakRef,
+    globalThis.ArrayBuffer,
+    globalThis.Int8Array,
+    globalThis.Uint8Array,
+    globalThis.Uint8ClampedArray,
+    globalThis.Int16Array,
+    globalThis.Uint16Array,
+    globalThis.Int32Array,
+    globalThis.Uint32Array,
+    globalThis.Float16Array,
+    globalThis.Float32Array,
+    globalThis.Float64Array,
+    globalThis.BigInt64Array,
+    globalThis.BigUint64Array,
+    globalThis.ReadableStream,
+    globalThis.WritableStream,
+    globalThis.TransformStream,
+    (globalThis as unknown as record<callback>).Worker,
+    (globalThis as unknown as record<callback>).SharedWorker,
+    (globalThis as unknown as record<callback>).MessageChannel,
+    (globalThis as unknown as record<callback>).MessagePort,
+    (globalThis as unknown as record<callback>).ImageBitmap,
+    (globalThis as unknown as record<callback>).OffscreenCanvas,
+    (globalThis as unknown as record<callback>).AudioData,
+    (globalThis as unknown as record<callback>).VideoFrame,
+    globalThis.Intl?.Collator,
+    globalThis.Intl?.DisplayNames,
+    globalThis.Intl?.DateTimeFormat,
+    globalThis.Intl?.ListFormat,
+    globalThis.Intl?.Locale,
+    globalThis.Intl?.NumberFormat,
+    globalThis.Intl?.PluralRules,
+    globalThis.Intl?.RelativeTimeFormat,
+    globalThis.Intl?.Segmenter,
+  ] as Array<callback | undefined>
 
   /** Context event. */
   static readonly Event = class ContextEvent extends CustomEvent<detail> {} as typeof CustomEvent
