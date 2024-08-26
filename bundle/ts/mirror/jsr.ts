@@ -192,7 +192,7 @@ async function generate(jsr: string) {
         case "namespace":
         case "variable":
         case "function":
-          lines.push(`const ${name} = _${kind}_${name}`)
+          lines.push(`const ${name} = _${kind}_${name} as typeof _${kind}_${name}`)
           break
         case "interface": {
           const generic = capture(signature, kind, _)
