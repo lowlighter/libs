@@ -249,7 +249,7 @@ function capture(params: string, kind: string, _?: any) {
         start = i
       }
     }
-    if (params[i] === ">") {
+    if ((params[i] === ">") && (params[i - 1] !== "=")) {
       depth--
       if (depth === 0) {
         return [fixKeyOf(params.slice(start, i + 1)), `<${_?.[`${kind}Def`]?.typeParams?.map((param: { name: string }) => param.name).join(", ")}>`]
