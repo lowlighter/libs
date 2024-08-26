@@ -265,9 +265,13 @@ export class Context<T extends record = record> extends EventTarget {
         }
         if (proxify) {
           if (!this.#cache.has(value)) {
-            this.#cache.set(value, this.#proxify(value, { path: [...path, property] }))
+            this.#cache.set(value, new Map())
           }
-          return this.#cache.get(value)
+          const keypath = [...path, property].join(".")
+          if (!this.#cache.get(value)?.has(keypath)) {
+            this.#cache.get(value).set(keypath, this.#proxify(value, { path: [...path, property] }))
+          }
+          return this.#cache.get(value).get(keypath)
         }
       }
       return value

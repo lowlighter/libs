@@ -58,7 +58,7 @@ test("all")("Context.target reacts to read operations", () => {
   listeners.get.clear()
   observable.recursive.recursive.recursive.property
   expect(listeners.get).toBeCalledTimes(["recursive", "recursive", "recursive", "property"].length)
-  //expect(listeners.get.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: false })
+  expect(listeners.get.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: false })
 })
 
 test("all")("Context.target reacts to read operations (child context)", () => {
@@ -110,7 +110,7 @@ test("all")("Context.target reacts to write operations", () => {
   observable.recursive.recursive.recursive.property = true
   expect(observable.recursive.recursive.recursive.property).toBe(true)
   expect(listeners.set).toBeCalledTimes(1)
-  //expect(listeners.set.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: { old: false, new: true} })
+  expect(listeners.set.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: { old: false, new: true } })
 })
 
 test("all")("Context.target reacts to write operations (child context)", () => {
@@ -186,7 +186,7 @@ test("all")("Context.target reacts to delete operations", () => {
   delete observable.recursive.recursive.recursive.property
   expect(observable.recursive.recursive.recursive.property).toBeUndefined()
   expect(listeners.delete).toBeCalledTimes(1)
-  //expect(listeners.delete.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: false })
+  expect(listeners.delete.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: false })
 })
 
 test("all")("Context.target reacts to delete operations (child context)", () => {
@@ -376,7 +376,7 @@ test("all")("Context.target reacts to call operations", () => {
   observable.recursive.recursive.recursive.function("foo")
   expect(observable.recursive.recursive.recursive.function).toBeInstanceOf(Function)
   expect(listeners.call).toBeCalledTimes(1)
-  //expect(listeners.call.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "function", args: ["foo"] })
+  expect(listeners.call.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "function", args: ["foo"] })
 })
 
 test("all")("Context.target reacts to call operations (child context)", () => {
