@@ -65,6 +65,11 @@ export type { DeepMerge, record }
  * These events can be tracked using the `EventTarget` interface.
  * Observability is applied recursively to all properties of the object, including functions and collections such as `Map`, `Set`, and `Array`.
  *
+ * > [!WARNING]
+ * >
+ * > To improve performance, same object paths are cached and not proxied multiple times.
+ * > Current implementation is not able to differentiate `Symbol` properties when they have the same description, which may result in unexpected behavior.
+ *
  * @example Observing `get`, `set`, `delete`, and `call` operations
  * ```ts
  * import { Context } from "./context.ts"
@@ -267,7 +272,7 @@ export class Context<T extends record = record> extends EventTarget {
           if (!this.#cache.has(value)) {
             this.#cache.set(value, new Map())
           }
-          const keypath = [...path, property].join(".")
+          const keypath = [...path, property].map(String).join(".")
           if (!this.#cache.get(value)?.has(keypath)) {
             this.#cache.get(value).set(keypath, this.#proxify(value, { path: [...path, property] }))
           }
@@ -356,8 +361,6 @@ export class Context<T extends record = record> extends EventTarget {
   static #unproxyable(object: unknown): boolean {
     return Context.unproxyable.some((type) => (typeof type === "function") && (object instanceof type))
   }
-
-  static #_unproxyable = { intl: null as Nullable<string[]> }
 
   /**
    * List of classes that should not be proxied.

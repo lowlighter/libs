@@ -36,7 +36,7 @@ function observe(target: target, context = new Context(target)) {
 }
 
 test("all")("Context.target reacts to read operations", () => {
-  const { observable, target, listeners } = observe({ property: false, nested: { property: false } })
+  const { observable, target, listeners } = observe({ property: false, nested: { property: false }, [Symbol.for("test")]: false })
 
   listeners.get.clear()
   observable.property
@@ -47,6 +47,11 @@ test("all")("Context.target reacts to read operations", () => {
   observable.nested.property
   expect(listeners.get).toBeCalledTimes(["nested", "property"].length)
   expect(listeners.get.event).toMatchObject({ path: ["nested"], target: target.nested, property: "property", value: false })
+
+  listeners.get.clear()
+  observable[Symbol.for("test")]
+  expect(listeners.get).toBeCalledTimes([Symbol.for("test")].length)
+  expect(listeners.get.event).toMatchObject({ path: [], target, property: Symbol.for("test"), value: false })
 
   listeners.get.clear()
   observable.undefined
@@ -83,7 +88,7 @@ test("all")("Context.target reacts to read operations (child context)", () => {
 })
 
 test("all")("Context.target reacts to write operations", () => {
-  const { observable, target, listeners } = observe({ property: false, nested: { property: false } })
+  const { observable, target, listeners } = observe({ property: false, nested: { property: false }, [Symbol.for("test")]: false })
 
   listeners.set.clear()
   observable.property = true
@@ -96,6 +101,12 @@ test("all")("Context.target reacts to write operations", () => {
   expect(observable.nested.property).toBe(true)
   expect(listeners.set).toBeCalledTimes(1)
   expect(listeners.set.event).toMatchObject({ path: ["nested"], target: target.nested, property: "property", value: { old: false, new: true } })
+
+  listeners.set.clear()
+  observable[Symbol.for("test")] = true
+  expect(observable[Symbol.for("test")]).toBe(true)
+  expect(listeners.set).toBeCalledTimes(1)
+  expect(listeners.set.event).toMatchObject({ path: [], target, property: Symbol.for("test"), value: { old: false, new: true } })
 
   listeners.set.clear()
   observable.undefined = true
@@ -159,7 +170,7 @@ test("all")("Context.target reacts to write operations (child context)", () => {
 })
 
 test("all")("Context.target reacts to delete operations", () => {
-  const { observable, target, listeners } = observe({ property: false, nested: { property: false } })
+  const { observable, target, listeners } = observe({ property: false, nested: { property: false }, [Symbol.for("test")]: false })
 
   listeners.delete.clear()
   delete observable.property
@@ -172,6 +183,12 @@ test("all")("Context.target reacts to delete operations", () => {
   expect(observable.nested.property).toBeUndefined()
   expect(listeners.delete).toBeCalledTimes(1)
   expect(listeners.delete.event).toMatchObject({ path: ["nested"], target: target.nested, property: "property", value: false })
+
+  listeners.delete.clear()
+  delete observable[Symbol.for("test")]
+  expect(observable[Symbol.for("test")]).toBeUndefined()
+  expect(listeners.delete).toBeCalledTimes(1)
+  expect(listeners.delete.event).toMatchObject({ path: [], target, property: Symbol.for("test"), value: false })
 
   listeners.delete.clear()
   delete observable.undefined
