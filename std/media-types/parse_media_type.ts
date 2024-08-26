@@ -28,5 +28,5 @@ import { parseMediaType as _function_parseMediaType } from "jsr:@std/media-types
  * assertEquals(parseMediaType("text/html; charset=UTF-8"), ["text/html", { charset: "UTF-8" }]);
  * ```
  */
-const parseMediaType = _function_parseMediaType
+const parseMediaType = _function_parseMediaType as typeof _function_parseMediaType
 export { parseMediaType }

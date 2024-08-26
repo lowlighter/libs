@@ -1,4 +1,4 @@
-import { validate as _function_validate } from "jsr:@std/uuid@1.0.0/v3"
+import { validate as _function_validate } from "jsr:@std/uuid@1.0.1/v3"
 /**
  * Determines whether a string is a valid
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.3 | UUIDv3}.
@@ -16,10 +16,10 @@ import { validate as _function_validate } from "jsr:@std/uuid@1.0.0/v3"
  * assertFalse(validate("this-is-not-a-uuid"));
  * ```
  */
-const validate = _function_validate
+const validate = _function_validate as typeof _function_validate
 export { validate }
 
-import { generate as _function_generate } from "jsr:@std/uuid@1.0.0/v3"
+import { generate as _function_generate } from "jsr:@std/uuid@1.0.1/v3"
 /**
  * Generates a
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.3 | UUIDv3}.
@@ -43,5 +43,5 @@ import { generate as _function_generate } from "jsr:@std/uuid@1.0.0/v3"
  * assert(validate(uuid));
  * ```
  */
-const generate = _function_generate
+const generate = _function_generate as typeof _function_generate
 export { generate }

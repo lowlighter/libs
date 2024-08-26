@@ -22,5 +22,5 @@ import { basename as _function_basename } from "jsr:@std/path@1.0.2/basename"
  *
  * @return The basename of the path.
  */
-const basename = _function_basename
+const basename = _function_basename as typeof _function_basename
 export { basename }

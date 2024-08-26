@@ -1,10 +1,11 @@
-import { copy as _function_copy } from "jsr:@std/io@0.224.4/copy"
+import { copy as _function_copy } from "jsr:@std/io@0.224.5/copy"
 /**
  * Copies from `src` to `dst` until either EOF (`null`) is read from `src` or
  * an error occurs. It resolves to the number of bytes copied or rejects with
  * the first error encountered while copying.
  *
- * @example ```ts
+ * @example Usage
+ * ```ts no-eval
  * import { copy } from "@std/io/copy";
  *
  * const source = await Deno.open("my_file.txt");
@@ -18,5 +19,5 @@ import { copy as _function_copy } from "jsr:@std/io@0.224.4/copy"
  * @param options Can be used to tune size of the buffer. Default size is 32kB
  * @return Number of bytes copied
  */
-const copy = _function_copy
+const copy = _function_copy as typeof _function_copy
 export { copy }

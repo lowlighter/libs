@@ -25,7 +25,7 @@ import { DIGEST_ALGORITHM_NAMES as _variable_DIGEST_ALGORITHM_NAMES } from "jsr:
  * algorithm's official specification. All names are uppercase to facilitate
  * case-insensitive comparisons required by the WebCrypto spec.
  */
-const DIGEST_ALGORITHM_NAMES = _variable_DIGEST_ALGORITHM_NAMES
+const DIGEST_ALGORITHM_NAMES = _variable_DIGEST_ALGORITHM_NAMES as typeof _variable_DIGEST_ALGORITHM_NAMES
 export { DIGEST_ALGORITHM_NAMES }
 
 import type { DigestAlgorithmName as _typeAlias_DigestAlgorithmName } from "jsr:@std/crypto@1.0.2"
@@ -72,7 +72,7 @@ import { crypto as _variable_crypto } from "jsr:@std/crypto@1.0.2"
  * algorithms, but delegating to the runtime WebCrypto implementation whenever
  * possible.
  */
-const crypto = _variable_crypto
+const crypto = _variable_crypto as typeof _variable_crypto
 export { crypto }
 
 import { timingSafeEqual as _function_timingSafeEqual } from "jsr:@std/crypto@1.0.2"
@@ -108,5 +108,5 @@ import { timingSafeEqual as _function_timingSafeEqual } from "jsr:@std/crypto@1.
  * @param b The second value to compare.
  * @return `true` if the values are equal, otherwise `false`.
  */
-const timingSafeEqual = _function_timingSafeEqual
+const timingSafeEqual = _function_timingSafeEqual as typeof _function_timingSafeEqual
 export { timingSafeEqual }

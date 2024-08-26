@@ -21,5 +21,5 @@ import { union as _function_union } from "jsr:@std/collections@1.0.5/union"
  * assertEquals(shoppingList, ["Pepper", "Carrots", "Leek", "Radicchio"]);
  * ```
  */
-const union = _function_union
+const union = _function_union as typeof _function_union
 export { union }

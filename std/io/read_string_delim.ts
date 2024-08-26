@@ -1,20 +1,25 @@
-import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.4/read-string-delim"
+import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.5/read-string-delim"
 /**
- * Read Reader chunk by chunk, splitting based on delimiter.
+ * Read {@linkcode Reader} chunk by chunk, splitting based on delimiter.
  *
- * @example ```ts
+ * @example Usage
+ * ```ts
  * import { readStringDelim } from "@std/io/read-string-delim";
- * import * as path from "@std/path";
+ * import { assert } from "@std/assert/assert"
  *
- * const filename = path.join(Deno.cwd(), "std/io/README.md");
- * let fileReader = await Deno.open(filename);
+ * let fileReader = await Deno.open("README.md");
  *
  * for await (let line of readStringDelim(fileReader, "\n")) {
- *   console.log(line);
+ *   assert(typeof line === "string");
  * }
  * ```
  *
+ * @param reader The reader to read from
+ * @param delim The delimiter to split the reader by
+ * @param decoderOpts The options
+ * @return The async iterator of strings
+ *
  * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
  */
-const readStringDelim = _function_readStringDelim
+const readStringDelim = _function_readStringDelim as typeof _function_readStringDelim
 export { readStringDelim }

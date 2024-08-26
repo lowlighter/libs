@@ -1,4 +1,4 @@
-import { isSemVer as _function_isSemVer } from "jsr:@std/semver@1.0.0/is-semver"
+import { isSemVer as _function_isSemVer } from "jsr:@std/semver@1.0.1/is-semver"
 /**
  * Checks to see if value is a valid SemVer object. It does a check
  * into each field including prerelease and build.
@@ -30,5 +30,5 @@ import { isSemVer as _function_isSemVer } from "jsr:@std/semver@1.0.0/is-semver"
  * @param value The value to check to see if its a valid SemVer object
  * @return True if value is a valid SemVer otherwise false
  */
-const isSemVer = _function_isSemVer
+const isSemVer = _function_isSemVer as typeof _function_isSemVer
 export { isSemVer }

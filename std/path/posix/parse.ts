@@ -38,5 +38,5 @@ import { parse as _function_parse } from "jsr:@std/path@1.0.2/posix/parse"
  * @param path The path to parse.
  * @return The parsed path object.
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }

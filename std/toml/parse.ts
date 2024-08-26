@@ -18,5 +18,5 @@ import { parse as _function_parse } from "jsr:@std/toml@1.0.0/parse"
  * @param tomlString TOML string to be parsed.
  * @return The parsed JS object.
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }

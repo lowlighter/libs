@@ -32,5 +32,5 @@ import { reduceGroups as _function_reduceGroups } from "jsr:@std/collections@1.0
  * });
  * ```
  */
-const reduceGroups = _function_reduceGroups
+const reduceGroups = _function_reduceGroups as typeof _function_reduceGroups
 export { reduceGroups }

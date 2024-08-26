@@ -26,5 +26,5 @@ import { maxWith as _function_maxWith } from "jsr:@std/collections@1.0.5/max-wit
  * assertEquals(largestName, "Arthur");
  * ```
  */
-const maxWith = _function_maxWith
+const maxWith = _function_maxWith as typeof _function_maxWith
 export { maxWith }

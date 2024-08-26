@@ -14,5 +14,5 @@ import { isGlob as _function_isGlob } from "jsr:@std/path@1.0.2/windows/is-glob"
  * @param str String to test.
  * @return `true` if the given string is a glob, otherwise `false`
  */
-const isGlob = _function_isGlob
+const isGlob = _function_isGlob as typeof _function_isGlob
 export { isGlob }

@@ -26,5 +26,5 @@ import { sumOf as _function_sumOf } from "jsr:@std/collections@1.0.5/sum-of"
  * assertEquals(totalAge, 99);
  * ```
  */
-const sumOf = _function_sumOf
+const sumOf = _function_sumOf as typeof _function_sumOf
 export { sumOf }

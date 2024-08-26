@@ -1,6 +1,6 @@
 import { deepMerge as _function_deepMerge } from "jsr:@std/collections@1.0.5/deep-merge"
 /** UNDOCUMENTED */
-const deepMerge = _function_deepMerge
+const deepMerge = _function_deepMerge as typeof _function_deepMerge
 export { deepMerge }
 
 import type { MergingStrategy as _typeAlias_MergingStrategy } from "jsr:@std/collections@1.0.5/deep-merge"

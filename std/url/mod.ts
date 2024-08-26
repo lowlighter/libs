@@ -4,7 +4,7 @@
  *
  * ```ts
  * import { basename, join, normalize } from "@std/url";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * const url = new URL("https:///deno.land///std//assert//.//mod.ts");
  * const normalizedUrl = normalize(url);
@@ -17,9 +17,13 @@
  * assertEquals(joinedUrl.href, "https://deno.land/std/async/retry.ts");
  * ```
  *
+ * @deprecated Use functions from
+ * {@linkcode https://jsr.io/@std/path/doc/posix/~ | @std/path/posix}
+ * instead (examples included). `@std/url` will be removed in the future.
+ *
  * @module
  */
-import { basename as _function_basename } from "jsr:@std/url@0.224.1"
+import { basename as _function_basename } from "jsr:@std/url@0.225.0"
 /**
  * Returns the base name of a URL or URL string, optionally removing a suffix.
  *
@@ -34,7 +38,7 @@ import { basename as _function_basename } from "jsr:@std/url@0.224.1"
  * @example Basic usage
  * ```ts
  * import { basename } from "@std/url/basename";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(basename("https://deno.land/std/assert/mod.ts"), "mod.ts");
  * assertEquals(basename(new URL("https://deno.land/std/assert/mod.ts")), "mod.ts");
@@ -49,18 +53,22 @@ import { basename as _function_basename } from "jsr:@std/url@0.224.1"
  *
  * ```ts
  * import { basename } from "@std/url/basename";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(basename("https://deno.land/std/assert/mod.ts", ".ts"), "mod");
  * assertEquals(basename(new URL("https://deno.land/std/assert/mod.ts"), ".ts"), "mod");
  * assertEquals(basename("https://deno.land/std/assert/mod.ts?a=b", ".ts"), "mod");
  * assertEquals(basename("https://deno.land/std/assert/mod.ts#header", ".ts"), "mod");
  * ```
+ *
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/path/doc/posix/~/basename | @std/path/posix/basename}
+ * instead (examples included). `@std/url` will be removed in the future.
  */
-const basename = _function_basename
+const basename = _function_basename as typeof _function_basename
 export { basename }
 
-import { dirname as _function_dirname } from "jsr:@std/url@0.224.1"
+import { dirname as _function_dirname } from "jsr:@std/url@0.225.0"
 /**
  * Returns the directory path URL of a URL or URL string.
  *
@@ -73,16 +81,20 @@ import { dirname as _function_dirname } from "jsr:@std/url@0.224.1"
  * @example Usage
  * ```ts
  * import { dirname } from "@std/url/dirname";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(dirname("https://deno.land/std/path/mod.ts"), new URL("https://deno.land/std/path"));
  * assertEquals(dirname(new URL("https://deno.land/std/path/mod.ts")), new URL("https://deno.land/std/path"));
  * ```
+ *
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/path/doc/posix/~/dirname | @std/path/posix/dirname}
+ * instead (examples included). `@std/url` will be removed in the future.
  */
-const dirname = _function_dirname
+const dirname = _function_dirname as typeof _function_dirname
 export { dirname }
 
-import { extname as _function_extname } from "jsr:@std/url@0.224.1"
+import { extname as _function_extname } from "jsr:@std/url@0.225.0"
 /**
  * Returns the file extension of a given URL or string with leading period.
  *
@@ -95,18 +107,22 @@ import { extname as _function_extname } from "jsr:@std/url@0.224.1"
  * @example Usage
  * ```ts
  * import { extname } from "@std/url/extname";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(extname("https://deno.land/std/path/mod.ts"), ".ts");
  * assertEquals(extname("https://deno.land/std/path/mod"), "");
  * assertEquals(extname("https://deno.land/std/path/mod.ts?a=b"), ".ts");
  * assertEquals(extname("https://deno.land/"), "");
  * ```
+ *
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/path/doc/posix/~/extname | @std/path/posix/extname}
+ * instead (examples included). `@std/url` will be removed in the future.
  */
-const extname = _function_extname
+const extname = _function_extname as typeof _function_extname
 export { extname }
 
-import { join as _function_join } from "jsr:@std/url@0.224.1"
+import { join as _function_join } from "jsr:@std/url@0.225.0"
 /**
  * Joins a base URL or URL string, and a sequence of path segments together,
  * then normalizes the resulting URL.
@@ -119,16 +135,20 @@ import { join as _function_join } from "jsr:@std/url@0.224.1"
  *
  * ```ts
  * import { join } from "@std/url/join";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(join("https://deno.land/", "std", "path", "mod.ts").href, "https://deno.land/std/path/mod.ts");
  * assertEquals(join("https://deno.land", "//std", "path/", "/mod.ts").href, "https://deno.land/std/path/mod.ts");
  * ```
+ *
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/path/doc/posix/~/join | @std/path/posix/join}
+ * instead (examples included). `@std/url` will be removed in the future.
  */
-const join = _function_join
+const join = _function_join as typeof _function_join
 export { join }
 
-import { normalize as _function_normalize } from "jsr:@std/url@0.224.1"
+import { normalize as _function_normalize } from "jsr:@std/url@0.225.0"
 /**
  * Normalizes the URL or URL string, resolving `..` and `.` segments. Multiple
  * sequential `/`s are resolved into a single `/`.
@@ -140,11 +160,15 @@ import { normalize as _function_normalize } from "jsr:@std/url@0.224.1"
  *
  * ```ts
  * import { normalize } from "@std/url/normalize";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(normalize("https:///deno.land///std//assert//.//mod.ts").href, "https://deno.land/std/assert/mod.ts");
  * assertEquals(normalize("https://deno.land/std/assert/../async/retry.ts").href, "https://deno.land/std/async/retry.ts");
  * ```
+ *
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/path/doc/posix/~/normalize | @std/path/posix/normalize}
+ * instead (examples included). `@std/url` will be removed in the future.
  */
-const normalize = _function_normalize
+const normalize = _function_normalize as typeof _function_normalize
 export { normalize }

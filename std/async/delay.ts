@@ -1,11 +1,11 @@
-import type { DelayOptions as _interface_DelayOptions } from "jsr:@std/async@1.0.2/delay"
+import type { DelayOptions as _interface_DelayOptions } from "jsr:@std/async@1.0.3/delay"
 /**
  * Options for {@linkcode delay}.
  */
 interface DelayOptions extends _interface_DelayOptions {}
 export type { DelayOptions }
 
-import { delay as _function_delay } from "jsr:@std/async@1.0.2/delay"
+import { delay as _function_delay } from "jsr:@std/async@1.0.3/delay"
 /**
  * Resolve a {@linkcode Promise} after a given amount of milliseconds.
  *
@@ -37,5 +37,5 @@ import { delay as _function_delay } from "jsr:@std/async@1.0.2/delay"
  * // ...
  * ```
  */
-const delay = _function_delay
+const delay = _function_delay as typeof _function_delay
 export { delay }

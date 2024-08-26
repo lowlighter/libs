@@ -36,5 +36,5 @@ import { invertBy as _function_invertBy } from "jsr:@std/collections@1.0.5/inver
  * );
  * ```
  */
-const invertBy = _function_invertBy
+const invertBy = _function_invertBy as typeof _function_invertBy
 export { invertBy }

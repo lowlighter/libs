@@ -1,4 +1,4 @@
-import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.0/cookie"
+import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.3/cookie"
 /**
  * Represents an HTTP Cookie.
  *
@@ -7,7 +7,7 @@ import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.0/cookie"
 interface Cookie extends _interface_Cookie {}
 export type { Cookie }
 
-import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.0/cookie"
+import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.3/cookie"
 /**
  * Parse cookies of a header
  *
@@ -26,10 +26,10 @@ import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.0/cookie"
  * @param headers The headers instance to get cookies from
  * @return Object with cookie names as keys
  */
-const getCookies = _function_getCookies
+const getCookies = _function_getCookies as typeof _function_getCookies
 export { getCookies }
 
-import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.0/cookie"
+import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.3/cookie"
 /**
  * Set the cookie header properly in the headers
  *
@@ -50,10 +50,10 @@ import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.0/cookie"
  * @param headers The headers instance to set the cookie to
  * @param cookie Cookie to set
  */
-const setCookie = _function_setCookie
+const setCookie = _function_setCookie as typeof _function_setCookie
 export { setCookie }
 
-import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.0/cookie"
+import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.3/cookie"
 /**
  * Set the cookie header with empty value in the headers to delete it.
  *
@@ -80,10 +80,10 @@ import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.0/cook
  * @param name Name of cookie
  * @param attributes Additional cookie attributes
  */
-const deleteCookie = _function_deleteCookie
+const deleteCookie = _function_deleteCookie as typeof _function_deleteCookie
 export { deleteCookie }
 
-import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.0/cookie"
+import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.3/cookie"
 /**
  * Parse set-cookies of a header
  *
@@ -110,5 +110,5 @@ import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.0/co
  * @param headers The headers instance to get set-cookies from
  * @return List of cookies
  */
-const getSetCookies = _function_getSetCookies
+const getSetCookies = _function_getSetCookies as typeof _function_getSetCookies
 export { getSetCookies }

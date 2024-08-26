@@ -34,5 +34,5 @@ import { mapEntries as _function_mapEntries } from "jsr:@std/collections@1.0.5/m
  * );
  * ```
  */
-const mapEntries = _function_mapEntries
+const mapEntries = _function_mapEntries as typeof _function_mapEntries
 export { mapEntries }

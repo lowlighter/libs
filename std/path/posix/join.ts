@@ -27,5 +27,5 @@ import { join as _function_join } from "jsr:@std/path@1.0.2/posix/join"
  * @param paths The paths to join.
  * @return The joined path.
  */
-const join = _function_join
+const join = _function_join as typeof _function_join
 export { join }

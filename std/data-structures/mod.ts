@@ -176,7 +176,7 @@ import { ascend as _function_ascend } from "jsr:@std/data-structures@1.0.1"
  * @param b The right comparison value.
  * @return -1 if `a` is less than `b`, 0 if `a` is equal to `b`, and 1 if `a` is greater than `b`.
  */
-const ascend = _function_ascend
+const ascend = _function_ascend as typeof _function_ascend
 export { ascend }
 
 import { descend as _function_descend } from "jsr:@std/data-structures@1.0.1"
@@ -199,7 +199,7 @@ import { descend as _function_descend } from "jsr:@std/data-structures@1.0.1"
  * @param b The right comparison value.
  * @return -1 if `a` is greater than `b`, 0 if `a` is equal to `b`, and 1 if `a` is less than `b`.
  */
-const descend = _function_descend
+const descend = _function_descend as typeof _function_descend
 export { descend }
 
 import { RedBlackTree as _class_RedBlackTree } from "jsr:@std/data-structures@1.0.1"

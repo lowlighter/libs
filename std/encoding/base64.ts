@@ -1,4 +1,4 @@
-import { encodeBase64 as _function_encodeBase64 } from "jsr:@std/encoding@1.0.1/base64"
+import { encodeBase64 as _function_encodeBase64 } from "jsr:@std/encoding@1.0.2/base64"
 /**
  * Converts data into a base64-encoded string.
  *
@@ -15,10 +15,10 @@ import { encodeBase64 as _function_encodeBase64 } from "jsr:@std/encoding@1.0.1/
  * assertEquals(encodeBase64("foobar"), "Zm9vYmFy");
  * ```
  */
-const encodeBase64 = _function_encodeBase64
+const encodeBase64 = _function_encodeBase64 as typeof _function_encodeBase64
 export { encodeBase64 }
 
-import { decodeBase64 as _function_decodeBase64 } from "jsr:@std/encoding@1.0.1/base64"
+import { decodeBase64 as _function_decodeBase64 } from "jsr:@std/encoding@1.0.2/base64"
 /**
  * Decodes a base64-encoded string.
  *
@@ -38,5 +38,5 @@ import { decodeBase64 as _function_decodeBase64 } from "jsr:@std/encoding@1.0.1/
  * );
  * ```
  */
-const decodeBase64 = _function_decodeBase64
+const decodeBase64 = _function_decodeBase64 as typeof _function_decodeBase64
 export { decodeBase64 }

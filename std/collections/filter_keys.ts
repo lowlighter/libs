@@ -33,5 +33,5 @@ import { filterKeys as _function_filterKeys } from "jsr:@std/collections@1.0.5/f
  * );
  * ```
  */
-const filterKeys = _function_filterKeys
+const filterKeys = _function_filterKeys as typeof _function_filterKeys
 export { filterKeys }

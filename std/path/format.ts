@@ -18,5 +18,5 @@ import { format as _function_format } from "jsr:@std/path@1.0.2/format"
  * @param pathObject Object with path components.
  * @return The formatted path.
  */
-const format = _function_format
+const format = _function_format as typeof _function_format
 export { format }

@@ -1,4 +1,4 @@
-import { notEquals as _function_notEquals } from "jsr:@std/semver@1.0.0/not-equals"
+import { notEquals as _function_notEquals } from "jsr:@std/semver@1.0.1/not-equals"
 /**
  * Not equal comparison for two SemVers.
  *
@@ -20,5 +20,5 @@ import { notEquals as _function_notEquals } from "jsr:@std/semver@1.0.0/not-equa
  * @param s1 The second version to compare
  * @return `true` if `s0` is not equal to `s1`, `false` otherwise
  */
-const notEquals = _function_notEquals
+const notEquals = _function_notEquals as typeof _function_notEquals
 export { notEquals }

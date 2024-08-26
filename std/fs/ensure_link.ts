@@ -22,7 +22,7 @@ import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.1/ensure-lin
  * await ensureLink("./folder/targetFile.dat", "./folder/targetFile.link.dat");
  * ```
  */
-const ensureLink = _function_ensureLink
+const ensureLink = _function_ensureLink as typeof _function_ensureLink
 export { ensureLink }
 
 import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.1/ensure-link"
@@ -49,5 +49,5 @@ import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.1/en
  * ensureLinkSync("./folder/targetFile.dat", "./folder/targetFile.link.dat");
  * ```
  */
-const ensureLinkSync = _function_ensureLinkSync
+const ensureLinkSync = _function_ensureLinkSync as typeof _function_ensureLinkSync
 export { ensureLinkSync }

@@ -1,4 +1,4 @@
-import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.1/base58"
+import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.2/base58"
 /**
  * Converts data into a base58-encoded string.
  *
@@ -15,10 +15,10 @@ import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.1/
  * assertEquals(encodeBase58("Hello World!"), "2NEpo7TZRRrLZSi2U");
  * ```
  */
-const encodeBase58 = _function_encodeBase58
+const encodeBase58 = _function_encodeBase58 as typeof _function_encodeBase58
 export { encodeBase58 }
 
-import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.1/base58"
+import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.2/base58"
 /**
  * Decodes a base58-encoded string.
  *
@@ -38,5 +38,5 @@ import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.1/
  * );
  * ```
  */
-const decodeBase58 = _function_decodeBase58
+const decodeBase58 = _function_decodeBase58 as typeof _function_decodeBase58
 export { decodeBase58 }

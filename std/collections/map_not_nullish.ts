@@ -29,5 +29,5 @@ import { mapNotNullish as _function_mapNotNullish } from "jsr:@std/collections@1
  * assertEquals(foundMiddleNames, ["William", "Martha"]);
  * ```
  */
-const mapNotNullish = _function_mapNotNullish
+const mapNotNullish = _function_mapNotNullish as typeof _function_mapNotNullish
 export { mapNotNullish }

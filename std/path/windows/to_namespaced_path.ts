@@ -14,5 +14,5 @@ import { toNamespacedPath as _function_toNamespacedPath } from "jsr:@std/path@1.
  * @param path The path to resolve to namespaced path
  * @return The resolved namespaced path
  */
-const toNamespacedPath = _function_toNamespacedPath
+const toNamespacedPath = _function_toNamespacedPath as typeof _function_toNamespacedPath
 export { toNamespacedPath }

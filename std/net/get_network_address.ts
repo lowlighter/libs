@@ -35,5 +35,5 @@ import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1
  *
  * @experimental
  */
-const getNetworkAddress = _function_getNetworkAddress
+const getNetworkAddress = _function_getNetworkAddress as typeof _function_getNetworkAddress
 export { getNetworkAddress }

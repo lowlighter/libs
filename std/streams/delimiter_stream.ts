@@ -1,18 +1,18 @@
-import type { DelimiterDisposition as _typeAlias_DelimiterDisposition } from "jsr:@std/streams@1.0.0/delimiter-stream"
+import type { DelimiterDisposition as _typeAlias_DelimiterDisposition } from "jsr:@std/streams@1.0.2/delimiter-stream"
 /**
  * Disposition of the delimiter for {@linkcode DelimiterStreamOptions}.
  */
 type DelimiterDisposition = _typeAlias_DelimiterDisposition
 export type { DelimiterDisposition }
 
-import type { DelimiterStreamOptions as _interface_DelimiterStreamOptions } from "jsr:@std/streams@1.0.0/delimiter-stream"
+import type { DelimiterStreamOptions as _interface_DelimiterStreamOptions } from "jsr:@std/streams@1.0.2/delimiter-stream"
 /**
  * Options for {@linkcode DelimiterStream}.
  */
 interface DelimiterStreamOptions extends _interface_DelimiterStreamOptions {}
 export type { DelimiterStreamOptions }
 
-import { DelimiterStream as _class_DelimiterStream } from "jsr:@std/streams@1.0.0/delimiter-stream"
+import { DelimiterStream as _class_DelimiterStream } from "jsr:@std/streams@1.0.2/delimiter-stream"
 /**
  * Divide a stream into chunks delimited by a given byte sequence.
  *

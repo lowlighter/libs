@@ -30,5 +30,5 @@ import { associateWith as _function_associateWith } from "jsr:@std/collections@1
  * });
  * ```
  */
-const associateWith = _function_associateWith
+const associateWith = _function_associateWith as typeof _function_associateWith
 export { associateWith }

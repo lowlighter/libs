@@ -26,7 +26,7 @@ import { setColorEnabled as _function_setColorEnabled } from "jsr:@std/fmt@1.0.0
  *
  * @param value The boolean value to enable or disable text color
  */
-const setColorEnabled = _function_setColorEnabled
+const setColorEnabled = _function_setColorEnabled as typeof _function_setColorEnabled
 export { setColorEnabled }
 
 import { getColorEnabled as _function_getColorEnabled } from "jsr:@std/fmt@1.0.0/colors"
@@ -41,7 +41,7 @@ import { getColorEnabled as _function_getColorEnabled } from "jsr:@std/fmt@1.0.0
  * ```
  * @return `true` if text color is enabled, `false` otherwise
  */
-const getColorEnabled = _function_getColorEnabled
+const getColorEnabled = _function_getColorEnabled as typeof _function_getColorEnabled
 export { getColorEnabled }
 
 import { reset as _function_reset } from "jsr:@std/fmt@1.0.0/colors"
@@ -58,7 +58,7 @@ import { reset as _function_reset } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to reset
  * @return The text with reset color
  */
-const reset = _function_reset
+const reset = _function_reset as typeof _function_reset
 export { reset }
 
 import { bold as _function_bold } from "jsr:@std/fmt@1.0.0/colors"
@@ -75,7 +75,7 @@ import { bold as _function_bold } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make bold
  * @return The bold text
  */
-const bold = _function_bold
+const bold = _function_bold as typeof _function_bold
 export { bold }
 
 import { dim as _function_dim } from "jsr:@std/fmt@1.0.0/colors"
@@ -95,7 +95,7 @@ import { dim as _function_dim } from "jsr:@std/fmt@1.0.0/colors"
  * Warning: Not all terminal emulators support `dim`.
  * For compatibility across all terminals, use {@linkcode gray} or {@linkcode brightBlack} instead.
  */
-const dim = _function_dim
+const dim = _function_dim as typeof _function_dim
 export { dim }
 
 import { italic as _function_italic } from "jsr:@std/fmt@1.0.0/colors"
@@ -112,7 +112,7 @@ import { italic as _function_italic } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make italic
  * @return The italic text
  */
-const italic = _function_italic
+const italic = _function_italic as typeof _function_italic
 export { italic }
 
 import { underline as _function_underline } from "jsr:@std/fmt@1.0.0/colors"
@@ -129,7 +129,7 @@ import { underline as _function_underline } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to underline
  * @return The underlined text
  */
-const underline = _function_underline
+const underline = _function_underline as typeof _function_underline
 export { underline }
 
 import { inverse as _function_inverse } from "jsr:@std/fmt@1.0.0/colors"
@@ -146,7 +146,7 @@ import { inverse as _function_inverse } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to invert its color
  * @return The inverted text
  */
-const inverse = _function_inverse
+const inverse = _function_inverse as typeof _function_inverse
 export { inverse }
 
 import { hidden as _function_hidden } from "jsr:@std/fmt@1.0.0/colors"
@@ -163,7 +163,7 @@ import { hidden as _function_hidden } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to hide
  * @return The hidden text
  */
-const hidden = _function_hidden
+const hidden = _function_hidden as typeof _function_hidden
 export { hidden }
 
 import { strikethrough as _function_strikethrough } from "jsr:@std/fmt@1.0.0/colors"
@@ -180,7 +180,7 @@ import { strikethrough as _function_strikethrough } from "jsr:@std/fmt@1.0.0/col
  * @param str The text to strike through
  * @return The text with horizontal line through the center
  */
-const strikethrough = _function_strikethrough
+const strikethrough = _function_strikethrough as typeof _function_strikethrough
 export { strikethrough }
 
 import { black as _function_black } from "jsr:@std/fmt@1.0.0/colors"
@@ -197,7 +197,7 @@ import { black as _function_black } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make black
  * @return The black text
  */
-const black = _function_black
+const black = _function_black as typeof _function_black
 export { black }
 
 import { red as _function_red } from "jsr:@std/fmt@1.0.0/colors"
@@ -214,7 +214,7 @@ import { red as _function_red } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make red
  * @return The red text
  */
-const red = _function_red
+const red = _function_red as typeof _function_red
 export { red }
 
 import { green as _function_green } from "jsr:@std/fmt@1.0.0/colors"
@@ -231,7 +231,7 @@ import { green as _function_green } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make green
  * @return The green text
  */
-const green = _function_green
+const green = _function_green as typeof _function_green
 export { green }
 
 import { yellow as _function_yellow } from "jsr:@std/fmt@1.0.0/colors"
@@ -248,7 +248,7 @@ import { yellow as _function_yellow } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make yellow
  * @return The yellow text
  */
-const yellow = _function_yellow
+const yellow = _function_yellow as typeof _function_yellow
 export { yellow }
 
 import { blue as _function_blue } from "jsr:@std/fmt@1.0.0/colors"
@@ -265,7 +265,7 @@ import { blue as _function_blue } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make blue
  * @return The blue text
  */
-const blue = _function_blue
+const blue = _function_blue as typeof _function_blue
 export { blue }
 
 import { magenta as _function_magenta } from "jsr:@std/fmt@1.0.0/colors"
@@ -282,7 +282,7 @@ import { magenta as _function_magenta } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make magenta
  * @return The magenta text
  */
-const magenta = _function_magenta
+const magenta = _function_magenta as typeof _function_magenta
 export { magenta }
 
 import { cyan as _function_cyan } from "jsr:@std/fmt@1.0.0/colors"
@@ -299,7 +299,7 @@ import { cyan as _function_cyan } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make cyan
  * @return The cyan text
  */
-const cyan = _function_cyan
+const cyan = _function_cyan as typeof _function_cyan
 export { cyan }
 
 import { white as _function_white } from "jsr:@std/fmt@1.0.0/colors"
@@ -316,7 +316,7 @@ import { white as _function_white } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make white
  * @return The white text
  */
-const white = _function_white
+const white = _function_white as typeof _function_white
 export { white }
 
 import { gray as _function_gray } from "jsr:@std/fmt@1.0.0/colors"
@@ -333,7 +333,7 @@ import { gray as _function_gray } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make gray
  * @return The gray text
  */
-const gray = _function_gray
+const gray = _function_gray as typeof _function_gray
 export { gray }
 
 import { brightBlack as _function_brightBlack } from "jsr:@std/fmt@1.0.0/colors"
@@ -350,7 +350,7 @@ import { brightBlack as _function_brightBlack } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make bright black
  * @return The bright black text
  */
-const brightBlack = _function_brightBlack
+const brightBlack = _function_brightBlack as typeof _function_brightBlack
 export { brightBlack }
 
 import { brightRed as _function_brightRed } from "jsr:@std/fmt@1.0.0/colors"
@@ -367,7 +367,7 @@ import { brightRed as _function_brightRed } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make bright red
  * @return The bright red text
  */
-const brightRed = _function_brightRed
+const brightRed = _function_brightRed as typeof _function_brightRed
 export { brightRed }
 
 import { brightGreen as _function_brightGreen } from "jsr:@std/fmt@1.0.0/colors"
@@ -384,7 +384,7 @@ import { brightGreen as _function_brightGreen } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make bright green
  * @return The bright green text
  */
-const brightGreen = _function_brightGreen
+const brightGreen = _function_brightGreen as typeof _function_brightGreen
 export { brightGreen }
 
 import { brightYellow as _function_brightYellow } from "jsr:@std/fmt@1.0.0/colors"
@@ -401,7 +401,7 @@ import { brightYellow as _function_brightYellow } from "jsr:@std/fmt@1.0.0/color
  * @param str The text to make bright yellow
  * @return The bright yellow text
  */
-const brightYellow = _function_brightYellow
+const brightYellow = _function_brightYellow as typeof _function_brightYellow
 export { brightYellow }
 
 import { brightBlue as _function_brightBlue } from "jsr:@std/fmt@1.0.0/colors"
@@ -418,7 +418,7 @@ import { brightBlue as _function_brightBlue } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make bright blue
  * @return The bright blue text
  */
-const brightBlue = _function_brightBlue
+const brightBlue = _function_brightBlue as typeof _function_brightBlue
 export { brightBlue }
 
 import { brightMagenta as _function_brightMagenta } from "jsr:@std/fmt@1.0.0/colors"
@@ -435,7 +435,7 @@ import { brightMagenta as _function_brightMagenta } from "jsr:@std/fmt@1.0.0/col
  * @param str The text to make bright magenta
  * @return The bright magenta text
  */
-const brightMagenta = _function_brightMagenta
+const brightMagenta = _function_brightMagenta as typeof _function_brightMagenta
 export { brightMagenta }
 
 import { brightCyan as _function_brightCyan } from "jsr:@std/fmt@1.0.0/colors"
@@ -452,7 +452,7 @@ import { brightCyan as _function_brightCyan } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make bright cyan
  * @return The bright cyan text
  */
-const brightCyan = _function_brightCyan
+const brightCyan = _function_brightCyan as typeof _function_brightCyan
 export { brightCyan }
 
 import { brightWhite as _function_brightWhite } from "jsr:@std/fmt@1.0.0/colors"
@@ -469,7 +469,7 @@ import { brightWhite as _function_brightWhite } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make bright white
  * @return The bright white text
  */
-const brightWhite = _function_brightWhite
+const brightWhite = _function_brightWhite as typeof _function_brightWhite
 export { brightWhite }
 
 import { bgBlack as _function_bgBlack } from "jsr:@std/fmt@1.0.0/colors"
@@ -486,7 +486,7 @@ import { bgBlack as _function_bgBlack } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make its background black
  * @return The text with black background
  */
-const bgBlack = _function_bgBlack
+const bgBlack = _function_bgBlack as typeof _function_bgBlack
 export { bgBlack }
 
 import { bgRed as _function_bgRed } from "jsr:@std/fmt@1.0.0/colors"
@@ -503,7 +503,7 @@ import { bgRed as _function_bgRed } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make its background red
  * @return The text with red background
  */
-const bgRed = _function_bgRed
+const bgRed = _function_bgRed as typeof _function_bgRed
 export { bgRed }
 
 import { bgGreen as _function_bgGreen } from "jsr:@std/fmt@1.0.0/colors"
@@ -520,7 +520,7 @@ import { bgGreen as _function_bgGreen } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make its background green
  * @return The text with green background
  */
-const bgGreen = _function_bgGreen
+const bgGreen = _function_bgGreen as typeof _function_bgGreen
 export { bgGreen }
 
 import { bgYellow as _function_bgYellow } from "jsr:@std/fmt@1.0.0/colors"
@@ -537,7 +537,7 @@ import { bgYellow as _function_bgYellow } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make its background yellow
  * @return The text with yellow background
  */
-const bgYellow = _function_bgYellow
+const bgYellow = _function_bgYellow as typeof _function_bgYellow
 export { bgYellow }
 
 import { bgBlue as _function_bgBlue } from "jsr:@std/fmt@1.0.0/colors"
@@ -554,7 +554,7 @@ import { bgBlue as _function_bgBlue } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make its background blue
  * @return The text with blue background
  */
-const bgBlue = _function_bgBlue
+const bgBlue = _function_bgBlue as typeof _function_bgBlue
 export { bgBlue }
 
 import { bgMagenta as _function_bgMagenta } from "jsr:@std/fmt@1.0.0/colors"
@@ -571,7 +571,7 @@ import { bgMagenta as _function_bgMagenta } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make its background magenta
  * @return The text with magenta background
  */
-const bgMagenta = _function_bgMagenta
+const bgMagenta = _function_bgMagenta as typeof _function_bgMagenta
 export { bgMagenta }
 
 import { bgCyan as _function_bgCyan } from "jsr:@std/fmt@1.0.0/colors"
@@ -588,7 +588,7 @@ import { bgCyan as _function_bgCyan } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make its background cyan
  * @return The text with cyan background
  */
-const bgCyan = _function_bgCyan
+const bgCyan = _function_bgCyan as typeof _function_bgCyan
 export { bgCyan }
 
 import { bgWhite as _function_bgWhite } from "jsr:@std/fmt@1.0.0/colors"
@@ -605,7 +605,7 @@ import { bgWhite as _function_bgWhite } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make its background white
  * @return The text with white background
  */
-const bgWhite = _function_bgWhite
+const bgWhite = _function_bgWhite as typeof _function_bgWhite
 export { bgWhite }
 
 import { bgBrightBlack as _function_bgBrightBlack } from "jsr:@std/fmt@1.0.0/colors"
@@ -622,7 +622,7 @@ import { bgBrightBlack as _function_bgBrightBlack } from "jsr:@std/fmt@1.0.0/col
  * @param str The text to make its background bright black
  * @return The text with bright black background
  */
-const bgBrightBlack = _function_bgBrightBlack
+const bgBrightBlack = _function_bgBrightBlack as typeof _function_bgBrightBlack
 export { bgBrightBlack }
 
 import { bgBrightRed as _function_bgBrightRed } from "jsr:@std/fmt@1.0.0/colors"
@@ -639,7 +639,7 @@ import { bgBrightRed as _function_bgBrightRed } from "jsr:@std/fmt@1.0.0/colors"
  * @param str The text to make its background bright red
  * @return The text with bright red background
  */
-const bgBrightRed = _function_bgBrightRed
+const bgBrightRed = _function_bgBrightRed as typeof _function_bgBrightRed
 export { bgBrightRed }
 
 import { bgBrightGreen as _function_bgBrightGreen } from "jsr:@std/fmt@1.0.0/colors"
@@ -656,7 +656,7 @@ import { bgBrightGreen as _function_bgBrightGreen } from "jsr:@std/fmt@1.0.0/col
  * @param str The text to make its background bright green
  * @return The text with bright green background
  */
-const bgBrightGreen = _function_bgBrightGreen
+const bgBrightGreen = _function_bgBrightGreen as typeof _function_bgBrightGreen
 export { bgBrightGreen }
 
 import { bgBrightYellow as _function_bgBrightYellow } from "jsr:@std/fmt@1.0.0/colors"
@@ -673,7 +673,7 @@ import { bgBrightYellow as _function_bgBrightYellow } from "jsr:@std/fmt@1.0.0/c
  * @param str The text to make its background bright yellow
  * @return The text with bright yellow background
  */
-const bgBrightYellow = _function_bgBrightYellow
+const bgBrightYellow = _function_bgBrightYellow as typeof _function_bgBrightYellow
 export { bgBrightYellow }
 
 import { bgBrightBlue as _function_bgBrightBlue } from "jsr:@std/fmt@1.0.0/colors"
@@ -690,7 +690,7 @@ import { bgBrightBlue as _function_bgBrightBlue } from "jsr:@std/fmt@1.0.0/color
  * @param str The text to make its background bright blue
  * @return The text with bright blue background
  */
-const bgBrightBlue = _function_bgBrightBlue
+const bgBrightBlue = _function_bgBrightBlue as typeof _function_bgBrightBlue
 export { bgBrightBlue }
 
 import { bgBrightMagenta as _function_bgBrightMagenta } from "jsr:@std/fmt@1.0.0/colors"
@@ -707,7 +707,7 @@ import { bgBrightMagenta as _function_bgBrightMagenta } from "jsr:@std/fmt@1.0.0
  * @param str The text to make its background bright magenta
  * @return The text with bright magenta background
  */
-const bgBrightMagenta = _function_bgBrightMagenta
+const bgBrightMagenta = _function_bgBrightMagenta as typeof _function_bgBrightMagenta
 export { bgBrightMagenta }
 
 import { bgBrightCyan as _function_bgBrightCyan } from "jsr:@std/fmt@1.0.0/colors"
@@ -724,7 +724,7 @@ import { bgBrightCyan as _function_bgBrightCyan } from "jsr:@std/fmt@1.0.0/color
  * @param str The text to make its background bright cyan
  * @return The text with bright cyan background
  */
-const bgBrightCyan = _function_bgBrightCyan
+const bgBrightCyan = _function_bgBrightCyan as typeof _function_bgBrightCyan
 export { bgBrightCyan }
 
 import { bgBrightWhite as _function_bgBrightWhite } from "jsr:@std/fmt@1.0.0/colors"
@@ -741,7 +741,7 @@ import { bgBrightWhite as _function_bgBrightWhite } from "jsr:@std/fmt@1.0.0/col
  * @param str The text to make its background bright white
  * @return The text with bright white background
  */
-const bgBrightWhite = _function_bgBrightWhite
+const bgBrightWhite = _function_bgBrightWhite as typeof _function_bgBrightWhite
 export { bgBrightWhite }
 
 import { rgb8 as _function_rgb8 } from "jsr:@std/fmt@1.0.0/colors"
@@ -760,7 +760,7 @@ import { rgb8 as _function_rgb8 } from "jsr:@std/fmt@1.0.0/colors"
  * @param color The color code
  * @return The text with paletted 8bit color
  */
-const rgb8 = _function_rgb8
+const rgb8 = _function_rgb8 as typeof _function_rgb8
 export { rgb8 }
 
 import { bgRgb8 as _function_bgRgb8 } from "jsr:@std/fmt@1.0.0/colors"
@@ -779,7 +779,7 @@ import { bgRgb8 as _function_bgRgb8 } from "jsr:@std/fmt@1.0.0/colors"
  * @param color code
  * @return The text with paletted 8bit background color
  */
-const bgRgb8 = _function_bgRgb8
+const bgRgb8 = _function_bgRgb8 as typeof _function_bgRgb8
 export { bgRgb8 }
 
 import { rgb24 as _function_rgb24 } from "jsr:@std/fmt@1.0.0/colors"
@@ -799,7 +799,7 @@ import { rgb24 as _function_rgb24 } from "jsr:@std/fmt@1.0.0/colors"
  * @param color The color code
  * @return The text with 24bit rgb color
  */
-const rgb24 = _function_rgb24
+const rgb24 = _function_rgb24 as typeof _function_rgb24
 export { rgb24 }
 
 import { bgRgb24 as _function_bgRgb24 } from "jsr:@std/fmt@1.0.0/colors"
@@ -819,7 +819,7 @@ import { bgRgb24 as _function_bgRgb24 } from "jsr:@std/fmt@1.0.0/colors"
  * @param color The color code
  * @return The text with 24bit rgb color
  */
-const bgRgb24 = _function_bgRgb24
+const bgRgb24 = _function_bgRgb24 as typeof _function_bgRgb24
 export { bgRgb24 }
 
 import { stripAnsiCode as _function_stripAnsiCode } from "jsr:@std/fmt@1.0.0/colors"
@@ -836,5 +836,5 @@ import { stripAnsiCode as _function_stripAnsiCode } from "jsr:@std/fmt@1.0.0/col
  * @param string The text to remove ANSI escape codes from
  * @return The text without ANSI escape codes
  */
-const stripAnsiCode = _function_stripAnsiCode
+const stripAnsiCode = _function_stripAnsiCode as typeof _function_stripAnsiCode
 export { stripAnsiCode }

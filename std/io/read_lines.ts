@@ -1,20 +1,24 @@
-import { readLines as _function_readLines } from "jsr:@std/io@0.224.4/read-lines"
+import { readLines as _function_readLines } from "jsr:@std/io@0.224.5/read-lines"
 /**
- * Read strings line-by-line from a Reader.
+ * Read strings line-by-line from a {@linkcode Reader}.
  *
- * @example ```ts
+ * @example Usage
+ * ```ts
  * import { readLines } from "@std/io/read-lines";
- * import * as path from "@std/path";
+ * import { assert } from "@std/assert/assert"
  *
- * const filename = path.join(Deno.cwd(), "std/io/README.md");
- * let fileReader = await Deno.open(filename);
+ * let fileReader = await Deno.open("README.md");
  *
  * for await (let line of readLines(fileReader)) {
- *   console.log(line);
+ *   assert(typeof line === "string");
  * }
  * ```
  *
+ * @param reader The reader to read from
+ * @param decoderOpts The options
+ * @return The async iterator of strings
+ *
  * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
  */
-const readLines = _function_readLines
+const readLines = _function_readLines as typeof _function_readLines
 export { readLines }

@@ -1,4 +1,4 @@
-import { lessThan as _function_lessThan } from "jsr:@std/semver@1.0.0/less-than"
+import { lessThan as _function_lessThan } from "jsr:@std/semver@1.0.1/less-than"
 /**
  * Less than comparison for two SemVers.
  *
@@ -21,5 +21,5 @@ import { lessThan as _function_lessThan } from "jsr:@std/semver@1.0.0/less-than"
  * @param s1 the second version to compare
  * @return `true` if `s0` is less than `s1`, `false` otherwise
  */
-const lessThan = _function_lessThan
+const lessThan = _function_lessThan as typeof _function_lessThan
 export { lessThan }

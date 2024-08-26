@@ -1,26 +1,26 @@
-import { MaxUint64 as _variable_MaxUint64 } from "jsr:@std/encoding@1.0.1/varint"
+import { MaxUint64 as _variable_MaxUint64 } from "jsr:@std/encoding@1.0.2/varint"
 /**
  * The maximum value of an unsigned 64-bit integer.
  * Equivalent to `2n**64n - 1n`
  */
-const MaxUint64 = _variable_MaxUint64
+const MaxUint64 = _variable_MaxUint64 as typeof _variable_MaxUint64
 export { MaxUint64 }
 
-import { MaxVarintLen64 as _variable_MaxVarintLen64 } from "jsr:@std/encoding@1.0.1/varint"
+import { MaxVarintLen64 as _variable_MaxVarintLen64 } from "jsr:@std/encoding@1.0.2/varint"
 /**
  * The maximum length, in bytes, of a Varint encoded 64-bit integer.
  */
-const MaxVarintLen64 = _variable_MaxVarintLen64
+const MaxVarintLen64 = _variable_MaxVarintLen64 as typeof _variable_MaxVarintLen64
 export { MaxVarintLen64 }
 
-import { MaxVarintLen32 as _variable_MaxVarintLen32 } from "jsr:@std/encoding@1.0.1/varint"
+import { MaxVarintLen32 as _variable_MaxVarintLen32 } from "jsr:@std/encoding@1.0.2/varint"
 /**
  * The maximum length, in bytes, of a Varint encoded 32-bit integer.
  */
-const MaxVarintLen32 = _variable_MaxVarintLen32
+const MaxVarintLen32 = _variable_MaxVarintLen32 as typeof _variable_MaxVarintLen32
 export { MaxVarintLen32 }
 
-import { decodeVarint as _function_decodeVarint } from "jsr:@std/encoding@1.0.1/varint"
+import { decodeVarint as _function_decodeVarint } from "jsr:@std/encoding@1.0.2/varint"
 /**
  * Given a non empty `buf`, starting at `offset` (default: 0), begin decoding bytes as
  * Varint encoded bytes, for a maximum of 10 bytes (offset + 10). The returned
@@ -47,10 +47,10 @@ import { decodeVarint as _function_decodeVarint } from "jsr:@std/encoding@1.0.1/
  * assertEquals(decodeVarint(buf), [270n, 2]);
  * ```
  */
-const decodeVarint = _function_decodeVarint
+const decodeVarint = _function_decodeVarint as typeof _function_decodeVarint
 export { decodeVarint }
 
-import { decodeVarint32 as _function_decodeVarint32 } from "jsr:@std/encoding@1.0.1/varint"
+import { decodeVarint32 as _function_decodeVarint32 } from "jsr:@std/encoding@1.0.2/varint"
 /**
  * Given a `buf`, starting at `offset` (default: 0), begin decoding bytes as
  * Varint encoded bytes, for a maximum of 5 bytes (offset + 5). The returned
@@ -76,10 +76,10 @@ import { decodeVarint32 as _function_decodeVarint32 } from "jsr:@std/encoding@1.
  * assertEquals(decodeVarint32(buf), [270, 2]);
  * ```
  */
-const decodeVarint32 = _function_decodeVarint32
+const decodeVarint32 = _function_decodeVarint32 as typeof _function_decodeVarint32
 export { decodeVarint32 }
 
-import { encodeVarint as _function_encodeVarint } from "jsr:@std/encoding@1.0.1/varint"
+import { encodeVarint as _function_encodeVarint } from "jsr:@std/encoding@1.0.2/varint"
 /**
  * Takes unsigned number `num` and converts it into a Varint encoded
  * `Uint8Array`, returning a tuple consisting of a `Uint8Array` slice of the
@@ -107,5 +107,5 @@ import { encodeVarint as _function_encodeVarint } from "jsr:@std/encoding@1.0.1/
  * assertEquals(encodeVarint(42n, buf), [new Uint8Array([42]), 1]);
  * ```
  */
-const encodeVarint = _function_encodeVarint
+const encodeVarint = _function_encodeVarint as typeof _function_encodeVarint
 export { encodeVarint }

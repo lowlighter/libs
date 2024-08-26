@@ -14,5 +14,5 @@ import { isAbsolute as _function_isAbsolute } from "jsr:@std/path@1.0.2/posix/is
  * @param path The path to verify.
  * @return Whether the path is absolute.
  */
-const isAbsolute = _function_isAbsolute
+const isAbsolute = _function_isAbsolute as typeof _function_isAbsolute
 export { isAbsolute }

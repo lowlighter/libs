@@ -1,4 +1,4 @@
-import { maxSatisfying as _function_maxSatisfying } from "jsr:@std/semver@1.0.0/max-satisfying"
+import { maxSatisfying as _function_maxSatisfying } from "jsr:@std/semver@1.0.1/max-satisfying"
 /**
  * Returns the highest SemVer in the list that satisfies the range, or `undefined`
  * if none of them do.
@@ -18,5 +18,5 @@ import { maxSatisfying as _function_maxSatisfying } from "jsr:@std/semver@1.0.0/
  * @param range The range of possible versions to compare to.
  * @return The highest version in versions that satisfies the range.
  */
-const maxSatisfying = _function_maxSatisfying
+const maxSatisfying = _function_maxSatisfying as typeof _function_maxSatisfying
 export { maxSatisfying }

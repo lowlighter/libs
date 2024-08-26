@@ -1,11 +1,11 @@
-import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/datetime@0.224.4/format"
+import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/datetime@0.225.0/format"
 /**
  * Options for {@linkcode format}.
  */
 interface FormatOptions extends _interface_FormatOptions {}
 export type { FormatOptions }
 
-import { format as _function_format } from "jsr:@std/datetime@0.224.4/format"
+import { format as _function_format } from "jsr:@std/datetime@0.225.0/format"
 /**
  * Formats a date to a string with the specified format.
  *
@@ -62,8 +62,8 @@ import { format as _function_format } from "jsr:@std/datetime@0.224.4/format"
  *
  * const date = new Date(2019, 0, 20, 16, 34, 23, 123);
  *
- * assertEquals(format(date, "yyyy-MM-dd HH:mm:ss", { utc: true }), "2019-01-20 05:34:23");
+ * assertEquals(format(date, "yyyy-MM-dd HH:mm:ss", { timeZone: "UTC" }), "2019-01-20 05:34:23");
  * ```
  */
-const format = _function_format
+const format = _function_format as typeof _function_format
 export { format }

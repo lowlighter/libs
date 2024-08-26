@@ -57,9 +57,40 @@
  * });
  * ```
  *
+ * ### Routing
+ *
+ * {@linkcode route} provides an easy way to route requests to different
+ * handlers based on the request path and method.
+ *
+ * ```ts no-eval
+ * import { route, type Route } from "@std/http/route";
+ * import { serveDir } from "@std/http/file-server";
+ *
+ * const routes: Route[] = [
+ *   {
+ *     pattern: new URLPattern({ pathname: "/about" }),
+ *     handler: () => new Response("About page"),
+ *   },
+ *   {
+ *     pattern: new URLPattern({ pathname: "/users/:id" }),
+ *     handler: (_req, _info, params) => new Response(params?.pathname.groups.id),
+ *   },
+ *   {
+ *     pattern: new URLPattern({ pathname: "/static/*" }),
+ *     handler: (req: Request) => serveDir(req)
+ *   }
+ * ];
+ *
+ * function defaultHandler(_req: Request) {
+ *   return new Response("Not found", { status: 404 });
+ * }
+ *
+ * Deno.serve(route(routes, defaultHandler));
+ * ```
+ *
  * @module
  */
-import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.0"
+import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.3"
 /**
  * Represents an HTTP Cookie.
  *
@@ -68,7 +99,7 @@ import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.0"
 interface Cookie extends _interface_Cookie {}
 export type { Cookie }
 
-import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.0"
+import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.3"
 /**
  * Parse cookies of a header
  *
@@ -87,10 +118,10 @@ import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.0"
  * @param headers The headers instance to get cookies from
  * @return Object with cookie names as keys
  */
-const getCookies = _function_getCookies
+const getCookies = _function_getCookies as typeof _function_getCookies
 export { getCookies }
 
-import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.0"
+import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.3"
 /**
  * Set the cookie header properly in the headers
  *
@@ -111,10 +142,10 @@ import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.0"
  * @param headers The headers instance to set the cookie to
  * @param cookie Cookie to set
  */
-const setCookie = _function_setCookie
+const setCookie = _function_setCookie as typeof _function_setCookie
 export { setCookie }
 
-import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.0"
+import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.3"
 /**
  * Set the cookie header with empty value in the headers to delete it.
  *
@@ -141,10 +172,10 @@ import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.0"
  * @param name Name of cookie
  * @param attributes Additional cookie attributes
  */
-const deleteCookie = _function_deleteCookie
+const deleteCookie = _function_deleteCookie as typeof _function_deleteCookie
 export { deleteCookie }
 
-import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.0"
+import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.3"
 /**
  * Parse set-cookies of a header
  *
@@ -171,10 +202,10 @@ import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.0"
  * @param headers The headers instance to get set-cookies from
  * @return List of cookies
  */
-const getSetCookies = _function_getSetCookies
+const getSetCookies = _function_getSetCookies as typeof _function_getSetCookies
 export { getSetCookies }
 
-import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.0"
+import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.3"
 /**
  * Just the part of {@linkcode Deno.FileInfo} that is required to calculate an `ETag`,
  * so partial or user generated file information can be passed.
@@ -182,19 +213,19 @@ import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.0"
 interface FileInfo extends _interface_FileInfo {}
 export type { FileInfo }
 
-import type { ETagOptions as _interface_ETagOptions } from "jsr:@std/http@1.0.0"
+import type { ETagOptions as _interface_ETagOptions } from "jsr:@std/http@1.0.3"
 /**
  * Options for {@linkcode eTag}.
  */
 interface ETagOptions extends _interface_ETagOptions {}
 export type { ETagOptions }
 
-import { eTag as _function_eTag } from "jsr:@std/http@1.0.0"
+import { eTag as _function_eTag } from "jsr:@std/http@1.0.3"
 /** UNDOCUMENTED */
-const eTag = _function_eTag
+const eTag = _function_eTag as typeof _function_eTag
 export { eTag }
 
-import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.0"
+import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.3"
 /**
  * A helper function that takes the value from the `If-Match` header and a
  * calculated etag for the target. By using strong comparison, return `true` if
@@ -229,10 +260,10 @@ import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.0"
  * @param etag the ETag to check against.
  * @return whether or not the parameters match.
  */
-const ifMatch = _function_ifMatch
+const ifMatch = _function_ifMatch as typeof _function_ifMatch
 export { ifMatch }
 
-import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.0"
+import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.3"
 /**
  * A helper function that takes the value from the `If-None-Match` header and
  * a calculated etag for the target entity and returns `false` if the etag for
@@ -267,10 +298,10 @@ import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.0"
  * @param etag the ETag to check against.
  * @return whether or not the parameters do not match.
  */
-const ifNoneMatch = _function_ifNoneMatch
+const ifNoneMatch = _function_ifNoneMatch as typeof _function_ifNoneMatch
 export { ifNoneMatch }
 
-import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@1.0.0"
+import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@1.0.3"
 /**
  * Contains the {@linkcode STATUS_CODE} object which contains standard HTTP
  * status codes and provides several type guards for handling status codes
@@ -300,73 +331,73 @@ import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@1.0.0"
  *
  * @module
  */
-const STATUS_CODE = _variable_STATUS_CODE
+const STATUS_CODE = _variable_STATUS_CODE as typeof _variable_STATUS_CODE
 export { STATUS_CODE }
 
-import type { StatusCode as _typeAlias_StatusCode } from "jsr:@std/http@1.0.0"
+import type { StatusCode as _typeAlias_StatusCode } from "jsr:@std/http@1.0.3"
 /**
  * An HTTP status code.
  */
 type StatusCode = _typeAlias_StatusCode
 export type { StatusCode }
 
-import { STATUS_TEXT as _variable_STATUS_TEXT } from "jsr:@std/http@1.0.0"
+import { STATUS_TEXT as _variable_STATUS_TEXT } from "jsr:@std/http@1.0.3"
 /**
  * A record of all the status codes text.
  */
-const STATUS_TEXT = _variable_STATUS_TEXT
+const STATUS_TEXT = _variable_STATUS_TEXT as typeof _variable_STATUS_TEXT
 export { STATUS_TEXT }
 
-import type { StatusText as _typeAlias_StatusText } from "jsr:@std/http@1.0.0"
+import type { StatusText as _typeAlias_StatusText } from "jsr:@std/http@1.0.3"
 /**
  * An HTTP status text.
  */
 type StatusText = _typeAlias_StatusText
 export type { StatusText }
 
-import type { InformationalStatus as _typeAlias_InformationalStatus } from "jsr:@std/http@1.0.0"
+import type { InformationalStatus as _typeAlias_InformationalStatus } from "jsr:@std/http@1.0.3"
 /**
  * An HTTP status that is a informational (1XX).
  */
 type InformationalStatus = _typeAlias_InformationalStatus
 export type { InformationalStatus }
 
-import type { SuccessfulStatus as _typeAlias_SuccessfulStatus } from "jsr:@std/http@1.0.0"
+import type { SuccessfulStatus as _typeAlias_SuccessfulStatus } from "jsr:@std/http@1.0.3"
 /**
  * An HTTP status that is a success (2XX).
  */
 type SuccessfulStatus = _typeAlias_SuccessfulStatus
 export type { SuccessfulStatus }
 
-import type { RedirectStatus as _typeAlias_RedirectStatus } from "jsr:@std/http@1.0.0"
+import type { RedirectStatus as _typeAlias_RedirectStatus } from "jsr:@std/http@1.0.3"
 /**
  * An HTTP status that is a redirect (3XX).
  */
 type RedirectStatus = _typeAlias_RedirectStatus
 export type { RedirectStatus }
 
-import type { ClientErrorStatus as _typeAlias_ClientErrorStatus } from "jsr:@std/http@1.0.0"
+import type { ClientErrorStatus as _typeAlias_ClientErrorStatus } from "jsr:@std/http@1.0.3"
 /**
  * An HTTP status that is a client error (4XX).
  */
 type ClientErrorStatus = _typeAlias_ClientErrorStatus
 export type { ClientErrorStatus }
 
-import type { ServerErrorStatus as _typeAlias_ServerErrorStatus } from "jsr:@std/http@1.0.0"
+import type { ServerErrorStatus as _typeAlias_ServerErrorStatus } from "jsr:@std/http@1.0.3"
 /**
  * An HTTP status that is a server error (5XX).
  */
 type ServerErrorStatus = _typeAlias_ServerErrorStatus
 export type { ServerErrorStatus }
 
-import type { ErrorStatus as _typeAlias_ErrorStatus } from "jsr:@std/http@1.0.0"
+import type { ErrorStatus as _typeAlias_ErrorStatus } from "jsr:@std/http@1.0.3"
 /**
  * An HTTP status that is an error (4XX and 5XX).
  */
 type ErrorStatus = _typeAlias_ErrorStatus
 export type { ErrorStatus }
 
-import { isStatus as _function_isStatus } from "jsr:@std/http@1.0.0"
+import { isStatus as _function_isStatus } from "jsr:@std/http@1.0.3"
 /**
  * Returns whether the provided number is a valid HTTP status code.
  *
@@ -381,10 +412,10 @@ import { isStatus as _function_isStatus } from "jsr:@std/http@1.0.0"
  * @param status The status to assert against.
  * @return Whether or not the provided status is a valid status code.
  */
-const isStatus = _function_isStatus
+const isStatus = _function_isStatus as typeof _function_isStatus
 export { isStatus }
 
-import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@std/http@1.0.0"
+import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@std/http@1.0.3"
 /**
  * A type guard that determines if the status code is informational.
  *
@@ -399,10 +430,10 @@ import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@s
  * @param status The status to assert against.
  * @return Whether or not the provided status is an informational status code.
  */
-const isInformationalStatus = _function_isInformationalStatus
+const isInformationalStatus = _function_isInformationalStatus as typeof _function_isInformationalStatus
 export { isInformationalStatus }
 
-import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/http@1.0.0"
+import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/http@1.0.3"
 /**
  * A type guard that determines if the status code is successful.
  *
@@ -417,10 +448,10 @@ import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/htt
  * @param status The status to assert against.
  * @return Whether or not the provided status is a successful status code.
  */
-const isSuccessfulStatus = _function_isSuccessfulStatus
+const isSuccessfulStatus = _function_isSuccessfulStatus as typeof _function_isSuccessfulStatus
 export { isSuccessfulStatus }
 
-import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@1.0.0"
+import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@1.0.3"
 /**
  * A type guard that determines if the status code is a redirection.
  *
@@ -435,10 +466,10 @@ import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@1.
  * @param status The status to assert against.
  * @return Whether or not the provided status is a redirect status code.
  */
-const isRedirectStatus = _function_isRedirectStatus
+const isRedirectStatus = _function_isRedirectStatus as typeof _function_isRedirectStatus
 export { isRedirectStatus }
 
-import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/http@1.0.0"
+import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/http@1.0.3"
 /**
  * A type guard that determines if the status code is a client error.
  *
@@ -453,10 +484,10 @@ import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/h
  * @param status The status to assert against.
  * @return Whether or not the provided status is a client error status code.
  */
-const isClientErrorStatus = _function_isClientErrorStatus
+const isClientErrorStatus = _function_isClientErrorStatus as typeof _function_isClientErrorStatus
 export { isClientErrorStatus }
 
-import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/http@1.0.0"
+import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/http@1.0.3"
 /**
  * A type guard that determines if the status code is a server error.
  *
@@ -471,10 +502,10 @@ import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/h
  * @param status The status to assert against.
  * @return Whether or not the provided status is a server error status code.
  */
-const isServerErrorStatus = _function_isServerErrorStatus
+const isServerErrorStatus = _function_isServerErrorStatus as typeof _function_isServerErrorStatus
 export { isServerErrorStatus }
 
-import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@1.0.0"
+import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@1.0.3"
 /**
  * A type guard that determines if the status code is an error.
  *
@@ -489,25 +520,25 @@ import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@1.0.0"
  * @param status The status to assert against.
  * @return Whether or not the provided status is an error status code.
  */
-const isErrorStatus = _function_isErrorStatus
+const isErrorStatus = _function_isErrorStatus as typeof _function_isErrorStatus
 export { isErrorStatus }
 
-import { accepts as _function_accepts } from "jsr:@std/http@1.0.0"
+import { accepts as _function_accepts } from "jsr:@std/http@1.0.3"
 /** UNDOCUMENTED */
-const accepts = _function_accepts
+const accepts = _function_accepts as typeof _function_accepts
 export { accepts }
 
-import { acceptsEncodings as _function_acceptsEncodings } from "jsr:@std/http@1.0.0"
+import { acceptsEncodings as _function_acceptsEncodings } from "jsr:@std/http@1.0.3"
 /** UNDOCUMENTED */
-const acceptsEncodings = _function_acceptsEncodings
+const acceptsEncodings = _function_acceptsEncodings as typeof _function_acceptsEncodings
 export { acceptsEncodings }
 
-import { acceptsLanguages as _function_acceptsLanguages } from "jsr:@std/http@1.0.0"
+import { acceptsLanguages as _function_acceptsLanguages } from "jsr:@std/http@1.0.3"
 /** UNDOCUMENTED */
-const acceptsLanguages = _function_acceptsLanguages
+const acceptsLanguages = _function_acceptsLanguages as typeof _function_acceptsLanguages
 export { acceptsLanguages }
 
-import { signCookie as _function_signCookie } from "jsr:@std/http@1.0.0"
+import { signCookie as _function_signCookie } from "jsr:@std/http@1.0.3"
 /**
  * Returns a promise with the signed cookie value from the given cryptographic
  * key.
@@ -541,10 +572,10 @@ import { signCookie as _function_signCookie } from "jsr:@std/http@1.0.0"
  * @param key The cryptographic key to sign the cookie with.
  * @return The signed cookie.
  */
-const signCookie = _function_signCookie
+const signCookie = _function_signCookie as typeof _function_signCookie
 export { signCookie }
 
-import { verifySignedCookie as _function_verifySignedCookie } from "jsr:@std/http@1.0.0"
+import { verifySignedCookie as _function_verifySignedCookie } from "jsr:@std/http@1.0.3"
 /**
  * Returns a promise of a boolean indicating whether the signed cookie is valid.
  *
@@ -575,10 +606,10 @@ import { verifySignedCookie as _function_verifySignedCookie } from "jsr:@std/htt
  * @param key The cryptographic key to verify the cookie with.
  * @return Whether or not the cookie is valid.
  */
-const verifySignedCookie = _function_verifySignedCookie
+const verifySignedCookie = _function_verifySignedCookie as typeof _function_verifySignedCookie
 export { verifySignedCookie }
 
-import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@1.0.0"
+import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@1.0.3"
 /**
  * Parses a signed cookie to get its value.
  *
@@ -611,10 +642,10 @@ import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@
  * @param signedCookie The signed cookie to parse the value from.
  * @return The parsed cookie.
  */
-const parseSignedCookie = _function_parseSignedCookie
+const parseSignedCookie = _function_parseSignedCookie as typeof _function_parseSignedCookie
 export { parseSignedCookie }
 
-import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from "jsr:@std/http@1.0.0"
+import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from "jsr:@std/http@1.0.3"
 /**
  * Represents a message in the Server-Sent Event (SSE) protocol.
  *
@@ -623,7 +654,7 @@ import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from
 interface ServerSentEventMessage extends _interface_ServerSentEventMessage {}
 export type { ServerSentEventMessage }
 
-import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/http@1.0.0"
+import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/http@1.0.3"
 /**
  * Transforms server-sent message objects into strings for the client.
  *
@@ -650,42 +681,42 @@ import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/
 class ServerSentEventStream extends _class_ServerSentEventStream {}
 export { ServerSentEventStream }
 
-import type { Browser as _interface_Browser } from "jsr:@std/http@1.0.0"
+import type { Browser as _interface_Browser } from "jsr:@std/http@1.0.3"
 /**
  * The browser as described by a user agent string.
  */
 interface Browser extends _interface_Browser {}
 export type { Browser }
 
-import type { Device as _interface_Device } from "jsr:@std/http@1.0.0"
+import type { Device as _interface_Device } from "jsr:@std/http@1.0.3"
 /**
  * The device as described by a user agent string.
  */
 interface Device extends _interface_Device {}
 export type { Device }
 
-import type { Engine as _interface_Engine } from "jsr:@std/http@1.0.0"
+import type { Engine as _interface_Engine } from "jsr:@std/http@1.0.3"
 /**
  * The browser engine as described by a user agent string.
  */
 interface Engine extends _interface_Engine {}
 export type { Engine }
 
-import type { Os as _interface_Os } from "jsr:@std/http@1.0.0"
+import type { Os as _interface_Os } from "jsr:@std/http@1.0.3"
 /**
  * The OS as described by a user agent string.
  */
 interface Os extends _interface_Os {}
 export type { Os }
 
-import type { Cpu as _interface_Cpu } from "jsr:@std/http@1.0.0"
+import type { Cpu as _interface_Cpu } from "jsr:@std/http@1.0.3"
 /**
  * The CPU information as described by a user agent string.
  */
 interface Cpu extends _interface_Cpu {}
 export type { Cpu }
 
-import { UserAgent as _class_UserAgent } from "jsr:@std/http@1.0.0"
+import { UserAgent as _class_UserAgent } from "jsr:@std/http@1.0.3"
 /**
  * A representation of user agent string, which can be used to determine
  * environmental information represented by the string. All properties are
@@ -705,14 +736,14 @@ import { UserAgent as _class_UserAgent } from "jsr:@std/http@1.0.0"
 class UserAgent extends _class_UserAgent {}
 export { UserAgent }
 
-import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@1.0.0"
+import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@1.0.3"
 /**
  * Options for {@linkcode serveFile}.
  */
 interface ServeFileOptions extends _interface_ServeFileOptions {}
 export type { ServeFileOptions }
 
-import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.0"
+import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.3"
 /**
  * Resolves a {@linkcode Response} with the requested file as the body.
  *
@@ -730,17 +761,17 @@ import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.0"
  * @param options Additional options.
  * @return A response for the request.
  */
-const serveFile = _function_serveFile
+const serveFile = _function_serveFile as typeof _function_serveFile
 export { serveFile }
 
-import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@1.0.0"
+import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@1.0.3"
 /**
  * Interface for serveDir options.
  */
 interface ServeDirOptions extends _interface_ServeDirOptions {}
 export type { ServeDirOptions }
 
-import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.0"
+import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.3"
 /**
  * Serves the files under the given directory root (opts.fsRoot).
  *
@@ -777,5 +808,126 @@ import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.0"
  * @param opts Additional options.
  * @return A response for the request.
  */
-const serveDir = _function_serveDir
+const serveDir = _function_serveDir as typeof _function_serveDir
 export { serveDir }
+
+import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.3"
+/**
+ * Request handler for {@linkcode Route}.
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
+ * @param request Request
+ * @param info Request info
+ * @param params URL pattern result
+ */
+type Handler = _typeAlias_Handler
+export type { Handler }
+
+import type { Route as _interface_Route } from "jsr:@std/http@1.0.3"
+/**
+ * Route configuration for {@linkcode route}.
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
+ */
+interface Route extends _interface_Route {}
+export type { Route }
+
+import { route as _function_route } from "jsr:@std/http@1.0.3"
+/**
+ * Routes requests to different handlers based on the request path and method.
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
+ * @example Usage
+ * ```ts no-eval
+ * import { route, type Route } from "@std/http/route";
+ * import { serveDir } from "@std/http/file-server";
+ *
+ * const routes: Route[] = [
+ *   {
+ *     pattern: new URLPattern({ pathname: "/about" }),
+ *     handler: () => new Response("About page"),
+ *   },
+ *   {
+ *     pattern: new URLPattern({ pathname: "/users/:id" }),
+ *     handler: (_req, _info, params) => new Response(params?.pathname.groups.id),
+ *   },
+ *   {
+ *     pattern: new URLPattern({ pathname: "/static/*" }),
+ *     handler: (req: Request) => serveDir(req)
+ *   }
+ * ];
+ *
+ * function defaultHandler(_req: Request) {
+ *   return new Response("Not found", { status: 404 });
+ * }
+ *
+ * Deno.serve(route(routes, defaultHandler));
+ * ```
+ *
+ * @param routes Route configurations
+ * @param defaultHandler Default request handler that's returned when no route
+ * matches the given request. Serving HTTP 404 Not Found or 405 Method Not
+ * Allowed response can be done in this function.
+ * @return Request handler
+ */
+const route = _function_route as typeof _function_route
+export { route }
+
+import { HEADER as _variable_HEADER } from "jsr:@std/http@1.0.3"
+/**
+ * HTTP Headers with status permanent
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
+ * @see {@link https://www.iana.org/assignments/http-fields/http-fields.xhtml#field-names | IANA Hypertext Transfer Protocol (HTTP) Field Name Registry}
+ */
+const HEADER = _variable_HEADER as typeof _variable_HEADER
+export { HEADER }
+
+import type { Header as _typeAlias_Header } from "jsr:@std/http@1.0.3"
+/**
+ * A HTTP Header
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
+ */
+type Header = _typeAlias_Header
+export type { Header }
+
+import { METHOD as _variable_METHOD } from "jsr:@std/http@1.0.3"
+/**
+ * HTTP Methods derived from IANA Hypertext Transfer Protocol (HTTP) Method Registry
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
+ * @see {@link https://www.iana.org/assignments/http-methods/http-methods.xhtml#methods | IANA Hypertext Transfer Protocol (HTTP) Method Registry}
+ */
+const METHOD = _variable_METHOD as typeof _variable_METHOD
+export { METHOD }
+
+import type { Method as _typeAlias_Method } from "jsr:@std/http@1.0.3"
+/**
+ * A HTTP Method
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
+ */
+type Method = _typeAlias_Method
+export type { Method }

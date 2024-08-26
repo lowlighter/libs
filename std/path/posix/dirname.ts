@@ -26,5 +26,5 @@ import { dirname as _function_dirname } from "jsr:@std/path@1.0.2/posix/dirname"
  * @param path The path to get the directory from.
  * @return The directory path.
  */
-const dirname = _function_dirname
+const dirname = _function_dirname as typeof _function_dirname
 export { dirname }

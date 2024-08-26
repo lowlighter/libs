@@ -1,4 +1,4 @@
-import { dirname as _function_dirname } from "jsr:@std/url@0.224.1/dirname"
+import { dirname as _function_dirname } from "jsr:@std/url@0.225.0/dirname"
 /**
  * Returns the directory path URL of a URL or URL string.
  *
@@ -11,11 +11,15 @@ import { dirname as _function_dirname } from "jsr:@std/url@0.224.1/dirname"
  * @example Usage
  * ```ts
  * import { dirname } from "@std/url/dirname";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(dirname("https://deno.land/std/path/mod.ts"), new URL("https://deno.land/std/path"));
  * assertEquals(dirname(new URL("https://deno.land/std/path/mod.ts")), new URL("https://deno.land/std/path"));
  * ```
+ *
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/path/doc/posix/~/dirname | @std/path/posix/dirname}
+ * instead (examples included). `@std/url` will be removed in the future.
  */
-const dirname = _function_dirname
+const dirname = _function_dirname as typeof _function_dirname
 export { dirname }

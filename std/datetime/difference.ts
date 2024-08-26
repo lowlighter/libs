@@ -1,4 +1,4 @@
-import type { Unit as _typeAlias_Unit } from "jsr:@std/datetime@0.224.4/difference"
+import type { Unit as _typeAlias_Unit } from "jsr:@std/datetime@0.225.0/difference"
 /**
  * Duration units for {@linkcode DifferenceFormat} and
  * {@linkcode DifferenceOptions}.
@@ -6,21 +6,21 @@ import type { Unit as _typeAlias_Unit } from "jsr:@std/datetime@0.224.4/differen
 type Unit = _typeAlias_Unit
 export type { Unit }
 
-import type { DifferenceFormat as _typeAlias_DifferenceFormat } from "jsr:@std/datetime@0.224.4/difference"
+import type { DifferenceFormat as _typeAlias_DifferenceFormat } from "jsr:@std/datetime@0.225.0/difference"
 /**
  * Return type for {@linkcode difference}.
  */
 type DifferenceFormat = _typeAlias_DifferenceFormat
 export type { DifferenceFormat }
 
-import type { DifferenceOptions as _typeAlias_DifferenceOptions } from "jsr:@std/datetime@0.224.4/difference"
+import type { DifferenceOptions as _typeAlias_DifferenceOptions } from "jsr:@std/datetime@0.225.0/difference"
 /**
  * Options for {@linkcode difference}.
  */
 type DifferenceOptions = _typeAlias_DifferenceOptions
 export type { DifferenceOptions }
 
-import { difference as _function_difference } from "jsr:@std/datetime@0.224.4/difference"
+import { difference as _function_difference } from "jsr:@std/datetime@0.225.0/difference"
 /**
  * Calculates the difference of the 2 given dates in various units. If the units
  * are omitted, it returns the difference in the all available units.
@@ -71,5 +71,5 @@ import { difference as _function_difference } from "jsr:@std/datetime@0.224.4/di
  * });
  * ```
  */
-const difference = _function_difference
+const difference = _function_difference as typeof _function_difference
 export { difference }

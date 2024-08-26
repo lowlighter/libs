@@ -1,4 +1,4 @@
-import { toPascalCase as _function_toPascalCase } from "jsr:@std/text@1.0.2/to-pascal-case"
+import { toPascalCase as _function_toPascalCase } from "jsr:@std/text@1.0.3/to-pascal-case"
 /**
  * Converts a string into PascalCase.
  *
@@ -13,5 +13,5 @@ import { toPascalCase as _function_toPascalCase } from "jsr:@std/text@1.0.2/to-p
  * @param input The string that is going to be converted into PascalCase
  * @return The string as PascalCase
  */
-const toPascalCase = _function_toPascalCase
+const toPascalCase = _function_toPascalCase as typeof _function_toPascalCase
 export { toPascalCase }

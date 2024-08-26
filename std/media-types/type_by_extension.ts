@@ -22,5 +22,5 @@ import { typeByExtension as _function_typeByExtension } from "jsr:@std/media-typ
  * assertEquals(typeByExtension("file.json"), undefined);
  * ```
  */
-const typeByExtension = _function_typeByExtension
+const typeByExtension = _function_typeByExtension as typeof _function_typeByExtension
 export { typeByExtension }

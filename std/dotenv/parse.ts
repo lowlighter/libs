@@ -14,5 +14,5 @@ import { parse as _function_parse } from "jsr:@std/dotenv@0.225.0/parse"
  * @param text The text to parse.
  * @return The parsed object.
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }

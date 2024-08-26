@@ -21,7 +21,7 @@ import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.1/ensure-fil
  * await ensureFile("./folder/targetFile.dat");
  * ```
  */
-const ensureFile = _function_ensureFile
+const ensureFile = _function_ensureFile as typeof _function_ensureFile
 export { ensureFile }
 
 import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.1/ensure-file"
@@ -47,5 +47,5 @@ import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.1/en
  * ensureFileSync("./folder/targetFile.dat");
  * ```
  */
-const ensureFileSync = _function_ensureFileSync
+const ensureFileSync = _function_ensureFileSync as typeof _function_ensureFileSync
 export { ensureFileSync }

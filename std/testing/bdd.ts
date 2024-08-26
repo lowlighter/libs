@@ -30,7 +30,7 @@ import { it as _namespace_it } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Additional properties on the `it` function.
  */
-const it = _namespace_it
+const it = _namespace_it as typeof _namespace_it
 export { it }
 
 import { test as _function_test } from "jsr:@std/testing@1.0.0/bdd"
@@ -53,7 +53,7 @@ import { test as _function_test } from "jsr:@std/testing@1.0.0/bdd"
  * @template T The self type of the function to implement the test case
  * @param args The test case
  */
-const test = _function_test
+const test = _function_test as typeof _function_test
 export { test }
 
 import { beforeAll as _function_beforeAll } from "jsr:@std/testing@1.0.0/bdd"
@@ -80,7 +80,7 @@ import { beforeAll as _function_beforeAll } from "jsr:@std/testing@1.0.0/bdd"
  * @template T The self type of the function
  * @param fn The function to implement the setup behavior.
  */
-const beforeAll = _function_beforeAll
+const beforeAll = _function_beforeAll as typeof _function_beforeAll
 export { beforeAll }
 
 import { before as _function_before } from "jsr:@std/testing@1.0.0/bdd"
@@ -109,7 +109,7 @@ import { before as _function_before } from "jsr:@std/testing@1.0.0/bdd"
  * @template T The self type of the function
  * @param fn The function to implement the setup behavior.
  */
-const before = _function_before
+const before = _function_before as typeof _function_before
 export { before }
 
 import { afterAll as _function_afterAll } from "jsr:@std/testing@1.0.0/bdd"
@@ -136,7 +136,7 @@ import { afterAll as _function_afterAll } from "jsr:@std/testing@1.0.0/bdd"
  * @template T The self type of the function
  * @param fn The function to implement the teardown behavior.
  */
-const afterAll = _function_afterAll
+const afterAll = _function_afterAll as typeof _function_afterAll
 export { afterAll }
 
 import { after as _function_after } from "jsr:@std/testing@1.0.0/bdd"
@@ -165,7 +165,7 @@ import { after as _function_after } from "jsr:@std/testing@1.0.0/bdd"
  * @template T The self type of the function
  * @param fn The function to implement the teardown behavior.
  */
-const after = _function_after
+const after = _function_after as typeof _function_after
 export { after }
 
 import { beforeEach as _function_beforeEach } from "jsr:@std/testing@1.0.0/bdd"
@@ -192,7 +192,7 @@ import { beforeEach as _function_beforeEach } from "jsr:@std/testing@1.0.0/bdd"
  * @template T The self type of the function
  * @param fn The function to implement the shared setup behavior
  */
-const beforeEach = _function_beforeEach
+const beforeEach = _function_beforeEach as typeof _function_beforeEach
 export { beforeEach }
 
 import { afterEach as _function_afterEach } from "jsr:@std/testing@1.0.0/bdd"
@@ -219,7 +219,7 @@ import { afterEach as _function_afterEach } from "jsr:@std/testing@1.0.0/bdd"
  * @template T The self type of the function
  * @param fn The function to implement the shared teardown behavior
  */
-const afterEach = _function_afterEach
+const afterEach = _function_afterEach as typeof _function_afterEach
 export { afterEach }
 
 import type { DescribeArgs as _typeAlias_DescribeArgs } from "jsr:@std/testing@1.0.0/bdd"
@@ -233,5 +233,5 @@ import { describe as _namespace_describe } from "jsr:@std/testing@1.0.0/bdd"
 /**
  * Additional properties on the `describe` function.
  */
-const describe = _namespace_describe
+const describe = _namespace_describe as typeof _namespace_describe
 export { describe }

@@ -1,4 +1,4 @@
-import { toSnakeCase as _function_toSnakeCase } from "jsr:@std/text@1.0.2/to-snake-case"
+import { toSnakeCase as _function_toSnakeCase } from "jsr:@std/text@1.0.3/to-snake-case"
 /**
  * Converts a string into snake_case.
  *
@@ -13,5 +13,5 @@ import { toSnakeCase as _function_toSnakeCase } from "jsr:@std/text@1.0.2/to-sna
  * @param input The string that is going to be converted into snake_case
  * @return The string as snake_case
  */
-const toSnakeCase = _function_toSnakeCase
+const toSnakeCase = _function_toSnakeCase as typeof _function_toSnakeCase
 export { toSnakeCase }

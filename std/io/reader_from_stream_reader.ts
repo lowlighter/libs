@@ -1,17 +1,20 @@
-import { readerFromStreamReader as _function_readerFromStreamReader } from "jsr:@std/io@0.224.4/reader-from-stream-reader"
+import { readerFromStreamReader as _function_readerFromStreamReader } from "jsr:@std/io@0.224.5/reader-from-stream-reader"
 /**
  * Create a {@linkcode Reader} from a {@linkcode ReadableStreamDefaultReader}.
  *
- * @example ```ts
+ * @example Usage
+ * ```ts no-assert
  * import { copy } from "@std/io/copy";
  * import { readerFromStreamReader } from "@std/io/reader-from-stream-reader";
  *
  * const res = await fetch("https://deno.land");
- * using file = await Deno.open("./deno.land.html", { create: true, write: true });
  *
  * const reader = readerFromStreamReader(res.body!.getReader());
- * await copy(reader, file);
+ * await copy(reader, Deno.stdout);
  * ```
+ *
+ * @param streamReader The stream reader to read from
+ * @return The reader
  */
-const readerFromStreamReader = _function_readerFromStreamReader
+const readerFromStreamReader = _function_readerFromStreamReader as typeof _function_readerFromStreamReader
 export { readerFromStreamReader }

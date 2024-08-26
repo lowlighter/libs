@@ -32,5 +32,5 @@ import { normalizeGlob as _function_normalizeGlob } from "jsr:@std/path@1.0.2/no
  * @param options Glob options.
  * @return The normalized glob string.
  */
-const normalizeGlob = _function_normalizeGlob
+const normalizeGlob = _function_normalizeGlob as typeof _function_normalizeGlob
 export { normalizeGlob }

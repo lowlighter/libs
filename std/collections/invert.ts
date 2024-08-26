@@ -29,5 +29,5 @@ import { invert as _function_invert } from "jsr:@std/collections@1.0.5/invert"
  * assertEquals(invert(record), { x: "a", y: "b", z: "c" });
  * ```
  */
-const invert = _function_invert
+const invert = _function_invert as typeof _function_invert
 export { invert }

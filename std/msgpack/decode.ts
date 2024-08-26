@@ -17,5 +17,5 @@ import { decode as _function_decode } from "jsr:@std/msgpack@1.0.0/decode"
  * @param data MessagePack binary data.
  * @return Decoded value from the MessagePack binary data.
  */
-const decode = _function_decode
+const decode = _function_decode as typeof _function_decode
 export { decode }

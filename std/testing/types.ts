@@ -18,7 +18,7 @@ import { assertType as _function_assertType } from "jsr:@std/testing@1.0.0/types
  * @template T The expected type (`true` or `false`)
  * @param expectTrue True if the passed in type argument resolved to true.
  */
-const assertType = _function_assertType
+const assertType = _function_assertType as typeof _function_assertType
 export { assertType }
 
 import type { AssertTrue as _typeAlias_AssertTrue } from "jsr:@std/testing@1.0.0/types"

@@ -37,7 +37,7 @@ import { escape as _function_escape } from "jsr:@std/html@1.0.1"
  * @param str The string to escape.
  * @return The escaped string.
  */
-const escape = _function_escape
+const escape = _function_escape as typeof _function_escape
 export { escape }
 
 import type { UnescapeOptions as _typeAlias_UnescapeOptions } from "jsr:@std/html@1.0.1"
@@ -78,7 +78,7 @@ import { unescape as _function_unescape } from "jsr:@std/html@1.0.1"
  * @param options Options for unescaping.
  * @return The unescaped string.
  */
-const unescape = _function_unescape
+const unescape = _function_unescape as typeof _function_unescape
 export { unescape }
 
 import { isValidCustomElementName as _function_isValidCustomElementName } from "jsr:@std/html@1.0.1"
@@ -107,5 +107,5 @@ import { isValidCustomElementName as _function_isValidCustomElementName } from "
  * @param elementName The element name to be validate
  * @return `true` if the element name is valid, `false` otherwise.
  */
-const isValidCustomElementName = _function_isValidCustomElementName
+const isValidCustomElementName = _function_isValidCustomElementName as typeof _function_isValidCustomElementName
 export { isValidCustomElementName }

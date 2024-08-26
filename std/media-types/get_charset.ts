@@ -19,5 +19,5 @@ import { getCharset as _function_getCharset } from "jsr:@std/media-types@1.0.2/g
  * assertEquals(getCharset("application/news-checkgroups; charset=UTF-8"), "UTF-8");
  * ```
  */
-const getCharset = _function_getCharset
+const getCharset = _function_getCharset as typeof _function_getCharset
 export { getCharset }

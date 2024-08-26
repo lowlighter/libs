@@ -31,5 +31,5 @@ import { joinGlobs as _function_joinGlobs } from "jsr:@std/path@1.0.2/join-globs
  * @param options Glob options.
  * @return The joined and normalized glob string.
  */
-const joinGlobs = _function_joinGlobs
+const joinGlobs = _function_joinGlobs as typeof _function_joinGlobs
 export { joinGlobs }

@@ -21,5 +21,5 @@ import { sample as _function_sample } from "jsr:@std/collections@1.0.5/sample"
  * assertArrayIncludes(numbers, [random]);
  * ```
  */
-const sample = _function_sample
+const sample = _function_sample as typeof _function_sample
 export { sample }

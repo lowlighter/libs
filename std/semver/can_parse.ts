@@ -1,4 +1,4 @@
-import { canParse as _function_canParse } from "jsr:@std/semver@1.0.0/can-parse"
+import { canParse as _function_canParse } from "jsr:@std/semver@1.0.1/can-parse"
 /**
  * Returns true if the string can be parsed as SemVer.
  *
@@ -14,5 +14,5 @@ import { canParse as _function_canParse } from "jsr:@std/semver@1.0.0/can-parse"
  * @param version The version string to check
  * @return `true` if the string can be parsed as SemVer, `false` otherwise
  */
-const canParse = _function_canParse
+const canParse = _function_canParse as typeof _function_canParse
 export { canParse }

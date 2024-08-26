@@ -35,5 +35,5 @@ import { includesNeedle as _function_includesNeedle } from "jsr:@std/bytes@1.0.2
  * ```
  * The search will start at the specified index in the source array.
  */
-const includesNeedle = _function_includesNeedle
+const includesNeedle = _function_includesNeedle as typeof _function_includesNeedle
 export { includesNeedle }

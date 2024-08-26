@@ -1,4 +1,4 @@
-import { basename as _function_basename } from "jsr:@std/url@0.224.1/basename"
+import { basename as _function_basename } from "jsr:@std/url@0.225.0/basename"
 /**
  * Returns the base name of a URL or URL string, optionally removing a suffix.
  *
@@ -13,7 +13,7 @@ import { basename as _function_basename } from "jsr:@std/url@0.224.1/basename"
  * @example Basic usage
  * ```ts
  * import { basename } from "@std/url/basename";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(basename("https://deno.land/std/assert/mod.ts"), "mod.ts");
  * assertEquals(basename(new URL("https://deno.land/std/assert/mod.ts")), "mod.ts");
@@ -28,13 +28,17 @@ import { basename as _function_basename } from "jsr:@std/url@0.224.1/basename"
  *
  * ```ts
  * import { basename } from "@std/url/basename";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(basename("https://deno.land/std/assert/mod.ts", ".ts"), "mod");
  * assertEquals(basename(new URL("https://deno.land/std/assert/mod.ts"), ".ts"), "mod");
  * assertEquals(basename("https://deno.land/std/assert/mod.ts?a=b", ".ts"), "mod");
  * assertEquals(basename("https://deno.land/std/assert/mod.ts#header", ".ts"), "mod");
  * ```
+ *
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/path/doc/posix/~/basename | @std/path/posix/basename}
+ * instead (examples included). `@std/url` will be removed in the future.
  */
-const basename = _function_basename
+const basename = _function_basename as typeof _function_basename
 export { basename }

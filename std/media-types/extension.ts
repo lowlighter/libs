@@ -21,5 +21,5 @@ import { extension as _function_extension } from "jsr:@std/media-types@1.0.2/ext
  * assertEquals(extension("application/foo"), undefined);
  * ```
  */
-const extension = _function_extension
+const extension = _function_extension as typeof _function_extension
 export { extension }

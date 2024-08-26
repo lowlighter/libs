@@ -28,5 +28,5 @@ import { findSingle as _function_findSingle } from "jsr:@std/collections@1.0.5/f
  * assertEquals(inactiveBooking, undefined); // There are two applicable items
  * ```
  */
-const findSingle = _function_findSingle
+const findSingle = _function_findSingle as typeof _function_findSingle
 export { findSingle }

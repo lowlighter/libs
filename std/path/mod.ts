@@ -55,7 +55,7 @@ import { basename as _function_basename } from "jsr:@std/path@1.0.2"
  *
  * @return The basename of the path.
  */
-const basename = _function_basename
+const basename = _function_basename as typeof _function_basename
 export { basename }
 
 import { DELIMITER as _variable_DELIMITER } from "jsr:@std/path@1.0.2"
@@ -63,7 +63,7 @@ import { DELIMITER as _variable_DELIMITER } from "jsr:@std/path@1.0.2"
  * The character used to separate entries in the PATH environment variable.
  * On Windows, this is `;`. On all other platforms, this is `:`.
  */
-const DELIMITER = _variable_DELIMITER
+const DELIMITER = _variable_DELIMITER as typeof _variable_DELIMITER
 export { DELIMITER }
 
 import { SEPARATOR as _variable_SEPARATOR } from "jsr:@std/path@1.0.2"
@@ -71,14 +71,14 @@ import { SEPARATOR as _variable_SEPARATOR } from "jsr:@std/path@1.0.2"
  * The character used to separate components of a file path.
  * On Windows, this is `\`. On all other platforms, this is `/`.
  */
-const SEPARATOR = _variable_SEPARATOR
+const SEPARATOR = _variable_SEPARATOR as typeof _variable_SEPARATOR
 export { SEPARATOR }
 
 import { SEPARATOR_PATTERN as _variable_SEPARATOR_PATTERN } from "jsr:@std/path@1.0.2"
 /**
  * A regular expression that matches one or more path separators.
  */
-const SEPARATOR_PATTERN = _variable_SEPARATOR_PATTERN
+const SEPARATOR_PATTERN = _variable_SEPARATOR_PATTERN as typeof _variable_SEPARATOR_PATTERN
 export { SEPARATOR_PATTERN }
 
 import { dirname as _function_dirname } from "jsr:@std/path@1.0.2"
@@ -100,7 +100,7 @@ import { dirname as _function_dirname } from "jsr:@std/path@1.0.2"
  * @param path Path to extract the directory from.
  * @return The directory path.
  */
-const dirname = _function_dirname
+const dirname = _function_dirname as typeof _function_dirname
 export { dirname }
 
 import { extname as _function_extname } from "jsr:@std/path@1.0.2"
@@ -122,7 +122,7 @@ import { extname as _function_extname } from "jsr:@std/path@1.0.2"
  * @param path Path with extension.
  * @return The file extension. E.g. returns `.ts` for `file.ts`.
  */
-const extname = _function_extname
+const extname = _function_extname as typeof _function_extname
 export { extname }
 
 import { format as _function_format } from "jsr:@std/path@1.0.2"
@@ -145,7 +145,7 @@ import { format as _function_format } from "jsr:@std/path@1.0.2"
  * @param pathObject Object with path components.
  * @return The formatted path.
  */
-const format = _function_format
+const format = _function_format as typeof _function_format
 export { format }
 
 import { fromFileUrl as _function_fromFileUrl } from "jsr:@std/path@1.0.2"
@@ -169,7 +169,7 @@ import { fromFileUrl as _function_fromFileUrl } from "jsr:@std/path@1.0.2"
  * @param url The file URL to convert to a path.
  * @return The path string.
  */
-const fromFileUrl = _function_fromFileUrl
+const fromFileUrl = _function_fromFileUrl as typeof _function_fromFileUrl
 export { fromFileUrl }
 
 import { isAbsolute as _function_isAbsolute } from "jsr:@std/path@1.0.2"
@@ -193,7 +193,7 @@ import { isAbsolute as _function_isAbsolute } from "jsr:@std/path@1.0.2"
  * @param path Path to be verified as absolute.
  * @return `true` if path is absolute, `false` otherwise
  */
-const isAbsolute = _function_isAbsolute
+const isAbsolute = _function_isAbsolute as typeof _function_isAbsolute
 export { isAbsolute }
 
 import { join as _function_join } from "jsr:@std/path@1.0.2"
@@ -215,7 +215,7 @@ import { join as _function_join } from "jsr:@std/path@1.0.2"
  * @param paths Paths to be joined and normalized.
  * @return The joined and normalized path.
  */
-const join = _function_join
+const join = _function_join as typeof _function_join
 export { join }
 
 import { normalize as _function_normalize } from "jsr:@std/path@1.0.2"
@@ -241,7 +241,7 @@ import { normalize as _function_normalize } from "jsr:@std/path@1.0.2"
  * @param path Path to be normalized
  * @return The normalized path.
  */
-const normalize = _function_normalize
+const normalize = _function_normalize as typeof _function_normalize
 export { normalize }
 
 import type { ParsedPath as _interface_ParsedPath } from "jsr:@std/path@1.0.2"
@@ -294,7 +294,7 @@ import { parse as _function_parse } from "jsr:@std/path@1.0.2"
  * @param path Path to process
  * @return An object with the parsed path components.
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }
 
 import { relative as _function_relative } from "jsr:@std/path@1.0.2"
@@ -320,7 +320,7 @@ import { relative as _function_relative } from "jsr:@std/path@1.0.2"
  * @param to Path in current working directory.
  * @return The relative path from `from` to `to`.
  */
-const relative = _function_relative
+const relative = _function_relative as typeof _function_relative
 export { relative }
 
 import { resolve as _function_resolve } from "jsr:@std/path@1.0.2"
@@ -344,7 +344,7 @@ import { resolve as _function_resolve } from "jsr:@std/path@1.0.2"
  * @param pathSegments Path segments to process to path.
  * @return The resolved path.
  */
-const resolve = _function_resolve
+const resolve = _function_resolve as typeof _function_resolve
 export { resolve }
 
 import { toFileUrl as _function_toFileUrl } from "jsr:@std/path@1.0.2"
@@ -368,7 +368,7 @@ import { toFileUrl as _function_toFileUrl } from "jsr:@std/path@1.0.2"
  * @param path Path to convert to file URL.
  * @return The file URL equivalent to the path.
  */
-const toFileUrl = _function_toFileUrl
+const toFileUrl = _function_toFileUrl as typeof _function_toFileUrl
 export { toFileUrl }
 
 import { toNamespacedPath as _function_toNamespacedPath } from "jsr:@std/path@1.0.2"
@@ -391,7 +391,7 @@ import { toNamespacedPath as _function_toNamespacedPath } from "jsr:@std/path@1.
  * @param path Path to resolve to namespace.
  * @return The resolved namespace path.
  */
-const toNamespacedPath = _function_toNamespacedPath
+const toNamespacedPath = _function_toNamespacedPath as typeof _function_toNamespacedPath
 export { toNamespacedPath }
 
 import { common as _function_common } from "jsr:@std/path@1.0.2"
@@ -421,7 +421,7 @@ import { common as _function_common } from "jsr:@std/path@1.0.2"
  * }
  * ```
  */
-const common = _function_common
+const common = _function_common as typeof _function_common
 export { common }
 
 import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.2"
@@ -506,7 +506,7 @@ import { globToRegExp as _function_globToRegExp } from "jsr:@std/path@1.0.2"
  * @param options Conversion options.
  * @return The regular expression equivalent to the glob.
  */
-const globToRegExp = _function_globToRegExp
+const globToRegExp = _function_globToRegExp as typeof _function_globToRegExp
 export { globToRegExp }
 
 import { isGlob as _function_isGlob } from "jsr:@std/path@1.0.2"
@@ -525,7 +525,7 @@ import { isGlob as _function_isGlob } from "jsr:@std/path@1.0.2"
  * @param str String to test.
  * @return `true` if the given string is a glob, otherwise `false`
  */
-const isGlob = _function_isGlob
+const isGlob = _function_isGlob as typeof _function_isGlob
 export { isGlob }
 
 import { joinGlobs as _function_joinGlobs } from "jsr:@std/path@1.0.2"
@@ -553,7 +553,7 @@ import { joinGlobs as _function_joinGlobs } from "jsr:@std/path@1.0.2"
  * @param options Glob options.
  * @return The joined and normalized glob string.
  */
-const joinGlobs = _function_joinGlobs
+const joinGlobs = _function_joinGlobs as typeof _function_joinGlobs
 export { joinGlobs }
 
 import { normalizeGlob as _function_normalizeGlob } from "jsr:@std/path@1.0.2"
@@ -582,5 +582,5 @@ import { normalizeGlob as _function_normalizeGlob } from "jsr:@std/path@1.0.2"
  * @param options Glob options.
  * @return The normalized glob string.
  */
-const normalizeGlob = _function_normalizeGlob
+const normalizeGlob = _function_normalizeGlob as typeof _function_normalizeGlob
 export { normalizeGlob }

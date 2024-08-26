@@ -28,5 +28,5 @@ import { signal as _function_signal } from "jsr:@std/signal@0.211.0"
  *
  * @deprecated (will be removed in 0.212.0) Use the {@link https://docs.deno.com/runtime/tutorials/os_signals|Deno Signals API} directly instead.
  */
-const signal = _function_signal
+const signal = _function_signal as typeof _function_signal
 export { signal }

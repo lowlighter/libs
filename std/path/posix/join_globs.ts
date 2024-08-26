@@ -23,5 +23,5 @@ import { joinGlobs as _function_joinGlobs } from "jsr:@std/path@1.0.2/posix/join
  * @param options The options to use.
  * @return The joined path.
  */
-const joinGlobs = _function_joinGlobs
+const joinGlobs = _function_joinGlobs as typeof _function_joinGlobs
 export { joinGlobs }

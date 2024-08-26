@@ -26,5 +26,5 @@ import { includesValue as _function_includesValue } from "jsr:@std/collections@1
  * assertEquals(includesValue(input, 34), true);
  * ```
  */
-const includesValue = _function_includesValue
+const includesValue = _function_includesValue as typeof _function_includesValue
 export { includesValue }

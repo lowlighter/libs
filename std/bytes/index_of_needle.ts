@@ -42,5 +42,5 @@ import { indexOfNeedle as _function_indexOfNeedle } from "jsr:@std/bytes@1.0.2/i
  * Defining a start index will begin the search at the specified index in the
  * source array.
  */
-const indexOfNeedle = _function_indexOfNeedle
+const indexOfNeedle = _function_indexOfNeedle as typeof _function_indexOfNeedle
 export { indexOfNeedle }

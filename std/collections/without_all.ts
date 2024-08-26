@@ -20,5 +20,5 @@ import { withoutAll as _function_withoutAll } from "jsr:@std/collections@1.0.5/w
  * assertEquals(withoutList, [3]);
  * ```
  */
-const withoutAll = _function_withoutAll
+const withoutAll = _function_withoutAll as typeof _function_withoutAll
 export { withoutAll }

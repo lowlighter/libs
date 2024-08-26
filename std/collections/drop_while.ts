@@ -22,5 +22,5 @@ import { dropWhile as _function_dropWhile } from "jsr:@std/collections@1.0.5/dro
  * assertEquals(dropWhileNumbers, [2, 5, 2, 5]);
  * ```
  */
-const dropWhile = _function_dropWhile
+const dropWhile = _function_dropWhile as typeof _function_dropWhile
 export { dropWhile }

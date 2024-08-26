@@ -23,7 +23,7 @@ import { sprintf as _function_sprintf } from "jsr:@std/fmt@1.0.0/printf"
  * @param args The arguments to format
  * @return The formatted string
  */
-const sprintf = _function_sprintf
+const sprintf = _function_sprintf as typeof _function_sprintf
 export { sprintf }
 
 import { printf as _function_printf } from "jsr:@std/fmt@1.0.0/printf"
@@ -49,5 +49,5 @@ import { printf as _function_printf } from "jsr:@std/fmt@1.0.0/printf"
  * @param format The format string to use
  * @param args The arguments to format
  */
-const printf = _function_printf
+const printf = _function_printf as typeof _function_printf
 export { printf }

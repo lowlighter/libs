@@ -23,5 +23,5 @@ import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/asser
  * @param expected The expected value to match.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertObjectMatch = _function_assertObjectMatch
+const assertObjectMatch = _function_assertObjectMatch as typeof _function_assertObjectMatch
 export { assertObjectMatch }

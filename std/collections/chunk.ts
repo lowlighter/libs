@@ -35,5 +35,5 @@ import { chunk as _function_chunk } from "jsr:@std/collections@1.0.5/chunk"
  * );
  * ```
  */
-const chunk = _function_chunk
+const chunk = _function_chunk as typeof _function_chunk
 export { chunk }

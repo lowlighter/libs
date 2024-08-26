@@ -64,7 +64,7 @@ import { aggregateGroups as _function_aggregateGroups } from "jsr:@std/collectio
  * });
  * ```
  */
-const aggregateGroups = _function_aggregateGroups
+const aggregateGroups = _function_aggregateGroups as typeof _function_aggregateGroups
 export { aggregateGroups }
 
 import { associateBy as _function_associateBy } from "jsr:@std/collections@1.0.5"
@@ -103,7 +103,7 @@ import { associateBy as _function_associateBy } from "jsr:@std/collections@1.0.5
  * });
  * ```
  */
-const associateBy = _function_associateBy
+const associateBy = _function_associateBy as typeof _function_associateBy
 export { associateBy }
 
 import { associateWith as _function_associateWith } from "jsr:@std/collections@1.0.5"
@@ -138,7 +138,7 @@ import { associateWith as _function_associateWith } from "jsr:@std/collections@1
  * });
  * ```
  */
-const associateWith = _function_associateWith
+const associateWith = _function_associateWith as typeof _function_associateWith
 export { associateWith }
 
 import { chunk as _function_chunk } from "jsr:@std/collections@1.0.5"
@@ -178,12 +178,12 @@ import { chunk as _function_chunk } from "jsr:@std/collections@1.0.5"
  * );
  * ```
  */
-const chunk = _function_chunk
+const chunk = _function_chunk as typeof _function_chunk
 export { chunk }
 
 import { deepMerge as _function_deepMerge } from "jsr:@std/collections@1.0.5"
 /** UNDOCUMENTED */
-const deepMerge = _function_deepMerge
+const deepMerge = _function_deepMerge as typeof _function_deepMerge
 export { deepMerge }
 
 import type { MergingStrategy as _typeAlias_MergingStrategy } from "jsr:@std/collections@1.0.5"
@@ -337,7 +337,7 @@ import { distinct as _function_distinct } from "jsr:@std/collections@1.0.5"
  * assertEquals(distinctNumbers, [3, 2, 5]);
  * ```
  */
-const distinct = _function_distinct
+const distinct = _function_distinct as typeof _function_distinct
 export { distinct }
 
 import { distinctBy as _function_distinctBy } from "jsr:@std/collections@1.0.5"
@@ -365,7 +365,7 @@ import { distinctBy as _function_distinctBy } from "jsr:@std/collections@1.0.5"
  * assertEquals(exampleNamesByFirstLetter, ["Anna", "Kim"]);
  * ```
  */
-const distinctBy = _function_distinctBy
+const distinctBy = _function_distinctBy as typeof _function_distinctBy
 export { distinctBy }
 
 import { dropLastWhile as _function_dropLastWhile } from "jsr:@std/collections@1.0.5"
@@ -393,7 +393,7 @@ import { dropLastWhile as _function_dropLastWhile } from "jsr:@std/collections@1
  * assertEquals(notFortyFour, [11, 42, 55, 20]);
  * ```
  */
-const dropLastWhile = _function_dropLastWhile
+const dropLastWhile = _function_dropLastWhile as typeof _function_dropLastWhile
 export { dropLastWhile }
 
 import { dropWhile as _function_dropWhile } from "jsr:@std/collections@1.0.5"
@@ -420,7 +420,7 @@ import { dropWhile as _function_dropWhile } from "jsr:@std/collections@1.0.5"
  * assertEquals(dropWhileNumbers, [2, 5, 2, 5]);
  * ```
  */
-const dropWhile = _function_dropWhile
+const dropWhile = _function_dropWhile as typeof _function_dropWhile
 export { dropWhile }
 
 import { filterEntries as _function_filterEntries } from "jsr:@std/collections@1.0.5"
@@ -454,7 +454,7 @@ import { filterEntries as _function_filterEntries } from "jsr:@std/collections@1
  * assertEquals(myOptions, { Soup: 8 });
  * ```
  */
-const filterEntries = _function_filterEntries
+const filterEntries = _function_filterEntries as typeof _function_filterEntries
 export { filterEntries }
 
 import { filterKeys as _function_filterKeys } from "jsr:@std/collections@1.0.5"
@@ -492,7 +492,7 @@ import { filterKeys as _function_filterKeys } from "jsr:@std/collections@1.0.5"
  * );
  * ```
  */
-const filterKeys = _function_filterKeys
+const filterKeys = _function_filterKeys as typeof _function_filterKeys
 export { filterKeys }
 
 import { filterValues as _function_filterValues } from "jsr:@std/collections@1.0.5"
@@ -529,7 +529,7 @@ import { filterValues as _function_filterValues } from "jsr:@std/collections@1.0
  * );
  * ```
  */
-const filterValues = _function_filterValues
+const filterValues = _function_filterValues as typeof _function_filterValues
 export { filterValues }
 
 import { findSingle as _function_findSingle } from "jsr:@std/collections@1.0.5"
@@ -562,7 +562,7 @@ import { findSingle as _function_findSingle } from "jsr:@std/collections@1.0.5"
  * assertEquals(inactiveBooking, undefined); // There are two applicable items
  * ```
  */
-const findSingle = _function_findSingle
+const findSingle = _function_findSingle as typeof _function_findSingle
 export { findSingle }
 
 import { firstNotNullishOf as _function_firstNotNullishOf } from "jsr:@std/collections@1.0.5"
@@ -596,7 +596,7 @@ import { firstNotNullishOf as _function_firstNotNullishOf } from "jsr:@std/colle
  * assertEquals(nextOrder, "Soup");
  * ```
  */
-const firstNotNullishOf = _function_firstNotNullishOf
+const firstNotNullishOf = _function_firstNotNullishOf as typeof _function_firstNotNullishOf
 export { firstNotNullishOf }
 
 import { includesValue as _function_includesValue } from "jsr:@std/collections@1.0.5"
@@ -627,7 +627,7 @@ import { includesValue as _function_includesValue } from "jsr:@std/collections@1
  * assertEquals(includesValue(input, 34), true);
  * ```
  */
-const includesValue = _function_includesValue
+const includesValue = _function_includesValue as typeof _function_includesValue
 export { includesValue }
 
 import { intersect as _function_intersect } from "jsr:@std/collections@1.0.5"
@@ -654,7 +654,7 @@ import { intersect as _function_intersect } from "jsr:@std/collections@1.0.5"
  * assertEquals(commonInterests, ["Cooking", "Music"]);
  * ```
  */
-const intersect = _function_intersect
+const intersect = _function_intersect as typeof _function_intersect
 export { intersect }
 
 import type { InvertByResult as _typeAlias_InvertByResult } from "jsr:@std/collections@1.0.5"
@@ -695,7 +695,7 @@ import { invertBy as _function_invertBy } from "jsr:@std/collections@1.0.5"
  * );
  * ```
  */
-const invertBy = _function_invertBy
+const invertBy = _function_invertBy as typeof _function_invertBy
 export { invertBy }
 
 import type { InvertResult as _typeAlias_InvertResult } from "jsr:@std/collections@1.0.5"
@@ -729,7 +729,7 @@ import { invert as _function_invert } from "jsr:@std/collections@1.0.5"
  * assertEquals(invert(record), { x: "a", y: "b", z: "c" });
  * ```
  */
-const invert = _function_invert
+const invert = _function_invert as typeof _function_invert
 export { invert }
 
 import type { JoinToStringOptions as _typeAlias_JoinToStringOptions } from "jsr:@std/collections@1.0.5"
@@ -779,7 +779,7 @@ import { joinToString as _function_joinToString } from "jsr:@std/collections@1.0
  * assertEquals(message, "result: Kim and others are winners");
  * ```
  */
-const joinToString = _function_joinToString
+const joinToString = _function_joinToString as typeof _function_joinToString
 export { joinToString }
 
 import { mapEntries as _function_mapEntries } from "jsr:@std/collections@1.0.5"
@@ -818,7 +818,7 @@ import { mapEntries as _function_mapEntries } from "jsr:@std/collections@1.0.5"
  * );
  * ```
  */
-const mapEntries = _function_mapEntries
+const mapEntries = _function_mapEntries as typeof _function_mapEntries
 export { mapEntries }
 
 import { mapKeys as _function_mapKeys } from "jsr:@std/collections@1.0.5"
@@ -853,7 +853,7 @@ import { mapKeys as _function_mapKeys } from "jsr:@std/collections@1.0.5"
  * );
  * ```
  */
-const mapKeys = _function_mapKeys
+const mapKeys = _function_mapKeys as typeof _function_mapKeys
 export { mapKeys }
 
 import { mapNotNullish as _function_mapNotNullish } from "jsr:@std/collections@1.0.5"
@@ -887,22 +887,22 @@ import { mapNotNullish as _function_mapNotNullish } from "jsr:@std/collections@1
  * assertEquals(foundMiddleNames, ["William", "Martha"]);
  * ```
  */
-const mapNotNullish = _function_mapNotNullish
+const mapNotNullish = _function_mapNotNullish as typeof _function_mapNotNullish
 export { mapNotNullish }
 
 import { mapValues as _function_mapValues } from "jsr:@std/collections@1.0.5"
 /** UNDOCUMENTED */
-const mapValues = _function_mapValues
+const mapValues = _function_mapValues as typeof _function_mapValues
 export { mapValues }
 
 import { maxBy as _function_maxBy } from "jsr:@std/collections@1.0.5"
 /** UNDOCUMENTED */
-const maxBy = _function_maxBy
+const maxBy = _function_maxBy as typeof _function_maxBy
 export { maxBy }
 
 import { maxOf as _function_maxOf } from "jsr:@std/collections@1.0.5"
 /** UNDOCUMENTED */
-const maxOf = _function_maxOf
+const maxOf = _function_maxOf as typeof _function_maxOf
 export { maxOf }
 
 import { maxWith as _function_maxWith } from "jsr:@std/collections@1.0.5"
@@ -933,17 +933,17 @@ import { maxWith as _function_maxWith } from "jsr:@std/collections@1.0.5"
  * assertEquals(largestName, "Arthur");
  * ```
  */
-const maxWith = _function_maxWith
+const maxWith = _function_maxWith as typeof _function_maxWith
 export { maxWith }
 
 import { minBy as _function_minBy } from "jsr:@std/collections@1.0.5"
 /** UNDOCUMENTED */
-const minBy = _function_minBy
+const minBy = _function_minBy as typeof _function_minBy
 export { minBy }
 
 import { minOf as _function_minOf } from "jsr:@std/collections@1.0.5"
 /** UNDOCUMENTED */
-const minOf = _function_minOf
+const minOf = _function_minOf as typeof _function_minOf
 export { minOf }
 
 import { minWith as _function_minWith } from "jsr:@std/collections@1.0.5"
@@ -970,7 +970,7 @@ import { minWith as _function_minWith } from "jsr:@std/collections@1.0.5"
  * assertEquals(smallestName, "Kim");
  * ```
  */
-const minWith = _function_minWith
+const minWith = _function_minWith as typeof _function_minWith
 export { minWith }
 
 import { omit as _function_omit } from "jsr:@std/collections@1.0.5"
@@ -996,12 +996,12 @@ import { omit as _function_omit } from "jsr:@std/collections@1.0.5"
  * assertEquals(omitted, { b: 6, d: 8 });
  * ```
  */
-const omit = _function_omit
+const omit = _function_omit as typeof _function_omit
 export { omit }
 
 import { partition as _function_partition } from "jsr:@std/collections@1.0.5"
 /** UNDOCUMENTED */
-const partition = _function_partition
+const partition = _function_partition as typeof _function_partition
 export { partition }
 
 import { partitionEntries as _function_partitionEntries } from "jsr:@std/collections@1.0.5"
@@ -1042,7 +1042,7 @@ import { partitionEntries as _function_partitionEntries } from "jsr:@std/collect
  * );
  * ```
  */
-const partitionEntries = _function_partitionEntries
+const partitionEntries = _function_partitionEntries as typeof _function_partitionEntries
 export { partitionEntries }
 
 import { permutations as _function_permutations } from "jsr:@std/collections@1.0.5"
@@ -1071,7 +1071,7 @@ import { permutations as _function_permutations } from "jsr:@std/collections@1.0
  * ]);
  * ```
  */
-const permutations = _function_permutations
+const permutations = _function_permutations as typeof _function_permutations
 export { permutations }
 
 import { pick as _function_pick } from "jsr:@std/collections@1.0.5"
@@ -1098,7 +1098,7 @@ import { pick as _function_pick } from "jsr:@std/collections@1.0.5"
  * assertEquals(picked, { a: 5, c: 7 });
  * ```
  */
-const pick = _function_pick
+const pick = _function_pick as typeof _function_pick
 export { pick }
 
 import { reduceGroups as _function_reduceGroups } from "jsr:@std/collections@1.0.5"
@@ -1135,7 +1135,7 @@ import { reduceGroups as _function_reduceGroups } from "jsr:@std/collections@1.0
  * });
  * ```
  */
-const reduceGroups = _function_reduceGroups
+const reduceGroups = _function_reduceGroups as typeof _function_reduceGroups
 export { reduceGroups }
 
 import { runningReduce as _function_runningReduce } from "jsr:@std/collections@1.0.5"
@@ -1164,7 +1164,7 @@ import { runningReduce as _function_runningReduce } from "jsr:@std/collections@1
  * assertEquals(sumSteps, [1, 3, 6, 10, 15]);
  * ```
  */
-const runningReduce = _function_runningReduce
+const runningReduce = _function_runningReduce as typeof _function_runningReduce
 export { runningReduce }
 
 import { sample as _function_sample } from "jsr:@std/collections@1.0.5"
@@ -1190,7 +1190,7 @@ import { sample as _function_sample } from "jsr:@std/collections@1.0.5"
  * assertArrayIncludes(numbers, [random]);
  * ```
  */
-const sample = _function_sample
+const sample = _function_sample as typeof _function_sample
 export { sample }
 
 import type { SlidingWindowsOptions as _interface_SlidingWindowsOptions } from "jsr:@std/collections@1.0.5"
@@ -1248,7 +1248,7 @@ import { slidingWindows as _function_slidingWindows } from "jsr:@std/collections
  * ]);
  * ```
  */
-const slidingWindows = _function_slidingWindows
+const slidingWindows = _function_slidingWindows as typeof _function_slidingWindows
 export { slidingWindows }
 
 import type { Order as _typeAlias_Order } from "jsr:@std/collections@1.0.5"
@@ -1267,7 +1267,7 @@ export type { SortByOptions }
 
 import { sortBy as _function_sortBy } from "jsr:@std/collections@1.0.5"
 /** UNDOCUMENTED */
-const sortBy = _function_sortBy
+const sortBy = _function_sortBy as typeof _function_sortBy
 export { sortBy }
 
 import { sumOf as _function_sumOf } from "jsr:@std/collections@1.0.5"
@@ -1298,7 +1298,7 @@ import { sumOf as _function_sumOf } from "jsr:@std/collections@1.0.5"
  * assertEquals(totalAge, 99);
  * ```
  */
-const sumOf = _function_sumOf
+const sumOf = _function_sumOf as typeof _function_sumOf
 export { sumOf }
 
 import { takeLastWhile as _function_takeLastWhile } from "jsr:@std/collections@1.0.5"
@@ -1327,7 +1327,7 @@ import { takeLastWhile as _function_takeLastWhile } from "jsr:@std/collections@1
  * assertEquals(result, [5, 6]);
  * ```
  */
-const takeLastWhile = _function_takeLastWhile
+const takeLastWhile = _function_takeLastWhile as typeof _function_takeLastWhile
 export { takeLastWhile }
 
 import { takeWhile as _function_takeWhile } from "jsr:@std/collections@1.0.5"
@@ -1356,7 +1356,7 @@ import { takeWhile as _function_takeWhile } from "jsr:@std/collections@1.0.5"
  * assertEquals(result, [1, 2, 3]);
  * ```
  */
-const takeWhile = _function_takeWhile
+const takeWhile = _function_takeWhile as typeof _function_takeWhile
 export { takeWhile }
 
 import { union as _function_union } from "jsr:@std/collections@1.0.5"
@@ -1382,7 +1382,7 @@ import { union as _function_union } from "jsr:@std/collections@1.0.5"
  * assertEquals(shoppingList, ["Pepper", "Carrots", "Leek", "Radicchio"]);
  * ```
  */
-const union = _function_union
+const union = _function_union as typeof _function_union
 export { union }
 
 import { unzip as _function_unzip } from "jsr:@std/collections@1.0.5"
@@ -1416,7 +1416,7 @@ import { unzip as _function_unzip } from "jsr:@std/collections@1.0.5"
  * assertEquals(dads, ["Jeff", "Kim", "Leroy"]);
  * ```
  */
-const unzip = _function_unzip
+const unzip = _function_unzip as typeof _function_unzip
 export { unzip }
 
 import { withoutAll as _function_withoutAll } from "jsr:@std/collections@1.0.5"
@@ -1441,7 +1441,7 @@ import { withoutAll as _function_withoutAll } from "jsr:@std/collections@1.0.5"
  * assertEquals(withoutList, [3]);
  * ```
  */
-const withoutAll = _function_withoutAll
+const withoutAll = _function_withoutAll as typeof _function_withoutAll
 export { withoutAll }
 
 import { zip as _function_zip } from "jsr:@std/collections@1.0.5"
@@ -1475,5 +1475,5 @@ import { zip as _function_zip } from "jsr:@std/collections@1.0.5"
  * );
  * ```
  */
-const zip = _function_zip
+const zip = _function_zip as typeof _function_zip
 export { zip }

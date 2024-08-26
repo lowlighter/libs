@@ -29,5 +29,5 @@ import { firstNotNullishOf as _function_firstNotNullishOf } from "jsr:@std/colle
  * assertEquals(nextOrder, "Soup");
  * ```
  */
-const firstNotNullishOf = _function_firstNotNullishOf
+const firstNotNullishOf = _function_firstNotNullishOf as typeof _function_firstNotNullishOf
 export { firstNotNullishOf }

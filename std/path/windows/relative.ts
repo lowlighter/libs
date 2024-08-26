@@ -20,5 +20,5 @@ import { relative as _function_relative } from "jsr:@std/path@1.0.2/windows/rela
  * @param to The path to which to calculate the relative path
  * @return The relative path from `from` to `to`
  */
-const relative = _function_relative
+const relative = _function_relative as typeof _function_relative
 export { relative }

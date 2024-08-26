@@ -1,4 +1,4 @@
-import { toBlob as _function_toBlob } from "jsr:@std/streams@1.0.0/to-blob"
+import { toBlob as _function_toBlob } from "jsr:@std/streams@1.0.2/to-blob"
 /**
  * Converts a {@linkcode ReadableStream} of {@linkcode Uint8Array}s to a
  * {@linkcode Blob}. Works the same as {@linkcode Response.blob}.
@@ -19,5 +19,5 @@ import { toBlob as _function_toBlob } from "jsr:@std/streams@1.0.0/to-blob"
  * assertEquals(blob.size, 5);
  * ```
  */
-const toBlob = _function_toBlob
+const toBlob = _function_toBlob as typeof _function_toBlob
 export { toBlob }

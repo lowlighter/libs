@@ -30,5 +30,5 @@ import { formatMediaType as _function_formatMediaType } from "jsr:@std/media-typ
  * assertEquals(formatMediaType("text/plain", { charset: "UTF-8" }), "text/plain; charset=UTF-8");
  * ```
  */
-const formatMediaType = _function_formatMediaType
+const formatMediaType = _function_formatMediaType as typeof _function_formatMediaType
 export { formatMediaType }

@@ -23,5 +23,5 @@ import { expect as _namespace_expect } from "jsr:@std/expect@1.0.0/expect"
 /**
  * Additional properties on the `expect` function.
  */
-const expect = _namespace_expect
+const expect = _namespace_expect as typeof _namespace_expect
 export { expect }

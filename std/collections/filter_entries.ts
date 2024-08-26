@@ -29,5 +29,5 @@ import { filterEntries as _function_filterEntries } from "jsr:@std/collections@1
  * assertEquals(myOptions, { Soup: 8 });
  * ```
  */
-const filterEntries = _function_filterEntries
+const filterEntries = _function_filterEntries as typeof _function_filterEntries
 export { filterEntries }

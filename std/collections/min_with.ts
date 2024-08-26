@@ -22,5 +22,5 @@ import { minWith as _function_minWith } from "jsr:@std/collections@1.0.5/min-wit
  * assertEquals(smallestName, "Kim");
  * ```
  */
-const minWith = _function_minWith
+const minWith = _function_minWith as typeof _function_minWith
 export { minWith }

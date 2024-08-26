@@ -1,4 +1,4 @@
-import { difference as _function_difference } from "jsr:@std/semver@1.0.0/difference"
+import { difference as _function_difference } from "jsr:@std/semver@1.0.1/difference"
 /**
  * Returns difference between two SemVers by the release type,
  * or `undefined` if the SemVers are the same.
@@ -23,5 +23,5 @@ import { difference as _function_difference } from "jsr:@std/semver@1.0.0/differ
  * @param s1 The second SemVer to compare
  * @return The release type difference or `undefined` if the versions are the same
  */
-const difference = _function_difference
+const difference = _function_difference as typeof _function_difference
 export { difference }

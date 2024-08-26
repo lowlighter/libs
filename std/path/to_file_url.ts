@@ -19,5 +19,5 @@ import { toFileUrl as _function_toFileUrl } from "jsr:@std/path@1.0.2/to-file-ur
  * @param path Path to convert to file URL.
  * @return The file URL equivalent to the path.
  */
-const toFileUrl = _function_toFileUrl
+const toFileUrl = _function_toFileUrl as typeof _function_toFileUrl
 export { toFileUrl }

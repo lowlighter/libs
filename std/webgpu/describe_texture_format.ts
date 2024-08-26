@@ -27,5 +27,5 @@ import { describeTextureFormat as _function_describeTextureFormat } from "jsr:@s
  * @param format The format to get the information about.
  * @return An object describing various properties for the provided format.
  */
-const describeTextureFormat = _function_describeTextureFormat
+const describeTextureFormat = _function_describeTextureFormat as typeof _function_describeTextureFormat
 export { describeTextureFormat }

@@ -24,5 +24,5 @@ import { permutations as _function_permutations } from "jsr:@std/collections@1.0
  * ]);
  * ```
  */
-const permutations = _function_permutations
+const permutations = _function_permutations as typeof _function_permutations
 export { permutations }

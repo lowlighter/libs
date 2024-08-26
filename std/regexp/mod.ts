@@ -36,5 +36,5 @@ import { escape as _function_escape } from "jsr:@std/regexp@1.0.0"
  * @param str The string to escape.
  * @return The escaped string.
  */
-const escape = _function_escape
+const escape = _function_escape as typeof _function_escape
 export { escape }

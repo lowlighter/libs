@@ -27,12 +27,12 @@ import { serialize as _function_serialize } from "jsr:@std/testing@1.0.0/snapsho
  * @param actual The value to serialize
  * @return The serialized string
  */
-const serialize = _function_serialize
+const serialize = _function_serialize as typeof _function_serialize
 export { serialize }
 
 import { assertSnapshot as _function_assertSnapshot } from "jsr:@std/testing@1.0.0/snapshot"
 /** UNDOCUMENTED */
-const assertSnapshot = _function_assertSnapshot
+const assertSnapshot = _function_assertSnapshot as typeof _function_assertSnapshot
 export { assertSnapshot }
 
 import { createAssertSnapshot as _function_createAssertSnapshot } from "jsr:@std/testing@1.0.0/snapshot"
@@ -63,5 +63,5 @@ import { createAssertSnapshot as _function_createAssertSnapshot } from "jsr:@std
  * @param baseAssertSnapshot {@linkcode assertSnapshot} function implementation. Default to the original {@linkcode assertSnapshot}
  * @return function with the given default options.
  */
-const createAssertSnapshot = _function_createAssertSnapshot
+const createAssertSnapshot = _function_createAssertSnapshot as typeof _function_createAssertSnapshot
 export { createAssertSnapshot }

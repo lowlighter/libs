@@ -37,5 +37,5 @@ import { encode as _function_encode } from "jsr:@std/msgpack@1.0.0/encode"
  * @param object Value to encode to MessagePack binary format.
  * @return Encoded MessagePack binary data.
  */
-const encode = _function_encode
+const encode = _function_encode as typeof _function_encode
 export { encode }

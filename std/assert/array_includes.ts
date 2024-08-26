@@ -26,5 +26,5 @@ import { assertArrayIncludes as _function_assertArrayIncludes } from "jsr:@std/a
  * @param expected The array-like object to check for.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertArrayIncludes = _function_assertArrayIncludes
+const assertArrayIncludes = _function_assertArrayIncludes as typeof _function_assertArrayIncludes
 export { assertArrayIncludes }

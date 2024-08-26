@@ -22,7 +22,7 @@ import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.1/ensure-dir"
  * await ensureDir("./bar");
  * ```
  */
-const ensureDir = _function_ensureDir
+const ensureDir = _function_ensureDir as typeof _function_ensureDir
 export { ensureDir }
 
 import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.1/ensure-dir"
@@ -49,5 +49,5 @@ import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.1/ensu
  * ensureDirSync("./bar");
  * ```
  */
-const ensureDirSync = _function_ensureDirSync
+const ensureDirSync = _function_ensureDirSync as typeof _function_ensureDirSync
 export { ensureDirSync }

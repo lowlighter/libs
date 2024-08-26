@@ -26,5 +26,5 @@ import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/ass
  * default is one hundred thousandth of a percent of the expected value.
  * @param msg The optional message to include in the error.
  */
-const assertAlmostEquals = _function_assertAlmostEquals
+const assertAlmostEquals = _function_assertAlmostEquals as typeof _function_assertAlmostEquals
 export { assertAlmostEquals }

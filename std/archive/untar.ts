@@ -1,26 +1,41 @@
-import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:@std/archive@0.224.3/untar"
+import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:@std/archive@0.225.0/untar"
 /**
  * Extend TarMeta with the `linkName` property so that readers can access
  * symbolic link values without polluting the world of archive writers.
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
  */
 interface TarMetaWithLinkName extends _interface_TarMetaWithLinkName {}
 export type { TarMetaWithLinkName }
 
-import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.224.3/untar"
+import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.225.0/untar"
 /**
  * Tar header with raw, unprocessed bytes as values.
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
  */
 type TarHeader = _typeAlias_TarHeader
 export type { TarHeader }
 
-import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.224.3/untar"
+import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.0/untar"
 /**
  * Contains tar header metadata and a reader to the entry's body.
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
  */
 class TarEntry extends _class_TarEntry {}
 export { TarEntry }
 
-import { Untar as _class_Untar } from "jsr:@std/archive@0.224.3/untar"
+import { Untar as _class_Untar } from "jsr:@std/archive@0.225.0/untar"
 /**
  * ### Overview
  * A class to extract from a tar archive.  Tar archives allow for storing multiple
@@ -65,6 +80,11 @@ import { Untar as _class_Untar } from "jsr:@std/archive@0.224.3/untar"
  *   await copy(entry, file);
  * }
  * ```
+ *
+ * > [!WARNING]
+ * > **UNSTABLE**: New API, yet to be vetted.
+ *
+ * @experimental
  */
 class Untar extends _class_Untar {}
 export { Untar }

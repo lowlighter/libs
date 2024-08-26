@@ -14,5 +14,5 @@ import { toFileUrl as _function_toFileUrl } from "jsr:@std/path@1.0.2/windows/to
  * @param path The path to convert.
  * @return The file URL.
  */
-const toFileUrl = _function_toFileUrl
+const toFileUrl = _function_toFileUrl as typeof _function_toFileUrl
 export { toFileUrl }

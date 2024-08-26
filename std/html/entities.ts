@@ -24,7 +24,7 @@ import { escape as _function_escape } from "jsr:@std/html@1.0.1/entities"
  * @param str The string to escape.
  * @return The escaped string.
  */
-const escape = _function_escape
+const escape = _function_escape as typeof _function_escape
 export { escape }
 
 import type { UnescapeOptions as _typeAlias_UnescapeOptions } from "jsr:@std/html@1.0.1/entities"
@@ -65,5 +65,5 @@ import { unescape as _function_unescape } from "jsr:@std/html@1.0.1/entities"
  * @param options Options for unescaping.
  * @return The unescaped string.
  */
-const unescape = _function_unescape
+const unescape = _function_unescape as typeof _function_unescape
 export { unescape }

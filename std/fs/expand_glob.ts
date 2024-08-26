@@ -202,7 +202,7 @@ import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.1/expand-glo
  * // ]
  * ```
  */
-const expandGlob = _function_expandGlob
+const expandGlob = _function_expandGlob as typeof _function_expandGlob
 export { expandGlob }
 
 import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.1/expand-glob"
@@ -253,5 +253,5 @@ import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.1/ex
  * entries[1]!.isSymlink; // false
  * ```
  */
-const expandGlobSync = _function_expandGlobSync
+const expandGlobSync = _function_expandGlobSync as typeof _function_expandGlobSync
 export { expandGlobSync }

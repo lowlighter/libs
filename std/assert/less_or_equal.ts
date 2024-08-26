@@ -17,5 +17,5 @@ import { assertLessOrEqual as _function_assertLessOrEqual } from "jsr:@std/asser
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertLessOrEqual = _function_assertLessOrEqual
+const assertLessOrEqual = _function_assertLessOrEqual as typeof _function_assertLessOrEqual
 export { assertLessOrEqual }

@@ -20,5 +20,5 @@ import { assertFalse as _function_assertFalse } from "jsr:@std/assert@1.0.2/fals
  * @param expr The expression to test.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertFalse = _function_assertFalse
+const assertFalse = _function_assertFalse as typeof _function_assertFalse
 export { assertFalse }

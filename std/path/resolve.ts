@@ -19,5 +19,5 @@ import { resolve as _function_resolve } from "jsr:@std/path@1.0.2/resolve"
  * @param pathSegments Path segments to process to path.
  * @return The resolved path.
  */
-const resolve = _function_resolve
+const resolve = _function_resolve as typeof _function_resolve
 export { resolve }

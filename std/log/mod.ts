@@ -473,7 +473,7 @@ import { LogLevels as _variable_LogLevels } from "jsr:@std/log@0.224.5"
  * Use this to retrieve the numeric log level by it's associated name.
  * Defaults to INFO.
  */
-const LogLevels = _variable_LogLevels
+const LogLevels = _variable_LogLevels as typeof _variable_LogLevels
 export { LogLevels }
 
 import type { LogLevel as _typeAlias_LogLevel } from "jsr:@std/log@0.224.5"
@@ -494,7 +494,7 @@ import { LogLevelNames as _variable_LogLevelNames } from "jsr:@std/log@0.224.5"
 /**
  * Permitted log level names
  */
-const LogLevelNames = _variable_LogLevelNames
+const LogLevelNames = _variable_LogLevelNames as typeof _variable_LogLevelNames
 export { LogLevelNames }
 
 import { getLevelByName as _function_getLevelByName } from "jsr:@std/log@0.224.5"
@@ -502,14 +502,14 @@ import { getLevelByName as _function_getLevelByName } from "jsr:@std/log@0.224.5
  * Returns the numeric log level associated with the passed,
  * stringy log level name.
  */
-const getLevelByName = _function_getLevelByName
+const getLevelByName = _function_getLevelByName as typeof _function_getLevelByName
 export { getLevelByName }
 
 import { getLevelName as _function_getLevelName } from "jsr:@std/log@0.224.5"
 /**
  * Returns the stringy log level name provided the numeric log level.
  */
-const getLevelName = _function_getLevelName
+const getLevelName = _function_getLevelName as typeof _function_getLevelName
 export { getLevelName }
 
 import type { GenericFunction as _typeAlias_GenericFunction } from "jsr:@std/log@0.224.5"
@@ -552,49 +552,49 @@ export { Logger }
 
 import { jsonFormatter as _function_jsonFormatter } from "jsr:@std/log@0.224.5"
 /** UNDOCUMENTED */
-const jsonFormatter = _function_jsonFormatter
+const jsonFormatter = _function_jsonFormatter as typeof _function_jsonFormatter
 export { jsonFormatter }
 
 import { formatters as _variable_formatters } from "jsr:@std/log@0.224.5"
 /** UNDOCUMENTED */
-const formatters = _variable_formatters
+const formatters = _variable_formatters as typeof _variable_formatters
 export { formatters }
 
 import { critical as _function_critical } from "jsr:@std/log@0.224.5"
 /** UNDOCUMENTED */
-const critical = _function_critical
+const critical = _function_critical as typeof _function_critical
 export { critical }
 
 import { debug as _function_debug } from "jsr:@std/log@0.224.5"
 /** UNDOCUMENTED */
-const debug = _function_debug
+const debug = _function_debug as typeof _function_debug
 export { debug }
 
 import { error as _function_error } from "jsr:@std/log@0.224.5"
 /** UNDOCUMENTED */
-const error = _function_error
+const error = _function_error as typeof _function_error
 export { error }
 
 import { getLogger as _function_getLogger } from "jsr:@std/log@0.224.5"
 /**
  * Get a logger instance. If not specified `name`, get the default logger.
  */
-const getLogger = _function_getLogger
+const getLogger = _function_getLogger as typeof _function_getLogger
 export { getLogger }
 
 import { info as _function_info } from "jsr:@std/log@0.224.5"
 /** UNDOCUMENTED */
-const info = _function_info
+const info = _function_info as typeof _function_info
 export { info }
 
 import { setup as _function_setup } from "jsr:@std/log@0.224.5"
 /**
  * Setup logger config.
  */
-const setup = _function_setup
+const setup = _function_setup as typeof _function_setup
 export { setup }
 
 import { warn as _function_warn } from "jsr:@std/log@0.224.5"
 /** UNDOCUMENTED */
-const warn = _function_warn
+const warn = _function_warn as typeof _function_warn
 export { warn }

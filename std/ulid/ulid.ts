@@ -28,5 +28,5 @@ import { ulid as _function_ulid } from "jsr:@std/ulid@1.0.0/ulid"
  * @param seedTime The time to base the ULID on, in milliseconds since the Unix epoch. Defaults to `Date.now()`.
  * @return A ULID.
  */
-const ulid = _function_ulid
+const ulid = _function_ulid as typeof _function_ulid
 export { ulid }

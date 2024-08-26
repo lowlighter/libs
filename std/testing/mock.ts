@@ -38,7 +38,7 @@ export type { MethodSpy }
 
 import { mockSession as _function_mockSession } from "jsr:@std/testing@1.0.0/mock"
 /** UNDOCUMENTED */
-const mockSession = _function_mockSession
+const mockSession = _function_mockSession as typeof _function_mockSession
 export { mockSession }
 
 import { mockSessionAsync as _function_mockSessionAsync } from "jsr:@std/testing@1.0.0/mock"
@@ -66,7 +66,7 @@ import { mockSessionAsync as _function_mockSessionAsync } from "jsr:@std/testing
  * @param func The function.
  * @return The return value of the function.
  */
-const mockSessionAsync = _function_mockSessionAsync
+const mockSessionAsync = _function_mockSessionAsync as typeof _function_mockSessionAsync
 export { mockSessionAsync }
 
 import { restore as _function_restore } from "jsr:@std/testing@1.0.0/mock"
@@ -92,7 +92,7 @@ import { restore as _function_restore } from "jsr:@std/testing@1.0.0/mock"
  *
  * @param id The id of the session to restore. If not provided, all mocks registered in the current session are restored.
  */
-const restore = _function_restore
+const restore = _function_restore as typeof _function_restore
 export { restore }
 
 import type { ConstructorSpy as _interface_ConstructorSpy } from "jsr:@std/testing@1.0.0/mock"
@@ -129,7 +129,7 @@ export type { SpyLike }
 
 import { spy as _function_spy } from "jsr:@std/testing@1.0.0/mock"
 /** UNDOCUMENTED */
-const spy = _function_spy
+const spy = _function_spy as typeof _function_spy
 export { spy }
 
 import type { Stub as _interface_Stub } from "jsr:@std/testing@1.0.0/mock"
@@ -141,7 +141,7 @@ export type { Stub }
 
 import { stub as _function_stub } from "jsr:@std/testing@1.0.0/mock"
 /** UNDOCUMENTED */
-const stub = _function_stub
+const stub = _function_stub as typeof _function_stub
 export { stub }
 
 import { assertSpyCalls as _function_assertSpyCalls } from "jsr:@std/testing@1.0.0/mock"
@@ -166,7 +166,7 @@ import { assertSpyCalls as _function_assertSpyCalls } from "jsr:@std/testing@1.0
  * @param spy The spy to check
  * @param expectedCalls The number of the expected calls.
  */
-const assertSpyCalls = _function_assertSpyCalls
+const assertSpyCalls = _function_assertSpyCalls as typeof _function_assertSpyCalls
 export { assertSpyCalls }
 
 import type { ExpectedSpyCall as _interface_ExpectedSpyCall } from "jsr:@std/testing@1.0.0/mock"
@@ -201,7 +201,7 @@ import { assertSpyCall as _function_assertSpyCall } from "jsr:@std/testing@1.0.0
  * @param callIndex The index of the call to check
  * @param expected The expected spy call.
  */
-const assertSpyCall = _function_assertSpyCall
+const assertSpyCall = _function_assertSpyCall as typeof _function_assertSpyCall
 export { assertSpyCall }
 
 import { assertSpyCallAsync as _function_assertSpyCallAsync } from "jsr:@std/testing@1.0.0/mock"
@@ -231,7 +231,7 @@ import { assertSpyCallAsync as _function_assertSpyCallAsync } from "jsr:@std/tes
  * @param callIndex The index of the call to check
  * @param expected The expected spy call.
  */
-const assertSpyCallAsync = _function_assertSpyCallAsync
+const assertSpyCallAsync = _function_assertSpyCallAsync as typeof _function_assertSpyCallAsync
 export { assertSpyCallAsync }
 
 import { assertSpyCallArg as _function_assertSpyCallArg } from "jsr:@std/testing@1.0.0/mock"
@@ -264,12 +264,12 @@ import { assertSpyCallArg as _function_assertSpyCallArg } from "jsr:@std/testing
  * @param expected The expected argument.
  * @return The actual argument.
  */
-const assertSpyCallArg = _function_assertSpyCallArg
+const assertSpyCallArg = _function_assertSpyCallArg as typeof _function_assertSpyCallArg
 export { assertSpyCallArg }
 
 import { assertSpyCallArgs as _function_assertSpyCallArgs } from "jsr:@std/testing@1.0.0/mock"
 /** UNDOCUMENTED */
-const assertSpyCallArgs = _function_assertSpyCallArgs
+const assertSpyCallArgs = _function_assertSpyCallArgs as typeof _function_assertSpyCallArgs
 export { assertSpyCallArgs }
 
 import { returnsThis as _function_returnsThis } from "jsr:@std/testing@1.0.0/mock"
@@ -290,7 +290,7 @@ import { returnsThis as _function_returnsThis } from "jsr:@std/testing@1.0.0/moc
  * @template Args The arguments type of the returned function.
  * @return A function that returns the instance the method was called on.
  */
-const returnsThis = _function_returnsThis
+const returnsThis = _function_returnsThis as typeof _function_returnsThis
 export { returnsThis }
 
 import { returnsArg as _function_returnsArg } from "jsr:@std/testing@1.0.0/mock"
@@ -311,7 +311,7 @@ import { returnsArg as _function_returnsArg } from "jsr:@std/testing@1.0.0/mock"
  * @param idx The index of the arguments to use.
  * @return A function that returns one of its arguments.
  */
-const returnsArg = _function_returnsArg
+const returnsArg = _function_returnsArg as typeof _function_returnsArg
 export { returnsArg }
 
 import { returnsArgs as _function_returnsArgs } from "jsr:@std/testing@1.0.0/mock"
@@ -333,7 +333,7 @@ import { returnsArgs as _function_returnsArgs } from "jsr:@std/testing@1.0.0/moc
  * @param end The end index of the arguments to return.
  * @return A function that returns its arguments or a subset of them.
  */
-const returnsArgs = _function_returnsArgs
+const returnsArgs = _function_returnsArgs as typeof _function_returnsArgs
 export { returnsArgs }
 
 import { returnsNext as _function_returnsNext } from "jsr:@std/testing@1.0.0/mock"
@@ -358,7 +358,7 @@ import { returnsNext as _function_returnsNext } from "jsr:@std/testing@1.0.0/moc
  * @param values The iterable values
  * @return A function that returns the iterable values
  */
-const returnsNext = _function_returnsNext
+const returnsNext = _function_returnsNext as typeof _function_returnsNext
 export { returnsNext }
 
 import { resolvesNext as _function_resolvesNext } from "jsr:@std/testing@1.0.0/mock"
@@ -383,5 +383,5 @@ import { resolvesNext as _function_resolvesNext } from "jsr:@std/testing@1.0.0/m
  * @param iterable The iterable to use
  * @return A function that resolves the awaited iterable values
  */
-const resolvesNext = _function_resolvesNext
+const resolvesNext = _function_resolvesNext as typeof _function_resolvesNext
 export { resolvesNext }

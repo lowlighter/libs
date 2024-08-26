@@ -1,4 +1,4 @@
-import { rangeIntersects as _function_rangeIntersects } from "jsr:@std/semver@1.0.0/range-intersects"
+import { rangeIntersects as _function_rangeIntersects } from "jsr:@std/semver@1.0.1/range-intersects"
 /**
  * The ranges intersect every range of AND comparators intersects with a least
  * one range of OR ranges.
@@ -21,5 +21,5 @@ import { rangeIntersects as _function_rangeIntersects } from "jsr:@std/semver@1.
  * @param r1 range 1
  * @return returns true if the given ranges intersect, false otherwise
  */
-const rangeIntersects = _function_rangeIntersects
+const rangeIntersects = _function_rangeIntersects as typeof _function_rangeIntersects
 export { rangeIntersects }

@@ -17,5 +17,5 @@ import { relative as _function_relative } from "jsr:@std/path@1.0.2/posix/relati
  * @param to The path to reach.
  * @return The relative path.
  */
-const relative = _function_relative
+const relative = _function_relative as typeof _function_relative
 export { relative }

@@ -1,4 +1,4 @@
-import { isNil as _function_isNil } from "jsr:@std/uuid@1.0.0/common"
+import { isNil as _function_isNil } from "jsr:@std/uuid@1.0.1/common"
 /**
  * Determines whether the UUID is the
  * {@link https://www.rfc-editor.org/rfc/rfc4122#section-4.1.7 | nil UUID}.
@@ -16,10 +16,10 @@ import { isNil as _function_isNil } from "jsr:@std/uuid@1.0.0/common"
  * assertFalse(isNil(crypto.randomUUID()));
  * ```
  */
-const isNil = _function_isNil
+const isNil = _function_isNil as typeof _function_isNil
 export { isNil }
 
-import { validate as _function_validate } from "jsr:@std/uuid@1.0.0/common"
+import { validate as _function_validate } from "jsr:@std/uuid@1.0.1/common"
 /**
  * Determines whether a string is a valid UUID.
  *
@@ -36,10 +36,10 @@ import { validate as _function_validate } from "jsr:@std/uuid@1.0.0/common"
  * assertFalse(validate("not a UUID"));
  * ```
  */
-const validate = _function_validate
+const validate = _function_validate as typeof _function_validate
 export { validate }
 
-import { version as _function_version } from "jsr:@std/uuid@1.0.0/common"
+import { version as _function_version } from "jsr:@std/uuid@1.0.1/common"
 /**
  * Detect RFC version of a UUID.
  *
@@ -56,5 +56,5 @@ import { version as _function_version } from "jsr:@std/uuid@1.0.0/common"
  * assertEquals(version("6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b"), 4);
  * ```
  */
-const version = _function_version
+const version = _function_version as typeof _function_version
 export { version }

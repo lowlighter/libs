@@ -93,7 +93,7 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.1/exists"
  * await exists("./not_readable_file", { isReadable: true, isFile: true }); // false
  * ```
  */
-const exists = _function_exists
+const exists = _function_exists as typeof _function_exists
 export { exists }
 
 import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.1/exists"
@@ -183,5 +183,5 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.1/exists"
  * existsSync("./not_readable_file", { isReadable: true, isFile: true }); // false
  * ```
  */
-const existsSync = _function_existsSync
+const existsSync = _function_existsSync as typeof _function_existsSync
 export { existsSync }

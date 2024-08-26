@@ -24,5 +24,5 @@ import { takeWhile as _function_takeWhile } from "jsr:@std/collections@1.0.5/tak
  * assertEquals(result, [1, 2, 3]);
  * ```
  */
-const takeWhile = _function_takeWhile
+const takeWhile = _function_takeWhile as typeof _function_takeWhile
 export { takeWhile }

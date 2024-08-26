@@ -30,5 +30,5 @@ import { assertInstanceOf as _function_assertInstanceOf } from "jsr:@std/assert@
  * @param expectedType The expected class constructor.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertInstanceOf = _function_assertInstanceOf
+const assertInstanceOf = _function_assertInstanceOf as typeof _function_assertInstanceOf
 export { assertInstanceOf }

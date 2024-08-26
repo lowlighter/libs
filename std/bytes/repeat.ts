@@ -28,5 +28,5 @@ import { repeat as _function_repeat } from "jsr:@std/bytes@1.0.2/repeat"
  * assertEquals(repeat(source, 0), new Uint8Array());
  * ```
  */
-const repeat = _function_repeat
+const repeat = _function_repeat as typeof _function_repeat
 export { repeat }

@@ -17,5 +17,5 @@ import { assertGreater as _function_assertGreater } from "jsr:@std/assert@1.0.2/
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertGreater = _function_assertGreater
+const assertGreater = _function_assertGreater as typeof _function_assertGreater
 export { assertGreater }

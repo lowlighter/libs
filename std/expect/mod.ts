@@ -105,7 +105,7 @@ import { expect as _namespace_expect } from "jsr:@std/expect@1.0.0"
 /**
  * Additional properties on the `expect` function.
  */
-const expect = _namespace_expect
+const expect = _namespace_expect as typeof _namespace_expect
 export { expect }
 
 import { fn as _function_fn } from "jsr:@std/expect@1.0.0"
@@ -136,5 +136,5 @@ import { fn as _function_fn } from "jsr:@std/expect@1.0.0"
  * });
  * ```
  */
-const fn = _function_fn
+const fn = _function_fn as typeof _function_fn
 export { fn }

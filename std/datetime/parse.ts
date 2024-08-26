@@ -1,4 +1,4 @@
-import { parse as _function_parse } from "jsr:@std/datetime@0.224.4/parse"
+import { parse as _function_parse } from "jsr:@std/datetime@0.225.0/parse"
 /**
  * Parses a date string using the specified format string.
  *
@@ -40,5 +40,5 @@ import { parse as _function_parse } from "jsr:@std/datetime@0.224.4/parse"
  * assertEquals(parse("01-03-2019 16:33:23.123", "MM-dd-yyyy HH:mm:ss.SSS"), new Date(2019, 0, 3, 16, 33, 23, 123));
  * ```
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }

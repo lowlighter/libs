@@ -24,5 +24,5 @@ import { runningReduce as _function_runningReduce } from "jsr:@std/collections@1
  * assertEquals(sumSteps, [1, 3, 6, 10, 15]);
  * ```
  */
-const runningReduce = _function_runningReduce
+const runningReduce = _function_runningReduce as typeof _function_runningReduce
 export { runningReduce }

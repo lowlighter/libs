@@ -12,5 +12,5 @@ import { fail as _function_fail } from "jsr:@std/assert@1.0.2/fail"
  * @param msg Optional message to include in the error.
  * @return Never returns, always throws.
  */
-const fail = _function_fail
+const fail = _function_fail as typeof _function_fail
 export { fail }

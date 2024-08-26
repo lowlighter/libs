@@ -38,7 +38,7 @@ import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.1"
  * await emptyDir("./foo");
  * ```
  */
-const emptyDir = _function_emptyDir
+const emptyDir = _function_emptyDir as typeof _function_emptyDir
 export { emptyDir }
 
 import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.1"
@@ -65,7 +65,7 @@ import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.1"
  * emptyDirSync("./foo");
  * ```
  */
-const emptyDirSync = _function_emptyDirSync
+const emptyDirSync = _function_emptyDirSync as typeof _function_emptyDirSync
 export { emptyDirSync }
 
 import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.1"
@@ -92,7 +92,7 @@ import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.1"
  * await ensureDir("./bar");
  * ```
  */
-const ensureDir = _function_ensureDir
+const ensureDir = _function_ensureDir as typeof _function_ensureDir
 export { ensureDir }
 
 import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.1"
@@ -119,7 +119,7 @@ import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.1"
  * ensureDirSync("./bar");
  * ```
  */
-const ensureDirSync = _function_ensureDirSync
+const ensureDirSync = _function_ensureDirSync as typeof _function_ensureDirSync
 export { ensureDirSync }
 
 import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.1"
@@ -145,7 +145,7 @@ import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.1"
  * await ensureFile("./folder/targetFile.dat");
  * ```
  */
-const ensureFile = _function_ensureFile
+const ensureFile = _function_ensureFile as typeof _function_ensureFile
 export { ensureFile }
 
 import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.1"
@@ -171,7 +171,7 @@ import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.1"
  * ensureFileSync("./folder/targetFile.dat");
  * ```
  */
-const ensureFileSync = _function_ensureFileSync
+const ensureFileSync = _function_ensureFileSync as typeof _function_ensureFileSync
 export { ensureFileSync }
 
 import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.1"
@@ -198,7 +198,7 @@ import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.1"
  * await ensureLink("./folder/targetFile.dat", "./folder/targetFile.link.dat");
  * ```
  */
-const ensureLink = _function_ensureLink
+const ensureLink = _function_ensureLink as typeof _function_ensureLink
 export { ensureLink }
 
 import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.1"
@@ -225,7 +225,7 @@ import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.1"
  * ensureLinkSync("./folder/targetFile.dat", "./folder/targetFile.link.dat");
  * ```
  */
-const ensureLinkSync = _function_ensureLinkSync
+const ensureLinkSync = _function_ensureLinkSync as typeof _function_ensureLinkSync
 export { ensureLinkSync }
 
 import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.1"
@@ -254,7 +254,7 @@ import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.1"
  * await ensureSymlink("./folder/targetFile.dat", "./folder/targetFile.link.dat");
  * ```
  */
-const ensureSymlink = _function_ensureSymlink
+const ensureSymlink = _function_ensureSymlink as typeof _function_ensureSymlink
 export { ensureSymlink }
 
 import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.0.1"
@@ -282,7 +282,7 @@ import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.
  * ensureSymlinkSync("./folder/targetFile.dat", "./folder/targetFile.link.dat");
  * ```
  */
-const ensureSymlinkSync = _function_ensureSymlinkSync
+const ensureSymlinkSync = _function_ensureSymlinkSync as typeof _function_ensureSymlinkSync
 export { ensureSymlinkSync }
 
 import type { ExistsOptions as _interface_ExistsOptions } from "jsr:@std/fs@1.0.1"
@@ -380,7 +380,7 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.1"
  * await exists("./not_readable_file", { isReadable: true, isFile: true }); // false
  * ```
  */
-const exists = _function_exists
+const exists = _function_exists as typeof _function_exists
 export { exists }
 
 import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.1"
@@ -470,7 +470,7 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.1"
  * existsSync("./not_readable_file", { isReadable: true, isFile: true }); // false
  * ```
  */
-const existsSync = _function_existsSync
+const existsSync = _function_existsSync as typeof _function_existsSync
 export { existsSync }
 
 import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/fs@1.0.1"
@@ -677,7 +677,7 @@ import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.1"
  * // ]
  * ```
  */
-const expandGlob = _function_expandGlob
+const expandGlob = _function_expandGlob as typeof _function_expandGlob
 export { expandGlob }
 
 import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.1"
@@ -728,7 +728,7 @@ import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.1"
  * entries[1]!.isSymlink; // false
  * ```
  */
-const expandGlobSync = _function_expandGlobSync
+const expandGlobSync = _function_expandGlobSync as typeof _function_expandGlobSync
 export { expandGlobSync }
 
 import type { MoveOptions as _interface_MoveOptions } from "jsr:@std/fs@1.0.1"
@@ -776,7 +776,7 @@ import { move as _function_move } from "jsr:@std/fs@1.0.1"
  * This will move the file or directory at `./foo` to `./bar`, overwriting
  * `./bar` if it already exists.
  */
-const move = _function_move
+const move = _function_move as typeof _function_move
 export { move }
 
 import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.1"
@@ -817,7 +817,7 @@ import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.1"
  * This will move the file or directory at `./foo` to `./bar`, overwriting
  * `./bar` if it already exists.
  */
-const moveSync = _function_moveSync
+const moveSync = _function_moveSync as typeof _function_moveSync
 export { moveSync }
 
 import type { CopyOptions as _interface_CopyOptions } from "jsr:@std/fs@1.0.1"
@@ -875,7 +875,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.1"
  * This will copy the file or directory at `./foo` to `./bar` and set the
  * last modification and access times to the ones of the original source files.
  */
-const copy = _function_copy
+const copy = _function_copy as typeof _function_copy
 export { copy }
 
 import { copySync as _function_copySync } from "jsr:@std/fs@1.0.1"
@@ -926,7 +926,7 @@ import { copySync as _function_copySync } from "jsr:@std/fs@1.0.1"
  * This will copy the file or directory at `./foo` to `./bar` and set the
  * last modification and access times to the ones of the original source files.
  */
-const copySync = _function_copySync
+const copySync = _function_copySync as typeof _function_copySync
 export { copySync }
 
 import type { WalkOptions as _interface_WalkOptions } from "jsr:@std/fs@1.0.1"
@@ -1292,7 +1292,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.1"
  * // ]
  * ```
  */
-const walk = _function_walk
+const walk = _function_walk as typeof _function_walk
 export { walk }
 
 import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.1"
@@ -1650,21 +1650,21 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.1"
  * // ]
  * ```
  */
-const walkSync = _function_walkSync
+const walkSync = _function_walkSync as typeof _function_walkSync
 export { walkSync }
 
 import { LF as _variable_LF } from "jsr:@std/fs@1.0.1"
 /**
  * End-of-line character for POSIX platforms such as macOS and Linux.
  */
-const LF = _variable_LF
+const LF = _variable_LF as typeof _variable_LF
 export { LF }
 
 import { CRLF as _variable_CRLF } from "jsr:@std/fs@1.0.1"
 /**
  * End-of-line character for Windows platforms.
  */
-const CRLF = _variable_CRLF
+const CRLF = _variable_CRLF as typeof _variable_CRLF
 export { CRLF }
 
 import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.1"
@@ -1678,7 +1678,7 @@ import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.1"
  * EOL; // "\n" on POSIX platforms and "\r\n" on Windows
  * ```
  */
-const EOL = _variable_EOL
+const EOL = _variable_EOL as typeof _variable_EOL
 export { EOL }
 
 import { detect as _function_detect } from "jsr:@std/fs@1.0.1"
@@ -1700,7 +1700,7 @@ import { detect as _function_detect } from "jsr:@std/fs@1.0.1"
  * detect("deno is not node"); // null
  * ```
  */
-const detect = _function_detect
+const detect = _function_detect as typeof _function_detect
 export { detect }
 
 import { format as _function_format } from "jsr:@std/fs@1.0.1"
@@ -1721,5 +1721,5 @@ import { format as _function_format } from "jsr:@std/fs@1.0.1"
  * format(CRLFinput, LF); // "deno\nis not\nnode"
  * ```
  */
-const format = _function_format
+const format = _function_format as typeof _function_format
 export { format }

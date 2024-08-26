@@ -15,5 +15,5 @@ import { assertMatch as _function_assertMatch } from "jsr:@std/assert@1.0.2/matc
  * @param expected The expected pattern to match.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertMatch = _function_assertMatch
+const assertMatch = _function_assertMatch as typeof _function_assertMatch
 export { assertMatch }

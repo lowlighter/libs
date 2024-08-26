@@ -1,4 +1,4 @@
-import { join as _function_join } from "jsr:@std/url@0.224.1/join"
+import { join as _function_join } from "jsr:@std/url@0.225.0/join"
 /**
  * Joins a base URL or URL string, and a sequence of path segments together,
  * then normalizes the resulting URL.
@@ -11,11 +11,15 @@ import { join as _function_join } from "jsr:@std/url@0.224.1/join"
  *
  * ```ts
  * import { join } from "@std/url/join";
- * import { assertEquals } from "@std/assert/assert-equals";
+ * import { assertEquals } from "@std/assert";
  *
  * assertEquals(join("https://deno.land/", "std", "path", "mod.ts").href, "https://deno.land/std/path/mod.ts");
  * assertEquals(join("https://deno.land", "//std", "path/", "/mod.ts").href, "https://deno.land/std/path/mod.ts");
  * ```
+ *
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/path/doc/posix/~/join | @std/path/posix/join}
+ * instead (examples included). `@std/url` will be removed in the future.
  */
-const join = _function_join
+const join = _function_join as typeof _function_join
 export { join }

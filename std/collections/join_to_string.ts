@@ -45,5 +45,5 @@ import { joinToString as _function_joinToString } from "jsr:@std/collections@1.0
  * assertEquals(message, "result: Kim and others are winners");
  * ```
  */
-const joinToString = _function_joinToString
+const joinToString = _function_joinToString as typeof _function_joinToString
 export { joinToString }

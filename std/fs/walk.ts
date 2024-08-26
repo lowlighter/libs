@@ -369,7 +369,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.1/walk"
  * // ]
  * ```
  */
-const walk = _function_walk
+const walk = _function_walk as typeof _function_walk
 export { walk }
 
 import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.1/walk"
@@ -727,5 +727,5 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.1/walk"
  * // ]
  * ```
  */
-const walkSync = _function_walkSync
+const walkSync = _function_walkSync as typeof _function_walkSync
 export { walkSync }

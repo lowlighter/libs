@@ -1,4 +1,4 @@
-import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.4/buffer"
+import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.5/buffer"
 /**
  * A variable-sized buffer of bytes with `read()` and `write()` methods.
  *
@@ -14,6 +14,21 @@ import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.4/buffer"
  * ArrayBuffer.
  *
  * Based on {@link https://golang.org/pkg/bytes/#Buffer | Go Buffer}.
+ *
+ * @example Usage
+ * ```ts
+ * import { Buffer } from "@std/io/buffer";
+ * import { assertEquals } from "@std/assert/equals";
+ *
+ * const buf = new Buffer();
+ * await buf.write(new TextEncoder().encode("Hello, "));
+ * await buf.write(new TextEncoder().encode("world!"));
+ *
+ * const data = new Uint8Array(13);
+ * await buf.read(data);
+ *
+ * assertEquals(new TextDecoder().decode(data), "Hello, world!");
+ * ```
  */
 class Buffer extends _class_Buffer {}
 export { Buffer }

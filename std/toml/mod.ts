@@ -134,7 +134,7 @@ import { stringify as _function_stringify } from "jsr:@std/toml@1.0.0"
  * @param options Options for stringifying.
  * @return TOML string
  */
-const stringify = _function_stringify
+const stringify = _function_stringify as typeof _function_stringify
 export { stringify }
 
 import { parse as _function_parse } from "jsr:@std/toml@1.0.0"
@@ -157,5 +157,5 @@ import { parse as _function_parse } from "jsr:@std/toml@1.0.0"
  * @param tomlString TOML string to be parsed.
  * @return The parsed JS object.
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }

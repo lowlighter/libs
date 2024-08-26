@@ -11,19 +11,19 @@
  *
  * @module
  */
-import { abortable as _function_abortable } from "jsr:@std/async@1.0.2"
+import { abortable as _function_abortable } from "jsr:@std/async@1.0.3"
 /** UNDOCUMENTED */
-const abortable = _function_abortable
+const abortable = _function_abortable as typeof _function_abortable
 export { abortable }
 
-import type { DeadlineOptions as _interface_DeadlineOptions } from "jsr:@std/async@1.0.2"
+import type { DeadlineOptions as _interface_DeadlineOptions } from "jsr:@std/async@1.0.3"
 /**
  * Options for {@linkcode deadline}.
  */
 interface DeadlineOptions extends _interface_DeadlineOptions {}
 export type { DeadlineOptions }
 
-import { deadline as _function_deadline } from "jsr:@std/async@1.0.2"
+import { deadline as _function_deadline } from "jsr:@std/async@1.0.3"
 /**
  * Create a promise which will be rejected with {@linkcode DOMException} when
  * a given delay is exceeded.
@@ -49,10 +49,10 @@ import { deadline as _function_deadline } from "jsr:@std/async@1.0.2"
  * const result = await deadline(delayedPromise, 10);
  * ```
  */
-const deadline = _function_deadline
+const deadline = _function_deadline as typeof _function_deadline
 export { deadline }
 
-import type { DebouncedFunction as _interface_DebouncedFunction } from "jsr:@std/async@1.0.2"
+import type { DebouncedFunction as _interface_DebouncedFunction } from "jsr:@std/async@1.0.3"
 /**
  * A debounced function that will be delayed by a given `wait`
  * time in milliseconds. If the method is called again before
@@ -61,7 +61,7 @@ import type { DebouncedFunction as _interface_DebouncedFunction } from "jsr:@std
 interface DebouncedFunction<T extends Array<unknown>> extends _interface_DebouncedFunction<T> {}
 export type { DebouncedFunction }
 
-import { debounce as _function_debounce } from "jsr:@std/async@1.0.2"
+import { debounce as _function_debounce } from "jsr:@std/async@1.0.3"
 /**
  * Creates a debounced function that delays the given `func`
  * by a given `wait` time in milliseconds. If the method is called
@@ -90,17 +90,17 @@ import { debounce as _function_debounce } from "jsr:@std/async@1.0.2"
  * @param wait The time in milliseconds to delay the function.
  * @return The debounced function.
  */
-const debounce = _function_debounce
+const debounce = _function_debounce as typeof _function_debounce
 export { debounce }
 
-import type { DelayOptions as _interface_DelayOptions } from "jsr:@std/async@1.0.2"
+import type { DelayOptions as _interface_DelayOptions } from "jsr:@std/async@1.0.3"
 /**
  * Options for {@linkcode delay}.
  */
 interface DelayOptions extends _interface_DelayOptions {}
 export type { DelayOptions }
 
-import { delay as _function_delay } from "jsr:@std/async@1.0.2"
+import { delay as _function_delay } from "jsr:@std/async@1.0.3"
 /**
  * Resolve a {@linkcode Promise} after a given amount of milliseconds.
  *
@@ -132,10 +132,10 @@ import { delay as _function_delay } from "jsr:@std/async@1.0.2"
  * // ...
  * ```
  */
-const delay = _function_delay
+const delay = _function_delay as typeof _function_delay
 export { delay }
 
-import { MuxAsyncIterator as _class_MuxAsyncIterator } from "jsr:@std/async@1.0.2"
+import { MuxAsyncIterator as _class_MuxAsyncIterator } from "jsr:@std/async@1.0.3"
 /**
  * Multiplexes multiple async iterators into a single stream. It currently
  * makes an assumption that the final result (the value returned and not
@@ -173,7 +173,7 @@ import { MuxAsyncIterator as _class_MuxAsyncIterator } from "jsr:@std/async@1.0.
 class MuxAsyncIterator<T> extends _class_MuxAsyncIterator<T> {}
 export { MuxAsyncIterator }
 
-import { pooledMap as _function_pooledMap } from "jsr:@std/async@1.0.2"
+import { pooledMap as _function_pooledMap } from "jsr:@std/async@1.0.3"
 /**
  * pooledMap transforms values from an (async) iterable into another async
  * iterable. The transforms are done concurrently, with a max concurrency
@@ -205,10 +205,10 @@ import { pooledMap as _function_pooledMap } from "jsr:@std/async@1.0.2"
  * @param iteratorFn The function to call for every item of the array.
  * @return The async iterator with the transformed values.
  */
-const pooledMap = _function_pooledMap
+const pooledMap = _function_pooledMap as typeof _function_pooledMap
 export { pooledMap }
 
-import type { Tuple as _typeAlias_Tuple } from "jsr:@std/async@1.0.2"
+import type { Tuple as _typeAlias_Tuple } from "jsr:@std/async@1.0.3"
 /**
  * Utility for representing n-tuple. Used in {@linkcode tee}.
  *
@@ -217,7 +217,7 @@ import type { Tuple as _typeAlias_Tuple } from "jsr:@std/async@1.0.2"
 type Tuple<T, N extends number> = _typeAlias_Tuple<T, N>
 export type { Tuple }
 
-import type { TupleOf as _typeAlias_TupleOf } from "jsr:@std/async@1.0.2"
+import type { TupleOf as _typeAlias_TupleOf } from "jsr:@std/async@1.0.3"
 /**
  * Utility for representing n-tuple of. Used in {@linkcode Tuple}.
  *
@@ -226,7 +226,7 @@ import type { TupleOf as _typeAlias_TupleOf } from "jsr:@std/async@1.0.2"
 type TupleOf<T, N extends number, R extends unknown[]> = _typeAlias_TupleOf<T, N, R>
 export type { TupleOf }
 
-import { tee as _function_tee } from "jsr:@std/async@1.0.2"
+import { tee as _function_tee } from "jsr:@std/async@1.0.3"
 /**
  * Branches the given async iterable into the `n` branches.
  *
@@ -256,10 +256,10 @@ import { tee as _function_tee } from "jsr:@std/async@1.0.2"
  * @param n The amount of branches to tee into.
  * @return The tuple where each element is an async iterable.
  */
-const tee = _function_tee
+const tee = _function_tee as typeof _function_tee
 export { tee }
 
-import { RetryError as _class_RetryError } from "jsr:@std/async@1.0.2"
+import { RetryError as _class_RetryError } from "jsr:@std/async@1.0.3"
 /**
  * Error thrown in {@linkcode retry} once the maximum number of failed attempts
  * has been reached.
@@ -274,14 +274,14 @@ import { RetryError as _class_RetryError } from "jsr:@std/async@1.0.2"
 class RetryError extends _class_RetryError {}
 export { RetryError }
 
-import type { RetryOptions as _interface_RetryOptions } from "jsr:@std/async@1.0.2"
+import type { RetryOptions as _interface_RetryOptions } from "jsr:@std/async@1.0.3"
 /**
  * Options for {@linkcode retry}.
  */
 interface RetryOptions extends _interface_RetryOptions {}
 export type { RetryOptions }
 
-import { retry as _function_retry } from "jsr:@std/async@1.0.2"
+import { retry as _function_retry } from "jsr:@std/async@1.0.3"
 /**
  * Calls the given (possibly asynchronous) function up to `maxAttempts` times.
  * Retries as long as the given function throws. If the attempts are exhausted,
@@ -336,5 +336,5 @@ import { retry as _function_retry } from "jsr:@std/async@1.0.2"
  * @param opts Additional options.
  * @return The promise that resolves with the value returned by the function to retry.
  */
-const retry = _function_retry
+const retry = _function_retry as typeof _function_retry
 export { retry }

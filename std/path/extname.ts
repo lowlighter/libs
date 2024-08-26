@@ -17,5 +17,5 @@ import { extname as _function_extname } from "jsr:@std/path@1.0.2/extname"
  * @param path Path with extension.
  * @return The file extension. E.g. returns `.ts` for `file.ts`.
  */
-const extname = _function_extname
+const extname = _function_extname as typeof _function_extname
 export { extname }

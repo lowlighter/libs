@@ -24,5 +24,5 @@ import { joinGlobs as _function_joinGlobs } from "jsr:@std/path@1.0.2/windows/jo
  * @param options The options for glob pattern.
  * @return The joined glob pattern.
  */
-const joinGlobs = _function_joinGlobs
+const joinGlobs = _function_joinGlobs as typeof _function_joinGlobs
 export { joinGlobs }

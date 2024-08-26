@@ -27,5 +27,5 @@ import { format as _function_format } from "jsr:@std/fmt@1.0.0/duration"
  * @param options The options for formatting
  * @return The formatted string
  */
-const format = _function_format
+const format = _function_format as typeof _function_format
 export { format }

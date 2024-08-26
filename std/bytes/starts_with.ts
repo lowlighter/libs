@@ -21,5 +21,5 @@ import { startsWith as _function_startsWith } from "jsr:@std/bytes@1.0.2/starts-
  * assertEquals(startsWith(source, prefix), true);
  * ```
  */
-const startsWith = _function_startsWith
+const startsWith = _function_startsWith as typeof _function_startsWith
 export { startsWith }

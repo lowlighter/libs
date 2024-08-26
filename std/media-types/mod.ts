@@ -75,7 +75,7 @@ import { contentType as _function_contentType } from "jsr:@std/media-types@1.0.2
  * assertEquals(contentType("file.json"), undefined);
  * ```
  */
-const contentType = _function_contentType
+const contentType = _function_contentType as typeof _function_contentType
 export { contentType }
 
 import { extension as _function_extension } from "jsr:@std/media-types@1.0.2"
@@ -101,7 +101,7 @@ import { extension as _function_extension } from "jsr:@std/media-types@1.0.2"
  * assertEquals(extension("application/foo"), undefined);
  * ```
  */
-const extension = _function_extension
+const extension = _function_extension as typeof _function_extension
 export { extension }
 
 import { allExtensions as _function_allExtensions } from "jsr:@std/media-types@1.0.2"
@@ -126,7 +126,7 @@ import { allExtensions as _function_allExtensions } from "jsr:@std/media-types@1
  * assertEquals(allExtensions("application/foo"), undefined);
  * ```
  */
-const allExtensions = _function_allExtensions
+const allExtensions = _function_allExtensions as typeof _function_allExtensions
 export { allExtensions }
 
 import { formatMediaType as _function_formatMediaType } from "jsr:@std/media-types@1.0.2"
@@ -161,7 +161,7 @@ import { formatMediaType as _function_formatMediaType } from "jsr:@std/media-typ
  * assertEquals(formatMediaType("text/plain", { charset: "UTF-8" }), "text/plain; charset=UTF-8");
  * ```
  */
-const formatMediaType = _function_formatMediaType
+const formatMediaType = _function_formatMediaType as typeof _function_formatMediaType
 export { formatMediaType }
 
 import { getCharset as _function_getCharset } from "jsr:@std/media-types@1.0.2"
@@ -185,7 +185,7 @@ import { getCharset as _function_getCharset } from "jsr:@std/media-types@1.0.2"
  * assertEquals(getCharset("application/news-checkgroups; charset=UTF-8"), "UTF-8");
  * ```
  */
-const getCharset = _function_getCharset
+const getCharset = _function_getCharset as typeof _function_getCharset
 export { getCharset }
 
 import { parseMediaType as _function_parseMediaType } from "jsr:@std/media-types@1.0.2"
@@ -218,7 +218,7 @@ import { parseMediaType as _function_parseMediaType } from "jsr:@std/media-types
  * assertEquals(parseMediaType("text/html; charset=UTF-8"), ["text/html", { charset: "UTF-8" }]);
  * ```
  */
-const parseMediaType = _function_parseMediaType
+const parseMediaType = _function_parseMediaType as typeof _function_parseMediaType
 export { parseMediaType }
 
 import { typeByExtension as _function_typeByExtension } from "jsr:@std/media-types@1.0.2"
@@ -245,5 +245,5 @@ import { typeByExtension as _function_typeByExtension } from "jsr:@std/media-typ
  * assertEquals(typeByExtension("file.json"), undefined);
  * ```
  */
-const typeByExtension = _function_typeByExtension
+const typeByExtension = _function_typeByExtension as typeof _function_typeByExtension
 export { typeByExtension }

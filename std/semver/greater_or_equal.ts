@@ -1,4 +1,4 @@
-import { greaterOrEqual as _function_greaterOrEqual } from "jsr:@std/semver@1.0.0/greater-or-equal"
+import { greaterOrEqual as _function_greaterOrEqual } from "jsr:@std/semver@1.0.1/greater-or-equal"
 /**
  * Greater than or equal to comparison for two SemVers.
  *
@@ -21,5 +21,5 @@ import { greaterOrEqual as _function_greaterOrEqual } from "jsr:@std/semver@1.0.
  * @param s1 The second version to compare
  * @return `true` if `s0` is greater than or equal to `s1`, `false` otherwise
  */
-const greaterOrEqual = _function_greaterOrEqual
+const greaterOrEqual = _function_greaterOrEqual as typeof _function_greaterOrEqual
 export { greaterOrEqual }

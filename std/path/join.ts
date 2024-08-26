@@ -17,5 +17,5 @@ import { join as _function_join } from "jsr:@std/path@1.0.2/join"
  * @param paths Paths to be joined and normalized.
  * @return The joined and normalized path.
  */
-const join = _function_join
+const join = _function_join as typeof _function_join
 export { join }

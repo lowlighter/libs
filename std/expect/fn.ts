@@ -26,5 +26,5 @@ import { fn as _function_fn } from "jsr:@std/expect@1.0.0/fn"
  * });
  * ```
  */
-const fn = _function_fn
+const fn = _function_fn as typeof _function_fn
 export { fn }

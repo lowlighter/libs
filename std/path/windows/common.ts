@@ -17,5 +17,5 @@ import { common as _function_common } from "jsr:@std/path@1.0.2/windows/common"
  * @param paths The paths to compare.
  * @return The common path.
  */
-const common = _function_common
+const common = _function_common as typeof _function_common
 export { common }

@@ -15,7 +15,7 @@
  *
  * @module
  */
-import { SECOND as _variable_SECOND } from "jsr:@std/datetime@0.224.4"
+import { SECOND as _variable_SECOND } from "jsr:@std/datetime@0.225.0"
 /**
  * The number of milliseconds in a second.
  *
@@ -25,10 +25,10 @@ import { SECOND as _variable_SECOND } from "jsr:@std/datetime@0.224.4"
  * SECOND; // 1_000
  * ```
  */
-const SECOND = _variable_SECOND
+const SECOND = _variable_SECOND as typeof _variable_SECOND
 export { SECOND }
 
-import { MINUTE as _variable_MINUTE } from "jsr:@std/datetime@0.224.4"
+import { MINUTE as _variable_MINUTE } from "jsr:@std/datetime@0.225.0"
 /**
  * The number of milliseconds in a minute.
  *
@@ -38,10 +38,10 @@ import { MINUTE as _variable_MINUTE } from "jsr:@std/datetime@0.224.4"
  * MINUTE; // 60_000
  * ```
  */
-const MINUTE = _variable_MINUTE
+const MINUTE = _variable_MINUTE as typeof _variable_MINUTE
 export { MINUTE }
 
-import { HOUR as _variable_HOUR } from "jsr:@std/datetime@0.224.4"
+import { HOUR as _variable_HOUR } from "jsr:@std/datetime@0.225.0"
 /**
  * The number of milliseconds in an hour.
  *
@@ -51,10 +51,10 @@ import { HOUR as _variable_HOUR } from "jsr:@std/datetime@0.224.4"
  * HOUR; // 3_600_000
  * ```
  */
-const HOUR = _variable_HOUR
+const HOUR = _variable_HOUR as typeof _variable_HOUR
 export { HOUR }
 
-import { DAY as _variable_DAY } from "jsr:@std/datetime@0.224.4"
+import { DAY as _variable_DAY } from "jsr:@std/datetime@0.225.0"
 /**
  * The number of milliseconds in a day.
  *
@@ -64,10 +64,10 @@ import { DAY as _variable_DAY } from "jsr:@std/datetime@0.224.4"
  * DAY; // 86_400_000
  * ```
  */
-const DAY = _variable_DAY
+const DAY = _variable_DAY as typeof _variable_DAY
 export { DAY }
 
-import { WEEK as _variable_WEEK } from "jsr:@std/datetime@0.224.4"
+import { WEEK as _variable_WEEK } from "jsr:@std/datetime@0.225.0"
 /**
  * The number of milliseconds in a week.
  *
@@ -77,10 +77,10 @@ import { WEEK as _variable_WEEK } from "jsr:@std/datetime@0.224.4"
  * WEEK; // 604_800_000
  * ```
  */
-const WEEK = _variable_WEEK
+const WEEK = _variable_WEEK as typeof _variable_WEEK
 export { WEEK }
 
-import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.224.4"
+import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.225.0"
 /**
  * Returns the number of the day in the year in the local time zone.
  *
@@ -95,10 +95,10 @@ import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.224.4"
  * assertEquals(dayOfYear(new Date("2019-03-11T03:24:00")), 70);
  * ```
  */
-const dayOfYear = _function_dayOfYear
+const dayOfYear = _function_dayOfYear as typeof _function_dayOfYear
 export { dayOfYear }
 
-import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.224.4"
+import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.225.0"
 /**
  * Returns the number of the day in the year in UTC time.
  *
@@ -113,10 +113,10 @@ import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.224.
  * assertEquals(dayOfYearUtc(new Date("2019-03-11T03:24:00.000Z")), 70);
  * ```
  */
-const dayOfYearUtc = _function_dayOfYearUtc
+const dayOfYearUtc = _function_dayOfYearUtc as typeof _function_dayOfYearUtc
 export { dayOfYearUtc }
 
-import type { Unit as _typeAlias_Unit } from "jsr:@std/datetime@0.224.4"
+import type { Unit as _typeAlias_Unit } from "jsr:@std/datetime@0.225.0"
 /**
  * Duration units for {@linkcode DifferenceFormat} and
  * {@linkcode DifferenceOptions}.
@@ -124,21 +124,21 @@ import type { Unit as _typeAlias_Unit } from "jsr:@std/datetime@0.224.4"
 type Unit = _typeAlias_Unit
 export type { Unit }
 
-import type { DifferenceFormat as _typeAlias_DifferenceFormat } from "jsr:@std/datetime@0.224.4"
+import type { DifferenceFormat as _typeAlias_DifferenceFormat } from "jsr:@std/datetime@0.225.0"
 /**
  * Return type for {@linkcode difference}.
  */
 type DifferenceFormat = _typeAlias_DifferenceFormat
 export type { DifferenceFormat }
 
-import type { DifferenceOptions as _typeAlias_DifferenceOptions } from "jsr:@std/datetime@0.224.4"
+import type { DifferenceOptions as _typeAlias_DifferenceOptions } from "jsr:@std/datetime@0.225.0"
 /**
  * Options for {@linkcode difference}.
  */
 type DifferenceOptions = _typeAlias_DifferenceOptions
 export type { DifferenceOptions }
 
-import { difference as _function_difference } from "jsr:@std/datetime@0.224.4"
+import { difference as _function_difference } from "jsr:@std/datetime@0.225.0"
 /**
  * Calculates the difference of the 2 given dates in various units. If the units
  * are omitted, it returns the difference in the all available units.
@@ -189,17 +189,17 @@ import { difference as _function_difference } from "jsr:@std/datetime@0.224.4"
  * });
  * ```
  */
-const difference = _function_difference
+const difference = _function_difference as typeof _function_difference
 export { difference }
 
-import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/datetime@0.224.4"
+import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/datetime@0.225.0"
 /**
  * Options for {@linkcode format}.
  */
 interface FormatOptions extends _interface_FormatOptions {}
 export type { FormatOptions }
 
-import { format as _function_format } from "jsr:@std/datetime@0.224.4"
+import { format as _function_format } from "jsr:@std/datetime@0.225.0"
 /**
  * Formats a date to a string with the specified format.
  *
@@ -256,13 +256,13 @@ import { format as _function_format } from "jsr:@std/datetime@0.224.4"
  *
  * const date = new Date(2019, 0, 20, 16, 34, 23, 123);
  *
- * assertEquals(format(date, "yyyy-MM-dd HH:mm:ss", { utc: true }), "2019-01-20 05:34:23");
+ * assertEquals(format(date, "yyyy-MM-dd HH:mm:ss", { timeZone: "UTC" }), "2019-01-20 05:34:23");
  * ```
  */
-const format = _function_format
+const format = _function_format as typeof _function_format
 export { format }
 
-import { isLeap as _function_isLeap } from "jsr:@std/datetime@0.224.4"
+import { isLeap as _function_isLeap } from "jsr:@std/datetime@0.225.0"
 /**
  * Returns whether the given year is a leap year. Passing in a
  * {@linkcode Date} object will return the leap year status of the year of that
@@ -301,10 +301,10 @@ import { isLeap as _function_isLeap } from "jsr:@std/datetime@0.224.4"
  *
  * ```
  */
-const isLeap = _function_isLeap
+const isLeap = _function_isLeap as typeof _function_isLeap
 export { isLeap }
 
-import { isUtcLeap as _function_isUtcLeap } from "jsr:@std/datetime@0.224.4"
+import { isUtcLeap as _function_isUtcLeap } from "jsr:@std/datetime@0.225.0"
 /**
  * Returns whether the given year is a leap year in UTC time. This always
  * returns the same value regardless of the local timezone.
@@ -329,10 +329,10 @@ import { isUtcLeap as _function_isUtcLeap } from "jsr:@std/datetime@0.224.4"
  * assertEquals(isUtcLeap(1999), false);
  * ```
  */
-const isUtcLeap = _function_isUtcLeap
+const isUtcLeap = _function_isUtcLeap as typeof _function_isUtcLeap
 export { isUtcLeap }
 
-import { parse as _function_parse } from "jsr:@std/datetime@0.224.4"
+import { parse as _function_parse } from "jsr:@std/datetime@0.225.0"
 /**
  * Parses a date string using the specified format string.
  *
@@ -374,10 +374,10 @@ import { parse as _function_parse } from "jsr:@std/datetime@0.224.4"
  * assertEquals(parse("01-03-2019 16:33:23.123", "MM-dd-yyyy HH:mm:ss.SSS"), new Date(2019, 0, 3, 16, 33, 23, 123));
  * ```
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }
 
-import { weekOfYear as _function_weekOfYear } from "jsr:@std/datetime@0.224.4"
+import { weekOfYear as _function_weekOfYear } from "jsr:@std/datetime@0.225.0"
 /**
  * Returns the ISO week number of the provided date (1-53).
  *
@@ -394,5 +394,5 @@ import { weekOfYear as _function_weekOfYear } from "jsr:@std/datetime@0.224.4"
  * assertEquals(weekOfYear(new Date("2020-07-10T03:24:00")), 28);
  * ```
  */
-const weekOfYear = _function_weekOfYear
+const weekOfYear = _function_weekOfYear as typeof _function_weekOfYear
 export { weekOfYear }

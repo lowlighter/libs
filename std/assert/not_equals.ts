@@ -18,5 +18,5 @@ import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertNotEquals = _function_assertNotEquals
+const assertNotEquals = _function_assertNotEquals as typeof _function_assertNotEquals
 export { assertNotEquals }

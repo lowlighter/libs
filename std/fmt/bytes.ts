@@ -53,5 +53,5 @@ import { format as _function_format } from "jsr:@std/fmt@1.0.0/bytes"
  * assertEquals(format(1337, { locale: "de" }), "1,34 kB");
  * ```
  */
-const format = _function_format
+const format = _function_format as typeof _function_format
 export { format }

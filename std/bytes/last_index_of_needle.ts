@@ -39,5 +39,5 @@ import { lastIndexOfNeedle as _function_lastIndexOfNeedle } from "jsr:@std/bytes
  * Defining a start index will begin the search at the specified index in the
  * source array.
  */
-const lastIndexOfNeedle = _function_lastIndexOfNeedle
+const lastIndexOfNeedle = _function_lastIndexOfNeedle as typeof _function_lastIndexOfNeedle
 export { lastIndexOfNeedle }

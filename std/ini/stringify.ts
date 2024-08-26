@@ -64,5 +64,5 @@ import { stringify as _function_stringify } from "jsr:@std/ini@0.225.2/stringify
  * @param options The option to use
  * @return The INI string
  */
-const stringify = _function_stringify
+const stringify = _function_stringify as typeof _function_stringify
 export { stringify }

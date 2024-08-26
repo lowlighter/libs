@@ -34,5 +34,5 @@ import { normalize as _function_normalize } from "jsr:@std/path@1.0.2/posix/norm
  * @param path The path to normalize.
  * @return The normalized path.
  */
-const normalize = _function_normalize
+const normalize = _function_normalize as typeof _function_normalize
 export { normalize }

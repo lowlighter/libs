@@ -20,5 +20,5 @@ import { assertNotStrictEquals as _function_assertNotStrictEquals } from "jsr:@s
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertNotStrictEquals = _function_assertNotStrictEquals
+const assertNotStrictEquals = _function_assertNotStrictEquals as typeof _function_assertNotStrictEquals
 export { assertNotStrictEquals }

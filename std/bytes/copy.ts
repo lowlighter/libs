@@ -38,5 +38,5 @@ import { copy as _function_copy } from "jsr:@std/bytes@1.0.2/copy"
  * Defining an offset will start copying at the specified index in the
  * destination array.
  */
-const copy = _function_copy
+const copy = _function_copy as typeof _function_copy
 export { copy }

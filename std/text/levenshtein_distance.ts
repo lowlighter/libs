@@ -1,4 +1,4 @@
-import { levenshteinDistance as _function_levenshteinDistance } from "jsr:@std/text@1.0.2/levenshtein-distance"
+import { levenshteinDistance as _function_levenshteinDistance } from "jsr:@std/text@1.0.3/levenshtein-distance"
 /**
  * Calculates the
  * {@link https://en.wikipedia.org/wiki/Levenshtein_distance | Levenshtein distance}
@@ -20,5 +20,5 @@ import { levenshteinDistance as _function_levenshteinDistance } from "jsr:@std/t
  * @param str2 The second string.
  * @return The Levenshtein distance between the two strings.
  */
-const levenshteinDistance = _function_levenshteinDistance
+const levenshteinDistance = _function_levenshteinDistance as typeof _function_levenshteinDistance
 export { levenshteinDistance }

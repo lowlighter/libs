@@ -20,5 +20,5 @@ import { distinct as _function_distinct } from "jsr:@std/collections@1.0.5/disti
  * assertEquals(distinctNumbers, [3, 2, 5]);
  * ```
  */
-const distinct = _function_distinct
+const distinct = _function_distinct as typeof _function_distinct
 export { distinct }

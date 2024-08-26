@@ -23,5 +23,5 @@ import { normalizeGlob as _function_normalizeGlob } from "jsr:@std/path@1.0.2/po
  * @param options The options to use.
  * @return The normalized path.
  */
-const normalizeGlob = _function_normalizeGlob
+const normalizeGlob = _function_normalizeGlob as typeof _function_normalizeGlob
 export { normalizeGlob }

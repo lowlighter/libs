@@ -1,4 +1,4 @@
-import { greaterThan as _function_greaterThan } from "jsr:@std/semver@1.0.0/greater-than"
+import { greaterThan as _function_greaterThan } from "jsr:@std/semver@1.0.1/greater-than"
 /**
  * Greater than comparison for two SemVers.
  *
@@ -21,5 +21,5 @@ import { greaterThan as _function_greaterThan } from "jsr:@std/semver@1.0.0/grea
  * @param s1 The second version to compare
  * @return `true` if `s0` is greater than `s1`, `false` otherwise
  */
-const greaterThan = _function_greaterThan
+const greaterThan = _function_greaterThan as typeof _function_greaterThan
 export { greaterThan }

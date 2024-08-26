@@ -12,5 +12,5 @@ import { unreachable as _function_unreachable } from "jsr:@std/assert@1.0.2/unre
  * @param msg Optional message to include in the error.
  * @return Never returns, always throws.
  */
-const unreachable = _function_unreachable
+const unreachable = _function_unreachable as typeof _function_unreachable
 export { unreachable }

@@ -1,11 +1,11 @@
-import type { WordSimilaritySortOptions as _interface_WordSimilaritySortOptions } from "jsr:@std/text@1.0.2/word-similarity-sort"
+import type { WordSimilaritySortOptions as _interface_WordSimilaritySortOptions } from "jsr:@std/text@1.0.3/word-similarity-sort"
 /**
  * Options for {@linkcode wordSimilaritySort}.
  */
 interface WordSimilaritySortOptions extends _interface_WordSimilaritySortOptions {}
 export type { WordSimilaritySortOptions }
 
-import { wordSimilaritySort as _function_wordSimilaritySort } from "jsr:@std/text@1.0.2/word-similarity-sort"
+import { wordSimilaritySort as _function_wordSimilaritySort } from "jsr:@std/text@1.0.3/word-similarity-sort"
 /**
  * Sorts a string-array by similarity to a given string.
  *
@@ -42,5 +42,5 @@ import { wordSimilaritySort as _function_wordSimilaritySort } from "jsr:@std/tex
  * @param options Options for the sort.
  * @return A sorted copy of `possibleWords`.
  */
-const wordSimilaritySort = _function_wordSimilaritySort
+const wordSimilaritySort = _function_wordSimilaritySort as typeof _function_wordSimilaritySort
 export { wordSimilaritySort }

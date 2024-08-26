@@ -53,5 +53,5 @@ import { slidingWindows as _function_slidingWindows } from "jsr:@std/collections
  * ]);
  * ```
  */
-const slidingWindows = _function_slidingWindows
+const slidingWindows = _function_slidingWindows as typeof _function_slidingWindows
 export { slidingWindows }

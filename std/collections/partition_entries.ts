@@ -36,5 +36,5 @@ import { partitionEntries as _function_partitionEntries } from "jsr:@std/collect
  * );
  * ```
  */
-const partitionEntries = _function_partitionEntries
+const partitionEntries = _function_partitionEntries as typeof _function_partitionEntries
 export { partitionEntries }

@@ -21,5 +21,5 @@ import { endsWith as _function_endsWith } from "jsr:@std/bytes@1.0.2/ends-with"
  * assertEquals(endsWith(source, suffix), true);
  * ```
  */
-const endsWith = _function_endsWith
+const endsWith = _function_endsWith as typeof _function_endsWith
 export { endsWith }

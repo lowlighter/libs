@@ -24,5 +24,5 @@ import { isValidCustomElementName as _function_isValidCustomElementName } from "
  * @param elementName The element name to be validate
  * @return `true` if the element name is valid, `false` otherwise.
  */
-const isValidCustomElementName = _function_isValidCustomElementName
+const isValidCustomElementName = _function_isValidCustomElementName as typeof _function_isValidCustomElementName
 export { isValidCustomElementName }

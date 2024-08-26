@@ -1,4 +1,4 @@
-import { toCamelCase as _function_toCamelCase } from "jsr:@std/text@1.0.2/to-camel-case"
+import { toCamelCase as _function_toCamelCase } from "jsr:@std/text@1.0.3/to-camel-case"
 /**
  * Converts a string into camelCase.
  *
@@ -13,5 +13,5 @@ import { toCamelCase as _function_toCamelCase } from "jsr:@std/text@1.0.2/to-cam
  * @param input The string that is going to be converted into camelCase
  * @return The string as camelCase
  */
-const toCamelCase = _function_toCamelCase
+const toCamelCase = _function_toCamelCase as typeof _function_toCamelCase
 export { toCamelCase }

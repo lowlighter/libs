@@ -30,5 +30,5 @@ import { mapKeys as _function_mapKeys } from "jsr:@std/collections@1.0.5/map-key
  * );
  * ```
  */
-const mapKeys = _function_mapKeys
+const mapKeys = _function_mapKeys as typeof _function_mapKeys
 export { mapKeys }

@@ -61,7 +61,7 @@ import { getAvailablePort as _function_getAvailablePort } from "jsr:@std/net@1.0
  * // ...
  * ```
  */
-const getAvailablePort = _function_getAvailablePort
+const getAvailablePort = _function_getAvailablePort as typeof _function_getAvailablePort
 export { getAvailablePort }
 
 import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1.0.0"
@@ -101,5 +101,5 @@ import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1
  *
  * @experimental
  */
-const getNetworkAddress = _function_getNetworkAddress
+const getNetworkAddress = _function_getNetworkAddress as typeof _function_getNetworkAddress
 export { getNetworkAddress }

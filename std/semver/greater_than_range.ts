@@ -1,4 +1,4 @@
-import { greaterThanRange as _function_greaterThanRange } from "jsr:@std/semver@1.0.0/greater-than-range"
+import { greaterThanRange as _function_greaterThanRange } from "jsr:@std/semver@1.0.1/greater-than-range"
 /**
  * Check if the SemVer is greater than the range.
  *
@@ -19,5 +19,5 @@ import { greaterThanRange as _function_greaterThanRange } from "jsr:@std/semver@
  * @param range The range to check against.
  * @return `true` if the semver is greater than the range, `false` otherwise.
  */
-const greaterThanRange = _function_greaterThanRange
+const greaterThanRange = _function_greaterThanRange as typeof _function_greaterThanRange
 export { greaterThanRange }

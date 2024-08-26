@@ -14,5 +14,5 @@ import { equal as _function_equal } from "jsr:@std/assert@1.0.2/equal"
  * equal({ foo: "bar" }, { foo: "baz" }); // Returns `false
  * ```
  */
-const equal = _function_equal
+const equal = _function_equal as typeof _function_equal
 export { equal }

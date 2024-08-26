@@ -21,5 +21,5 @@ import { normalize as _function_normalize } from "jsr:@std/path@1.0.2/normalize"
  * @param path Path to be normalized
  * @return The normalized path.
  */
-const normalize = _function_normalize
+const normalize = _function_normalize as typeof _function_normalize
 export { normalize }

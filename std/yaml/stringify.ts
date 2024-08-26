@@ -1,4 +1,4 @@
-import type { SchemaType as _typeAlias_SchemaType } from "jsr:@std/yaml@1.0.1/stringify"
+import type { SchemaType as _typeAlias_SchemaType } from "jsr:@std/yaml@1.0.3/stringify"
 /**
  * Name of the schema to use.
  *
@@ -25,21 +25,21 @@ import type { SchemaType as _typeAlias_SchemaType } from "jsr:@std/yaml@1.0.1/st
 type SchemaType = _typeAlias_SchemaType
 export type { SchemaType }
 
-import type { StyleVariant as _typeAlias_StyleVariant } from "jsr:@std/yaml@1.0.1/stringify"
+import type { StyleVariant as _typeAlias_StyleVariant } from "jsr:@std/yaml@1.0.3/stringify"
 /**
  * The style variation for `styles` option of {@linkcode stringify}
  */
 type StyleVariant = _typeAlias_StyleVariant
 export type { StyleVariant }
 
-import type { StringifyOptions as _typeAlias_StringifyOptions } from "jsr:@std/yaml@1.0.1/stringify"
+import type { StringifyOptions as _typeAlias_StringifyOptions } from "jsr:@std/yaml@1.0.3/stringify"
 /**
  * Options for {@linkcode stringify}.
  */
 type StringifyOptions = _typeAlias_StringifyOptions
 export type { StringifyOptions }
 
-import { stringify as _function_stringify } from "jsr:@std/yaml@1.0.1/stringify"
+import { stringify as _function_stringify } from "jsr:@std/yaml@1.0.3/stringify"
 /**
  * Converts a JavaScript object or value to a YAML document string.
  *
@@ -59,5 +59,5 @@ import { stringify as _function_stringify } from "jsr:@std/yaml@1.0.1/stringify"
  * @param options The options for serialization.
  * @return A YAML string.
  */
-const stringify = _function_stringify
+const stringify = _function_stringify as typeof _function_stringify
 export { stringify }

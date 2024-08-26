@@ -28,5 +28,5 @@ import { stringify as _function_stringify } from "jsr:@std/toml@1.0.0/stringify"
  * @param options Options for stringifying.
  * @return TOML string
  */
-const stringify = _function_stringify
+const stringify = _function_stringify as typeof _function_stringify
 export { stringify }

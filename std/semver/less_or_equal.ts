@@ -1,4 +1,4 @@
-import { lessOrEqual as _function_lessOrEqual } from "jsr:@std/semver@1.0.0/less-or-equal"
+import { lessOrEqual as _function_lessOrEqual } from "jsr:@std/semver@1.0.1/less-or-equal"
 /**
  * Less than or equal to comparison for two SemVers.
  *
@@ -21,5 +21,5 @@ import { lessOrEqual as _function_lessOrEqual } from "jsr:@std/semver@1.0.0/less
  * @param s1 the second version to compare
  * @return `true` if `s0` is less than or equal to `s1`, `false` otherwise
  */
-const lessOrEqual = _function_lessOrEqual
+const lessOrEqual = _function_lessOrEqual as typeof _function_lessOrEqual
 export { lessOrEqual }

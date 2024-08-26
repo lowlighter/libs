@@ -1,4 +1,4 @@
-import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "jsr:@std/streams@1.0.0/early-zip-readable-streams"
+import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "jsr:@std/streams@1.0.2/early-zip-readable-streams"
 /**
  * Merge multiple streams into a single one, taking order into account, and each
  * stream will wait for a chunk to enqueue before the next stream can append
@@ -79,5 +79,5 @@ import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "js
  * );
  * ```
  */
-const earlyZipReadableStreams = _function_earlyZipReadableStreams
+const earlyZipReadableStreams = _function_earlyZipReadableStreams as typeof _function_earlyZipReadableStreams
 export { earlyZipReadableStreams }

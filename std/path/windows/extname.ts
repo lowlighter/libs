@@ -14,5 +14,5 @@ import { extname as _function_extname } from "jsr:@std/path@1.0.2/windows/extnam
  * @param path The path to get the extension from.
  * @return The extension of the `path`.
  */
-const extname = _function_extname
+const extname = _function_extname as typeof _function_extname
 export { extname }

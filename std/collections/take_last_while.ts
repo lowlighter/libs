@@ -24,5 +24,5 @@ import { takeLastWhile as _function_takeLastWhile } from "jsr:@std/collections@1
  * assertEquals(result, [5, 6]);
  * ```
  */
-const takeLastWhile = _function_takeLastWhile
+const takeLastWhile = _function_takeLastWhile as typeof _function_takeLastWhile
 export { takeLastWhile }

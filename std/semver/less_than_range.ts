@@ -1,4 +1,4 @@
-import { lessThanRange as _function_lessThanRange } from "jsr:@std/semver@1.0.0/less-than-range"
+import { lessThanRange as _function_lessThanRange } from "jsr:@std/semver@1.0.1/less-than-range"
 /**
  * Check if the SemVer is less than the range.
  *
@@ -19,5 +19,5 @@ import { lessThanRange as _function_lessThanRange } from "jsr:@std/semver@1.0.0/
  * @param range The range to check against.
  * @return `true` if the SemVer is less than the range, `false` otherwise.
  */
-const lessThanRange = _function_lessThanRange
+const lessThanRange = _function_lessThanRange as typeof _function_lessThanRange
 export { lessThanRange }

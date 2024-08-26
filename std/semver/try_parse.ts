@@ -1,4 +1,4 @@
-import { tryParse as _function_tryParse } from "jsr:@std/semver@1.0.0/try-parse"
+import { tryParse as _function_tryParse } from "jsr:@std/semver@1.0.1/try-parse"
 /**
  * Returns the parsed SemVer, or `undefined` if it's not valid.
  *
@@ -17,5 +17,5 @@ import { tryParse as _function_tryParse } from "jsr:@std/semver@1.0.0/try-parse"
  * @param version The version string to parse
  * @return A valid SemVer or `undefined`
  */
-const tryParse = _function_tryParse
+const tryParse = _function_tryParse as typeof _function_tryParse
 export { tryParse }

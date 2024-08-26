@@ -38,5 +38,5 @@ import { unicodeWidth as _function_unicodeWidth } from "jsr:@std/console@0.224.0
  * @deprecated Use {@linkcode unicodeWidth} from `std/cli` instead. This will be
  * removed once the Standard Library migrates to {@link https://jsr.io/ | JSR}.
  */
-const unicodeWidth = _function_unicodeWidth
+const unicodeWidth = _function_unicodeWidth as typeof _function_unicodeWidth
 export { unicodeWidth }

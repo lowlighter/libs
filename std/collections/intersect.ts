@@ -22,5 +22,5 @@ import { intersect as _function_intersect } from "jsr:@std/collections@1.0.5/int
  * assertEquals(commonInterests, ["Cooking", "Music"]);
  * ```
  */
-const intersect = _function_intersect
+const intersect = _function_intersect as typeof _function_intersect
 export { intersect }

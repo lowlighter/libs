@@ -1,4 +1,4 @@
-import { format as _function_format } from "jsr:@std/semver@1.0.0/format"
+import { format as _function_format } from "jsr:@std/semver@1.0.1/format"
 /**
  * Format a SemVer object into a string.
  *
@@ -18,5 +18,5 @@ import { format as _function_format } from "jsr:@std/semver@1.0.0/format"
  * @param semver The SemVer to format
  * @return The string representation of a semantic version.
  */
-const format = _function_format
+const format = _function_format as typeof _function_format
 export { format }

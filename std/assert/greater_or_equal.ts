@@ -17,5 +17,5 @@ import { assertGreaterOrEqual as _function_assertGreaterOrEqual } from "jsr:@std
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertGreaterOrEqual = _function_assertGreaterOrEqual
+const assertGreaterOrEqual = _function_assertGreaterOrEqual as typeof _function_assertGreaterOrEqual
 export { assertGreaterOrEqual }

@@ -13,5 +13,5 @@ import { assert as _function_assert } from "jsr:@std/assert@1.0.2/assert"
  * @param expr The expression to test.
  * @param msg The optional message to display if the assertion fails.
  */
-const assert = _function_assert
+const assert = _function_assert as typeof _function_assert
 export { assert }

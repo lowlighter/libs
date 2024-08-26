@@ -1,11 +1,11 @@
-import type { LimitedTransformStreamOptions as _interface_LimitedTransformStreamOptions } from "jsr:@std/streams@1.0.0/limited-transform-stream"
+import type { LimitedTransformStreamOptions as _interface_LimitedTransformStreamOptions } from "jsr:@std/streams@1.0.2/limited-transform-stream"
 /**
  * Options for {@linkcode LimitedTransformStream}
  */
 interface LimitedTransformStreamOptions extends _interface_LimitedTransformStreamOptions {}
 export type { LimitedTransformStreamOptions }
 
-import { LimitedTransformStream as _class_LimitedTransformStream } from "jsr:@std/streams@1.0.0/limited-transform-stream"
+import { LimitedTransformStream as _class_LimitedTransformStream } from "jsr:@std/streams@1.0.2/limited-transform-stream"
 /**
  * A {@linkcode TransformStream} that will only read & enqueue `size` amount of
  * chunks.

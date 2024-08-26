@@ -39,7 +39,7 @@ import { concat as _function_concat } from "jsr:@std/bytes@1.0.2"
  * assertEquals(concat([a, b]), new Uint8Array([0, 1, 2, 3, 4, 5]));
  * ```
  */
-const concat = _function_concat
+const concat = _function_concat as typeof _function_concat
 export { concat }
 
 import { copy as _function_copy } from "jsr:@std/bytes@1.0.2"
@@ -82,7 +82,7 @@ import { copy as _function_copy } from "jsr:@std/bytes@1.0.2"
  * Defining an offset will start copying at the specified index in the
  * destination array.
  */
-const copy = _function_copy
+const copy = _function_copy as typeof _function_copy
 export { copy }
 
 import { endsWith as _function_endsWith } from "jsr:@std/bytes@1.0.2"
@@ -108,7 +108,7 @@ import { endsWith as _function_endsWith } from "jsr:@std/bytes@1.0.2"
  * assertEquals(endsWith(source, suffix), true);
  * ```
  */
-const endsWith = _function_endsWith
+const endsWith = _function_endsWith as typeof _function_endsWith
 export { endsWith }
 
 import { equals as _function_equals } from "jsr:@std/bytes@1.0.2"
@@ -132,7 +132,7 @@ import { equals as _function_equals } from "jsr:@std/bytes@1.0.2"
  * assertEquals(equals(a, c), false);
  * ```
  */
-const equals = _function_equals
+const equals = _function_equals as typeof _function_equals
 export { equals }
 
 import { includesNeedle as _function_includesNeedle } from "jsr:@std/bytes@1.0.2"
@@ -172,7 +172,7 @@ import { includesNeedle as _function_includesNeedle } from "jsr:@std/bytes@1.0.2
  * ```
  * The search will start at the specified index in the source array.
  */
-const includesNeedle = _function_includesNeedle
+const includesNeedle = _function_includesNeedle as typeof _function_includesNeedle
 export { includesNeedle }
 
 import { indexOfNeedle as _function_indexOfNeedle } from "jsr:@std/bytes@1.0.2"
@@ -219,7 +219,7 @@ import { indexOfNeedle as _function_indexOfNeedle } from "jsr:@std/bytes@1.0.2"
  * Defining a start index will begin the search at the specified index in the
  * source array.
  */
-const indexOfNeedle = _function_indexOfNeedle
+const indexOfNeedle = _function_indexOfNeedle as typeof _function_indexOfNeedle
 export { indexOfNeedle }
 
 import { lastIndexOfNeedle as _function_lastIndexOfNeedle } from "jsr:@std/bytes@1.0.2"
@@ -263,7 +263,7 @@ import { lastIndexOfNeedle as _function_lastIndexOfNeedle } from "jsr:@std/bytes
  * Defining a start index will begin the search at the specified index in the
  * source array.
  */
-const lastIndexOfNeedle = _function_lastIndexOfNeedle
+const lastIndexOfNeedle = _function_lastIndexOfNeedle as typeof _function_lastIndexOfNeedle
 export { lastIndexOfNeedle }
 
 import { repeat as _function_repeat } from "jsr:@std/bytes@1.0.2"
@@ -296,7 +296,7 @@ import { repeat as _function_repeat } from "jsr:@std/bytes@1.0.2"
  * assertEquals(repeat(source, 0), new Uint8Array());
  * ```
  */
-const repeat = _function_repeat
+const repeat = _function_repeat as typeof _function_repeat
 export { repeat }
 
 import { startsWith as _function_startsWith } from "jsr:@std/bytes@1.0.2"
@@ -322,5 +322,5 @@ import { startsWith as _function_startsWith } from "jsr:@std/bytes@1.0.2"
  * assertEquals(startsWith(source, prefix), true);
  * ```
  */
-const startsWith = _function_startsWith
+const startsWith = _function_startsWith as typeof _function_startsWith
 export { startsWith }

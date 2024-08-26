@@ -22,5 +22,5 @@ import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.2/
  * @param msgMatches The optional string or RegExp to assert in the error message.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertIsError = _function_assertIsError
+const assertIsError = _function_assertIsError as typeof _function_assertIsError
 export { assertIsError }

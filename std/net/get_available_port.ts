@@ -44,5 +44,5 @@ import { getAvailablePort as _function_getAvailablePort } from "jsr:@std/net@1.0
  * // ...
  * ```
  */
-const getAvailablePort = _function_getAvailablePort
+const getAvailablePort = _function_getAvailablePort as typeof _function_getAvailablePort
 export { getAvailablePort }

@@ -41,5 +41,5 @@ import { parse as _function_parse } from "jsr:@std/jsonc@1.0.0"
  * @param text A valid JSONC string.
  * @return The parsed JsonValue from the JSONC string.
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }

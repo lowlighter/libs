@@ -2,14 +2,14 @@ import { LF as _variable_LF } from "jsr:@std/fs@1.0.1/eol"
 /**
  * End-of-line character for POSIX platforms such as macOS and Linux.
  */
-const LF = _variable_LF
+const LF = _variable_LF as typeof _variable_LF
 export { LF }
 
 import { CRLF as _variable_CRLF } from "jsr:@std/fs@1.0.1/eol"
 /**
  * End-of-line character for Windows platforms.
  */
-const CRLF = _variable_CRLF
+const CRLF = _variable_CRLF as typeof _variable_CRLF
 export { CRLF }
 
 import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.1/eol"
@@ -23,7 +23,7 @@ import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.1/eol"
  * EOL; // "\n" on POSIX platforms and "\r\n" on Windows
  * ```
  */
-const EOL = _variable_EOL
+const EOL = _variable_EOL as typeof _variable_EOL
 export { EOL }
 
 import { detect as _function_detect } from "jsr:@std/fs@1.0.1/eol"
@@ -45,7 +45,7 @@ import { detect as _function_detect } from "jsr:@std/fs@1.0.1/eol"
  * detect("deno is not node"); // null
  * ```
  */
-const detect = _function_detect
+const detect = _function_detect as typeof _function_detect
 export { detect }
 
 import { format as _function_format } from "jsr:@std/fs@1.0.1/eol"
@@ -66,5 +66,5 @@ import { format as _function_format } from "jsr:@std/fs@1.0.1/eol"
  * format(CRLFinput, LF); // "deno\nis not\nnode"
  * ```
  */
-const format = _function_format
+const format = _function_format as typeof _function_format
 export { format }

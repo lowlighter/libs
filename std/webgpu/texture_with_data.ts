@@ -24,5 +24,5 @@ import { createTextureWithData as _function_createTextureWithData } from "jsr:@s
  * @param data The data to write to the texture.
  * @return The newly created texture.
  */
-const createTextureWithData = _function_createTextureWithData
+const createTextureWithData = _function_createTextureWithData as typeof _function_createTextureWithData
 export { createTextureWithData }

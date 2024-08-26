@@ -12,5 +12,5 @@ import { unimplemented as _function_unimplemented } from "jsr:@std/assert@1.0.2/
  * @param msg Optional message to include in the error.
  * @return Never returns, always throws.
  */
-const unimplemented = _function_unimplemented
+const unimplemented = _function_unimplemented as typeof _function_unimplemented
 export { unimplemented }

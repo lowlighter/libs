@@ -1,4 +1,4 @@
-import { toArrayBuffer as _function_toArrayBuffer } from "jsr:@std/streams@1.0.0/to-array-buffer"
+import { toArrayBuffer as _function_toArrayBuffer } from "jsr:@std/streams@1.0.2/to-array-buffer"
 /**
  * Converts a {@linkcode ReadableStream} of {@linkcode Uint8Array}s to an
  * {@linkcode ArrayBuffer}. Works the same as {@linkcode Response.arrayBuffer}.
@@ -19,5 +19,5 @@ import { toArrayBuffer as _function_toArrayBuffer } from "jsr:@std/streams@1.0.0
  * assertEquals(buf.byteLength, 5);
  * ```
  */
-const toArrayBuffer = _function_toArrayBuffer
+const toArrayBuffer = _function_toArrayBuffer as typeof _function_toArrayBuffer
 export { toArrayBuffer }

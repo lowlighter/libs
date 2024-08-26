@@ -29,5 +29,5 @@ import { zip as _function_zip } from "jsr:@std/collections@1.0.5/zip"
  * );
  * ```
  */
-const zip = _function_zip
+const zip = _function_zip as typeof _function_zip
 export { zip }

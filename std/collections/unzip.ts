@@ -29,5 +29,5 @@ import { unzip as _function_unzip } from "jsr:@std/collections@1.0.5/unzip"
  * assertEquals(dads, ["Jeff", "Kim", "Leroy"]);
  * ```
  */
-const unzip = _function_unzip
+const unzip = _function_unzip as typeof _function_unzip
 export { unzip }

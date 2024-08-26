@@ -76,5 +76,5 @@ import { parse as _function_parse } from "jsr:@std/flags@0.224.0"
  * instead. This module will be removed once the Standard Library migrates to
  * {@link https://jsr.io/ | JSR}.
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }

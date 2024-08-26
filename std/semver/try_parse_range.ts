@@ -1,4 +1,4 @@
-import { tryParseRange as _function_tryParseRange } from "jsr:@std/semver@1.0.0/try-parse-range"
+import { tryParseRange as _function_tryParseRange } from "jsr:@std/semver@1.0.1/try-parse-range"
 /**
  * Parses the given range string and returns a Range object. If the range string
  * is invalid, `undefined` is returned.
@@ -19,5 +19,5 @@ import { tryParseRange as _function_tryParseRange } from "jsr:@std/semver@1.0.0/
  * @param range The range string
  * @return A Range object if valid otherwise `undefined`
  */
-const tryParseRange = _function_tryParseRange
+const tryParseRange = _function_tryParseRange as typeof _function_tryParseRange
 export { tryParseRange }

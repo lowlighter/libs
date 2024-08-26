@@ -1,4 +1,4 @@
-import { minSatisfying as _function_minSatisfying } from "jsr:@std/semver@1.0.0/min-satisfying"
+import { minSatisfying as _function_minSatisfying } from "jsr:@std/semver@1.0.1/min-satisfying"
 /**
  * Returns the lowest SemVer in the list that satisfies the range, or `undefined` if
  * none of them do.
@@ -18,5 +18,5 @@ import { minSatisfying as _function_minSatisfying } from "jsr:@std/semver@1.0.0/
  * @param range The range of possible versions to compare to.
  * @return The lowest version in versions that satisfies the range.
  */
-const minSatisfying = _function_minSatisfying
+const minSatisfying = _function_minSatisfying as typeof _function_minSatisfying
 export { minSatisfying }

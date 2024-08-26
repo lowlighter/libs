@@ -1,4 +1,4 @@
-import { encodeHex as _function_encodeHex } from "jsr:@std/encoding@1.0.1/hex"
+import { encodeHex as _function_encodeHex } from "jsr:@std/encoding@1.0.2/hex"
 /**
  * Converts data into a hex-encoded string.
  *
@@ -14,10 +14,10 @@ import { encodeHex as _function_encodeHex } from "jsr:@std/encoding@1.0.1/hex"
  * assertEquals(encodeHex("abc"), "616263");
  * ```
  */
-const encodeHex = _function_encodeHex
+const encodeHex = _function_encodeHex as typeof _function_encodeHex
 export { encodeHex }
 
-import { decodeHex as _function_decodeHex } from "jsr:@std/encoding@1.0.1/hex"
+import { decodeHex as _function_decodeHex } from "jsr:@std/encoding@1.0.2/hex"
 /**
  * Decodes the given hex-encoded string. If the input is malformed, an error is
  * thrown.
@@ -37,5 +37,5 @@ import { decodeHex as _function_decodeHex } from "jsr:@std/encoding@1.0.1/hex"
  * );
  * ```
  */
-const decodeHex = _function_decodeHex
+const decodeHex = _function_decodeHex as typeof _function_decodeHex
 export { decodeHex }

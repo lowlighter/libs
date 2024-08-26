@@ -19,7 +19,7 @@ import { loadSync as _function_loadSync } from "jsr:@std/dotenv@0.225.0"
  * @param options Options for loading the environment variables.
  * @return The parsed environment variables.
  */
-const loadSync = _function_loadSync
+const loadSync = _function_loadSync as typeof _function_loadSync
 export { loadSync }
 
 import { load as _function_load } from "jsr:@std/dotenv@0.225.0"
@@ -150,7 +150,7 @@ import { load as _function_load } from "jsr:@std/dotenv@0.225.0"
  * @param options The options
  * @return The parsed environment variables
  */
-const load = _function_load
+const load = _function_load as typeof _function_load
 export { load }
 
 import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.0"
@@ -169,7 +169,7 @@ import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.0"
  * @param object object to be stringified
  * @return string of object
  */
-const stringify = _function_stringify
+const stringify = _function_stringify as typeof _function_stringify
 export { stringify }
 
 import { parse as _function_parse } from "jsr:@std/dotenv@0.225.0"
@@ -188,5 +188,5 @@ import { parse as _function_parse } from "jsr:@std/dotenv@0.225.0"
  * @param text The text to parse.
  * @return The parsed object.
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }

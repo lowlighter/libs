@@ -19,5 +19,5 @@ import { equals as _function_equals } from "jsr:@std/bytes@1.0.2/equals"
  * assertEquals(equals(a, c), false);
  * ```
  */
-const equals = _function_equals
+const equals = _function_equals as typeof _function_equals
 export { equals }

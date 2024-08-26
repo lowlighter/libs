@@ -23,5 +23,5 @@ import { dropLastWhile as _function_dropLastWhile } from "jsr:@std/collections@1
  * assertEquals(notFortyFour, [11, 42, 55, 20]);
  * ```
  */
-const dropLastWhile = _function_dropLastWhile
+const dropLastWhile = _function_dropLastWhile as typeof _function_dropLastWhile
 export { dropLastWhile }

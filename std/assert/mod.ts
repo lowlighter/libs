@@ -43,7 +43,7 @@ import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/ass
  * default is one hundred thousandth of a percent of the expected value.
  * @param msg The optional message to include in the error.
  */
-const assertAlmostEquals = _function_assertAlmostEquals
+const assertAlmostEquals = _function_assertAlmostEquals as typeof _function_assertAlmostEquals
 export { assertAlmostEquals }
 
 import type { ArrayLikeArg as _typeAlias_ArrayLikeArg } from "jsr:@std/assert@1.0.2"
@@ -74,7 +74,7 @@ import { assertArrayIncludes as _function_assertArrayIncludes } from "jsr:@std/a
  * @param expected The array-like object to check for.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertArrayIncludes = _function_assertArrayIncludes
+const assertArrayIncludes = _function_assertArrayIncludes as typeof _function_assertArrayIncludes
 export { assertArrayIncludes }
 
 import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.2"
@@ -98,7 +98,7 @@ import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.2"
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertEquals = _function_assertEquals
+const assertEquals = _function_assertEquals as typeof _function_assertEquals
 export { assertEquals }
 
 import { assertExists as _function_assertExists } from "jsr:@std/assert@1.0.2"
@@ -118,7 +118,7 @@ import { assertExists as _function_assertExists } from "jsr:@std/assert@1.0.2"
  * @param actual The actual value to check.
  * @param msg The optional message to include in the error if the assertion fails.
  */
-const assertExists = _function_assertExists
+const assertExists = _function_assertExists as typeof _function_assertExists
 export { assertExists }
 
 import type { Falsy as _typeAlias_Falsy } from "jsr:@std/assert@1.0.2"
@@ -143,7 +143,7 @@ import { assertFalse as _function_assertFalse } from "jsr:@std/assert@1.0.2"
  * @param expr The expression to test.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertFalse = _function_assertFalse
+const assertFalse = _function_assertFalse as typeof _function_assertFalse
 export { assertFalse }
 
 import { assertGreaterOrEqual as _function_assertGreaterOrEqual } from "jsr:@std/assert@1.0.2"
@@ -165,7 +165,7 @@ import { assertGreaterOrEqual as _function_assertGreaterOrEqual } from "jsr:@std
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertGreaterOrEqual = _function_assertGreaterOrEqual
+const assertGreaterOrEqual = _function_assertGreaterOrEqual as typeof _function_assertGreaterOrEqual
 export { assertGreaterOrEqual }
 
 import { assertGreater as _function_assertGreater } from "jsr:@std/assert@1.0.2"
@@ -187,7 +187,7 @@ import { assertGreater as _function_assertGreater } from "jsr:@std/assert@1.0.2"
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertGreater = _function_assertGreater
+const assertGreater = _function_assertGreater as typeof _function_assertGreater
 export { assertGreater }
 
 import type { AnyConstructor as _typeAlias_AnyConstructor } from "jsr:@std/assert@1.0.2"
@@ -222,7 +222,7 @@ import { assertInstanceOf as _function_assertInstanceOf } from "jsr:@std/assert@
  * @param expectedType The expected class constructor.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertInstanceOf = _function_assertInstanceOf
+const assertInstanceOf = _function_assertInstanceOf as typeof _function_assertInstanceOf
 export { assertInstanceOf }
 
 import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.2"
@@ -249,7 +249,7 @@ import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.2"
  * @param msgMatches The optional string or RegExp to assert in the error message.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertIsError = _function_assertIsError
+const assertIsError = _function_assertIsError as typeof _function_assertIsError
 export { assertIsError }
 
 import { assertLessOrEqual as _function_assertLessOrEqual } from "jsr:@std/assert@1.0.2"
@@ -271,7 +271,7 @@ import { assertLessOrEqual as _function_assertLessOrEqual } from "jsr:@std/asser
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertLessOrEqual = _function_assertLessOrEqual
+const assertLessOrEqual = _function_assertLessOrEqual as typeof _function_assertLessOrEqual
 export { assertLessOrEqual }
 
 import { assertLess as _function_assertLess } from "jsr:@std/assert@1.0.2"
@@ -292,7 +292,7 @@ import { assertLess as _function_assertLess } from "jsr:@std/assert@1.0.2"
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertLess = _function_assertLess
+const assertLess = _function_assertLess as typeof _function_assertLess
 export { assertLess }
 
 import { assertMatch as _function_assertMatch } from "jsr:@std/assert@1.0.2"
@@ -312,7 +312,7 @@ import { assertMatch as _function_assertMatch } from "jsr:@std/assert@1.0.2"
  * @param expected The expected pattern to match.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertMatch = _function_assertMatch
+const assertMatch = _function_assertMatch as typeof _function_assertMatch
 export { assertMatch }
 
 import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.0.2"
@@ -335,7 +335,7 @@ import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertNotEquals = _function_assertNotEquals
+const assertNotEquals = _function_assertNotEquals as typeof _function_assertNotEquals
 export { assertNotEquals }
 
 import { assertNotInstanceOf as _function_assertNotInstanceOf } from "jsr:@std/assert@1.0.2"
@@ -357,7 +357,7 @@ import { assertNotInstanceOf as _function_assertNotInstanceOf } from "jsr:@std/a
  * @param unexpectedType The class constructor to check against.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertNotInstanceOf = _function_assertNotInstanceOf
+const assertNotInstanceOf = _function_assertNotInstanceOf as typeof _function_assertNotInstanceOf
 export { assertNotInstanceOf }
 
 import { assertNotMatch as _function_assertNotMatch } from "jsr:@std/assert@1.0.2"
@@ -377,7 +377,7 @@ import { assertNotMatch as _function_assertNotMatch } from "jsr:@std/assert@1.0.
  * @param expected The expected value to not match.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertNotMatch = _function_assertNotMatch
+const assertNotMatch = _function_assertNotMatch as typeof _function_assertNotMatch
 export { assertNotMatch }
 
 import { assertNotStrictEquals as _function_assertNotStrictEquals } from "jsr:@std/assert@1.0.2"
@@ -402,7 +402,7 @@ import { assertNotStrictEquals as _function_assertNotStrictEquals } from "jsr:@s
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertNotStrictEquals = _function_assertNotStrictEquals
+const assertNotStrictEquals = _function_assertNotStrictEquals as typeof _function_assertNotStrictEquals
 export { assertNotStrictEquals }
 
 import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/assert@1.0.2"
@@ -430,12 +430,12 @@ import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/asser
  * @param expected The expected value to match.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertObjectMatch = _function_assertObjectMatch
+const assertObjectMatch = _function_assertObjectMatch as typeof _function_assertObjectMatch
 export { assertObjectMatch }
 
 import { assertRejects as _function_assertRejects } from "jsr:@std/assert@1.0.2"
 /** UNDOCUMENTED */
-const assertRejects = _function_assertRejects
+const assertRejects = _function_assertRejects as typeof _function_assertRejects
 export { assertRejects }
 
 import { assertStrictEquals as _function_assertStrictEquals } from "jsr:@std/assert@1.0.2"
@@ -461,7 +461,7 @@ import { assertStrictEquals as _function_assertStrictEquals } from "jsr:@std/ass
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertStrictEquals = _function_assertStrictEquals
+const assertStrictEquals = _function_assertStrictEquals as typeof _function_assertStrictEquals
 export { assertStrictEquals }
 
 import { assertStringIncludes as _function_assertStringIncludes } from "jsr:@std/assert@1.0.2"
@@ -481,12 +481,12 @@ import { assertStringIncludes as _function_assertStringIncludes } from "jsr:@std
  * @param expected The expected string to check for inclusion.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertStringIncludes = _function_assertStringIncludes
+const assertStringIncludes = _function_assertStringIncludes as typeof _function_assertStringIncludes
 export { assertStringIncludes }
 
 import { assertThrows as _function_assertThrows } from "jsr:@std/assert@1.0.2"
 /** UNDOCUMENTED */
-const assertThrows = _function_assertThrows
+const assertThrows = _function_assertThrows as typeof _function_assertThrows
 export { assertThrows }
 
 import { assert as _function_assert } from "jsr:@std/assert@1.0.2"
@@ -504,7 +504,7 @@ import { assert as _function_assert } from "jsr:@std/assert@1.0.2"
  * @param expr The expression to test.
  * @param msg The optional message to display if the assertion fails.
  */
-const assert = _function_assert
+const assert = _function_assert as typeof _function_assert
 export { assert }
 
 import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.2"
@@ -544,7 +544,7 @@ import { equal as _function_equal } from "jsr:@std/assert@1.0.2"
  * equal({ foo: "bar" }, { foo: "baz" }); // Returns `false
  * ```
  */
-const equal = _function_equal
+const equal = _function_equal as typeof _function_equal
 export { equal }
 
 import { fail as _function_fail } from "jsr:@std/assert@1.0.2"
@@ -561,7 +561,7 @@ import { fail as _function_fail } from "jsr:@std/assert@1.0.2"
  * @param msg Optional message to include in the error.
  * @return Never returns, always throws.
  */
-const fail = _function_fail
+const fail = _function_fail as typeof _function_fail
 export { fail }
 
 import { unimplemented as _function_unimplemented } from "jsr:@std/assert@1.0.2"
@@ -578,7 +578,7 @@ import { unimplemented as _function_unimplemented } from "jsr:@std/assert@1.0.2"
  * @param msg Optional message to include in the error.
  * @return Never returns, always throws.
  */
-const unimplemented = _function_unimplemented
+const unimplemented = _function_unimplemented as typeof _function_unimplemented
 export { unimplemented }
 
 import { unreachable as _function_unreachable } from "jsr:@std/assert@1.0.2"
@@ -595,5 +595,5 @@ import { unreachable as _function_unreachable } from "jsr:@std/assert@1.0.2"
  * @param msg Optional message to include in the error.
  * @return Never returns, always throws.
  */
-const unreachable = _function_unreachable
+const unreachable = _function_unreachable as typeof _function_unreachable
 export { unreachable }

@@ -1,4 +1,4 @@
-import { equals as _function_equals } from "jsr:@std/semver@1.0.0/equals"
+import { equals as _function_equals } from "jsr:@std/semver@1.0.1/equals"
 /**
  * Returns `true` if both SemVers are equivalent.
  *
@@ -20,5 +20,5 @@ import { equals as _function_equals } from "jsr:@std/semver@1.0.0/equals"
  * @param s1 The second SemVer to compare
  * @return `true` if `s0` is equal to `s1`, `false` otherwise
  */
-const equals = _function_equals
+const equals = _function_equals as typeof _function_equals
 export { equals }

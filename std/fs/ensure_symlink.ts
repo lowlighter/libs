@@ -24,7 +24,7 @@ import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.1/ensu
  * await ensureSymlink("./folder/targetFile.dat", "./folder/targetFile.link.dat");
  * ```
  */
-const ensureSymlink = _function_ensureSymlink
+const ensureSymlink = _function_ensureSymlink as typeof _function_ensureSymlink
 export { ensureSymlink }
 
 import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.0.1/ensure-symlink"
@@ -52,5 +52,5 @@ import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.
  * ensureSymlinkSync("./folder/targetFile.dat", "./folder/targetFile.link.dat");
  * ```
  */
-const ensureSymlinkSync = _function_ensureSymlinkSync
+const ensureSymlinkSync = _function_ensureSymlinkSync as typeof _function_ensureSymlinkSync
 export { ensureSymlinkSync }

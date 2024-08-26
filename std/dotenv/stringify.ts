@@ -14,5 +14,5 @@ import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.0/string
  * @param object object to be stringified
  * @return string of object
  */
-const stringify = _function_stringify
+const stringify = _function_stringify as typeof _function_stringify
 export { stringify }

@@ -1,4 +1,4 @@
-import type { Format as _typeAlias_Format } from "jsr:@std/front-matter@1.0.1/test"
+import type { Format as _typeAlias_Format } from "jsr:@std/front-matter@1.0.2/test"
 /**
  * Supported format for front matter. `"unknown"` is used when auto format
  * detection logic fails.
@@ -6,7 +6,7 @@ import type { Format as _typeAlias_Format } from "jsr:@std/front-matter@1.0.1/te
 type Format = _typeAlias_Format
 export type { Format }
 
-import { test as _function_test } from "jsr:@std/front-matter@1.0.1/test"
+import { test as _function_test } from "jsr:@std/front-matter@1.0.2/test"
 /**
  * Tests if a string has valid front matter.
  * Supports {@link https://yaml.org | YAML}, {@link https://toml.io | TOML} and
@@ -68,5 +68,5 @@ import { test as _function_test } from "jsr:@std/front-matter@1.0.1/test"
  * assertFalse(result);
  * ```
  */
-const test = _function_test
+const test = _function_test as typeof _function_test
 export { test }

@@ -32,5 +32,5 @@ import { filterValues as _function_filterValues } from "jsr:@std/collections@1.0
  * );
  * ```
  */
-const filterValues = _function_filterValues
+const filterValues = _function_filterValues as typeof _function_filterValues
 export { filterValues }

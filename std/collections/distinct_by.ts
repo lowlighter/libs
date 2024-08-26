@@ -23,5 +23,5 @@ import { distinctBy as _function_distinctBy } from "jsr:@std/collections@1.0.5/d
  * assertEquals(exampleNamesByFirstLetter, ["Anna", "Kim"]);
  * ```
  */
-const distinctBy = _function_distinctBy
+const distinctBy = _function_distinctBy as typeof _function_distinctBy
 export { distinctBy }

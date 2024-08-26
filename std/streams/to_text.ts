@@ -1,4 +1,4 @@
-import { toText as _function_toText } from "jsr:@std/streams@1.0.0/to-text"
+import { toText as _function_toText } from "jsr:@std/streams@1.0.2/to-text"
 /**
  * Converts a {@linkcode ReadableSteam} of strings or {@linkcode Uint8Array}s
  * to a single string. Works the same as {@linkcode Response.text} and
@@ -26,5 +26,5 @@ import { toText as _function_toText } from "jsr:@std/streams@1.0.0/to-text"
  * assertEquals(await toText(stream), "Hello, world!");
  * ```
  */
-const toText = _function_toText
+const toText = _function_toText as typeof _function_toText
 export { toText }

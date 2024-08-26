@@ -1,4 +1,4 @@
-import { toJson as _function_toJson } from "jsr:@std/streams@1.0.0/to-json"
+import { toJson as _function_toJson } from "jsr:@std/streams@1.0.2/to-json"
 /**
  * Converts a
  * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON}-formatted
@@ -35,5 +35,5 @@ import { toJson as _function_toJson } from "jsr:@std/streams@1.0.0/to-json"
  * assertEquals(await toJson(stream), [1, true, [], {}, "hello", null]);
  * ```
  */
-const toJson = _function_toJson
+const toJson = _function_toJson as typeof _function_toJson
 export { toJson }

@@ -1,11 +1,11 @@
-import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.1/json"
+import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.2/json"
 /**
  * Return type for {@linkcode extract} function.
  */
 type Extract<T> = _typeAlias_Extract<T>
 export type { Extract }
 
-import { extract as _function_extract } from "jsr:@std/front-matter@1.0.1/json"
+import { extract as _function_extract } from "jsr:@std/front-matter@1.0.2/json"
 /**
  * Extracts and parses {@link https://www.json.org/ | JSON } from the metadata
  * of front matter content.
@@ -32,5 +32,5 @@ import { extract as _function_extract } from "jsr:@std/front-matter@1.0.1/json"
  * @param text The text to extract JSON front matter from.
  * @return The extracted JSON front matter and body content.
  */
-const extract = _function_extract
+const extract = _function_extract as typeof _function_extract
 export { extract }

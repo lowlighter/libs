@@ -3,7 +3,7 @@ import { LogLevels as _variable_LogLevels } from "jsr:@std/log@0.224.5/levels"
  * Use this to retrieve the numeric log level by it's associated name.
  * Defaults to INFO.
  */
-const LogLevels = _variable_LogLevels
+const LogLevels = _variable_LogLevels as typeof _variable_LogLevels
 export { LogLevels }
 
 import type { LogLevel as _typeAlias_LogLevel } from "jsr:@std/log@0.224.5/levels"
@@ -24,7 +24,7 @@ import { LogLevelNames as _variable_LogLevelNames } from "jsr:@std/log@0.224.5/l
 /**
  * Permitted log level names
  */
-const LogLevelNames = _variable_LogLevelNames
+const LogLevelNames = _variable_LogLevelNames as typeof _variable_LogLevelNames
 export { LogLevelNames }
 
 import { getLevelByName as _function_getLevelByName } from "jsr:@std/log@0.224.5/levels"
@@ -32,12 +32,12 @@ import { getLevelByName as _function_getLevelByName } from "jsr:@std/log@0.224.5
  * Returns the numeric log level associated with the passed,
  * stringy log level name.
  */
-const getLevelByName = _function_getLevelByName
+const getLevelByName = _function_getLevelByName as typeof _function_getLevelByName
 export { getLevelByName }
 
 import { getLevelName as _function_getLevelName } from "jsr:@std/log@0.224.5/levels"
 /**
  * Returns the stringy log level name provided the numeric log level.
  */
-const getLevelName = _function_getLevelName
+const getLevelName = _function_getLevelName as typeof _function_getLevelName
 export { getLevelName }

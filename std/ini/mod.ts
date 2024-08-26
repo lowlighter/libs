@@ -236,7 +236,7 @@ import { parse as _function_parse } from "jsr:@std/ini@0.225.2"
  * @param options The options to use
  * @return The parsed object
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }
 
 import type { StringifyOptions as _interface_StringifyOptions } from "jsr:@std/ini@0.225.2"
@@ -305,5 +305,5 @@ import { stringify as _function_stringify } from "jsr:@std/ini@0.225.2"
  * @param options The option to use
  * @return The INI string
  */
-const stringify = _function_stringify
+const stringify = _function_stringify as typeof _function_stringify
 export { stringify }

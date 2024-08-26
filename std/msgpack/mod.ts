@@ -58,7 +58,7 @@ import { decode as _function_decode } from "jsr:@std/msgpack@1.0.0"
  * @param data MessagePack binary data.
  * @return Decoded value from the MessagePack binary data.
  */
-const decode = _function_decode
+const decode = _function_decode as typeof _function_decode
 export { decode }
 
 import type { ValueType as _typeAlias_ValueType } from "jsr:@std/msgpack@1.0.0"
@@ -100,5 +100,5 @@ import { encode as _function_encode } from "jsr:@std/msgpack@1.0.0"
  * @param object Value to encode to MessagePack binary format.
  * @return Encoded MessagePack binary data.
  */
-const encode = _function_encode
+const encode = _function_encode as typeof _function_encode
 export { encode }

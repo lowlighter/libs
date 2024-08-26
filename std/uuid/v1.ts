@@ -1,4 +1,4 @@
-import { validate as _function_validate } from "jsr:@std/uuid@1.0.0/v1"
+import { validate as _function_validate } from "jsr:@std/uuid@1.0.1/v1"
 /**
  * Determines whether a string is a valid
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1 | UUIDv1}.
@@ -16,17 +16,17 @@ import { validate as _function_validate } from "jsr:@std/uuid@1.0.0/v1"
  * assertFalse(validate("fac8c1e0-ad1a-4204-a0d0-8126ae84495d"));
  * ```
  */
-const validate = _function_validate
+const validate = _function_validate as typeof _function_validate
 export { validate }
 
-import type { GenerateOptions as _interface_GenerateOptions } from "jsr:@std/uuid@1.0.0/v1"
+import type { GenerateOptions as _interface_GenerateOptions } from "jsr:@std/uuid@1.0.1/v1"
 /**
  * Options for {@linkcode generate}.
  */
 interface GenerateOptions extends _interface_GenerateOptions {}
 export type { GenerateOptions }
 
-import { generate as _function_generate } from "jsr:@std/uuid@1.0.0/v1"
+import { generate as _function_generate } from "jsr:@std/uuid@1.0.1/v1"
 /**
  * Generates a
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1 | UUIDv1}.
@@ -53,5 +53,5 @@ import { generate as _function_generate } from "jsr:@std/uuid@1.0.0/v1"
  * assert(validate(uuid as string));
  * ```
  */
-const generate = _function_generate
+const generate = _function_generate as typeof _function_generate
 export { generate }

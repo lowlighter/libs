@@ -1,11 +1,11 @@
-import type { IncrementOptions as _interface_IncrementOptions } from "jsr:@std/semver@1.0.0/increment"
+import type { IncrementOptions as _interface_IncrementOptions } from "jsr:@std/semver@1.0.1/increment"
 /**
  * Options for {@linkcode increment}.
  */
 interface IncrementOptions extends _interface_IncrementOptions {}
 export type { IncrementOptions }
 
-import { increment as _function_increment } from "jsr:@std/semver@1.0.0/increment"
+import { increment as _function_increment } from "jsr:@std/semver@1.0.1/increment"
 /**
  * Returns the new SemVer resulting from an increment by release type.
  *
@@ -47,5 +47,5 @@ import { increment as _function_increment } from "jsr:@std/semver@1.0.0/incremen
  * @param options Additional options
  * @return The new version
  */
-const increment = _function_increment
+const increment = _function_increment as typeof _function_increment
 export { increment }

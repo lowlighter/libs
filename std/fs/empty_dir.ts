@@ -21,7 +21,7 @@ import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.1/empty-dir"
  * await emptyDir("./foo");
  * ```
  */
-const emptyDir = _function_emptyDir
+const emptyDir = _function_emptyDir as typeof _function_emptyDir
 export { emptyDir }
 
 import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.1/empty-dir"
@@ -48,5 +48,5 @@ import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.1/empty-
  * emptyDirSync("./foo");
  * ```
  */
-const emptyDirSync = _function_emptyDirSync
+const emptyDirSync = _function_emptyDirSync as typeof _function_emptyDirSync
 export { emptyDirSync }

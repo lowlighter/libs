@@ -17,5 +17,5 @@ import { assertNotInstanceOf as _function_assertNotInstanceOf } from "jsr:@std/a
  * @param unexpectedType The class constructor to check against.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertNotInstanceOf = _function_assertNotInstanceOf
+const assertNotInstanceOf = _function_assertNotInstanceOf as typeof _function_assertNotInstanceOf
 export { assertNotInstanceOf }

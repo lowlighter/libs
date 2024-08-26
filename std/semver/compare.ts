@@ -1,4 +1,4 @@
-import { compare as _function_compare } from "jsr:@std/semver@1.0.0/compare"
+import { compare as _function_compare } from "jsr:@std/semver@1.0.1/compare"
 /**
  * Compare two SemVers.
  *
@@ -24,5 +24,5 @@ import { compare as _function_compare } from "jsr:@std/semver@1.0.0/compare"
  * @param s1 The second SemVer to compare
  * @return `1` if `s0` is greater, `0` if equal, or `-1` if `s1` is greater
  */
-const compare = _function_compare
+const compare = _function_compare as typeof _function_compare
 export { compare }

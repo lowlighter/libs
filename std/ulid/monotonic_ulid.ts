@@ -41,5 +41,5 @@ import { monotonicUlid as _function_monotonicUlid } from "jsr:@std/ulid@1.0.0/mo
  * @param seedTime The time to base the ULID on, in milliseconds since the Unix epoch. Defaults to `Date.now()`.
  * @return A ULID that is guaranteed to be strictly increasing for the same seed time.
  */
-const monotonicUlid = _function_monotonicUlid
+const monotonicUlid = _function_monotonicUlid as typeof _function_monotonicUlid
 export { monotonicUlid }

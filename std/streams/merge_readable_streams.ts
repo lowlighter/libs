@@ -1,4 +1,4 @@
-import { mergeReadableStreams as _function_mergeReadableStreams } from "jsr:@std/streams@1.0.0/merge-readable-streams"
+import { mergeReadableStreams as _function_mergeReadableStreams } from "jsr:@std/streams@1.0.2/merge-readable-streams"
 /**
  * Merge multiple streams into a single one, not taking order into account.
  * If a stream ends before other ones, the other will continue adding data,
@@ -35,5 +35,5 @@ import { mergeReadableStreams as _function_mergeReadableStreams } from "jsr:@std
  * assertEquals(merged.toSorted(), [1, 2, 3, 4, 5, 6]);
  * ```
  */
-const mergeReadableStreams = _function_mergeReadableStreams
+const mergeReadableStreams = _function_mergeReadableStreams as typeof _function_mergeReadableStreams
 export { mergeReadableStreams }

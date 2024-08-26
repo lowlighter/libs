@@ -1,4 +1,4 @@
-import { signCookie as _function_signCookie } from "jsr:@std/http@1.0.0/signed-cookie"
+import { signCookie as _function_signCookie } from "jsr:@std/http@1.0.3/signed-cookie"
 /**
  * Returns a promise with the signed cookie value from the given cryptographic
  * key.
@@ -32,10 +32,10 @@ import { signCookie as _function_signCookie } from "jsr:@std/http@1.0.0/signed-c
  * @param key The cryptographic key to sign the cookie with.
  * @return The signed cookie.
  */
-const signCookie = _function_signCookie
+const signCookie = _function_signCookie as typeof _function_signCookie
 export { signCookie }
 
-import { verifySignedCookie as _function_verifySignedCookie } from "jsr:@std/http@1.0.0/signed-cookie"
+import { verifySignedCookie as _function_verifySignedCookie } from "jsr:@std/http@1.0.3/signed-cookie"
 /**
  * Returns a promise of a boolean indicating whether the signed cookie is valid.
  *
@@ -66,10 +66,10 @@ import { verifySignedCookie as _function_verifySignedCookie } from "jsr:@std/htt
  * @param key The cryptographic key to verify the cookie with.
  * @return Whether or not the cookie is valid.
  */
-const verifySignedCookie = _function_verifySignedCookie
+const verifySignedCookie = _function_verifySignedCookie as typeof _function_verifySignedCookie
 export { verifySignedCookie }
 
-import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@1.0.0/signed-cookie"
+import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@1.0.3/signed-cookie"
 /**
  * Parses a signed cookie to get its value.
  *
@@ -102,5 +102,5 @@ import { parseSignedCookie as _function_parseSignedCookie } from "jsr:@std/http@
  * @param signedCookie The signed cookie to parse the value from.
  * @return The parsed cookie.
  */
-const parseSignedCookie = _function_parseSignedCookie
+const parseSignedCookie = _function_parseSignedCookie as typeof _function_parseSignedCookie
 export { parseSignedCookie }

@@ -57,7 +57,7 @@ import { decodeTime as _function_decodeTime } from "jsr:@std/ulid@1.0.0"
  * @param ulid The ULID to extract the timestamp from.
  * @return The number of milliseconds since the Unix epoch that had passed when the ULID was generated.
  */
-const decodeTime = _function_decodeTime
+const decodeTime = _function_decodeTime as typeof _function_decodeTime
 export { decodeTime }
 
 import { monotonicUlid as _function_monotonicUlid } from "jsr:@std/ulid@1.0.0"
@@ -103,7 +103,7 @@ import { monotonicUlid as _function_monotonicUlid } from "jsr:@std/ulid@1.0.0"
  * @param seedTime The time to base the ULID on, in milliseconds since the Unix epoch. Defaults to `Date.now()`.
  * @return A ULID that is guaranteed to be strictly increasing for the same seed time.
  */
-const monotonicUlid = _function_monotonicUlid
+const monotonicUlid = _function_monotonicUlid as typeof _function_monotonicUlid
 export { monotonicUlid }
 
 import { ulid as _function_ulid } from "jsr:@std/ulid@1.0.0"
@@ -136,5 +136,5 @@ import { ulid as _function_ulid } from "jsr:@std/ulid@1.0.0"
  * @param seedTime The time to base the ULID on, in milliseconds since the Unix epoch. Defaults to `Date.now()`.
  * @return A ULID.
  */
-const ulid = _function_ulid
+const ulid = _function_ulid as typeof _function_ulid
 export { ulid }

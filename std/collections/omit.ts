@@ -21,5 +21,5 @@ import { omit as _function_omit } from "jsr:@std/collections@1.0.5/omit"
  * assertEquals(omitted, { b: 6, d: 8 });
  * ```
  */
-const omit = _function_omit
+const omit = _function_omit as typeof _function_omit
 export { omit }

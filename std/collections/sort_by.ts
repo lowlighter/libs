@@ -14,5 +14,5 @@ export type { SortByOptions }
 
 import { sortBy as _function_sortBy } from "jsr:@std/collections@1.0.5/sort-by"
 /** UNDOCUMENTED */
-const sortBy = _function_sortBy
+const sortBy = _function_sortBy as typeof _function_sortBy
 export { sortBy }

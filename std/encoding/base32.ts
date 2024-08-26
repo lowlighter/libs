@@ -1,4 +1,4 @@
-import { decodeBase32 as _function_decodeBase32 } from "jsr:@std/encoding@1.0.1/base32"
+import { decodeBase32 as _function_decodeBase32 } from "jsr:@std/encoding@1.0.2/base32"
 /**
  * Decodes a base32-encoded string.
  *
@@ -18,10 +18,10 @@ import { decodeBase32 as _function_decodeBase32 } from "jsr:@std/encoding@1.0.1/
  * );
  * ```
  */
-const decodeBase32 = _function_decodeBase32
+const decodeBase32 = _function_decodeBase32 as typeof _function_decodeBase32
 export { decodeBase32 }
 
-import { encodeBase32 as _function_encodeBase32 } from "jsr:@std/encoding@1.0.1/base32"
+import { encodeBase32 as _function_encodeBase32 } from "jsr:@std/encoding@1.0.2/base32"
 /**
  * Converts data into a base32-encoded string.
  *
@@ -38,5 +38,5 @@ import { encodeBase32 as _function_encodeBase32 } from "jsr:@std/encoding@1.0.1/
  * assertEquals(encodeBase32("6c60c0"), "GZRTMMDDGA======");
  * ```
  */
-const encodeBase32 = _function_encodeBase32
+const encodeBase32 = _function_encodeBase32 as typeof _function_encodeBase32
 export { encodeBase32 }

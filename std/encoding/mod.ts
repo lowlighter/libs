@@ -12,7 +12,7 @@
  *
  * @module
  */
-import type { Ascii85Standard as _typeAlias_Ascii85Standard } from "jsr:@std/encoding@1.0.1"
+import type { Ascii85Standard as _typeAlias_Ascii85Standard } from "jsr:@std/encoding@1.0.2"
 /**
  * Supported ascii85 standards for {@linkcode EncodeAscii85Options} and
  * {@linkcode DecodeAscii85Options}.
@@ -20,14 +20,14 @@ import type { Ascii85Standard as _typeAlias_Ascii85Standard } from "jsr:@std/enc
 type Ascii85Standard = _typeAlias_Ascii85Standard
 export type { Ascii85Standard }
 
-import type { EncodeAscii85Options as _interface_EncodeAscii85Options } from "jsr:@std/encoding@1.0.1"
+import type { EncodeAscii85Options as _interface_EncodeAscii85Options } from "jsr:@std/encoding@1.0.2"
 /**
  * Options for {@linkcode encodeAscii85}.
  */
 interface EncodeAscii85Options extends _interface_EncodeAscii85Options {}
 export type { EncodeAscii85Options }
 
-import { encodeAscii85 as _function_encodeAscii85 } from "jsr:@std/encoding@1.0.1"
+import { encodeAscii85 as _function_encodeAscii85 } from "jsr:@std/encoding@1.0.2"
 /**
  * Converts data into an ascii85-encoded string.
  *
@@ -44,17 +44,17 @@ import { encodeAscii85 as _function_encodeAscii85 } from "jsr:@std/encoding@1.0.
  * assertEquals(encodeAscii85("Hello world!"), "87cURD]j7BEbo80");
  * ```
  */
-const encodeAscii85 = _function_encodeAscii85
+const encodeAscii85 = _function_encodeAscii85 as typeof _function_encodeAscii85
 export { encodeAscii85 }
 
-import type { DecodeAscii85Options as _typeAlias_DecodeAscii85Options } from "jsr:@std/encoding@1.0.1"
+import type { DecodeAscii85Options as _typeAlias_DecodeAscii85Options } from "jsr:@std/encoding@1.0.2"
 /**
  * Options for {@linkcode decodeAscii85}.
  */
 type DecodeAscii85Options = _typeAlias_DecodeAscii85Options
 export type { DecodeAscii85Options }
 
-import { decodeAscii85 as _function_decodeAscii85 } from "jsr:@std/encoding@1.0.1"
+import { decodeAscii85 as _function_decodeAscii85 } from "jsr:@std/encoding@1.0.2"
 /**
  * Decodes a ascii85-encoded string.
  *
@@ -73,10 +73,10 @@ import { decodeAscii85 as _function_decodeAscii85 } from "jsr:@std/encoding@1.0.
  * );
  * ```
  */
-const decodeAscii85 = _function_decodeAscii85
+const decodeAscii85 = _function_decodeAscii85 as typeof _function_decodeAscii85
 export { decodeAscii85 }
 
-import { decodeBase32 as _function_decodeBase32 } from "jsr:@std/encoding@1.0.1"
+import { decodeBase32 as _function_decodeBase32 } from "jsr:@std/encoding@1.0.2"
 /**
  * Decodes a base32-encoded string.
  *
@@ -96,10 +96,10 @@ import { decodeBase32 as _function_decodeBase32 } from "jsr:@std/encoding@1.0.1"
  * );
  * ```
  */
-const decodeBase32 = _function_decodeBase32
+const decodeBase32 = _function_decodeBase32 as typeof _function_decodeBase32
 export { decodeBase32 }
 
-import { encodeBase32 as _function_encodeBase32 } from "jsr:@std/encoding@1.0.1"
+import { encodeBase32 as _function_encodeBase32 } from "jsr:@std/encoding@1.0.2"
 /**
  * Converts data into a base32-encoded string.
  *
@@ -116,10 +116,57 @@ import { encodeBase32 as _function_encodeBase32 } from "jsr:@std/encoding@1.0.1"
  * assertEquals(encodeBase32("6c60c0"), "GZRTMMDDGA======");
  * ```
  */
-const encodeBase32 = _function_encodeBase32
+const encodeBase32 = _function_encodeBase32 as typeof _function_encodeBase32
 export { encodeBase32 }
 
-import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.1"
+import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@1.0.2"
+/**
+ * Decodes a base32hex-encoded string.
+ *
+ * @see {@link https://www.rfc-editor.org/rfc/rfc4648.html#section-7}
+ *
+ * @param b32 The base32hex-encoded string to decode.
+ * @return The decoded data.
+ *
+ * @example Usage
+ * ```ts
+ * import { decodeBase32Hex } from "@std/encoding/base32hex";
+ * import { assertEquals } from "@std/assert";
+ *
+ * assertEquals(
+ *   decodeBase32Hex("6PHJCC3360======"),
+ *   new TextEncoder().encode("6c60c0"),
+ * );
+ * ```
+ *
+ * @experimental
+ */
+const decodeBase32Hex = _function_decodeBase32Hex as typeof _function_decodeBase32Hex
+export { decodeBase32Hex }
+
+import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@1.0.2"
+/**
+ * Converts data into a base32hex-encoded string.
+ *
+ * @see {@link https://www.rfc-editor.org/rfc/rfc4648.html#section-7}
+ *
+ * @param data The data to encode.
+ * @return The base32hex-encoded string.
+ *
+ * @example Usage
+ * ```ts
+ * import { encodeBase32Hex } from "@std/encoding/base32hex";
+ * import { assertEquals } from "@std/assert";
+ *
+ * assertEquals(encodeBase32Hex("6c60c0"), "6PHJCC3360======");
+ * ```
+ *
+ * @experimental
+ */
+const encodeBase32Hex = _function_encodeBase32Hex as typeof _function_encodeBase32Hex
+export { encodeBase32Hex }
+
+import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.2"
 /**
  * Converts data into a base58-encoded string.
  *
@@ -136,10 +183,10 @@ import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.1"
  * assertEquals(encodeBase58("Hello World!"), "2NEpo7TZRRrLZSi2U");
  * ```
  */
-const encodeBase58 = _function_encodeBase58
+const encodeBase58 = _function_encodeBase58 as typeof _function_encodeBase58
 export { encodeBase58 }
 
-import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.1"
+import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.2"
 /**
  * Decodes a base58-encoded string.
  *
@@ -159,10 +206,10 @@ import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.1"
  * );
  * ```
  */
-const decodeBase58 = _function_decodeBase58
+const decodeBase58 = _function_decodeBase58 as typeof _function_decodeBase58
 export { decodeBase58 }
 
-import { encodeBase64 as _function_encodeBase64 } from "jsr:@std/encoding@1.0.1"
+import { encodeBase64 as _function_encodeBase64 } from "jsr:@std/encoding@1.0.2"
 /**
  * Converts data into a base64-encoded string.
  *
@@ -179,10 +226,10 @@ import { encodeBase64 as _function_encodeBase64 } from "jsr:@std/encoding@1.0.1"
  * assertEquals(encodeBase64("foobar"), "Zm9vYmFy");
  * ```
  */
-const encodeBase64 = _function_encodeBase64
+const encodeBase64 = _function_encodeBase64 as typeof _function_encodeBase64
 export { encodeBase64 }
 
-import { decodeBase64 as _function_decodeBase64 } from "jsr:@std/encoding@1.0.1"
+import { decodeBase64 as _function_decodeBase64 } from "jsr:@std/encoding@1.0.2"
 /**
  * Decodes a base64-encoded string.
  *
@@ -202,10 +249,10 @@ import { decodeBase64 as _function_decodeBase64 } from "jsr:@std/encoding@1.0.1"
  * );
  * ```
  */
-const decodeBase64 = _function_decodeBase64
+const decodeBase64 = _function_decodeBase64 as typeof _function_decodeBase64
 export { decodeBase64 }
 
-import { encodeBase64Url as _function_encodeBase64Url } from "jsr:@std/encoding@1.0.1"
+import { encodeBase64Url as _function_encodeBase64Url } from "jsr:@std/encoding@1.0.2"
 /**
  * Convert data into a base64url-encoded string.
  *
@@ -222,10 +269,10 @@ import { encodeBase64Url as _function_encodeBase64Url } from "jsr:@std/encoding@
  * assertEquals(encodeBase64Url("foobar"), "Zm9vYmFy");
  * ```
  */
-const encodeBase64Url = _function_encodeBase64Url
+const encodeBase64Url = _function_encodeBase64Url as typeof _function_encodeBase64Url
 export { encodeBase64Url }
 
-import { decodeBase64Url as _function_decodeBase64Url } from "jsr:@std/encoding@1.0.1"
+import { decodeBase64Url as _function_decodeBase64Url } from "jsr:@std/encoding@1.0.2"
 /**
  * Decodes a given base64url-encoded string.
  *
@@ -245,10 +292,10 @@ import { decodeBase64Url as _function_decodeBase64Url } from "jsr:@std/encoding@
  * );
  * ```
  */
-const decodeBase64Url = _function_decodeBase64Url
+const decodeBase64Url = _function_decodeBase64Url as typeof _function_decodeBase64Url
 export { decodeBase64Url }
 
-import { encodeHex as _function_encodeHex } from "jsr:@std/encoding@1.0.1"
+import { encodeHex as _function_encodeHex } from "jsr:@std/encoding@1.0.2"
 /**
  * Converts data into a hex-encoded string.
  *
@@ -264,10 +311,10 @@ import { encodeHex as _function_encodeHex } from "jsr:@std/encoding@1.0.1"
  * assertEquals(encodeHex("abc"), "616263");
  * ```
  */
-const encodeHex = _function_encodeHex
+const encodeHex = _function_encodeHex as typeof _function_encodeHex
 export { encodeHex }
 
-import { decodeHex as _function_decodeHex } from "jsr:@std/encoding@1.0.1"
+import { decodeHex as _function_decodeHex } from "jsr:@std/encoding@1.0.2"
 /**
  * Decodes the given hex-encoded string. If the input is malformed, an error is
  * thrown.
@@ -287,32 +334,32 @@ import { decodeHex as _function_decodeHex } from "jsr:@std/encoding@1.0.1"
  * );
  * ```
  */
-const decodeHex = _function_decodeHex
+const decodeHex = _function_decodeHex as typeof _function_decodeHex
 export { decodeHex }
 
-import { MaxUint64 as _variable_MaxUint64 } from "jsr:@std/encoding@1.0.1"
+import { MaxUint64 as _variable_MaxUint64 } from "jsr:@std/encoding@1.0.2"
 /**
  * The maximum value of an unsigned 64-bit integer.
  * Equivalent to `2n**64n - 1n`
  */
-const MaxUint64 = _variable_MaxUint64
+const MaxUint64 = _variable_MaxUint64 as typeof _variable_MaxUint64
 export { MaxUint64 }
 
-import { MaxVarintLen64 as _variable_MaxVarintLen64 } from "jsr:@std/encoding@1.0.1"
+import { MaxVarintLen64 as _variable_MaxVarintLen64 } from "jsr:@std/encoding@1.0.2"
 /**
  * The maximum length, in bytes, of a Varint encoded 64-bit integer.
  */
-const MaxVarintLen64 = _variable_MaxVarintLen64
+const MaxVarintLen64 = _variable_MaxVarintLen64 as typeof _variable_MaxVarintLen64
 export { MaxVarintLen64 }
 
-import { MaxVarintLen32 as _variable_MaxVarintLen32 } from "jsr:@std/encoding@1.0.1"
+import { MaxVarintLen32 as _variable_MaxVarintLen32 } from "jsr:@std/encoding@1.0.2"
 /**
  * The maximum length, in bytes, of a Varint encoded 32-bit integer.
  */
-const MaxVarintLen32 = _variable_MaxVarintLen32
+const MaxVarintLen32 = _variable_MaxVarintLen32 as typeof _variable_MaxVarintLen32
 export { MaxVarintLen32 }
 
-import { decodeVarint as _function_decodeVarint } from "jsr:@std/encoding@1.0.1"
+import { decodeVarint as _function_decodeVarint } from "jsr:@std/encoding@1.0.2"
 /**
  * Given a non empty `buf`, starting at `offset` (default: 0), begin decoding bytes as
  * Varint encoded bytes, for a maximum of 10 bytes (offset + 10). The returned
@@ -339,10 +386,10 @@ import { decodeVarint as _function_decodeVarint } from "jsr:@std/encoding@1.0.1"
  * assertEquals(decodeVarint(buf), [270n, 2]);
  * ```
  */
-const decodeVarint = _function_decodeVarint
+const decodeVarint = _function_decodeVarint as typeof _function_decodeVarint
 export { decodeVarint }
 
-import { decodeVarint32 as _function_decodeVarint32 } from "jsr:@std/encoding@1.0.1"
+import { decodeVarint32 as _function_decodeVarint32 } from "jsr:@std/encoding@1.0.2"
 /**
  * Given a `buf`, starting at `offset` (default: 0), begin decoding bytes as
  * Varint encoded bytes, for a maximum of 5 bytes (offset + 5). The returned
@@ -368,10 +415,10 @@ import { decodeVarint32 as _function_decodeVarint32 } from "jsr:@std/encoding@1.
  * assertEquals(decodeVarint32(buf), [270, 2]);
  * ```
  */
-const decodeVarint32 = _function_decodeVarint32
+const decodeVarint32 = _function_decodeVarint32 as typeof _function_decodeVarint32
 export { decodeVarint32 }
 
-import { encodeVarint as _function_encodeVarint } from "jsr:@std/encoding@1.0.1"
+import { encodeVarint as _function_encodeVarint } from "jsr:@std/encoding@1.0.2"
 /**
  * Takes unsigned number `num` and converts it into a Varint encoded
  * `Uint8Array`, returning a tuple consisting of a `Uint8Array` slice of the
@@ -399,5 +446,5 @@ import { encodeVarint as _function_encodeVarint } from "jsr:@std/encoding@1.0.1"
  * assertEquals(encodeVarint(42n, buf), [new Uint8Array([42]), 1]);
  * ```
  */
-const encodeVarint = _function_encodeVarint
+const encodeVarint = _function_encodeVarint as typeof _function_encodeVarint
 export { encodeVarint }

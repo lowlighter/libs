@@ -45,7 +45,7 @@
  *
  * @module
  */
-import type { SchemaType as _typeAlias_SchemaType } from "jsr:@std/yaml@1.0.1"
+import type { SchemaType as _typeAlias_SchemaType } from "jsr:@std/yaml@1.0.3"
 /**
  * Name of the schema to use.
  *
@@ -72,14 +72,14 @@ import type { SchemaType as _typeAlias_SchemaType } from "jsr:@std/yaml@1.0.1"
 type SchemaType = _typeAlias_SchemaType
 export type { SchemaType }
 
-import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/yaml@1.0.1"
+import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/yaml@1.0.3"
 /**
  * Options for {@linkcode parse}.
  */
 interface ParseOptions extends _interface_ParseOptions {}
 export type { ParseOptions }
 
-import { parse as _function_parse } from "jsr:@std/yaml@1.0.1"
+import { parse as _function_parse } from "jsr:@std/yaml@1.0.3"
 /**
  * Parse and return a YAML string as a parsed YAML document object.
  *
@@ -103,10 +103,10 @@ import { parse as _function_parse } from "jsr:@std/yaml@1.0.1"
  * @param options Parsing options.
  * @return Parsed document.
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }
 
-import { parseAll as _function_parseAll } from "jsr:@std/yaml@1.0.1"
+import { parseAll as _function_parseAll } from "jsr:@std/yaml@1.0.3"
 /**
  * Same as {@linkcode parse}, but understands multi-document YAML sources, and
  * returns multiple parsed YAML document objects.
@@ -134,24 +134,24 @@ import { parseAll as _function_parseAll } from "jsr:@std/yaml@1.0.1"
  * @param options Parsing options.
  * @return Array of parsed documents.
  */
-const parseAll = _function_parseAll
+const parseAll = _function_parseAll as typeof _function_parseAll
 export { parseAll }
 
-import type { StyleVariant as _typeAlias_StyleVariant } from "jsr:@std/yaml@1.0.1"
+import type { StyleVariant as _typeAlias_StyleVariant } from "jsr:@std/yaml@1.0.3"
 /**
  * The style variation for `styles` option of {@linkcode stringify}
  */
 type StyleVariant = _typeAlias_StyleVariant
 export type { StyleVariant }
 
-import type { StringifyOptions as _typeAlias_StringifyOptions } from "jsr:@std/yaml@1.0.1"
+import type { StringifyOptions as _typeAlias_StringifyOptions } from "jsr:@std/yaml@1.0.3"
 /**
  * Options for {@linkcode stringify}.
  */
 type StringifyOptions = _typeAlias_StringifyOptions
 export type { StringifyOptions }
 
-import { stringify as _function_stringify } from "jsr:@std/yaml@1.0.1"
+import { stringify as _function_stringify } from "jsr:@std/yaml@1.0.3"
 /**
  * Converts a JavaScript object or value to a YAML document string.
  *
@@ -171,5 +171,5 @@ import { stringify as _function_stringify } from "jsr:@std/yaml@1.0.1"
  * @param options The options for serialization.
  * @return A YAML string.
  */
-const stringify = _function_stringify
+const stringify = _function_stringify as typeof _function_stringify
 export { stringify }

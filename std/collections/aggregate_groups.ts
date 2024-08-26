@@ -38,5 +38,5 @@ import { aggregateGroups as _function_aggregateGroups } from "jsr:@std/collectio
  * });
  * ```
  */
-const aggregateGroups = _function_aggregateGroups
+const aggregateGroups = _function_aggregateGroups as typeof _function_aggregateGroups
 export { aggregateGroups }

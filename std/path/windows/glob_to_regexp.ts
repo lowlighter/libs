@@ -68,5 +68,5 @@ import { globToRegExp as _function_globToRegExp } from "jsr:@std/path@1.0.2/wind
  * @param options Conversion options.
  * @return The regular expression equivalent to the glob.
  */
-const globToRegExp = _function_globToRegExp
+const globToRegExp = _function_globToRegExp as typeof _function_globToRegExp
 export { globToRegExp }

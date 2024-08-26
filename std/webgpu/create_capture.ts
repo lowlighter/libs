@@ -60,5 +60,5 @@ import { createCapture as _function_createCapture } from "jsr:@std/webgpu@0.224.
  * @param height The height of the capture texture.
  * @return The texture to render to and buffer to read from.
  */
-const createCapture = _function_createCapture
+const createCapture = _function_createCapture as typeof _function_createCapture
 export { createCapture }

@@ -15,5 +15,5 @@ import { assertExists as _function_assertExists } from "jsr:@std/assert@1.0.2/ex
  * @param actual The actual value to check.
  * @param msg The optional message to include in the error if the assertion fails.
  */
-const assertExists = _function_assertExists
+const assertExists = _function_assertExists as typeof _function_assertExists
 export { assertExists }

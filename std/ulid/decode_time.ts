@@ -17,5 +17,5 @@ import { decodeTime as _function_decodeTime } from "jsr:@std/ulid@1.0.0/decode-t
  * @param ulid The ULID to extract the timestamp from.
  * @return The number of milliseconds since the Unix epoch that had passed when the ULID was generated.
  */
-const decodeTime = _function_decodeTime
+const decodeTime = _function_decodeTime as typeof _function_decodeTime
 export { decodeTime }

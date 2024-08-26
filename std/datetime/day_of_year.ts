@@ -1,4 +1,4 @@
-import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.224.4/day-of-year"
+import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.225.0/day-of-year"
 /**
  * Returns the number of the day in the year in the local time zone.
  *
@@ -13,10 +13,10 @@ import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.224.4/day-
  * assertEquals(dayOfYear(new Date("2019-03-11T03:24:00")), 70);
  * ```
  */
-const dayOfYear = _function_dayOfYear
+const dayOfYear = _function_dayOfYear as typeof _function_dayOfYear
 export { dayOfYear }
 
-import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.224.4/day-of-year"
+import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.225.0/day-of-year"
 /**
  * Returns the number of the day in the year in UTC time.
  *
@@ -31,5 +31,5 @@ import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.224.
  * assertEquals(dayOfYearUtc(new Date("2019-03-11T03:24:00.000Z")), 70);
  * ```
  */
-const dayOfYearUtc = _function_dayOfYearUtc
+const dayOfYearUtc = _function_dayOfYearUtc as typeof _function_dayOfYearUtc
 export { dayOfYearUtc }

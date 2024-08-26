@@ -52,5 +52,5 @@ import { parse as _function_parse } from "jsr:@std/ini@0.225.2/parse"
  * @param options The options to use
  * @return The parsed object
  */
-const parse = _function_parse
+const parse = _function_parse as typeof _function_parse
 export { parse }

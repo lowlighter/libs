@@ -16,5 +16,5 @@ import { concat as _function_concat } from "jsr:@std/bytes@1.0.2/concat"
  * assertEquals(concat([a, b]), new Uint8Array([0, 1, 2, 3, 4, 5]));
  * ```
  */
-const concat = _function_concat
+const concat = _function_concat as typeof _function_concat
 export { concat }

@@ -50,5 +50,5 @@ import { contentType as _function_contentType } from "jsr:@std/media-types@1.0.2
  * assertEquals(contentType("file.json"), undefined);
  * ```
  */
-const contentType = _function_contentType
+const contentType = _function_contentType as typeof _function_contentType
 export { contentType }

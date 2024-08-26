@@ -1,4 +1,4 @@
-import { weekOfYear as _function_weekOfYear } from "jsr:@std/datetime@0.224.4/week-of-year"
+import { weekOfYear as _function_weekOfYear } from "jsr:@std/datetime@0.225.0/week-of-year"
 /**
  * Returns the ISO week number of the provided date (1-53).
  *
@@ -15,5 +15,5 @@ import { weekOfYear as _function_weekOfYear } from "jsr:@std/datetime@0.224.4/we
  * assertEquals(weekOfYear(new Date("2020-07-10T03:24:00")), 28);
  * ```
  */
-const weekOfYear = _function_weekOfYear
+const weekOfYear = _function_weekOfYear as typeof _function_weekOfYear
 export { weekOfYear }

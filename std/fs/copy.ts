@@ -53,7 +53,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.1/copy"
  * This will copy the file or directory at `./foo` to `./bar` and set the
  * last modification and access times to the ones of the original source files.
  */
-const copy = _function_copy
+const copy = _function_copy as typeof _function_copy
 export { copy }
 
 import { copySync as _function_copySync } from "jsr:@std/fs@1.0.1/copy"
@@ -104,5 +104,5 @@ import { copySync as _function_copySync } from "jsr:@std/fs@1.0.1/copy"
  * This will copy the file or directory at `./foo` to `./bar` and set the
  * last modification and access times to the ones of the original source files.
  */
-const copySync = _function_copySync
+const copySync = _function_copySync as typeof _function_copySync
 export { copySync }

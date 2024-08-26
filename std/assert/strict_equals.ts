@@ -21,5 +21,5 @@ import { assertStrictEquals as _function_assertStrictEquals } from "jsr:@std/ass
  * @param expected The expected value to compare.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertStrictEquals = _function_assertStrictEquals
+const assertStrictEquals = _function_assertStrictEquals as typeof _function_assertStrictEquals
 export { assertStrictEquals }

@@ -15,5 +15,5 @@ import { assertNotMatch as _function_assertNotMatch } from "jsr:@std/assert@1.0.
  * @param expected The expected value to not match.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertNotMatch = _function_assertNotMatch
+const assertNotMatch = _function_assertNotMatch as typeof _function_assertNotMatch
 export { assertNotMatch }

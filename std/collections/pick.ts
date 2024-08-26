@@ -22,5 +22,5 @@ import { pick as _function_pick } from "jsr:@std/collections@1.0.5/pick"
  * assertEquals(picked, { a: 5, c: 7 });
  * ```
  */
-const pick = _function_pick
+const pick = _function_pick as typeof _function_pick
 export { pick }

@@ -1,4 +1,4 @@
-import { satisfies as _function_satisfies } from "jsr:@std/semver@1.0.0/satisfies"
+import { satisfies as _function_satisfies } from "jsr:@std/semver@1.0.1/satisfies"
 /**
  * Test to see if the SemVer satisfies the range.
  *
@@ -20,5 +20,5 @@ import { satisfies as _function_satisfies } from "jsr:@std/semver@1.0.0/satisfie
  * @param range The range to check
  * @return true if the version is in the range
  */
-const satisfies = _function_satisfies
+const satisfies = _function_satisfies as typeof _function_satisfies
 export { satisfies }

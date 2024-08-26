@@ -15,5 +15,5 @@ import { assertStringIncludes as _function_assertStringIncludes } from "jsr:@std
  * @param expected The expected string to check for inclusion.
  * @param msg The optional message to display if the assertion fails.
  */
-const assertStringIncludes = _function_assertStringIncludes
+const assertStringIncludes = _function_assertStringIncludes as typeof _function_assertStringIncludes
 export { assertStringIncludes }

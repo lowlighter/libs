@@ -31,5 +31,5 @@ import { timingSafeEqual as _function_timingSafeEqual } from "jsr:@std/crypto@1.
  * @param b The second value to compare.
  * @return `true` if the values are equal, otherwise `false`.
  */
-const timingSafeEqual = _function_timingSafeEqual
+const timingSafeEqual = _function_timingSafeEqual as typeof _function_timingSafeEqual
 export { timingSafeEqual }

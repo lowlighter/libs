@@ -43,7 +43,7 @@ import { move as _function_move } from "jsr:@std/fs@1.0.1/move"
  * This will move the file or directory at `./foo` to `./bar`, overwriting
  * `./bar` if it already exists.
  */
-const move = _function_move
+const move = _function_move as typeof _function_move
 export { move }
 
 import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.1/move"
@@ -84,5 +84,5 @@ import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.1/move"
  * This will move the file or directory at `./foo` to `./bar`, overwriting
  * `./bar` if it already exists.
  */
-const moveSync = _function_moveSync
+const moveSync = _function_moveSync as typeof _function_moveSync
 export { moveSync }
