@@ -2,7 +2,7 @@
 import { expandGlob } from "@std/fs"
 import { basename, dirname, fromFileUrl, resolve } from "@std/path"
 import * as JSONC from "@std/jsonc"
-import { DOMParser } from "@lowlighter/deno-dom/deno-dom-wasm"
+import { DOMParser } from "@b-fuze/deno-dom"
 import { Logger } from "@libs/logger"
 
 // Load local configurations
