@@ -25,7 +25,6 @@
     "type": "git",
     "url": "git+https://github.com/lowlighter/libs.git"
   },
-  "npm": false,
   "exports": {
     ".": "./mod.ts",
     "./ts": "./ts/mod.ts",
