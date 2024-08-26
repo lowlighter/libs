@@ -8,7 +8,7 @@
 import { expandGlob } from "@std/fs"
 import { dirname, resolve } from "@std/path"
 import { default as syntax } from "highlight.js"
-import { DOMParser } from "@lowlighter/deno-dom/deno-dom-wasm"
+import { DOMParser } from "@b-fuze/deno-dom"
 import { basename } from "@std/path"
 import { parseArgs } from "@std/cli"
 import { type levellike as loglevel, Logger } from "@libs/logger"
