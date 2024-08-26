@@ -57,7 +57,6 @@
 import type { callback, Nullable, record } from "@libs/typing"
 import type { DeepMerge } from "@std/collections/deep-merge"
 export type { DeepMerge, record }
-import { AsyncFunction, AsyncGeneratorFunction, GeneratorFunction } from "@libs/typing"
 
 /**
  * Reactive context.
@@ -241,13 +240,7 @@ export class Context<T extends record = record> extends EventTarget {
    * Objects from {@link Context.unproxyable} are not proxied to avoid issues with internal slots and allow reflection.
    */
   #trap_apply(path: PropertyKey[], callable: trap<"apply", 0>, _that: trap<"apply", 1>, args: trap<"apply", 2>) {
-    let parent = this as Nullable<Context>
-    let target = null
-    do {
-      target = this.#access(path.slice(0, -1), parent!.#target)
-      parent = this.#parent
-    } while ((!target) && parent)
-    parent = null
+    const target = this.#access(path.slice(0, -1), this.#target)
     try {
       return Reflect.apply(callable, target, args)
     } finally {
@@ -267,7 +260,7 @@ export class Context<T extends record = record> extends EventTarget {
     try {
       if (value) {
         const proxify = (typeof value === "object") || (typeof value === "function")
-        if ((typeof value === "object") && (Context.#unproxyable(value))) {
+        if (proxify && (Context.#unproxyable(value))) {
           return value
         }
         if (proxify) {
@@ -367,7 +360,6 @@ export class Context<T extends record = record> extends EventTarget {
    *
    * The following built-in are avoided by default for the following reasons:
    * - `Map`, `Set`: Prevent interference with internal data structures and iteration.
-   * - `Function`, `AsyncFunction`, `GeneratorFunction`, `AsyncGeneratorFunction`: Prevent interference with internal state.
    * - `Date`: Prevent interference with methods like `Date.getTime()` and `Date.toISOString()` which are tightly coupled to internal state.
    * - `RegExp`: Prevent interference with internal optimizations and state.
    * - `Promise`: Prevent interference with state management and chaining.
@@ -385,10 +377,6 @@ export class Context<T extends record = record> extends EventTarget {
   static unproxyable = [
     Map,
     Set,
-    Function,
-    AsyncFunction,
-    GeneratorFunction,
-    AsyncGeneratorFunction,
     Date,
     RegExp,
     Promise,
