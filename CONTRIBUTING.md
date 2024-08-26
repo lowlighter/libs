@@ -9,6 +9,9 @@ We try to offer high quality packages that are well documented, tested and maint
 - Be tested **AND** covered
   - If some parts are not covered, either refactor the code in a way that it can be tested or add a comment explaining why it's really not possible
 - Be well documented (including internal APIs)
+  - Public APIs should contain at least one `@example`
+  - Private APIs should not contain any `@example` (the reasoning behind is that implementation details can change over time and these are not intended to be used directly)
+  - Do not contain uncessary JSDoc tags (e.g. `@param`, `@return`, etc.) that are already infered by TypeScript engine.
 - Be consistent with the rest of the repository
   - Use the same "vocabulary"
   - Prefers single-word names for public APIs, or camelCase if it cannot be clear enough
