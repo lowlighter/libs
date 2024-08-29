@@ -36,6 +36,6 @@ import rehypeMermaid from "rehype-mermaid"
  */
 export default {
   rehype(processor) {
-    return processor.use(rehypeMermaid, { strategy: "inline-svg", launchOptions: { headless: true, args: ["--no-sandbox", "--disable-dev-shm-usage"] } })
+    return processor.use(rehypeMermaid, { strategy: "inline-svg", launchOptions: { headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--disable-accelerated-2d-canvas", "--no-zygote", "--disable-gpu"] } })
   },
 } as Plugin

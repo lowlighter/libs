@@ -62,7 +62,7 @@ export class Renderer {
    * Render markdown content.
    */
   async render(content: string, { metadata = false } = {} as { metadata?: boolean }): Promise<string | { value: string; metadata: Record<PropertyKey, unknown> }> {
-    const id = crypto.randomUUID()
+    const id = (this.#id++) % Number.MAX_SAFE_INTEGER
     try {
       if (metadata) {
         this.storage[id] ??= {}
@@ -73,6 +73,9 @@ export class Renderer {
       delete this.storage[id]
     }
   }
+
+  /** Render request id counter. */
+  #id = 0
 
   /** Default renderer instance. */
   static default = new Renderer({ plugins: [pluginGfm, pluginSanitize] }) as Renderer
