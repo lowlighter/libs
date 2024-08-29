@@ -11,7 +11,7 @@ import rehypeMermaid from "rehype-mermaid"
  * > This plugin requires the following permission in Deno:
  * > - read
  * > - env
- * > - sys: "osRelease"
+ * > - sys: "osRelease", "homedir"
  * > - write: <TMP>
  * > - run: <location to playwright browser executable>
  *
