@@ -1,0 +1,120 @@
+{
+  "icon": "🖨️",
+  "name": "@libs/markdown",
+  "version": "0.0.0",
+  "description": "Markdown renderer with optional plugins based on the unified ecosystem.",
+  "keywords": [
+    "markdown",
+    "plugins",
+    "gfm",
+    "github-flavored-markdown",
+    "unified",
+    "remark",
+    "rehype"
+  ],
+  "license": "MIT",
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
+  "playground": "https://libs.lecoq.io/markdown",
+  "supported": [
+    "deno"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lowlighter/libs.git"
+  },
+  "npm": true,
+  "exports": {
+    ".": "./mod.ts",
+    "./renderer": "./renderer.ts",
+    "./plugins/anchors": "./plugins/anchors.ts",
+    "./plugins/highlighting": "./plugins/highlighting.ts",
+    "./plugins/directives": "./plugins/directives.ts",
+    "./plugins/emojis": "./plugins/emojis.ts",
+    "./plugins/frontmatter": "./plugins/frontmatter.ts",
+    "./plugins/gfm": "./plugins/gfm.ts",
+    "./plugins/linebreaks": "./plugins/linebreaks.ts",
+    "./plugins/markers": "./plugins/markers.ts",
+    "./plugins/uncomments": "./plugins/uncomments.ts",
+    "./plugins/ruby": "./plugins/ruby.ts",
+    "./plugins/sanitize": "./plugins/sanitize.ts",
+    "./plugins/wikilinks": "./plugins/wikilinks.ts"
+  },
+  "imports": {
+    "unified": "npm:unified@11",
+    "hast": "npm:@types/hast@3",
+    "hastscript": "npm:hastscript@9",
+    "unist-util-visit": "npm:unist-util-visit@5",
+    "rehype-slug": "npm:rehype-slug@6",
+    "rehype-autolink-headings": "npm:rehype-autolink-headings@7",
+    "rehype-highlight": "npm:rehype-highlight@7",
+    "rehype-raw": "npm:rehype-raw@7",
+    "rehype-sanitize": "npm:rehype-sanitize@6",
+    "rehype-stringify": "npm:rehype-stringify@10",
+    "remark-breaks": "npm:remark-breaks@4",
+    "remark-flexible-markers": "npm:remark-flexible-markers@1",
+    "remark-wiki-link": "npm:remark-wiki-link@2",
+    "remark-gfm": "npm:remark-gfm@4",
+    "remark-parse": "npm:remark-parse@11",
+    "remark-rehype": "npm:remark-rehype@11",
+    "remark-directive": "npm:remark-directive@3",
+    "remark-ruby": "npm:remark-ruby@0.4.0",
+    "remark-frontmatter": "npm:remark-frontmatter@5",
+    "remark-emoji": "npm:remark-emoji@5",
+    "remark-remove-comments": "npm:remark-remove-comments@1",
+    "remark-math": "npm:remark-math@6",
+    "rehype-mathjax": "npm:rehype-mathjax@6",
+    "rehype-mermaid": "npm:rehype-mermaid@2",
+    "@std/text/slugify": "jsr:@std/text@1/slugify",
+    "@std/yaml/parse": "jsr:@std/yaml@1/parse",
+    "@libs/testing": "jsr:@libs/testing@2",
+    "@libs/typing": "jsr:@libs/typing@2"
+  },
+  "test:permissions": {
+    "read": true,
+    "env": true,
+    "write": true,
+    "sys": [
+      "osRelease"
+    ],
+    "run": true
+  },
+  "tasks": {
+    "test": "deno test --allow-read --allow-env --allow-write --allow-sys=osRelease --allow-run --no-prompt --coverage --clean --trace-leaks --doc",
+    "test:deno": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "test:deno-future": "DENO_FUTURE=1 && deno task test:deno",
+    "test:others": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "coverage:html": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js --html && sleep 1",
+    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint",
+    "lint": "deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish --dry-run --quiet --allow-dirty"
+  },
+  "lint": {
+    "rules": {
+      "include": [
+        "no-throw-literal",
+        "no-eval",
+        "eqeqeq",
+        "ban-untagged-todo"
+      ]
+    },
+    "exclude": [
+      "**/wasm_*",
+      "**/*.mjs"
+    ]
+  },
+  "fmt": {
+    "lineWidth": 280,
+    "semiColons": false,
+    "exclude": [
+      "coverage",
+      "**/coverage",
+      "**/node_modules",
+      "**/package.json",
+      "**/package-lock.json",
+      "**/wasm_*",
+      "**/*.mjs"
+    ],
+    "proseWrap": "preserve"
+  }
+}
