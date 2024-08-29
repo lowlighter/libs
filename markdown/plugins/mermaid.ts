@@ -8,6 +8,14 @@ import rehypeMermaid from "rehype-mermaid"
  * {@link https://mermaid-js.github.io/mermaid/ | See Mermaid documentation for more information}.
  *
  * > [!WARNING]
+ * > This plugin requires playwright browser to be installed.
+ * >
+ * > You can install it by running the following command:
+ * > ```sh
+ * > npx playwright-core install --with-deps chromium
+ * > ```
+ *
+ * > [!WARNING]
  * > This plugin requires the following permission in Deno:
  * > - read
  * > - env
