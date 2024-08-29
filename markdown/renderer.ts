@@ -79,6 +79,32 @@ export class Renderer {
 
   /** See {@link Renderer.render}. */
   static render = this.default.render.bind(this.default) as typeof Renderer.prototype.render
+
+  /**
+   * Instantiate a new renderer with specified plugins.
+   *
+   * Plugins may be specified as a URL or string path to a module, or as an already import {@link Plugin} object.
+   *
+   * @example
+   * ```ts
+   * import { Renderer } from "./renderer.ts"
+   * import frontmatter from "./plugins/frontmatter.ts"
+   *
+   * const renderer = await Renderer.with({
+   *   plugins: [
+   *     frontmatter,
+   *     "./plugins/gfm.ts",
+   *     new URL("./plugins/sanitize.ts", import.meta.url),
+   *  ]
+   * })
+   * await renderer.render("# foo")
+   * ```
+   */
+  static async with({ plugins = [] }: { plugins: Array<Plugin | URL | string> }): Promise<Renderer> {
+    plugins = plugins.map((plugin) => plugin instanceof URL ? plugin.href : plugin)
+    const resolved = await Promise.all(plugins.map((plugin) => (typeof plugin === "string") ? import(plugin) : plugin))
+    return new Renderer({ plugins: resolved })
+  }
 }
 
 /** {@link Renderer} with exposed protected properties. */

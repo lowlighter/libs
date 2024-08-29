@@ -75,15 +75,12 @@
     "read": true,
     "env": true,
     "write": true,
-    "sys": [
-      "osRelease",
-      "homedir"
-    ],
+    "sys": true,
     "run": true
   },
   "tasks": {
     "build": "npx playwright-core install --with-deps chromium",
-    "test": "deno test --allow-read --allow-env --allow-write --allow-sys=osRelease,homedir --allow-run --no-prompt --coverage --clean --trace-leaks --doc",
+    "test": "deno test --allow-read --allow-env --allow-write --allow-sys --allow-run --no-prompt --coverage --clean --trace-leaks --doc",
     "test:deno": "deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
     "test:deno-future": "DENO_FUTURE=1 && deno task test:deno",
     "test:others": "deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",

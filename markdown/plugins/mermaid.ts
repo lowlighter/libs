@@ -19,7 +19,7 @@ import rehypeMermaid from "rehype-mermaid"
  * > This plugin requires the following permission in Deno:
  * > - read
  * > - env
- * > - sys: "osRelease", "homedir"
+ * > - sys
  * > - write: <TMP>
  * > - run: <location to playwright browser executable>
  *
@@ -27,15 +27,15 @@ import rehypeMermaid from "rehype-mermaid"
  * ````md
  * ```mermaid
  * graph TD;
- *  A-->B;
- * A-->C;
- * B-->D;
- * C-->D;
+ *   A-->B;
+ *   A-->C;
+ *   B-->D;
+ *   C-->D;
  * ```
  * ````
  */
 export default {
   rehype(processor) {
-    return processor.use(rehypeMermaid, { strategy: "inline-svg" })
+    return processor.use(rehypeMermaid, { strategy: "inline-svg", launchOptions: { headless: true, args: ["--no-sandbox", "--disable-dev-shm-usage"] } })
   },
 } as Plugin
