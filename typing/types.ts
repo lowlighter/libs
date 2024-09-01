@@ -64,3 +64,9 @@ export type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array
 
 /** Possible values to `typeof` operator. */
 export type TypeOf = "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function"
+
+/** Check if a type is `any`. */
+export type IsAny<T> = boolean extends (T extends never ? true : false) ? true : false
+
+/** Check if a type is not `any`. */
+export type IsNotAny<T> = IsAny<T> extends true ? false : true
