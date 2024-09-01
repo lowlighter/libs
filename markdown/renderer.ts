@@ -109,10 +109,10 @@ export class Renderer {
    */
   static async with({ plugins = [], throw: throws = true }: { plugins: Array<Plugin | URL | string>; throw?: boolean }): Promise<Renderer> {
     plugins = plugins.map((plugin) => plugin instanceof URL ? plugin.href : plugin)
-    const imported = await Promise.allSettled(plugins.map((plugin) => (typeof plugin === "string") ? import(plugin) : plugin))
+    const imported = await Promise.allSettled(plugins.map((plugin) => (typeof plugin === "string") ? import(plugin) : { default: plugin }))
     const resolved = imported
-      .filter((result): result is PromiseFulfilledResult<Plugin> => result.status === "fulfilled")
-      .map(({ value }) => value)
+      .filter((result): result is PromiseFulfilledResult<{ default: Plugin }> => result.status === "fulfilled")
+      .map(({ value }) => value.default)
     if (throws && (imported.some(({ status }) => status === "rejected"))) {
       const errors = imported
         .filter((result): result is PromiseRejectedResult => result.status === "rejected")

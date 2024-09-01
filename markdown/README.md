@@ -32,7 +32,9 @@ const renderer = await Renderer.with({
     // You can specify an existing Plugin object...
     frontmatter,
     // ...or a a HTTPS import that points towards a compatible Plugin object!
-    new URL("https://esm.sh/jsr/@libs/markdown/plugins/gfm"),
+    // Warning: this is not possible if you are using the JSR package version
+    //          https://github.com/denoland/deno/pull/22623
+    "https://esm.sh/jsr/@libs/markdown/plugins/gfm",
   ],
 })
 await renderer.render("# foo")
