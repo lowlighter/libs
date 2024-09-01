@@ -6,9 +6,31 @@
 - [`🦕 Playground`](https://dash.deno.com/playground/libs-logger)
 - [`📚 Documentation`](https://jsr.io/@libs/logger/doc)
 
-## ✨ Features
+## 📑 Examples
 
 ![](https://raw.githubusercontent.com/lowlighter/libs/main/logger/example.png)
+
+```ts
+import { Logger } from "./mod.ts"
+
+// Configure logger
+const tags = { foo: "bar" }
+const log = new Logger({ level: "trace", tags, date: true, time: true, delta: true, caller: true })
+
+// Print logs
+log
+  .error("🍱 bento")
+  .warn("🍜 ramen")
+  .ok("🍚 gohan")
+  .info("🍣 sushi")
+  .log("🍥 narutomaki")
+  .debug("🍡 dango")
+  .wdebug("🍵 matcha")
+  .trace("🍙 onigiri")
+  .probe("🥟 gyoza")
+```
+
+## ✨ Features
 
 - Has no external dependencies.
 - Support for colored output.
