@@ -186,7 +186,7 @@ async function generate(jsr: string) {
       switch (kind) {
         case "class": {
           const generic = capture(signature, kind, _)
-          lines.push(`class ${name}${generic[0]} extends _${kind}_${name}${generic[1]} {}`)
+          lines.push(`${_.classDef?.isAbstract ? "abstract " : ""}class ${name}${generic[0]} extends _${kind}_${name}${generic[1]} {}`)
           break
         }
         case "namespace":
