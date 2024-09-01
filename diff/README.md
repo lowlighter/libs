@@ -8,6 +8,22 @@ Use the patience algorithm for practical purposes.
 - [`🦕 Playground`](https://libs.lecoq.io/diff)
 - [`📚 Documentation`](https://jsr.io/@libs/diff/doc)
 
+## 📑 Examples
+
+```ts
+import { diff } from "./diff.ts"
+diff("foo\n", "foo")
+```
+
+```diff
+--- a
++++ b
+@@ -1 +1 @@
+-foo
++foo
+\ No newline at end of file
+```
+
 ## ✨ Features
 
 - Support for computing the [unified patch](https://opensource.com/article/18/8/diffs-patches) between two strings.
