@@ -432,8 +432,8 @@
   ],
   "imports": {},
   "tasks": {
-    "clean": "deno eval 'import {fromFileUrl} from \"jsr:@std/path\";[...await Array.fromAsync(Deno.readDir(`.`))].filter(entry => entry.isDirectory).map(entry => fromFileUrl(new URL(entry.name, import.meta.url))).filter(path => path.includes(`/libs/std/`)).map(path => (console.log(`cleaning: ${path}`), Deno.removeSync(path, {recursive:true})))'",
-    "build": "deno task clean && deno run --allow-read --allow-net=jsr.io,api.jsr.io --allow-write --allow-run=deno jsr:@libs/bundle/ts/cli/mirror --scope std --packages-exclude internal --config deno.jsonc --mod --patches patches.yml && deno fmt",
+    "empty": "deno eval 'import {fromFileUrl} from \"jsr:@std/path\";[...await Array.fromAsync(Deno.readDir(`.`))].filter(entry => entry.isDirectory).map(entry => fromFileUrl(new URL(entry.name, import.meta.url))).filter(path => path.includes(`/libs/std/`)).map(path => (console.log(`cleaning: ${path}`), Deno.removeSync(path, {recursive:true})))'",
+    "build": "deno task empty && deno run --allow-read --allow-net=jsr.io,api.jsr.io --allow-write --allow-run=deno jsr:@libs/bundle/ts/cli/mirror --scope std --packages-exclude internal --config deno.jsonc --mod --patches patches.yml && deno fmt",
     "test": "deno test --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks ",
     "test:deno": "deno task clean:deno && deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
     "test:deno-future": "deno task clean:deno && DENO_FUTURE=1 && deno task test:deno",
