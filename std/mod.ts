@@ -1,6 +1,8 @@
 /**
  * All-in-one mirror of Deno standard library <jsr.io/@std>.
  * Note that some exports from the `default export` may have been renamed to avoid conflicts.
+ *
+ * You can search across the while standard library at <jsr.io/@libs/std/doc>.
  * @module
  */
 
