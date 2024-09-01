@@ -12,3 +12,8 @@ test("deno")("Renderer.with() instantiates a new customized renderer", async () 
   const markdown = await Renderer.with({ plugins: ["./plugins/gfm.ts", new URL("./plugins/gfm.ts", import.meta.url), pluginGfm] })
   await expect(markdown.render("# foo")).resolves.toBe("<h1>foo</h1>")
 })
+
+test("deno")("Renderer.with() honors throw option when creating a new customized renderer", async () => {
+  await expect(Renderer.with({ plugins: ["unknown"], throw: false })).resolves.toBeInstanceOf(Renderer)
+  await expect(Renderer.with({ plugins: ["unknown"], throw: true })).rejects.toThrow(ReferenceError)
+})

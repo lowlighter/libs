@@ -107,9 +107,19 @@ export class Renderer {
    * await renderer.render("# foo")
    * ```
    */
-  static async with({ plugins = [] }: { plugins: Array<Plugin | URL | string> }): Promise<Renderer> {
+  static async with({ plugins = [], throw: throws = true }: { plugins: Array<Plugin | URL | string>; throw?: boolean }): Promise<Renderer> {
     plugins = plugins.map((plugin) => plugin instanceof URL ? plugin.href : plugin)
-    const resolved = await Promise.all(plugins.map((plugin) => (typeof plugin === "string") ? import(plugin) : plugin))
+    const imported = await Promise.allSettled(plugins.map((plugin) => (typeof plugin === "string") ? import(plugin) : plugin))
+    const resolved = imported
+      .filter((result): result is PromiseFulfilledResult<Plugin> => result.status === "fulfilled")
+      .map(({ value }) => value)
+    if (throws && (imported.some(({ status }) => status === "rejected"))) {
+      const errors = imported
+        .filter((result): result is PromiseRejectedResult => result.status === "rejected")
+        .map(({ reason }) => reason)
+        .join(", ")
+      throw new ReferenceError(`Failed to import some plugins: ${errors}`)
+    }
     return new Renderer({ plugins: resolved })
   }
 }
