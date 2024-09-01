@@ -1,7 +1,7 @@
 import { parse } from "./parse.ts"
-import { expect, test, type testing } from "@libs/testing"
-import { fromFileUrl } from "@std/path/from-file-url"
-import { exists } from "@std/fs/exists"
+import { expect, test, type testing } from "jsr:@libs/testing@2"
+import { fromFileUrl } from "jsr:@std/path@1/from-file-url"
+import { exists } from "jsr:@std/fs@1/exists"
 
 //Huge xml file generator
 export async function write(size: number) {

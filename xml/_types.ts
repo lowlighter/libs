@@ -1,5 +1,5 @@
 // Imports
-import type { Nullable } from "@libs/typing"
+import type { Nullable } from "jsr:@libs/typing@2"
 
 /** XML text node. */
 export type xml_text = {
