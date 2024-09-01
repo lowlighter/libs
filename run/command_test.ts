@@ -1,6 +1,6 @@
 import { Logger } from "@libs/logger"
 import { command } from "./command.ts"
-import { expect, fn, test, type testing } from "@libs/testing"
+import { expect, test, type testing } from "@libs/testing"
 
 test("deno")("command() can spawn subprocesses asynchronously", async () => {
   let result = command("deno", ["--version"], { env: { NO_COLOR: "true" } }) as testing
