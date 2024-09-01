@@ -2,7 +2,7 @@ import { expect, test } from "@libs/testing"
 import { Renderer } from "../renderer.ts"
 import plugin from "./math.ts"
 
-test("all")("Plugin.math renders math expressions", async () => {
+test("deno")("Plugin.math renders math expressions", async () => {
   const markdown = new Renderer({ plugins: [plugin] })
   await expect(markdown.render("$$\\pi$$")).resolves.toMatch(/mjx-container class="MathJax"/)
 })
