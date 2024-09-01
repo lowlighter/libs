@@ -97,7 +97,27 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/logger"><img src="https://img.shields.io/npm/v/@lowlighter%2Flogger?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/logger"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/logger"><img src="https://libs-coverage.lecoq.io/logger/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/orm"><code>💰 @libs/orm</code></a></h2>Object-relational mapping toolbox.</th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/logger"><img src="https://libs-coverage.lecoq.io/logger/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/markdown"><code>🖨️ @libs/markdown</code></a></h2>Markdown renderer with optional plugins based on the unified ecosystem.</th></tr>
+  <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
+  <tr><td colspan="3"></td></tr>
+  <tr>
+    <th><a href="https://jsr.io/@libs/markdown"><img src="https://jsr.io/badges/@libs/markdown"></a></th>
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
+    <td rowspan="4"><ul data-for="markdown">
+  <li>
+    Render markdown to HTML using the <a href="https://unifiedjs.com">unified ecosystem</a>.
+    <ul>
+      <li>Straightforward API for both basic markdown and extended markdown rendering</li>
+      <li>
+        Offer a dozen of plugins to add extended markdown features (headings anchors, frontmatter, code highlighting, math, mermaid diagrams, wiki links, etc.)
+      </li>
+    </ul>
+  </li>
+</ul></td>
+  </tr>
+  <tr><th><a href="https://www.npmjs.com/package/@lowlighter/markdown"><img src="https://img.shields.io/npm/v/@lowlighter%2Fmarkdown?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
+  <tr><th><a href="https://libs.lecoq.io/markdown"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/markdown"><img src="https://libs-coverage.lecoq.io/markdown/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/orm"><code>💰 @libs/orm</code></a></h2>Object-relational mapping toolbox.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
