@@ -26,7 +26,7 @@
     "@std/async/retry": "jsr:@std/async@1/retry",
     "@std/http/status": "jsr:@std/http@1/status",
     "@std/streams": "jsr:@std/streams@1",
-    "@std/io": "jsr:@std/io@0.224.5",
+    "@std/io": "jsr:@std/io@0.224.6",
     "@std/archive/untar": "jsr:@std/archive@0.225.0/untar",
     "@std/encoding/base32": "jsr:@std/encoding@1/base32",
     "@std/encoding/base64": "jsr:@std/encoding@1/base64",
