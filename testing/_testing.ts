@@ -161,7 +161,11 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
   const filename = caller()
   return function (name: string, fn: () => Promisable<void>, options = { permissions: "none" } as options) {
     for (const runtime of runtimes as runtime[]) {
-      ;({ test: Deno.test, skip: Deno.test.ignore, only: Deno.test.only }[available[runtime as runtime] ? mode : "skip"])(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, function () {
+      const runner = { test: Deno.test, skip: Deno.test.ignore, only: Deno.test.only }[available[runtime as runtime] ? mode : "skip"]
+      if ((options as { __norun?: boolean })?.__norun) {
+        continue
+      }
+      runner(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, function () {
         return testcase(runtime, filename, name, fn, (options as { __dryrun?: boolean })?.__dryrun)
       })
     }

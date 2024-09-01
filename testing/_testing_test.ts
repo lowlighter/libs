@@ -8,6 +8,13 @@ test("node", "bun")("test() use given runtimes when specified", () => void expec
 
 test("all")("test() use all supported runtimes when `all` is specified", () => void expect(true))
 
+test("__unknown__" as testing)("test() ignores unknown runtimes", () => void expect(true))
+
+test("deno")("test() supports test modifiers", () => {
+  expect(test.only()("Deno.only", () => void expect(true), { __norun: true } as testing))
+  expect(test.skip()("Deno.ignore", () => void expect(true), { __norun: true } as testing))
+})
+
 for (const runtime of ["node", "bun"] as const) {
   test("deno")(`test() is able to detect ${runtime} runtime binary`, () => {
     const _paths = { ...paths }
