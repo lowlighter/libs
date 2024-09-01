@@ -32,7 +32,7 @@ const renderer = await Renderer.with({
     // You can specify an existing Plugin object...
     frontmatter,
     // ...or a a HTTPS import that points towards a compatible Plugin object!
-    "https://esm.sh/jsr/@libs/markdown/plugins/gfm",
+    new URL("https://esm.sh/jsr/@libs/markdown/plugins/gfm"),
   ],
 })
 await renderer.render("# foo")
