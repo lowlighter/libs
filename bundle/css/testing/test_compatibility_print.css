@@ -17,3 +17,11 @@ input:user-invalid {
 input:nth-child(2n+1) {
   color: darkred;
 }
+
+samp {
+  -debug-empty-array: 1px;
+  -debug-removed: 1px;
+  -debug-unimplemented: 1px;
+  -__debug--debug-prefixed-invalid: 1px;
+  -__debug--debug-prefixed: 1px;
+}
