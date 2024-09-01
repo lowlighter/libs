@@ -20,7 +20,7 @@ test("deno")("command() can spawn subprocesses synchronously", () => {
 }, { permissions: { run: ["deno"] } })
 
 test("deno")("command() handles callback<write()> and callback<close()> calls", async () => {
-  const result = await command("deno", ["repl"], { stdin:"debug", env: { NO_COLOR: "true" }, callback: ({ i, write, close }) => i === 0 ? write("console.log('hello')") : close() })
+  const result = await command("deno", ["repl"], { stdin: "debug", env: { NO_COLOR: "true" }, callback: ({ i, write, close }) => i === 0 ? write("console.log('hello')") : close() })
   expect(result).toMatchObject({ success: true, code: 0, stdin: "console.log('hello')" })
   expect(result.stdout).toMatch(/hello/)
 }, { permissions: { run: ["deno"] } })
@@ -123,5 +123,5 @@ test("deno")("command() does nothing in dryrun", async () => {
 }, { permissions: { run: ["deno"] } })
 
 test("deno")("command() appends windows extension when os platform is windows", () => {
-  expect(command("", ["--version"], { logger: new Logger({ level: "disabled" }), sync: true, winext:"deno", os:"windows" })).toMatchObject({ success: true, code: 0 })
+  expect(command("", ["--version"], { logger: new Logger({ level: "disabled" }), sync: true, winext: "deno", os: "windows" })).toMatchObject({ success: true, code: 0 })
 }, { permissions: { run: ["deno"] } })
