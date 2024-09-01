@@ -28,17 +28,20 @@
   "exports": {
     ".": "./mod.ts",
     "./renderer": "./renderer.ts",
+    "./plugins": "./plugins/mod.ts",
     "./plugins/anchors": "./plugins/anchors.ts",
-    "./plugins/highlighting": "./plugins/highlighting.ts",
     "./plugins/directives": "./plugins/directives.ts",
     "./plugins/emojis": "./plugins/emojis.ts",
     "./plugins/frontmatter": "./plugins/frontmatter.ts",
     "./plugins/gfm": "./plugins/gfm.ts",
+    "./plugins/highlighting": "./plugins/highlighting.ts",
     "./plugins/linebreaks": "./plugins/linebreaks.ts",
     "./plugins/markers": "./plugins/markers.ts",
-    "./plugins/uncomments": "./plugins/uncomments.ts",
+    "./plugins/math": "./plugins/math.ts",
+    "./plugins/mermaid": "./plugins/mermaid.ts",
     "./plugins/ruby": "./plugins/ruby.ts",
     "./plugins/sanitize": "./plugins/sanitize.ts",
+    "./plugins/uncomments": "./plugins/uncomments.ts",
     "./plugins/wikilinks": "./plugins/wikilinks.ts"
   },
   "imports": {
