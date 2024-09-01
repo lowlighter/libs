@@ -5,6 +5,19 @@
 
 - [`📚 Documentation`](https://jsr.io/@libs/typing/doc)
 
+## 📑 Examples
+
+```ts
+import type { Arg, Arrayable, Nullable, Promisable } from "./types.ts"
+
+function foo(_: unknown, args: Arrayable<string>): Promisable<Nullable<string>> {
+  // ...
+}
+
+// Get the type of arguments[1] of `foo` function
+type args = Arg<typeof foo, 1>
+```
+
 ## ✨ Features
 
 - `AsyncFunction`, `GeneratorFunction` and `AsyncGeneratorFunction` constructors.
