@@ -3,22 +3,22 @@
   "packages": {
     "specifiers": {
       "jsr:@deno-libs/gql@3": "jsr:@deno-libs/gql@3.0.1",
-      "jsr:@libs/logger@2": "jsr:@libs/logger@2.1.1",
-      "jsr:@libs/run@2": "jsr:@libs/run@2.0.2",
+      "jsr:@libs/logger@2": "jsr:@libs/logger@2.1.2",
+      "jsr:@libs/run@2": "jsr:@libs/run@2.0.3",
       "jsr:@libs/testing@2": "jsr:@libs/testing@2.2.4",
       "jsr:@libs/typing@2": "jsr:@libs/typing@2.8.2",
-      "jsr:@std/assert@1": "jsr:@std/assert@1.0.2",
-      "jsr:@std/assert@^1.0.1": "jsr:@std/assert@1.0.2",
-      "jsr:@std/async@1": "jsr:@std/async@1.0.3",
-      "jsr:@std/bytes@^1.0.2-rc.3": "jsr:@std/bytes@1.0.2",
-      "jsr:@std/expect@1": "jsr:@std/expect@1.0.0",
+      "jsr:@std/assert@1": "jsr:@std/assert@1.0.3",
+      "jsr:@std/assert@^1.0.3": "jsr:@std/assert@1.0.3",
+      "jsr:@std/async@1": "jsr:@std/async@1.0.4",
+      "jsr:@std/bytes@^1.0.2": "jsr:@std/bytes@1.0.2",
+      "jsr:@std/expect@1": "jsr:@std/expect@1.0.1",
       "jsr:@std/http@0.224.5": "jsr:@std/http@0.224.5",
-      "jsr:@std/http@1": "jsr:@std/http@1.0.3",
-      "jsr:@std/internal@^1.0.1": "jsr:@std/internal@1.0.1",
-      "jsr:@std/streams@1": "jsr:@std/streams@1.0.2",
-      "jsr:@std/text@1": "jsr:@std/text@1.0.3",
+      "jsr:@std/http@1": "jsr:@std/http@1.0.4",
+      "jsr:@std/internal@^1.0.2": "jsr:@std/internal@1.0.2",
+      "jsr:@std/streams@1": "jsr:@std/streams@1.0.3",
+      "jsr:@std/text@1": "jsr:@std/text@1.0.4",
       "jsr:@std/ulid@1": "jsr:@std/ulid@1.0.0",
-      "npm:@graphql-tools/merge@9": "npm:@graphql-tools/merge@9.0.6_graphql@16.8.1",
+      "npm:@graphql-tools/merge@9": "npm:@graphql-tools/merge@9.0.7_graphql@16.8.1",
       "npm:@graphql-tools/schema@10": "npm:@graphql-tools/schema@10.0.6_graphql@16.8.1",
       "npm:@graphql-tools/utils@10": "npm:@graphql-tools/utils@10.5.4_graphql@16.8.1",
       "npm:graphql-http@1.22.0": "npm:graphql-http@1.22.0_graphql@16.8.1",
@@ -38,11 +38,11 @@
           "npm:xss@1.0.15"
         ]
       },
-      "@libs/logger@2.1.1": {
-        "integrity": "508216c245aa7a13d55972cec6cf2ff45b341469334634a2748cd60c938677d6"
+      "@libs/logger@2.1.2": {
+        "integrity": "2a5f4b148fd8d6b1221ff89cff73367ca0511137f4d6548c532b6e220ed22bcc"
       },
-      "@libs/run@2.0.2": {
-        "integrity": "6a1ce6a5d0e162caf608918f11d1d2a79040ac90bbc0789af85d8911e356965c",
+      "@libs/run@2.0.3": {
+        "integrity": "77fe95cbfdc6c0855ab1bc5fb008ad4e37c6da848fd20ed8e88d98c3cf51eccb",
         "dependencies": [
           "jsr:@libs/logger@2",
           "jsr:@libs/typing@2",
@@ -63,50 +63,50 @@
       "@libs/typing@2.8.2": {
         "integrity": "c53f8aad9b01621de893aeac5d6cd592ec2ce783f8e89b677dcd81490a3be0a0"
       },
-      "@std/assert@1.0.2": {
-        "integrity": "ccacec332958126deaceb5c63ff8b4eaf9f5ed0eac9feccf124110435e59e49c",
+      "@std/assert@1.0.3": {
+        "integrity": "b0d03ce1ced880df67132eea140623010d415848df66f6aa5df76507ca7c26d8",
         "dependencies": [
-          "jsr:@std/internal@^1.0.1"
+          "jsr:@std/internal@^1.0.2"
         ]
       },
-      "@std/async@1.0.3": {
-        "integrity": "6ed64678db43451683c6c176a21426a2ccd21ba0269ebb2c36133ede3f165792"
+      "@std/async@1.0.4": {
+        "integrity": "373f5168a01b46ecaabc785d4e0f9ef18a010ab867af069fb905d93a9129ae5b"
       },
       "@std/bytes@1.0.2": {
         "integrity": "fbdee322bbd8c599a6af186a1603b3355e59a5fb1baa139f8f4c3c9a1b3e3d57"
       },
-      "@std/expect@1.0.0": {
-        "integrity": "030275683c23d6708878c5439a3ffd99285948d708e00835fd38fcef9a0bb921",
+      "@std/expect@1.0.1": {
+        "integrity": "44075d9c2cb701ddfc4d5a260da2fb26ba3cfd94c45d3a0359f63cabbf85a058",
         "dependencies": [
-          "jsr:@std/assert@^1.0.1",
-          "jsr:@std/internal@^1.0.1"
+          "jsr:@std/assert@^1.0.3",
+          "jsr:@std/internal@^1.0.2"
         ]
       },
       "@std/http@0.224.5": {
         "integrity": "b03b5d1529f6c423badfb82f6640f9f2557b4034cd7c30655ba5bb447ff750a4"
       },
-      "@std/http@1.0.3": {
-        "integrity": "bff3770c4df4711567de1711fe988d28db9535be0c9b0f1d2de8d0fb97e8b44c"
+      "@std/http@1.0.4": {
+        "integrity": "1a8142217907d49c4687f90ef3d257e7df2baf344c5122c322d7316df09df453"
       },
-      "@std/internal@1.0.1": {
-        "integrity": "6f8c7544d06a11dd256c8d6ba54b11ed870aac6c5aeafff499892662c57673e6"
+      "@std/internal@1.0.2": {
+        "integrity": "f4cabe2021352e8bfc24e6569700df87bf070914fc38d4b23eddd20108ac4495"
       },
-      "@std/streams@1.0.2": {
-        "integrity": "187c3c875675221f5355807a735e51b0f8769caade2cbca6d7f4fa710ea4ace4",
+      "@std/streams@1.0.3": {
+        "integrity": "d62e645ab981cee2c3d03040eb03cf387fc6bceef6d4564f3ed485a43741a81f",
         "dependencies": [
-          "jsr:@std/bytes@^1.0.2-rc.3"
+          "jsr:@std/bytes@^1.0.2"
         ]
       },
-      "@std/text@1.0.3": {
-        "integrity": "8cf4a53fbd2eaabb9cff862f6940bfd6a687de49654a4370df84374f1e34b121"
+      "@std/text@1.0.4": {
+        "integrity": "8f31643fbd61fcd1f12c58ba5f90a23f6df6fff27894ee907867f7f237f308e7"
       },
       "@std/ulid@1.0.0": {
         "integrity": "d41c3d27a907714413649fee864b7cde8d42ee68437d22b79d5de4f81d808780"
       }
     },
     "npm": {
-      "@graphql-tools/merge@9.0.6_graphql@16.8.1": {
-        "integrity": "sha512-TmkzFTFVieHnqu9mPTF6RxAQltaprpDQnM5HMTPSyMLXnJGMTvdWejV0yORKj7DW1YSi791/sUnKf8HytepBFQ==",
+      "@graphql-tools/merge@9.0.7_graphql@16.8.1": {
+        "integrity": "sha512-lbTrIuXIbUSmSumHkPRY1QX0Z8JEtmRhnIrkH7vkfeEmf0kNn/nCWvJwqokm5U7L+a+DA1wlRM4slIlbfXjJBA==",
         "dependencies": {
           "@graphql-tools/utils": "@graphql-tools/utils@10.5.4_graphql@16.8.1",
           "graphql": "graphql@16.8.1",
@@ -116,7 +116,7 @@
       "@graphql-tools/schema@10.0.6_graphql@16.8.1": {
         "integrity": "sha512-EIJgPRGzpvDFEjVp+RF1zNNYIC36BYuIeZ514jFoJnI6IdxyVyIRDLx/ykgMdaa1pKQerpfdqDnsF4JnZoDHSQ==",
         "dependencies": {
-          "@graphql-tools/merge": "@graphql-tools/merge@9.0.6_graphql@16.8.1",
+          "@graphql-tools/merge": "@graphql-tools/merge@9.0.7_graphql@16.8.1",
           "@graphql-tools/utils": "@graphql-tools/utils@10.5.4_graphql@16.8.1",
           "graphql": "graphql@16.8.1",
           "tslib": "tslib@2.7.0",
