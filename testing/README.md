@@ -7,6 +7,40 @@ Use [Deno](https://deno.com) to perform cross-platform testing on the [Deno](htt
 
 - [`📚 Documentation`](https://jsr.io/@libs/testing/doc)
 
+## 📑 Examples
+
+```ts
+// Because the testing module will spawn runtime processes, permissions are required to run tests.
+// You also need to specify any additional permissions required by tests since permissions escalation is not permitted.
+// deno test --allow-net=0.0.0.0 --allow-run=deno,bun,npx,node example.ts
+import { expect, Status, test } from "./mod.ts"
+
+// Test is performed on all available runtimes by default
+// If a runtime is not available, the test is automatically skipped
+test("all")("test on all available runtimes", () => {
+  expect("https://example.com").toBeUrl()
+})
+
+// Test can be restricted to specific runtimes
+test("node", "bun")("test only on node and bun runtimes", () => {
+  expect("foo").toBeOneOf(["foo", "bar"])
+})
+
+// Test on deno are performed without any additional permissions by default
+// to satisfy the principle of least privilege, but can be overridden (this is ignored on other runtimes)
+test("deno")("test only on deno, with additional permissions", async () => {
+  await using server = Deno.serve({ port: 8080, onListen: () => null }, () => new Response(null, { status: Status.OK }))
+  await expect(fetch(`http://${server.addr.hostname}:${server.addr.port}`)).resolves.toRespondWithStatus("2XX")
+}, { permissions: { net: "inherit" } })
+
+// `Deno.test.only` and `Deno.test.ignore` (renamed to `skip`) are supported too
+test.skip("node")("test to implement later", () => {
+  throw new Error("TODO")
+})
+```
+
+![](https://raw.githubusercontent.com/lowlighter/libs/main/testing/example.png)
+
 ## ✨ Features
 
 - Extends [`@std/expect`](https://jsr.io/@std/expect) with additional matchers (`toMatchDescriptor`, `toBeImmutable`, `toBeIterable`, `toRespondWithStatus`, `toBeEmail`, etc.)
