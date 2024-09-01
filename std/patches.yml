@@ -132,6 +132,8 @@ aliases:
   ./testing/asserts.ts#GetConstructorType: ~
   ./testing/time.ts#DelayOptions: ~
 
+  ./archive/mod.ts#Reader: ArchiveReader
+
   ./streams/mod.ts#Buffer: ~
   ./streams/mod.ts#iterateReader: ~
   ./streams/mod.ts#iterateReaderSync: ~
