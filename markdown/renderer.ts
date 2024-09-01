@@ -32,9 +32,13 @@ export class Renderer {
    * @example
    * ```ts
    * import { Renderer } from "./renderer.ts"
-   * import pluginGfm from "./plugins/gfm.ts"
-   *
-   * const renderer = new Renderer({ plugins: [ pluginGfm ] })
+   * await Renderer.render("# Hello, world!")
+   * ```
+   * @example
+   * ```ts
+   * import { Renderer } from "./renderer.ts"
+   * import { gfm, highlighting, math, markers, wikilinks, sanitize  } from "./plugins/mod.ts"
+   * const renderer = new Renderer({ plugins: [ gfm, highlighting, math, markers, wikilinks, sanitize ] })
    * await renderer.render("# Hello, world!")
    * ```
    */
