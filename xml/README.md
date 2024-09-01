@@ -6,6 +6,49 @@
 - [`🦕 Playground`](https://libs.lecoq.io/xml)
 - [`📚 Documentation`](https://jsr.io/@libs/xml/doc)
 
+## 📑 Examples
+
+### Parsing XML to objects
+
+```ts
+import { parse } from "./parse.ts"
+
+// Parse a string
+console.log(parse(`
+  <?xml version="1.0"?>
+  <root>
+    <text>hello</text>
+    <array>world</array>
+    <array>monde</array>
+    <array>世界</array>
+    <array>🌏</array>
+    <complex attribute="value">content</complex>
+  </root>
+`))
+
+// Parse a file
+using file = await Deno.open("bench/assets/small.xml")
+console.log(parse(file))
+```
+
+### Stringifying objects to XML
+
+```ts
+import { stringify } from "./stringify.ts"
+
+console.log(stringify({
+  "@version": "1.0",
+  root: {
+    text: "hello",
+    array: ["world", "monde", "世界", "🌏"],
+    complex: {
+      "@attribute": "value",
+      "#text": "content",
+    },
+  },
+}))
+```
+
 ## ✨ Features
 
 - Based on the [quick-xml](https://github.com/tafia/quick-xml) Rust package (compiled to WASM).
