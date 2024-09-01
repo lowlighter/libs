@@ -1,4 +1,4 @@
-import { parseMediaType as _function_parseMediaType } from "jsr:@std/media-types@1.0.2/parse-media-type"
+import { parseMediaType as _function_parseMediaType } from "jsr:@std/media-types@1.0.3/parse-media-type"
 /**
  * Parses the media type and any optional parameters, per
  * {@link https://www.rfc-editor.org/rfc/rfc1521.html | RFC 1521}.

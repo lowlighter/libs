@@ -1,4 +1,4 @@
-import { extractJson as _function_extractJson } from "jsr:@std/front-matter@1.0.2"
+import { extractJson as _function_extractJson } from "jsr:@std/front-matter@1.0.3"
 /**
  * Extracts and parses {@link https://www.json.org/ | JSON } from the metadata
  * of front matter content.
@@ -28,7 +28,7 @@ import { extractJson as _function_extractJson } from "jsr:@std/front-matter@1.0.
 const extractJson = _function_extractJson as typeof _function_extractJson
 export { extractJson }
 
-import { extractToml as _function_extractToml } from "jsr:@std/front-matter@1.0.2"
+import { extractToml as _function_extractToml } from "jsr:@std/front-matter@1.0.3"
 /**
  * Extracts and parses {@link https://toml.io | TOML} from the metadata of
  * front matter content.
@@ -58,37 +58,12 @@ import { extractToml as _function_extractToml } from "jsr:@std/front-matter@1.0.
 const extractToml = _function_extractToml as typeof _function_extractToml
 export { extractToml }
 
-import { extractYaml as _function_extractYaml } from "jsr:@std/front-matter@1.0.2"
-/**
- * Extracts and parses {@link https://yaml.org | YAML} from the metadata of
- * front matter content.
- *
- * @example Extract YAML front matter
- * ```ts
- * import { extract } from "@std/front-matter/yaml";
- * import { assertEquals } from "@std/assert";
- *
- * const output = `---yaml
- * title: Three dashes marks the spot
- * ---
- * Hello, world!`;
- * const result = extract(output);
- *
- * assertEquals(result, {
- *   frontMatter: "title: Three dashes marks the spot",
- *   body: "Hello, world!",
- *   attrs: { title: "Three dashes marks the spot" },
- * });
- * ```
- *
- * @template T The type of the parsed front matter.
- * @param text The text to extract YAML front matter from.
- * @return The extracted YAML front matter and body content.
- */
+import { extractYaml as _function_extractYaml } from "jsr:@std/front-matter@1.0.3"
+/** UNDOCUMENTED */
 const extractYaml = _function_extractYaml as typeof _function_extractYaml
 export { extractYaml }
 
-import type { Format as _typeAlias_Format } from "jsr:@std/front-matter@1.0.2"
+import type { Format as _typeAlias_Format } from "jsr:@std/front-matter@1.0.3"
 /**
  * Supported format for front matter. `"unknown"` is used when auto format
  * detection logic fails.
@@ -96,7 +71,7 @@ import type { Format as _typeAlias_Format } from "jsr:@std/front-matter@1.0.2"
 type Format = _typeAlias_Format
 export type { Format }
 
-import { test as _function_test } from "jsr:@std/front-matter@1.0.2"
+import { test as _function_test } from "jsr:@std/front-matter@1.0.3"
 /**
  * Tests if a string has valid front matter.
  * Supports {@link https://yaml.org | YAML}, {@link https://toml.io | TOML} and
@@ -161,7 +136,7 @@ import { test as _function_test } from "jsr:@std/front-matter@1.0.2"
 const test = _function_test as typeof _function_test
 export { test }
 
-import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.2"
+import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.3"
 /**
  * Return type for {@linkcode extract} function.
  */

@@ -1,4 +1,4 @@
-import { timingSafeEqual as _function_timingSafeEqual } from "jsr:@std/crypto@1.0.2/timing-safe-equal"
+import { timingSafeEqual as _function_timingSafeEqual } from "jsr:@std/crypto@1.0.3/timing-safe-equal"
 /**
  * When checking the values of cryptographic hashes are equal, default
  * comparisons can be susceptible to timing based attacks, where attacker is

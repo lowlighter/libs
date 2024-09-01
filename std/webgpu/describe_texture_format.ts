@@ -1,11 +1,11 @@
-import type { TextureFormatInfo as _interface_TextureFormatInfo } from "jsr:@std/webgpu@0.224.5/describe-texture-format"
+import type { TextureFormatInfo as _interface_TextureFormatInfo } from "jsr:@std/webgpu@0.224.6/describe-texture-format"
 /**
  * Return type for {@linkcode describeTextureFormat}.
  */
 interface TextureFormatInfo extends _interface_TextureFormatInfo {}
 export type { TextureFormatInfo }
 
-import { describeTextureFormat as _function_describeTextureFormat } from "jsr:@std/webgpu@0.224.5/describe-texture-format"
+import { describeTextureFormat as _function_describeTextureFormat } from "jsr:@std/webgpu@0.224.6/describe-texture-format"
 /**
  * Get various information about a specific {@linkcode GPUTextureFormat}.
  *

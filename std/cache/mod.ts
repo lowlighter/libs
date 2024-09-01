@@ -18,7 +18,7 @@
  *
  * @module
  */
-import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/cache@0.1.0"
+import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/cache@0.1.1"
 /**
  * A cache suitable for use with {@linkcode memoize}.
  *
@@ -27,7 +27,45 @@ import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/c
 type MemoizationCache<K, V> = _typeAlias_MemoizationCache<K, V>
 export type { MemoizationCache }
 
-import type { MemoizeOptions as _typeAlias_MemoizeOptions } from "jsr:@std/cache@0.1.0"
+import { LruCache as _class_LruCache } from "jsr:@std/cache@0.1.1"
+/**
+ * Least-recently-used cache.
+ *
+ * @experimental
+ * @see {@link https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU | Least-recently-used cache}
+ *
+ * Automatically removes entries above the max size based on when they were
+ * last accessed with `get`, `set`, or `has`.
+ *
+ * @template K The type of the cache keys.
+ * @template V The type of the cache values.
+ *
+ * @example Basic usage
+ * ```ts
+ * import { LruCache } from "@std/cache";
+ * import { assert, assertEquals } from "@std/assert";
+ *
+ * const MAX_SIZE = 3;
+ * const cache = new LruCache<string, number>(MAX_SIZE);
+ *
+ * cache.set("a", 1);
+ * cache.set("b", 2);
+ * cache.set("c", 3);
+ * cache.set("d", 4);
+ *
+ * // most recent values are stored up to `MAX_SIZE`
+ * assertEquals(cache.get("b"), 2);
+ * assertEquals(cache.get("c"), 3);
+ * assertEquals(cache.get("d"), 4);
+ *
+ * // less recent values are removed
+ * assert(!cache.has("a"));
+ * ```
+ */
+class LruCache<K, V> extends _class_LruCache<K, V> {}
+export { LruCache }
+
+import type { MemoizeOptions as _typeAlias_MemoizeOptions } from "jsr:@std/cache@0.1.1"
 /**
  * Options for {@linkcode memoize}.
  *
@@ -39,7 +77,7 @@ import type { MemoizeOptions as _typeAlias_MemoizeOptions } from "jsr:@std/cache
 type MemoizeOptions<Fn extends (...args: never[]) => unknown, Key, Cache extends MemoizationCache<Key, ReturnType<Fn>>> = _typeAlias_MemoizeOptions<Fn, Key, Cache>
 export type { MemoizeOptions }
 
-import { memoize as _function_memoize } from "jsr:@std/cache@0.1.0"
+import { memoize as _function_memoize } from "jsr:@std/cache@0.1.1"
 /**
  * Cache the results of a function based on its arguments.
  *
@@ -79,37 +117,27 @@ import { memoize as _function_memoize } from "jsr:@std/cache@0.1.0"
 const memoize = _function_memoize as typeof _function_memoize
 export { memoize }
 
-import { LruCache as _class_LruCache } from "jsr:@std/cache@0.1.0"
+import { TtlCache as _class_TtlCache } from "jsr:@std/cache@0.1.1"
 /**
- * [Least-recently-used](
- * 	https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU
- * ) cache.
+ * Time-to-live cache.
  *
  * @experimental
  * @template K The type of the cache keys.
  * @template V The type of the cache values.
  *
- * @example Basic usage
+ * @example Usage
  * ```ts
- * import { LruCache } from "@std/cache";
- * import { assert, assertEquals } from "@std/assert";
+ * import { TtlCache } from "@std/cache/ttl-cache";
+ * import { assertEquals } from "@std/assert/equals";
+ * import { delay } from "@std/async/delay";
  *
- * const MAX_SIZE = 3;
- * const cache = new LruCache<string, number>(MAX_SIZE);
+ * const cache = new TtlCache<string, number>(1000);
  *
  * cache.set("a", 1);
- * cache.set("b", 2);
- * cache.set("c", 3);
- * cache.set("d", 4);
- *
- * // most recent values are stored up to `MAX_SIZE`
- * assertEquals(cache.get("b"), 2);
- * assertEquals(cache.get("c"), 3);
- * assertEquals(cache.get("d"), 4);
- *
- * // less recent values are removed
- * assert(!cache.has("a"));
+ * assertEquals(cache.size, 1);
+ * await delay(2000);
+ * assertEquals(cache.size, 0);
  * ```
  */
-class LruCache<K, V> extends _class_LruCache<K, V> {}
-export { LruCache }
+class TtlCache<K, V> extends _class_TtlCache<K, V> {}
+export { TtlCache }

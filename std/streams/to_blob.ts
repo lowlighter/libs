@@ -1,4 +1,4 @@
-import { toBlob as _function_toBlob } from "jsr:@std/streams@1.0.2/to-blob"
+import { toBlob as _function_toBlob } from "jsr:@std/streams@1.0.3/to-blob"
 /**
  * Converts a {@linkcode ReadableStream} of {@linkcode Uint8Array}s to a
  * {@linkcode Blob}. Works the same as {@linkcode Response.blob}.

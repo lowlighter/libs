@@ -1,4 +1,4 @@
-import { formatRange as _function_formatRange } from "jsr:@std/semver@1.0.1/format-range"
+import { formatRange as _function_formatRange } from "jsr:@std/semver@1.0.2/format-range"
 /**
  * Formats the SemVerrange into a string.
  *

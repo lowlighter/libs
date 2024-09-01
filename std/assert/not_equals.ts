@@ -1,4 +1,4 @@
-import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.0.2/not-equals"
+import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.0.3/not-equals"
 /**
  * Make an assertion that `actual` and `expected` are not equal, deeply.
  * If not then throw.

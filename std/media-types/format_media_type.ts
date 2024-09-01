@@ -1,4 +1,4 @@
-import { formatMediaType as _function_formatMediaType } from "jsr:@std/media-types@1.0.2/format-media-type"
+import { formatMediaType as _function_formatMediaType } from "jsr:@std/media-types@1.0.3/format-media-type"
 /**
  * Serializes the media type and the optional parameters as a media type
  * conforming to {@link https://www.rfc-editor.org/rfc/rfc2045.html | RFC 2045} and

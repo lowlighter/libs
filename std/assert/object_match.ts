@@ -1,4 +1,4 @@
-import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/assert@1.0.2/object-match"
+import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/assert@1.0.3/object-match"
 /**
  * Make an assertion that `expected` object is a subset of `actual` object,
  * deeply. If not, then throw.
@@ -9,6 +9,8 @@ import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/asser
  *
  * assertObjectMatch({ foo: "bar" }, { foo: "bar" }); // Doesn't throw
  * assertObjectMatch({ foo: "bar" }, { foo: "baz" }); // Throws
+ * assertObjectMatch({ foo: 1, bar: 2 }, { foo: 1 }); // Doesn't throw
+ * assertObjectMatch({ foo: 1 }, { foo: 1, bar: 2 }); // Throws
  * ```
  *
  * @example Usage with nested objects

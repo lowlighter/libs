@@ -1,4 +1,4 @@
-import { getCharset as _function_getCharset } from "jsr:@std/media-types@1.0.2/get-charset"
+import { getCharset as _function_getCharset } from "jsr:@std/media-types@1.0.3/get-charset"
 /**
  * Given a media type or header value, identify the encoding charset. If the
  * charset cannot be determined, the function returns `undefined`.

@@ -1,4 +1,4 @@
-import { isRange as _function_isRange } from "jsr:@std/semver@1.0.1/is-range"
+import { isRange as _function_isRange } from "jsr:@std/semver@1.0.2/is-range"
 /**
  * Does a deep check on the object to determine if its a valid range.
  *

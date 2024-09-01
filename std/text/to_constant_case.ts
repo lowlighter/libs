@@ -1,9 +1,6 @@
-import { toConstantCase as _function_toConstantCase } from "jsr:@std/text@1.0.3/to-constant-case"
+import { toConstantCase as _function_toConstantCase } from "jsr:@std/text@1.0.4/to-constant-case"
 /**
  * Converts a string into CONSTANT_CASE (also known as SCREAMING_SNAKE_CASE).
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  * @example Usage
@@ -16,8 +13,6 @@ import { toConstantCase as _function_toConstantCase } from "jsr:@std/text@1.0.3/
  *
  * @param input The string that is going to be converted into CONSTANT_CASE
  * @return The string as CONSTANT_CASE
- *
- * @experimental
  */
 const toConstantCase = _function_toConstantCase as typeof _function_toConstantCase
 export { toConstantCase }

@@ -1,11 +1,11 @@
-import type { CreateCapture as _interface_CreateCapture } from "jsr:@std/webgpu@0.224.5/create-capture"
+import type { CreateCapture as _interface_CreateCapture } from "jsr:@std/webgpu@0.224.6/create-capture"
 /**
  * Return value for {@linkcode createCapture}.
  */
 interface CreateCapture extends _interface_CreateCapture {}
 export type { CreateCapture }
 
-import { createCapture as _function_createCapture } from "jsr:@std/webgpu@0.224.5/create-capture"
+import { createCapture as _function_createCapture } from "jsr:@std/webgpu@0.224.6/create-capture"
 /**
  * Creates a texture and buffer to use as a capture.
  *

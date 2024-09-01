@@ -104,14 +104,14 @@
  *
  * @module
  */
-import type { StringifyOptions as _interface_StringifyOptions } from "jsr:@std/toml@1.0.0"
+import type { StringifyOptions as _interface_StringifyOptions } from "jsr:@std/toml@1.0.1"
 /**
  * Options for {@linkcode stringify}.
  */
 interface StringifyOptions extends _interface_StringifyOptions {}
 export type { StringifyOptions }
 
-import { stringify as _function_stringify } from "jsr:@std/toml@1.0.0"
+import { stringify as _function_stringify } from "jsr:@std/toml@1.0.1"
 /**
  * Converts an object to a {@link https://toml.io | TOML} string.
  *
@@ -137,7 +137,7 @@ import { stringify as _function_stringify } from "jsr:@std/toml@1.0.0"
 const stringify = _function_stringify as typeof _function_stringify
 export { stringify }
 
-import { parse as _function_parse } from "jsr:@std/toml@1.0.0"
+import { parse as _function_parse } from "jsr:@std/toml@1.0.1"
 /**
  * Parses a {@link https://toml.io | TOML} string into an object.
  *

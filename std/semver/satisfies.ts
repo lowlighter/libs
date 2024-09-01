@@ -1,4 +1,4 @@
-import { satisfies as _function_satisfies } from "jsr:@std/semver@1.0.1/satisfies"
+import { satisfies as _function_satisfies } from "jsr:@std/semver@1.0.2/satisfies"
 /**
  * Test to see if the SemVer satisfies the range.
  *

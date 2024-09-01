@@ -1,4 +1,4 @@
-import { typeByExtension as _function_typeByExtension } from "jsr:@std/media-types@1.0.2/type-by-extension"
+import { typeByExtension as _function_typeByExtension } from "jsr:@std/media-types@1.0.3/type-by-extension"
 /**
  * Returns the media type associated with the file extension, or `undefined` if
  * no media type is found.

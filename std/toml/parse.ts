@@ -1,4 +1,4 @@
-import { parse as _function_parse } from "jsr:@std/toml@1.0.0/parse"
+import { parse as _function_parse } from "jsr:@std/toml@1.0.1/parse"
 /**
  * Parses a {@link https://toml.io | TOML} string into an object.
  *

@@ -1,4 +1,4 @@
-import { toJson as _function_toJson } from "jsr:@std/streams@1.0.2/to-json"
+import { toJson as _function_toJson } from "jsr:@std/streams@1.0.3/to-json"
 /**
  * Converts a
  * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON}-formatted

@@ -15,14 +15,14 @@
  *
  * @module
  */
-import type { GetAvailablePortOptions as _interface_GetAvailablePortOptions } from "jsr:@std/net@1.0.0"
+import type { GetAvailablePortOptions as _interface_GetAvailablePortOptions } from "jsr:@std/net@1.0.1"
 /**
  * Options for {@linkcode getAvailablePort}.
  */
 interface GetAvailablePortOptions extends _interface_GetAvailablePortOptions {}
 export type { GetAvailablePortOptions }
 
-import { getAvailablePort as _function_getAvailablePort } from "jsr:@std/net@1.0.0"
+import { getAvailablePort as _function_getAvailablePort } from "jsr:@std/net@1.0.1"
 /**
  * Returns an available network port.
  *
@@ -64,18 +64,11 @@ import { getAvailablePort as _function_getAvailablePort } from "jsr:@std/net@1.0
 const getAvailablePort = _function_getAvailablePort as typeof _function_getAvailablePort
 export { getAvailablePort }
 
-import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1.0.0"
+import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1.0.1"
 /**
  * Gets the IPv4 or IPv6 network address of the machine.
  *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
- *
- * This is inspired by the util of the same name in
- * {@linkcode https://www.npmjs.com/package/serve | npm:serve}.
- *
- * For more advanced use, use {@linkcode Deno.networkInterfaces} directly.
- *
+ * @experimental
  * @see {@link https://github.com/vercel/serve/blob/1ea55b1b5004f468159b54775e4fb3090fedbb2b/source/utilities/http.ts#L33}
  *
  * @param family The IP protocol version of the interface to get the address of.
@@ -98,8 +91,6 @@ import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1
  *
  * Deno.serve({ port: 0, hostname }, () => new Response("Hello, world!"));
  * ```
- *
- * @experimental
  */
 const getNetworkAddress = _function_getNetworkAddress as typeof _function_getNetworkAddress
 export { getNetworkAddress }

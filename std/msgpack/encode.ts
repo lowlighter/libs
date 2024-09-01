@@ -1,18 +1,18 @@
-import type { ValueType as _typeAlias_ValueType } from "jsr:@std/msgpack@1.0.0/encode"
+import type { ValueType as _typeAlias_ValueType } from "jsr:@std/msgpack@1.0.1/encode"
 /**
  * Value types that can be encoded to MessagePack.
  */
 type ValueType = _typeAlias_ValueType
 export type { ValueType }
 
-import type { ValueMap as _interface_ValueMap } from "jsr:@std/msgpack@1.0.0/encode"
+import type { ValueMap as _interface_ValueMap } from "jsr:@std/msgpack@1.0.1/encode"
 /**
  * Value map that can be encoded to MessagePack.
  */
 interface ValueMap extends _interface_ValueMap {}
 export type { ValueMap }
 
-import { encode as _function_encode } from "jsr:@std/msgpack@1.0.0/encode"
+import { encode as _function_encode } from "jsr:@std/msgpack@1.0.1/encode"
 /**
  * Encode a value to {@link https://msgpack.org/ | MessagePack} binary format.
  *

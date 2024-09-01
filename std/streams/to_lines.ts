@@ -1,8 +1,9 @@
-import { toLines as _function_toLines } from "jsr:@std/streams@1.0.2/to-lines"
+import { toLines as _function_toLines } from "jsr:@std/streams@1.0.3/to-lines"
 /**
  * Converts a {@linkcode ReadableStream} of {@linkcode Uint8Array}s into one of
  * lines delimited by `\n` or `\r\n`. Trims the last line if empty.
  *
+ * @experimental
  * @param readable A stream of {@linkcode Uint8Array}s.
  * @param options Stream options.
  * @return A stream of lines delimited by `\n` or `\r\n`.
@@ -25,8 +26,6 @@ import { toLines as _function_toLines } from "jsr:@std/streams@1.0.2/to-lines"
  *   "apoiuzt\rqwr\r09ei\rqwrjiowqr\r",
  * ]);
  * ```
- *
- * @experimental
  */
 const toLines = _function_toLines as typeof _function_toLines
 export { toLines }

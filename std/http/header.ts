@@ -1,9 +1,6 @@
-import { HEADER as _variable_HEADER } from "jsr:@std/http@1.0.3/header"
+import { HEADER as _variable_HEADER } from "jsr:@std/http@1.0.4/header"
 /**
  * HTTP Headers with status permanent
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  * @see {@link https://www.iana.org/assignments/http-fields/http-fields.xhtml#field-names | IANA Hypertext Transfer Protocol (HTTP) Field Name Registry}
@@ -11,12 +8,9 @@ import { HEADER as _variable_HEADER } from "jsr:@std/http@1.0.3/header"
 const HEADER = _variable_HEADER as typeof _variable_HEADER
 export { HEADER }
 
-import type { Header as _typeAlias_Header } from "jsr:@std/http@1.0.3/header"
+import type { Header as _typeAlias_Header } from "jsr:@std/http@1.0.4/header"
 /**
  * A HTTP Header
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  */

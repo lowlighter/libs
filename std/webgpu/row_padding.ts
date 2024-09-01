@@ -1,25 +1,25 @@
-import type { Padding as _interface_Padding } from "jsr:@std/webgpu@0.224.5/row-padding"
+import type { Padding as _interface_Padding } from "jsr:@std/webgpu@0.224.6/row-padding"
 /**
  * Return value for {@linkcode getRowPadding}.
  */
 interface Padding extends _interface_Padding {}
 export type { Padding }
 
-import { COPY_BYTES_PER_ROW_ALIGNMENT as _variable_COPY_BYTES_PER_ROW_ALIGNMENT } from "jsr:@std/webgpu@0.224.5/row-padding"
+import { COPY_BYTES_PER_ROW_ALIGNMENT as _variable_COPY_BYTES_PER_ROW_ALIGNMENT } from "jsr:@std/webgpu@0.224.6/row-padding"
 /**
  * Buffer-Texture copies must have [`bytes_per_row`] aligned to this number.
  */
 const COPY_BYTES_PER_ROW_ALIGNMENT = _variable_COPY_BYTES_PER_ROW_ALIGNMENT as typeof _variable_COPY_BYTES_PER_ROW_ALIGNMENT
 export { COPY_BYTES_PER_ROW_ALIGNMENT }
 
-import { BYTES_PER_PIXEL as _variable_BYTES_PER_PIXEL } from "jsr:@std/webgpu@0.224.5/row-padding"
+import { BYTES_PER_PIXEL as _variable_BYTES_PER_PIXEL } from "jsr:@std/webgpu@0.224.6/row-padding"
 /**
  * Number of bytes per pixel.
  */
 const BYTES_PER_PIXEL = _variable_BYTES_PER_PIXEL as typeof _variable_BYTES_PER_PIXEL
 export { BYTES_PER_PIXEL }
 
-import { getRowPadding as _function_getRowPadding } from "jsr:@std/webgpu@0.224.5/row-padding"
+import { getRowPadding as _function_getRowPadding } from "jsr:@std/webgpu@0.224.6/row-padding"
 /**
  * Calculates the number of bytes including necessary padding when passing a
  * {@linkcode GPUImageCopyBuffer}.
@@ -40,7 +40,7 @@ import { getRowPadding as _function_getRowPadding } from "jsr:@std/webgpu@0.224.
 const getRowPadding = _function_getRowPadding as typeof _function_getRowPadding
 export { getRowPadding }
 
-import { resliceBufferWithPadding as _function_resliceBufferWithPadding } from "jsr:@std/webgpu@0.224.5/row-padding"
+import { resliceBufferWithPadding as _function_resliceBufferWithPadding } from "jsr:@std/webgpu@0.224.6/row-padding"
 /**
  * Creates a new buffer while removing any unnecessary empty bytes.
  * Useful for when wanting to save an image as a specific format.

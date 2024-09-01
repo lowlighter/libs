@@ -1,11 +1,11 @@
-import type { CompareSimilarityOptions as _interface_CompareSimilarityOptions } from "jsr:@std/text@1.0.3/compare-similarity"
+import type { CompareSimilarityOptions as _interface_CompareSimilarityOptions } from "jsr:@std/text@1.0.4/compare-similarity"
 /**
  * Options for {@linkcode compareSimilarity}.
  */
 interface CompareSimilarityOptions extends _interface_CompareSimilarityOptions {}
 export type { CompareSimilarityOptions }
 
-import { compareSimilarity as _function_compareSimilarity } from "jsr:@std/text@1.0.3/compare-similarity"
+import { compareSimilarity as _function_compareSimilarity } from "jsr:@std/text@1.0.4/compare-similarity"
 /**
  * Takes a string and generates a comparator function to determine which of two
  * strings is more similar to the given one.

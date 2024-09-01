@@ -1,4 +1,4 @@
-import { RedBlackTree as _class_RedBlackTree } from "jsr:@std/data-structures@1.0.1/red-black-tree"
+import { RedBlackTree as _class_RedBlackTree } from "jsr:@std/data-structures@1.0.2/red-black-tree"
 /**
  * A red-black tree. This is a kind of self-balancing binary search tree. The
  * values are in ascending order by default, using JavaScript's built-in

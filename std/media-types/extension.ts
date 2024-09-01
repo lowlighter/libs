@@ -1,4 +1,4 @@
-import { extension as _function_extension } from "jsr:@std/media-types@1.0.2/extension"
+import { extension as _function_extension } from "jsr:@std/media-types@1.0.3/extension"
 /**
  * Returns the most relevant extension for the given media type, or `undefined`
  * if no extension can be found.

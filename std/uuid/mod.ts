@@ -1,4 +1,4 @@
-import { v1 as _variable_v1 } from "jsr:@std/uuid@1.0.1"
+import { v1 as _variable_v1 } from "jsr:@std/uuid@1.0.2"
 /**
  * Generator and validator for
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1 | UUIDv1}.
@@ -15,7 +15,7 @@ import { v1 as _variable_v1 } from "jsr:@std/uuid@1.0.1"
 const v1 = _variable_v1 as typeof _variable_v1
 export { v1 }
 
-import { v3 as _variable_v3 } from "jsr:@std/uuid@1.0.1"
+import { v3 as _variable_v3 } from "jsr:@std/uuid@1.0.2"
 /**
  * Generator and validator for
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.3 | UUIDv3}.
@@ -33,7 +33,7 @@ import { v3 as _variable_v3 } from "jsr:@std/uuid@1.0.1"
 const v3 = _variable_v3 as typeof _variable_v3
 export { v3 }
 
-import { v4 as _variable_v4 } from "jsr:@std/uuid@1.0.1"
+import { v4 as _variable_v4 } from "jsr:@std/uuid@1.0.2"
 /**
  * Validator for
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.4 | UUIDv4}.
@@ -50,7 +50,7 @@ import { v4 as _variable_v4 } from "jsr:@std/uuid@1.0.1"
 const v4 = _variable_v4 as typeof _variable_v4
 export { v4 }
 
-import { v5 as _variable_v5 } from "jsr:@std/uuid@1.0.1"
+import { v5 as _variable_v5 } from "jsr:@std/uuid@1.0.2"
 /**
  * Generator and validator for
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.5 | UUIDv5}.
@@ -68,7 +68,7 @@ import { v5 as _variable_v5 } from "jsr:@std/uuid@1.0.1"
 const v5 = _variable_v5 as typeof _variable_v5
 export { v5 }
 
-import { isNil as _function_isNil } from "jsr:@std/uuid@1.0.1"
+import { isNil as _function_isNil } from "jsr:@std/uuid@1.0.2"
 /**
  * Determines whether the UUID is the
  * {@link https://www.rfc-editor.org/rfc/rfc4122#section-4.1.7 | nil UUID}.
@@ -89,7 +89,7 @@ import { isNil as _function_isNil } from "jsr:@std/uuid@1.0.1"
 const isNil = _function_isNil as typeof _function_isNil
 export { isNil }
 
-import { validate as _function_validate } from "jsr:@std/uuid@1.0.1"
+import { validate as _function_validate } from "jsr:@std/uuid@1.0.2"
 /**
  * Determines whether a string is a valid UUID.
  *
@@ -109,7 +109,7 @@ import { validate as _function_validate } from "jsr:@std/uuid@1.0.1"
 const validate = _function_validate as typeof _function_validate
 export { validate }
 
-import { version as _function_version } from "jsr:@std/uuid@1.0.1"
+import { version as _function_version } from "jsr:@std/uuid@1.0.2"
 /**
  * Detect RFC version of a UUID.
  *
@@ -129,7 +129,7 @@ import { version as _function_version } from "jsr:@std/uuid@1.0.1"
 const version = _function_version as typeof _function_version
 export { version }
 
-import { NAMESPACE_DNS as _variable_NAMESPACE_DNS } from "jsr:@std/uuid@1.0.1"
+import { NAMESPACE_DNS as _variable_NAMESPACE_DNS } from "jsr:@std/uuid@1.0.2"
 /**
  * Name string is a fully-qualified domain name.
  *
@@ -144,7 +144,7 @@ import { NAMESPACE_DNS as _variable_NAMESPACE_DNS } from "jsr:@std/uuid@1.0.1"
 const NAMESPACE_DNS = _variable_NAMESPACE_DNS as typeof _variable_NAMESPACE_DNS
 export { NAMESPACE_DNS }
 
-import { NAMESPACE_URL as _variable_NAMESPACE_URL } from "jsr:@std/uuid@1.0.1"
+import { NAMESPACE_URL as _variable_NAMESPACE_URL } from "jsr:@std/uuid@1.0.2"
 /**
  * Name string is a URL.
  *
@@ -159,7 +159,7 @@ import { NAMESPACE_URL as _variable_NAMESPACE_URL } from "jsr:@std/uuid@1.0.1"
 const NAMESPACE_URL = _variable_NAMESPACE_URL as typeof _variable_NAMESPACE_URL
 export { NAMESPACE_URL }
 
-import { NAMESPACE_OID as _variable_NAMESPACE_OID } from "jsr:@std/uuid@1.0.1"
+import { NAMESPACE_OID as _variable_NAMESPACE_OID } from "jsr:@std/uuid@1.0.2"
 /**
  * Name string is an ISO OID.
  *
@@ -174,7 +174,7 @@ import { NAMESPACE_OID as _variable_NAMESPACE_OID } from "jsr:@std/uuid@1.0.1"
 const NAMESPACE_OID = _variable_NAMESPACE_OID as typeof _variable_NAMESPACE_OID
 export { NAMESPACE_OID }
 
-import { NAMESPACE_X500 as _variable_NAMESPACE_X500 } from "jsr:@std/uuid@1.0.1"
+import { NAMESPACE_X500 as _variable_NAMESPACE_X500 } from "jsr:@std/uuid@1.0.2"
 /**
  * Name string is an X.500 DN (in DER or a text output format).
  *
@@ -189,7 +189,7 @@ import { NAMESPACE_X500 as _variable_NAMESPACE_X500 } from "jsr:@std/uuid@1.0.1"
 const NAMESPACE_X500 = _variable_NAMESPACE_X500 as typeof _variable_NAMESPACE_X500
 export { NAMESPACE_X500 }
 
-import { NIL_UUID as _variable_NIL_UUID } from "jsr:@std/uuid@1.0.1"
+import { NIL_UUID as _variable_NIL_UUID } from "jsr:@std/uuid@1.0.2"
 /**
  * The nil UUID is special form of UUID that is specified to have all 128 bits
  * set to zero.

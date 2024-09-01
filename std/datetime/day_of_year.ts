@@ -1,4 +1,4 @@
-import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.225.0/day-of-year"
+import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.225.1/day-of-year"
 /**
  * Returns the number of the day in the year in the local time zone.
  *
@@ -16,7 +16,7 @@ import { dayOfYear as _function_dayOfYear } from "jsr:@std/datetime@0.225.0/day-
 const dayOfYear = _function_dayOfYear as typeof _function_dayOfYear
 export { dayOfYear }
 
-import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.225.0/day-of-year"
+import { dayOfYearUtc as _function_dayOfYearUtc } from "jsr:@std/datetime@0.225.1/day-of-year"
 /**
  * Returns the number of the day in the year in UTC time.
  *

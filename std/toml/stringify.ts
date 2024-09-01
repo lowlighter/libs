@@ -1,11 +1,11 @@
-import type { StringifyOptions as _interface_StringifyOptions } from "jsr:@std/toml@1.0.0/stringify"
+import type { StringifyOptions as _interface_StringifyOptions } from "jsr:@std/toml@1.0.1/stringify"
 /**
  * Options for {@linkcode stringify}.
  */
 interface StringifyOptions extends _interface_StringifyOptions {}
 export type { StringifyOptions }
 
-import { stringify as _function_stringify } from "jsr:@std/toml@1.0.0/stringify"
+import { stringify as _function_stringify } from "jsr:@std/toml@1.0.1/stringify"
 /**
  * Converts an object to a {@link https://toml.io | TOML} string.
  *

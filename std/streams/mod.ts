@@ -16,14 +16,14 @@
  *
  * @module
  */
-import type { BufferBytesOptions as _interface_BufferBytesOptions } from "jsr:@std/streams@1.0.2"
+import type { BufferBytesOptions as _interface_BufferBytesOptions } from "jsr:@std/streams@1.0.3"
 /**
  * Options for {@linkcode Buffer.bytes}.
  */
 interface BufferBytesOptions extends _interface_BufferBytesOptions {}
 export type { BufferBytesOptions }
 
-import { Buffer as _class_Buffer } from "jsr:@std/streams@1.0.2"
+import { Buffer as _class_Buffer } from "jsr:@std/streams@1.0.3"
 /**
  * A variable-sized buffer of bytes with `readable` and `writable` getters that
  * allows you to work with {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API}.
@@ -74,7 +74,7 @@ import { Buffer as _class_Buffer } from "jsr:@std/streams@1.0.2"
 class Buffer extends _class_Buffer {}
 export { Buffer }
 
-import { ByteSliceStream as _class_ByteSliceStream } from "jsr:@std/streams@1.0.2"
+import { ByteSliceStream as _class_ByteSliceStream } from "jsr:@std/streams@1.0.3"
 /**
  * A transform stream that only transforms from the zero-indexed `start` and
  * `end` bytes (both inclusive).
@@ -111,7 +111,7 @@ import { ByteSliceStream as _class_ByteSliceStream } from "jsr:@std/streams@1.0.
 class ByteSliceStream extends _class_ByteSliceStream {}
 export { ByteSliceStream }
 
-import { concatReadableStreams as _function_concatReadableStreams } from "jsr:@std/streams@1.0.2"
+import { concatReadableStreams as _function_concatReadableStreams } from "jsr:@std/streams@1.0.3"
 /**
  * Concatenates multiple `ReadableStream`s into a single ordered
  * `ReadableStream`.
@@ -140,21 +140,21 @@ import { concatReadableStreams as _function_concatReadableStreams } from "jsr:@s
 const concatReadableStreams = _function_concatReadableStreams as typeof _function_concatReadableStreams
 export { concatReadableStreams }
 
-import type { DelimiterDisposition as _typeAlias_DelimiterDisposition } from "jsr:@std/streams@1.0.2"
+import type { DelimiterDisposition as _typeAlias_DelimiterDisposition } from "jsr:@std/streams@1.0.3"
 /**
  * Disposition of the delimiter for {@linkcode DelimiterStreamOptions}.
  */
 type DelimiterDisposition = _typeAlias_DelimiterDisposition
 export type { DelimiterDisposition }
 
-import type { DelimiterStreamOptions as _interface_DelimiterStreamOptions } from "jsr:@std/streams@1.0.2"
+import type { DelimiterStreamOptions as _interface_DelimiterStreamOptions } from "jsr:@std/streams@1.0.3"
 /**
  * Options for {@linkcode DelimiterStream}.
  */
 interface DelimiterStreamOptions extends _interface_DelimiterStreamOptions {}
 export type { DelimiterStreamOptions }
 
-import { DelimiterStream as _class_DelimiterStream } from "jsr:@std/streams@1.0.2"
+import { DelimiterStream as _class_DelimiterStream } from "jsr:@std/streams@1.0.3"
 /**
  * Divide a stream into chunks delimited by a given byte sequence.
  *
@@ -194,7 +194,7 @@ import { DelimiterStream as _class_DelimiterStream } from "jsr:@std/streams@1.0.
 class DelimiterStream extends _class_DelimiterStream {}
 export { DelimiterStream }
 
-import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "jsr:@std/streams@1.0.2"
+import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "jsr:@std/streams@1.0.3"
 /**
  * Merge multiple streams into a single one, taking order into account, and each
  * stream will wait for a chunk to enqueue before the next stream can append
@@ -278,14 +278,14 @@ import { earlyZipReadableStreams as _function_earlyZipReadableStreams } from "js
 const earlyZipReadableStreams = _function_earlyZipReadableStreams as typeof _function_earlyZipReadableStreams
 export { earlyZipReadableStreams }
 
-import type { LimitedBytesTransformStreamOptions as _interface_LimitedBytesTransformStreamOptions } from "jsr:@std/streams@1.0.2"
+import type { LimitedBytesTransformStreamOptions as _interface_LimitedBytesTransformStreamOptions } from "jsr:@std/streams@1.0.3"
 /**
  * Options for {@linkcode LimitedBytesTransformStream}.
  */
 interface LimitedBytesTransformStreamOptions extends _interface_LimitedBytesTransformStreamOptions {}
 export type { LimitedBytesTransformStreamOptions }
 
-import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } from "jsr:@std/streams@1.0.2"
+import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } from "jsr:@std/streams@1.0.3"
 /**
  * A {@linkcode TransformStream} that will only read & enqueue chunks until the
  * total amount of enqueued data exceeds `size`. The last chunk that would
@@ -369,14 +369,14 @@ import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } fro
 class LimitedBytesTransformStream extends _class_LimitedBytesTransformStream {}
 export { LimitedBytesTransformStream }
 
-import type { LimitedTransformStreamOptions as _interface_LimitedTransformStreamOptions } from "jsr:@std/streams@1.0.2"
+import type { LimitedTransformStreamOptions as _interface_LimitedTransformStreamOptions } from "jsr:@std/streams@1.0.3"
 /**
  * Options for {@linkcode LimitedTransformStream}
  */
 interface LimitedTransformStreamOptions extends _interface_LimitedTransformStreamOptions {}
 export type { LimitedTransformStreamOptions }
 
-import { LimitedTransformStream as _class_LimitedTransformStream } from "jsr:@std/streams@1.0.2"
+import { LimitedTransformStream as _class_LimitedTransformStream } from "jsr:@std/streams@1.0.3"
 /**
  * A {@linkcode TransformStream} that will only read & enqueue `size` amount of
  * chunks.
@@ -443,7 +443,7 @@ import { LimitedTransformStream as _class_LimitedTransformStream } from "jsr:@st
 class LimitedTransformStream<T> extends _class_LimitedTransformStream<T> {}
 export { LimitedTransformStream }
 
-import { mergeReadableStreams as _function_mergeReadableStreams } from "jsr:@std/streams@1.0.2"
+import { mergeReadableStreams as _function_mergeReadableStreams } from "jsr:@std/streams@1.0.3"
 /**
  * Merge multiple streams into a single one, not taking order into account.
  * If a stream ends before other ones, the other will continue adding data,
@@ -483,13 +483,10 @@ import { mergeReadableStreams as _function_mergeReadableStreams } from "jsr:@std
 const mergeReadableStreams = _function_mergeReadableStreams as typeof _function_mergeReadableStreams
 export { mergeReadableStreams }
 
-import { FixedChunkStream as _class_FixedChunkStream } from "jsr:@std/streams@1.0.2"
+import { FixedChunkStream as _class_FixedChunkStream } from "jsr:@std/streams@1.0.3"
 /**
  * A transform stream that resize {@linkcode Uint8Array} chunks into perfectly
  * `size` chunks with the exception of the last chunk.
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  * @example Usage
@@ -517,7 +514,7 @@ import { FixedChunkStream as _class_FixedChunkStream } from "jsr:@std/streams@1.
 class FixedChunkStream extends _class_FixedChunkStream {}
 export { FixedChunkStream }
 
-import { TextDelimiterStream as _class_TextDelimiterStream } from "jsr:@std/streams@1.0.2"
+import { TextDelimiterStream as _class_TextDelimiterStream } from "jsr:@std/streams@1.0.3"
 /**
  * Transform a stream `string` into a stream where each chunk is divided by a
  * given delimiter.
@@ -567,14 +564,14 @@ import { TextDelimiterStream as _class_TextDelimiterStream } from "jsr:@std/stre
 class TextDelimiterStream extends _class_TextDelimiterStream {}
 export { TextDelimiterStream }
 
-import type { TextLineStreamOptions as _interface_TextLineStreamOptions } from "jsr:@std/streams@1.0.2"
+import type { TextLineStreamOptions as _interface_TextLineStreamOptions } from "jsr:@std/streams@1.0.3"
 /**
  * Options for {@linkcode TextLineStream}.
  */
 interface TextLineStreamOptions extends _interface_TextLineStreamOptions {}
 export type { TextLineStreamOptions }
 
-import { TextLineStream as _class_TextLineStream } from "jsr:@std/streams@1.0.2"
+import { TextLineStream as _class_TextLineStream } from "jsr:@std/streams@1.0.3"
 /**
  * Transform a stream into a stream where each chunk is divided by a newline,
  * be it `\n` or `\r\n`. `\r` can be enabled via the `allowCR` option.
@@ -631,7 +628,7 @@ import { TextLineStream as _class_TextLineStream } from "jsr:@std/streams@1.0.2"
 class TextLineStream extends _class_TextLineStream {}
 export { TextLineStream }
 
-import { toArrayBuffer as _function_toArrayBuffer } from "jsr:@std/streams@1.0.2"
+import { toArrayBuffer as _function_toArrayBuffer } from "jsr:@std/streams@1.0.3"
 /**
  * Converts a {@linkcode ReadableStream} of {@linkcode Uint8Array}s to an
  * {@linkcode ArrayBuffer}. Works the same as {@linkcode Response.arrayBuffer}.
@@ -655,7 +652,7 @@ import { toArrayBuffer as _function_toArrayBuffer } from "jsr:@std/streams@1.0.2
 const toArrayBuffer = _function_toArrayBuffer as typeof _function_toArrayBuffer
 export { toArrayBuffer }
 
-import { toBlob as _function_toBlob } from "jsr:@std/streams@1.0.2"
+import { toBlob as _function_toBlob } from "jsr:@std/streams@1.0.3"
 /**
  * Converts a {@linkcode ReadableStream} of {@linkcode Uint8Array}s to a
  * {@linkcode Blob}. Works the same as {@linkcode Response.blob}.
@@ -679,7 +676,7 @@ import { toBlob as _function_toBlob } from "jsr:@std/streams@1.0.2"
 const toBlob = _function_toBlob as typeof _function_toBlob
 export { toBlob }
 
-import { toJson as _function_toJson } from "jsr:@std/streams@1.0.2"
+import { toJson as _function_toJson } from "jsr:@std/streams@1.0.3"
 /**
  * Converts a
  * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON}-formatted
@@ -719,11 +716,12 @@ import { toJson as _function_toJson } from "jsr:@std/streams@1.0.2"
 const toJson = _function_toJson as typeof _function_toJson
 export { toJson }
 
-import { toLines as _function_toLines } from "jsr:@std/streams@1.0.2"
+import { toLines as _function_toLines } from "jsr:@std/streams@1.0.3"
 /**
  * Converts a {@linkcode ReadableStream} of {@linkcode Uint8Array}s into one of
  * lines delimited by `\n` or `\r\n`. Trims the last line if empty.
  *
+ * @experimental
  * @param readable A stream of {@linkcode Uint8Array}s.
  * @param options Stream options.
  * @return A stream of lines delimited by `\n` or `\r\n`.
@@ -746,13 +744,11 @@ import { toLines as _function_toLines } from "jsr:@std/streams@1.0.2"
  *   "apoiuzt\rqwr\r09ei\rqwrjiowqr\r",
  * ]);
  * ```
- *
- * @experimental
  */
 const toLines = _function_toLines as typeof _function_toLines
 export { toLines }
 
-import { toText as _function_toText } from "jsr:@std/streams@1.0.2"
+import { toText as _function_toText } from "jsr:@std/streams@1.0.3"
 /**
  * Converts a {@linkcode ReadableSteam} of strings or {@linkcode Uint8Array}s
  * to a single string. Works the same as {@linkcode Response.text} and
@@ -783,7 +779,7 @@ import { toText as _function_toText } from "jsr:@std/streams@1.0.2"
 const toText = _function_toText as typeof _function_toText
 export { toText }
 
-import { toTransformStream as _function_toTransformStream } from "jsr:@std/streams@1.0.2"
+import { toTransformStream as _function_toTransformStream } from "jsr:@std/streams@1.0.3"
 /**
  * Convert the generator function into a {@linkcode TransformStream}.
  *
@@ -846,7 +842,7 @@ import { toTransformStream as _function_toTransformStream } from "jsr:@std/strea
 const toTransformStream = _function_toTransformStream as typeof _function_toTransformStream
 export { toTransformStream }
 
-import { zipReadableStreams as _function_zipReadableStreams } from "jsr:@std/streams@1.0.2"
+import { zipReadableStreams as _function_zipReadableStreams } from "jsr:@std/streams@1.0.3"
 /**
  * Merge multiple streams into a single one, taking order into account, and
  * each stream will wait for a chunk to enqueue before the next stream can

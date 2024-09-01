@@ -1,4 +1,4 @@
-import { createTextureWithData as _function_createTextureWithData } from "jsr:@std/webgpu@0.224.5/texture-with-data"
+import { createTextureWithData as _function_createTextureWithData } from "jsr:@std/webgpu@0.224.6/texture-with-data"
 /**
  * Create a {@linkcode GPUTexture} with data.
  *

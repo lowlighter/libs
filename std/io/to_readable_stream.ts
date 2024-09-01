@@ -1,11 +1,11 @@
-import type { ToReadableStreamOptions as _interface_ToReadableStreamOptions } from "jsr:@std/io@0.224.5/to-readable-stream"
+import type { ToReadableStreamOptions as _interface_ToReadableStreamOptions } from "jsr:@std/io@0.224.6/to-readable-stream"
 /**
  * Options for {@linkcode toReadableStream}.
  */
 interface ToReadableStreamOptions extends _interface_ToReadableStreamOptions {}
 export type { ToReadableStreamOptions }
 
-import { toReadableStream as _function_toReadableStream } from "jsr:@std/io@0.224.5/to-readable-stream"
+import { toReadableStream as _function_toReadableStream } from "jsr:@std/io@0.224.6/to-readable-stream"
 /**
  * Create a {@linkcode ReadableStream} of {@linkcode Uint8Array}s from a
  * {@linkcode Reader}.

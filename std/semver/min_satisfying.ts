@@ -1,4 +1,4 @@
-import { minSatisfying as _function_minSatisfying } from "jsr:@std/semver@1.0.1/min-satisfying"
+import { minSatisfying as _function_minSatisfying } from "jsr:@std/semver@1.0.2/min-satisfying"
 /**
  * Returns the lowest SemVer in the list that satisfies the range, or `undefined` if
  * none of them do.

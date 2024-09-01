@@ -1,4 +1,4 @@
-import { assertStrictEquals as _function_assertStrictEquals } from "jsr:@std/assert@1.0.2/strict-equals"
+import { assertStrictEquals as _function_assertStrictEquals } from "jsr:@std/assert@1.0.3/strict-equals"
 /**
  * Make an assertion that `actual` and `expected` are strictly equal, using
  * {@linkcode Object.is} for equality comparison. If not, then throw.

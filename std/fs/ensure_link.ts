@@ -1,4 +1,4 @@
-import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.1/ensure-link"
+import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.2/ensure-link"
 /**
  * Asynchronously ensures that the hard link exists.
  *
@@ -25,7 +25,7 @@ import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.1/ensure-lin
 const ensureLink = _function_ensureLink as typeof _function_ensureLink
 export { ensureLink }
 
-import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.1/ensure-link"
+import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.2/ensure-link"
 /**
  * Synchronously ensures that the hard link exists.
  *

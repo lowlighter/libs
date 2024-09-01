@@ -1,4 +1,4 @@
-import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.2/types"
+import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.3/types"
 /**
  * Return type for {@linkcode extract} function.
  */

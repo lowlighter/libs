@@ -1,6 +1,8 @@
-import { parse as _function_parse } from "jsr:@std/dotenv@0.225.0/parse"
+import { parse as _function_parse } from "jsr:@std/dotenv@0.225.1/parse"
 /**
  * Parse `.env` file output in an object.
+ *
+ * Note: The key needs to match the pattern /^[a-zA-Z_][a-zA-Z0-9_]*$/.
  *
  * @example Usage
  * ```ts

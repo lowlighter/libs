@@ -1,4 +1,4 @@
-import { RotatingFileHandler as _class_RotatingFileHandler } from "jsr:@std/log@0.224.5/rotating-file-handler"
+import { RotatingFileHandler as _class_RotatingFileHandler } from "jsr:@std/log@0.224.6/rotating-file-handler"
 /**
  * This handler extends the functionality of the {@linkcode FileHandler} by
  * "rotating" the log file when it reaches a certain size. `maxBytes` specifies

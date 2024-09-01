@@ -23,28 +23,28 @@
  *
  * @module
  */
-import type { DB as _typeAlias_DB } from "jsr:@std/media-types@1.0.2"
+import type { DB as _typeAlias_DB } from "jsr:@std/media-types@1.0.3"
 /**
  * MIME-types database.
  */
 type DB = _typeAlias_DB
 export type { DB }
 
-import type { ContentTypeToExtension as _typeAlias_ContentTypeToExtension } from "jsr:@std/media-types@1.0.2"
+import type { ContentTypeToExtension as _typeAlias_ContentTypeToExtension } from "jsr:@std/media-types@1.0.3"
 /**
  * Maps content types to their corresponding file extensions.
  */
 type ContentTypeToExtension = _typeAlias_ContentTypeToExtension
 export type { ContentTypeToExtension }
 
-import type { KnownExtensionOrType as _typeAlias_KnownExtensionOrType } from "jsr:@std/media-types@1.0.2"
+import type { KnownExtensionOrType as _typeAlias_KnownExtensionOrType } from "jsr:@std/media-types@1.0.3"
 /**
  * Known extension or type. Used in {@linkcode contentType}.
  */
 type KnownExtensionOrType = _typeAlias_KnownExtensionOrType
 export type { KnownExtensionOrType }
 
-import { contentType as _function_contentType } from "jsr:@std/media-types@1.0.2"
+import { contentType as _function_contentType } from "jsr:@std/media-types@1.0.3"
 /**
  * Returns the full `Content-Type` or `Content-Disposition` header value for the
  * given extension or media type.
@@ -78,7 +78,7 @@ import { contentType as _function_contentType } from "jsr:@std/media-types@1.0.2
 const contentType = _function_contentType as typeof _function_contentType
 export { contentType }
 
-import { extension as _function_extension } from "jsr:@std/media-types@1.0.2"
+import { extension as _function_extension } from "jsr:@std/media-types@1.0.3"
 /**
  * Returns the most relevant extension for the given media type, or `undefined`
  * if no extension can be found.
@@ -104,7 +104,7 @@ import { extension as _function_extension } from "jsr:@std/media-types@1.0.2"
 const extension = _function_extension as typeof _function_extension
 export { extension }
 
-import { allExtensions as _function_allExtensions } from "jsr:@std/media-types@1.0.2"
+import { allExtensions as _function_allExtensions } from "jsr:@std/media-types@1.0.3"
 /**
  * Returns all the extensions known to be associated with the media type `type`, or
  * `undefined` if no extensions are found.
@@ -129,7 +129,7 @@ import { allExtensions as _function_allExtensions } from "jsr:@std/media-types@1
 const allExtensions = _function_allExtensions as typeof _function_allExtensions
 export { allExtensions }
 
-import { formatMediaType as _function_formatMediaType } from "jsr:@std/media-types@1.0.2"
+import { formatMediaType as _function_formatMediaType } from "jsr:@std/media-types@1.0.3"
 /**
  * Serializes the media type and the optional parameters as a media type
  * conforming to {@link https://www.rfc-editor.org/rfc/rfc2045.html | RFC 2045} and
@@ -164,7 +164,7 @@ import { formatMediaType as _function_formatMediaType } from "jsr:@std/media-typ
 const formatMediaType = _function_formatMediaType as typeof _function_formatMediaType
 export { formatMediaType }
 
-import { getCharset as _function_getCharset } from "jsr:@std/media-types@1.0.2"
+import { getCharset as _function_getCharset } from "jsr:@std/media-types@1.0.3"
 /**
  * Given a media type or header value, identify the encoding charset. If the
  * charset cannot be determined, the function returns `undefined`.
@@ -188,7 +188,7 @@ import { getCharset as _function_getCharset } from "jsr:@std/media-types@1.0.2"
 const getCharset = _function_getCharset as typeof _function_getCharset
 export { getCharset }
 
-import { parseMediaType as _function_parseMediaType } from "jsr:@std/media-types@1.0.2"
+import { parseMediaType as _function_parseMediaType } from "jsr:@std/media-types@1.0.3"
 /**
  * Parses the media type and any optional parameters, per
  * {@link https://www.rfc-editor.org/rfc/rfc1521.html | RFC 1521}.
@@ -221,7 +221,7 @@ import { parseMediaType as _function_parseMediaType } from "jsr:@std/media-types
 const parseMediaType = _function_parseMediaType as typeof _function_parseMediaType
 export { parseMediaType }
 
-import { typeByExtension as _function_typeByExtension } from "jsr:@std/media-types@1.0.2"
+import { typeByExtension as _function_typeByExtension } from "jsr:@std/media-types@1.0.3"
 /**
  * Returns the media type associated with the file extension, or `undefined` if
  * no media type is found.

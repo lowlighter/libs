@@ -1,4 +1,4 @@
-import { allExtensions as _function_allExtensions } from "jsr:@std/media-types@1.0.2/all-extensions"
+import { allExtensions as _function_allExtensions } from "jsr:@std/media-types@1.0.3/all-extensions"
 /**
  * Returns all the extensions known to be associated with the media type `type`, or
  * `undefined` if no extensions are found.

@@ -11,14 +11,14 @@
  *
  * @module
  */
-import type { EntityList as _typeAlias_EntityList } from "jsr:@std/html@1.0.1"
+import type { EntityList as _typeAlias_EntityList } from "jsr:@std/html@1.0.2"
 /**
  * Object structure for a list of HTML entities.
  */
 type EntityList = _typeAlias_EntityList
 export type { EntityList }
 
-import { escape as _function_escape } from "jsr:@std/html@1.0.1"
+import { escape as _function_escape } from "jsr:@std/html@1.0.2"
 /**
  * Escapes text for safe interpolation into HTML text content and quoted attributes.
  *
@@ -40,14 +40,14 @@ import { escape as _function_escape } from "jsr:@std/html@1.0.1"
 const escape = _function_escape as typeof _function_escape
 export { escape }
 
-import type { UnescapeOptions as _typeAlias_UnescapeOptions } from "jsr:@std/html@1.0.1"
+import type { UnescapeOptions as _typeAlias_UnescapeOptions } from "jsr:@std/html@1.0.2"
 /**
  * Options for {@linkcode unescape}.
  */
 type UnescapeOptions = _typeAlias_UnescapeOptions
 export type { UnescapeOptions }
 
-import { unescape as _function_unescape } from "jsr:@std/html@1.0.1"
+import { unescape as _function_unescape } from "jsr:@std/html@1.0.2"
 /**
  * Unescapes HTML entities in text.
  *
@@ -81,14 +81,11 @@ import { unescape as _function_unescape } from "jsr:@std/html@1.0.1"
 const unescape = _function_unescape as typeof _function_unescape
 export { unescape }
 
-import { isValidCustomElementName as _function_isValidCustomElementName } from "jsr:@std/html@1.0.1"
+import { isValidCustomElementName as _function_isValidCustomElementName } from "jsr:@std/html@1.0.2"
 /**
  * Returns whether the given string is a valid custom element name, as per the
  * requirements defined in
  * {@link https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name}.
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  * @example Usage

@@ -1,4 +1,4 @@
-import { AbstractBufBase as _class_AbstractBufBase } from "jsr:@std/io@0.224.5/buf-writer"
+import { AbstractBufBase as _class_AbstractBufBase } from "jsr:@std/io@0.224.6/buf-writer"
 /**
  * AbstractBufBase is a base class which other classes can embed to
  * implement the {@inkcode Reader} and {@linkcode Writer} interfaces.
@@ -19,10 +19,10 @@ import { AbstractBufBase as _class_AbstractBufBase } from "jsr:@std/io@0.224.5/b
  *
  * @internal
  */
-class AbstractBufBase extends _class_AbstractBufBase {}
+abstract class AbstractBufBase extends _class_AbstractBufBase {}
 export { AbstractBufBase }
 
-import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.5/buf-writer"
+import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.6/buf-writer"
 /**
  * `BufWriter` implements buffering for an {@linkcode Writer} object.
  * If an error occurs writing to a Writer, no more data will be
@@ -56,7 +56,7 @@ import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.5/buf-writer"
 class BufWriter extends _class_BufWriter {}
 export { BufWriter }
 
-import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.5/buf-writer"
+import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.6/buf-writer"
 /**
  * BufWriterSync implements buffering for a deno.WriterSync object.
  * If an error occurs writing to a WriterSync, no more data will be

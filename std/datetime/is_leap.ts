@@ -1,4 +1,4 @@
-import { isLeap as _function_isLeap } from "jsr:@std/datetime@0.225.0/is-leap"
+import { isLeap as _function_isLeap } from "jsr:@std/datetime@0.225.1/is-leap"
 /**
  * Returns whether the given year is a leap year. Passing in a
  * {@linkcode Date} object will return the leap year status of the year of that
@@ -40,7 +40,7 @@ import { isLeap as _function_isLeap } from "jsr:@std/datetime@0.225.0/is-leap"
 const isLeap = _function_isLeap as typeof _function_isLeap
 export { isLeap }
 
-import { isUtcLeap as _function_isUtcLeap } from "jsr:@std/datetime@0.225.0/is-leap"
+import { isUtcLeap as _function_isUtcLeap } from "jsr:@std/datetime@0.225.1/is-leap"
 /**
  * Returns whether the given year is a leap year in UTC time. This always
  * returns the same value regardless of the local timezone.

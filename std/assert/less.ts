@@ -1,4 +1,4 @@
-import { assertLess as _function_assertLess } from "jsr:@std/assert@1.0.2/less"
+import { assertLess as _function_assertLess } from "jsr:@std/assert@1.0.3/less"
 /**
  * Make an assertion that `actual` is less than `expected`.
  * If not then throw.

@@ -1,4 +1,4 @@
-import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.2/windows/join-globs"
+import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.3/windows/join-globs"
 /**
  * Options for {@linkcode globToRegExp}, {@linkcode joinGlobs},
  * {@linkcode normalizeGlob} and {@linkcode expandGlob}.
@@ -6,7 +6,7 @@ import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.2/
 interface GlobOptions extends _interface_GlobOptions {}
 export type { GlobOptions }
 
-import { joinGlobs as _function_joinGlobs } from "jsr:@std/path@1.0.2/windows/join-globs"
+import { joinGlobs as _function_joinGlobs } from "jsr:@std/path@1.0.3/windows/join-globs"
 /**
  * Like join(), but doesn't collapse "**\/.." when `globstar` is true.
  *

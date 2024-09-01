@@ -1,4 +1,4 @@
-import { common as _function_common } from "jsr:@std/path@1.0.2/windows/common"
+import { common as _function_common } from "jsr:@std/path@1.0.3/windows/common"
 /**
  * Determines the common path from a set of paths for Windows systems.
  *

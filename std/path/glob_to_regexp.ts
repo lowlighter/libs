@@ -1,4 +1,4 @@
-import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.2/glob-to-regexp"
+import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.3/glob-to-regexp"
 /**
  * Options for {@linkcode globToRegExp}, {@linkcode joinGlobs},
  * {@linkcode normalizeGlob} and {@linkcode expandGlob}.
@@ -6,7 +6,7 @@ import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.2/
 interface GlobOptions extends _interface_GlobOptions {}
 export type { GlobOptions }
 
-import { globToRegExp as _function_globToRegExp } from "jsr:@std/path@1.0.2/glob-to-regexp"
+import { globToRegExp as _function_globToRegExp } from "jsr:@std/path@1.0.3/glob-to-regexp"
 /**
  * Converts a glob string to a regular expression.
  *

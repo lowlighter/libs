@@ -1,4 +1,4 @@
-import { format as _function_format } from "jsr:@std/path@1.0.2/posix/format"
+import { format as _function_format } from "jsr:@std/path@1.0.3/posix/format"
 /**
  * Generate a path from `ParsedPath` object.
  *

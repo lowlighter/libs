@@ -1,4 +1,4 @@
-import { parseRange as _function_parseRange } from "jsr:@std/semver@1.0.1/parse-range"
+import { parseRange as _function_parseRange } from "jsr:@std/semver@1.0.2/parse-range"
 /**
  * Parses a range string into a {@linkcode Range} object.
  *
@@ -20,7 +20,7 @@ import { parseRange as _function_parseRange } from "jsr:@std/semver@1.0.1/parse-
  * ```
  *
  * @throws If the input range is invalid.
- * @param range The range set string
+ * @param value The range set string
  * @return A valid SemVer range
  */
 const parseRange = _function_parseRange as typeof _function_parseRange

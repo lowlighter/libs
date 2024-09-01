@@ -1,41 +1,59 @@
-import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:@std/archive@0.225.0/untar"
+import type { Reader as _interface_Reader } from "jsr:@std/archive@0.225.1/untar"
+/**
+ * An abstract interface which when implemented provides an interface to read bytes into an array buffer asynchronously.
+ */
+interface Reader extends _interface_Reader {}
+export type { Reader }
+
+import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:@std/archive@0.225.1/untar"
 /**
  * Extend TarMeta with the `linkName` property so that readers can access
  * symbolic link values without polluting the world of archive writers.
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  */
 interface TarMetaWithLinkName extends _interface_TarMetaWithLinkName {}
 export type { TarMetaWithLinkName }
 
-import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.225.0/untar"
+import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.225.1/untar"
 /**
  * Tar header with raw, unprocessed bytes as values.
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  */
 type TarHeader = _typeAlias_TarHeader
 export type { TarHeader }
 
-import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.0/untar"
+import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.1/untar"
 /**
  * Contains tar header metadata and a reader to the entry's body.
  *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
- *
  * @experimental
+ * @example Usage
+ * ```ts no-assert
+ * import { TarEntry } from "@std/archive/untar";
+ * import { Buffer } from "@std/io/buffer";
+ *
+ * const content = new TextEncoder().encode("hello tar world!");
+ * const reader = new Buffer(content);
+ * const tarMeta = {
+ *   fileName: "archive/",
+ *   fileSize: 0,
+ *   fileMode: 509,
+ *   mtime: 1591800767,
+ *   uid: 1001,
+ *   gid: 1001,
+ *   owner: "deno",
+ *   group: "deno",
+ *   type: "directory",
+ * };
+ * const tarEntry: TarEntry = new TarEntry(tarMeta, reader);
+ * ```
  */
 class TarEntry extends _class_TarEntry {}
 export { TarEntry }
 
-import { Untar as _class_Untar } from "jsr:@std/archive@0.225.0/untar"
+import { Untar as _class_Untar } from "jsr:@std/archive@0.225.1/untar"
 /**
  * ### Overview
  * A class to extract from a tar archive.  Tar archives allow for storing multiple
@@ -57,7 +75,8 @@ import { Untar as _class_Untar } from "jsr:@std/archive@0.225.0/untar"
  * This utility does not support decompression which must be done before extracting
  * the files.
  *
- * @example ```ts
+ * @example Usage
+ * ```ts no-eval
  * import { Untar } from "@std/archive/untar";
  * import { ensureFile } from "@std/fs/ensure-file";
  * import { ensureDir } from "@std/fs/ensure-dir";
@@ -80,9 +99,6 @@ import { Untar as _class_Untar } from "jsr:@std/archive@0.225.0/untar"
  *   await copy(entry, file);
  * }
  * ```
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  */

@@ -1,4 +1,4 @@
-import { readShort as _function_readShort } from "jsr:@std/io@0.224.5/read-short"
+import { readShort as _function_readShort } from "jsr:@std/io@0.224.6/read-short"
 /**
  * Read big endian 16bit short from a {@linkcode BufReader}.
  *

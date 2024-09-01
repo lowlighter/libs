@@ -1,4 +1,4 @@
-import { normalize as _function_normalize } from "jsr:@std/path@1.0.2/windows/normalize"
+import { normalize as _function_normalize } from "jsr:@std/path@1.0.3/windows/normalize"
 /**
  * Normalize the `path`, resolving `'..'` and `'.'` segments.
  * Note that resolving these segments does not necessarily mean that all will be eliminated.

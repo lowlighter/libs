@@ -1,4 +1,4 @@
-import { globToRegExp as _function_globToRegExp } from "jsr:@std/path@1.0.2/windows/glob-to-regexp"
+import { globToRegExp as _function_globToRegExp } from "jsr:@std/path@1.0.3/windows/glob-to-regexp"
 /**
  * Convert a glob string to a regular expression.
  *

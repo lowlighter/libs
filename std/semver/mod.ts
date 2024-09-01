@@ -270,11 +270,11 @@
  *
  * @module
  */
-import { compare as _function_compare } from "jsr:@std/semver@1.0.1"
+import { compare as _function_compare } from "jsr:@std/semver@1.0.2"
 /**
  * Compare two SemVers.
  *
- * Returns `0` if `s0` equals `s1`, or `1` if `s0` is greater, or `-1` if `s1` is
+ * Returns `0` if `version1` equals `version2`, or `1` if `version1` is greater, or `-1` if `version2` is
  * greater.
  *
  * Sorts in ascending order if passed to {@linkcode Array.sort}.
@@ -284,22 +284,22 @@ import { compare as _function_compare } from "jsr:@std/semver@1.0.1"
  * import { parse, compare } from "@std/semver";
  * import { assertEquals } from "@std/assert";
  *
- * const s0 = parse("1.2.3");
- * const s1 = parse("1.2.4");
+ * const version1 = parse("1.2.3");
+ * const version2 = parse("1.2.4");
  *
- * assertEquals(compare(s0, s1), -1);
- * assertEquals(compare(s1, s0), 1);
- * assertEquals(compare(s0, s0), 0);
+ * assertEquals(compare(version1, version2), -1);
+ * assertEquals(compare(version2, version1), 1);
+ * assertEquals(compare(version1, version1), 0);
  * ```
  *
- * @param s0 The first SemVer to compare
- * @param s1 The second SemVer to compare
- * @return `1` if `s0` is greater, `0` if equal, or `-1` if `s1` is greater
+ * @param version1 The first SemVer to compare
+ * @param version2 The second SemVer to compare
+ * @return `1` if `version1` is greater, `0` if equal, or `-1` if `version2` is greater
  */
 const compare = _function_compare as typeof _function_compare
 export { compare }
 
-import { difference as _function_difference } from "jsr:@std/semver@1.0.1"
+import { difference as _function_difference } from "jsr:@std/semver@1.0.2"
 /**
  * Returns difference between two SemVers by the release type,
  * or `undefined` if the SemVers are the same.
@@ -309,25 +309,25 @@ import { difference as _function_difference } from "jsr:@std/semver@1.0.1"
  * import { parse, difference } from "@std/semver";
  * import { assertEquals } from "@std/assert";
  *
- * const s0 = parse("1.2.3");
- * const s1 = parse("1.2.4");
- * const s2 = parse("1.3.0");
- * const s3 = parse("2.0.0");
+ * const version1 = parse("1.2.3");
+ * const version2 = parse("1.2.4");
+ * const version3 = parse("1.3.0");
+ * const version4 = parse("2.0.0");
  *
- * assertEquals(difference(s0, s1), "patch");
- * assertEquals(difference(s0, s2), "minor");
- * assertEquals(difference(s0, s3), "major");
- * assertEquals(difference(s0, s0), undefined);
+ * assertEquals(difference(version1, version2), "patch");
+ * assertEquals(difference(version1, version3), "minor");
+ * assertEquals(difference(version1, version4), "major");
+ * assertEquals(difference(version1, version1), undefined);
  * ```
  *
- * @param s0 The first SemVer to compare
- * @param s1 The second SemVer to compare
+ * @param version1 The first SemVer to compare
+ * @param version2 The second SemVer to compare
  * @return The release type difference or `undefined` if the versions are the same
  */
 const difference = _function_difference as typeof _function_difference
 export { difference }
 
-import { format as _function_format } from "jsr:@std/semver@1.0.1"
+import { format as _function_format } from "jsr:@std/semver@1.0.2"
 /**
  * Format a SemVer object into a string.
  *
@@ -344,13 +344,13 @@ import { format as _function_format } from "jsr:@std/semver@1.0.1"
  * assertEquals(format(semver), "1.2.3");
  * ```
  *
- * @param semver The SemVer to format
+ * @param version The SemVer to format
  * @return The string representation of a semantic version.
  */
 const format = _function_format as typeof _function_format
 export { format }
 
-import { satisfies as _function_satisfies } from "jsr:@std/semver@1.0.1"
+import { satisfies as _function_satisfies } from "jsr:@std/semver@1.0.2"
 /**
  * Test to see if the SemVer satisfies the range.
  *
@@ -375,14 +375,14 @@ import { satisfies as _function_satisfies } from "jsr:@std/semver@1.0.1"
 const satisfies = _function_satisfies as typeof _function_satisfies
 export { satisfies }
 
-import type { IncrementOptions as _interface_IncrementOptions } from "jsr:@std/semver@1.0.1"
+import type { IncrementOptions as _interface_IncrementOptions } from "jsr:@std/semver@1.0.2"
 /**
  * Options for {@linkcode increment}.
  */
 interface IncrementOptions extends _interface_IncrementOptions {}
 export type { IncrementOptions }
 
-import { increment as _function_increment } from "jsr:@std/semver@1.0.1"
+import { increment as _function_increment } from "jsr:@std/semver@1.0.2"
 /**
  * Returns the new SemVer resulting from an increment by release type.
  *
@@ -427,7 +427,7 @@ import { increment as _function_increment } from "jsr:@std/semver@1.0.1"
 const increment = _function_increment as typeof _function_increment
 export { increment }
 
-import { isSemVer as _function_isSemVer } from "jsr:@std/semver@1.0.1"
+import { isSemVer as _function_isSemVer } from "jsr:@std/semver@1.0.2"
 /**
  * Checks to see if value is a valid SemVer object. It does a check
  * into each field including prerelease and build.
@@ -462,7 +462,7 @@ import { isSemVer as _function_isSemVer } from "jsr:@std/semver@1.0.1"
 const isSemVer = _function_isSemVer as typeof _function_isSemVer
 export { isSemVer }
 
-import { maxSatisfying as _function_maxSatisfying } from "jsr:@std/semver@1.0.1"
+import { maxSatisfying as _function_maxSatisfying } from "jsr:@std/semver@1.0.2"
 /**
  * Returns the highest SemVer in the list that satisfies the range, or `undefined`
  * if none of them do.
@@ -485,7 +485,7 @@ import { maxSatisfying as _function_maxSatisfying } from "jsr:@std/semver@1.0.1"
 const maxSatisfying = _function_maxSatisfying as typeof _function_maxSatisfying
 export { maxSatisfying }
 
-import { minSatisfying as _function_minSatisfying } from "jsr:@std/semver@1.0.1"
+import { minSatisfying as _function_minSatisfying } from "jsr:@std/semver@1.0.2"
 /**
  * Returns the lowest SemVer in the list that satisfies the range, or `undefined` if
  * none of them do.
@@ -508,7 +508,7 @@ import { minSatisfying as _function_minSatisfying } from "jsr:@std/semver@1.0.1"
 const minSatisfying = _function_minSatisfying as typeof _function_minSatisfying
 export { minSatisfying }
 
-import { parseRange as _function_parseRange } from "jsr:@std/semver@1.0.1"
+import { parseRange as _function_parseRange } from "jsr:@std/semver@1.0.2"
 /**
  * Parses a range string into a {@linkcode Range} object.
  *
@@ -530,13 +530,13 @@ import { parseRange as _function_parseRange } from "jsr:@std/semver@1.0.1"
  * ```
  *
  * @throws If the input range is invalid.
- * @param range The range set string
+ * @param value The range set string
  * @return A valid SemVer range
  */
 const parseRange = _function_parseRange as typeof _function_parseRange
 export { parseRange }
 
-import { parse as _function_parse } from "jsr:@std/semver@1.0.1"
+import { parse as _function_parse } from "jsr:@std/semver@1.0.2"
 /**
  * Attempt to parse a string as a semantic version, returning a SemVer object.
  *
@@ -556,13 +556,13 @@ import { parse as _function_parse } from "jsr:@std/semver@1.0.1"
  * ```
  *
  * @throws If the input string is invalid.
- * @param version The version string to parse
+ * @param value The version string to parse
  * @return A valid SemVer
  */
 const parse = _function_parse as typeof _function_parse
 export { parse }
 
-import { rangeIntersects as _function_rangeIntersects } from "jsr:@std/semver@1.0.1"
+import { rangeIntersects as _function_rangeIntersects } from "jsr:@std/semver@1.0.2"
 /**
  * The ranges intersect every range of AND comparators intersects with a least
  * one range of OR ranges.
@@ -572,23 +572,23 @@ import { rangeIntersects as _function_rangeIntersects } from "jsr:@std/semver@1.
  * import { parseRange, rangeIntersects } from "@std/semver";
  * import { assert } from "@std/assert";
  *
- * const r0 = parseRange(">=1.0.0 <2.0.0");
- * const r1 = parseRange(">=1.0.0 <1.2.3");
- * const r2 = parseRange(">=1.2.3 <2.0.0");
+ * const range1 = parseRange(">=1.0.0 <2.0.0");
+ * const range2 = parseRange(">=1.0.0 <1.2.3");
+ * const range3 = parseRange(">=1.2.3 <2.0.0");
  *
- * assert(rangeIntersects(r0, r1));
- * assert(rangeIntersects(r0, r2));
- * assert(!rangeIntersects(r1, r2));
+ * assert(rangeIntersects(range1, range2));
+ * assert(rangeIntersects(range1, range3));
+ * assert(!rangeIntersects(range2, range3));
  * ```
  *
- * @param r0 range 0
- * @param r1 range 1
+ * @param range1 range 0
+ * @param range2 range 1
  * @return returns true if the given ranges intersect, false otherwise
  */
 const rangeIntersects = _function_rangeIntersects as typeof _function_rangeIntersects
 export { rangeIntersects }
 
-import type { ReleaseType as _typeAlias_ReleaseType } from "jsr:@std/semver@1.0.1"
+import type { ReleaseType as _typeAlias_ReleaseType } from "jsr:@std/semver@1.0.2"
 /**
  * The possible release types are used as an operator for the
  * increment function and as a result of the difference function.
@@ -596,14 +596,14 @@ import type { ReleaseType as _typeAlias_ReleaseType } from "jsr:@std/semver@1.0.
 type ReleaseType = _typeAlias_ReleaseType
 export type { ReleaseType }
 
-import type { Operator as _typeAlias_Operator } from "jsr:@std/semver@1.0.1"
+import type { Operator as _typeAlias_Operator } from "jsr:@std/semver@1.0.2"
 /**
  * SemVer comparison operators.
  */
 type Operator = _typeAlias_Operator
 export type { Operator }
 
-import type { Comparator as _interface_Comparator } from "jsr:@std/semver@1.0.1"
+import type { Comparator as _interface_Comparator } from "jsr:@std/semver@1.0.2"
 /**
  * The shape of a valid SemVer comparator.
  *
@@ -622,14 +622,14 @@ import type { Comparator as _interface_Comparator } from "jsr:@std/semver@1.0.1"
 interface Comparator extends _interface_Comparator {}
 export type { Comparator }
 
-import type { SemVer as _interface_SemVer } from "jsr:@std/semver@1.0.1"
+import type { SemVer as _interface_SemVer } from "jsr:@std/semver@1.0.2"
 /**
  * A SemVer object parsed into its constituent parts.
  */
 interface SemVer extends _interface_SemVer {}
 export type { SemVer }
 
-import type { Range as _typeAlias_Range } from "jsr:@std/semver@1.0.1"
+import type { Range as _typeAlias_Range } from "jsr:@std/semver@1.0.2"
 /**
  * A type representing a semantic version range. The ranges consist of
  * a nested array, which represents a set of OR comparisons while the
@@ -638,7 +638,7 @@ import type { Range as _typeAlias_Range } from "jsr:@std/semver@1.0.1"
 type Range = _typeAlias_Range
 export type { Range }
 
-import { tryParseRange as _function_tryParseRange } from "jsr:@std/semver@1.0.1"
+import { tryParseRange as _function_tryParseRange } from "jsr:@std/semver@1.0.2"
 /**
  * Parses the given range string and returns a Range object. If the range string
  * is invalid, `undefined` is returned.
@@ -656,13 +656,13 @@ import { tryParseRange as _function_tryParseRange } from "jsr:@std/semver@1.0.1"
  * ]);
  * ```
  *
- * @param range The range string
+ * @param value The range string
  * @return A Range object if valid otherwise `undefined`
  */
 const tryParseRange = _function_tryParseRange as typeof _function_tryParseRange
 export { tryParseRange }
 
-import { isRange as _function_isRange } from "jsr:@std/semver@1.0.1"
+import { isRange as _function_isRange } from "jsr:@std/semver@1.0.2"
 /**
  * Does a deep check on the object to determine if its a valid range.
  *
@@ -686,7 +686,7 @@ import { isRange as _function_isRange } from "jsr:@std/semver@1.0.1"
 const isRange = _function_isRange as typeof _function_isRange
 export { isRange }
 
-import { canParse as _function_canParse } from "jsr:@std/semver@1.0.1"
+import { canParse as _function_canParse } from "jsr:@std/semver@1.0.2"
 /**
  * Returns true if the string can be parsed as SemVer.
  *
@@ -699,13 +699,13 @@ import { canParse as _function_canParse } from "jsr:@std/semver@1.0.1"
  * assertFalse(canParse("invalid"));
  * ```
  *
- * @param version The version string to check
+ * @param value The version string to check
  * @return `true` if the string can be parsed as SemVer, `false` otherwise
  */
 const canParse = _function_canParse as typeof _function_canParse
 export { canParse }
 
-import { tryParse as _function_tryParse } from "jsr:@std/semver@1.0.1"
+import { tryParse as _function_tryParse } from "jsr:@std/semver@1.0.2"
 /**
  * Returns the parsed SemVer, or `undefined` if it's not valid.
  *
@@ -721,13 +721,13 @@ import { tryParse as _function_tryParse } from "jsr:@std/semver@1.0.1"
  * assertEquals(tryParse(" invalid "), undefined);
  * ```
  *
- * @param version The version string to parse
+ * @param value The version string to parse
  * @return A valid SemVer or `undefined`
  */
 const tryParse = _function_tryParse as typeof _function_tryParse
 export { tryParse }
 
-import { formatRange as _function_formatRange } from "jsr:@std/semver@1.0.1"
+import { formatRange as _function_formatRange } from "jsr:@std/semver@1.0.2"
 /**
  * Formats the SemVerrange into a string.
  *
@@ -746,83 +746,83 @@ import { formatRange as _function_formatRange } from "jsr:@std/semver@1.0.1"
 const formatRange = _function_formatRange as typeof _function_formatRange
 export { formatRange }
 
-import { equals as _function_equals } from "jsr:@std/semver@1.0.1"
+import { equals as _function_equals } from "jsr:@std/semver@1.0.2"
 /**
  * Returns `true` if both SemVers are equivalent.
  *
- * This is equal to `compare(s0, s1) === 0`.
+ * This is equal to `compare(version1, version2) === 0`.
  *
  * @example Usage
  * ```ts
  * import { parse, equals } from "@std/semver";
  * import { assert } from "@std/assert";
  *
- * const s0 = parse("1.2.3");
- * const s1 = parse("1.2.3");
+ * const version1 = parse("1.2.3");
+ * const version2 = parse("1.2.3");
  *
- * assert(equals(s0, s1));
- * assert(!equals(s0, parse("1.2.4")));
+ * assert(equals(version1, version2));
+ * assert(!equals(version1, parse("1.2.4")));
  * ```
  *
- * @param s0 The first SemVer to compare
- * @param s1 The second SemVer to compare
- * @return `true` if `s0` is equal to `s1`, `false` otherwise
+ * @param version1 The first SemVer to compare
+ * @param version2 The second SemVer to compare
+ * @return `true` if `version1` is equal to `version2`, `false` otherwise
  */
 const equals = _function_equals as typeof _function_equals
 export { equals }
 
-import { notEquals as _function_notEquals } from "jsr:@std/semver@1.0.1"
+import { notEquals as _function_notEquals } from "jsr:@std/semver@1.0.2"
 /**
  * Not equal comparison for two SemVers.
  *
- * This is equal to `compare(s0, s1) !== 0`.
+ * This is equal to `compare(version1, version2) !== 0`.
  *
  * @example Usage
  * ```ts
  * import { parse, notEquals } from "@std/semver";
  * import { assert } from "@std/assert";
  *
- * const s0 = parse("1.2.3");
- * const s1 = parse("1.2.4");
+ * const version1 = parse("1.2.3");
+ * const version2 = parse("1.2.4");
  *
- * assert(notEquals(s0, s1));
- * assert(!notEquals(s0, s0));
+ * assert(notEquals(version1, version2));
+ * assert(!notEquals(version1, version1));
  * ```
  *
- * @param s0 The first version to compare
- * @param s1 The second version to compare
- * @return `true` if `s0` is not equal to `s1`, `false` otherwise
+ * @param version1 The first version to compare
+ * @param version2 The second version to compare
+ * @return `true` if `version1` is not equal to `version2`, `false` otherwise
  */
 const notEquals = _function_notEquals as typeof _function_notEquals
 export { notEquals }
 
-import { greaterThan as _function_greaterThan } from "jsr:@std/semver@1.0.1"
+import { greaterThan as _function_greaterThan } from "jsr:@std/semver@1.0.2"
 /**
  * Greater than comparison for two SemVers.
  *
- * This is equal to `compare(s0, s1) > 0`.
+ * This is equal to `compare(version1, version2) > 0`.
  *
  * @example Usage
  * ```ts
  * import { parse, greaterThan } from "@std/semver";
  * import { assert } from "@std/assert";
  *
- * const s0 = parse("1.2.3");
- * const s1 = parse("1.2.4");
+ * const version1 = parse("1.2.3");
+ * const version2 = parse("1.2.4");
  *
- * assert(greaterThan(s1, s0));
- * assert(!greaterThan(s0, s1));
- * assert(!greaterThan(s0, s0));
+ * assert(greaterThan(version2, version1));
+ * assert(!greaterThan(version1, version2));
+ * assert(!greaterThan(version1, version1));
  * ```
  *
- * @param s0 The first version to compare
- * @param s1 The second version to compare
- * @return `true` if `s0` is greater than `s1`, `false` otherwise
+ * @param version1 The first version to compare
+ * @param version2 The second version to compare
+ * @return `true` if `version1` is greater than `version2`, `false` otherwise
  */
 const greaterThan = _function_greaterThan as typeof _function_greaterThan
 export { greaterThan }
 
-import { greaterThanRange as _function_greaterThanRange } from "jsr:@std/semver@1.0.1"
+import { greaterThanRange as _function_greaterThanRange } from "jsr:@std/semver@1.0.2"
 /**
  * Check if the SemVer is greater than the range.
  *
@@ -831,74 +831,74 @@ import { greaterThanRange as _function_greaterThanRange } from "jsr:@std/semver@
  * import { parse, parseRange, greaterThanRange } from "@std/semver";
  * import { assert } from "@std/assert";
  *
- * const v0 = parse("1.2.3");
- * const v1 = parse("1.2.4");
+ * const version1 = parse("1.2.3");
+ * const version2 = parse("1.2.4");
  * const range = parseRange(">=1.2.3 <1.2.4");
  *
- * assert(!greaterThanRange(v0, range));
- * assert(greaterThanRange(v1, range));
+ * assert(!greaterThanRange(version1, range));
+ * assert(greaterThanRange(version2, range));
  * ```
  *
- * @param semver The version to check.
+ * @param version The version to check.
  * @param range The range to check against.
  * @return `true` if the semver is greater than the range, `false` otherwise.
  */
 const greaterThanRange = _function_greaterThanRange as typeof _function_greaterThanRange
 export { greaterThanRange }
 
-import { greaterOrEqual as _function_greaterOrEqual } from "jsr:@std/semver@1.0.1"
+import { greaterOrEqual as _function_greaterOrEqual } from "jsr:@std/semver@1.0.2"
 /**
  * Greater than or equal to comparison for two SemVers.
  *
- * This is equal to `compare(s0, s1) >= 0`.
+ * This is equal to `compare(version1, version2) >= 0`.
  *
  * @example Usage
  * ```ts
  * import { parse, greaterOrEqual } from "@std/semver";
  * import { assert } from "@std/assert";
  *
- * const s0 = parse("1.2.3");
- * const s1 = parse("1.2.4");
+ * const version1 = parse("1.2.3");
+ * const version2 = parse("1.2.4");
  *
- * assert(greaterOrEqual(s1, s0));
- * assert(!greaterOrEqual(s0, s1));
- * assert(greaterOrEqual(s0, s0));
+ * assert(greaterOrEqual(version2, version1));
+ * assert(!greaterOrEqual(version1, version2));
+ * assert(greaterOrEqual(version1, version1));
  * ```
  *
- * @param s0 The first version to compare
- * @param s1 The second version to compare
- * @return `true` if `s0` is greater than or equal to `s1`, `false` otherwise
+ * @param version1 The first version to compare
+ * @param version2 The second version to compare
+ * @return `true` if `version1` is greater than or equal to `version2`, `false` otherwise
  */
 const greaterOrEqual = _function_greaterOrEqual as typeof _function_greaterOrEqual
 export { greaterOrEqual }
 
-import { lessThan as _function_lessThan } from "jsr:@std/semver@1.0.1"
+import { lessThan as _function_lessThan } from "jsr:@std/semver@1.0.2"
 /**
  * Less than comparison for two SemVers.
  *
- * This is equal to `compare(s0, s1) < 0`.
+ * This is equal to `compare(version1, version2) < 0`.
  *
  * @example Usage
  * ```ts
  * import { parse, lessThan } from "@std/semver";
  * import { assert } from "@std/assert";
  *
- * const s0 = parse("1.2.3");
- * const s1 = parse("1.2.4");
+ * const version1 = parse("1.2.3");
+ * const version2 = parse("1.2.4");
  *
- * assert(lessThan(s0, s1));
- * assert(!lessThan(s1, s0));
- * assert(!lessThan(s0, s0));
+ * assert(lessThan(version1, version2));
+ * assert(!lessThan(version2, version1));
+ * assert(!lessThan(version1, version1));
  * ```
  *
- * @param s0 the first version to compare
- * @param s1 the second version to compare
- * @return `true` if `s0` is less than `s1`, `false` otherwise
+ * @param version1 the first version to compare
+ * @param version2 the second version to compare
+ * @return `true` if `version1` is less than `version2`, `false` otherwise
  */
 const lessThan = _function_lessThan as typeof _function_lessThan
 export { lessThan }
 
-import { lessThanRange as _function_lessThanRange } from "jsr:@std/semver@1.0.1"
+import { lessThanRange as _function_lessThanRange } from "jsr:@std/semver@1.0.2"
 /**
  * Check if the SemVer is less than the range.
  *
@@ -907,43 +907,43 @@ import { lessThanRange as _function_lessThanRange } from "jsr:@std/semver@1.0.1"
  * import { parse, parseRange, lessThanRange } from "@std/semver";
  * import { assert } from "@std/assert";
  *
- * const v0 = parse("1.2.3");
- * const v1 = parse("1.0.0");
+ * const version1 = parse("1.2.3");
+ * const version2 = parse("1.0.0");
  * const range = parseRange(">=1.2.3 <1.2.4");
  *
- * assert(!lessThanRange(v0, range));
- * assert(lessThanRange(v1, range));
+ * assert(!lessThanRange(version1, range));
+ * assert(lessThanRange(version2, range));
  * ```
  *
- * @param semver The version to check.
+ * @param version The version to check.
  * @param range The range to check against.
  * @return `true` if the SemVer is less than the range, `false` otherwise.
  */
 const lessThanRange = _function_lessThanRange as typeof _function_lessThanRange
 export { lessThanRange }
 
-import { lessOrEqual as _function_lessOrEqual } from "jsr:@std/semver@1.0.1"
+import { lessOrEqual as _function_lessOrEqual } from "jsr:@std/semver@1.0.2"
 /**
  * Less than or equal to comparison for two SemVers.
  *
- * This is equal to `compare(s0, s1) <= 0`.
+ * This is equal to `compare(version1, version2) <= 0`.
  *
  * @example Usage
  * ```ts
  * import { parse, lessOrEqual } from "@std/semver";
  * import { assert } from "@std/assert";
  *
- * const s0 = parse("1.2.3");
- * const s1 = parse("1.2.4");
+ * const version1 = parse("1.2.3");
+ * const version2 = parse("1.2.4");
  *
- * assert(lessOrEqual(s0, s1));
- * assert(!lessOrEqual(s1, s0));
- * assert(lessOrEqual(s0, s0));
+ * assert(lessOrEqual(version1, version2));
+ * assert(!lessOrEqual(version2, version1));
+ * assert(lessOrEqual(version1, version1));
  * ```
  *
- * @param s0 the first version to compare
- * @param s1 the second version to compare
- * @return `true` if `s0` is less than or equal to `s1`, `false` otherwise
+ * @param version1 the first version to compare
+ * @param version2 the second version to compare
+ * @return `true` if `version1` is less than or equal to `version2`, `false` otherwise
  */
 const lessOrEqual = _function_lessOrEqual as typeof _function_lessOrEqual
 export { lessOrEqual }

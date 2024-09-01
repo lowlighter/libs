@@ -1,4 +1,4 @@
-import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.1/ensure-symlink"
+import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.2/ensure-symlink"
 /**
  * Asynchronously ensures that the link exists, and points to a valid file.
  *
@@ -27,7 +27,7 @@ import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.1/ensu
 const ensureSymlink = _function_ensureSymlink as typeof _function_ensureSymlink
 export { ensureSymlink }
 
-import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.0.1/ensure-symlink"
+import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.0.2/ensure-symlink"
 /**
  * Synchronously ensures that the link exists, and points to a valid file.
  *

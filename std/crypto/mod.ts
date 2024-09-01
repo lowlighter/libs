@@ -16,7 +16,7 @@
  *
  * @module
  */
-import { DIGEST_ALGORITHM_NAMES as _variable_DIGEST_ALGORITHM_NAMES } from "jsr:@std/crypto@1.0.2"
+import { DIGEST_ALGORITHM_NAMES as _variable_DIGEST_ALGORITHM_NAMES } from "jsr:@std/crypto@1.0.3"
 /**
  * All cryptographic hash/digest algorithms supported by std/crypto.
  *
@@ -28,35 +28,35 @@ import { DIGEST_ALGORITHM_NAMES as _variable_DIGEST_ALGORITHM_NAMES } from "jsr:
 const DIGEST_ALGORITHM_NAMES = _variable_DIGEST_ALGORITHM_NAMES as typeof _variable_DIGEST_ALGORITHM_NAMES
 export { DIGEST_ALGORITHM_NAMES }
 
-import type { DigestAlgorithmName as _typeAlias_DigestAlgorithmName } from "jsr:@std/crypto@1.0.2"
+import type { DigestAlgorithmName as _typeAlias_DigestAlgorithmName } from "jsr:@std/crypto@1.0.3"
 /**
  * An algorithm name supported by std/crypto.
  */
 type DigestAlgorithmName = _typeAlias_DigestAlgorithmName
 export type { DigestAlgorithmName }
 
-import type { StdSubtleCrypto as _interface_StdSubtleCrypto } from "jsr:@std/crypto@1.0.2"
+import type { StdSubtleCrypto as _interface_StdSubtleCrypto } from "jsr:@std/crypto@1.0.3"
 /**
  * Extensions to the web standard `SubtleCrypto` interface.
  */
 interface StdSubtleCrypto extends _interface_StdSubtleCrypto {}
 export type { StdSubtleCrypto }
 
-import type { StdCrypto as _interface_StdCrypto } from "jsr:@std/crypto@1.0.2"
+import type { StdCrypto as _interface_StdCrypto } from "jsr:@std/crypto@1.0.3"
 /**
  * Extensions to the Web {@linkcode Crypto} interface.
  */
 interface StdCrypto extends _interface_StdCrypto {}
 export type { StdCrypto }
 
-import type { DigestAlgorithmObject as _typeAlias_DigestAlgorithmObject } from "jsr:@std/crypto@1.0.2"
+import type { DigestAlgorithmObject as _typeAlias_DigestAlgorithmObject } from "jsr:@std/crypto@1.0.3"
 /**
  * Extended digest algorithm objects.
  */
 type DigestAlgorithmObject = _typeAlias_DigestAlgorithmObject
 export type { DigestAlgorithmObject }
 
-import type { DigestAlgorithm as _typeAlias_DigestAlgorithm } from "jsr:@std/crypto@1.0.2"
+import type { DigestAlgorithm as _typeAlias_DigestAlgorithm } from "jsr:@std/crypto@1.0.3"
 /**
  * Extended digest algorithms accepted by {@linkcode stdCrypto.subtle.digest}.
  *
@@ -66,7 +66,7 @@ import type { DigestAlgorithm as _typeAlias_DigestAlgorithm } from "jsr:@std/cry
 type DigestAlgorithm = _typeAlias_DigestAlgorithm
 export type { DigestAlgorithm }
 
-import { crypto as _variable_crypto } from "jsr:@std/crypto@1.0.2"
+import { crypto as _variable_crypto } from "jsr:@std/crypto@1.0.3"
 /**
  * An wrapper for WebCrypto adding support for additional non-standard
  * algorithms, but delegating to the runtime WebCrypto implementation whenever
@@ -75,7 +75,7 @@ import { crypto as _variable_crypto } from "jsr:@std/crypto@1.0.2"
 const crypto = _variable_crypto as typeof _variable_crypto
 export { crypto }
 
-import { timingSafeEqual as _function_timingSafeEqual } from "jsr:@std/crypto@1.0.2"
+import { timingSafeEqual as _function_timingSafeEqual } from "jsr:@std/crypto@1.0.3"
 /**
  * When checking the values of cryptographic hashes are equal, default
  * comparisons can be susceptible to timing based attacks, where attacker is

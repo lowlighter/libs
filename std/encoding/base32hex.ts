@@ -1,7 +1,8 @@
-import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@1.0.2/base32hex"
+import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@1.0.3/base32hex"
 /**
  * Decodes a base32hex-encoded string.
  *
+ * @experimental
  * @see {@link https://www.rfc-editor.org/rfc/rfc4648.html#section-7}
  *
  * @param b32 The base32hex-encoded string to decode.
@@ -17,16 +18,15 @@ import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@
  *   new TextEncoder().encode("6c60c0"),
  * );
  * ```
- *
- * @experimental
  */
 const decodeBase32Hex = _function_decodeBase32Hex as typeof _function_decodeBase32Hex
 export { decodeBase32Hex }
 
-import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@1.0.2/base32hex"
+import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@1.0.3/base32hex"
 /**
  * Converts data into a base32hex-encoded string.
  *
+ * @experimental
  * @see {@link https://www.rfc-editor.org/rfc/rfc4648.html#section-7}
  *
  * @param data The data to encode.
@@ -39,8 +39,6 @@ import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@
  *
  * assertEquals(encodeBase32Hex("6c60c0"), "6PHJCC3360======");
  * ```
- *
- * @experimental
  */
 const encodeBase32Hex = _function_encodeBase32Hex as typeof _function_encodeBase32Hex
 export { encodeBase32Hex }

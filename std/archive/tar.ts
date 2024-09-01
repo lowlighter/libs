@@ -1,64 +1,49 @@
-import type { TarInfo as _interface_TarInfo } from "jsr:@std/archive@0.225.0/tar"
+import type { TarInfo as _interface_TarInfo } from "jsr:@std/archive@0.225.1/tar"
 /**
  * Base interface for {@linkcode TarMeta}.
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  */
 interface TarInfo extends _interface_TarInfo {}
 export type { TarInfo }
 
-import type { TarMeta as _interface_TarMeta } from "jsr:@std/archive@0.225.0/tar"
+import type { TarMeta as _interface_TarMeta } from "jsr:@std/archive@0.225.1/tar"
 /**
  * Base interface for {@linkcode TarMetaWithLinkName}.
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  */
 interface TarMeta extends _interface_TarMeta {}
 export type { TarMeta }
 
-import type { TarOptions as _interface_TarOptions } from "jsr:@std/archive@0.225.0/tar"
+import type { TarOptions as _interface_TarOptions } from "jsr:@std/archive@0.225.1/tar"
 /**
  * Options for {@linkcode Tar.append}.
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  */
 interface TarOptions extends _interface_TarOptions {}
 export type { TarOptions }
 
-import type { TarData as _interface_TarData } from "jsr:@std/archive@0.225.0/tar"
+import type { TarData as _interface_TarData } from "jsr:@std/archive@0.225.1/tar"
 /**
  * Base interface for {@linkcode TarDataWithSource}.
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  */
 interface TarData extends _interface_TarData {}
 export type { TarData }
 
-import type { TarDataWithSource as _interface_TarDataWithSource } from "jsr:@std/archive@0.225.0/tar"
+import type { TarDataWithSource as _interface_TarDataWithSource } from "jsr:@std/archive@0.225.1/tar"
 /**
  * Tar data interface for {@linkcode Tar.data}.
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  */
 interface TarDataWithSource extends _interface_TarDataWithSource {}
 export type { TarDataWithSource }
 
-import { Tar as _class_Tar } from "jsr:@std/archive@0.225.0/tar"
+import { Tar as _class_Tar } from "jsr:@std/archive@0.225.1/tar"
 /**
  * ### Overview
  * A class to create a tar archive.  Tar archives allow for storing multiple files in a
@@ -85,7 +70,8 @@ import { Tar as _class_Tar } from "jsr:@std/archive@0.225.0/tar"
  * * Filenames (including path) cannot contain non-ASCII characters
  * * Sparse files are not supported
  *
- * @example ```ts
+ * @example Usage
+ * ```ts no-eval
  * import { Tar } from "@std/archive/tar";
  * import { Buffer } from "@std/io/buffer";
  * import { copy } from "@std/io/copy";
@@ -112,9 +98,6 @@ import { Tar as _class_Tar } from "jsr:@std/archive@0.225.0/tar"
  * await copy(tar.getReader(), writer);
  * writer.close();
  * ```
- *
- * > [!WARNING]
- * > **UNSTABLE**: New API, yet to be vetted.
  *
  * @experimental
  */

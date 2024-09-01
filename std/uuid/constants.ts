@@ -1,4 +1,4 @@
-import { NAMESPACE_DNS as _variable_NAMESPACE_DNS } from "jsr:@std/uuid@1.0.1/constants"
+import { NAMESPACE_DNS as _variable_NAMESPACE_DNS } from "jsr:@std/uuid@1.0.2/constants"
 /**
  * Name string is a fully-qualified domain name.
  *
@@ -13,7 +13,7 @@ import { NAMESPACE_DNS as _variable_NAMESPACE_DNS } from "jsr:@std/uuid@1.0.1/co
 const NAMESPACE_DNS = _variable_NAMESPACE_DNS as typeof _variable_NAMESPACE_DNS
 export { NAMESPACE_DNS }
 
-import { NAMESPACE_URL as _variable_NAMESPACE_URL } from "jsr:@std/uuid@1.0.1/constants"
+import { NAMESPACE_URL as _variable_NAMESPACE_URL } from "jsr:@std/uuid@1.0.2/constants"
 /**
  * Name string is a URL.
  *
@@ -28,7 +28,7 @@ import { NAMESPACE_URL as _variable_NAMESPACE_URL } from "jsr:@std/uuid@1.0.1/co
 const NAMESPACE_URL = _variable_NAMESPACE_URL as typeof _variable_NAMESPACE_URL
 export { NAMESPACE_URL }
 
-import { NAMESPACE_OID as _variable_NAMESPACE_OID } from "jsr:@std/uuid@1.0.1/constants"
+import { NAMESPACE_OID as _variable_NAMESPACE_OID } from "jsr:@std/uuid@1.0.2/constants"
 /**
  * Name string is an ISO OID.
  *
@@ -43,7 +43,7 @@ import { NAMESPACE_OID as _variable_NAMESPACE_OID } from "jsr:@std/uuid@1.0.1/co
 const NAMESPACE_OID = _variable_NAMESPACE_OID as typeof _variable_NAMESPACE_OID
 export { NAMESPACE_OID }
 
-import { NAMESPACE_X500 as _variable_NAMESPACE_X500 } from "jsr:@std/uuid@1.0.1/constants"
+import { NAMESPACE_X500 as _variable_NAMESPACE_X500 } from "jsr:@std/uuid@1.0.2/constants"
 /**
  * Name string is an X.500 DN (in DER or a text output format).
  *
@@ -58,7 +58,7 @@ import { NAMESPACE_X500 as _variable_NAMESPACE_X500 } from "jsr:@std/uuid@1.0.1/
 const NAMESPACE_X500 = _variable_NAMESPACE_X500 as typeof _variable_NAMESPACE_X500
 export { NAMESPACE_X500 }
 
-import { NIL_UUID as _variable_NIL_UUID } from "jsr:@std/uuid@1.0.1/constants"
+import { NIL_UUID as _variable_NIL_UUID } from "jsr:@std/uuid@1.0.2/constants"
 /**
  * The nil UUID is special form of UUID that is specified to have all 128 bits
  * set to zero.

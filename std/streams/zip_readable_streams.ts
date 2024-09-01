@@ -1,4 +1,4 @@
-import { zipReadableStreams as _function_zipReadableStreams } from "jsr:@std/streams@1.0.2/zip-readable-streams"
+import { zipReadableStreams as _function_zipReadableStreams } from "jsr:@std/streams@1.0.3/zip-readable-streams"
 /**
  * Merge multiple streams into a single one, taking order into account, and
  * each stream will wait for a chunk to enqueue before the next stream can

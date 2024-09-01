@@ -1,4 +1,4 @@
-import { sprintf as _function_sprintf } from "jsr:@std/fmt@1.0.0/printf"
+import { sprintf as _function_sprintf } from "jsr:@std/fmt@1.0.1/printf"
 /**
  * Converts and formats a variable number of `args` as is specified by `format`.
  * `sprintf` returns the formatted string.
@@ -26,7 +26,7 @@ import { sprintf as _function_sprintf } from "jsr:@std/fmt@1.0.0/printf"
 const sprintf = _function_sprintf as typeof _function_sprintf
 export { sprintf }
 
-import { printf as _function_printf } from "jsr:@std/fmt@1.0.0/printf"
+import { printf as _function_printf } from "jsr:@std/fmt@1.0.1/printf"
 /**
  * Converts and format a variable number of `args` as is specified by `format`.
  * `printf` writes the formatted string to standard output.

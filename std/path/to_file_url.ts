@@ -1,4 +1,4 @@
-import { toFileUrl as _function_toFileUrl } from "jsr:@std/path@1.0.2/to-file-url"
+import { toFileUrl as _function_toFileUrl } from "jsr:@std/path@1.0.3/to-file-url"
 /**
  * Converts a path string to a file URL.
  *

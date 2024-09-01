@@ -1,11 +1,11 @@
-import type { WalkOptions as _interface_WalkOptions } from "jsr:@std/fs@1.0.1/walk"
+import type { WalkOptions as _interface_WalkOptions } from "jsr:@std/fs@1.0.2/walk"
 /**
  * Options for {@linkcode walk} and {@linkcode walkSync}.
  */
 interface WalkOptions extends _interface_WalkOptions {}
 export type { WalkOptions }
 
-import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.1/walk"
+import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.2/walk"
 /**
  * Walk entry for {@linkcode walk}, {@linkcode walkSync},
  * {@linkcode expandGlob} and {@linkcode expandGlobSync}.
@@ -13,7 +13,7 @@ import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.1/walk"
 interface WalkEntry extends _interface_WalkEntry {}
 export type { WalkEntry }
 
-import { walk as _function_walk } from "jsr:@std/fs@1.0.1/walk"
+import { walk as _function_walk } from "jsr:@std/fs@1.0.2/walk"
 /**
  * Recursively walks through a directory and yields information about each file
  * and directory encountered.
@@ -372,7 +372,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.1/walk"
 const walk = _function_walk as typeof _function_walk
 export { walk }
 
-import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.1/walk"
+import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.2/walk"
 /**
  * Recursively walks through a directory and yields information about each file
  * and directory encountered.

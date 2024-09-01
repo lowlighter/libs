@@ -1,4 +1,4 @@
-import { MuxAsyncIterator as _class_MuxAsyncIterator } from "jsr:@std/async@1.0.3/mux-async-iterator"
+import { MuxAsyncIterator as _class_MuxAsyncIterator } from "jsr:@std/async@1.0.4/mux-async-iterator"
 /**
  * Multiplexes multiple async iterators into a single stream. It currently
  * makes an assumption that the final result (the value returned and not

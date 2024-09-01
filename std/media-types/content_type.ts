@@ -1,25 +1,25 @@
-import type { DB as _typeAlias_DB } from "jsr:@std/media-types@1.0.2/content-type"
+import type { DB as _typeAlias_DB } from "jsr:@std/media-types@1.0.3/content-type"
 /**
  * MIME-types database.
  */
 type DB = _typeAlias_DB
 export type { DB }
 
-import type { ContentTypeToExtension as _typeAlias_ContentTypeToExtension } from "jsr:@std/media-types@1.0.2/content-type"
+import type { ContentTypeToExtension as _typeAlias_ContentTypeToExtension } from "jsr:@std/media-types@1.0.3/content-type"
 /**
  * Maps content types to their corresponding file extensions.
  */
 type ContentTypeToExtension = _typeAlias_ContentTypeToExtension
 export type { ContentTypeToExtension }
 
-import type { KnownExtensionOrType as _typeAlias_KnownExtensionOrType } from "jsr:@std/media-types@1.0.2/content-type"
+import type { KnownExtensionOrType as _typeAlias_KnownExtensionOrType } from "jsr:@std/media-types@1.0.3/content-type"
 /**
  * Known extension or type. Used in {@linkcode contentType}.
  */
 type KnownExtensionOrType = _typeAlias_KnownExtensionOrType
 export type { KnownExtensionOrType }
 
-import { contentType as _function_contentType } from "jsr:@std/media-types@1.0.2/content-type"
+import { contentType as _function_contentType } from "jsr:@std/media-types@1.0.3/content-type"
 /**
  * Returns the full `Content-Type` or `Content-Disposition` header value for the
  * given extension or media type.

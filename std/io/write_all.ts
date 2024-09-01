@@ -1,4 +1,4 @@
-import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.5/write-all"
+import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.6/write-all"
 /**
  * Write all the content of the array buffer (`arr`) to the writer (`w`).
  *
@@ -25,7 +25,7 @@ import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.5/write-all"
 const writeAll = _function_writeAll as typeof _function_writeAll
 export { writeAll }
 
-import { writeAllSync as _function_writeAllSync } from "jsr:@std/io@0.224.5/write-all"
+import { writeAllSync as _function_writeAllSync } from "jsr:@std/io@0.224.6/write-all"
 /**
  * Synchronously write all the content of the array buffer (`arr`) to the
  * writer (`w`).

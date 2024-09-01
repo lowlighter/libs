@@ -1,9 +1,9 @@
-import { assertType as _function_assertType } from "jsr:@std/testing@1.0.0/types"
+import { assertType as _function_assertType } from "jsr:@std/testing@1.0.1/types"
 /**
  * Asserts at compile time that the provided type argument's type resolves to the expected boolean literal type.
  *
  * @example Usage
- * ```ts ignore
+ * ```ts expect-error ignore
  * import { assertType, IsExact, IsNullable } from "@std/testing/types";
  *
  * const result = "some result" as string | number;
@@ -21,7 +21,7 @@ import { assertType as _function_assertType } from "jsr:@std/testing@1.0.0/types
 const assertType = _function_assertType as typeof _function_assertType
 export { assertType }
 
-import type { AssertTrue as _typeAlias_AssertTrue } from "jsr:@std/testing@1.0.0/types"
+import type { AssertTrue as _typeAlias_AssertTrue } from "jsr:@std/testing@1.0.1/types"
 /**
  * Asserts at compile time that the provided type argument's type resolves to true.
  *
@@ -39,7 +39,7 @@ import type { AssertTrue as _typeAlias_AssertTrue } from "jsr:@std/testing@1.0.0
 type AssertTrue<T extends true> = _typeAlias_AssertTrue<T>
 export type { AssertTrue }
 
-import type { AssertFalse as _typeAlias_AssertFalse } from "jsr:@std/testing@1.0.0/types"
+import type { AssertFalse as _typeAlias_AssertFalse } from "jsr:@std/testing@1.0.1/types"
 /**
  * Asserts at compile time that the provided type argument's type resolves to false.
  *
@@ -57,7 +57,7 @@ import type { AssertFalse as _typeAlias_AssertFalse } from "jsr:@std/testing@1.0
 type AssertFalse<T extends false> = _typeAlias_AssertFalse<T>
 export type { AssertFalse }
 
-import type { Assert as _typeAlias_Assert } from "jsr:@std/testing@1.0.0/types"
+import type { Assert as _typeAlias_Assert } from "jsr:@std/testing@1.0.1/types"
 /**
  * Asserts at compile time that the provided type argument's type resolves to the expected boolean literal type.
  *
@@ -76,7 +76,7 @@ import type { Assert as _typeAlias_Assert } from "jsr:@std/testing@1.0.0/types"
 type Assert<T extends boolean, Expected extends T> = _typeAlias_Assert<T, Expected>
 export type { Assert }
 
-import type { Has as _typeAlias_Has } from "jsr:@std/testing@1.0.0/types"
+import type { Has as _typeAlias_Has } from "jsr:@std/testing@1.0.1/types"
 /**
  * Checks if type `T` has the specified type `U`.
  *
@@ -98,7 +98,7 @@ import type { Has as _typeAlias_Has } from "jsr:@std/testing@1.0.0/types"
 type Has<T, U> = _typeAlias_Has<T, U>
 export type { Has }
 
-import type { NotHas as _typeAlias_NotHas } from "jsr:@std/testing@1.0.0/types"
+import type { NotHas as _typeAlias_NotHas } from "jsr:@std/testing@1.0.1/types"
 /**
  * Checks if type `T` does not have the specified type `U`.
  *
@@ -120,7 +120,7 @@ import type { NotHas as _typeAlias_NotHas } from "jsr:@std/testing@1.0.0/types"
 type NotHas<T, U> = _typeAlias_NotHas<T, U>
 export type { NotHas }
 
-import type { IsNullable as _typeAlias_IsNullable } from "jsr:@std/testing@1.0.0/types"
+import type { IsNullable as _typeAlias_IsNullable } from "jsr:@std/testing@1.0.1/types"
 /**
  * Checks if type `T` is possibly null or undefined.
  *
@@ -142,7 +142,7 @@ import type { IsNullable as _typeAlias_IsNullable } from "jsr:@std/testing@1.0.0
 type IsNullable<T> = _typeAlias_IsNullable<T>
 export type { IsNullable }
 
-import type { IsExact as _typeAlias_IsExact } from "jsr:@std/testing@1.0.0/types"
+import type { IsExact as _typeAlias_IsExact } from "jsr:@std/testing@1.0.1/types"
 /**
  * Checks if type `T` exactly matches type `U`.
  *
@@ -167,21 +167,21 @@ import type { IsExact as _typeAlias_IsExact } from "jsr:@std/testing@1.0.0/types
 type IsExact<T, U> = _typeAlias_IsExact<T, U>
 export type { IsExact }
 
-import type { DeepPrepareIsExact as _typeAlias_DeepPrepareIsExact } from "jsr:@std/testing@1.0.0/types"
+import type { DeepPrepareIsExact as _typeAlias_DeepPrepareIsExact } from "jsr:@std/testing@1.0.1/types"
 /**
  * @internal
  */
 type DeepPrepareIsExact<T, VisitedTypes = never> = _typeAlias_DeepPrepareIsExact<T, VisitedTypes>
 export type { DeepPrepareIsExact }
 
-import type { DeepPrepareIsExactProp as _typeAlias_DeepPrepareIsExactProp } from "jsr:@std/testing@1.0.0/types"
+import type { DeepPrepareIsExactProp as _typeAlias_DeepPrepareIsExactProp } from "jsr:@std/testing@1.0.1/types"
 /**
  * @internal
  */
 type DeepPrepareIsExactProp<Prop, Parent, VisitedTypes> = _typeAlias_DeepPrepareIsExactProp<Prop, Parent, VisitedTypes>
 export type { DeepPrepareIsExactProp }
 
-import type { IsAny as _typeAlias_IsAny } from "jsr:@std/testing@1.0.0/types"
+import type { IsAny as _typeAlias_IsAny } from "jsr:@std/testing@1.0.1/types"
 /**
  * Checks if type `T` is the `any` type.
  *
@@ -198,7 +198,7 @@ import type { IsAny as _typeAlias_IsAny } from "jsr:@std/testing@1.0.0/types"
 type IsAny<T> = _typeAlias_IsAny<T>
 export type { IsAny }
 
-import type { IsNever as _typeAlias_IsNever } from "jsr:@std/testing@1.0.0/types"
+import type { IsNever as _typeAlias_IsNever } from "jsr:@std/testing@1.0.1/types"
 /**
  * Checks if type `T` is the `never` type.
  *
@@ -215,7 +215,7 @@ import type { IsNever as _typeAlias_IsNever } from "jsr:@std/testing@1.0.0/types
 type IsNever<T> = _typeAlias_IsNever<T>
 export type { IsNever }
 
-import type { IsUnknown as _typeAlias_IsUnknown } from "jsr:@std/testing@1.0.0/types"
+import type { IsUnknown as _typeAlias_IsUnknown } from "jsr:@std/testing@1.0.1/types"
 /**
  * Checks if type `T` is the `unknown` type.
  *
@@ -232,7 +232,16 @@ import type { IsUnknown as _typeAlias_IsUnknown } from "jsr:@std/testing@1.0.0/t
 type IsUnknown<T> = _typeAlias_IsUnknown<T>
 export type { IsUnknown }
 
-import type { TupleMatches as _typeAlias_TupleMatches } from "jsr:@std/testing@1.0.0/types"
+import type { ParametersAndReturnTypeMatches as _typeAlias_ParametersAndReturnTypeMatches } from "jsr:@std/testing@1.0.1/types"
+/**
+ * The internal utility type to match the given types as return types.
+ *
+ * @internal
+ */
+type ParametersAndReturnTypeMatches<T, U> = _typeAlias_ParametersAndReturnTypeMatches<T, U>
+export type { ParametersAndReturnTypeMatches }
+
+import type { TupleMatches as _typeAlias_TupleMatches } from "jsr:@std/testing@1.0.1/types"
 /**
  * The internal utility type to match the given types as tuples.
  *
@@ -241,7 +250,7 @@ import type { TupleMatches as _typeAlias_TupleMatches } from "jsr:@std/testing@1
 type TupleMatches<T, U> = _typeAlias_TupleMatches<T, U>
 export type { TupleMatches }
 
-import type { Matches as _typeAlias_Matches } from "jsr:@std/testing@1.0.0/types"
+import type { Matches as _typeAlias_Matches } from "jsr:@std/testing@1.0.1/types"
 /**
  * The internal utility type to match the given types.
  *
@@ -250,7 +259,7 @@ import type { Matches as _typeAlias_Matches } from "jsr:@std/testing@1.0.0/types
 type Matches<T, U> = _typeAlias_Matches<T, U>
 export type { Matches }
 
-import type { AnyToBrand as _typeAlias_AnyToBrand } from "jsr:@std/testing@1.0.0/types"
+import type { AnyToBrand as _typeAlias_AnyToBrand } from "jsr:@std/testing@1.0.1/types"
 /**
  * The utility type to convert any to {@linkcode AnyBrand}.
  *
@@ -259,7 +268,7 @@ import type { AnyToBrand as _typeAlias_AnyToBrand } from "jsr:@std/testing@1.0.0
 type AnyToBrand<T> = _typeAlias_AnyToBrand<T>
 export type { AnyToBrand }
 
-import type { AnyBrand as _typeAlias_AnyBrand } from "jsr:@std/testing@1.0.0/types"
+import type { AnyBrand as _typeAlias_AnyBrand } from "jsr:@std/testing@1.0.1/types"
 /**
  * The utility type to represent any type.
  *
@@ -267,3 +276,12 @@ import type { AnyBrand as _typeAlias_AnyBrand } from "jsr:@std/testing@1.0.0/typ
  */
 type AnyBrand = _typeAlias_AnyBrand
 export type { AnyBrand }
+
+import type { FlatType as _typeAlias_FlatType } from "jsr:@std/testing@1.0.1/types"
+/**
+ * The utility type to flatten record types.
+ *
+ * @internal
+ */
+type FlatType<T> = _typeAlias_FlatType<T>
+export type { FlatType }

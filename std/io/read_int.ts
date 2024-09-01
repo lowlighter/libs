@@ -1,4 +1,4 @@
-import { readInt as _function_readInt } from "jsr:@std/io@0.224.5/read-int"
+import { readInt as _function_readInt } from "jsr:@std/io@0.224.6/read-int"
 /**
  * Read big endian 32bit integer from a {@linkcode BufReader}.
  *

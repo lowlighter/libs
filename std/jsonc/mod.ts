@@ -16,14 +16,14 @@
  *
  * @module
  */
-import type { JsonValue as _typeAlias_JsonValue } from "jsr:@std/jsonc@1.0.0"
+import type { JsonValue as _typeAlias_JsonValue } from "jsr:@std/jsonc@1.0.1"
 /**
  * The type of the result of parsing JSON.
  */
 type JsonValue = _typeAlias_JsonValue
 export type { JsonValue }
 
-import { parse as _function_parse } from "jsr:@std/jsonc@1.0.0"
+import { parse as _function_parse } from "jsr:@std/jsonc@1.0.1"
 /**
  * Converts a JSON with Comments (JSONC) string into an object.
  *

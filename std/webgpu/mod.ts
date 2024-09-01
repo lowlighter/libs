@@ -20,14 +20,14 @@
  *
  * @module
  */
-import type { CreateCapture as _interface_CreateCapture } from "jsr:@std/webgpu@0.224.5"
+import type { CreateCapture as _interface_CreateCapture } from "jsr:@std/webgpu@0.224.6"
 /**
  * Return value for {@linkcode createCapture}.
  */
 interface CreateCapture extends _interface_CreateCapture {}
 export type { CreateCapture }
 
-import { createCapture as _function_createCapture } from "jsr:@std/webgpu@0.224.5"
+import { createCapture as _function_createCapture } from "jsr:@std/webgpu@0.224.6"
 /**
  * Creates a texture and buffer to use as a capture.
  *
@@ -85,14 +85,14 @@ import { createCapture as _function_createCapture } from "jsr:@std/webgpu@0.224.
 const createCapture = _function_createCapture as typeof _function_createCapture
 export { createCapture }
 
-import type { TextureFormatInfo as _interface_TextureFormatInfo } from "jsr:@std/webgpu@0.224.5"
+import type { TextureFormatInfo as _interface_TextureFormatInfo } from "jsr:@std/webgpu@0.224.6"
 /**
  * Return type for {@linkcode describeTextureFormat}.
  */
 interface TextureFormatInfo extends _interface_TextureFormatInfo {}
 export type { TextureFormatInfo }
 
-import { describeTextureFormat as _function_describeTextureFormat } from "jsr:@std/webgpu@0.224.5"
+import { describeTextureFormat as _function_describeTextureFormat } from "jsr:@std/webgpu@0.224.6"
 /**
  * Get various information about a specific {@linkcode GPUTextureFormat}.
  *
@@ -117,28 +117,28 @@ import { describeTextureFormat as _function_describeTextureFormat } from "jsr:@s
 const describeTextureFormat = _function_describeTextureFormat as typeof _function_describeTextureFormat
 export { describeTextureFormat }
 
-import type { Padding as _interface_Padding } from "jsr:@std/webgpu@0.224.5"
+import type { Padding as _interface_Padding } from "jsr:@std/webgpu@0.224.6"
 /**
  * Return value for {@linkcode getRowPadding}.
  */
 interface Padding extends _interface_Padding {}
 export type { Padding }
 
-import { COPY_BYTES_PER_ROW_ALIGNMENT as _variable_COPY_BYTES_PER_ROW_ALIGNMENT } from "jsr:@std/webgpu@0.224.5"
+import { COPY_BYTES_PER_ROW_ALIGNMENT as _variable_COPY_BYTES_PER_ROW_ALIGNMENT } from "jsr:@std/webgpu@0.224.6"
 /**
  * Buffer-Texture copies must have [`bytes_per_row`] aligned to this number.
  */
 const COPY_BYTES_PER_ROW_ALIGNMENT = _variable_COPY_BYTES_PER_ROW_ALIGNMENT as typeof _variable_COPY_BYTES_PER_ROW_ALIGNMENT
 export { COPY_BYTES_PER_ROW_ALIGNMENT }
 
-import { BYTES_PER_PIXEL as _variable_BYTES_PER_PIXEL } from "jsr:@std/webgpu@0.224.5"
+import { BYTES_PER_PIXEL as _variable_BYTES_PER_PIXEL } from "jsr:@std/webgpu@0.224.6"
 /**
  * Number of bytes per pixel.
  */
 const BYTES_PER_PIXEL = _variable_BYTES_PER_PIXEL as typeof _variable_BYTES_PER_PIXEL
 export { BYTES_PER_PIXEL }
 
-import { getRowPadding as _function_getRowPadding } from "jsr:@std/webgpu@0.224.5"
+import { getRowPadding as _function_getRowPadding } from "jsr:@std/webgpu@0.224.6"
 /**
  * Calculates the number of bytes including necessary padding when passing a
  * {@linkcode GPUImageCopyBuffer}.
@@ -159,7 +159,7 @@ import { getRowPadding as _function_getRowPadding } from "jsr:@std/webgpu@0.224.
 const getRowPadding = _function_getRowPadding as typeof _function_getRowPadding
 export { getRowPadding }
 
-import { resliceBufferWithPadding as _function_resliceBufferWithPadding } from "jsr:@std/webgpu@0.224.5"
+import { resliceBufferWithPadding as _function_resliceBufferWithPadding } from "jsr:@std/webgpu@0.224.6"
 /**
  * Creates a new buffer while removing any unnecessary empty bytes.
  * Useful for when wanting to save an image as a specific format.
@@ -183,7 +183,7 @@ import { resliceBufferWithPadding as _function_resliceBufferWithPadding } from "
 const resliceBufferWithPadding = _function_resliceBufferWithPadding as typeof _function_resliceBufferWithPadding
 export { resliceBufferWithPadding }
 
-import { createTextureWithData as _function_createTextureWithData } from "jsr:@std/webgpu@0.224.5"
+import { createTextureWithData as _function_createTextureWithData } from "jsr:@std/webgpu@0.224.6"
 /**
  * Create a {@linkcode GPUTexture} with data.
  *

@@ -1,4 +1,4 @@
-import { unicodeWidth as _function_unicodeWidth } from "jsr:@std/cli@1.0.3/unicode-width"
+import { unicodeWidth as _function_unicodeWidth } from "jsr:@std/cli@1.0.4/unicode-width"
 /**
  * Calculate the physical width of a string in a TTY-like environment. This is
  * useful for cases such as calculating where a line-wrap will occur and

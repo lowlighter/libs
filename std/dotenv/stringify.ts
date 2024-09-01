@@ -1,4 +1,4 @@
-import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.0/stringify"
+import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.1/stringify"
 /**
  * Stringify an object into a valid `.env` file format.
  *

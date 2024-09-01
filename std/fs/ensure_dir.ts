@@ -1,4 +1,4 @@
-import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.1/ensure-dir"
+import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.2/ensure-dir"
 /**
  * Asynchronously ensures that the directory exists, like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=m-mkdir-command#mkdir__row-d3e133766 | mkdir -p}.
@@ -25,7 +25,7 @@ import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.1/ensure-dir"
 const ensureDir = _function_ensureDir as typeof _function_ensureDir
 export { ensureDir }
 
-import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.1/ensure-dir"
+import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.2/ensure-dir"
 /**
  * Synchronously ensures that the directory exists, like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=m-mkdir-command#mkdir__row-d3e133766 | mkdir -p}.

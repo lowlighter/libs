@@ -1,11 +1,11 @@
-import type { DelayOptions as _interface_DelayOptions } from "jsr:@std/testing@1.0.0/time"
+import type { DelayOptions as _interface_DelayOptions } from "jsr:@std/testing@1.0.1/time"
 /**
  * Options for {@linkcode delay}.
  */
 interface DelayOptions extends _interface_DelayOptions {}
 export type { DelayOptions }
 
-import { TimeError as _class_TimeError } from "jsr:@std/testing@1.0.0/time"
+import { TimeError as _class_TimeError } from "jsr:@std/testing@1.0.1/time"
 /**
  * Represents an error when trying to execute an invalid operation on fake time,
  * given the state fake time is in.
@@ -25,14 +25,14 @@ import { TimeError as _class_TimeError } from "jsr:@std/testing@1.0.0/time"
 class TimeError extends _class_TimeError {}
 export { TimeError }
 
-import type { FakeTimeOptions as _interface_FakeTimeOptions } from "jsr:@std/testing@1.0.0/time"
+import type { FakeTimeOptions as _interface_FakeTimeOptions } from "jsr:@std/testing@1.0.1/time"
 /**
  * The option for {@linkcode FakeTime}
  */
 interface FakeTimeOptions extends _interface_FakeTimeOptions {}
 export type { FakeTimeOptions }
 
-import { FakeTime as _class_FakeTime } from "jsr:@std/testing@1.0.0/time"
+import { FakeTime as _class_FakeTime } from "jsr:@std/testing@1.0.1/time"
 /**
  * Overrides the real Date object and timer functions with fake ones that can be
  * controlled through the fake time instance.

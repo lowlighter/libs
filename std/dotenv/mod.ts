@@ -1,11 +1,11 @@
-import type { LoadOptions as _interface_LoadOptions } from "jsr:@std/dotenv@0.225.0"
+import type { LoadOptions as _interface_LoadOptions } from "jsr:@std/dotenv@0.225.1"
 /**
  * Options for {@linkcode load} and {@linkcode loadSync}.
  */
 interface LoadOptions extends _interface_LoadOptions {}
 export type { LoadOptions }
 
-import { loadSync as _function_loadSync } from "jsr:@std/dotenv@0.225.0"
+import { loadSync as _function_loadSync } from "jsr:@std/dotenv@0.225.1"
 /**
  * Works identically to {@linkcode load}, but synchronously.
  *
@@ -22,7 +22,7 @@ import { loadSync as _function_loadSync } from "jsr:@std/dotenv@0.225.0"
 const loadSync = _function_loadSync as typeof _function_loadSync
 export { loadSync }
 
-import { load as _function_load } from "jsr:@std/dotenv@0.225.0"
+import { load as _function_load } from "jsr:@std/dotenv@0.225.1"
 /**
  * Load environment variables from a `.env` file.  Loaded variables are accessible
  * in a configuration object returned by the `load()` function, as well as optionally
@@ -30,6 +30,8 @@ import { load as _function_load } from "jsr:@std/dotenv@0.225.0"
  *
  * Inspired by the node modules {@linkcode https://github.com/motdotla/dotenv | dotenv}
  * and {@linkcode https://github.com/motdotla/dotenv-expand | dotenv-expand}.
+ *
+ * Note: The key needs to match the pattern /^[a-zA-Z_][a-zA-Z0-9_]*$/.
  *
  * ## Basic usage
  * ```sh
@@ -153,7 +155,7 @@ import { load as _function_load } from "jsr:@std/dotenv@0.225.0"
 const load = _function_load as typeof _function_load
 export { load }
 
-import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.0"
+import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.1"
 /**
  * Stringify an object into a valid `.env` file format.
  *
@@ -172,9 +174,11 @@ import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.0"
 const stringify = _function_stringify as typeof _function_stringify
 export { stringify }
 
-import { parse as _function_parse } from "jsr:@std/dotenv@0.225.0"
+import { parse as _function_parse } from "jsr:@std/dotenv@0.225.1"
 /**
  * Parse `.env` file output in an object.
+ *
+ * Note: The key needs to match the pattern /^[a-zA-Z_][a-zA-Z0-9_]*$/.
  *
  * @example Usage
  * ```ts

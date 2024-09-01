@@ -1,11 +1,11 @@
-import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/fmt@1.0.0/duration"
+import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/fmt@1.0.1/duration"
 /**
  * Options for {@linkcode format}.
  */
 interface FormatOptions extends _interface_FormatOptions {}
 export type { FormatOptions }
 
-import { format as _function_format } from "jsr:@std/fmt@1.0.0/duration"
+import { format as _function_format } from "jsr:@std/fmt@1.0.1/duration"
 /**
  * Format milliseconds to time duration.
  *

@@ -1,4 +1,4 @@
-import { SECOND as _variable_SECOND } from "jsr:@std/datetime@0.225.0/constants"
+import { SECOND as _variable_SECOND } from "jsr:@std/datetime@0.225.1/constants"
 /**
  * The number of milliseconds in a second.
  *
@@ -11,7 +11,7 @@ import { SECOND as _variable_SECOND } from "jsr:@std/datetime@0.225.0/constants"
 const SECOND = _variable_SECOND as typeof _variable_SECOND
 export { SECOND }
 
-import { MINUTE as _variable_MINUTE } from "jsr:@std/datetime@0.225.0/constants"
+import { MINUTE as _variable_MINUTE } from "jsr:@std/datetime@0.225.1/constants"
 /**
  * The number of milliseconds in a minute.
  *
@@ -24,7 +24,7 @@ import { MINUTE as _variable_MINUTE } from "jsr:@std/datetime@0.225.0/constants"
 const MINUTE = _variable_MINUTE as typeof _variable_MINUTE
 export { MINUTE }
 
-import { HOUR as _variable_HOUR } from "jsr:@std/datetime@0.225.0/constants"
+import { HOUR as _variable_HOUR } from "jsr:@std/datetime@0.225.1/constants"
 /**
  * The number of milliseconds in an hour.
  *
@@ -37,7 +37,7 @@ import { HOUR as _variable_HOUR } from "jsr:@std/datetime@0.225.0/constants"
 const HOUR = _variable_HOUR as typeof _variable_HOUR
 export { HOUR }
 
-import { DAY as _variable_DAY } from "jsr:@std/datetime@0.225.0/constants"
+import { DAY as _variable_DAY } from "jsr:@std/datetime@0.225.1/constants"
 /**
  * The number of milliseconds in a day.
  *
@@ -50,7 +50,7 @@ import { DAY as _variable_DAY } from "jsr:@std/datetime@0.225.0/constants"
 const DAY = _variable_DAY as typeof _variable_DAY
 export { DAY }
 
-import { WEEK as _variable_WEEK } from "jsr:@std/datetime@0.225.0/constants"
+import { WEEK as _variable_WEEK } from "jsr:@std/datetime@0.225.1/constants"
 /**
  * The number of milliseconds in a week.
  *

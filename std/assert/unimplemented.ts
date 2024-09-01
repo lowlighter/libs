@@ -1,4 +1,4 @@
-import { unimplemented as _function_unimplemented } from "jsr:@std/assert@1.0.2/unimplemented"
+import { unimplemented as _function_unimplemented } from "jsr:@std/assert@1.0.3/unimplemented"
 /**
  * Use this to stub out methods that will throw when invoked.
  *

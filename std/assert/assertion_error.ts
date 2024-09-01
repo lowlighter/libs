@@ -1,4 +1,4 @@
-import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.2/assertion-error"
+import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.3/assertion-error"
 /**
  * Error thrown when an assertion fails.
  *
