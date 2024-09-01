@@ -11,7 +11,7 @@
 import type { Arg, Arrayable, Nullable, Promisable } from "./types.ts"
 
 function foo(_: unknown, args: Arrayable<string>): Promisable<Nullable<string>> {
-  // ...
+  return Promise.resolve(null)
 }
 
 // Get the type of arguments[1] of `foo` function
