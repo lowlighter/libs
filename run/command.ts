@@ -161,9 +161,18 @@ export function command(bin: string, args: string[], options?: options & { sync:
  * @example
  * ```ts
  * import { command } from "./command.ts"
+ *
  * const { stdout } = await command("deno", ["repl"], {
  *   env: { NO_COLOR: "true" },
- *   callback: ({ i, write, close }) => i === 0 ? write("console.log('hello')") : close(),
+ *   // Passing a callback will automatically set `stdin` to `"piped"`
+ *   // You can then write to the process using utility functions
+ *   callback: async ({ i, stdio, write, close, wait }) => {
+ *     if ((!stdio.stdout.includes("exit using")) || (i))
+ *       return
+ *     await write("console.log('hello')")
+ *     await wait(1000)
+ *     close()
+ *   },
  * })
  * console.assert(stdout.includes("hello"))
  * ```
