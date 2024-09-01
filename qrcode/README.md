@@ -6,6 +6,31 @@
 - [`🦕 Playground`](https://libs.lecoq.io/qrcode)
 - [`📚 Documentation`](https://jsr.io/@libs/qrcode/doc)
 
+## 📑 Examples
+
+### SVG output
+
+```ts
+import { qrcode } from "./mod.ts"
+const svg = qrcode("https://example.com", { output: "svg" })
+console.assert(svg.includes("</svg>"))
+```
+
+### Console output
+
+```ts
+import { qrcode } from "./mod.ts"
+qrcode("https://example.com", { output: "console" })
+```
+
+### Array output
+
+```ts
+import { qrcode } from "./mod.ts"
+const array = qrcode("https://example.com")
+console.assert(Array.isArray(array))
+```
+
 ## ✨ Features
 
 - Support for `array`, `console` and `svg` outputs out-of-the-box.

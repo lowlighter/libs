@@ -94,7 +94,7 @@ export function qrcode(content: string | URL | Uint8Array, options: { output: "c
  * ```ts
  * import { qrcode } from "./mod.ts"
  * const array = qrcode("https://example.com")
- * console
+ * console.assert(Array.isArray(array))
  * ```
  */
 export function qrcode(content: string | URL | Uint8Array, options?: { output?: "array" } & Pick<options, "ecl">): boolean[][]
