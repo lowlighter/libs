@@ -8,7 +8,6 @@ import * as esbuild from "esbuild"
 import { denoPlugins as plugins } from "@luca/esbuild-deno-loader"
 import { encodeBase64 } from "@std/encoding/base64"
 import { minify as terser } from "terser"
-import type { Optional } from "@libs/typing"
 import { fromFileUrl } from "@std/path/from-file-url"
 import { delay } from "@std/async/delay"
 
