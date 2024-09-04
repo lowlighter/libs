@@ -43,14 +43,15 @@ import { delay } from "@std/async/delay"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */
-export async function bundle(input: URL | string, { minify = "terser" as false | "basic" | "terser", debug = false, config = undefined as Optional<URL>, banner = "", shadow = true } = {}): Promise<string> {
+export async function bundle(input: URL | string, { minify = "terser", format = "esm", debug = false, banner = "", shadow = true, config, exports } = {} as options): Promise<string> {
   const url = input instanceof URL ? input : new URL(`data:application/typescript;base64,${encodeBase64(input)}`)
   let code = ""
   try {
     const { outputFiles: [{ text: output }] } = await esbuild.build({
       plugins: [...plugins({ configPath: config ? fromFileUrl(config) : undefined, nodeModulesDir: true })],
       entryPoints: [url.href],
-      format: "esm",
+      format,
+      globalName: exports,
       write: false,
       minify: minify === "basic",
       target: "esnext",
@@ -86,4 +87,15 @@ export async function bundle(input: URL | string, { minify = "terser" as false |
     code = code.replaceAll(/(["'])(?<scheme>file:\/\/).*?\/(?<name>[A-Za-z0-9_]+\.(?:ts|js|mjs))\1/g, "'$<scheme>/shadow/$<name>'")
   }
   return code
+}
+
+/** Bundle options. */
+export type options = {
+  minify?: false | "basic" | "terser"
+  format?: "esm" | "iife"
+  exports?: string
+  debug?: boolean
+  config?: URL
+  banner?: string
+  shadow?: boolean
 }
