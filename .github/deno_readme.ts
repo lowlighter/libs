@@ -29,7 +29,7 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   <tr><th>${npm ? `<a href="https://www.npmjs.com/package/@lowlighter/${name}"><img src="https://img.shields.io/npm/v/@lowlighter%2F${name}?logo=npm&labelColor=cb0000&color=183e4e"></a>` : ""}</th></tr>\
   ${denoland ? `<tr><th><a href="https://deno.land/x/${name}"><img src="https://img.shields.io/badge/deno.land%2Fx-${name}-0a3040?logo=deno&labelColor=black"></a></th></tr>` : ""}
   <tr><th>${playground ? `<a href="${playground}"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a>` : ""}</th></tr>
-  <tr><th><a href="https://coverage.libs.lecoq.io/${name}"><img src="https://coverage.libs.lecoq.io/${name}/badge.svg"></a></th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/${name}"><img src="https://libs-coverage.lecoq.io/${name}/badge.svg"></a></th></tr>
   `.trim()
 }
 table += "</table>"

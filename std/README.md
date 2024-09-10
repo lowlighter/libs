@@ -1,7 +1,7 @@
 # 🦕 Deno standard library - All-in-one mirror package
 
 [![JSR](https://jsr.io/badges/@libs/std)](https://jsr.io/@libs/std) [![JSR Score](https://jsr.io/badges/@libs/std/score)](https://jsr.io/@libs/std)
-[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fstd?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/std) [![Coverage](https://coverage.libs.lecoq.io/std/badge.svg)](https://coverage.libs.lecoq.io/std)
+[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fstd?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/std) [![Coverage](https://libs-coverage.lecoq.io/std/badge.svg)](https://libs-coverage.lecoq.io/std)
 
 This is a mirror package containing all of [jsr.io/@std](https://jsr.io/@std).
 All public exports are re-exported in this package.

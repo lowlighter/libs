@@ -1,7 +1,7 @@
 # ➕ Diff
 
 [![JSR](https://jsr.io/badges/@libs/diff)](https://jsr.io/@libs/diff) [![JSR Score](https://jsr.io/badges/@libs/diff/score)](https://jsr.io/@libs/diff)
-[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fdiff?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/diff) [![Coverage](https://coverage.libs.lecoq.io/diff/badge.svg)](https://coverage.libs.lecoq.io/diff)
+[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fdiff?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/diff) [![Coverage](https://libs-coverage.lecoq.io/diff/badge.svg)](https://libs-coverage.lecoq.io/diff)
 
 Use the patience algorithm for practical purposes.
 

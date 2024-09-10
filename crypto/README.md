@@ -1,7 +1,7 @@
 # 🧮 Cryptographic utilities
 
 [![JSR](https://jsr.io/badges/@libs/crypto)](https://jsr.io/@libs/crypto) [![JSR Score](https://jsr.io/badges/@libs/crypto/score)](https://jsr.io/@libs/crypto)
-[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fcrypto?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/crypto) [![Coverage](https://coverage.libs.lecoq.io/crypto/badge.svg)](https://coverage.libs.lecoq.io/crypto)
+[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fcrypto?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/crypto) [![Coverage](https://libs-coverage.lecoq.io/crypto/badge.svg)](https://libs-coverage.lecoq.io/crypto)
 
 ## 🔑 Time-based One-Time Password (TOTP)
 

@@ -1,7 +1,7 @@
 # 🖨️ Markdown
 
 [![JSR](https://jsr.io/badges/@libs/markdown)](https://jsr.io/@libs/markdown) [![JSR Score](https://jsr.io/badges/@libs/markdown/score)](https://jsr.io/@libs/markdown)
-[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fmarkdown?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/markdown) [![Coverage](https://coverage.libs.lecoq.io/markdown/badge.svg)](https://coverage.libs.lecoq.io/markdown)
+[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fmarkdown?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/markdown) [![Coverage](https://libs-coverage.lecoq.io/markdown/badge.svg)](https://libs-coverage.lecoq.io/markdown)
 
 - [`🦕 Playground`](https://libs.lecoq.io/markdown)
 - [`📚 Documentation`](https://jsr.io/@libs/markdown/doc)

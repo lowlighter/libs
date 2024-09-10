@@ -1,7 +1,7 @@
 # 🦊 Virtual DOM
 
 [![JSR](https://jsr.io/badges/@libs/dom)](https://jsr.io/@libs/dom) [![JSR Score](https://jsr.io/badges/@libs/dom/score)](https://jsr.io/@libs/dom)
-[![NPM](https://img.shields.io/npm/v/@lowlighter%2Form?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/dom) [![Coverage](https://coverage.libs.lecoq.io/dom/badge.svg)](https://coverage.libs.lecoq.io/dom)
+[![NPM](https://img.shields.io/npm/v/@lowlighter%2Form?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/dom) [![Coverage](https://libs-coverage.lecoq.io/dom/badge.svg)](https://libs-coverage.lecoq.io/dom)
 
 - [`🦕 Playground`](https://libs.lecoq.io/dom)
 - [`📚 Documentation`](https://jsr.io/@libs/dom/doc)
