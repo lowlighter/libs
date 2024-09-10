@@ -1,4 +1,4 @@
-import { extname as _function_extname } from "jsr:@std/url@0.225.0/extname"
+import { extname as _function_extname } from "jsr:@std/url@0.225.1/extname"
 /**
  * Returns the file extension of a given URL or string with leading period.
  *
@@ -20,8 +20,8 @@ import { extname as _function_extname } from "jsr:@std/url@0.225.0/extname"
  * ```
  *
  * @deprecated Use
- * {@linkcode https://jsr.io/@std/path/doc/posix/~/extname | @std/path/posix/extname}
- * instead (examples included). `@std/url` will be removed in the future.
+ * {@linkcode https://jsr.io/@std/path/doc/~/extname | @std/path/extname}
+ * instead. `@std/url` will be removed in the future.
  */
 const extname = _function_extname as typeof _function_extname
 export { extname }

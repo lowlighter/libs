@@ -1,4 +1,4 @@
-import { isGlob as _function_isGlob } from "jsr:@std/path@1.0.3/is-glob"
+import { isGlob as _function_isGlob } from "jsr:@std/path@1.0.4/is-glob"
 /**
  * Test whether the given string is a glob.
  *

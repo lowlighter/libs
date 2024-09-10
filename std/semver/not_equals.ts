@@ -1,4 +1,4 @@
-import { notEquals as _function_notEquals } from "jsr:@std/semver@1.0.2/not-equals"
+import { notEquals as _function_notEquals } from "jsr:@std/semver@1.0.3/not-equals"
 /**
  * Not equal comparison for two SemVers.
  *

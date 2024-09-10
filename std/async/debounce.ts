@@ -1,4 +1,4 @@
-import type { DebouncedFunction as _interface_DebouncedFunction } from "jsr:@std/async@1.0.4/debounce"
+import type { DebouncedFunction as _interface_DebouncedFunction } from "jsr:@std/async@1.0.5/debounce"
 /**
  * A debounced function that will be delayed by a given `wait`
  * time in milliseconds. If the method is called again before
@@ -7,7 +7,7 @@ import type { DebouncedFunction as _interface_DebouncedFunction } from "jsr:@std
 interface DebouncedFunction<T extends Array<unknown>> extends _interface_DebouncedFunction<T> {}
 export type { DebouncedFunction }
 
-import { debounce as _function_debounce } from "jsr:@std/async@1.0.4/debounce"
+import { debounce as _function_debounce } from "jsr:@std/async@1.0.5/debounce"
 /**
  * Creates a debounced function that delays the given `func`
  * by a given `wait` time in milliseconds. If the method is called

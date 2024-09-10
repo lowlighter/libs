@@ -1,11 +1,11 @@
-import type { PropertyAccessor as _typeAlias_PropertyAccessor } from "jsr:@std/csv@1.0.2/stringify"
+import type { PropertyAccessor as _typeAlias_PropertyAccessor } from "jsr:@std/csv@1.0.3/stringify"
 /**
  * Array index or record key corresponding to a value for a data object.
  */
 type PropertyAccessor = _typeAlias_PropertyAccessor
 export type { PropertyAccessor }
 
-import type { ColumnDetails as _typeAlias_ColumnDetails } from "jsr:@std/csv@1.0.2/stringify"
+import type { ColumnDetails as _typeAlias_ColumnDetails } from "jsr:@std/csv@1.0.3/stringify"
 /**
  * Column information.
  *
@@ -17,7 +17,7 @@ import type { ColumnDetails as _typeAlias_ColumnDetails } from "jsr:@std/csv@1.0
 type ColumnDetails = _typeAlias_ColumnDetails
 export type { ColumnDetails }
 
-import type { Column as _typeAlias_Column } from "jsr:@std/csv@1.0.2/stringify"
+import type { Column as _typeAlias_Column } from "jsr:@std/csv@1.0.3/stringify"
 /**
  * The most essential aspect of a column is accessing the property holding the
  * data for that column on each object in the data array. If that member is at
@@ -85,21 +85,21 @@ import type { Column as _typeAlias_Column } from "jsr:@std/csv@1.0.2/stringify"
 type Column = _typeAlias_Column
 export type { Column }
 
-import type { DataItem as _typeAlias_DataItem } from "jsr:@std/csv@1.0.2/stringify"
+import type { DataItem as _typeAlias_DataItem } from "jsr:@std/csv@1.0.3/stringify"
 /**
  * An object (plain or array)
  */
 type DataItem = _typeAlias_DataItem
 export type { DataItem }
 
-import type { StringifyOptions as _typeAlias_StringifyOptions } from "jsr:@std/csv@1.0.2/stringify"
+import type { StringifyOptions as _typeAlias_StringifyOptions } from "jsr:@std/csv@1.0.3/stringify"
 /**
  * Options for {@linkcode stringify}.
  */
 type StringifyOptions = _typeAlias_StringifyOptions
 export type { StringifyOptions }
 
-import { stringify as _function_stringify } from "jsr:@std/csv@1.0.2/stringify"
+import { stringify as _function_stringify } from "jsr:@std/csv@1.0.3/stringify"
 /**
  * Converts an array of objects into a CSV string.
  *

@@ -15,7 +15,7 @@
  *
  * @module
  */
-import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.2"
+import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.3"
 /**
  * Asynchronously ensures that a directory is empty.
  *
@@ -41,7 +41,7 @@ import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.2"
 const emptyDir = _function_emptyDir as typeof _function_emptyDir
 export { emptyDir }
 
-import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.2"
+import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.3"
 /**
  * Synchronously ensures that a directory is empty deletes the directory
  * contents it is not empty.
@@ -68,7 +68,7 @@ import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.2"
 const emptyDirSync = _function_emptyDirSync as typeof _function_emptyDirSync
 export { emptyDirSync }
 
-import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.2"
+import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.3"
 /**
  * Asynchronously ensures that the directory exists, like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=m-mkdir-command#mkdir__row-d3e133766 | mkdir -p}.
@@ -95,7 +95,7 @@ import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.2"
 const ensureDir = _function_ensureDir as typeof _function_ensureDir
 export { ensureDir }
 
-import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.2"
+import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.3"
 /**
  * Synchronously ensures that the directory exists, like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=m-mkdir-command#mkdir__row-d3e133766 | mkdir -p}.
@@ -122,7 +122,7 @@ import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.2"
 const ensureDirSync = _function_ensureDirSync as typeof _function_ensureDirSync
 export { ensureDirSync }
 
-import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.2"
+import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.3"
 /**
  * Asynchronously ensures that the file exists.
  *
@@ -148,7 +148,7 @@ import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.2"
 const ensureFile = _function_ensureFile as typeof _function_ensureFile
 export { ensureFile }
 
-import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.2"
+import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.3"
 /**
  * Synchronously ensures that the file exists.
  *
@@ -174,7 +174,7 @@ import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.2"
 const ensureFileSync = _function_ensureFileSync as typeof _function_ensureFileSync
 export { ensureFileSync }
 
-import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.2"
+import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.3"
 /**
  * Asynchronously ensures that the hard link exists.
  *
@@ -201,7 +201,7 @@ import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.2"
 const ensureLink = _function_ensureLink as typeof _function_ensureLink
 export { ensureLink }
 
-import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.2"
+import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.3"
 /**
  * Synchronously ensures that the hard link exists.
  *
@@ -228,7 +228,7 @@ import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.2"
 const ensureLinkSync = _function_ensureLinkSync as typeof _function_ensureLinkSync
 export { ensureLinkSync }
 
-import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.2"
+import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.3"
 /**
  * Asynchronously ensures that the link exists, and points to a valid file.
  *
@@ -257,7 +257,7 @@ import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.2"
 const ensureSymlink = _function_ensureSymlink as typeof _function_ensureSymlink
 export { ensureSymlink }
 
-import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.0.2"
+import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.0.3"
 /**
  * Synchronously ensures that the link exists, and points to a valid file.
  *
@@ -285,14 +285,14 @@ import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.
 const ensureSymlinkSync = _function_ensureSymlinkSync as typeof _function_ensureSymlinkSync
 export { ensureSymlinkSync }
 
-import type { ExistsOptions as _interface_ExistsOptions } from "jsr:@std/fs@1.0.2"
+import type { ExistsOptions as _interface_ExistsOptions } from "jsr:@std/fs@1.0.3"
 /**
  * Options for {@linkcode exists} and {@linkcode existsSync.}
  */
 interface ExistsOptions extends _interface_ExistsOptions {}
 export type { ExistsOptions }
 
-import { exists as _function_exists } from "jsr:@std/fs@1.0.2"
+import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
 /**
  * Asynchronously test whether or not the given path exists by checking with
  * the file system.
@@ -383,7 +383,7 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.2"
 const exists = _function_exists as typeof _function_exists
 export { exists }
 
-import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.2"
+import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
 /**
  * Synchronously test whether or not the given path exists by checking with
  * the file system.
@@ -473,7 +473,7 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.2"
 const existsSync = _function_existsSync as typeof _function_existsSync
 export { existsSync }
 
-import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/fs@1.0.2"
+import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/fs@1.0.3"
 /**
  * Options for {@linkcode globToRegExp}, {@linkcode joinGlobs},
  * {@linkcode normalizeGlob} and {@linkcode expandGlob}.
@@ -481,7 +481,7 @@ import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/fs@1.0.2"
 interface GlobOptions extends _interface_GlobOptions {}
 export type { GlobOptions }
 
-import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.2"
+import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.3"
 /**
  * Walk entry for {@linkcode walk}, {@linkcode walkSync},
  * {@linkcode expandGlob} and {@linkcode expandGlobSync}.
@@ -489,14 +489,14 @@ import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.2"
 interface WalkEntry extends _interface_WalkEntry {}
 export type { WalkEntry }
 
-import type { ExpandGlobOptions as _interface_ExpandGlobOptions } from "jsr:@std/fs@1.0.2"
+import type { ExpandGlobOptions as _interface_ExpandGlobOptions } from "jsr:@std/fs@1.0.3"
 /**
  * Options for {@linkcode expandGlob} and {@linkcode expandGlobSync}.
  */
 interface ExpandGlobOptions extends _interface_ExpandGlobOptions {}
 export type { ExpandGlobOptions }
 
-import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.2"
+import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.3"
 /**
  * Returns an async iterator that yields each file path matching the given glob
  * pattern.
@@ -680,7 +680,7 @@ import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.2"
 const expandGlob = _function_expandGlob as typeof _function_expandGlob
 export { expandGlob }
 
-import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.2"
+import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.3"
 /**
  * Returns an iterator that yields each file path matching the given glob
  * pattern. The file paths are relative to the provided `root` directory.
@@ -731,14 +731,14 @@ import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.2"
 const expandGlobSync = _function_expandGlobSync as typeof _function_expandGlobSync
 export { expandGlobSync }
 
-import type { MoveOptions as _interface_MoveOptions } from "jsr:@std/fs@1.0.2"
+import type { MoveOptions as _interface_MoveOptions } from "jsr:@std/fs@1.0.3"
 /**
  * Options for {@linkcode move} and {@linkcode moveSync}.
  */
 interface MoveOptions extends _interface_MoveOptions {}
 export type { MoveOptions }
 
-import { move as _function_move } from "jsr:@std/fs@1.0.2"
+import { move as _function_move } from "jsr:@std/fs@1.0.3"
 /**
  * Asynchronously moves a file or directory (along with its contents).
  *
@@ -779,7 +779,7 @@ import { move as _function_move } from "jsr:@std/fs@1.0.2"
 const move = _function_move as typeof _function_move
 export { move }
 
-import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.2"
+import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.3"
 /**
  * Synchronously moves a file or directory (along with its contents).
  *
@@ -820,14 +820,14 @@ import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.2"
 const moveSync = _function_moveSync as typeof _function_moveSync
 export { moveSync }
 
-import type { CopyOptions as _interface_CopyOptions } from "jsr:@std/fs@1.0.2"
+import type { CopyOptions as _interface_CopyOptions } from "jsr:@std/fs@1.0.3"
 /**
  * Options for {@linkcode copy} and {@linkcode copySync}.
  */
 interface CopyOptions extends _interface_CopyOptions {}
 export type { CopyOptions }
 
-import { copy as _function_copy } from "jsr:@std/fs@1.0.2"
+import { copy as _function_copy } from "jsr:@std/fs@1.0.3"
 /**
  * Asynchronously copy a file or directory (along with its contents), like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=c-cp-command#cp__cp_flagr | cp -r}.
@@ -878,7 +878,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.2"
 const copy = _function_copy as typeof _function_copy
 export { copy }
 
-import { copySync as _function_copySync } from "jsr:@std/fs@1.0.2"
+import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3"
 /**
  * Synchronously copy a file or directory (along with its contents), like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=c-cp-command#cp__cp_flagr | cp -r}.
@@ -929,14 +929,14 @@ import { copySync as _function_copySync } from "jsr:@std/fs@1.0.2"
 const copySync = _function_copySync as typeof _function_copySync
 export { copySync }
 
-import type { WalkOptions as _interface_WalkOptions } from "jsr:@std/fs@1.0.2"
+import type { WalkOptions as _interface_WalkOptions } from "jsr:@std/fs@1.0.3"
 /**
  * Options for {@linkcode walk} and {@linkcode walkSync}.
  */
 interface WalkOptions extends _interface_WalkOptions {}
 export type { WalkOptions }
 
-import { walk as _function_walk } from "jsr:@std/fs@1.0.2"
+import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
 /**
  * Recursively walks through a directory and yields information about each file
  * and directory encountered.
@@ -1295,7 +1295,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.2"
 const walk = _function_walk as typeof _function_walk
 export { walk }
 
-import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.2"
+import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
 /**
  * Recursively walks through a directory and yields information about each file
  * and directory encountered.
@@ -1653,21 +1653,21 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.2"
 const walkSync = _function_walkSync as typeof _function_walkSync
 export { walkSync }
 
-import { LF as _variable_LF } from "jsr:@std/fs@1.0.2"
+import { LF as _variable_LF } from "jsr:@std/fs@1.0.3"
 /**
  * End-of-line character for POSIX platforms such as macOS and Linux.
  */
 const LF = _variable_LF as typeof _variable_LF
 export { LF }
 
-import { CRLF as _variable_CRLF } from "jsr:@std/fs@1.0.2"
+import { CRLF as _variable_CRLF } from "jsr:@std/fs@1.0.3"
 /**
  * End-of-line character for Windows platforms.
  */
 const CRLF = _variable_CRLF as typeof _variable_CRLF
 export { CRLF }
 
-import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.2"
+import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.3"
 /**
  * End-of-line character evaluated for the current platform.
  *
@@ -1681,7 +1681,7 @@ import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.2"
 const EOL = _variable_EOL as typeof _variable_EOL
 export { EOL }
 
-import { detect as _function_detect } from "jsr:@std/fs@1.0.2"
+import { detect as _function_detect } from "jsr:@std/fs@1.0.3"
 /**
  * Returns the detected EOL character(s) detected in the input string. If no EOL
  * character is detected, `null` is returned.
@@ -1703,7 +1703,7 @@ import { detect as _function_detect } from "jsr:@std/fs@1.0.2"
 const detect = _function_detect as typeof _function_detect
 export { detect }
 
-import { format as _function_format } from "jsr:@std/fs@1.0.2"
+import { format as _function_format } from "jsr:@std/fs@1.0.3"
 /**
  * Normalize the input string to the targeted EOL.
  *

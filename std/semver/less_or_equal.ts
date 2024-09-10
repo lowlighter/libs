@@ -1,4 +1,4 @@
-import { lessOrEqual as _function_lessOrEqual } from "jsr:@std/semver@1.0.2/less-or-equal"
+import { lessOrEqual as _function_lessOrEqual } from "jsr:@std/semver@1.0.3/less-or-equal"
 /**
  * Less than or equal to comparison for two SemVers.
  *

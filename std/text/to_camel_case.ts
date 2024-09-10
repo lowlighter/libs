@@ -1,4 +1,4 @@
-import { toCamelCase as _function_toCamelCase } from "jsr:@std/text@1.0.4/to-camel-case"
+import { toCamelCase as _function_toCamelCase } from "jsr:@std/text@1.0.5/to-camel-case"
 /**
  * Converts a string into camelCase.
  *

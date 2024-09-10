@@ -1,4 +1,4 @@
-import { lessThan as _function_lessThan } from "jsr:@std/semver@1.0.2/less-than"
+import { lessThan as _function_lessThan } from "jsr:@std/semver@1.0.3/less-than"
 /**
  * Less than comparison for two SemVers.
  *

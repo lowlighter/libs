@@ -1,11 +1,11 @@
-import type { LimitedBytesTransformStreamOptions as _interface_LimitedBytesTransformStreamOptions } from "jsr:@std/streams@1.0.3/limited-bytes-transform-stream"
+import type { LimitedBytesTransformStreamOptions as _interface_LimitedBytesTransformStreamOptions } from "jsr:@std/streams@1.0.4/limited-bytes-transform-stream"
 /**
  * Options for {@linkcode LimitedBytesTransformStream}.
  */
 interface LimitedBytesTransformStreamOptions extends _interface_LimitedBytesTransformStreamOptions {}
 export type { LimitedBytesTransformStreamOptions }
 
-import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } from "jsr:@std/streams@1.0.3/limited-bytes-transform-stream"
+import { LimitedBytesTransformStream as _class_LimitedBytesTransformStream } from "jsr:@std/streams@1.0.4/limited-bytes-transform-stream"
 /**
  * A {@linkcode TransformStream} that will only read & enqueue chunks until the
  * total amount of enqueued data exceeds `size`. The last chunk that would

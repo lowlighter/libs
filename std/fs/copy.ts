@@ -1,11 +1,11 @@
-import type { CopyOptions as _interface_CopyOptions } from "jsr:@std/fs@1.0.2/copy"
+import type { CopyOptions as _interface_CopyOptions } from "jsr:@std/fs@1.0.3/copy"
 /**
  * Options for {@linkcode copy} and {@linkcode copySync}.
  */
 interface CopyOptions extends _interface_CopyOptions {}
 export type { CopyOptions }
 
-import { copy as _function_copy } from "jsr:@std/fs@1.0.2/copy"
+import { copy as _function_copy } from "jsr:@std/fs@1.0.3/copy"
 /**
  * Asynchronously copy a file or directory (along with its contents), like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=c-cp-command#cp__cp_flagr | cp -r}.
@@ -56,7 +56,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.2/copy"
 const copy = _function_copy as typeof _function_copy
 export { copy }
 
-import { copySync as _function_copySync } from "jsr:@std/fs@1.0.2/copy"
+import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3/copy"
 /**
  * Synchronously copy a file or directory (along with its contents), like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=c-cp-command#cp__cp_flagr | cp -r}.

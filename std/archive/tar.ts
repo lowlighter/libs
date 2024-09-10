@@ -1,4 +1,4 @@
-import type { TarInfo as _interface_TarInfo } from "jsr:@std/archive@0.225.1/tar"
+import type { TarInfo as _interface_TarInfo } from "jsr:@std/archive@0.225.2/tar"
 /**
  * Base interface for {@linkcode TarMeta}.
  *
@@ -7,7 +7,7 @@ import type { TarInfo as _interface_TarInfo } from "jsr:@std/archive@0.225.1/tar
 interface TarInfo extends _interface_TarInfo {}
 export type { TarInfo }
 
-import type { TarMeta as _interface_TarMeta } from "jsr:@std/archive@0.225.1/tar"
+import type { TarMeta as _interface_TarMeta } from "jsr:@std/archive@0.225.2/tar"
 /**
  * Base interface for {@linkcode TarMetaWithLinkName}.
  *
@@ -16,7 +16,7 @@ import type { TarMeta as _interface_TarMeta } from "jsr:@std/archive@0.225.1/tar
 interface TarMeta extends _interface_TarMeta {}
 export type { TarMeta }
 
-import type { TarOptions as _interface_TarOptions } from "jsr:@std/archive@0.225.1/tar"
+import type { TarOptions as _interface_TarOptions } from "jsr:@std/archive@0.225.2/tar"
 /**
  * Options for {@linkcode Tar.append}.
  *
@@ -25,7 +25,7 @@ import type { TarOptions as _interface_TarOptions } from "jsr:@std/archive@0.225
 interface TarOptions extends _interface_TarOptions {}
 export type { TarOptions }
 
-import type { TarData as _interface_TarData } from "jsr:@std/archive@0.225.1/tar"
+import type { TarData as _interface_TarData } from "jsr:@std/archive@0.225.2/tar"
 /**
  * Base interface for {@linkcode TarDataWithSource}.
  *
@@ -34,7 +34,7 @@ import type { TarData as _interface_TarData } from "jsr:@std/archive@0.225.1/tar
 interface TarData extends _interface_TarData {}
 export type { TarData }
 
-import type { TarDataWithSource as _interface_TarDataWithSource } from "jsr:@std/archive@0.225.1/tar"
+import type { TarDataWithSource as _interface_TarDataWithSource } from "jsr:@std/archive@0.225.2/tar"
 /**
  * Tar data interface for {@linkcode Tar.data}.
  *
@@ -43,7 +43,7 @@ import type { TarDataWithSource as _interface_TarDataWithSource } from "jsr:@std
 interface TarDataWithSource extends _interface_TarDataWithSource {}
 export type { TarDataWithSource }
 
-import { Tar as _class_Tar } from "jsr:@std/archive@0.225.1/tar"
+import { Tar as _class_Tar } from "jsr:@std/archive@0.225.2/tar"
 /**
  * ### Overview
  * A class to create a tar archive.  Tar archives allow for storing multiple files in a

@@ -1,4 +1,4 @@
-import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.3/posix/normalize-glob"
+import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.4/posix/normalize-glob"
 /**
  * Options for {@linkcode globToRegExp}, {@linkcode joinGlobs},
  * {@linkcode normalizeGlob} and {@linkcode expandGlob}.
@@ -6,7 +6,7 @@ import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.3/
 interface GlobOptions extends _interface_GlobOptions {}
 export type { GlobOptions }
 
-import { normalizeGlob as _function_normalizeGlob } from "jsr:@std/path@1.0.3/posix/normalize-glob"
+import { normalizeGlob as _function_normalizeGlob } from "jsr:@std/path@1.0.4/posix/normalize-glob"
 /**
  * Like normalize(), but doesn't collapse "**\/.." when `globstar` is true.
  *

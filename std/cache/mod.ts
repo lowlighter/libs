@@ -18,7 +18,7 @@
  *
  * @module
  */
-import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/cache@0.1.1"
+import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/cache@0.1.2"
 /**
  * A cache suitable for use with {@linkcode memoize}.
  *
@@ -27,7 +27,7 @@ import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/c
 type MemoizationCache<K, V> = _typeAlias_MemoizationCache<K, V>
 export type { MemoizationCache }
 
-import { LruCache as _class_LruCache } from "jsr:@std/cache@0.1.1"
+import { LruCache as _class_LruCache } from "jsr:@std/cache@0.1.2"
 /**
  * Least-recently-used cache.
  *
@@ -65,7 +65,7 @@ import { LruCache as _class_LruCache } from "jsr:@std/cache@0.1.1"
 class LruCache<K, V> extends _class_LruCache<K, V> {}
 export { LruCache }
 
-import type { MemoizeOptions as _typeAlias_MemoizeOptions } from "jsr:@std/cache@0.1.1"
+import type { MemoizeOptions as _typeAlias_MemoizeOptions } from "jsr:@std/cache@0.1.2"
 /**
  * Options for {@linkcode memoize}.
  *
@@ -77,7 +77,7 @@ import type { MemoizeOptions as _typeAlias_MemoizeOptions } from "jsr:@std/cache
 type MemoizeOptions<Fn extends (...args: never[]) => unknown, Key, Cache extends MemoizationCache<Key, ReturnType<Fn>>> = _typeAlias_MemoizeOptions<Fn, Key, Cache>
 export type { MemoizeOptions }
 
-import { memoize as _function_memoize } from "jsr:@std/cache@0.1.1"
+import { memoize as _function_memoize } from "jsr:@std/cache@0.1.2"
 /**
  * Cache the results of a function based on its arguments.
  *
@@ -117,7 +117,7 @@ import { memoize as _function_memoize } from "jsr:@std/cache@0.1.1"
 const memoize = _function_memoize as typeof _function_memoize
 export { memoize }
 
-import { TtlCache as _class_TtlCache } from "jsr:@std/cache@0.1.1"
+import { TtlCache as _class_TtlCache } from "jsr:@std/cache@0.1.2"
 /**
  * Time-to-live cache.
  *

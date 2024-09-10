@@ -1,4 +1,4 @@
-import { assert as _function_assert } from "jsr:@std/assert@1.0.3/assert"
+import { assert as _function_assert } from "jsr:@std/assert@1.0.4/assert"
 /**
  * Make an assertion, error will be thrown if `expr` does not have truthy value.
  *

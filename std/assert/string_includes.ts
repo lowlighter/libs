@@ -1,4 +1,4 @@
-import { assertStringIncludes as _function_assertStringIncludes } from "jsr:@std/assert@1.0.3/string-includes"
+import { assertStringIncludes as _function_assertStringIncludes } from "jsr:@std/assert@1.0.4/string-includes"
 /**
  * Make an assertion that actual includes expected. If not
  * then throw.

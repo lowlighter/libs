@@ -1,4 +1,4 @@
-import { assertNever as _function_assertNever } from "jsr:@std/assert@1.0.3/never"
+import { assertNever as _function_assertNever } from "jsr:@std/assert@1.0.4/never"
 /**
  * Make an assertion that `x` is of type `never`.
  * If not then throw.

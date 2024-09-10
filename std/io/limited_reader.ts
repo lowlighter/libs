@@ -1,4 +1,4 @@
-import { LimitedReader as _class_LimitedReader } from "jsr:@std/io@0.224.6/limited-reader"
+import { LimitedReader as _class_LimitedReader } from "jsr:@std/io@0.224.7/limited-reader"
 /**
  * Reads from `reader` but limits the amount of data returned to just `limit` bytes.
  * Each call to `read` updates `limit` to reflect the new amount remaining.

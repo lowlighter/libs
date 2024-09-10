@@ -1,4 +1,4 @@
-import type { SchemaType as _typeAlias_SchemaType } from "jsr:@std/yaml@1.0.4/parse"
+import type { SchemaType as _typeAlias_SchemaType } from "jsr:@std/yaml@1.0.5/parse"
 /**
  * Name of the schema to use.
  *
@@ -25,14 +25,14 @@ import type { SchemaType as _typeAlias_SchemaType } from "jsr:@std/yaml@1.0.4/pa
 type SchemaType = _typeAlias_SchemaType
 export type { SchemaType }
 
-import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/yaml@1.0.4/parse"
+import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/yaml@1.0.5/parse"
 /**
  * Options for {@linkcode parse}.
  */
 interface ParseOptions extends _interface_ParseOptions {}
 export type { ParseOptions }
 
-import { parse as _function_parse } from "jsr:@std/yaml@1.0.4/parse"
+import { parse as _function_parse } from "jsr:@std/yaml@1.0.5/parse"
 /**
  * Parse and return a YAML string as a parsed YAML document object.
  *
@@ -59,7 +59,7 @@ import { parse as _function_parse } from "jsr:@std/yaml@1.0.4/parse"
 const parse = _function_parse as typeof _function_parse
 export { parse }
 
-import { parseAll as _function_parseAll } from "jsr:@std/yaml@1.0.4/parse"
+import { parseAll as _function_parseAll } from "jsr:@std/yaml@1.0.5/parse"
 /**
  * Same as {@linkcode parse}, but understands multi-document YAML sources, and
  * returns multiple parsed YAML document objects.

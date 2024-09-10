@@ -1,4 +1,4 @@
-import { equals as _function_equals } from "jsr:@std/semver@1.0.2/equals"
+import { equals as _function_equals } from "jsr:@std/semver@1.0.3/equals"
 /**
  * Returns `true` if both SemVers are equivalent.
  *

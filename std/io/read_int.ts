@@ -1,14 +1,15 @@
-import { readInt as _function_readInt } from "jsr:@std/io@0.224.6/read-int"
+import { readInt as _function_readInt } from "jsr:@std/io@0.224.7/read-int"
 /**
  * Read big endian 32bit integer from a {@linkcode BufReader}.
  *
  * @example Usage
  * ```ts
+ * import { Buffer } from "@std/io/buffer"
  * import { BufReader } from "@std/io/buf-reader";
  * import { readInt } from "@std/io/read-int";
  * import { assertEquals } from "@std/assert/equals";
  *
- * const buf = new BufReader(new Deno.Buffer(new Uint8Array([0x12, 0x34, 0x56, 0x78])));
+ * const buf = new BufReader(new Buffer(new Uint8Array([0x12, 0x34, 0x56, 0x78])));
  * const int = await readInt(buf);
  * assertEquals(int, 0x12345678);
  * ```

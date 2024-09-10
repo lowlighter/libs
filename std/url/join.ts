@@ -1,4 +1,4 @@
-import { join as _function_join } from "jsr:@std/url@0.225.0/join"
+import { join as _function_join } from "jsr:@std/url@0.225.1/join"
 /**
  * Joins a base URL or URL string, and a sequence of path segments together,
  * then normalizes the resulting URL.
@@ -18,8 +18,8 @@ import { join as _function_join } from "jsr:@std/url@0.225.0/join"
  * ```
  *
  * @deprecated Use
- * {@linkcode https://jsr.io/@std/path/doc/posix/~/join | @std/path/posix/join}
- * instead (examples included). `@std/url` will be removed in the future.
+ * {@linkcode https://jsr.io/@std/path/doc/~/join | @std/path/join}
+ * instead. `@std/url` will be removed in the future.
  */
 const join = _function_join as typeof _function_join
 export { join }

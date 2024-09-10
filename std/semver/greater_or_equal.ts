@@ -1,4 +1,4 @@
-import { greaterOrEqual as _function_greaterOrEqual } from "jsr:@std/semver@1.0.2/greater-or-equal"
+import { greaterOrEqual as _function_greaterOrEqual } from "jsr:@std/semver@1.0.3/greater-or-equal"
 /**
  * Greater than or equal to comparison for two SemVers.
  *

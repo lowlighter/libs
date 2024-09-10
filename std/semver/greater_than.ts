@@ -1,4 +1,4 @@
-import { greaterThan as _function_greaterThan } from "jsr:@std/semver@1.0.2/greater-than"
+import { greaterThan as _function_greaterThan } from "jsr:@std/semver@1.0.3/greater-than"
 /**
  * Greater than comparison for two SemVers.
  *

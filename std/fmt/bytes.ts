@@ -1,11 +1,11 @@
-import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/fmt@1.0.1/bytes"
+import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/fmt@1.0.2/bytes"
 /**
  * Options for {@linkcode format}.
  */
 interface FormatOptions extends _interface_FormatOptions {}
 export type { FormatOptions }
 
-import { format as _function_format } from "jsr:@std/fmt@1.0.1/bytes"
+import { format as _function_format } from "jsr:@std/fmt@1.0.2/bytes"
 /**
  * Convert bytes to a human-readable string: 1337 → 1.34 kB
  *

@@ -1,4 +1,4 @@
-import { METHOD as _variable_METHOD } from "jsr:@std/http@1.0.4/method"
+import { METHOD as _variable_METHOD } from "jsr:@std/http@1.0.5/method"
 /**
  * HTTP Methods derived from IANA Hypertext Transfer Protocol (HTTP) Method Registry
  *
@@ -8,7 +8,7 @@ import { METHOD as _variable_METHOD } from "jsr:@std/http@1.0.4/method"
 const METHOD = _variable_METHOD as typeof _variable_METHOD
 export { METHOD }
 
-import type { Method as _typeAlias_Method } from "jsr:@std/http@1.0.4/method"
+import type { Method as _typeAlias_Method } from "jsr:@std/http@1.0.5/method"
 /**
  * A HTTP Method
  *

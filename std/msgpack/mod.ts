@@ -39,7 +39,7 @@
  *
  * @module
  */
-import { decode as _function_decode } from "jsr:@std/msgpack@1.0.1"
+import { decode as _function_decode } from "jsr:@std/msgpack@1.0.2"
 /**
  * Decode a value from the {@link https://msgpack.org/ | MessagePack} binary format.
  *
@@ -61,21 +61,21 @@ import { decode as _function_decode } from "jsr:@std/msgpack@1.0.1"
 const decode = _function_decode as typeof _function_decode
 export { decode }
 
-import type { ValueType as _typeAlias_ValueType } from "jsr:@std/msgpack@1.0.1"
+import type { ValueType as _typeAlias_ValueType } from "jsr:@std/msgpack@1.0.2"
 /**
  * Value types that can be encoded to MessagePack.
  */
 type ValueType = _typeAlias_ValueType
 export type { ValueType }
 
-import type { ValueMap as _interface_ValueMap } from "jsr:@std/msgpack@1.0.1"
+import type { ValueMap as _interface_ValueMap } from "jsr:@std/msgpack@1.0.2"
 /**
  * Value map that can be encoded to MessagePack.
  */
 interface ValueMap extends _interface_ValueMap {}
 export type { ValueMap }
 
-import { encode as _function_encode } from "jsr:@std/msgpack@1.0.1"
+import { encode as _function_encode } from "jsr:@std/msgpack@1.0.2"
 /**
  * Encode a value to {@link https://msgpack.org/ | MessagePack} binary format.
  *

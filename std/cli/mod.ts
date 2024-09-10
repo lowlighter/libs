@@ -23,14 +23,14 @@ type Negatable = string | undefined
 /** @internal */
 type Aliases<TArgNames = string, TAliasNames extends string = string> = Partial<Record<Extract<TArgNames, string>, TAliasNames | ReadonlyArray<TAliasNames>>>
 
-import type { Args as _typeAlias_Args } from "jsr:@std/cli@1.0.4"
+import type { Args as _typeAlias_Args } from "jsr:@std/cli@1.0.5"
 /**
  * The value returned from {@linkcode parseArgs}.
  */
 type Args<TArgs extends Record<string, unknown> = Record<string, any>, TDoubleDash extends boolean | undefined = undefined> = _typeAlias_Args<TArgs, TDoubleDash>
 export type { Args }
 
-import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/cli@1.0.4"
+import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/cli@1.0.5"
 /**
  * Options for {@linkcode parseArgs}.
  */
@@ -45,7 +45,7 @@ interface ParseOptions<
 > extends _interface_ParseOptions<TBooleans, TStrings, TCollectable, TNegatable, TDefault, TAliases, TDoubleDash> {}
 export type { ParseOptions }
 
-import { parseArgs as _function_parseArgs } from "jsr:@std/cli@1.0.4"
+import { parseArgs as _function_parseArgs } from "jsr:@std/cli@1.0.5"
 /**
  * Take a set of command line arguments, optionally with a set of options, and
  * return an object representing the flags found in the passed arguments.
@@ -100,14 +100,14 @@ import { parseArgs as _function_parseArgs } from "jsr:@std/cli@1.0.4"
 const parseArgs = _function_parseArgs as typeof _function_parseArgs
 export { parseArgs }
 
-import type { PromptSecretOptions as _typeAlias_PromptSecretOptions } from "jsr:@std/cli@1.0.4"
+import type { PromptSecretOptions as _typeAlias_PromptSecretOptions } from "jsr:@std/cli@1.0.5"
 /**
  * Options for {@linkcode promptSecret}.
  */
 type PromptSecretOptions = _typeAlias_PromptSecretOptions
 export type { PromptSecretOptions }
 
-import { promptSecret as _function_promptSecret } from "jsr:@std/cli@1.0.4"
+import { promptSecret as _function_promptSecret } from "jsr:@std/cli@1.0.5"
 /**
  * Shows the given message and waits for the user's input. Returns the user's input as string.
  * This is similar to `prompt()` but it print user's input as `*` to prevent password from being shown.
@@ -130,7 +130,7 @@ import { promptSecret as _function_promptSecret } from "jsr:@std/cli@1.0.4"
 const promptSecret = _function_promptSecret as typeof _function_promptSecret
 export { promptSecret }
 
-import type { Ansi as _typeAlias_Ansi } from "jsr:@std/cli@1.0.4"
+import type { Ansi as _typeAlias_Ansi } from "jsr:@std/cli@1.0.5"
 /**
  * This is a hack to allow us to use the same type for both the color name and
  * an ANSI escape code.
@@ -142,7 +142,7 @@ import type { Ansi as _typeAlias_Ansi } from "jsr:@std/cli@1.0.4"
 type Ansi = _typeAlias_Ansi
 export type { Ansi }
 
-import type { Color as _typeAlias_Color } from "jsr:@std/cli@1.0.4"
+import type { Color as _typeAlias_Color } from "jsr:@std/cli@1.0.5"
 /**
  * Color options for {@linkcode SpinnerOptions.color}.
  *
@@ -151,7 +151,7 @@ import type { Color as _typeAlias_Color } from "jsr:@std/cli@1.0.4"
 type Color = _typeAlias_Color
 export type { Color }
 
-import type { SpinnerOptions as _interface_SpinnerOptions } from "jsr:@std/cli@1.0.4"
+import type { SpinnerOptions as _interface_SpinnerOptions } from "jsr:@std/cli@1.0.5"
 /**
  * Options for {@linkcode Spinner}.
  *
@@ -160,7 +160,7 @@ import type { SpinnerOptions as _interface_SpinnerOptions } from "jsr:@std/cli@1
 interface SpinnerOptions extends _interface_SpinnerOptions {}
 export type { SpinnerOptions }
 
-import { Spinner as _class_Spinner } from "jsr:@std/cli@1.0.4"
+import { Spinner as _class_Spinner } from "jsr:@std/cli@1.0.5"
 /**
  * A spinner that can be used to indicate that something is loading.
  *
@@ -181,7 +181,7 @@ import { Spinner as _class_Spinner } from "jsr:@std/cli@1.0.4"
 class Spinner extends _class_Spinner {}
 export { Spinner }
 
-import { unicodeWidth as _function_unicodeWidth } from "jsr:@std/cli@1.0.4"
+import { unicodeWidth as _function_unicodeWidth } from "jsr:@std/cli@1.0.5"
 /**
  * Calculate the physical width of a string in a TTY-like environment. This is
  * useful for cases such as calculating where a line-wrap will occur and

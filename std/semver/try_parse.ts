@@ -1,4 +1,4 @@
-import { tryParse as _function_tryParse } from "jsr:@std/semver@1.0.2/try-parse"
+import { tryParse as _function_tryParse } from "jsr:@std/semver@1.0.3/try-parse"
 /**
  * Returns the parsed SemVer, or `undefined` if it's not valid.
  *

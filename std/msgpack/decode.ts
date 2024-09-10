@@ -1,4 +1,4 @@
-import { decode as _function_decode } from "jsr:@std/msgpack@1.0.1/decode"
+import { decode as _function_decode } from "jsr:@std/msgpack@1.0.2/decode"
 /**
  * Decode a value from the {@link https://msgpack.org/ | MessagePack} binary format.
  *

@@ -73,14 +73,14 @@
  *
  * @module
  */
-import type { ParseResult as _typeAlias_ParseResult } from "jsr:@std/csv@1.0.2"
+import type { ParseResult as _typeAlias_ParseResult } from "jsr:@std/csv@1.0.3"
 /**
  * Parse result type for {@linkcode parse} and {@linkcode CsvParseStream}.
  */
 type ParseResult<ParseOptions, T> = _typeAlias_ParseResult<ParseOptions, T>
 export type { ParseResult }
 
-import type { RecordWithColumn as _typeAlias_RecordWithColumn } from "jsr:@std/csv@1.0.2"
+import type { RecordWithColumn as _typeAlias_RecordWithColumn } from "jsr:@std/csv@1.0.3"
 /**
  * Record type with column type.
  *
@@ -92,33 +92,33 @@ import type { RecordWithColumn as _typeAlias_RecordWithColumn } from "jsr:@std/c
 type RecordWithColumn<C extends string> = _typeAlias_RecordWithColumn<C>
 export type { RecordWithColumn }
 
-import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/csv@1.0.2"
+import type { ParseOptions as _interface_ParseOptions } from "jsr:@std/csv@1.0.3"
 /**
  * Options for {@linkcode parse}.
  */
 interface ParseOptions extends _interface_ParseOptions {}
 export type { ParseOptions }
 
-import { parse as _function_parse } from "jsr:@std/csv@1.0.2"
+import { parse as _function_parse } from "jsr:@std/csv@1.0.3"
 /** UNDOCUMENTED */
 const parse = _function_parse as typeof _function_parse
 export { parse }
 
-import type { CsvParseStreamOptions as _interface_CsvParseStreamOptions } from "jsr:@std/csv@1.0.2"
+import type { CsvParseStreamOptions as _interface_CsvParseStreamOptions } from "jsr:@std/csv@1.0.3"
 /**
  * Options for {@linkcode CsvParseStream}.
  */
 interface CsvParseStreamOptions extends _interface_CsvParseStreamOptions {}
 export type { CsvParseStreamOptions }
 
-import type { RowType as _typeAlias_RowType } from "jsr:@std/csv@1.0.2"
+import type { RowType as _typeAlias_RowType } from "jsr:@std/csv@1.0.3"
 /**
  * Row return type.
  */
 type RowType<T> = _typeAlias_RowType<T>
 export type { RowType }
 
-import { CsvParseStream as _class_CsvParseStream } from "jsr:@std/csv@1.0.2"
+import { CsvParseStream as _class_CsvParseStream } from "jsr:@std/csv@1.0.3"
 /**
  * `CsvParseStream` transforms a stream of CSV-encoded text into a stream of
  * parsed objects.
@@ -360,14 +360,14 @@ import { CsvParseStream as _class_CsvParseStream } from "jsr:@std/csv@1.0.2"
 class CsvParseStream<T extends CsvParseStreamOptions | undefined = undefined> extends _class_CsvParseStream<T> {}
 export { CsvParseStream }
 
-import type { PropertyAccessor as _typeAlias_PropertyAccessor } from "jsr:@std/csv@1.0.2"
+import type { PropertyAccessor as _typeAlias_PropertyAccessor } from "jsr:@std/csv@1.0.3"
 /**
  * Array index or record key corresponding to a value for a data object.
  */
 type PropertyAccessor = _typeAlias_PropertyAccessor
 export type { PropertyAccessor }
 
-import type { ColumnDetails as _typeAlias_ColumnDetails } from "jsr:@std/csv@1.0.2"
+import type { ColumnDetails as _typeAlias_ColumnDetails } from "jsr:@std/csv@1.0.3"
 /**
  * Column information.
  *
@@ -379,7 +379,7 @@ import type { ColumnDetails as _typeAlias_ColumnDetails } from "jsr:@std/csv@1.0
 type ColumnDetails = _typeAlias_ColumnDetails
 export type { ColumnDetails }
 
-import type { Column as _typeAlias_Column } from "jsr:@std/csv@1.0.2"
+import type { Column as _typeAlias_Column } from "jsr:@std/csv@1.0.3"
 /**
  * The most essential aspect of a column is accessing the property holding the
  * data for that column on each object in the data array. If that member is at
@@ -447,21 +447,21 @@ import type { Column as _typeAlias_Column } from "jsr:@std/csv@1.0.2"
 type Column = _typeAlias_Column
 export type { Column }
 
-import type { DataItem as _typeAlias_DataItem } from "jsr:@std/csv@1.0.2"
+import type { DataItem as _typeAlias_DataItem } from "jsr:@std/csv@1.0.3"
 /**
  * An object (plain or array)
  */
 type DataItem = _typeAlias_DataItem
 export type { DataItem }
 
-import type { StringifyOptions as _typeAlias_StringifyOptions } from "jsr:@std/csv@1.0.2"
+import type { StringifyOptions as _typeAlias_StringifyOptions } from "jsr:@std/csv@1.0.3"
 /**
  * Options for {@linkcode stringify}.
  */
 type StringifyOptions = _typeAlias_StringifyOptions
 export type { StringifyOptions }
 
-import { stringify as _function_stringify } from "jsr:@std/csv@1.0.2"
+import { stringify as _function_stringify } from "jsr:@std/csv@1.0.3"
 /**
  * Converts an array of objects into a CSV string.
  *
@@ -674,14 +674,14 @@ import { stringify as _function_stringify } from "jsr:@std/csv@1.0.2"
 const stringify = _function_stringify as typeof _function_stringify
 export { stringify }
 
-import type { CsvStringifyStreamOptions as _interface_CsvStringifyStreamOptions } from "jsr:@std/csv@1.0.2"
+import type { CsvStringifyStreamOptions as _interface_CsvStringifyStreamOptions } from "jsr:@std/csv@1.0.3"
 /**
  * Options for {@linkcode CsvStringifyStream}.
  */
 interface CsvStringifyStreamOptions extends _interface_CsvStringifyStreamOptions {}
 export type { CsvStringifyStreamOptions }
 
-import { CsvStringifyStream as _class_CsvStringifyStream } from "jsr:@std/csv@1.0.2"
+import { CsvStringifyStream as _class_CsvStringifyStream } from "jsr:@std/csv@1.0.3"
 /**
  * Convert each chunk to a CSV record.
  *

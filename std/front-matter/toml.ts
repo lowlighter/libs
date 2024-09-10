@@ -1,11 +1,11 @@
-import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.3/toml"
+import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.4/toml"
 /**
  * Return type for {@linkcode extract} function.
  */
 type Extract<T> = _typeAlias_Extract<T>
 export type { Extract }
 
-import { extract as _function_extract } from "jsr:@std/front-matter@1.0.3/toml"
+import { extract as _function_extract } from "jsr:@std/front-matter@1.0.4/toml"
 /**
  * Extracts and parses {@link https://toml.io | TOML} from the metadata of
  * front matter content.

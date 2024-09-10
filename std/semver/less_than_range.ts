@@ -1,4 +1,4 @@
-import { lessThanRange as _function_lessThanRange } from "jsr:@std/semver@1.0.2/less-than-range"
+import { lessThanRange as _function_lessThanRange } from "jsr:@std/semver@1.0.3/less-than-range"
 /**
  * Check if the SemVer is less than the range.
  *

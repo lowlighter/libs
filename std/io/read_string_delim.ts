@@ -1,4 +1,4 @@
-import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.6/read-string-delim"
+import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.7/read-string-delim"
 /**
  * Read {@linkcode Reader} chunk by chunk, splitting based on delimiter.
  *

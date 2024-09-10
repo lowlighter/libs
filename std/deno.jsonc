@@ -1,7 +1,7 @@
 {
   "icon": "🦕",
   "name": "@libs/std",
-  "version": "2024.9.4",
+  "version": "2024.9.10",
   "versioning": "date",
   "description": "All-in-one mirror of Deno's Standard Library.",
   "keywords": [
@@ -388,6 +388,9 @@
     "./streams/to-text": "./streams/to_text.ts",
     "./streams/to-transform-stream": "./streams/to_transform_stream.ts",
     "./streams/zip-readable-streams": "./streams/zip_readable_streams.ts",
+    "./tar": "./tar/mod.ts",
+    "./tar/tar-stream": "./tar/tar_stream.ts",
+    "./tar/untar-stream": "./tar/untar_stream.ts",
     "./testing/bdd": "./testing/bdd.ts",
     "./testing/mock": "./testing/mock.ts",
     "./testing/snapshot": "./testing/snapshot.ts",
@@ -424,6 +427,7 @@
     "./uuid/v3": "./uuid/v3.ts",
     "./uuid/v4": "./uuid/v4.ts",
     "./uuid/v5": "./uuid/v5.ts",
+    "./uuid/v7": "./uuid/v7.ts",
     "./webgpu": "./webgpu/mod.ts",
     "./webgpu/create-capture": "./webgpu/create_capture.ts",
     "./webgpu/describe-texture-format": "./webgpu/describe_texture_format.ts",

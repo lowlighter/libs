@@ -1,11 +1,11 @@
-import type { ClosestStringOptions as _interface_ClosestStringOptions } from "jsr:@std/text@1.0.4/closest-string"
+import type { ClosestStringOptions as _interface_ClosestStringOptions } from "jsr:@std/text@1.0.5/closest-string"
 /**
  * Options for {@linkcode closestString}.
  */
 interface ClosestStringOptions extends _interface_ClosestStringOptions {}
 export type { ClosestStringOptions }
 
-import { closestString as _function_closestString } from "jsr:@std/text@1.0.4/closest-string"
+import { closestString as _function_closestString } from "jsr:@std/text@1.0.5/closest-string"
 /**
  * Finds the most similar string from an array of strings.
  *

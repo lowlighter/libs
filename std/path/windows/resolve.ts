@@ -1,4 +1,4 @@
-import { resolve as _function_resolve } from "jsr:@std/path@1.0.3/windows/resolve"
+import { resolve as _function_resolve } from "jsr:@std/path@1.0.4/windows/resolve"
 /**
  * Resolves path segments into a `path`.
  *

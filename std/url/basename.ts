@@ -1,4 +1,4 @@
-import { basename as _function_basename } from "jsr:@std/url@0.225.0/basename"
+import { basename as _function_basename } from "jsr:@std/url@0.225.1/basename"
 /**
  * Returns the base name of a URL or URL string, optionally removing a suffix.
  *
@@ -37,8 +37,8 @@ import { basename as _function_basename } from "jsr:@std/url@0.225.0/basename"
  * ```
  *
  * @deprecated Use
- * {@linkcode https://jsr.io/@std/path/doc/posix/~/basename | @std/path/posix/basename}
- * instead (examples included). `@std/url` will be removed in the future.
+ * {@linkcode https://jsr.io/@std/path/doc/~/basename | @std/path/basename}
+ * instead. `@std/url` will be removed in the future.
  */
 const basename = _function_basename as typeof _function_basename
 export { basename }

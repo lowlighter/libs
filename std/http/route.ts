@@ -1,4 +1,4 @@
-import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.4/route"
+import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.5/route"
 /**
  * Request handler for {@linkcode Route}.
  *
@@ -10,7 +10,7 @@ import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.4/route"
 type Handler = _typeAlias_Handler
 export type { Handler }
 
-import type { Route as _interface_Route } from "jsr:@std/http@1.0.4/route"
+import type { Route as _interface_Route } from "jsr:@std/http@1.0.5/route"
 /**
  * Route configuration for {@linkcode route}.
  *
@@ -19,7 +19,7 @@ import type { Route as _interface_Route } from "jsr:@std/http@1.0.4/route"
 interface Route extends _interface_Route {}
 export type { Route }
 
-import { route as _function_route } from "jsr:@std/http@1.0.4/route"
+import { route as _function_route } from "jsr:@std/http@1.0.5/route"
 /**
  * Routes requests to different handlers based on the request path and method.
  *

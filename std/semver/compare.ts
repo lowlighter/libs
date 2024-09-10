@@ -1,4 +1,4 @@
-import { compare as _function_compare } from "jsr:@std/semver@1.0.2/compare"
+import { compare as _function_compare } from "jsr:@std/semver@1.0.3/compare"
 /**
  * Compare two SemVers.
  *

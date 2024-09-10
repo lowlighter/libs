@@ -1,4 +1,4 @@
-import { HEADER as _variable_HEADER } from "jsr:@std/http@1.0.4/header"
+import { HEADER as _variable_HEADER } from "jsr:@std/http@1.0.5/header"
 /**
  * HTTP Headers with status permanent
  *
@@ -8,7 +8,7 @@ import { HEADER as _variable_HEADER } from "jsr:@std/http@1.0.4/header"
 const HEADER = _variable_HEADER as typeof _variable_HEADER
 export { HEADER }
 
-import type { Header as _typeAlias_Header } from "jsr:@std/http@1.0.4/header"
+import type { Header as _typeAlias_Header } from "jsr:@std/http@1.0.5/header"
 /**
  * A HTTP Header
  *

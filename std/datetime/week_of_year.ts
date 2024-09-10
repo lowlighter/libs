@@ -1,4 +1,4 @@
-import { weekOfYear as _function_weekOfYear } from "jsr:@std/datetime@0.225.1/week-of-year"
+import { weekOfYear as _function_weekOfYear } from "jsr:@std/datetime@0.225.2/week-of-year"
 /**
  * Returns the ISO week number of the provided date (1-53).
  *

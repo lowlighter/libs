@@ -1,4 +1,4 @@
-import { TtlCache as _class_TtlCache } from "jsr:@std/cache@0.1.1/ttl-cache"
+import { TtlCache as _class_TtlCache } from "jsr:@std/cache@0.1.2/ttl-cache"
 /**
  * Time-to-live cache.
  *

@@ -1,11 +1,11 @@
-import type { LoadOptions as _interface_LoadOptions } from "jsr:@std/dotenv@0.225.1"
+import type { LoadOptions as _interface_LoadOptions } from "jsr:@std/dotenv@0.225.2"
 /**
  * Options for {@linkcode load} and {@linkcode loadSync}.
  */
 interface LoadOptions extends _interface_LoadOptions {}
 export type { LoadOptions }
 
-import { loadSync as _function_loadSync } from "jsr:@std/dotenv@0.225.1"
+import { loadSync as _function_loadSync } from "jsr:@std/dotenv@0.225.2"
 /**
  * Works identically to {@linkcode load}, but synchronously.
  *
@@ -22,7 +22,7 @@ import { loadSync as _function_loadSync } from "jsr:@std/dotenv@0.225.1"
 const loadSync = _function_loadSync as typeof _function_loadSync
 export { loadSync }
 
-import { load as _function_load } from "jsr:@std/dotenv@0.225.1"
+import { load as _function_load } from "jsr:@std/dotenv@0.225.2"
 /**
  * Load environment variables from a `.env` file.  Loaded variables are accessible
  * in a configuration object returned by the `load()` function, as well as optionally
@@ -155,7 +155,7 @@ import { load as _function_load } from "jsr:@std/dotenv@0.225.1"
 const load = _function_load as typeof _function_load
 export { load }
 
-import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.1"
+import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.2"
 /**
  * Stringify an object into a valid `.env` file format.
  *
@@ -174,7 +174,7 @@ import { stringify as _function_stringify } from "jsr:@std/dotenv@0.225.1"
 const stringify = _function_stringify as typeof _function_stringify
 export { stringify }
 
-import { parse as _function_parse } from "jsr:@std/dotenv@0.225.1"
+import { parse as _function_parse } from "jsr:@std/dotenv@0.225.2"
 /**
  * Parse `.env` file output in an object.
  *

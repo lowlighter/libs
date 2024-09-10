@@ -1,4 +1,4 @@
-import { parse as _function_parse } from "jsr:@std/semver@1.0.2/parse"
+import { parse as _function_parse } from "jsr:@std/semver@1.0.3/parse"
 /**
  * Attempt to parse a string as a semantic version, returning a SemVer object.
  *

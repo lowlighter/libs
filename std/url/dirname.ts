@@ -1,4 +1,4 @@
-import { dirname as _function_dirname } from "jsr:@std/url@0.225.0/dirname"
+import { dirname as _function_dirname } from "jsr:@std/url@0.225.1/dirname"
 /**
  * Returns the directory path URL of a URL or URL string.
  *
@@ -18,8 +18,8 @@ import { dirname as _function_dirname } from "jsr:@std/url@0.225.0/dirname"
  * ```
  *
  * @deprecated Use
- * {@linkcode https://jsr.io/@std/path/doc/posix/~/dirname | @std/path/posix/dirname}
- * instead (examples included). `@std/url` will be removed in the future.
+ * {@linkcode https://jsr.io/@std/path/doc/~/dirname | @std/path/dirname}
+ * instead. `@std/url` will be removed in the future.
  */
 const dirname = _function_dirname as typeof _function_dirname
 export { dirname }

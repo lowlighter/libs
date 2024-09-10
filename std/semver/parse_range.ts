@@ -1,4 +1,4 @@
-import { parseRange as _function_parseRange } from "jsr:@std/semver@1.0.2/parse-range"
+import { parseRange as _function_parseRange } from "jsr:@std/semver@1.0.3/parse-range"
 /**
  * Parses a range string into a {@linkcode Range} object.
  *

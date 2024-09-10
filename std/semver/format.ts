@@ -1,4 +1,4 @@
-import { format as _function_format } from "jsr:@std/semver@1.0.2/format"
+import { format as _function_format } from "jsr:@std/semver@1.0.3/format"
 /**
  * Format a SemVer object into a string.
  *

@@ -1,4 +1,4 @@
-import { critical as _function_critical } from "jsr:@std/log@0.224.6/critical"
+import { critical as _function_critical } from "jsr:@std/log@0.224.7/critical"
 /** UNDOCUMENTED */
 const critical = _function_critical as typeof _function_critical
 export { critical }

@@ -1,4 +1,4 @@
-import { RetryError as _class_RetryError } from "jsr:@std/async@1.0.4/retry"
+import { RetryError as _class_RetryError } from "jsr:@std/async@1.0.5/retry"
 /**
  * Error thrown in {@linkcode retry} once the maximum number of failed attempts
  * has been reached.
@@ -13,14 +13,14 @@ import { RetryError as _class_RetryError } from "jsr:@std/async@1.0.4/retry"
 class RetryError extends _class_RetryError {}
 export { RetryError }
 
-import type { RetryOptions as _interface_RetryOptions } from "jsr:@std/async@1.0.4/retry"
+import type { RetryOptions as _interface_RetryOptions } from "jsr:@std/async@1.0.5/retry"
 /**
  * Options for {@linkcode retry}.
  */
 interface RetryOptions extends _interface_RetryOptions {}
 export type { RetryOptions }
 
-import { retry as _function_retry } from "jsr:@std/async@1.0.4/retry"
+import { retry as _function_retry } from "jsr:@std/async@1.0.5/retry"
 /**
  * Calls the given (possibly asynchronous) function up to `maxAttempts` times.
  * Retries as long as the given function throws. If the attempts are exhausted,
@@ -72,7 +72,7 @@ import { retry as _function_retry } from "jsr:@std/async@1.0.4/retry"
  *
  * @template T The return type of the function to retry and returned promise.
  * @param fn The function to retry.
- * @param opts Additional options.
+ * @param options Additional options.
  * @return The promise that resolves with the value returned by the function to retry.
  */
 const retry = _function_retry as typeof _function_retry

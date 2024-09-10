@@ -1,4 +1,4 @@
-import type { Tuple as _typeAlias_Tuple } from "jsr:@std/async@1.0.4/tee"
+import type { Tuple as _typeAlias_Tuple } from "jsr:@std/async@1.0.5/tee"
 /**
  * Utility for representing n-tuple. Used in {@linkcode tee}.
  *
@@ -7,7 +7,7 @@ import type { Tuple as _typeAlias_Tuple } from "jsr:@std/async@1.0.4/tee"
 type Tuple<T, N extends number> = _typeAlias_Tuple<T, N>
 export type { Tuple }
 
-import type { TupleOf as _typeAlias_TupleOf } from "jsr:@std/async@1.0.4/tee"
+import type { TupleOf as _typeAlias_TupleOf } from "jsr:@std/async@1.0.5/tee"
 /**
  * Utility for representing n-tuple of. Used in {@linkcode Tuple}.
  *
@@ -16,7 +16,7 @@ import type { TupleOf as _typeAlias_TupleOf } from "jsr:@std/async@1.0.4/tee"
 type TupleOf<T, N extends number, R extends unknown[]> = _typeAlias_TupleOf<T, N, R>
 export type { TupleOf }
 
-import { tee as _function_tee } from "jsr:@std/async@1.0.4/tee"
+import { tee as _function_tee } from "jsr:@std/async@1.0.5/tee"
 /**
  * Branches the given async iterable into the `n` branches.
  *

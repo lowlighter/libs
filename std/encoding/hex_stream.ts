@@ -1,4 +1,4 @@
-import { HexEncoderStream as _class_HexEncoderStream } from "jsr:@std/encoding@1.0.3/hex-stream"
+import { HexEncoderStream as _class_HexEncoderStream } from "jsr:@std/encoding@1.0.4/hex-stream"
 /**
  * Converts a Uint8Array stream into a hex-encoded stream.
  *
@@ -22,7 +22,7 @@ import { HexEncoderStream as _class_HexEncoderStream } from "jsr:@std/encoding@1
 class HexEncoderStream extends _class_HexEncoderStream {}
 export { HexEncoderStream }
 
-import { HexDecoderStream as _class_HexDecoderStream } from "jsr:@std/encoding@1.0.3/hex-stream"
+import { HexDecoderStream as _class_HexDecoderStream } from "jsr:@std/encoding@1.0.4/hex-stream"
 /**
  * Decodes a hex-encoded stream into a Uint8Array stream.
  *

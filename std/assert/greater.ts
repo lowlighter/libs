@@ -1,4 +1,4 @@
-import { assertGreater as _function_assertGreater } from "jsr:@std/assert@1.0.3/greater"
+import { assertGreater as _function_assertGreater } from "jsr:@std/assert@1.0.4/greater"
 /**
  * Make an assertion that `actual` is greater than `expected`.
  * If not then throw.

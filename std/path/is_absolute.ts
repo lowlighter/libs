@@ -1,4 +1,4 @@
-import { isAbsolute as _function_isAbsolute } from "jsr:@std/path@1.0.3/is-absolute"
+import { isAbsolute as _function_isAbsolute } from "jsr:@std/path@1.0.4/is-absolute"
 /**
  * Verifies whether provided path is absolute.
  *

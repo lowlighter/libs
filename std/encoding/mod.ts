@@ -12,7 +12,7 @@
  *
  * @module
  */
-import type { Ascii85Standard as _typeAlias_Ascii85Standard } from "jsr:@std/encoding@1.0.3"
+import type { Ascii85Standard as _typeAlias_Ascii85Standard } from "jsr:@std/encoding@1.0.4"
 /**
  * Supported ascii85 standards for {@linkcode EncodeAscii85Options} and
  * {@linkcode DecodeAscii85Options}.
@@ -20,14 +20,14 @@ import type { Ascii85Standard as _typeAlias_Ascii85Standard } from "jsr:@std/enc
 type Ascii85Standard = _typeAlias_Ascii85Standard
 export type { Ascii85Standard }
 
-import type { EncodeAscii85Options as _interface_EncodeAscii85Options } from "jsr:@std/encoding@1.0.3"
+import type { EncodeAscii85Options as _interface_EncodeAscii85Options } from "jsr:@std/encoding@1.0.4"
 /**
  * Options for {@linkcode encodeAscii85}.
  */
 interface EncodeAscii85Options extends _interface_EncodeAscii85Options {}
 export type { EncodeAscii85Options }
 
-import { encodeAscii85 as _function_encodeAscii85 } from "jsr:@std/encoding@1.0.3"
+import { encodeAscii85 as _function_encodeAscii85 } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts data into an ascii85-encoded string.
  *
@@ -47,14 +47,14 @@ import { encodeAscii85 as _function_encodeAscii85 } from "jsr:@std/encoding@1.0.
 const encodeAscii85 = _function_encodeAscii85 as typeof _function_encodeAscii85
 export { encodeAscii85 }
 
-import type { DecodeAscii85Options as _typeAlias_DecodeAscii85Options } from "jsr:@std/encoding@1.0.3"
+import type { DecodeAscii85Options as _typeAlias_DecodeAscii85Options } from "jsr:@std/encoding@1.0.4"
 /**
  * Options for {@linkcode decodeAscii85}.
  */
 type DecodeAscii85Options = _typeAlias_DecodeAscii85Options
 export type { DecodeAscii85Options }
 
-import { decodeAscii85 as _function_decodeAscii85 } from "jsr:@std/encoding@1.0.3"
+import { decodeAscii85 as _function_decodeAscii85 } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a ascii85-encoded string.
  *
@@ -76,7 +76,7 @@ import { decodeAscii85 as _function_decodeAscii85 } from "jsr:@std/encoding@1.0.
 const decodeAscii85 = _function_decodeAscii85 as typeof _function_decodeAscii85
 export { decodeAscii85 }
 
-import { decodeBase32 as _function_decodeBase32 } from "jsr:@std/encoding@1.0.3"
+import { decodeBase32 as _function_decodeBase32 } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a base32-encoded string.
  *
@@ -99,7 +99,7 @@ import { decodeBase32 as _function_decodeBase32 } from "jsr:@std/encoding@1.0.3"
 const decodeBase32 = _function_decodeBase32 as typeof _function_decodeBase32
 export { decodeBase32 }
 
-import { encodeBase32 as _function_encodeBase32 } from "jsr:@std/encoding@1.0.3"
+import { encodeBase32 as _function_encodeBase32 } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts data into a base32-encoded string.
  *
@@ -119,7 +119,7 @@ import { encodeBase32 as _function_encodeBase32 } from "jsr:@std/encoding@1.0.3"
 const encodeBase32 = _function_encodeBase32 as typeof _function_encodeBase32
 export { encodeBase32 }
 
-import { Base32EncoderStream as _class_Base32EncoderStream } from "jsr:@std/encoding@1.0.3"
+import { Base32EncoderStream as _class_Base32EncoderStream } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts a Uint8Array stream into a base32-encoded stream.
  *
@@ -143,7 +143,7 @@ import { Base32EncoderStream as _class_Base32EncoderStream } from "jsr:@std/enco
 class Base32EncoderStream extends _class_Base32EncoderStream {}
 export { Base32EncoderStream }
 
-import { Base32DecoderStream as _class_Base32DecoderStream } from "jsr:@std/encoding@1.0.3"
+import { Base32DecoderStream as _class_Base32DecoderStream } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a base32-encoded stream into a Uint8Array stream.
  *
@@ -166,7 +166,7 @@ import { Base32DecoderStream as _class_Base32DecoderStream } from "jsr:@std/enco
 class Base32DecoderStream extends _class_Base32DecoderStream {}
 export { Base32DecoderStream }
 
-import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@1.0.3"
+import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a base32hex-encoded string.
  *
@@ -190,7 +190,7 @@ import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@
 const decodeBase32Hex = _function_decodeBase32Hex as typeof _function_decodeBase32Hex
 export { decodeBase32Hex }
 
-import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@1.0.3"
+import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts data into a base32hex-encoded string.
  *
@@ -211,7 +211,7 @@ import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@
 const encodeBase32Hex = _function_encodeBase32Hex as typeof _function_encodeBase32Hex
 export { encodeBase32Hex }
 
-import { Base32HexEncoderStream as _class_Base32HexEncoderStream } from "jsr:@std/encoding@1.0.3"
+import { Base32HexEncoderStream as _class_Base32HexEncoderStream } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts a Uint8Array stream into a base32hex-encoded stream.
  *
@@ -235,7 +235,7 @@ import { Base32HexEncoderStream as _class_Base32HexEncoderStream } from "jsr:@st
 class Base32HexEncoderStream extends _class_Base32HexEncoderStream {}
 export { Base32HexEncoderStream }
 
-import { Base32HexDecoderStream as _class_Base32HexDecoderStream } from "jsr:@std/encoding@1.0.3"
+import { Base32HexDecoderStream as _class_Base32HexDecoderStream } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a base32hex-encoded stream into a Uint8Array stream.
  *
@@ -258,7 +258,7 @@ import { Base32HexDecoderStream as _class_Base32HexDecoderStream } from "jsr:@st
 class Base32HexDecoderStream extends _class_Base32HexDecoderStream {}
 export { Base32HexDecoderStream }
 
-import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.3"
+import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts data into a base58-encoded string.
  *
@@ -278,7 +278,7 @@ import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.3"
 const encodeBase58 = _function_encodeBase58 as typeof _function_encodeBase58
 export { encodeBase58 }
 
-import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.3"
+import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a base58-encoded string.
  *
@@ -301,7 +301,7 @@ import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.3"
 const decodeBase58 = _function_decodeBase58 as typeof _function_decodeBase58
 export { decodeBase58 }
 
-import { encodeBase64 as _function_encodeBase64 } from "jsr:@std/encoding@1.0.3"
+import { encodeBase64 as _function_encodeBase64 } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts data into a base64-encoded string.
  *
@@ -321,7 +321,7 @@ import { encodeBase64 as _function_encodeBase64 } from "jsr:@std/encoding@1.0.3"
 const encodeBase64 = _function_encodeBase64 as typeof _function_encodeBase64
 export { encodeBase64 }
 
-import { decodeBase64 as _function_decodeBase64 } from "jsr:@std/encoding@1.0.3"
+import { decodeBase64 as _function_decodeBase64 } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a base64-encoded string.
  *
@@ -344,7 +344,7 @@ import { decodeBase64 as _function_decodeBase64 } from "jsr:@std/encoding@1.0.3"
 const decodeBase64 = _function_decodeBase64 as typeof _function_decodeBase64
 export { decodeBase64 }
 
-import { Base64EncoderStream as _class_Base64EncoderStream } from "jsr:@std/encoding@1.0.3"
+import { Base64EncoderStream as _class_Base64EncoderStream } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts a Uint8Array stream into a base64-encoded stream.
  *
@@ -368,7 +368,7 @@ import { Base64EncoderStream as _class_Base64EncoderStream } from "jsr:@std/enco
 class Base64EncoderStream extends _class_Base64EncoderStream {}
 export { Base64EncoderStream }
 
-import { Base64DecoderStream as _class_Base64DecoderStream } from "jsr:@std/encoding@1.0.3"
+import { Base64DecoderStream as _class_Base64DecoderStream } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a base64-encoded stream into a Uint8Array stream.
  *
@@ -391,7 +391,7 @@ import { Base64DecoderStream as _class_Base64DecoderStream } from "jsr:@std/enco
 class Base64DecoderStream extends _class_Base64DecoderStream {}
 export { Base64DecoderStream }
 
-import { encodeBase64Url as _function_encodeBase64Url } from "jsr:@std/encoding@1.0.3"
+import { encodeBase64Url as _function_encodeBase64Url } from "jsr:@std/encoding@1.0.4"
 /**
  * Convert data into a base64url-encoded string.
  *
@@ -411,7 +411,7 @@ import { encodeBase64Url as _function_encodeBase64Url } from "jsr:@std/encoding@
 const encodeBase64Url = _function_encodeBase64Url as typeof _function_encodeBase64Url
 export { encodeBase64Url }
 
-import { decodeBase64Url as _function_decodeBase64Url } from "jsr:@std/encoding@1.0.3"
+import { decodeBase64Url as _function_decodeBase64Url } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a given base64url-encoded string.
  *
@@ -434,7 +434,7 @@ import { decodeBase64Url as _function_decodeBase64Url } from "jsr:@std/encoding@
 const decodeBase64Url = _function_decodeBase64Url as typeof _function_decodeBase64Url
 export { decodeBase64Url }
 
-import { Base64UrlEncoderStream as _class_Base64UrlEncoderStream } from "jsr:@std/encoding@1.0.3"
+import { Base64UrlEncoderStream as _class_Base64UrlEncoderStream } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts a Uint8Array stream into a base64url-encoded stream.
  *
@@ -458,7 +458,7 @@ import { Base64UrlEncoderStream as _class_Base64UrlEncoderStream } from "jsr:@st
 class Base64UrlEncoderStream extends _class_Base64UrlEncoderStream {}
 export { Base64UrlEncoderStream }
 
-import { Base64UrlDecoderStream as _class_Base64UrlDecoderStream } from "jsr:@std/encoding@1.0.3"
+import { Base64UrlDecoderStream as _class_Base64UrlDecoderStream } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a base64url-encoded stream into a Uint8Array stream.
  *
@@ -482,7 +482,7 @@ import { Base64UrlDecoderStream as _class_Base64UrlDecoderStream } from "jsr:@st
 class Base64UrlDecoderStream extends _class_Base64UrlDecoderStream {}
 export { Base64UrlDecoderStream }
 
-import { encodeHex as _function_encodeHex } from "jsr:@std/encoding@1.0.3"
+import { encodeHex as _function_encodeHex } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts data into a hex-encoded string.
  *
@@ -501,7 +501,7 @@ import { encodeHex as _function_encodeHex } from "jsr:@std/encoding@1.0.3"
 const encodeHex = _function_encodeHex as typeof _function_encodeHex
 export { encodeHex }
 
-import { decodeHex as _function_decodeHex } from "jsr:@std/encoding@1.0.3"
+import { decodeHex as _function_decodeHex } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes the given hex-encoded string. If the input is malformed, an error is
  * thrown.
@@ -524,7 +524,7 @@ import { decodeHex as _function_decodeHex } from "jsr:@std/encoding@1.0.3"
 const decodeHex = _function_decodeHex as typeof _function_decodeHex
 export { decodeHex }
 
-import { HexEncoderStream as _class_HexEncoderStream } from "jsr:@std/encoding@1.0.3"
+import { HexEncoderStream as _class_HexEncoderStream } from "jsr:@std/encoding@1.0.4"
 /**
  * Converts a Uint8Array stream into a hex-encoded stream.
  *
@@ -548,7 +548,7 @@ import { HexEncoderStream as _class_HexEncoderStream } from "jsr:@std/encoding@1
 class HexEncoderStream extends _class_HexEncoderStream {}
 export { HexEncoderStream }
 
-import { HexDecoderStream as _class_HexDecoderStream } from "jsr:@std/encoding@1.0.3"
+import { HexDecoderStream as _class_HexDecoderStream } from "jsr:@std/encoding@1.0.4"
 /**
  * Decodes a hex-encoded stream into a Uint8Array stream.
  *
@@ -571,7 +571,7 @@ import { HexDecoderStream as _class_HexDecoderStream } from "jsr:@std/encoding@1
 class HexDecoderStream extends _class_HexDecoderStream {}
 export { HexDecoderStream }
 
-import { MaxUint64 as _variable_MaxUint64 } from "jsr:@std/encoding@1.0.3"
+import { MaxUint64 as _variable_MaxUint64 } from "jsr:@std/encoding@1.0.4"
 /**
  * The maximum value of an unsigned 64-bit integer.
  * Equivalent to `2n**64n - 1n`
@@ -579,21 +579,21 @@ import { MaxUint64 as _variable_MaxUint64 } from "jsr:@std/encoding@1.0.3"
 const MaxUint64 = _variable_MaxUint64 as typeof _variable_MaxUint64
 export { MaxUint64 }
 
-import { MaxVarintLen64 as _variable_MaxVarintLen64 } from "jsr:@std/encoding@1.0.3"
+import { MaxVarintLen64 as _variable_MaxVarintLen64 } from "jsr:@std/encoding@1.0.4"
 /**
  * The maximum length, in bytes, of a Varint encoded 64-bit integer.
  */
 const MaxVarintLen64 = _variable_MaxVarintLen64 as typeof _variable_MaxVarintLen64
 export { MaxVarintLen64 }
 
-import { MaxVarintLen32 as _variable_MaxVarintLen32 } from "jsr:@std/encoding@1.0.3"
+import { MaxVarintLen32 as _variable_MaxVarintLen32 } from "jsr:@std/encoding@1.0.4"
 /**
  * The maximum length, in bytes, of a Varint encoded 32-bit integer.
  */
 const MaxVarintLen32 = _variable_MaxVarintLen32 as typeof _variable_MaxVarintLen32
 export { MaxVarintLen32 }
 
-import { decodeVarint as _function_decodeVarint } from "jsr:@std/encoding@1.0.3"
+import { decodeVarint as _function_decodeVarint } from "jsr:@std/encoding@1.0.4"
 /**
  * Given a non empty `buf`, starting at `offset` (default: 0), begin decoding bytes as
  * Varint encoded bytes, for a maximum of 10 bytes (offset + 10). The returned
@@ -623,7 +623,7 @@ import { decodeVarint as _function_decodeVarint } from "jsr:@std/encoding@1.0.3"
 const decodeVarint = _function_decodeVarint as typeof _function_decodeVarint
 export { decodeVarint }
 
-import { decodeVarint32 as _function_decodeVarint32 } from "jsr:@std/encoding@1.0.3"
+import { decodeVarint32 as _function_decodeVarint32 } from "jsr:@std/encoding@1.0.4"
 /**
  * Given a `buf`, starting at `offset` (default: 0), begin decoding bytes as
  * Varint encoded bytes, for a maximum of 5 bytes (offset + 5). The returned
@@ -652,7 +652,7 @@ import { decodeVarint32 as _function_decodeVarint32 } from "jsr:@std/encoding@1.
 const decodeVarint32 = _function_decodeVarint32 as typeof _function_decodeVarint32
 export { decodeVarint32 }
 
-import { encodeVarint as _function_encodeVarint } from "jsr:@std/encoding@1.0.3"
+import { encodeVarint as _function_encodeVarint } from "jsr:@std/encoding@1.0.4"
 /**
  * Takes unsigned number `num` and converts it into a Varint encoded
  * `Uint8Array`, returning a tuple consisting of a `Uint8Array` slice of the

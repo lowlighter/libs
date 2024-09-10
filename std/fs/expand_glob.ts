@@ -1,4 +1,4 @@
-import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/fs@1.0.2/expand-glob"
+import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/fs@1.0.3/expand-glob"
 /**
  * Options for {@linkcode globToRegExp}, {@linkcode joinGlobs},
  * {@linkcode normalizeGlob} and {@linkcode expandGlob}.
@@ -6,7 +6,7 @@ import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/fs@1.0.2/ex
 interface GlobOptions extends _interface_GlobOptions {}
 export type { GlobOptions }
 
-import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.2/expand-glob"
+import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.3/expand-glob"
 /**
  * Walk entry for {@linkcode walk}, {@linkcode walkSync},
  * {@linkcode expandGlob} and {@linkcode expandGlobSync}.
@@ -14,14 +14,14 @@ import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.2/expand
 interface WalkEntry extends _interface_WalkEntry {}
 export type { WalkEntry }
 
-import type { ExpandGlobOptions as _interface_ExpandGlobOptions } from "jsr:@std/fs@1.0.2/expand-glob"
+import type { ExpandGlobOptions as _interface_ExpandGlobOptions } from "jsr:@std/fs@1.0.3/expand-glob"
 /**
  * Options for {@linkcode expandGlob} and {@linkcode expandGlobSync}.
  */
 interface ExpandGlobOptions extends _interface_ExpandGlobOptions {}
 export type { ExpandGlobOptions }
 
-import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.2/expand-glob"
+import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.3/expand-glob"
 /**
  * Returns an async iterator that yields each file path matching the given glob
  * pattern.
@@ -205,7 +205,7 @@ import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.2/expand-glo
 const expandGlob = _function_expandGlob as typeof _function_expandGlob
 export { expandGlob }
 
-import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.2/expand-glob"
+import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.3/expand-glob"
 /**
  * Returns an iterator that yields each file path matching the given glob
  * pattern. The file paths are relative to the provided `root` directory.

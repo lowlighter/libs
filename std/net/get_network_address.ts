@@ -1,4 +1,4 @@
-import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1.0.1/get-network-address"
+import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1.0.2/get-network-address"
 /**
  * Gets the IPv4 or IPv6 network address of the machine.
  *
@@ -12,7 +12,7 @@ import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1
  * ```ts no-assert no-eval
  * import { getNetworkAddress } from "@std/net/get-network-address";
  *
- * const hostname = getNetworkAddress();
+ * const hostname = getNetworkAddress()!;
  *
  * Deno.serve({ port: 0, hostname }, () => new Response("Hello, world!"));
  * ```
@@ -21,7 +21,7 @@ import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1
  * ```ts no-assert no-eval
  * import { getNetworkAddress } from "@std/net/get-network-address";
  *
- * const hostname = getNetworkAddress("IPv6");
+ * const hostname = getNetworkAddress("IPv6")!;
  *
  * Deno.serve({ port: 0, hostname }, () => new Response("Hello, world!"));
  * ```

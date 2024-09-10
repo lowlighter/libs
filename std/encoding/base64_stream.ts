@@ -1,4 +1,4 @@
-import { Base64EncoderStream as _class_Base64EncoderStream } from "jsr:@std/encoding@1.0.3/base64-stream"
+import { Base64EncoderStream as _class_Base64EncoderStream } from "jsr:@std/encoding@1.0.4/base64-stream"
 /**
  * Converts a Uint8Array stream into a base64-encoded stream.
  *
@@ -22,7 +22,7 @@ import { Base64EncoderStream as _class_Base64EncoderStream } from "jsr:@std/enco
 class Base64EncoderStream extends _class_Base64EncoderStream {}
 export { Base64EncoderStream }
 
-import { Base64DecoderStream as _class_Base64DecoderStream } from "jsr:@std/encoding@1.0.3/base64-stream"
+import { Base64DecoderStream as _class_Base64DecoderStream } from "jsr:@std/encoding@1.0.4/base64-stream"
 /**
  * Decodes a base64-encoded stream into a Uint8Array stream.
  *

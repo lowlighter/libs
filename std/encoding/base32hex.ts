@@ -1,4 +1,4 @@
-import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@1.0.3/base32hex"
+import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@1.0.4/base32hex"
 /**
  * Decodes a base32hex-encoded string.
  *
@@ -22,7 +22,7 @@ import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@
 const decodeBase32Hex = _function_decodeBase32Hex as typeof _function_decodeBase32Hex
 export { decodeBase32Hex }
 
-import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@1.0.3/base32hex"
+import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@1.0.4/base32hex"
 /**
  * Converts data into a base32hex-encoded string.
  *

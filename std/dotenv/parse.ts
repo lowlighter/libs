@@ -1,4 +1,4 @@
-import { parse as _function_parse } from "jsr:@std/dotenv@0.225.1/parse"
+import { parse as _function_parse } from "jsr:@std/dotenv@0.225.2/parse"
 /**
  * Parse `.env` file output in an object.
  *

@@ -1,4 +1,4 @@
-import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.3/normalize-glob"
+import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.4/normalize-glob"
 /**
  * Options for {@linkcode globToRegExp}, {@linkcode joinGlobs},
  * {@linkcode normalizeGlob} and {@linkcode expandGlob}.
@@ -6,7 +6,7 @@ import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.3/
 interface GlobOptions extends _interface_GlobOptions {}
 export type { GlobOptions }
 
-import { normalizeGlob as _function_normalizeGlob } from "jsr:@std/path@1.0.3/normalize-glob"
+import { normalizeGlob as _function_normalizeGlob } from "jsr:@std/path@1.0.4/normalize-glob"
 /**
  * Normalizes a glob string.
  *

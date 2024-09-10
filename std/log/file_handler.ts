@@ -1,14 +1,14 @@
-import type { LogMode as _typeAlias_LogMode } from "jsr:@std/log@0.224.6/file-handler"
+import type { LogMode as _typeAlias_LogMode } from "jsr:@std/log@0.224.7/file-handler"
 /** UNDOCUMENTED */
 type LogMode = _typeAlias_LogMode
 export type { LogMode }
 
-import type { FileHandlerOptions as _interface_FileHandlerOptions } from "jsr:@std/log@0.224.6/file-handler"
+import type { FileHandlerOptions as _interface_FileHandlerOptions } from "jsr:@std/log@0.224.7/file-handler"
 /** UNDOCUMENTED */
 interface FileHandlerOptions extends _interface_FileHandlerOptions {}
 export type { FileHandlerOptions }
 
-import { FileHandler as _class_FileHandler } from "jsr:@std/log@0.224.6/file-handler"
+import { FileHandler as _class_FileHandler } from "jsr:@std/log@0.224.7/file-handler"
 /**
  * This handler will output to a file using an optional mode (default is `a`,
  * e.g. append). The file will grow indefinitely. It uses a buffer for writing

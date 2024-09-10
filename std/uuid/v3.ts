@@ -1,4 +1,4 @@
-import { validate as _function_validate } from "jsr:@std/uuid@1.0.2/v3"
+import { validate as _function_validate } from "jsr:@std/uuid@1.0.3/v3"
 /**
  * Determines whether a string is a valid
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.3 | UUIDv3}.
@@ -19,7 +19,7 @@ import { validate as _function_validate } from "jsr:@std/uuid@1.0.2/v3"
 const validate = _function_validate as typeof _function_validate
 export { validate }
 
-import { generate as _function_generate } from "jsr:@std/uuid@1.0.2/v3"
+import { generate as _function_generate } from "jsr:@std/uuid@1.0.3/v3"
 /**
  * Generates a
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.3 | UUIDv3}.

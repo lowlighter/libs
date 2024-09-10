@@ -366,27 +366,27 @@
  *
  * @module
  */
-import type { FormatterFunction as _typeAlias_FormatterFunction } from "jsr:@std/log@0.224.6"
+import type { FormatterFunction as _typeAlias_FormatterFunction } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 type FormatterFunction = _typeAlias_FormatterFunction
 export type { FormatterFunction }
 
-import type { BaseHandlerOptions as _interface_BaseHandlerOptions } from "jsr:@std/log@0.224.6"
+import type { BaseHandlerOptions as _interface_BaseHandlerOptions } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 interface BaseHandlerOptions extends _interface_BaseHandlerOptions {}
 export type { BaseHandlerOptions }
 
-import { BaseHandler as _class_BaseHandler } from "jsr:@std/log@0.224.6"
+import { BaseHandler as _class_BaseHandler } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 abstract class BaseHandler extends _class_BaseHandler {}
 export { BaseHandler }
 
-import type { ConsoleHandlerOptions as _interface_ConsoleHandlerOptions } from "jsr:@std/log@0.224.6"
+import type { ConsoleHandlerOptions as _interface_ConsoleHandlerOptions } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 interface ConsoleHandlerOptions extends _interface_ConsoleHandlerOptions {}
 export type { ConsoleHandlerOptions }
 
-import { ConsoleHandler as _class_ConsoleHandler } from "jsr:@std/log@0.224.6"
+import { ConsoleHandler as _class_ConsoleHandler } from "jsr:@std/log@0.224.7"
 /**
  * This is the default logger. It will output color coded log messages to the
  * console via `console.log()`.
@@ -394,17 +394,17 @@ import { ConsoleHandler as _class_ConsoleHandler } from "jsr:@std/log@0.224.6"
 class ConsoleHandler extends _class_ConsoleHandler {}
 export { ConsoleHandler }
 
-import type { LogMode as _typeAlias_LogMode } from "jsr:@std/log@0.224.6"
+import type { LogMode as _typeAlias_LogMode } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 type LogMode = _typeAlias_LogMode
 export type { LogMode }
 
-import type { FileHandlerOptions as _interface_FileHandlerOptions } from "jsr:@std/log@0.224.6"
+import type { FileHandlerOptions as _interface_FileHandlerOptions } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 interface FileHandlerOptions extends _interface_FileHandlerOptions {}
 export type { FileHandlerOptions }
 
-import { FileHandler as _class_FileHandler } from "jsr:@std/log@0.224.6"
+import { FileHandler as _class_FileHandler } from "jsr:@std/log@0.224.7"
 /**
  * This handler will output to a file using an optional mode (default is `a`,
  * e.g. append). The file will grow indefinitely. It uses a buffer for writing
@@ -426,7 +426,7 @@ import { FileHandler as _class_FileHandler } from "jsr:@std/log@0.224.6"
 class FileHandler extends _class_FileHandler {}
 export { FileHandler }
 
-import { RotatingFileHandler as _class_RotatingFileHandler } from "jsr:@std/log@0.224.6"
+import { RotatingFileHandler as _class_RotatingFileHandler } from "jsr:@std/log@0.224.7"
 /**
  * This handler extends the functionality of the {@linkcode FileHandler} by
  * "rotating" the log file when it reaches a certain size. `maxBytes` specifies
@@ -468,7 +468,7 @@ import { RotatingFileHandler as _class_RotatingFileHandler } from "jsr:@std/log@
 class RotatingFileHandler extends _class_RotatingFileHandler {}
 export { RotatingFileHandler }
 
-import { LogLevels as _variable_LogLevels } from "jsr:@std/log@0.224.6"
+import { LogLevels as _variable_LogLevels } from "jsr:@std/log@0.224.7"
 /**
  * Use this to retrieve the numeric log level by it's associated name.
  * Defaults to INFO.
@@ -476,28 +476,28 @@ import { LogLevels as _variable_LogLevels } from "jsr:@std/log@0.224.6"
 const LogLevels = _variable_LogLevels as typeof _variable_LogLevels
 export { LogLevels }
 
-import type { LogLevel as _typeAlias_LogLevel } from "jsr:@std/log@0.224.6"
+import type { LogLevel as _typeAlias_LogLevel } from "jsr:@std/log@0.224.7"
 /**
  * Union of valid log levels
  */
 type LogLevel = _typeAlias_LogLevel
 export type { LogLevel }
 
-import type { LevelName as _typeAlias_LevelName } from "jsr:@std/log@0.224.6"
+import type { LevelName as _typeAlias_LevelName } from "jsr:@std/log@0.224.7"
 /**
  * Union of valid log level names
  */
 type LevelName = _typeAlias_LevelName
 export type { LevelName }
 
-import { LogLevelNames as _variable_LogLevelNames } from "jsr:@std/log@0.224.6"
+import { LogLevelNames as _variable_LogLevelNames } from "jsr:@std/log@0.224.7"
 /**
  * Permitted log level names
  */
 const LogLevelNames = _variable_LogLevelNames as typeof _variable_LogLevelNames
 export { LogLevelNames }
 
-import { getLevelByName as _function_getLevelByName } from "jsr:@std/log@0.224.6"
+import { getLevelByName as _function_getLevelByName } from "jsr:@std/log@0.224.7"
 /**
  * Returns the numeric log level associated with the passed,
  * stringy log level name.
@@ -505,34 +505,34 @@ import { getLevelByName as _function_getLevelByName } from "jsr:@std/log@0.224.6
 const getLevelByName = _function_getLevelByName as typeof _function_getLevelByName
 export { getLevelByName }
 
-import { getLevelName as _function_getLevelName } from "jsr:@std/log@0.224.6"
+import { getLevelName as _function_getLevelName } from "jsr:@std/log@0.224.7"
 /**
  * Returns the stringy log level name provided the numeric log level.
  */
 const getLevelName = _function_getLevelName as typeof _function_getLevelName
 export { getLevelName }
 
-import type { GenericFunction as _typeAlias_GenericFunction } from "jsr:@std/log@0.224.6"
+import type { GenericFunction as _typeAlias_GenericFunction } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 type GenericFunction = _typeAlias_GenericFunction
 export type { GenericFunction }
 
-import type { LogRecordOptions as _interface_LogRecordOptions } from "jsr:@std/log@0.224.6"
+import type { LogRecordOptions as _interface_LogRecordOptions } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 interface LogRecordOptions extends _interface_LogRecordOptions {}
 export type { LogRecordOptions }
 
-import { LoggerConfig as _class_LoggerConfig } from "jsr:@std/log@0.224.6"
+import { LoggerConfig as _class_LoggerConfig } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 class LoggerConfig extends _class_LoggerConfig {}
 export { LoggerConfig }
 
-import type { LogConfig as _interface_LogConfig } from "jsr:@std/log@0.224.6"
+import type { LogConfig as _interface_LogConfig } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 interface LogConfig extends _interface_LogConfig {}
 export type { LogConfig }
 
-import { LogRecord as _class_LogRecord } from "jsr:@std/log@0.224.6"
+import { LogRecord as _class_LogRecord } from "jsr:@std/log@0.224.7"
 /**
  * An object that encapsulates provided message and arguments as well some
  * metadata that can be later used when formatting a message.
@@ -540,61 +540,61 @@ import { LogRecord as _class_LogRecord } from "jsr:@std/log@0.224.6"
 class LogRecord extends _class_LogRecord {}
 export { LogRecord }
 
-import type { LoggerOptions as _interface_LoggerOptions } from "jsr:@std/log@0.224.6"
+import type { LoggerOptions as _interface_LoggerOptions } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 interface LoggerOptions extends _interface_LoggerOptions {}
 export type { LoggerOptions }
 
-import { Logger as _class_Logger } from "jsr:@std/log@0.224.6"
+import { Logger as _class_Logger } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 class Logger extends _class_Logger {}
 export { Logger }
 
-import { jsonFormatter as _function_jsonFormatter } from "jsr:@std/log@0.224.6"
+import { jsonFormatter as _function_jsonFormatter } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 const jsonFormatter = _function_jsonFormatter as typeof _function_jsonFormatter
 export { jsonFormatter }
 
-import { formatters as _variable_formatters } from "jsr:@std/log@0.224.6"
+import { formatters as _variable_formatters } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 const formatters = _variable_formatters as typeof _variable_formatters
 export { formatters }
 
-import { critical as _function_critical } from "jsr:@std/log@0.224.6"
+import { critical as _function_critical } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 const critical = _function_critical as typeof _function_critical
 export { critical }
 
-import { debug as _function_debug } from "jsr:@std/log@0.224.6"
+import { debug as _function_debug } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 const debug = _function_debug as typeof _function_debug
 export { debug }
 
-import { error as _function_error } from "jsr:@std/log@0.224.6"
+import { error as _function_error } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 const error = _function_error as typeof _function_error
 export { error }
 
-import { getLogger as _function_getLogger } from "jsr:@std/log@0.224.6"
+import { getLogger as _function_getLogger } from "jsr:@std/log@0.224.7"
 /**
  * Get a logger instance. If not specified `name`, get the default logger.
  */
 const getLogger = _function_getLogger as typeof _function_getLogger
 export { getLogger }
 
-import { info as _function_info } from "jsr:@std/log@0.224.6"
+import { info as _function_info } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 const info = _function_info as typeof _function_info
 export { info }
 
-import { setup as _function_setup } from "jsr:@std/log@0.224.6"
+import { setup as _function_setup } from "jsr:@std/log@0.224.7"
 /**
  * Setup logger config.
  */
 const setup = _function_setup as typeof _function_setup
 export { setup }
 
-import { warn as _function_warn } from "jsr:@std/log@0.224.6"
+import { warn as _function_warn } from "jsr:@std/log@0.224.7"
 /** UNDOCUMENTED */
 const warn = _function_warn as typeof _function_warn
 export { warn }

@@ -1,4 +1,4 @@
-import { maxSatisfying as _function_maxSatisfying } from "jsr:@std/semver@1.0.2/max-satisfying"
+import { maxSatisfying as _function_maxSatisfying } from "jsr:@std/semver@1.0.3/max-satisfying"
 /**
  * Returns the highest SemVer in the list that satisfies the range, or `undefined`
  * if none of them do.

@@ -1,4 +1,4 @@
-import { isSemVer as _function_isSemVer } from "jsr:@std/semver@1.0.2/is-semver"
+import { isSemVer as _function_isSemVer } from "jsr:@std/semver@1.0.3/is-semver"
 /**
  * Checks to see if value is a valid SemVer object. It does a check
  * into each field including prerelease and build.

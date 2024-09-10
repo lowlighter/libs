@@ -1,11 +1,11 @@
-import type { MoveOptions as _interface_MoveOptions } from "jsr:@std/fs@1.0.2/move"
+import type { MoveOptions as _interface_MoveOptions } from "jsr:@std/fs@1.0.3/move"
 /**
  * Options for {@linkcode move} and {@linkcode moveSync}.
  */
 interface MoveOptions extends _interface_MoveOptions {}
 export type { MoveOptions }
 
-import { move as _function_move } from "jsr:@std/fs@1.0.2/move"
+import { move as _function_move } from "jsr:@std/fs@1.0.3/move"
 /**
  * Asynchronously moves a file or directory (along with its contents).
  *
@@ -46,7 +46,7 @@ import { move as _function_move } from "jsr:@std/fs@1.0.2/move"
 const move = _function_move as typeof _function_move
 export { move }
 
-import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.2/move"
+import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.3/move"
 /**
  * Synchronously moves a file or directory (along with its contents).
  *

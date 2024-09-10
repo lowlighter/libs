@@ -1,11 +1,11 @@
-import type { ArrayLikeArg as _typeAlias_ArrayLikeArg } from "jsr:@std/assert@1.0.3/array-includes"
+import type { ArrayLikeArg as _typeAlias_ArrayLikeArg } from "jsr:@std/assert@1.0.4/array-includes"
 /**
  * An array-like object (`Array`, `Uint8Array`, `NodeList`, etc.) that is not a string
  */
 type ArrayLikeArg<T> = _typeAlias_ArrayLikeArg<T>
 export type { ArrayLikeArg }
 
-import { assertArrayIncludes as _function_assertArrayIncludes } from "jsr:@std/assert@1.0.3/array-includes"
+import { assertArrayIncludes as _function_assertArrayIncludes } from "jsr:@std/assert@1.0.4/array-includes"
 /**
  * Make an assertion that `actual` includes the `expected` values. If not then
  * an error will be thrown.

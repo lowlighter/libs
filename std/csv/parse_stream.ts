@@ -1,18 +1,18 @@
-import type { CsvParseStreamOptions as _interface_CsvParseStreamOptions } from "jsr:@std/csv@1.0.2/parse-stream"
+import type { CsvParseStreamOptions as _interface_CsvParseStreamOptions } from "jsr:@std/csv@1.0.3/parse-stream"
 /**
  * Options for {@linkcode CsvParseStream}.
  */
 interface CsvParseStreamOptions extends _interface_CsvParseStreamOptions {}
 export type { CsvParseStreamOptions }
 
-import type { RowType as _typeAlias_RowType } from "jsr:@std/csv@1.0.2/parse-stream"
+import type { RowType as _typeAlias_RowType } from "jsr:@std/csv@1.0.3/parse-stream"
 /**
  * Row return type.
  */
 type RowType<T> = _typeAlias_RowType<T>
 export type { RowType }
 
-import { CsvParseStream as _class_CsvParseStream } from "jsr:@std/csv@1.0.2/parse-stream"
+import { CsvParseStream as _class_CsvParseStream } from "jsr:@std/csv@1.0.3/parse-stream"
 /**
  * `CsvParseStream` transforms a stream of CSV-encoded text into a stream of
  * parsed objects.

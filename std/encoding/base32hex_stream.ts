@@ -1,4 +1,4 @@
-import { Base32HexEncoderStream as _class_Base32HexEncoderStream } from "jsr:@std/encoding@1.0.3/base32hex-stream"
+import { Base32HexEncoderStream as _class_Base32HexEncoderStream } from "jsr:@std/encoding@1.0.4/base32hex-stream"
 /**
  * Converts a Uint8Array stream into a base32hex-encoded stream.
  *
@@ -22,7 +22,7 @@ import { Base32HexEncoderStream as _class_Base32HexEncoderStream } from "jsr:@st
 class Base32HexEncoderStream extends _class_Base32HexEncoderStream {}
 export { Base32HexEncoderStream }
 
-import { Base32HexDecoderStream as _class_Base32HexDecoderStream } from "jsr:@std/encoding@1.0.3/base32hex-stream"
+import { Base32HexDecoderStream as _class_Base32HexDecoderStream } from "jsr:@std/encoding@1.0.4/base32hex-stream"
 /**
  * Decodes a base32hex-encoded stream into a Uint8Array stream.
  *

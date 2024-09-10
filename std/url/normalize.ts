@@ -1,4 +1,4 @@
-import { normalize as _function_normalize } from "jsr:@std/url@0.225.0/normalize"
+import { normalize as _function_normalize } from "jsr:@std/url@0.225.1/normalize"
 /**
  * Normalizes the URL or URL string, resolving `..` and `.` segments. Multiple
  * sequential `/`s are resolved into a single `/`.
@@ -17,8 +17,8 @@ import { normalize as _function_normalize } from "jsr:@std/url@0.225.0/normalize
  * ```
  *
  * @deprecated Use
- * {@linkcode https://jsr.io/@std/path/doc/posix/~/normalize | @std/path/posix/normalize}
- * instead (examples included). `@std/url` will be removed in the future.
+ * {@linkcode https://jsr.io/@std/path/doc/~/normalize | @std/path/normalize}
+ * instead. `@std/url` will be removed in the future.
  */
 const normalize = _function_normalize as typeof _function_normalize
 export { normalize }

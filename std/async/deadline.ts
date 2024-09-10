@@ -1,11 +1,11 @@
-import type { DeadlineOptions as _interface_DeadlineOptions } from "jsr:@std/async@1.0.4/deadline"
+import type { DeadlineOptions as _interface_DeadlineOptions } from "jsr:@std/async@1.0.5/deadline"
 /**
  * Options for {@linkcode deadline}.
  */
 interface DeadlineOptions extends _interface_DeadlineOptions {}
 export type { DeadlineOptions }
 
-import { deadline as _function_deadline } from "jsr:@std/async@1.0.4/deadline"
+import { deadline as _function_deadline } from "jsr:@std/async@1.0.5/deadline"
 /**
  * Create a promise which will be rejected with {@linkcode DOMException} when
  * a given delay is exceeded.
@@ -13,8 +13,10 @@ import { deadline as _function_deadline } from "jsr:@std/async@1.0.4/deadline"
  * Note: Prefer to use {@linkcode AbortSignal.timeout} instead for the APIs
  * that accept {@linkcode AbortSignal}.
  *
- * @throws When the provided duration runs out before resolving
- * or if the optional signal is aborted, and `signal.reason` is undefined.
+ * @throws
+ * @throws
+ * @throws If the optional signal is aborted with a
+ * custom `reason` before resolving or timing out.
  * @template T The type of the provided and returned promise.
  * @param p The promise to make rejectable.
  * @param ms Duration in milliseconds for when the promise should time out.

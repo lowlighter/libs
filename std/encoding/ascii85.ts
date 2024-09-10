@@ -1,4 +1,4 @@
-import type { Ascii85Standard as _typeAlias_Ascii85Standard } from "jsr:@std/encoding@1.0.3/ascii85"
+import type { Ascii85Standard as _typeAlias_Ascii85Standard } from "jsr:@std/encoding@1.0.4/ascii85"
 /**
  * Supported ascii85 standards for {@linkcode EncodeAscii85Options} and
  * {@linkcode DecodeAscii85Options}.
@@ -6,14 +6,14 @@ import type { Ascii85Standard as _typeAlias_Ascii85Standard } from "jsr:@std/enc
 type Ascii85Standard = _typeAlias_Ascii85Standard
 export type { Ascii85Standard }
 
-import type { EncodeAscii85Options as _interface_EncodeAscii85Options } from "jsr:@std/encoding@1.0.3/ascii85"
+import type { EncodeAscii85Options as _interface_EncodeAscii85Options } from "jsr:@std/encoding@1.0.4/ascii85"
 /**
  * Options for {@linkcode encodeAscii85}.
  */
 interface EncodeAscii85Options extends _interface_EncodeAscii85Options {}
 export type { EncodeAscii85Options }
 
-import { encodeAscii85 as _function_encodeAscii85 } from "jsr:@std/encoding@1.0.3/ascii85"
+import { encodeAscii85 as _function_encodeAscii85 } from "jsr:@std/encoding@1.0.4/ascii85"
 /**
  * Converts data into an ascii85-encoded string.
  *
@@ -33,14 +33,14 @@ import { encodeAscii85 as _function_encodeAscii85 } from "jsr:@std/encoding@1.0.
 const encodeAscii85 = _function_encodeAscii85 as typeof _function_encodeAscii85
 export { encodeAscii85 }
 
-import type { DecodeAscii85Options as _typeAlias_DecodeAscii85Options } from "jsr:@std/encoding@1.0.3/ascii85"
+import type { DecodeAscii85Options as _typeAlias_DecodeAscii85Options } from "jsr:@std/encoding@1.0.4/ascii85"
 /**
  * Options for {@linkcode decodeAscii85}.
  */
 type DecodeAscii85Options = _typeAlias_DecodeAscii85Options
 export type { DecodeAscii85Options }
 
-import { decodeAscii85 as _function_decodeAscii85 } from "jsr:@std/encoding@1.0.3/ascii85"
+import { decodeAscii85 as _function_decodeAscii85 } from "jsr:@std/encoding@1.0.4/ascii85"
 /**
  * Decodes a ascii85-encoded string.
  *

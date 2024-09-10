@@ -23,7 +23,7 @@
  *
  * @module
  */
-import { basename as _function_basename } from "jsr:@std/url@0.225.0"
+import { basename as _function_basename } from "jsr:@std/url@0.225.1"
 /**
  * Returns the base name of a URL or URL string, optionally removing a suffix.
  *
@@ -62,13 +62,13 @@ import { basename as _function_basename } from "jsr:@std/url@0.225.0"
  * ```
  *
  * @deprecated Use
- * {@linkcode https://jsr.io/@std/path/doc/posix/~/basename | @std/path/posix/basename}
- * instead (examples included). `@std/url` will be removed in the future.
+ * {@linkcode https://jsr.io/@std/path/doc/~/basename | @std/path/basename}
+ * instead. `@std/url` will be removed in the future.
  */
 const basename = _function_basename as typeof _function_basename
 export { basename }
 
-import { dirname as _function_dirname } from "jsr:@std/url@0.225.0"
+import { dirname as _function_dirname } from "jsr:@std/url@0.225.1"
 /**
  * Returns the directory path URL of a URL or URL string.
  *
@@ -88,13 +88,13 @@ import { dirname as _function_dirname } from "jsr:@std/url@0.225.0"
  * ```
  *
  * @deprecated Use
- * {@linkcode https://jsr.io/@std/path/doc/posix/~/dirname | @std/path/posix/dirname}
- * instead (examples included). `@std/url` will be removed in the future.
+ * {@linkcode https://jsr.io/@std/path/doc/~/dirname | @std/path/dirname}
+ * instead. `@std/url` will be removed in the future.
  */
 const dirname = _function_dirname as typeof _function_dirname
 export { dirname }
 
-import { extname as _function_extname } from "jsr:@std/url@0.225.0"
+import { extname as _function_extname } from "jsr:@std/url@0.225.1"
 /**
  * Returns the file extension of a given URL or string with leading period.
  *
@@ -116,13 +116,13 @@ import { extname as _function_extname } from "jsr:@std/url@0.225.0"
  * ```
  *
  * @deprecated Use
- * {@linkcode https://jsr.io/@std/path/doc/posix/~/extname | @std/path/posix/extname}
- * instead (examples included). `@std/url` will be removed in the future.
+ * {@linkcode https://jsr.io/@std/path/doc/~/extname | @std/path/extname}
+ * instead. `@std/url` will be removed in the future.
  */
 const extname = _function_extname as typeof _function_extname
 export { extname }
 
-import { join as _function_join } from "jsr:@std/url@0.225.0"
+import { join as _function_join } from "jsr:@std/url@0.225.1"
 /**
  * Joins a base URL or URL string, and a sequence of path segments together,
  * then normalizes the resulting URL.
@@ -142,13 +142,13 @@ import { join as _function_join } from "jsr:@std/url@0.225.0"
  * ```
  *
  * @deprecated Use
- * {@linkcode https://jsr.io/@std/path/doc/posix/~/join | @std/path/posix/join}
- * instead (examples included). `@std/url` will be removed in the future.
+ * {@linkcode https://jsr.io/@std/path/doc/~/join | @std/path/join}
+ * instead. `@std/url` will be removed in the future.
  */
 const join = _function_join as typeof _function_join
 export { join }
 
-import { normalize as _function_normalize } from "jsr:@std/url@0.225.0"
+import { normalize as _function_normalize } from "jsr:@std/url@0.225.1"
 /**
  * Normalizes the URL or URL string, resolving `..` and `.` segments. Multiple
  * sequential `/`s are resolved into a single `/`.
@@ -167,8 +167,8 @@ import { normalize as _function_normalize } from "jsr:@std/url@0.225.0"
  * ```
  *
  * @deprecated Use
- * {@linkcode https://jsr.io/@std/path/doc/posix/~/normalize | @std/path/posix/normalize}
- * instead (examples included). `@std/url` will be removed in the future.
+ * {@linkcode https://jsr.io/@std/path/doc/~/normalize | @std/path/normalize}
+ * instead. `@std/url` will be removed in the future.
  */
 const normalize = _function_normalize as typeof _function_normalize
 export { normalize }

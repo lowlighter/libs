@@ -1,4 +1,4 @@
-import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.2/ensure-file"
+import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.3/ensure-file"
 /**
  * Asynchronously ensures that the file exists.
  *
@@ -24,7 +24,7 @@ import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.2/ensure-fil
 const ensureFile = _function_ensureFile as typeof _function_ensureFile
 export { ensureFile }
 
-import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.2/ensure-file"
+import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.3/ensure-file"
 /**
  * Synchronously ensures that the file exists.
  *

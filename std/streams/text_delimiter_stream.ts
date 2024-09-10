@@ -1,4 +1,4 @@
-import { TextDelimiterStream as _class_TextDelimiterStream } from "jsr:@std/streams@1.0.3/text-delimiter-stream"
+import { TextDelimiterStream as _class_TextDelimiterStream } from "jsr:@std/streams@1.0.4/text-delimiter-stream"
 /**
  * Transform a stream `string` into a stream where each chunk is divided by a
  * given delimiter.

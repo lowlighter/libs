@@ -1,4 +1,4 @@
-import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.6/buf-reader"
+import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.7/buf-reader"
 /**
  * Thrown when a write operation is attempted on a full buffer.
  *
@@ -26,7 +26,7 @@ import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.6/b
 class BufferFullError extends _class_BufferFullError {}
 export { BufferFullError }
 
-import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.6/buf-reader"
+import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.7/buf-reader"
 /**
  * Thrown when a read from a stream fails to read the
  * requested number of bytes.
@@ -46,7 +46,7 @@ import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.6
 class PartialReadError extends _class_PartialReadError {}
 export { PartialReadError }
 
-import type { ReadLineResult as _interface_ReadLineResult } from "jsr:@std/io@0.224.6/buf-reader"
+import type { ReadLineResult as _interface_ReadLineResult } from "jsr:@std/io@0.224.7/buf-reader"
 /**
  * Result type returned by of {@linkcode BufReader.readLine}.
  *
@@ -55,19 +55,19 @@ import type { ReadLineResult as _interface_ReadLineResult } from "jsr:@std/io@0.
 interface ReadLineResult extends _interface_ReadLineResult {}
 export type { ReadLineResult }
 
-import { BufReader as _class_BufReader } from "jsr:@std/io@0.224.6/buf-reader"
+import { BufReader as _class_BufReader } from "jsr:@std/io@0.224.7/buf-reader"
 /**
  * Implements buffering for a {@linkcode Reader} object.
  *
  * @example Usage
  * ```ts
- * import { BufReader } from "@std/io";
+ * import { BufReader, Buffer } from "@std/io";
  * import { assertEquals } from "@std/assert/equals";
  *
  * const encoder = new TextEncoder();
  * const decoder = new TextDecoder();
  *
- * const reader = new BufReader(new Deno.Buffer(encoder.encode("hello world")));
+ * const reader = new BufReader(new Buffer(encoder.encode("hello world")));
  * const buf = new Uint8Array(11);
  * await reader.read(buf);
  * assertEquals(decoder.decode(buf), "hello world");

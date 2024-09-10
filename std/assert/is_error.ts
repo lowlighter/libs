@@ -1,4 +1,4 @@
-import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.3/is-error"
+import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.4/is-error"
 /**
  * Make an assertion that `error` is an `Error`.
  * If not then an error will be thrown.

@@ -1,4 +1,4 @@
-import { pooledMap as _function_pooledMap } from "jsr:@std/async@1.0.4/pool"
+import { pooledMap as _function_pooledMap } from "jsr:@std/async@1.0.5/pool"
 /**
  * pooledMap transforms values from an (async) iterable into another async
  * iterable. The transforms are done concurrently, with a max concurrency

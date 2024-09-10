@@ -1,11 +1,11 @@
-import type { CsvStringifyStreamOptions as _interface_CsvStringifyStreamOptions } from "jsr:@std/csv@1.0.2/stringify-stream"
+import type { CsvStringifyStreamOptions as _interface_CsvStringifyStreamOptions } from "jsr:@std/csv@1.0.3/stringify-stream"
 /**
  * Options for {@linkcode CsvStringifyStream}.
  */
 interface CsvStringifyStreamOptions extends _interface_CsvStringifyStreamOptions {}
 export type { CsvStringifyStreamOptions }
 
-import { CsvStringifyStream as _class_CsvStringifyStream } from "jsr:@std/csv@1.0.2/stringify-stream"
+import { CsvStringifyStream as _class_CsvStringifyStream } from "jsr:@std/csv@1.0.3/stringify-stream"
 /**
  * Convert each chunk to a CSV record.
  *

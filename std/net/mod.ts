@@ -15,14 +15,14 @@
  *
  * @module
  */
-import type { GetAvailablePortOptions as _interface_GetAvailablePortOptions } from "jsr:@std/net@1.0.1"
+import type { GetAvailablePortOptions as _interface_GetAvailablePortOptions } from "jsr:@std/net@1.0.2"
 /**
  * Options for {@linkcode getAvailablePort}.
  */
 interface GetAvailablePortOptions extends _interface_GetAvailablePortOptions {}
 export type { GetAvailablePortOptions }
 
-import { getAvailablePort as _function_getAvailablePort } from "jsr:@std/net@1.0.1"
+import { getAvailablePort as _function_getAvailablePort } from "jsr:@std/net@1.0.2"
 /**
  * Returns an available network port.
  *
@@ -64,7 +64,7 @@ import { getAvailablePort as _function_getAvailablePort } from "jsr:@std/net@1.0
 const getAvailablePort = _function_getAvailablePort as typeof _function_getAvailablePort
 export { getAvailablePort }
 
-import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1.0.1"
+import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1.0.2"
 /**
  * Gets the IPv4 or IPv6 network address of the machine.
  *
@@ -78,7 +78,7 @@ import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1
  * ```ts no-assert no-eval
  * import { getNetworkAddress } from "@std/net/get-network-address";
  *
- * const hostname = getNetworkAddress();
+ * const hostname = getNetworkAddress()!;
  *
  * Deno.serve({ port: 0, hostname }, () => new Response("Hello, world!"));
  * ```
@@ -87,7 +87,7 @@ import { getNetworkAddress as _function_getNetworkAddress } from "jsr:@std/net@1
  * ```ts no-assert no-eval
  * import { getNetworkAddress } from "@std/net/get-network-address";
  *
- * const hostname = getNetworkAddress("IPv6");
+ * const hostname = getNetworkAddress("IPv6")!;
  *
  * Deno.serve({ port: 0, hostname }, () => new Response("Hello, world!"));
  * ```

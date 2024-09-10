@@ -1,4 +1,4 @@
-import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/cache@0.1.1/lru-cache"
+import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/cache@0.1.2/lru-cache"
 /**
  * A cache suitable for use with {@linkcode memoize}.
  *
@@ -7,7 +7,7 @@ import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/c
 type MemoizationCache<K, V> = _typeAlias_MemoizationCache<K, V>
 export type { MemoizationCache }
 
-import { LruCache as _class_LruCache } from "jsr:@std/cache@0.1.1/lru-cache"
+import { LruCache as _class_LruCache } from "jsr:@std/cache@0.1.2/lru-cache"
 /**
  * Least-recently-used cache.
  *
