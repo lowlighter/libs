@@ -32,7 +32,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th></th></tr>
   <tr><th><a href="https://libs.lecoq.io/bundle"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/bundle"><img src="https://libs-coverage.lecoq.io/bundle/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/crypto"><code>🧮 @libs/crypto</code></a></h2>Features based upon Web Crypto APIs</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/bundle"><img src="https://coverage.libs.lecoq.io/bundle/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/crypto"><code>🧮 @libs/crypto</code></a></h2>Features based upon Web Crypto APIs</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -45,7 +45,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/crypto"><img src="https://img.shields.io/npm/v/@lowlighter%2Fcrypto?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/crypto"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/crypto"><img src="https://libs-coverage.lecoq.io/crypto/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/diff"><code>➕ @libs/diff</code></a></h2>Diff (patience algorithm)</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/crypto"><img src="https://coverage.libs.lecoq.io/crypto/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/diff"><code>➕ @libs/diff</code></a></h2>Diff (patience algorithm)</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -57,7 +57,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/diff"><img src="https://img.shields.io/npm/v/@lowlighter%2Fdiff?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/diff"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/diff"><img src="https://libs-coverage.lecoq.io/diff/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/dom"><code>🦊 @libs/dom</code></a></h2>Virtual DOM for unit testing and server side rendering.</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/diff"><img src="https://coverage.libs.lecoq.io/diff/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/dom"><code>🦊 @libs/dom</code></a></h2>Virtual DOM for unit testing and server side rendering.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -78,7 +78,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th></th></tr>
   <tr><th><a href="https://libs.lecoq.io/dom"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/dom"><img src="https://libs-coverage.lecoq.io/dom/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/logger"><code>📰 @libs/logger</code></a></h2>Simple logger</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/dom"><img src="https://coverage.libs.lecoq.io/dom/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/logger"><code>📰 @libs/logger</code></a></h2>Simple logger</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -97,7 +97,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/logger"><img src="https://img.shields.io/npm/v/@lowlighter%2Flogger?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/logger"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/logger"><img src="https://libs-coverage.lecoq.io/logger/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/markdown"><code>🖨️ @libs/markdown</code></a></h2>Markdown renderer with optional plugins based on the unified ecosystem.</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/logger"><img src="https://coverage.libs.lecoq.io/logger/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/markdown"><code>🖨️ @libs/markdown</code></a></h2>Markdown renderer with optional plugins based on the unified ecosystem.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -117,7 +117,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/markdown"><img src="https://img.shields.io/npm/v/@lowlighter%2Fmarkdown?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/markdown"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/markdown"><img src="https://libs-coverage.lecoq.io/markdown/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/orm"><code>💰 @libs/orm</code></a></h2>Object-relational mapping toolbox.</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/markdown"><img src="https://coverage.libs.lecoq.io/markdown/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/orm"><code>💰 @libs/orm</code></a></h2>Object-relational mapping toolbox.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -129,7 +129,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/orm"><img src="https://img.shields.io/npm/v/@lowlighter%2Form?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/orm"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/orm"><img src="https://libs-coverage.lecoq.io/orm/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/qrcode"><code>🔳 @libs/qrcode</code></a></h2>Pure TypeScript QRcode generator with no dependencies.</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/orm"><img src="https://coverage.libs.lecoq.io/orm/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/qrcode"><code>🔳 @libs/qrcode</code></a></h2>Pure TypeScript QRcode generator with no dependencies.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -142,7 +142,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/qrcode"><img src="https://img.shields.io/npm/v/@lowlighter%2Fqrcode?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/qrcode"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/qrcode"><img src="https://libs-coverage.lecoq.io/qrcode/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/reactive"><code>🎯 @libs/reactive</code></a></h2>Reactive utilities for observable objects.</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/qrcode"><img src="https://coverage.libs.lecoq.io/qrcode/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/reactive"><code>🎯 @libs/reactive</code></a></h2>Reactive utilities for observable objects.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -155,7 +155,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/reactive"><img src="https://img.shields.io/npm/v/@lowlighter%2Freactive?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/reactive"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/reactive"><img src="https://libs-coverage.lecoq.io/reactive/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/run"><code>⏯️ @libs/run</code></a></h2>Utilities to run subprocess.</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/reactive"><img src="https://coverage.libs.lecoq.io/reactive/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/run"><code>⏯️ @libs/run</code></a></h2>Utilities to run subprocess.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -176,7 +176,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/run"><img src="https://img.shields.io/npm/v/@lowlighter%2Frun?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/run"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/run"><img src="https://libs-coverage.lecoq.io/run/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/std"><code>🦕 @libs/std</code></a></h2>All-in-one mirror of Deno's Standard Library.</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/run"><img src="https://coverage.libs.lecoq.io/run/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/std"><code>🦕 @libs/std</code></a></h2>All-in-one mirror of Deno's Standard Library.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -188,7 +188,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th></th></tr>
   <tr><th></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/std"><img src="https://libs-coverage.lecoq.io/std/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/testing"><code>🧪 @libs/testing</code></a></h2>Testing utilities for cross-platform testing on Deno, Node.js and Bun.</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/std"><img src="https://coverage.libs.lecoq.io/std/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/testing"><code>🧪 @libs/testing</code></a></h2>Testing utilities for cross-platform testing on Deno, Node.js and Bun.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -209,7 +209,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/testing"><img src="https://img.shields.io/npm/v/@lowlighter%2Ftesting?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/testing"><img src="https://libs-coverage.lecoq.io/testing/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/typing"><code>🧰 @libs/typing</code></a></h2>Utility types.</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/testing"><img src="https://coverage.libs.lecoq.io/testing/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/typing"><code>🧰 @libs/typing</code></a></h2>Utility types.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -222,7 +222,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/typing"><img src="https://img.shields.io/npm/v/@lowlighter%2Ftyping?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>
   <tr><th></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/typing"><img src="https://libs-coverage.lecoq.io/typing/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/xml"><code>📃 @libs/xml</code></a></h2>XML parser/stringifier with no dependencies.</th></tr>
+  <tr><th><a href="https://coverage.libs.lecoq.io/typing"><img src="https://coverage.libs.lecoq.io/typing/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/xml"><code>📃 @libs/xml</code></a></h2>XML parser/stringifier with no dependencies.</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -250,7 +250,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th><a href="https://www.npmjs.com/package/@lowlighter/xml"><img src="https://img.shields.io/npm/v/@lowlighter%2Fxml?logo=npm&labelColor=cb0000&color=183e4e"></a></th></tr>  <tr><th><a href="https://deno.land/x/xml"><img src="https://img.shields.io/badge/deno.land%2Fx-xml-0a3040?logo=deno&labelColor=black"></a></th></tr>
   <tr><th><a href="https://libs.lecoq.io/xml"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/xml"><img src="https://libs-coverage.lecoq.io/xml/badge.svg"></a></th></tr></table>
+  <tr><th><a href="https://coverage.libs.lecoq.io/xml"><img src="https://coverage.libs.lecoq.io/xml/badge.svg"></a></th></tr></table>
 
 > Each package is versioned independently.
 > Releases are fully automated and are published on every push to the `main` branch.

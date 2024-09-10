@@ -1,7 +1,7 @@
 # 🔳 QR Code generator
 
 [![JSR](https://jsr.io/badges/@libs/qrcode)](https://jsr.io/@libs/qrcode) [![JSR Score](https://jsr.io/badges/@libs/qrcode/score)](https://jsr.io/@libs/qrcode)
-[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fqrcode?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/qrcode) [![Coverage](https://libs-coverage.lecoq.io/qrcode/badge.svg)](https://libs-coverage.lecoq.io/qrcode)
+[![NPM](https://img.shields.io/npm/v/@lowlighter%2Fqrcode?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/qrcode) [![Coverage](https://coverage.libs.lecoq.io/qrcode/badge.svg)](https://coverage.libs.lecoq.io/qrcode)
 
 - [`🦕 Playground`](https://libs.lecoq.io/qrcode)
 - [`📚 Documentation`](https://jsr.io/@libs/qrcode/doc)
