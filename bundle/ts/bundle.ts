@@ -65,7 +65,7 @@ export async function bundle(input: URL | string, { minify = "terser", format = 
       code = code.trim()
     }
   } catch (error) {
-    throw new TypeError(`Failed to bundle ts:\n${error.message}`)
+    throw new TypeError(`Failed to bundle ts:\n${(error as Error).message}`)
   } finally {
     await esbuild.stop()
     // TODO(@lowlighter): remove after https://github.com/evanw/esbuild/pull/3701
