@@ -104,6 +104,7 @@ async function install({ log, path }: { log: Logger; path: string }) {
   for await (const entry of entries) {
     const filename = basename(entry.path)
     if (!filename.startsWith("wasm-pack")) {
+      await entry.readable?.cancel()
       continue
     }
     if (entry.readable === undefined) {
