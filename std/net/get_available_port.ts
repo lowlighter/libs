@@ -1,11 +1,11 @@
-import type { GetAvailablePortOptions as _interface_GetAvailablePortOptions } from "jsr:@std/net@1.0.2/get-available-port"
+import type { GetAvailablePortOptions as _interface_GetAvailablePortOptions } from "jsr:@std/net@1.0.4/get-available-port"
 /**
  * Options for {@linkcode getAvailablePort}.
  */
 interface GetAvailablePortOptions extends _interface_GetAvailablePortOptions {}
 export type { GetAvailablePortOptions }
 
-import { getAvailablePort as _function_getAvailablePort } from "jsr:@std/net@1.0.2/get-available-port"
+import { getAvailablePort as _function_getAvailablePort } from "jsr:@std/net@1.0.4/get-available-port"
 /**
  * Returns an available network port.
  *

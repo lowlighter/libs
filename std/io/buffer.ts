@@ -1,4 +1,4 @@
-import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.7/buffer"
+import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.8/buffer"
 /**
  * A variable-sized buffer of bytes with `read()` and `write()` methods.
  *

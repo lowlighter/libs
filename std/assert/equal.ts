@@ -1,4 +1,4 @@
-import { equal as _function_equal } from "jsr:@std/assert@1.0.4/equal"
+import { equal as _function_equal } from "jsr:@std/assert@1.0.5/equal"
 /**
  * Deep equality comparison used in assertions
  *

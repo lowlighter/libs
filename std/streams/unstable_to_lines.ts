@@ -1,4 +1,4 @@
-import { toLines as _function_toLines } from "jsr:@std/streams@1.0.4/to-lines"
+import { toLines as _function_toLines } from "jsr:@std/streams@1.0.5/unstable-to-lines"
 /**
  * Converts a {@linkcode ReadableStream} of {@linkcode Uint8Array}s into one of
  * lines delimited by `\n` or `\r\n`. Trims the last line if empty.
@@ -10,7 +10,7 @@ import { toLines as _function_toLines } from "jsr:@std/streams@1.0.4/to-lines"
  *
  * @example Usage
  * ```ts
- * import { toLines } from "@std/streams/to-lines";
+ * import { toLines } from "@std/streams/unstable-to-lines";
  * import { assertEquals } from "@std/assert/equals";
  *
  * const readable = ReadableStream.from([

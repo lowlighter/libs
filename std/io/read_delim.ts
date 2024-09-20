@@ -1,4 +1,4 @@
-import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.7/read-delim"
+import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.8/read-delim"
 /**
  * Read delimited bytes from a {@linkcode Reader} through an
  * {@linkcode AsyncIterableIterator} of {@linkcode Uint8Array}.

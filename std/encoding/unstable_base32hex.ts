@@ -1,4 +1,4 @@
-import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@1.0.4/base32hex"
+import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@1.0.5/unstable-base32hex"
 /**
  * Decodes a base32hex-encoded string.
  *
@@ -10,7 +10,7 @@ import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@
  *
  * @example Usage
  * ```ts
- * import { decodeBase32Hex } from "@std/encoding/base32hex";
+ * import { decodeBase32Hex } from "@std/encoding/unstable-base32hex";
  * import { assertEquals } from "@std/assert";
  *
  * assertEquals(
@@ -22,7 +22,7 @@ import { decodeBase32Hex as _function_decodeBase32Hex } from "jsr:@std/encoding@
 const decodeBase32Hex = _function_decodeBase32Hex as typeof _function_decodeBase32Hex
 export { decodeBase32Hex }
 
-import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@1.0.4/base32hex"
+import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@1.0.5/unstable-base32hex"
 /**
  * Converts data into a base32hex-encoded string.
  *
@@ -34,7 +34,7 @@ import { encodeBase32Hex as _function_encodeBase32Hex } from "jsr:@std/encoding@
  *
  * @example Usage
  * ```ts
- * import { encodeBase32Hex } from "@std/encoding/base32hex";
+ * import { encodeBase32Hex } from "@std/encoding/unstable-base32hex";
  * import { assertEquals } from "@std/assert";
  *
  * assertEquals(encodeBase32Hex("6c60c0"), "6PHJCC3360======");

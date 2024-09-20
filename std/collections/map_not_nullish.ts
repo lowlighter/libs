@@ -1,4 +1,4 @@
-import { mapNotNullish as _function_mapNotNullish } from "jsr:@std/collections@1.0.5/map-not-nullish"
+import { mapNotNullish as _function_mapNotNullish } from "jsr:@std/collections@1.0.6/map-not-nullish"
 /**
  * Returns a new array, containing all elements in the given array transformed
  * using the given transformer, except the ones that were transformed to `null`

@@ -1,4 +1,4 @@
-import { isNil as _function_isNil } from "jsr:@std/uuid@1.0.3/common"
+import { isNil as _function_isNil } from "jsr:@std/uuid@1.0.4/common"
 /**
  * Determines whether the UUID is the
  * {@link https://www.rfc-editor.org/rfc/rfc4122#section-4.1.7 | nil UUID}.
@@ -19,7 +19,7 @@ import { isNil as _function_isNil } from "jsr:@std/uuid@1.0.3/common"
 const isNil = _function_isNil as typeof _function_isNil
 export { isNil }
 
-import { validate as _function_validate } from "jsr:@std/uuid@1.0.3/common"
+import { validate as _function_validate } from "jsr:@std/uuid@1.0.4/common"
 /**
  * Determines whether a string is a valid UUID.
  *
@@ -39,7 +39,7 @@ import { validate as _function_validate } from "jsr:@std/uuid@1.0.3/common"
 const validate = _function_validate as typeof _function_validate
 export { validate }
 
-import { version as _function_version } from "jsr:@std/uuid@1.0.3/common"
+import { version as _function_version } from "jsr:@std/uuid@1.0.4/common"
 /**
  * Detect RFC version of a UUID.
  *

@@ -1,4 +1,4 @@
-import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/assert@1.0.4/object-match"
+import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/assert@1.0.5/object-match"
 /**
  * Make an assertion that `expected` object is a subset of `actual` object,
  * deeply. If not, then throw.

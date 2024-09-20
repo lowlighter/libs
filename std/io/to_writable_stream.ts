@@ -1,11 +1,11 @@
-import type { toWritableStreamOptions as _interface_toWritableStreamOptions } from "jsr:@std/io@0.224.7/to-writable-stream"
+import type { toWritableStreamOptions as _interface_toWritableStreamOptions } from "jsr:@std/io@0.224.8/to-writable-stream"
 /**
  * Options for {@linkcode toWritableStream}.
  */
 interface toWritableStreamOptions extends _interface_toWritableStreamOptions {}
 export type { toWritableStreamOptions }
 
-import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.224.7/to-writable-stream"
+import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.224.8/to-writable-stream"
 /**
  * Create a {@linkcode WritableStream} from a {@linkcode Writer}.
  *

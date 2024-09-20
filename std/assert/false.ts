@@ -1,11 +1,11 @@
-import type { Falsy as _typeAlias_Falsy } from "jsr:@std/assert@1.0.4/false"
+import type { Falsy as _typeAlias_Falsy } from "jsr:@std/assert@1.0.5/false"
 /**
  * Assertion condition for {@linkcode assertFalse}.
  */
 type Falsy = _typeAlias_Falsy
 export type { Falsy }
 
-import { assertFalse as _function_assertFalse } from "jsr:@std/assert@1.0.4/false"
+import { assertFalse as _function_assertFalse } from "jsr:@std/assert@1.0.5/false"
 /**
  * Make an assertion, error will be thrown if `expr` have truthy value.
  *

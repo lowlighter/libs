@@ -1,4 +1,4 @@
-import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/assert@1.0.4/almost-equals"
+import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/assert@1.0.5/almost-equals"
 /**
  * Make an assertion that `actual` and `expected` are almost equal numbers
  * through a given tolerance. It can be used to take into account IEEE-754

@@ -1,11 +1,11 @@
-import type { EntityList as _typeAlias_EntityList } from "jsr:@std/html@1.0.2/entities"
+import type { EntityList as _typeAlias_EntityList } from "jsr:@std/html@1.0.3/entities"
 /**
  * Object structure for a list of HTML entities.
  */
 type EntityList = _typeAlias_EntityList
 export type { EntityList }
 
-import { escape as _function_escape } from "jsr:@std/html@1.0.2/entities"
+import { escape as _function_escape } from "jsr:@std/html@1.0.3/entities"
 /**
  * Escapes text for safe interpolation into HTML text content and quoted attributes.
  *
@@ -27,14 +27,14 @@ import { escape as _function_escape } from "jsr:@std/html@1.0.2/entities"
 const escape = _function_escape as typeof _function_escape
 export { escape }
 
-import type { UnescapeOptions as _typeAlias_UnescapeOptions } from "jsr:@std/html@1.0.2/entities"
+import type { UnescapeOptions as _typeAlias_UnescapeOptions } from "jsr:@std/html@1.0.3/entities"
 /**
  * Options for {@linkcode unescape}.
  */
 type UnescapeOptions = _typeAlias_UnescapeOptions
 export type { UnescapeOptions }
 
-import { unescape as _function_unescape } from "jsr:@std/html@1.0.2/entities"
+import { unescape as _function_unescape } from "jsr:@std/html@1.0.3/entities"
 /**
  * Unescapes HTML entities in text.
  *

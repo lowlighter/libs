@@ -1,4 +1,4 @@
-import type { TarStreamFile as _interface_TarStreamFile } from "jsr:@std/tar@0.1.0/tar-stream"
+import type { TarStreamFile as _interface_TarStreamFile } from "jsr:@std/tar@0.1.1/tar-stream"
 /**
  * The interface required to provide a file.
  *
@@ -7,7 +7,7 @@ import type { TarStreamFile as _interface_TarStreamFile } from "jsr:@std/tar@0.1
 interface TarStreamFile extends _interface_TarStreamFile {}
 export type { TarStreamFile }
 
-import type { TarStreamDir as _interface_TarStreamDir } from "jsr:@std/tar@0.1.0/tar-stream"
+import type { TarStreamDir as _interface_TarStreamDir } from "jsr:@std/tar@0.1.1/tar-stream"
 /**
  * The interface required to provide a directory.
  *
@@ -16,7 +16,7 @@ import type { TarStreamDir as _interface_TarStreamDir } from "jsr:@std/tar@0.1.0
 interface TarStreamDir extends _interface_TarStreamDir {}
 export type { TarStreamDir }
 
-import type { TarStreamInput as _typeAlias_TarStreamInput } from "jsr:@std/tar@0.1.0/tar-stream"
+import type { TarStreamInput as _typeAlias_TarStreamInput } from "jsr:@std/tar@0.1.1/tar-stream"
 /**
  * A union type merging all the TarStream interfaces that can be piped into the
  * TarStream class.
@@ -26,7 +26,7 @@ import type { TarStreamInput as _typeAlias_TarStreamInput } from "jsr:@std/tar@0
 type TarStreamInput = _typeAlias_TarStreamInput
 export type { TarStreamInput }
 
-import type { TarStreamOptions as _interface_TarStreamOptions } from "jsr:@std/tar@0.1.0/tar-stream"
+import type { TarStreamOptions as _interface_TarStreamOptions } from "jsr:@std/tar@0.1.1/tar-stream"
 /**
  * The options that can go along with a file or directory.
  *
@@ -35,7 +35,7 @@ import type { TarStreamOptions as _interface_TarStreamOptions } from "jsr:@std/t
 interface TarStreamOptions extends _interface_TarStreamOptions {}
 export type { TarStreamOptions }
 
-import { TarStream as _class_TarStream } from "jsr:@std/tar@0.1.0/tar-stream"
+import { TarStream as _class_TarStream } from "jsr:@std/tar@0.1.1/tar-stream"
 /**
  * ### Overview
  * A TransformStream to create a tar archive. Tar archives allow for storing
@@ -92,7 +92,7 @@ import { TarStream as _class_TarStream } from "jsr:@std/tar@0.1.0/tar-stream"
 class TarStream extends _class_TarStream {}
 export { TarStream }
 
-import { assertValidPath as _function_assertValidPath } from "jsr:@std/tar@0.1.0/tar-stream"
+import { assertValidPath as _function_assertValidPath } from "jsr:@std/tar@0.1.1/tar-stream"
 /**
  * Asserts that the path provided is valid for a {@linkcode TarStream}.
  *
@@ -139,7 +139,7 @@ import { assertValidPath as _function_assertValidPath } from "jsr:@std/tar@0.1.0
 const assertValidPath = _function_assertValidPath as typeof _function_assertValidPath
 export { assertValidPath }
 
-import { assertValidTarStreamOptions as _function_assertValidTarStreamOptions } from "jsr:@std/tar@0.1.0/tar-stream"
+import { assertValidTarStreamOptions as _function_assertValidTarStreamOptions } from "jsr:@std/tar@0.1.1/tar-stream"
 /**
  * Asserts that the options provided are valid for a {@linkcode TarStream}.
  *

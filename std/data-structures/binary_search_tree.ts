@@ -1,4 +1,4 @@
-import { BinarySearchTree as _class_BinarySearchTree } from "jsr:@std/data-structures@1.0.2/binary-search-tree"
+import { BinarySearchTree as _class_BinarySearchTree } from "jsr:@std/data-structures@1.0.4/binary-search-tree"
 /**
  * An unbalanced binary search tree. The values are in ascending order by default,
  * using JavaScript's built-in comparison operators to sort the values.

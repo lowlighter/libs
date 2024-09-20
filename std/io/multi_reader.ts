@@ -1,4 +1,4 @@
-import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.7/multi-reader"
+import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.8/multi-reader"
 /**
  * Reader utility for combining multiple readers.
  *

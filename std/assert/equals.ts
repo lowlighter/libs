@@ -1,4 +1,4 @@
-import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.4/equals"
+import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.5/equals"
 /**
  * Make an assertion that `actual` and `expected` are equal, deeply. If not
  * deeply equal, then throw.

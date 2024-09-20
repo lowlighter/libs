@@ -1,4 +1,4 @@
-import { toNamespacedPath as _function_toNamespacedPath } from "jsr:@std/path@1.0.4/posix/to-namespaced-path"
+import { toNamespacedPath as _function_toNamespacedPath } from "jsr:@std/path@1.0.6/posix/to-namespaced-path"
 /**
  * Converts a path to a namespaced path. This function returns the path as is on posix.
  *

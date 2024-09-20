@@ -1,4 +1,4 @@
-import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.4/base58"
+import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.5/base58"
 /**
  * Converts data into a base58-encoded string.
  *
@@ -18,7 +18,7 @@ import { encodeBase58 as _function_encodeBase58 } from "jsr:@std/encoding@1.0.4/
 const encodeBase58 = _function_encodeBase58 as typeof _function_encodeBase58
 export { encodeBase58 }
 
-import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.4/base58"
+import { decodeBase58 as _function_decodeBase58 } from "jsr:@std/encoding@1.0.5/base58"
 /**
  * Decodes a base58-encoded string.
  *

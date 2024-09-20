@@ -1,4 +1,4 @@
-import { assertNotInstanceOf as _function_assertNotInstanceOf } from "jsr:@std/assert@1.0.4/not-instance-of"
+import { assertNotInstanceOf as _function_assertNotInstanceOf } from "jsr:@std/assert@1.0.5/not-instance-of"
 /**
  * Make an assertion that `obj` is not an instance of `type`.
  * If so, then throw.

@@ -1,4 +1,4 @@
-import { includesValue as _function_includesValue } from "jsr:@std/collections@1.0.5/includes-value"
+import { includesValue as _function_includesValue } from "jsr:@std/collections@1.0.6/includes-value"
 /**
  * Returns true if the given value is part of the given object, otherwise it
  * returns false.

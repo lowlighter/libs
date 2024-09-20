@@ -1,4 +1,4 @@
-import { format as _function_format } from "jsr:@std/path@1.0.4/format"
+import { format as _function_format } from "jsr:@std/path@1.0.6/format"
 /**
  * Generate a path from a {@linkcode ParsedPath} object. It does the
  * opposite of {@linkcode https://jsr.io/@std/path/doc/~/parse | parse()}.

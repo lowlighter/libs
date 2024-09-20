@@ -1,4 +1,4 @@
-import { encodeBase64Url as _function_encodeBase64Url } from "jsr:@std/encoding@1.0.4/base64url"
+import { encodeBase64Url as _function_encodeBase64Url } from "jsr:@std/encoding@1.0.5/base64url"
 /**
  * Convert data into a base64url-encoded string.
  *
@@ -18,7 +18,7 @@ import { encodeBase64Url as _function_encodeBase64Url } from "jsr:@std/encoding@
 const encodeBase64Url = _function_encodeBase64Url as typeof _function_encodeBase64Url
 export { encodeBase64Url }
 
-import { decodeBase64Url as _function_decodeBase64Url } from "jsr:@std/encoding@1.0.4/base64url"
+import { decodeBase64Url as _function_decodeBase64Url } from "jsr:@std/encoding@1.0.5/base64url"
 /**
  * Decodes a given base64url-encoded string.
  *

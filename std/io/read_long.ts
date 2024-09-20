@@ -1,4 +1,4 @@
-import { readLong as _function_readLong } from "jsr:@std/io@0.224.7/read-long"
+import { readLong as _function_readLong } from "jsr:@std/io@0.224.8/read-long"
 /**
  * Read big endian 64bit long from a {@linkcode BufReader}.
  *

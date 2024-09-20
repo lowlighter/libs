@@ -1,4 +1,4 @@
-import { isValidCustomElementName as _function_isValidCustomElementName } from "jsr:@std/html@1.0.2/is-valid-custom-element-name"
+import { isValidCustomElementName as _function_isValidCustomElementName } from "jsr:@std/html@1.0.3/unstable-is-valid-custom-element-name"
 /**
  * Returns whether the given string is a valid custom element name, as per the
  * requirements defined in
@@ -10,7 +10,7 @@ import { isValidCustomElementName as _function_isValidCustomElementName } from "
  * Using a valid custom element name
  *
  * ```ts
- * import { isValidCustomElementName } from "@std/html/is-valid-custom-element-name";
+ * import { isValidCustomElementName } from "@std/html/unstable-is-valid-custom-element-name";
  * import { assertEquals } from "@std/assert";
  *
  * assertEquals(isValidCustomElementName("custom-element"), true);

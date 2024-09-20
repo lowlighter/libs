@@ -1,4 +1,4 @@
-import { FixedChunkStream as _class_FixedChunkStream } from "jsr:@std/streams@1.0.4/fixed-chunk-stream"
+import { FixedChunkStream as _class_FixedChunkStream } from "jsr:@std/streams@1.0.5/unstable-fixed-chunk-stream"
 /**
  * A transform stream that resize {@linkcode Uint8Array} chunks into perfectly
  * `size` chunks with the exception of the last chunk.
@@ -6,7 +6,7 @@ import { FixedChunkStream as _class_FixedChunkStream } from "jsr:@std/streams@1.
  * @experimental
  * @example Usage
  * ```ts
- * import { FixedChunkStream } from "@std/streams/fixed-chunk-stream";
+ * import { FixedChunkStream } from "@std/streams/unstable-fixed-chunk-stream";
  * import { assertEquals } from "@std/assert/equals";
  *
  * const readable = ReadableStream.from(function* () {

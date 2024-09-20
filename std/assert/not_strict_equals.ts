@@ -1,4 +1,4 @@
-import { assertNotStrictEquals as _function_assertNotStrictEquals } from "jsr:@std/assert@1.0.4/not-strict-equals"
+import { assertNotStrictEquals as _function_assertNotStrictEquals } from "jsr:@std/assert@1.0.5/not-strict-equals"
 /**
  * Make an assertion that `actual` and `expected` are not strictly equal, using
  * {@linkcode Object.is} for equality comparison. If the values are strictly

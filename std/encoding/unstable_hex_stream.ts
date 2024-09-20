@@ -1,4 +1,4 @@
-import { HexEncoderStream as _class_HexEncoderStream } from "jsr:@std/encoding@1.0.4/hex-stream"
+import { HexEncoderStream as _class_HexEncoderStream } from "jsr:@std/encoding@1.0.5/unstable-hex-stream"
 /**
  * Converts a Uint8Array stream into a hex-encoded stream.
  *
@@ -9,7 +9,7 @@ import { HexEncoderStream as _class_HexEncoderStream } from "jsr:@std/encoding@1
  * ```ts
  * import { assertEquals } from "@std/assert";
  * import { encodeHex } from "@std/encoding/hex";
- * import { HexEncoderStream } from "@std/encoding/hex-stream";
+ * import { HexEncoderStream } from "@std/encoding/unstable-hex-stream";
  * import { toText } from "@std/streams/to-text";
  *
  * const stream = ReadableStream.from(["Hello,", " world!"])
@@ -22,7 +22,7 @@ import { HexEncoderStream as _class_HexEncoderStream } from "jsr:@std/encoding@1
 class HexEncoderStream extends _class_HexEncoderStream {}
 export { HexEncoderStream }
 
-import { HexDecoderStream as _class_HexDecoderStream } from "jsr:@std/encoding@1.0.4/hex-stream"
+import { HexDecoderStream as _class_HexDecoderStream } from "jsr:@std/encoding@1.0.5/unstable-hex-stream"
 /**
  * Decodes a hex-encoded stream into a Uint8Array stream.
  *
@@ -32,7 +32,7 @@ import { HexDecoderStream as _class_HexDecoderStream } from "jsr:@std/encoding@1
  * @example Usage
  * ```ts
  * import { assertEquals } from "@std/assert";
- * import { HexDecoderStream } from "@std/encoding/hex-stream";
+ * import { HexDecoderStream } from "@std/encoding/unstable-hex-stream";
  * import { toText } from "@std/streams/to-text";
  *
  * const stream = ReadableStream.from(["48656c6c6f2c", "20776f726c6421"])

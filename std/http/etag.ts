@@ -1,4 +1,4 @@
-import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.5/etag"
+import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.6/etag"
 /**
  * Just the part of {@linkcode Deno.FileInfo} that is required to calculate an `ETag`,
  * so partial or user generated file information can be passed.
@@ -6,19 +6,19 @@ import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.5/etag"
 interface FileInfo extends _interface_FileInfo {}
 export type { FileInfo }
 
-import type { ETagOptions as _interface_ETagOptions } from "jsr:@std/http@1.0.5/etag"
+import type { ETagOptions as _interface_ETagOptions } from "jsr:@std/http@1.0.6/etag"
 /**
  * Options for {@linkcode eTag}.
  */
 interface ETagOptions extends _interface_ETagOptions {}
 export type { ETagOptions }
 
-import { eTag as _function_eTag } from "jsr:@std/http@1.0.5/etag"
+import { eTag as _function_eTag } from "jsr:@std/http@1.0.6/etag"
 /** UNDOCUMENTED */
 const eTag = _function_eTag as typeof _function_eTag
 export { eTag }
 
-import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.5/etag"
+import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.6/etag"
 /**
  * A helper function that takes the value from the `If-Match` header and a
  * calculated etag for the target. By using strong comparison, return `true` if
@@ -56,7 +56,7 @@ import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.5/etag"
 const ifMatch = _function_ifMatch as typeof _function_ifMatch
 export { ifMatch }
 
-import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.5/etag"
+import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.6/etag"
 /**
  * A helper function that takes the value from the `If-None-Match` header and
  * a calculated etag for the target entity and returns `false` if the etag for

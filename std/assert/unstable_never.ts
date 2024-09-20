@@ -1,4 +1,4 @@
-import { assertNever as _function_assertNever } from "jsr:@std/assert@1.0.4/never"
+import { assertNever as _function_assertNever } from "jsr:@std/assert@1.0.5/unstable-never"
 /**
  * Make an assertion that `x` is of type `never`.
  * If not then throw.
@@ -6,7 +6,7 @@ import { assertNever as _function_assertNever } from "jsr:@std/assert@1.0.4/neve
  * @experimental
  * @example Exhaustivenss check
  * ```ts
- * import { assertNever } from "@std/assert/never";
+ * import { assertNever } from "@std/assert/unstable-never";
  *
  * type Kinds = "A" | "B";
  *
@@ -34,7 +34,7 @@ import { assertNever as _function_assertNever } from "jsr:@std/assert@1.0.4/neve
  *
  * @example Compile-time error when there is a missing case
  * ```ts expect-error ignore
- * import { assertNever } from "@std/assert/never";
+ * import { assertNever } from "@std/assert/unstable-never";
  *
  * type Kinds = "A" | "B" | "C";
  *

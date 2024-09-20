@@ -1,4 +1,4 @@
-import { pick as _function_pick } from "jsr:@std/collections@1.0.5/pick"
+import { pick as _function_pick } from "jsr:@std/collections@1.0.6/pick"
 /**
  * Creates a new object by including the specified keys from the provided
  * object.

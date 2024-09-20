@@ -31,12 +31,37 @@
  *
  * @module
  */
-import { basename as _function_basename } from "jsr:@std/path@1.0.4"
-/** UNDOCUMENTED */
+import { basename as _function_basename } from "jsr:@std/path@1.0.6"
+/**
+ * Return the last portion of a path.
+ *
+ * The trailing directory separators are ignored, and optional suffix is
+ * removed.
+ *
+ * @example Usage
+ * ```ts
+ * import { basename } from "@std/path/basename";
+ * import { assertEquals } from "@std/assert";
+ *
+ * if (Deno.build.os === "windows") {
+ *   assertEquals(basename("C:\\user\\Documents\\image.png"), "image.png");
+ * } else {
+ *   assertEquals(basename("/home/user/Documents/image.png"), "image.png");
+ * }
+ * ```
+ *
+ * Note: If you are working with file URLs,
+ * use the new version of `basename` from `@std/path/unstable-basename`.
+ *
+ * @param path Path to extract the name from.
+ * @param suffix Suffix to remove from extracted name.
+ *
+ * @return The basename of the path.
+ */
 const basename = _function_basename as typeof _function_basename
 export { basename }
 
-import { DELIMITER as _variable_DELIMITER } from "jsr:@std/path@1.0.4"
+import { DELIMITER as _variable_DELIMITER } from "jsr:@std/path@1.0.6"
 /**
  * The character used to separate entries in the PATH environment variable.
  * On Windows, this is `;`. On all other platforms, this is `:`.
@@ -44,7 +69,7 @@ import { DELIMITER as _variable_DELIMITER } from "jsr:@std/path@1.0.4"
 const DELIMITER = _variable_DELIMITER as typeof _variable_DELIMITER
 export { DELIMITER }
 
-import { SEPARATOR as _variable_SEPARATOR } from "jsr:@std/path@1.0.4"
+import { SEPARATOR as _variable_SEPARATOR } from "jsr:@std/path@1.0.6"
 /**
  * The character used to separate components of a file path.
  * On Windows, this is `\`. On all other platforms, this is `/`.
@@ -52,24 +77,64 @@ import { SEPARATOR as _variable_SEPARATOR } from "jsr:@std/path@1.0.4"
 const SEPARATOR = _variable_SEPARATOR as typeof _variable_SEPARATOR
 export { SEPARATOR }
 
-import { SEPARATOR_PATTERN as _variable_SEPARATOR_PATTERN } from "jsr:@std/path@1.0.4"
+import { SEPARATOR_PATTERN as _variable_SEPARATOR_PATTERN } from "jsr:@std/path@1.0.6"
 /**
  * A regular expression that matches one or more path separators.
  */
 const SEPARATOR_PATTERN = _variable_SEPARATOR_PATTERN as typeof _variable_SEPARATOR_PATTERN
 export { SEPARATOR_PATTERN }
 
-import { dirname as _function_dirname } from "jsr:@std/path@1.0.4"
-/** UNDOCUMENTED */
+import { dirname as _function_dirname } from "jsr:@std/path@1.0.6"
+/**
+ * Return the directory path of a path.
+ *
+ * @example Usage
+ * ```ts
+ * import { dirname } from "@std/path/dirname";
+ * import { assertEquals } from "@std/assert";
+ *
+ * if (Deno.build.os === "windows") {
+ *   assertEquals(dirname("C:\\home\\user\\Documents\\image.png"), "C:\\home\\user\\Documents");
+ * } else {
+ *   assertEquals(dirname("/home/user/Documents/image.png"), "/home/user/Documents");
+ * }
+ * ```
+ *
+ * Note: If you are working with file URLs,
+ * use the new version of `dirname` from `@std/path/unstable-dirname`.
+ *
+ * @param path Path to extract the directory from.
+ * @return The directory path.
+ */
 const dirname = _function_dirname as typeof _function_dirname
 export { dirname }
 
-import { extname as _function_extname } from "jsr:@std/path@1.0.4"
-/** UNDOCUMENTED */
+import { extname as _function_extname } from "jsr:@std/path@1.0.6"
+/**
+ * Return the extension of the path with leading period (".").
+ *
+ * @example Usage
+ * ```ts
+ * import { extname } from "@std/path/extname";
+ * import { assertEquals } from "@std/assert";
+ *
+ * if (Deno.build.os === "windows") {
+ *   assertEquals(extname("C:\\home\\user\\Documents\\image.png"), ".png");
+ * } else {
+ *   assertEquals(extname("/home/user/Documents/image.png"), ".png");
+ * }
+ * ```
+ *
+ * Note: If you are working with file URLs,
+ * use the new version of `extname` from `@std/path/unstable-extname`.
+ *
+ * @param path Path with extension.
+ * @return The file extension. E.g. returns `.ts` for `file.ts`.
+ */
 const extname = _function_extname as typeof _function_extname
 export { extname }
 
-import { format as _function_format } from "jsr:@std/path@1.0.4"
+import { format as _function_format } from "jsr:@std/path@1.0.6"
 /**
  * Generate a path from a {@linkcode ParsedPath} object. It does the
  * opposite of {@linkcode https://jsr.io/@std/path/doc/~/parse | parse()}.
@@ -92,7 +157,7 @@ import { format as _function_format } from "jsr:@std/path@1.0.4"
 const format = _function_format as typeof _function_format
 export { format }
 
-import { fromFileUrl as _function_fromFileUrl } from "jsr:@std/path@1.0.4"
+import { fromFileUrl as _function_fromFileUrl } from "jsr:@std/path@1.0.6"
 /**
  * Converts a file URL to a path string.
  *
@@ -116,7 +181,7 @@ import { fromFileUrl as _function_fromFileUrl } from "jsr:@std/path@1.0.4"
 const fromFileUrl = _function_fromFileUrl as typeof _function_fromFileUrl
 export { fromFileUrl }
 
-import { isAbsolute as _function_isAbsolute } from "jsr:@std/path@1.0.4"
+import { isAbsolute as _function_isAbsolute } from "jsr:@std/path@1.0.6"
 /**
  * Verifies whether provided path is absolute.
  *
@@ -140,17 +205,61 @@ import { isAbsolute as _function_isAbsolute } from "jsr:@std/path@1.0.4"
 const isAbsolute = _function_isAbsolute as typeof _function_isAbsolute
 export { isAbsolute }
 
-import { join as _function_join } from "jsr:@std/path@1.0.4"
-/** UNDOCUMENTED */
+import { join as _function_join } from "jsr:@std/path@1.0.6"
+/**
+ * Joins a sequence of paths, then normalizes the resulting path.
+ *
+ * @example Usage
+ * ```ts
+ * import { join } from "@std/path/join";
+ * import { assertEquals } from "@std/assert";
+ *
+ * if (Deno.build.os === "windows") {
+ *   assertEquals(join("C:\\foo", "bar", "baz\\quux", "garply", ".."), "C:\\foo\\bar\\baz\\quux");
+ * } else {
+ *   assertEquals(join("/foo", "bar", "baz/quux", "garply", ".."), "/foo/bar/baz/quux");
+ * }
+ * ```
+ *
+ * Note: If you are working with file URLs,
+ * use the new version of `join` from `@std/path/unstable-join`.
+ *
+ * @param paths Paths to be joined and normalized.
+ * @return The joined and normalized path.
+ */
 const join = _function_join as typeof _function_join
 export { join }
 
-import { normalize as _function_normalize } from "jsr:@std/path@1.0.4"
-/** UNDOCUMENTED */
+import { normalize as _function_normalize } from "jsr:@std/path@1.0.6"
+/**
+ * Normalize the path, resolving `'..'` and `'.'` segments.
+ *
+ * Note: Resolving these segments does not necessarily mean that all will be
+ * eliminated. A `'..'` at the top-level will be preserved, and an empty path is
+ * canonically `'.'`.
+ *
+ * @example Usage
+ * ```ts
+ * import { normalize } from "@std/path/normalize";
+ * import { assertEquals } from "@std/assert";
+ *
+ * if (Deno.build.os === "windows") {
+ *   assertEquals(normalize("C:\\foo\\bar\\..\\baz\\quux"), "C:\\foo\\baz\\quux");
+ * } else {
+ *   assertEquals(normalize("/foo/bar/../baz/quux"), "/foo/baz/quux");
+ * }
+ * ```
+ *
+ * Note: If you are working with file URLs,
+ * use the new version of `normalize` from `@std/path/unstable-normalize`.
+ *
+ * @param path Path to be normalized
+ * @return The normalized path.
+ */
 const normalize = _function_normalize as typeof _function_normalize
 export { normalize }
 
-import type { ParsedPath as _interface_ParsedPath } from "jsr:@std/path@1.0.4"
+import type { ParsedPath as _interface_ParsedPath } from "jsr:@std/path@1.0.6"
 /**
  * A parsed path object generated by path.parse() or consumed by path.format().
  *
@@ -168,7 +277,7 @@ import type { ParsedPath as _interface_ParsedPath } from "jsr:@std/path@1.0.4"
 interface ParsedPath extends _interface_ParsedPath {}
 export type { ParsedPath }
 
-import { parse as _function_parse } from "jsr:@std/path@1.0.4"
+import { parse as _function_parse } from "jsr:@std/path@1.0.6"
 /**
  * Return an object containing the parsed components of the path.
  *
@@ -203,7 +312,7 @@ import { parse as _function_parse } from "jsr:@std/path@1.0.4"
 const parse = _function_parse as typeof _function_parse
 export { parse }
 
-import { relative as _function_relative } from "jsr:@std/path@1.0.4"
+import { relative as _function_relative } from "jsr:@std/path@1.0.6"
 /**
  * Return the relative path from `from` to `to` based on current working
  * directory.
@@ -229,7 +338,7 @@ import { relative as _function_relative } from "jsr:@std/path@1.0.4"
 const relative = _function_relative as typeof _function_relative
 export { relative }
 
-import { resolve as _function_resolve } from "jsr:@std/path@1.0.4"
+import { resolve as _function_resolve } from "jsr:@std/path@1.0.6"
 /**
  * Resolves path segments into a path.
  *
@@ -253,7 +362,7 @@ import { resolve as _function_resolve } from "jsr:@std/path@1.0.4"
 const resolve = _function_resolve as typeof _function_resolve
 export { resolve }
 
-import { toFileUrl as _function_toFileUrl } from "jsr:@std/path@1.0.4"
+import { toFileUrl as _function_toFileUrl } from "jsr:@std/path@1.0.6"
 /**
  * Converts a path string to a file URL.
  *
@@ -277,7 +386,7 @@ import { toFileUrl as _function_toFileUrl } from "jsr:@std/path@1.0.4"
 const toFileUrl = _function_toFileUrl as typeof _function_toFileUrl
 export { toFileUrl }
 
-import { toNamespacedPath as _function_toNamespacedPath } from "jsr:@std/path@1.0.4"
+import { toNamespacedPath as _function_toNamespacedPath } from "jsr:@std/path@1.0.6"
 /**
  * Resolves path to a namespace path.  This is a no-op on
  * non-windows systems.
@@ -300,7 +409,7 @@ import { toNamespacedPath as _function_toNamespacedPath } from "jsr:@std/path@1.
 const toNamespacedPath = _function_toNamespacedPath as typeof _function_toNamespacedPath
 export { toNamespacedPath }
 
-import { common as _function_common } from "jsr:@std/path@1.0.4"
+import { common as _function_common } from "jsr:@std/path@1.0.6"
 /**
  * Determines the common path from a set of paths for the given OS.
  *
@@ -330,7 +439,7 @@ import { common as _function_common } from "jsr:@std/path@1.0.4"
 const common = _function_common as typeof _function_common
 export { common }
 
-import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.4"
+import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.6"
 /**
  * Options for {@linkcode globToRegExp}, {@linkcode joinGlobs},
  * {@linkcode normalizeGlob} and {@linkcode expandGlob}.
@@ -338,7 +447,7 @@ import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/path@1.0.4"
 interface GlobOptions extends _interface_GlobOptions {}
 export type { GlobOptions }
 
-import { globToRegExp as _function_globToRegExp } from "jsr:@std/path@1.0.4"
+import { globToRegExp as _function_globToRegExp } from "jsr:@std/path@1.0.6"
 /**
  * Converts a glob string to a regular expression.
  *
@@ -415,7 +524,7 @@ import { globToRegExp as _function_globToRegExp } from "jsr:@std/path@1.0.4"
 const globToRegExp = _function_globToRegExp as typeof _function_globToRegExp
 export { globToRegExp }
 
-import { isGlob as _function_isGlob } from "jsr:@std/path@1.0.4"
+import { isGlob as _function_isGlob } from "jsr:@std/path@1.0.6"
 /**
  * Test whether the given string is a glob.
  *
@@ -434,7 +543,7 @@ import { isGlob as _function_isGlob } from "jsr:@std/path@1.0.4"
 const isGlob = _function_isGlob as typeof _function_isGlob
 export { isGlob }
 
-import { joinGlobs as _function_joinGlobs } from "jsr:@std/path@1.0.4"
+import { joinGlobs as _function_joinGlobs } from "jsr:@std/path@1.0.6"
 /**
  * Joins a sequence of globs, then normalizes the resulting glob.
  *
@@ -462,7 +571,7 @@ import { joinGlobs as _function_joinGlobs } from "jsr:@std/path@1.0.4"
 const joinGlobs = _function_joinGlobs as typeof _function_joinGlobs
 export { joinGlobs }
 
-import { normalizeGlob as _function_normalizeGlob } from "jsr:@std/path@1.0.4"
+import { normalizeGlob as _function_normalizeGlob } from "jsr:@std/path@1.0.6"
 /**
  * Normalizes a glob string.
  *

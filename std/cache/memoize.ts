@@ -1,4 +1,4 @@
-import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/cache@0.1.2/memoize"
+import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/cache@0.1.3/memoize"
 /**
  * A cache suitable for use with {@linkcode memoize}.
  *
@@ -7,7 +7,7 @@ import type { MemoizationCache as _typeAlias_MemoizationCache } from "jsr:@std/c
 type MemoizationCache<K, V> = _typeAlias_MemoizationCache<K, V>
 export type { MemoizationCache }
 
-import type { MemoizeOptions as _typeAlias_MemoizeOptions } from "jsr:@std/cache@0.1.2/memoize"
+import type { MemoizeOptions as _typeAlias_MemoizeOptions } from "jsr:@std/cache@0.1.3/memoize"
 /**
  * Options for {@linkcode memoize}.
  *
@@ -19,7 +19,7 @@ import type { MemoizeOptions as _typeAlias_MemoizeOptions } from "jsr:@std/cache
 type MemoizeOptions<Fn extends (...args: never[]) => unknown, Key, Cache extends MemoizationCache<Key, ReturnType<Fn>>> = _typeAlias_MemoizeOptions<Fn, Key, Cache>
 export type { MemoizeOptions }
 
-import { memoize as _function_memoize } from "jsr:@std/cache@0.1.2/memoize"
+import { memoize as _function_memoize } from "jsr:@std/cache@0.1.3/memoize"
 /**
  * Cache the results of a function based on its arguments.
  *

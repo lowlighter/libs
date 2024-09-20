@@ -1,4 +1,4 @@
-import { validate as _function_validate } from "jsr:@std/uuid@1.0.3/v1"
+import { validate as _function_validate } from "jsr:@std/uuid@1.0.4/v1"
 /**
  * Determines whether a string is a valid
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1 | UUIDv1}.
@@ -19,14 +19,14 @@ import { validate as _function_validate } from "jsr:@std/uuid@1.0.3/v1"
 const validate = _function_validate as typeof _function_validate
 export { validate }
 
-import type { GenerateOptions as _interface_GenerateOptions } from "jsr:@std/uuid@1.0.3/v1"
+import type { GenerateOptions as _interface_GenerateOptions } from "jsr:@std/uuid@1.0.4/v1"
 /**
  * Options for {@linkcode generate}.
  */
 interface GenerateOptions extends _interface_GenerateOptions {}
 export type { GenerateOptions }
 
-import { generate as _function_generate } from "jsr:@std/uuid@1.0.3/v1"
+import { generate as _function_generate } from "jsr:@std/uuid@1.0.4/v1"
 /**
  * Generates a
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1 | UUIDv1}.

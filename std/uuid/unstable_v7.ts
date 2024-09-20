@@ -1,4 +1,4 @@
-import { validate as _function_validate } from "jsr:@std/uuid@1.0.3/v7"
+import { validate as _function_validate } from "jsr:@std/uuid@1.0.4/unstable-v7"
 /**
  * Determines whether a string is a valid
  * {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.7 | UUIDv7}.
@@ -10,7 +10,7 @@ import { validate as _function_validate } from "jsr:@std/uuid@1.0.3/v7"
  *
  * @example Usage
  * ```ts
- * import { validate } from "@std/uuid/v7";
+ * import { validate } from "@std/uuid/unstable-v7";
  * import { assert, assertFalse } from "@std/assert";
  *
  * assert(validate("017f22e2-79b0-7cc3-98c4-dc0c0c07398f"));
@@ -20,7 +20,7 @@ import { validate as _function_validate } from "jsr:@std/uuid@1.0.3/v7"
 const validate = _function_validate as typeof _function_validate
 export { validate }
 
-import { generate as _function_generate } from "jsr:@std/uuid@1.0.3/v7"
+import { generate as _function_generate } from "jsr:@std/uuid@1.0.4/unstable-v7"
 /**
  * Generates a {@link https://www.rfc-editor.org/rfc/rfc9562.html#section-5.7 | UUIDv7}.
  *
@@ -33,7 +33,7 @@ import { generate as _function_generate } from "jsr:@std/uuid@1.0.3/v7"
  *
  * @example Usage
  * ```ts
- * import { generate, validate } from "@std/uuid/v7";
+ * import { generate, validate } from "@std/uuid/unstable-v7";
  * import { assert } from "@std/assert";
  *
  * const uuid = generate();
@@ -43,7 +43,7 @@ import { generate as _function_generate } from "jsr:@std/uuid@1.0.3/v7"
 const generate = _function_generate as typeof _function_generate
 export { generate }
 
-import { extractTimestamp as _function_extractTimestamp } from "jsr:@std/uuid@1.0.3/v7"
+import { extractTimestamp as _function_extractTimestamp } from "jsr:@std/uuid@1.0.4/unstable-v7"
 /**
  * Extracts the timestamp from a UUIDv7.
  *
@@ -55,7 +55,7 @@ import { extractTimestamp as _function_extractTimestamp } from "jsr:@std/uuid@1.
  *
  * @example Usage
  * ```ts
- * import { extractTimestamp } from "@std/uuid/v7";
+ * import { extractTimestamp } from "@std/uuid/unstable-v7";
  * import { assertEquals } from "@std/assert";
  *
  * const uuid = "017f22e2-79b0-7cc3-98c4-dc0c0c07398f";

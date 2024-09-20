@@ -1,4 +1,4 @@
-import { sample as _function_sample } from "jsr:@std/collections@1.0.5/sample"
+import { sample as _function_sample } from "jsr:@std/collections@1.0.6/sample"
 /**
  * Returns a random element from the given array.
  *

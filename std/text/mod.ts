@@ -15,7 +15,7 @@
  *
  * @module
  */
-import { levenshteinDistance as _function_levenshteinDistance } from "jsr:@std/text@1.0.5"
+import { levenshteinDistance as _function_levenshteinDistance } from "jsr:@std/text@1.0.6"
 /**
  * Calculates the
  * {@link https://en.wikipedia.org/wiki/Levenshtein_distance | Levenshtein distance}
@@ -40,14 +40,14 @@ import { levenshteinDistance as _function_levenshteinDistance } from "jsr:@std/t
 const levenshteinDistance = _function_levenshteinDistance as typeof _function_levenshteinDistance
 export { levenshteinDistance }
 
-import type { ClosestStringOptions as _interface_ClosestStringOptions } from "jsr:@std/text@1.0.5"
+import type { ClosestStringOptions as _interface_ClosestStringOptions } from "jsr:@std/text@1.0.6"
 /**
  * Options for {@linkcode closestString}.
  */
 interface ClosestStringOptions extends _interface_ClosestStringOptions {}
 export type { ClosestStringOptions }
 
-import { closestString as _function_closestString } from "jsr:@std/text@1.0.5"
+import { closestString as _function_closestString } from "jsr:@std/text@1.0.6"
 /**
  * Finds the most similar string from an array of strings.
  *
@@ -73,14 +73,14 @@ import { closestString as _function_closestString } from "jsr:@std/text@1.0.5"
 const closestString = _function_closestString as typeof _function_closestString
 export { closestString }
 
-import type { CompareSimilarityOptions as _interface_CompareSimilarityOptions } from "jsr:@std/text@1.0.5"
+import type { CompareSimilarityOptions as _interface_CompareSimilarityOptions } from "jsr:@std/text@1.0.6"
 /**
  * Options for {@linkcode compareSimilarity}.
  */
 interface CompareSimilarityOptions extends _interface_CompareSimilarityOptions {}
 export type { CompareSimilarityOptions }
 
-import { compareSimilarity as _function_compareSimilarity } from "jsr:@std/text@1.0.5"
+import { compareSimilarity as _function_compareSimilarity } from "jsr:@std/text@1.0.6"
 /**
  * Takes a string and generates a comparator function to determine which of two
  * strings is more similar to the given one.
@@ -111,14 +111,14 @@ import { compareSimilarity as _function_compareSimilarity } from "jsr:@std/text@
 const compareSimilarity = _function_compareSimilarity as typeof _function_compareSimilarity
 export { compareSimilarity }
 
-import type { WordSimilaritySortOptions as _interface_WordSimilaritySortOptions } from "jsr:@std/text@1.0.5"
+import type { WordSimilaritySortOptions as _interface_WordSimilaritySortOptions } from "jsr:@std/text@1.0.6"
 /**
  * Options for {@linkcode wordSimilaritySort}.
  */
 interface WordSimilaritySortOptions extends _interface_WordSimilaritySortOptions {}
 export type { WordSimilaritySortOptions }
 
-import { wordSimilaritySort as _function_wordSimilaritySort } from "jsr:@std/text@1.0.5"
+import { wordSimilaritySort as _function_wordSimilaritySort } from "jsr:@std/text@1.0.6"
 /**
  * Sorts a string-array by similarity to a given string.
  *
@@ -158,7 +158,7 @@ import { wordSimilaritySort as _function_wordSimilaritySort } from "jsr:@std/tex
 const wordSimilaritySort = _function_wordSimilaritySort as typeof _function_wordSimilaritySort
 export { wordSimilaritySort }
 
-import { toCamelCase as _function_toCamelCase } from "jsr:@std/text@1.0.5"
+import { toCamelCase as _function_toCamelCase } from "jsr:@std/text@1.0.6"
 /**
  * Converts a string into camelCase.
  *
@@ -176,26 +176,7 @@ import { toCamelCase as _function_toCamelCase } from "jsr:@std/text@1.0.5"
 const toCamelCase = _function_toCamelCase as typeof _function_toCamelCase
 export { toCamelCase }
 
-import { toConstantCase as _function_toConstantCase } from "jsr:@std/text@1.0.5"
-/**
- * Converts a string into CONSTANT_CASE (also known as SCREAMING_SNAKE_CASE).
- *
- * @experimental
- * @example Usage
- * ```ts
- * import { toConstantCase } from "@std/text/to-constant-case";
- * import { assertEquals } from "@std/assert/equals";
- *
- * assertEquals(toConstantCase("deno is awesome"), "DENO_IS_AWESOME");
- * ```
- *
- * @param input The string that is going to be converted into CONSTANT_CASE
- * @return The string as CONSTANT_CASE
- */
-const toConstantCase = _function_toConstantCase as typeof _function_toConstantCase
-export { toConstantCase }
-
-import { toKebabCase as _function_toKebabCase } from "jsr:@std/text@1.0.5"
+import { toKebabCase as _function_toKebabCase } from "jsr:@std/text@1.0.6"
 /**
  * Converts a string into kebab-case.
  *
@@ -213,7 +194,7 @@ import { toKebabCase as _function_toKebabCase } from "jsr:@std/text@1.0.5"
 const toKebabCase = _function_toKebabCase as typeof _function_toKebabCase
 export { toKebabCase }
 
-import { toPascalCase as _function_toPascalCase } from "jsr:@std/text@1.0.5"
+import { toPascalCase as _function_toPascalCase } from "jsr:@std/text@1.0.6"
 /**
  * Converts a string into PascalCase.
  *
@@ -231,7 +212,7 @@ import { toPascalCase as _function_toPascalCase } from "jsr:@std/text@1.0.5"
 const toPascalCase = _function_toPascalCase as typeof _function_toPascalCase
 export { toPascalCase }
 
-import { toSnakeCase as _function_toSnakeCase } from "jsr:@std/text@1.0.5"
+import { toSnakeCase as _function_toSnakeCase } from "jsr:@std/text@1.0.6"
 /**
  * Converts a string into snake_case.
  *
@@ -248,23 +229,3 @@ import { toSnakeCase as _function_toSnakeCase } from "jsr:@std/text@1.0.5"
  */
 const toSnakeCase = _function_toSnakeCase as typeof _function_toSnakeCase
 export { toSnakeCase }
-
-import { slugify as _function_slugify } from "jsr:@std/text@1.0.5"
-/**
- * Converts a string into a {@link https://en.wikipedia.org/wiki/Clean_URL#Slug | slug}.
- *
- * @experimental
- * @example Usage
- * ```ts
- * import { slugify } from "@std/text/slugify";
- * import { assertEquals } from "@std/assert";
- *
- * assertEquals(slugify("hello world"), "hello-world");
- * assertEquals(slugify("déjà vu"), "deja-vu");
- * ```
- *
- * @param input The string that is going to be converted into a slug
- * @return The string as a slug
- */
-const slugify = _function_slugify as typeof _function_slugify
-export { slugify }

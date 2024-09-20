@@ -1,4 +1,4 @@
-import { filterKeys as _function_filterKeys } from "jsr:@std/collections@1.0.5/filter-keys"
+import { filterKeys as _function_filterKeys } from "jsr:@std/collections@1.0.6/filter-keys"
 /**
  * Returns a new record with all entries of the given record except the ones that
  * have a key that does not match the given predicate.

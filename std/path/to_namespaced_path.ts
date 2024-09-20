@@ -1,4 +1,4 @@
-import { toNamespacedPath as _function_toNamespacedPath } from "jsr:@std/path@1.0.4/to-namespaced-path"
+import { toNamespacedPath as _function_toNamespacedPath } from "jsr:@std/path@1.0.6/to-namespaced-path"
 /**
  * Resolves path to a namespace path.  This is a no-op on
  * non-windows systems.

@@ -1,4 +1,4 @@
-import { fail as _function_fail } from "jsr:@std/assert@1.0.4/fail"
+import { fail as _function_fail } from "jsr:@std/assert@1.0.5/fail"
 /**
  * Forcefully throws a failed assertion.
  *

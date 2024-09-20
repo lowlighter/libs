@@ -1,4 +1,4 @@
-import { toText as _function_toText } from "jsr:@std/streams@1.0.4/to-text"
+import { toText as _function_toText } from "jsr:@std/streams@1.0.5/to-text"
 /**
  * Converts a {@linkcode ReadableSteam} of strings or {@linkcode Uint8Array}s
  * to a single string. Works the same as {@linkcode Response.text} and

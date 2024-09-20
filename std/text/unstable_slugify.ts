@@ -1,11 +1,11 @@
-import { slugify as _function_slugify } from "jsr:@std/text@1.0.5/slugify"
+import { slugify as _function_slugify } from "jsr:@std/text@1.0.6/unstable-slugify"
 /**
  * Converts a string into a {@link https://en.wikipedia.org/wiki/Clean_URL#Slug | slug}.
  *
  * @experimental
  * @example Usage
  * ```ts
- * import { slugify } from "@std/text/slugify";
+ * import { slugify } from "@std/text/unstable-slugify";
  * import { assertEquals } from "@std/assert";
  *
  * assertEquals(slugify("hello world"), "hello-world");

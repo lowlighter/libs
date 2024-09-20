@@ -1,4 +1,4 @@
-import { maxWith as _function_maxWith } from "jsr:@std/collections@1.0.5/max-with"
+import { maxWith as _function_maxWith } from "jsr:@std/collections@1.0.6/max-with"
 /**
  * Returns the first element having the largest value according to the provided
  * comparator or undefined if there are no elements.

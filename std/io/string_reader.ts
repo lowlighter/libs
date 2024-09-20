@@ -1,4 +1,4 @@
-import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.7/string-reader"
+import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.8/string-reader"
 /**
  * Reader utility for strings.
  *

@@ -1,4 +1,4 @@
-import { toTransformStream as _function_toTransformStream } from "jsr:@std/streams@1.0.4/to-transform-stream"
+import { toTransformStream as _function_toTransformStream } from "jsr:@std/streams@1.0.5/to-transform-stream"
 /**
  * Convert the generator function into a {@linkcode TransformStream}.
  *

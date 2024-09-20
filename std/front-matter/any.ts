@@ -1,11 +1,11 @@
-import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.4/any"
+import type { Extract as _typeAlias_Extract } from "jsr:@std/front-matter@1.0.5/any"
 /**
  * Return type for {@linkcode extract} function.
  */
 type Extract<T> = _typeAlias_Extract<T>
 export type { Extract }
 
-import { extract as _function_extract } from "jsr:@std/front-matter@1.0.4/any"
+import { extract as _function_extract } from "jsr:@std/front-matter@1.0.5/any"
 /**
  * Extracts and parses {@link https://yaml.org | YAML}, {@link https://toml.io |
  * TOML}, or {@link https://www.json.org/ | JSON} from the metadata of front

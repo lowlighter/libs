@@ -1,4 +1,4 @@
-import { Base64UrlEncoderStream as _class_Base64UrlEncoderStream } from "jsr:@std/encoding@1.0.4/base64url-stream"
+import { Base64UrlEncoderStream as _class_Base64UrlEncoderStream } from "jsr:@std/encoding@1.0.5/unstable-base64url-stream"
 /**
  * Converts a Uint8Array stream into a base64url-encoded stream.
  *
@@ -9,7 +9,7 @@ import { Base64UrlEncoderStream as _class_Base64UrlEncoderStream } from "jsr:@st
  * ```ts
  * import { assertEquals } from "@std/assert";
  * import { encodeBase64Url } from "@std/encoding/base64url";
- * import { Base64UrlEncoderStream } from "@std/encoding/base64url-stream";
+ * import { Base64UrlEncoderStream } from "@std/encoding/unstable-base64url-stream";
  * import { toText } from "@std/streams/to-text";
  *
  * const stream = ReadableStream.from(["Hello,", " world!"])
@@ -22,7 +22,7 @@ import { Base64UrlEncoderStream as _class_Base64UrlEncoderStream } from "jsr:@st
 class Base64UrlEncoderStream extends _class_Base64UrlEncoderStream {}
 export { Base64UrlEncoderStream }
 
-import { Base64UrlDecoderStream as _class_Base64UrlDecoderStream } from "jsr:@std/encoding@1.0.4/base64url-stream"
+import { Base64UrlDecoderStream as _class_Base64UrlDecoderStream } from "jsr:@std/encoding@1.0.5/unstable-base64url-stream"
 /**
  * Decodes a base64url-encoded stream into a Uint8Array stream.
  *
@@ -33,7 +33,7 @@ import { Base64UrlDecoderStream as _class_Base64UrlDecoderStream } from "jsr:@st
  * ```ts
  * import { assertEquals } from "@std/assert";
  * import { encodeBase64Url } from "@std/encoding/base64url";
- * import { Base64UrlDecoderStream } from "@std/encoding/base64url-stream";
+ * import { Base64UrlDecoderStream } from "@std/encoding/unstable-base64url-stream";
  * import { toText } from "@std/streams/to-text";
  *
  * const stream = ReadableStream.from(["SGVsbG8s", "IHdvcmxkIQ"])

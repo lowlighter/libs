@@ -1,11 +1,20 @@
-import type { Reader as _interface_Reader } from "jsr:@std/archive@0.225.2/untar"
+import type { Reader as _interface_Reader } from "jsr:@std/archive@0.225.3/untar"
 /**
- * An abstract interface which when implemented provides an interface to read bytes into an array buffer asynchronously.
+ * An abstract interface which when implemented provides an interface to read
+ * bytes into an array buffer asynchronously.
  */
 interface Reader extends _interface_Reader {}
 export type { Reader }
 
-import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:@std/archive@0.225.2/untar"
+import type { Seeker as _interface_Seeker } from "jsr:@std/archive@0.225.3/untar"
+/**
+ * An abstract interface which when implemented provides an interface to seek
+ * within an open file/resource asynchronously.
+ */
+interface Seeker extends _interface_Seeker {}
+export type { Seeker }
+
+import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:@std/archive@0.225.3/untar"
 /**
  * Extend TarMeta with the `linkName` property so that readers can access
  * symbolic link values without polluting the world of archive writers.
@@ -15,7 +24,7 @@ import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:
 interface TarMetaWithLinkName extends _interface_TarMetaWithLinkName {}
 export type { TarMetaWithLinkName }
 
-import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.225.2/untar"
+import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.225.3/untar"
 /**
  * Tar header with raw, unprocessed bytes as values.
  *
@@ -24,7 +33,7 @@ import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.225.2
 type TarHeader = _typeAlias_TarHeader
 export type { TarHeader }
 
-import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.2/untar"
+import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.3/untar"
 /**
  * Contains tar header metadata and a reader to the entry's body.
  *
@@ -53,7 +62,7 @@ import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.2/untar"
 class TarEntry extends _class_TarEntry {}
 export { TarEntry }
 
-import { Untar as _class_Untar } from "jsr:@std/archive@0.225.2/untar"
+import { Untar as _class_Untar } from "jsr:@std/archive@0.225.3/untar"
 /**
  * ### Overview
  * A class to extract from a tar archive.  Tar archives allow for storing multiple

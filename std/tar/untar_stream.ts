@@ -1,4 +1,4 @@
-import type { OldStyleFormat as _interface_OldStyleFormat } from "jsr:@std/tar@0.1.0/untar-stream"
+import type { OldStyleFormat as _interface_OldStyleFormat } from "jsr:@std/tar@0.1.1/untar-stream"
 /**
  * The original tar	archive	header format.
  *
@@ -7,7 +7,7 @@ import type { OldStyleFormat as _interface_OldStyleFormat } from "jsr:@std/tar@0
 interface OldStyleFormat extends _interface_OldStyleFormat {}
 export type { OldStyleFormat }
 
-import type { PosixUstarFormat as _interface_PosixUstarFormat } from "jsr:@std/tar@0.1.0/untar-stream"
+import type { PosixUstarFormat as _interface_PosixUstarFormat } from "jsr:@std/tar@0.1.1/untar-stream"
 /**
  * The POSIX ustar archive header format.
  *
@@ -16,7 +16,7 @@ import type { PosixUstarFormat as _interface_PosixUstarFormat } from "jsr:@std/t
 interface PosixUstarFormat extends _interface_PosixUstarFormat {}
 export type { PosixUstarFormat }
 
-import type { TarStreamEntry as _interface_TarStreamEntry } from "jsr:@std/tar@0.1.0/untar-stream"
+import type { TarStreamEntry as _interface_TarStreamEntry } from "jsr:@std/tar@0.1.1/untar-stream"
 /**
  * The structure of an entry extracted from a Tar archive.
  *
@@ -25,7 +25,7 @@ import type { TarStreamEntry as _interface_TarStreamEntry } from "jsr:@std/tar@0
 interface TarStreamEntry extends _interface_TarStreamEntry {}
 export type { TarStreamEntry }
 
-import { UntarStream as _class_UntarStream } from "jsr:@std/tar@0.1.0/untar-stream"
+import { UntarStream as _class_UntarStream } from "jsr:@std/tar@0.1.1/untar-stream"
 /**
  * ### Overview
  * A TransformStream to expand a tar archive.  Tar archives allow for storing

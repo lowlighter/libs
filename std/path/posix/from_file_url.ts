@@ -1,4 +1,4 @@
-import { fromFileUrl as _function_fromFileUrl } from "jsr:@std/path@1.0.4/posix/from-file-url"
+import { fromFileUrl as _function_fromFileUrl } from "jsr:@std/path@1.0.6/posix/from-file-url"
 /**
  * Converts a file URL to a path string.
  *
