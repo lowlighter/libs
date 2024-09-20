@@ -1,7 +1,7 @@
 {
   "icon": "📦",
   "name": "@libs/bundle",
-  "version": "12.1.1",
+  "version": "12.1.2",
   "description": "Code bundlers, formatters, minifiers and others tools.",
   "keywords": [
     "bundler",
