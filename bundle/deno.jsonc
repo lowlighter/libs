@@ -48,7 +48,6 @@
     "./wasm/cli/build": "./wasm/cli/build.ts"
   },
   "imports": {
-    "@std/tar": "jsr:@std/tar@^0.1.0",
     "@std/fs": "jsr:@std/fs@1",
     "@std/async/delay": "jsr:@std/async@1/delay",
     "@std/async/retry": "jsr:@std/async@1/retry",
@@ -59,7 +58,7 @@
     "@std/streams": "jsr:@std/streams@1",
     "@std/encoding/base32": "jsr:@std/encoding@1/base32",
     "@std/encoding/base64": "jsr:@std/encoding@1/base64",
-    "@std/archive/untar": "jsr:@std/archive@0.225.0/untar",
+    "@std/tar": "jsr:@std/tar@^0.1.0",
     "@std/cli": "jsr:@std/cli@1",
     "@std/fmt/colors": "jsr:@std/fmt@1/colors",
     "@libs/logger": "jsr:@libs/logger@2",
