@@ -133,6 +133,7 @@ aliases:
   ./testing/time.ts#DelayOptions: ~
 
   ./archive/mod.ts#Reader: ArchiveReader
+  ./archive/mod.ts#Seeker: ~
 
   ./streams/mod.ts#Buffer: ~
   ./streams/mod.ts#iterateReader: ~
@@ -187,3 +188,5 @@ aliases:
   ./uuid/mod.ts#isNil: isNilUuid
   ./uuid/mod.ts#validate: validateUuid
   ./uuid/mod.ts#version: uuidVersion
+
+  ./random/mod.ts#sample: sampleRandom
