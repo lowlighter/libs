@@ -2,8 +2,7 @@
 import { encodeBase64 } from "@std/encoding/base64"
 import { bundle as bundle_ts } from "../ts/bundle.ts"
 import { assert } from "@std/assert"
-import { Untar } from "@std/archive/untar"
-import { copy, readerFromStreamReader } from "@std/io"
+import { UntarStream } from "@std/tar/untar-stream"
 import { ensureFile } from "@std/fs"
 import { basename, dirname, resolve, toFileUrl } from "@std/path"
 import { Logger } from "@libs/logger"
@@ -94,18 +93,21 @@ async function install({ log, path }: { log: Logger; path: string }) {
   log.info(`found binary ${packaged.name} for ${Deno.build.os}-${Deno.build.arch}`)
   // Download archive
   log.debug("downloading release")
-  const reader = readerFromStreamReader(await fetch(packaged.url).then((response) => response.body!.pipeThrough(new DecompressionStream("gzip")).getReader()))
+  const response = await fetch(packaged.url)
   log.ok("downloaded release")
   // Extract archive
   log.debug("extracting release")
-  const untar = new Untar(reader)
+  const entries = response.body!
+    .pipeThrough(new DecompressionStream("gzip"))
+    .pipeThrough(new UntarStream())
   let found = false
-  for await (const entry of untar) {
-    const filename = basename(entry.fileName)
+  for await (const entry of entries) {
+    const filename = basename(entry.path)
     if (!filename.startsWith("wasm-pack")) {
+      await entry.readable?.cancel()
       continue
     }
-    if (entry.type !== "file") {
+    if (entry.readable === undefined) {
       continue
     }
     found = true
@@ -114,7 +116,7 @@ async function install({ log, path }: { log: Logger; path: string }) {
     await ensureFile(path)
     using file = await Deno.open(path, { write: true, truncate: true })
     await Deno.chmod(path, 0o755).catch(() => null)
-    await copy(entry, file)
+    await entry.readable.pipeTo(file.writable)
     break
   }
   assert(found, "wasm-pack binary not found in archive")
