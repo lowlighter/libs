@@ -19,6 +19,7 @@
       "jsr:@std/async@1": "jsr:@std/async@1.0.5",
       "jsr:@std/bytes@^0.218.2": "jsr:@std/bytes@0.218.2",
       "jsr:@std/bytes@^1.0.2": "jsr:@std/bytes@1.0.2",
+      "jsr:@std/cli@1": "jsr:@std/cli@1.0.6",
       "jsr:@std/cli@1.0.0-rc.2": "jsr:@std/cli@1.0.0-rc.2",
       "jsr:@std/encoding@0.213": "jsr:@std/encoding@0.213.1",
       "jsr:@std/encoding@1": "jsr:@std/encoding@1.0.5",
@@ -43,7 +44,9 @@
       "jsr:@std/streams@1": "jsr:@std/streams@1.0.5",
       "jsr:@std/streams@^1.0.5": "jsr:@std/streams@1.0.5",
       "jsr:@std/tar@^0.1.0": "jsr:@std/tar@0.1.1",
+      "jsr:@std/yaml@1": "jsr:@std/yaml@1.0.5",
       "npm:@mdn/browser-compat-data@5": "npm:@mdn/browser-compat-data@5.6.2",
+      "npm:@types/node": "npm:@types/node@18.16.19",
       "npm:browserslist@4": "npm:browserslist@4.23.3",
       "npm:css-tree@2": "npm:css-tree@2.3.1",
       "npm:csso@5": "npm:csso@5.0.5",
@@ -143,6 +146,9 @@
       "@std/cli@1.0.0-rc.2": {
         "integrity": "97dfae82b9f0e189768ebfa7a5da53375955b94bad0a1804f8e3b73563b03787"
       },
+      "@std/cli@1.0.6": {
+        "integrity": "d22d8b38c66c666d7ad1f2a66c5b122da1704f985d3c47f01129f05abb6c5d3d"
+      },
       "@std/encoding@0.213.1": {
         "integrity": "fcbb6928713dde941a18ca5db88ca1544d0755ec8fb20fe61e2dc8144b390c62"
       },
@@ -235,6 +241,9 @@
         "dependencies": [
           "jsr:@std/streams@^1.0.5"
         ]
+      },
+      "@std/yaml@1.0.5": {
+        "integrity": "71ba3d334305ee2149391931508b2c293a8490f94a337eef3a09cade1a2a2742"
       }
     },
     "npm": {
@@ -635,6 +644,10 @@
       },
       "@types/aws-lambda@8.10.145": {
         "integrity": "sha512-dtByW6WiFk5W5Jfgz1VM+YPA21xMXTuSFoLYIDY0L44jDLLflVPtZkYuu3/YxpGcvjzKFBZLU+GyKjR0HOYtyw==",
+        "dependencies": {}
+      },
+      "@types/node@18.16.19": {
+        "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
         "dependencies": {}
       },
       "acorn@8.12.1": {
@@ -1413,7 +1426,6 @@
       "jsr:@libs/typing@2",
       "jsr:@libs/xml@5",
       "jsr:@luca/esbuild-deno-loader@0.10.3",
-      "jsr:@std/archive@0.225.0",
       "jsr:@std/assert@1",
       "jsr:@std/async@1",
       "jsr:@std/cli@1",

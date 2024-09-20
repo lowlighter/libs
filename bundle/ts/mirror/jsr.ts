@@ -189,6 +189,7 @@ async function generate(jsr: string) {
           lines.push(`${_.classDef?.isAbstract ? "abstract " : ""}class ${name}${generic[0]} extends _${kind}_${name}${generic[1]} {}`)
           break
         }
+        case "enum":
         case "namespace":
         case "variable":
         case "function":
