@@ -1,11 +1,11 @@
-import { assertNotStrictEquals as _function_assertNotStrictEquals } from "jsr:@std/assert@1.0.5/not-strict-equals"
+import { assertNotStrictEquals as _function_assertNotStrictEquals } from "jsr:@std/assert@1.0.6/not-strict-equals"
 /**
  * Make an assertion that `actual` and `expected` are not strictly equal, using
  * {@linkcode Object.is} for equality comparison. If the values are strictly
  * equal then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertNotStrictEquals } from "@std/assert";
  *
  * assertNotStrictEquals(1, 1); // Throws

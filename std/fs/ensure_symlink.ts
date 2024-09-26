@@ -1,4 +1,4 @@
-import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.3/ensure-symlink"
+import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.4/ensure-symlink"
 /**
  * Asynchronously ensures that the link exists, and points to a valid file.
  *
@@ -18,7 +18,7 @@ import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.3/ensu
  * @return A void promise that resolves once the link exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureSymlink } from "@std/fs/ensure-symlink";
  *
  * await ensureSymlink("./folder/targetFile.dat", "./folder/targetFile.link.dat");
@@ -27,7 +27,7 @@ import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.3/ensu
 const ensureSymlink = _function_ensureSymlink as typeof _function_ensureSymlink
 export { ensureSymlink }
 
-import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.0.3/ensure-symlink"
+import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.0.4/ensure-symlink"
 /**
  * Synchronously ensures that the link exists, and points to a valid file.
  *
@@ -46,7 +46,7 @@ import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.
  * @return A void value that returns once the link exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureSymlinkSync } from "@std/fs/ensure-symlink";
  *
  * ensureSymlinkSync("./folder/targetFile.dat", "./folder/targetFile.link.dat");

@@ -1,23 +1,23 @@
-import { LF as _variable_LF } from "jsr:@std/fs@1.0.3/eol"
+import { LF as _variable_LF } from "jsr:@std/fs@1.0.4/eol"
 /**
  * End-of-line character for POSIX platforms such as macOS and Linux.
  */
 const LF = _variable_LF as typeof _variable_LF
 export { LF }
 
-import { CRLF as _variable_CRLF } from "jsr:@std/fs@1.0.3/eol"
+import { CRLF as _variable_CRLF } from "jsr:@std/fs@1.0.4/eol"
 /**
  * End-of-line character for Windows platforms.
  */
 const CRLF = _variable_CRLF as typeof _variable_CRLF
 export { CRLF }
 
-import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.3/eol"
+import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.4/eol"
 /**
  * End-of-line character evaluated for the current platform.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { EOL } from "@std/fs/eol";
  *
  * EOL; // "\n" on POSIX platforms and "\r\n" on Windows
@@ -26,7 +26,7 @@ import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.3/eol"
 const EOL = _variable_EOL as typeof _variable_EOL
 export { EOL }
 
-import { detect as _function_detect } from "jsr:@std/fs@1.0.3/eol"
+import { detect as _function_detect } from "jsr:@std/fs@1.0.4/eol"
 /**
  * Returns the detected EOL character(s) detected in the input string. If no EOL
  * character is detected, `null` is returned.
@@ -36,7 +36,7 @@ import { detect as _function_detect } from "jsr:@std/fs@1.0.3/eol"
  * @return The detected EOL character(s) or `null` if no EOL character is detected.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { detect } from "@std/fs/eol";
  *
  * detect("deno\r\nis not\r\nnode"); // "\r\n"
@@ -48,7 +48,7 @@ import { detect as _function_detect } from "jsr:@std/fs@1.0.3/eol"
 const detect = _function_detect as typeof _function_detect
 export { detect }
 
-import { format as _function_format } from "jsr:@std/fs@1.0.3/eol"
+import { format as _function_format } from "jsr:@std/fs@1.0.4/eol"
 /**
  * Normalize the input string to the targeted EOL.
  *
@@ -58,7 +58,7 @@ import { format as _function_format } from "jsr:@std/fs@1.0.3/eol"
  * @return The input string normalized to the targeted EOL.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { LF, format } from "@std/fs/eol";
  *
  * const CRLFinput = "deno\r\nis not\r\nnode";

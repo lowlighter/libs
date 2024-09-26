@@ -1,4 +1,4 @@
-import { AbstractBufBase as _class_AbstractBufBase } from "jsr:@std/io@0.224.8/buf-writer"
+import { AbstractBufBase as _class_AbstractBufBase } from "jsr:@std/io@0.224.9/buf-writer"
 /**
  * AbstractBufBase is a base class which other classes can embed to
  * implement the {@inkcode Reader} and {@linkcode Writer} interfaces.
@@ -22,7 +22,7 @@ import { AbstractBufBase as _class_AbstractBufBase } from "jsr:@std/io@0.224.8/b
 abstract class AbstractBufBase extends _class_AbstractBufBase {}
 export { AbstractBufBase }
 
-import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.8/buf-writer"
+import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.9/buf-writer"
 /**
  * `BufWriter` implements buffering for an {@linkcode Writer} object.
  * If an error occurs writing to a Writer, no more data will be
@@ -51,12 +51,13 @@ import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.8/buf-writer"
  * assertEquals(bufWriter.buffered(), 0);
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0. Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
  */
 class BufWriter extends _class_BufWriter {}
 export { BufWriter }
 
-import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.8/buf-writer"
+import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.9/buf-writer"
 /**
  * BufWriterSync implements buffering for a deno.WriterSync object.
  * If an error occurs writing to a WriterSync, no more data will be
@@ -85,7 +86,8 @@ import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.8/buf-w
  * assertEquals(bufWriter.buffered(), 0);
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0. Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
  */
 class BufWriterSync extends _class_BufWriterSync {}
 export { BufWriterSync }

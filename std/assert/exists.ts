@@ -1,10 +1,10 @@
-import { assertExists as _function_assertExists } from "jsr:@std/assert@1.0.5/exists"
+import { assertExists as _function_assertExists } from "jsr:@std/assert@1.0.6/exists"
 /**
  * Make an assertion that actual is not null or undefined.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertExists } from "@std/assert";
  *
  * assertExists("something"); // Doesn't throw

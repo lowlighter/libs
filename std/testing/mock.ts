@@ -1,4 +1,4 @@
-import { MockError as _class_MockError } from "jsr:@std/testing@1.0.2/mock"
+import { MockError as _class_MockError } from "jsr:@std/testing@1.0.3/mock"
 /**
  * An error related to spying on a function or instance method.
  *
@@ -15,33 +15,33 @@ import { MockError as _class_MockError } from "jsr:@std/testing@1.0.2/mock"
 class MockError extends _class_MockError {}
 export { MockError }
 
-import type { SpyCall as _interface_SpyCall } from "jsr:@std/testing@1.0.2/mock"
+import type { SpyCall as _interface_SpyCall } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Call information recorded by a spy.
  */
 interface SpyCall<Self = any, Args extends unknown[] = any[], Return = any> extends _interface_SpyCall<Self, Args, Return> {}
 export type { SpyCall }
 
-import type { Spy as _interface_Spy } from "jsr:@std/testing@1.0.2/mock"
+import type { Spy as _interface_Spy } from "jsr:@std/testing@1.0.3/mock"
 /**
  * A function or instance method wrapper that records all calls made to it.
  */
 interface Spy<Self = any, Args extends unknown[] = any[], Return = any> extends _interface_Spy<Self, Args, Return> {}
 export type { Spy }
 
-import type { MethodSpy as _interface_MethodSpy } from "jsr:@std/testing@1.0.2/mock"
+import type { MethodSpy as _interface_MethodSpy } from "jsr:@std/testing@1.0.3/mock"
 /**
  * An instance method wrapper that records all calls made to it.
  */
 interface MethodSpy<Self = any, Args extends unknown[] = any[], Return = any> extends _interface_MethodSpy<Self, Args, Return> {}
 export type { MethodSpy }
 
-import { mockSession as _function_mockSession } from "jsr:@std/testing@1.0.2/mock"
+import { mockSession as _function_mockSession } from "jsr:@std/testing@1.0.3/mock"
 /** UNDOCUMENTED */
 const mockSession = _function_mockSession as typeof _function_mockSession
 export { mockSession }
 
-import { mockSessionAsync as _function_mockSessionAsync } from "jsr:@std/testing@1.0.2/mock"
+import { mockSessionAsync as _function_mockSessionAsync } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Creates an async session that tracks all mocks created before the promise resolves.
  *
@@ -69,7 +69,7 @@ import { mockSessionAsync as _function_mockSessionAsync } from "jsr:@std/testing
 const mockSessionAsync = _function_mockSessionAsync as typeof _function_mockSessionAsync
 export { mockSessionAsync }
 
-import { restore as _function_restore } from "jsr:@std/testing@1.0.2/mock"
+import { restore as _function_restore } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Restores all mocks registered in the current session that have not already been restored.
  * If an id is provided, it will restore all mocks registered in the session associed with that id that have not already been restored.
@@ -95,14 +95,14 @@ import { restore as _function_restore } from "jsr:@std/testing@1.0.2/mock"
 const restore = _function_restore as typeof _function_restore
 export { restore }
 
-import type { ConstructorSpy as _interface_ConstructorSpy } from "jsr:@std/testing@1.0.2/mock"
+import type { ConstructorSpy as _interface_ConstructorSpy } from "jsr:@std/testing@1.0.3/mock"
 /**
  * A constructor wrapper that records all calls made to it.
  */
 interface ConstructorSpy<Self = any, Args extends unknown[] = any[]> extends _interface_ConstructorSpy<Self, Args> {}
 export type { ConstructorSpy }
 
-import type { GetParametersFromProp as _typeAlias_GetParametersFromProp } from "jsr:@std/testing@1.0.2/mock"
+import type { GetParametersFromProp as _typeAlias_GetParametersFromProp } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Utility for extracting the arguments type from a property
  *
@@ -111,7 +111,7 @@ import type { GetParametersFromProp as _typeAlias_GetParametersFromProp } from "
 type GetParametersFromProp<Self, Prop extends keyof Self> = _typeAlias_GetParametersFromProp<Self, Prop>
 export type { GetParametersFromProp }
 
-import type { GetReturnFromProp as _typeAlias_GetReturnFromProp } from "jsr:@std/testing@1.0.2/mock"
+import type { GetReturnFromProp as _typeAlias_GetReturnFromProp } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Utility for extracting the return type from a property
  *
@@ -120,31 +120,31 @@ import type { GetReturnFromProp as _typeAlias_GetReturnFromProp } from "jsr:@std
 type GetReturnFromProp<Self, Prop extends keyof Self> = _typeAlias_GetReturnFromProp<Self, Prop>
 export type { GetReturnFromProp }
 
-import type { SpyLike as _typeAlias_SpyLike } from "jsr:@std/testing@1.0.2/mock"
+import type { SpyLike as _typeAlias_SpyLike } from "jsr:@std/testing@1.0.3/mock"
 /**
  * SpyLink object type.
  */
 type SpyLike<Self = any, Args extends unknown[] = any[], Return = any> = _typeAlias_SpyLike<Self, Args, Return>
 export type { SpyLike }
 
-import { spy as _function_spy } from "jsr:@std/testing@1.0.2/mock"
+import { spy as _function_spy } from "jsr:@std/testing@1.0.3/mock"
 /** UNDOCUMENTED */
 const spy = _function_spy as typeof _function_spy
 export { spy }
 
-import type { Stub as _interface_Stub } from "jsr:@std/testing@1.0.2/mock"
+import type { Stub as _interface_Stub } from "jsr:@std/testing@1.0.3/mock"
 /**
  * An instance method replacement that records all calls made to it.
  */
 interface Stub<Self = any, Args extends unknown[] = any[], Return = any> extends _interface_Stub<Self, Args, Return> {}
 export type { Stub }
 
-import { stub as _function_stub } from "jsr:@std/testing@1.0.2/mock"
+import { stub as _function_stub } from "jsr:@std/testing@1.0.3/mock"
 /** UNDOCUMENTED */
 const stub = _function_stub as typeof _function_stub
 export { stub }
 
-import { assertSpyCalls as _function_assertSpyCalls } from "jsr:@std/testing@1.0.2/mock"
+import { assertSpyCalls as _function_assertSpyCalls } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Asserts that a spy is called as much as expected and no more.
  *
@@ -169,14 +169,14 @@ import { assertSpyCalls as _function_assertSpyCalls } from "jsr:@std/testing@1.0
 const assertSpyCalls = _function_assertSpyCalls as typeof _function_assertSpyCalls
 export { assertSpyCalls }
 
-import type { ExpectedSpyCall as _interface_ExpectedSpyCall } from "jsr:@std/testing@1.0.2/mock"
+import type { ExpectedSpyCall as _interface_ExpectedSpyCall } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Call information recorded by a spy.
  */
 interface ExpectedSpyCall<Self = any, Args extends unknown[] = any[], Return = any> extends _interface_ExpectedSpyCall<Self, Args, Return> {}
 export type { ExpectedSpyCall }
 
-import { assertSpyCall as _function_assertSpyCall } from "jsr:@std/testing@1.0.2/mock"
+import { assertSpyCall as _function_assertSpyCall } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Asserts that a spy is called as expected.
  *
@@ -204,7 +204,7 @@ import { assertSpyCall as _function_assertSpyCall } from "jsr:@std/testing@1.0.2
 const assertSpyCall = _function_assertSpyCall as typeof _function_assertSpyCall
 export { assertSpyCall }
 
-import { assertSpyCallAsync as _function_assertSpyCallAsync } from "jsr:@std/testing@1.0.2/mock"
+import { assertSpyCallAsync as _function_assertSpyCallAsync } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Asserts that an async spy is called as expected.
  *
@@ -234,7 +234,7 @@ import { assertSpyCallAsync as _function_assertSpyCallAsync } from "jsr:@std/tes
 const assertSpyCallAsync = _function_assertSpyCallAsync as typeof _function_assertSpyCallAsync
 export { assertSpyCallAsync }
 
-import { assertSpyCallArg as _function_assertSpyCallArg } from "jsr:@std/testing@1.0.2/mock"
+import { assertSpyCallArg as _function_assertSpyCallArg } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Asserts that a spy is called with a specific arg as expected.
  *
@@ -267,12 +267,12 @@ import { assertSpyCallArg as _function_assertSpyCallArg } from "jsr:@std/testing
 const assertSpyCallArg = _function_assertSpyCallArg as typeof _function_assertSpyCallArg
 export { assertSpyCallArg }
 
-import { assertSpyCallArgs as _function_assertSpyCallArgs } from "jsr:@std/testing@1.0.2/mock"
+import { assertSpyCallArgs as _function_assertSpyCallArgs } from "jsr:@std/testing@1.0.3/mock"
 /** UNDOCUMENTED */
 const assertSpyCallArgs = _function_assertSpyCallArgs as typeof _function_assertSpyCallArgs
 export { assertSpyCallArgs }
 
-import { returnsThis as _function_returnsThis } from "jsr:@std/testing@1.0.2/mock"
+import { returnsThis as _function_returnsThis } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Creates a function that returns the instance the method was called on.
  *
@@ -293,7 +293,7 @@ import { returnsThis as _function_returnsThis } from "jsr:@std/testing@1.0.2/moc
 const returnsThis = _function_returnsThis as typeof _function_returnsThis
 export { returnsThis }
 
-import { returnsArg as _function_returnsArg } from "jsr:@std/testing@1.0.2/mock"
+import { returnsArg as _function_returnsArg } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Creates a function that returns one of its arguments.
  *
@@ -314,7 +314,7 @@ import { returnsArg as _function_returnsArg } from "jsr:@std/testing@1.0.2/mock"
 const returnsArg = _function_returnsArg as typeof _function_returnsArg
 export { returnsArg }
 
-import { returnsArgs as _function_returnsArgs } from "jsr:@std/testing@1.0.2/mock"
+import { returnsArgs as _function_returnsArgs } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Creates a function that returns its arguments or a subset of them. If end is specified, it will return arguments up to but not including the end.
  *
@@ -336,7 +336,7 @@ import { returnsArgs as _function_returnsArgs } from "jsr:@std/testing@1.0.2/moc
 const returnsArgs = _function_returnsArgs as typeof _function_returnsArgs
 export { returnsArgs }
 
-import { returnsNext as _function_returnsNext } from "jsr:@std/testing@1.0.2/mock"
+import { returnsNext as _function_returnsNext } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Creates a function that returns the iterable values. Any iterable values that are errors will be thrown.
  *
@@ -361,7 +361,7 @@ import { returnsNext as _function_returnsNext } from "jsr:@std/testing@1.0.2/moc
 const returnsNext = _function_returnsNext as typeof _function_returnsNext
 export { returnsNext }
 
-import { resolvesNext as _function_resolvesNext } from "jsr:@std/testing@1.0.2/mock"
+import { resolvesNext as _function_resolvesNext } from "jsr:@std/testing@1.0.3/mock"
 /**
  * Creates a function that resolves the awaited iterable values. Any awaited iterable values that are errors will be thrown.
  *

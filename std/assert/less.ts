@@ -1,10 +1,10 @@
-import { assertLess as _function_assertLess } from "jsr:@std/assert@1.0.5/less"
+import { assertLess as _function_assertLess } from "jsr:@std/assert@1.0.6/less"
 /**
  * Make an assertion that `actual` is less than `expected`.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertLess } from "@std/assert";
  *
  * assertLess(1, 2); // Doesn't throw

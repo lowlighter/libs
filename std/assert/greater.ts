@@ -1,10 +1,10 @@
-import { assertGreater as _function_assertGreater } from "jsr:@std/assert@1.0.5/greater"
+import { assertGreater as _function_assertGreater } from "jsr:@std/assert@1.0.6/greater"
 /**
  * Make an assertion that `actual` is greater than `expected`.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertGreater } from "@std/assert";
  *
  * assertGreater(2, 1); // Doesn't throw

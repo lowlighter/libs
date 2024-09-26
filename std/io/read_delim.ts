@@ -1,4 +1,4 @@
-import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.8/read-delim"
+import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.9/read-delim"
 /**
  * Read delimited bytes from a {@linkcode Reader} through an
  * {@linkcode AsyncIterableIterator} of {@linkcode Uint8Array}.
@@ -8,7 +8,8 @@ import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.8/read-delim
  * import { readDelim } from "@std/io/read-delim";
  * import { assert } from "@std/assert/assert"
  *
- * const fileReader = await Deno.open("README.md");
+ * using fileReader = await Deno.open("README.md");
+ *
  * for await (const chunk of readDelim(fileReader, new TextEncoder().encode("\n"))) {
  *   assert(chunk instanceof Uint8Array);
  * }
@@ -18,7 +19,9 @@ import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.8/read-delim
  * @param delim The delimiter to read until
  * @return The {@linkcode AsyncIterableIterator} of {@linkcode Uint8Array}s.
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/byte-slice-stream/~/ByteSliceStream | ByteSliceStream}
+ * instead. This will be removed in 0.225.0.
  */
 const readDelim = _function_readDelim as typeof _function_readDelim
 export { readDelim }

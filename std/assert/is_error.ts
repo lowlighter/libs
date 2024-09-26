@@ -1,4 +1,4 @@
-import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.5/is-error"
+import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.6/is-error"
 /**
  * Make an assertion that `error` is an `Error`.
  * If not then an error will be thrown.
@@ -6,7 +6,7 @@ import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.5/
  * error message can also be asserted.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertIsError } from "@std/assert";
  *
  * assertIsError(null); // Throws

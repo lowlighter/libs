@@ -1,4 +1,4 @@
-import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.0.5/not-equals"
+import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.0.6/not-equals"
 /**
  * Make an assertion that `actual` and `expected` are not equal, deeply.
  * If not then throw.
@@ -6,7 +6,7 @@ import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.
  * Type parameter can be specified to ensure values under comparison have the same type.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertNotEquals } from "@std/assert";
  *
  * assertNotEquals(1, 2); // Doesn't throw

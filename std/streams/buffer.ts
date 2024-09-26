@@ -1,11 +1,11 @@
-import type { BufferBytesOptions as _interface_BufferBytesOptions } from "jsr:@std/streams@1.0.5/buffer"
+import type { BufferBytesOptions as _interface_BufferBytesOptions } from "jsr:@std/streams@1.0.6/buffer"
 /**
  * Options for {@linkcode Buffer.bytes}.
  */
 interface BufferBytesOptions extends _interface_BufferBytesOptions {}
 export type { BufferBytesOptions }
 
-import { Buffer as _class_Buffer } from "jsr:@std/streams@1.0.5/buffer"
+import { Buffer as _class_Buffer } from "jsr:@std/streams@1.0.6/buffer"
 /**
  * A variable-sized buffer of bytes with `readable` and `writable` getters that
  * allows you to work with {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API}.

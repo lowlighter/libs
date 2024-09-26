@@ -1,24 +1,24 @@
-import type { AnyConstructor as _typeAlias_AnyConstructor } from "jsr:@std/assert@1.0.5/instance-of"
+import type { AnyConstructor as _typeAlias_AnyConstructor } from "jsr:@std/assert@1.0.6/instance-of"
 /**
  * Any constructor
  */
 type AnyConstructor = _typeAlias_AnyConstructor
 export type { AnyConstructor }
 
-import type { GetConstructorType as _typeAlias_GetConstructorType } from "jsr:@std/assert@1.0.5/instance-of"
+import type { GetConstructorType as _typeAlias_GetConstructorType } from "jsr:@std/assert@1.0.6/instance-of"
 /**
  * Gets constructor type
  */
 type GetConstructorType<T extends AnyConstructor> = _typeAlias_GetConstructorType<T>
 export type { GetConstructorType }
 
-import { assertInstanceOf as _function_assertInstanceOf } from "jsr:@std/assert@1.0.5/instance-of"
+import { assertInstanceOf as _function_assertInstanceOf } from "jsr:@std/assert@1.0.6/instance-of"
 /**
  * Make an assertion that `obj` is an instance of `type`.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertInstanceOf } from "@std/assert";
  *
  * assertInstanceOf(new Date(), Date); // Doesn't throw

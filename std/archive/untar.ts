@@ -1,4 +1,4 @@
-import type { Reader as _interface_Reader } from "jsr:@std/archive@0.225.3/untar"
+import type { Reader as _interface_Reader } from "jsr:@std/archive@0.225.4/untar"
 /**
  * An abstract interface which when implemented provides an interface to read
  * bytes into an array buffer asynchronously.
@@ -6,7 +6,7 @@ import type { Reader as _interface_Reader } from "jsr:@std/archive@0.225.3/untar
 interface Reader extends _interface_Reader {}
 export type { Reader }
 
-import type { Seeker as _interface_Seeker } from "jsr:@std/archive@0.225.3/untar"
+import type { Seeker as _interface_Seeker } from "jsr:@std/archive@0.225.4/untar"
 /**
  * An abstract interface which when implemented provides an interface to seek
  * within an open file/resource asynchronously.
@@ -14,32 +14,41 @@ import type { Seeker as _interface_Seeker } from "jsr:@std/archive@0.225.3/untar
 interface Seeker extends _interface_Seeker {}
 export type { Seeker }
 
-import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:@std/archive@0.225.3/untar"
+import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:@std/archive@0.225.4/untar"
 /**
  * Extend TarMeta with the `linkName` property so that readers can access
  * symbolic link values without polluting the world of archive writers.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarMetaWithLinkName extends _interface_TarMetaWithLinkName {}
 export type { TarMetaWithLinkName }
 
-import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.225.3/untar"
+import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.225.4/untar"
 /**
  * Tar header with raw, unprocessed bytes as values.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 type TarHeader = _typeAlias_TarHeader
 export type { TarHeader }
 
-import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.3/untar"
+import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.4/untar"
 /**
  * Contains tar header metadata and a reader to the entry's body.
  *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
+ *
  * @experimental
  * @example Usage
- * ```ts no-assert
+ * ```ts ignore
  * import { TarEntry } from "@std/archive/untar";
  * import { Buffer } from "@std/io/buffer";
  *
@@ -62,12 +71,15 @@ import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.3/untar"
 class TarEntry extends _class_TarEntry {}
 export { TarEntry }
 
-import { Untar as _class_Untar } from "jsr:@std/archive@0.225.3/untar"
+import { Untar as _class_Untar } from "jsr:@std/archive@0.225.4/untar"
 /**
  * ### Overview
  * A class to extract from a tar archive.  Tar archives allow for storing multiple
  * files in a single file (called an archive, or sometimes a tarball).  These
  * archives typically have the '.tar' extension.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * ### Supported file formats
  * Only the ustar file format is supported.  This is the most common format. The
@@ -85,7 +97,7 @@ import { Untar as _class_Untar } from "jsr:@std/archive@0.225.3/untar"
  * the files.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { Untar } from "@std/archive/untar";
  * import { ensureFile } from "@std/fs/ensure-file";
  * import { ensureDir } from "@std/fs/ensure-dir";

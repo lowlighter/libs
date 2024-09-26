@@ -1,4 +1,4 @@
-import { ByteSliceStream as _class_ByteSliceStream } from "jsr:@std/streams@1.0.5/byte-slice-stream"
+import { ByteSliceStream as _class_ByteSliceStream } from "jsr:@std/streams@1.0.6/byte-slice-stream"
 /**
  * A transform stream that only transforms from the zero-indexed `start` and
  * `end` bytes (both inclusive).

@@ -1,4 +1,4 @@
-import { partitionEntries as _function_partitionEntries } from "jsr:@std/collections@1.0.6/partition-entries"
+import { partitionEntries as _function_partitionEntries } from "jsr:@std/collections@1.0.7/partition-entries"
 /**
  * Returns a tuple of two records with the first one containing all entries of
  * the given record that match the given predicate and the second one containing

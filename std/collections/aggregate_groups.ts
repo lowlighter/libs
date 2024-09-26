@@ -1,4 +1,4 @@
-import { aggregateGroups as _function_aggregateGroups } from "jsr:@std/collections@1.0.6/aggregate-groups"
+import { aggregateGroups as _function_aggregateGroups } from "jsr:@std/collections@1.0.7/aggregate-groups"
 /**
  * Applies the given aggregator to each group in the given grouping, returning the
  * results together with the respective group keys

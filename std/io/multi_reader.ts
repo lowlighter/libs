@@ -1,4 +1,4 @@
-import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.8/multi-reader"
+import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.9/multi-reader"
 /**
  * Reader utility for combining multiple readers.
  *
@@ -18,7 +18,9 @@ import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.8/multi-rea
  * assertEquals(new TextDecoder().decode(res), "helloworld");
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/merge-readable-streams/~/mergeReadableStreams | mergeReadableStreams}
+ * on readable streams instead. This will be removed in 0.225.0.
  */
 class MultiReader extends _class_MultiReader {}
 export { MultiReader }

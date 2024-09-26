@@ -1,4 +1,4 @@
-import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/assert@1.0.5/almost-equals"
+import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/assert@1.0.6/almost-equals"
 /**
  * Make an assertion that `actual` and `expected` are almost equal numbers
  * through a given tolerance. It can be used to take into account IEEE-754
@@ -9,7 +9,7 @@ import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/ass
  * expected value.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertAlmostEquals } from "@std/assert";
  *
  * assertAlmostEquals(0.01, 0.02); // Throws

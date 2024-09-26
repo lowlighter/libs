@@ -1,11 +1,11 @@
-import type { TextLineStreamOptions as _interface_TextLineStreamOptions } from "jsr:@std/streams@1.0.5/text-line-stream"
+import type { TextLineStreamOptions as _interface_TextLineStreamOptions } from "jsr:@std/streams@1.0.6/text-line-stream"
 /**
  * Options for {@linkcode TextLineStream}.
  */
 interface TextLineStreamOptions extends _interface_TextLineStreamOptions {}
 export type { TextLineStreamOptions }
 
-import { TextLineStream as _class_TextLineStream } from "jsr:@std/streams@1.0.5/text-line-stream"
+import { TextLineStream as _class_TextLineStream } from "jsr:@std/streams@1.0.6/text-line-stream"
 /**
  * Transform a stream into a stream where each chunk is divided by a newline,
  * be it `\n` or `\r\n`. `\r` can be enabled via the `allowCR` option.

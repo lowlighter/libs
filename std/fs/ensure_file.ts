@@ -1,4 +1,4 @@
-import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.3/ensure-file"
+import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.4/ensure-file"
 /**
  * Asynchronously ensures that the file exists.
  *
@@ -15,7 +15,7 @@ import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.3/ensure-fil
  * @return A void promise that resolves once the file exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureFile } from "@std/fs/ensure-file";
  *
  * await ensureFile("./folder/targetFile.dat");
@@ -24,7 +24,7 @@ import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.3/ensure-fil
 const ensureFile = _function_ensureFile as typeof _function_ensureFile
 export { ensureFile }
 
-import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.3/ensure-file"
+import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.4/ensure-file"
 /**
  * Synchronously ensures that the file exists.
  *
@@ -41,7 +41,7 @@ import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.3/en
  * @return A void value that returns once the file exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureFileSync } from "@std/fs/ensure-file";
  *
  * ensureFileSync("./folder/targetFile.dat");

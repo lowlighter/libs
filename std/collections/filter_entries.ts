@@ -1,4 +1,4 @@
-import { filterEntries as _function_filterEntries } from "jsr:@std/collections@1.0.6/filter-entries"
+import { filterEntries as _function_filterEntries } from "jsr:@std/collections@1.0.7/filter-entries"
 /**
  * Returns a new record with all entries of the given record except the ones
  * that do not match the given predicate.

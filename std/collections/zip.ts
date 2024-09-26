@@ -1,4 +1,4 @@
-import { zip as _function_zip } from "jsr:@std/collections@1.0.6/zip"
+import { zip as _function_zip } from "jsr:@std/collections@1.0.7/zip"
 /**
  * Builds N-tuples of elements from the given N arrays with matching indices,
  * stopping when the smallest array's end is reached.

@@ -1,11 +1,11 @@
-import type { MoveOptions as _interface_MoveOptions } from "jsr:@std/fs@1.0.3/move"
+import type { MoveOptions as _interface_MoveOptions } from "jsr:@std/fs@1.0.4/move"
 /**
  * Options for {@linkcode move} and {@linkcode moveSync}.
  */
 interface MoveOptions extends _interface_MoveOptions {}
 export type { MoveOptions }
 
-import { move as _function_move } from "jsr:@std/fs@1.0.3/move"
+import { move as _function_move } from "jsr:@std/fs@1.0.4/move"
 /**
  * Asynchronously moves a file or directory (along with its contents).
  *
@@ -24,7 +24,7 @@ import { move as _function_move } from "jsr:@std/fs@1.0.3/move"
  * @return A void promise that resolves once the operation completes.
  *
  * @example Basic usage
- * ```ts no-eval
+ * ```ts ignore
  * import { move } from "@std/fs/move";
  *
  * await move("./foo", "./bar");
@@ -34,7 +34,7 @@ import { move as _function_move } from "jsr:@std/fs@1.0.3/move"
  * overwriting.
  *
  * @example Overwriting
- * ```ts no-eval
+ * ```ts ignore
  * import { move } from "@std/fs/move";
  *
  * await move("./foo", "./bar", { overwrite: true });
@@ -46,7 +46,7 @@ import { move as _function_move } from "jsr:@std/fs@1.0.3/move"
 const move = _function_move as typeof _function_move
 export { move }
 
-import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.3/move"
+import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.4/move"
 /**
  * Synchronously moves a file or directory (along with its contents).
  *
@@ -65,7 +65,7 @@ import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.3/move"
  * @return A void value that returns once the operation completes.
  *
  * @example Basic usage
- * ```ts no-eval
+ * ```ts ignore
  * import { moveSync } from "@std/fs/move";
  *
  * moveSync("./foo", "./bar");
@@ -75,7 +75,7 @@ import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.3/move"
  * overwriting.
  *
  * @example Overwriting
- * ```ts no-eval
+ * ```ts ignore
  * import { moveSync } from "@std/fs/move";
  *
  * moveSync("./foo", "./bar", { overwrite: true });

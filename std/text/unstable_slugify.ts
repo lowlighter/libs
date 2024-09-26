@@ -1,4 +1,4 @@
-import { slugify as _function_slugify } from "jsr:@std/text@1.0.6/unstable-slugify"
+import { slugify as _function_slugify } from "jsr:@std/text@1.0.7/unstable-slugify"
 /**
  * Converts a string into a {@link https://en.wikipedia.org/wiki/Clean_URL#Slug | slug}.
  *

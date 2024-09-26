@@ -1,10 +1,10 @@
-import { assertMatch as _function_assertMatch } from "jsr:@std/assert@1.0.5/match"
+import { assertMatch as _function_assertMatch } from "jsr:@std/assert@1.0.6/match"
 /**
  * Make an assertion that `actual` match RegExp `expected`. If not
  * then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertMatch } from "@std/assert";
  *
  * assertMatch("Raptor", /Raptor/); // Doesn't throw

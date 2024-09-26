@@ -1,7 +1,7 @@
 /**
  * Helpers for working with the filesystem.
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureFile, copy, ensureDir, move } from "@std/fs";
  *
  * await ensureFile("example.txt");
@@ -15,7 +15,7 @@
  *
  * @module
  */
-import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.3"
+import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.4"
 /**
  * Asynchronously ensures that a directory is empty.
  *
@@ -32,7 +32,7 @@ import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.3"
  * @return A void promise that resolves once the directory is empty.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { emptyDir } from "@std/fs/empty-dir";
  *
  * await emptyDir("./foo");
@@ -41,7 +41,7 @@ import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.3"
 const emptyDir = _function_emptyDir as typeof _function_emptyDir
 export { emptyDir }
 
-import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.3"
+import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.4"
 /**
  * Synchronously ensures that a directory is empty deletes the directory
  * contents it is not empty.
@@ -59,7 +59,7 @@ import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.3"
  * @return A void value that returns once the directory is empty.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { emptyDirSync } from "@std/fs/empty-dir";
  *
  * emptyDirSync("./foo");
@@ -68,7 +68,7 @@ import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.3"
 const emptyDirSync = _function_emptyDirSync as typeof _function_emptyDirSync
 export { emptyDirSync }
 
-import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.3"
+import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.4"
 /**
  * Asynchronously ensures that the directory exists, like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=m-mkdir-command#mkdir__row-d3e133766 | mkdir -p}.
@@ -86,7 +86,7 @@ import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.3"
  * @return A promise that resolves once the directory exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureDir } from "@std/fs/ensure-dir";
  *
  * await ensureDir("./bar");
@@ -95,7 +95,7 @@ import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.3"
 const ensureDir = _function_ensureDir as typeof _function_ensureDir
 export { ensureDir }
 
-import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.3"
+import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.4"
 /**
  * Synchronously ensures that the directory exists, like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=m-mkdir-command#mkdir__row-d3e133766 | mkdir -p}.
@@ -113,7 +113,7 @@ import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.3"
  * @return A void value that returns once the directory exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureDirSync } from "@std/fs/ensure-dir";
  *
  * ensureDirSync("./bar");
@@ -122,7 +122,7 @@ import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.3"
 const ensureDirSync = _function_ensureDirSync as typeof _function_ensureDirSync
 export { ensureDirSync }
 
-import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.3"
+import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.4"
 /**
  * Asynchronously ensures that the file exists.
  *
@@ -139,7 +139,7 @@ import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.3"
  * @return A void promise that resolves once the file exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureFile } from "@std/fs/ensure-file";
  *
  * await ensureFile("./folder/targetFile.dat");
@@ -148,7 +148,7 @@ import { ensureFile as _function_ensureFile } from "jsr:@std/fs@1.0.3"
 const ensureFile = _function_ensureFile as typeof _function_ensureFile
 export { ensureFile }
 
-import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.3"
+import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.4"
 /**
  * Synchronously ensures that the file exists.
  *
@@ -165,7 +165,7 @@ import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.3"
  * @return A void value that returns once the file exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureFileSync } from "@std/fs/ensure-file";
  *
  * ensureFileSync("./folder/targetFile.dat");
@@ -174,7 +174,7 @@ import { ensureFileSync as _function_ensureFileSync } from "jsr:@std/fs@1.0.3"
 const ensureFileSync = _function_ensureFileSync as typeof _function_ensureFileSync
 export { ensureFileSync }
 
-import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.3"
+import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.4"
 /**
  * Asynchronously ensures that the hard link exists.
  *
@@ -192,7 +192,7 @@ import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.3"
  * @return A void promise that resolves once the hard link exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureLink } from "@std/fs/ensure-link";
  *
  * await ensureLink("./folder/targetFile.dat", "./folder/targetFile.link.dat");
@@ -201,7 +201,7 @@ import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.3"
 const ensureLink = _function_ensureLink as typeof _function_ensureLink
 export { ensureLink }
 
-import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.3"
+import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.4"
 /**
  * Synchronously ensures that the hard link exists.
  *
@@ -219,7 +219,7 @@ import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.3"
  * @return A void value that returns once the hard link exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureLinkSync } from "@std/fs/ensure-link";
  *
  * ensureLinkSync("./folder/targetFile.dat", "./folder/targetFile.link.dat");
@@ -228,7 +228,7 @@ import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.3"
 const ensureLinkSync = _function_ensureLinkSync as typeof _function_ensureLinkSync
 export { ensureLinkSync }
 
-import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.3"
+import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.4"
 /**
  * Asynchronously ensures that the link exists, and points to a valid file.
  *
@@ -248,7 +248,7 @@ import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.3"
  * @return A void promise that resolves once the link exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureSymlink } from "@std/fs/ensure-symlink";
  *
  * await ensureSymlink("./folder/targetFile.dat", "./folder/targetFile.link.dat");
@@ -257,7 +257,7 @@ import { ensureSymlink as _function_ensureSymlink } from "jsr:@std/fs@1.0.3"
 const ensureSymlink = _function_ensureSymlink as typeof _function_ensureSymlink
 export { ensureSymlink }
 
-import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.0.3"
+import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.0.4"
 /**
  * Synchronously ensures that the link exists, and points to a valid file.
  *
@@ -276,7 +276,7 @@ import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.
  * @return A void value that returns once the link exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureSymlinkSync } from "@std/fs/ensure-symlink";
  *
  * ensureSymlinkSync("./folder/targetFile.dat", "./folder/targetFile.link.dat");
@@ -285,14 +285,14 @@ import { ensureSymlinkSync as _function_ensureSymlinkSync } from "jsr:@std/fs@1.
 const ensureSymlinkSync = _function_ensureSymlinkSync as typeof _function_ensureSymlinkSync
 export { ensureSymlinkSync }
 
-import type { ExistsOptions as _interface_ExistsOptions } from "jsr:@std/fs@1.0.3"
+import type { ExistsOptions as _interface_ExistsOptions } from "jsr:@std/fs@1.0.4"
 /**
  * Options for {@linkcode exists} and {@linkcode existsSync.}
  */
 interface ExistsOptions extends _interface_ExistsOptions {}
 export type { ExistsOptions }
 
-import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
+import { exists as _function_exists } from "jsr:@std/fs@1.0.4"
 /**
  * Asynchronously test whether or not the given path exists by checking with
  * the file system.
@@ -305,7 +305,8 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
  * @see {@link https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use} for
  * more information on the time-of-check to time-of-use bug.
  *
- * Requires `--allow-read` and `--allow-sys` permissions.
+ * Requires `--allow-read` permissions, and in some cases, `--allow-sys`
+ * permissions if `options.isReadable` is `true`.
  *
  * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
  * for more information on Deno's permissions system.
@@ -317,7 +318,7 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
  * otherwise.
  *
  * @example Recommended method
- * ```ts no-eval
+ * ```ts ignore
  * // Notice no use of exists
  * try {
  *   await Deno.remove("./foo", { recursive: true });
@@ -333,7 +334,7 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
  * possible race condition. See the above note for details.
  *
  * @example Basic usage
- * ```ts no-eval
+ * ```ts ignore
  * import { exists } from "@std/fs/exists";
  *
  * await exists("./exists"); // true
@@ -341,7 +342,10 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
  * ```
  *
  * @example Check if a path is readable
- * ```ts no-eval
+ *
+ * Requires `--allow-sys` permissions in some cases.
+ *
+ * ```ts ignore
  * import { exists } from "@std/fs/exists";
  *
  * await exists("./readable", { isReadable: true }); // true
@@ -349,7 +353,7 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
  * ```
  *
  * @example Check if a path is a directory
- * ```ts no-eval
+ * ```ts ignore
  * import { exists } from "@std/fs/exists";
  *
  * await exists("./directory", { isDirectory: true }); // true
@@ -357,7 +361,7 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
  * ```
  *
  * @example Check if a path is a file
- * ```ts no-eval
+ * ```ts ignore
  * import { exists } from "@std/fs/exists";
  *
  * await exists("./file", { isFile: true }); // true
@@ -365,7 +369,10 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
  * ```
  *
  * @example Check if a path is a readable directory
- * ```ts no-eval
+ *
+ * Requires `--allow-sys` permissions in some cases.
+ *
+ * ```ts ignore
  * import { exists } from "@std/fs/exists";
  *
  * await exists("./readable_directory", { isReadable: true, isDirectory: true }); // true
@@ -373,7 +380,10 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
  * ```
  *
  * @example Check if a path is a readable file
- * ```ts no-eval
+ *
+ * Requires `--allow-sys` permissions in some cases.
+ *
+ * ```ts ignore
  * import { exists } from "@std/fs/exists";
  *
  * await exists("./readable_file", { isReadable: true, isFile: true }); // true
@@ -383,7 +393,7 @@ import { exists as _function_exists } from "jsr:@std/fs@1.0.3"
 const exists = _function_exists as typeof _function_exists
 export { exists }
 
-import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
+import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.4"
 /**
  * Synchronously test whether or not the given path exists by checking with
  * the file system.
@@ -396,7 +406,8 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
  * @see {@link https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use} for
  * more information on the time-of-check to time-of-use bug.
  *
- * Requires `--allow-read` and `--allow-sys` permissions.
+ * Requires `--allow-read` permissions, and in some cases, `--allow-sys`
+ * permissions if `options.isReadable` is `true`.
  *
  * @see {@link https://docs.deno.com/runtime/manual/basics/permissions#file-system-access}
  * for more information on Deno's permissions system.
@@ -407,7 +418,7 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
  * @return `true` if the path exists, `false` otherwise.
  *
  * @example Recommended method
- * ```ts no-eval
+ * ```ts ignore
  * // Notice no use of exists
  * try {
  *   Deno.removeSync("./foo", { recursive: true });
@@ -423,7 +434,7 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
  * a possible race condition. See the above note for details.
  *
  * @example Basic usage
- * ```ts no-eval
+ * ```ts ignore
  * import { existsSync } from "@std/fs/exists";
  *
  * existsSync("./exists"); // true
@@ -431,7 +442,10 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
  * ```
  *
  * @example Check if a path is readable
- * ```ts no-eval
+ *
+ * Requires `--allow-sys` permissions in some cases.
+ *
+ * ```ts ignore
  * import { existsSync } from "@std/fs/exists";
  *
  * existsSync("./readable", { isReadable: true }); // true
@@ -439,7 +453,7 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
  * ```
  *
  * @example Check if a path is a directory
- * ```ts no-eval
+ * ```ts ignore
  * import { existsSync } from "@std/fs/exists";
  *
  * existsSync("./directory", { isDirectory: true }); // true
@@ -447,7 +461,7 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
  * ```
  *
  * @example Check if a path is a file
- * ```ts no-eval
+ * ```ts ignore
  * import { existsSync } from "@std/fs/exists";
  *
  * existsSync("./file", { isFile: true }); // true
@@ -455,7 +469,10 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
  * ```
  *
  * @example Check if a path is a readable directory
- * ```ts no-eval
+ *
+ * Requires `--allow-sys` permissions in some cases.
+ *
+ * ```ts ignore
  * import { existsSync } from "@std/fs/exists";
  *
  * existsSync("./readable_directory", { isReadable: true, isDirectory: true }); // true
@@ -463,7 +480,10 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
  * ```
  *
  * @example Check if a path is a readable file
- * ```ts no-eval
+ *
+ * Requires `--allow-sys` permissions in some cases.
+ *
+ * ```ts ignore
  * import { existsSync } from "@std/fs/exists";
  *
  * existsSync("./readable_file", { isReadable: true, isFile: true }); // true
@@ -473,7 +493,7 @@ import { existsSync as _function_existsSync } from "jsr:@std/fs@1.0.3"
 const existsSync = _function_existsSync as typeof _function_existsSync
 export { existsSync }
 
-import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/fs@1.0.3"
+import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/fs@1.0.4"
 /**
  * Options for {@linkcode globToRegExp}, {@linkcode joinGlobs},
  * {@linkcode normalizeGlob} and {@linkcode expandGlob}.
@@ -481,7 +501,7 @@ import type { GlobOptions as _interface_GlobOptions } from "jsr:@std/fs@1.0.3"
 interface GlobOptions extends _interface_GlobOptions {}
 export type { GlobOptions }
 
-import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.3"
+import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.4"
 /**
  * Walk entry for {@linkcode walk}, {@linkcode walkSync},
  * {@linkcode expandGlob} and {@linkcode expandGlobSync}.
@@ -489,14 +509,14 @@ import type { WalkEntry as _interface_WalkEntry } from "jsr:@std/fs@1.0.3"
 interface WalkEntry extends _interface_WalkEntry {}
 export type { WalkEntry }
 
-import type { ExpandGlobOptions as _interface_ExpandGlobOptions } from "jsr:@std/fs@1.0.3"
+import type { ExpandGlobOptions as _interface_ExpandGlobOptions } from "jsr:@std/fs@1.0.4"
 /**
  * Options for {@linkcode expandGlob} and {@linkcode expandGlobSync}.
  */
 interface ExpandGlobOptions extends _interface_ExpandGlobOptions {}
 export type { ExpandGlobOptions }
 
-import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.3"
+import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.4"
 /**
  * Returns an async iterator that yields each file path matching the given glob
  * pattern.
@@ -525,7 +545,7 @@ import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.3"
  * └── foo.ts
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * // script.ts
  * import { expandGlob } from "@std/fs/expand-glob";
  *
@@ -562,7 +582,7 @@ import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.3"
  * └── foo.ts
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * // script.ts
  * import { expandGlob } from "@std/fs/expand-glob";
  *
@@ -590,7 +610,7 @@ import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.3"
  * └── foo.ts
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * // script.ts
  * import { expandGlob } from "@std/fs/expand-glob";
  *
@@ -620,7 +640,7 @@ import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.3"
  * └── foo.ts
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * // script.ts
  * import { expandGlob } from "@std/fs/expand-glob";
  *
@@ -654,7 +674,7 @@ import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.3"
  * └── link.ts -> script.ts (symbolic link)
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * // script.ts
  * import { expandGlob } from "@std/fs/expand-glob";
  *
@@ -680,7 +700,7 @@ import { expandGlob as _function_expandGlob } from "jsr:@std/fs@1.0.3"
 const expandGlob = _function_expandGlob as typeof _function_expandGlob
 export { expandGlob }
 
-import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.3"
+import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.4"
 /**
  * Returns an iterator that yields each file path matching the given glob
  * pattern. The file paths are relative to the provided `root` directory.
@@ -706,7 +726,7 @@ import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.3"
  * └── foo.ts
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * // script.ts
  * import { expandGlobSync } from "@std/fs/expand-glob";
  *
@@ -731,14 +751,14 @@ import { expandGlobSync as _function_expandGlobSync } from "jsr:@std/fs@1.0.3"
 const expandGlobSync = _function_expandGlobSync as typeof _function_expandGlobSync
 export { expandGlobSync }
 
-import type { MoveOptions as _interface_MoveOptions } from "jsr:@std/fs@1.0.3"
+import type { MoveOptions as _interface_MoveOptions } from "jsr:@std/fs@1.0.4"
 /**
  * Options for {@linkcode move} and {@linkcode moveSync}.
  */
 interface MoveOptions extends _interface_MoveOptions {}
 export type { MoveOptions }
 
-import { move as _function_move } from "jsr:@std/fs@1.0.3"
+import { move as _function_move } from "jsr:@std/fs@1.0.4"
 /**
  * Asynchronously moves a file or directory (along with its contents).
  *
@@ -757,7 +777,7 @@ import { move as _function_move } from "jsr:@std/fs@1.0.3"
  * @return A void promise that resolves once the operation completes.
  *
  * @example Basic usage
- * ```ts no-eval
+ * ```ts ignore
  * import { move } from "@std/fs/move";
  *
  * await move("./foo", "./bar");
@@ -767,7 +787,7 @@ import { move as _function_move } from "jsr:@std/fs@1.0.3"
  * overwriting.
  *
  * @example Overwriting
- * ```ts no-eval
+ * ```ts ignore
  * import { move } from "@std/fs/move";
  *
  * await move("./foo", "./bar", { overwrite: true });
@@ -779,7 +799,7 @@ import { move as _function_move } from "jsr:@std/fs@1.0.3"
 const move = _function_move as typeof _function_move
 export { move }
 
-import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.3"
+import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.4"
 /**
  * Synchronously moves a file or directory (along with its contents).
  *
@@ -798,7 +818,7 @@ import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.3"
  * @return A void value that returns once the operation completes.
  *
  * @example Basic usage
- * ```ts no-eval
+ * ```ts ignore
  * import { moveSync } from "@std/fs/move";
  *
  * moveSync("./foo", "./bar");
@@ -808,7 +828,7 @@ import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.3"
  * overwriting.
  *
  * @example Overwriting
- * ```ts no-eval
+ * ```ts ignore
  * import { moveSync } from "@std/fs/move";
  *
  * moveSync("./foo", "./bar", { overwrite: true });
@@ -820,14 +840,14 @@ import { moveSync as _function_moveSync } from "jsr:@std/fs@1.0.3"
 const moveSync = _function_moveSync as typeof _function_moveSync
 export { moveSync }
 
-import type { CopyOptions as _interface_CopyOptions } from "jsr:@std/fs@1.0.3"
+import type { CopyOptions as _interface_CopyOptions } from "jsr:@std/fs@1.0.4"
 /**
  * Options for {@linkcode copy} and {@linkcode copySync}.
  */
 interface CopyOptions extends _interface_CopyOptions {}
 export type { CopyOptions }
 
-import { copy as _function_copy } from "jsr:@std/fs@1.0.3"
+import { copy as _function_copy } from "jsr:@std/fs@1.0.4"
 /**
  * Asynchronously copy a file or directory (along with its contents), like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=c-cp-command#cp__cp_flagr | cp -r}.
@@ -846,7 +866,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.3"
  * @return A promise that resolves once the copy operation completes.
  *
  * @example Basic usage
- * ```ts no-eval
+ * ```ts ignore
  * import { copy } from "@std/fs/copy";
  *
  * await copy("./foo", "./bar");
@@ -856,7 +876,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.3"
  * overwriting.
  *
  * @example Overwriting files/directories
- * ```ts no-eval
+ * ```ts ignore
  * import { copy } from "@std/fs/copy";
  *
  * await copy("./foo", "./bar", { overwrite: true });
@@ -866,7 +886,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.3"
  * any existing files or directories.
  *
  * @example Preserving timestamps
- * ```ts no-eval
+ * ```ts ignore
  * import { copy } from "@std/fs/copy";
  *
  * await copy("./foo", "./bar", { preserveTimestamps: true });
@@ -878,7 +898,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.3"
 const copy = _function_copy as typeof _function_copy
 export { copy }
 
-import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3"
+import { copySync as _function_copySync } from "jsr:@std/fs@1.0.4"
 /**
  * Synchronously copy a file or directory (along with its contents), like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=c-cp-command#cp__cp_flagr | cp -r}.
@@ -897,7 +917,7 @@ import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3"
  * @return A void value that returns once the copy operation completes.
  *
  * @example Basic usage
- * ```ts no-eval
+ * ```ts ignore
  * import { copySync } from "@std/fs/copy";
  *
  * copySync("./foo", "./bar");
@@ -907,7 +927,7 @@ import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3"
  * overwriting.
  *
  * @example Overwriting files/directories
- * ```ts no-eval
+ * ```ts ignore
  * import { copySync } from "@std/fs/copy";
  *
  * copySync("./foo", "./bar", { overwrite: true });
@@ -917,7 +937,7 @@ import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3"
  * any existing files or directories.
  *
  * @example Preserving timestamps
- * ```ts no-eval
+ * ```ts ignore
  * import { copySync } from "@std/fs/copy";
  *
  * copySync("./foo", "./bar", { preserveTimestamps: true });
@@ -929,14 +949,14 @@ import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3"
 const copySync = _function_copySync as typeof _function_copySync
 export { copySync }
 
-import type { WalkOptions as _interface_WalkOptions } from "jsr:@std/fs@1.0.3"
+import type { WalkOptions as _interface_WalkOptions } from "jsr:@std/fs@1.0.4"
 /**
  * Options for {@linkcode walk} and {@linkcode walkSync}.
  */
 interface WalkOptions extends _interface_WalkOptions {}
 export type { WalkOptions }
 
-import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
+import { walk as _function_walk } from "jsr:@std/fs@1.0.4"
 /**
  * Recursively walks through a directory and yields information about each file
  * and directory encountered.
@@ -964,7 +984,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
  * └── foo.ts
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walk } from "@std/fs/walk";
  *
  * await Array.fromAsync(walk("."));
@@ -1006,7 +1026,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
  *     └── bar.ts
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walk } from "@std/fs/walk";
  *
  * await Array.fromAsync(walk(".", { maxDepth: 1 }));
@@ -1046,7 +1066,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
  * └── foo
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walk } from "@std/fs/walk";
  *
  * await Array.fromAsync(walk(".", { includeFiles: false }));
@@ -1079,7 +1099,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
  * └── foo
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walk } from "@std/fs/walk";
  *
  * await Array.fromAsync(walk(".", { includeDirs: false }));
@@ -1106,7 +1126,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
  * └── link -> script.ts (symbolic link)
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walk } from "@std/fs/walk";
  *
  * await Array.fromAsync(walk(".", { includeSymlinks: false }));
@@ -1140,7 +1160,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
  * └── link -> script.ts (symbolic link)
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walk } from "@std/fs/walk";
  *
  * await Array.fromAsync(walk(".", { followSymlinks: true }));
@@ -1182,7 +1202,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
  * └── link -> script.ts (symbolic link)
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walk } from "@std/fs/walk";
  *
  * await Array.fromAsync(walk(".", { followSymlinks: true, canonicalize: true }));
@@ -1223,7 +1243,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
  * └── foo.js
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walk } from "@std/fs/walk";
  *
  * await Array.fromAsync(walk(".", { exts: [".ts"] }));
@@ -1250,7 +1270,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
  * └── README.md
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walk } from "@std/fs/walk";
  *
  * await Array.fromAsync(walk(".", { match: [/s/] }));
@@ -1277,7 +1297,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
  * └── README.md
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walk } from "@std/fs/walk";
  *
  * await Array.fromAsync(walk(".", { skip: [/s/] }));
@@ -1295,7 +1315,7 @@ import { walk as _function_walk } from "jsr:@std/fs@1.0.3"
 const walk = _function_walk as typeof _function_walk
 export { walk }
 
-import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
+import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.4"
 /**
  * Recursively walks through a directory and yields information about each file
  * and directory encountered.
@@ -1322,7 +1342,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
  * └── foo.ts
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walkSync } from "@std/fs/walk";
  *
  * Array.from(walkSync("."));
@@ -1364,7 +1384,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
  *     └── bar.ts
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walkSync } from "@std/fs/walk";
  *
  * Array.from(walkSync(".", { maxDepth: 1 }));
@@ -1404,7 +1424,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
  * └── foo
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walkSync } from "@std/fs/walk";
  *
  * Array.from(walkSync(".", { includeFiles: false }));
@@ -1437,7 +1457,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
  * └── foo
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walkSync } from "@std/fs/walk";
  *
  * Array.from(walkSync(".", { includeDirs: false }));
@@ -1464,7 +1484,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
  * └── link -> script.ts (symbolic link)
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walkSync } from "@std/fs/walk";
  *
  * Array.from(walkSync(".", { includeSymlinks: false }));
@@ -1498,7 +1518,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
  * └── link -> script.ts (symbolic link)
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walkSync } from "@std/fs/walk";
  *
  * Array.from(walkSync(".", { followSymlinks: true }));
@@ -1540,7 +1560,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
  * └── link -> script.ts (symbolic link)
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walkSync } from "@std/fs/walk";
  *
  * Array.from(walkSync(".", { followSymlinks: true, canonicalize: true }));
@@ -1581,7 +1601,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
  * └── foo.js
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walkSync } from "@std/fs/walk";
  *
  * Array.from(walkSync(".", { exts: [".ts"] }));
@@ -1608,7 +1628,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
  * └── README.md
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walkSync } from "@std/fs/walk";
  *
  * Array.from(walkSync(".", { match: [/s/] }));
@@ -1635,7 +1655,7 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
  * └── README.md
  * ```
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { walkSync } from "@std/fs/walk";
  *
  * Array.from(walkSync(".", { skip: [/s/] }));
@@ -1653,26 +1673,26 @@ import { walkSync as _function_walkSync } from "jsr:@std/fs@1.0.3"
 const walkSync = _function_walkSync as typeof _function_walkSync
 export { walkSync }
 
-import { LF as _variable_LF } from "jsr:@std/fs@1.0.3"
+import { LF as _variable_LF } from "jsr:@std/fs@1.0.4"
 /**
  * End-of-line character for POSIX platforms such as macOS and Linux.
  */
 const LF = _variable_LF as typeof _variable_LF
 export { LF }
 
-import { CRLF as _variable_CRLF } from "jsr:@std/fs@1.0.3"
+import { CRLF as _variable_CRLF } from "jsr:@std/fs@1.0.4"
 /**
  * End-of-line character for Windows platforms.
  */
 const CRLF = _variable_CRLF as typeof _variable_CRLF
 export { CRLF }
 
-import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.3"
+import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.4"
 /**
  * End-of-line character evaluated for the current platform.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { EOL } from "@std/fs/eol";
  *
  * EOL; // "\n" on POSIX platforms and "\r\n" on Windows
@@ -1681,7 +1701,7 @@ import { EOL as _variable_EOL } from "jsr:@std/fs@1.0.3"
 const EOL = _variable_EOL as typeof _variable_EOL
 export { EOL }
 
-import { detect as _function_detect } from "jsr:@std/fs@1.0.3"
+import { detect as _function_detect } from "jsr:@std/fs@1.0.4"
 /**
  * Returns the detected EOL character(s) detected in the input string. If no EOL
  * character is detected, `null` is returned.
@@ -1691,7 +1711,7 @@ import { detect as _function_detect } from "jsr:@std/fs@1.0.3"
  * @return The detected EOL character(s) or `null` if no EOL character is detected.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { detect } from "@std/fs/eol";
  *
  * detect("deno\r\nis not\r\nnode"); // "\r\n"
@@ -1703,7 +1723,7 @@ import { detect as _function_detect } from "jsr:@std/fs@1.0.3"
 const detect = _function_detect as typeof _function_detect
 export { detect }
 
-import { format as _function_format } from "jsr:@std/fs@1.0.3"
+import { format as _function_format } from "jsr:@std/fs@1.0.4"
 /**
  * Normalize the input string to the targeted EOL.
  *
@@ -1713,7 +1733,7 @@ import { format as _function_format } from "jsr:@std/fs@1.0.3"
  * @return The input string normalized to the targeted EOL.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { LF, format } from "@std/fs/eol";
  *
  * const CRLFinput = "deno\r\nis not\r\nnode";

@@ -47,7 +47,7 @@
  * For example to integrate the user agent provided in the header `User-Agent`
  * in an http request would look like this:
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { UserAgent } from "@std/http/user-agent";
  *
  * Deno.serve((req) => {
@@ -62,7 +62,7 @@
  * {@linkcode route} provides an easy way to route requests to different
  * handlers based on the request path and method.
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { route, type Route } from "@std/http/unstable-route";
  * import { serveDir } from "@std/http/file-server";
  *
@@ -90,7 +90,7 @@
  *
  * @module
  */
-import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.6"
+import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.7"
 /**
  * Represents an HTTP Cookie.
  *
@@ -99,7 +99,7 @@ import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.6"
 interface Cookie extends _interface_Cookie {}
 export type { Cookie }
 
-import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.6"
+import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.7"
 /**
  * Parse cookies of a header
  *
@@ -121,7 +121,7 @@ import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.6"
 const getCookies = _function_getCookies as typeof _function_getCookies
 export { getCookies }
 
-import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.6"
+import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.7"
 /**
  * Set the cookie header properly in the headers
  *
@@ -145,7 +145,7 @@ import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.6"
 const setCookie = _function_setCookie as typeof _function_setCookie
 export { setCookie }
 
-import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.6"
+import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.7"
 /**
  * Set the cookie header with empty value in the headers to delete it.
  *
@@ -175,7 +175,7 @@ import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.6"
 const deleteCookie = _function_deleteCookie as typeof _function_deleteCookie
 export { deleteCookie }
 
-import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.6"
+import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.7"
 /**
  * Parse set-cookies of a header
  *
@@ -205,7 +205,7 @@ import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.6"
 const getSetCookies = _function_getSetCookies as typeof _function_getSetCookies
 export { getSetCookies }
 
-import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.6"
+import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.7"
 /**
  * Just the part of {@linkcode Deno.FileInfo} that is required to calculate an `ETag`,
  * so partial or user generated file information can be passed.
@@ -213,19 +213,19 @@ import type { FileInfo as _interface_FileInfo } from "jsr:@std/http@1.0.6"
 interface FileInfo extends _interface_FileInfo {}
 export type { FileInfo }
 
-import type { ETagOptions as _interface_ETagOptions } from "jsr:@std/http@1.0.6"
+import type { ETagOptions as _interface_ETagOptions } from "jsr:@std/http@1.0.7"
 /**
  * Options for {@linkcode eTag}.
  */
 interface ETagOptions extends _interface_ETagOptions {}
 export type { ETagOptions }
 
-import { eTag as _function_eTag } from "jsr:@std/http@1.0.6"
+import { eTag as _function_eTag } from "jsr:@std/http@1.0.7"
 /** UNDOCUMENTED */
 const eTag = _function_eTag as typeof _function_eTag
 export { eTag }
 
-import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.6"
+import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.7"
 /**
  * A helper function that takes the value from the `If-Match` header and a
  * calculated etag for the target. By using strong comparison, return `true` if
@@ -235,7 +235,7 @@ import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.6"
  * article for more information on how to use this function.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import {
  *   eTag,
  *   ifMatch,
@@ -263,7 +263,7 @@ import { ifMatch as _function_ifMatch } from "jsr:@std/http@1.0.6"
 const ifMatch = _function_ifMatch as typeof _function_ifMatch
 export { ifMatch }
 
-import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.6"
+import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.7"
 /**
  * A helper function that takes the value from the `If-None-Match` header and
  * a calculated etag for the target entity and returns `false` if the etag for
@@ -273,7 +273,7 @@ import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.6"
  * article for more information on how to use this function.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import {
  *   eTag,
  *   ifNoneMatch,
@@ -301,7 +301,7 @@ import { ifNoneMatch as _function_ifNoneMatch } from "jsr:@std/http@1.0.6"
 const ifNoneMatch = _function_ifNoneMatch as typeof _function_ifNoneMatch
 export { ifNoneMatch }
 
-import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@1.0.6"
+import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@1.0.7"
 /**
  * Contains the {@linkcode STATUS_CODE} object which contains standard HTTP
  * status codes and provides several type guards for handling status codes
@@ -327,6 +327,8 @@ import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@1.0.6"
  * if (isErrorStatus(res.status)) {
  *   // error handling here...
  * }
+ *
+ * await res.body?.cancel();
  * ```
  *
  * @module
@@ -334,70 +336,70 @@ import { STATUS_CODE as _variable_STATUS_CODE } from "jsr:@std/http@1.0.6"
 const STATUS_CODE = _variable_STATUS_CODE as typeof _variable_STATUS_CODE
 export { STATUS_CODE }
 
-import type { StatusCode as _typeAlias_StatusCode } from "jsr:@std/http@1.0.6"
+import type { StatusCode as _typeAlias_StatusCode } from "jsr:@std/http@1.0.7"
 /**
  * An HTTP status code.
  */
 type StatusCode = _typeAlias_StatusCode
 export type { StatusCode }
 
-import { STATUS_TEXT as _variable_STATUS_TEXT } from "jsr:@std/http@1.0.6"
+import { STATUS_TEXT as _variable_STATUS_TEXT } from "jsr:@std/http@1.0.7"
 /**
  * A record of all the status codes text.
  */
 const STATUS_TEXT = _variable_STATUS_TEXT as typeof _variable_STATUS_TEXT
 export { STATUS_TEXT }
 
-import type { StatusText as _typeAlias_StatusText } from "jsr:@std/http@1.0.6"
+import type { StatusText as _typeAlias_StatusText } from "jsr:@std/http@1.0.7"
 /**
  * An HTTP status text.
  */
 type StatusText = _typeAlias_StatusText
 export type { StatusText }
 
-import type { InformationalStatus as _typeAlias_InformationalStatus } from "jsr:@std/http@1.0.6"
+import type { InformationalStatus as _typeAlias_InformationalStatus } from "jsr:@std/http@1.0.7"
 /**
  * An HTTP status that is a informational (1XX).
  */
 type InformationalStatus = _typeAlias_InformationalStatus
 export type { InformationalStatus }
 
-import type { SuccessfulStatus as _typeAlias_SuccessfulStatus } from "jsr:@std/http@1.0.6"
+import type { SuccessfulStatus as _typeAlias_SuccessfulStatus } from "jsr:@std/http@1.0.7"
 /**
  * An HTTP status that is a success (2XX).
  */
 type SuccessfulStatus = _typeAlias_SuccessfulStatus
 export type { SuccessfulStatus }
 
-import type { RedirectStatus as _typeAlias_RedirectStatus } from "jsr:@std/http@1.0.6"
+import type { RedirectStatus as _typeAlias_RedirectStatus } from "jsr:@std/http@1.0.7"
 /**
  * An HTTP status that is a redirect (3XX).
  */
 type RedirectStatus = _typeAlias_RedirectStatus
 export type { RedirectStatus }
 
-import type { ClientErrorStatus as _typeAlias_ClientErrorStatus } from "jsr:@std/http@1.0.6"
+import type { ClientErrorStatus as _typeAlias_ClientErrorStatus } from "jsr:@std/http@1.0.7"
 /**
  * An HTTP status that is a client error (4XX).
  */
 type ClientErrorStatus = _typeAlias_ClientErrorStatus
 export type { ClientErrorStatus }
 
-import type { ServerErrorStatus as _typeAlias_ServerErrorStatus } from "jsr:@std/http@1.0.6"
+import type { ServerErrorStatus as _typeAlias_ServerErrorStatus } from "jsr:@std/http@1.0.7"
 /**
  * An HTTP status that is a server error (5XX).
  */
 type ServerErrorStatus = _typeAlias_ServerErrorStatus
 export type { ServerErrorStatus }
 
-import type { ErrorStatus as _typeAlias_ErrorStatus } from "jsr:@std/http@1.0.6"
+import type { ErrorStatus as _typeAlias_ErrorStatus } from "jsr:@std/http@1.0.7"
 /**
  * An HTTP status that is an error (4XX and 5XX).
  */
 type ErrorStatus = _typeAlias_ErrorStatus
 export type { ErrorStatus }
 
-import { isStatus as _function_isStatus } from "jsr:@std/http@1.0.6"
+import { isStatus as _function_isStatus } from "jsr:@std/http@1.0.7"
 /**
  * Returns whether the provided number is a valid HTTP status code.
  *
@@ -415,7 +417,7 @@ import { isStatus as _function_isStatus } from "jsr:@std/http@1.0.6"
 const isStatus = _function_isStatus as typeof _function_isStatus
 export { isStatus }
 
-import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@std/http@1.0.6"
+import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@std/http@1.0.7"
 /**
  * A type guard that determines if the status code is informational.
  *
@@ -433,7 +435,7 @@ import { isInformationalStatus as _function_isInformationalStatus } from "jsr:@s
 const isInformationalStatus = _function_isInformationalStatus as typeof _function_isInformationalStatus
 export { isInformationalStatus }
 
-import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/http@1.0.6"
+import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/http@1.0.7"
 /**
  * A type guard that determines if the status code is successful.
  *
@@ -451,7 +453,7 @@ import { isSuccessfulStatus as _function_isSuccessfulStatus } from "jsr:@std/htt
 const isSuccessfulStatus = _function_isSuccessfulStatus as typeof _function_isSuccessfulStatus
 export { isSuccessfulStatus }
 
-import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@1.0.6"
+import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@1.0.7"
 /**
  * A type guard that determines if the status code is a redirection.
  *
@@ -469,7 +471,7 @@ import { isRedirectStatus as _function_isRedirectStatus } from "jsr:@std/http@1.
 const isRedirectStatus = _function_isRedirectStatus as typeof _function_isRedirectStatus
 export { isRedirectStatus }
 
-import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/http@1.0.6"
+import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/http@1.0.7"
 /**
  * A type guard that determines if the status code is a client error.
  *
@@ -487,7 +489,7 @@ import { isClientErrorStatus as _function_isClientErrorStatus } from "jsr:@std/h
 const isClientErrorStatus = _function_isClientErrorStatus as typeof _function_isClientErrorStatus
 export { isClientErrorStatus }
 
-import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/http@1.0.6"
+import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/http@1.0.7"
 /**
  * A type guard that determines if the status code is a server error.
  *
@@ -505,7 +507,7 @@ import { isServerErrorStatus as _function_isServerErrorStatus } from "jsr:@std/h
 const isServerErrorStatus = _function_isServerErrorStatus as typeof _function_isServerErrorStatus
 export { isServerErrorStatus }
 
-import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@1.0.6"
+import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@1.0.7"
 /**
  * A type guard that determines if the status code is an error.
  *
@@ -523,22 +525,22 @@ import { isErrorStatus as _function_isErrorStatus } from "jsr:@std/http@1.0.6"
 const isErrorStatus = _function_isErrorStatus as typeof _function_isErrorStatus
 export { isErrorStatus }
 
-import { accepts as _function_accepts } from "jsr:@std/http@1.0.6"
+import { accepts as _function_accepts } from "jsr:@std/http@1.0.7"
 /** UNDOCUMENTED */
 const accepts = _function_accepts as typeof _function_accepts
 export { accepts }
 
-import { acceptsEncodings as _function_acceptsEncodings } from "jsr:@std/http@1.0.6"
+import { acceptsEncodings as _function_acceptsEncodings } from "jsr:@std/http@1.0.7"
 /** UNDOCUMENTED */
 const acceptsEncodings = _function_acceptsEncodings as typeof _function_acceptsEncodings
 export { acceptsEncodings }
 
-import { acceptsLanguages as _function_acceptsLanguages } from "jsr:@std/http@1.0.6"
+import { acceptsLanguages as _function_acceptsLanguages } from "jsr:@std/http@1.0.7"
 /** UNDOCUMENTED */
 const acceptsLanguages = _function_acceptsLanguages as typeof _function_acceptsLanguages
 export { acceptsLanguages }
 
-import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from "jsr:@std/http@1.0.6"
+import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from "jsr:@std/http@1.0.7"
 /**
  * Represents a message in the Server-Sent Event (SSE) protocol.
  *
@@ -547,7 +549,7 @@ import type { ServerSentEventMessage as _interface_ServerSentEventMessage } from
 interface ServerSentEventMessage extends _interface_ServerSentEventMessage {}
 export type { ServerSentEventMessage }
 
-import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/http@1.0.6"
+import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/http@1.0.7"
 /**
  * Transforms server-sent message objects into strings for the client.
  *
@@ -574,49 +576,49 @@ import { ServerSentEventStream as _class_ServerSentEventStream } from "jsr:@std/
 class ServerSentEventStream extends _class_ServerSentEventStream {}
 export { ServerSentEventStream }
 
-import type { Browser as _interface_Browser } from "jsr:@std/http@1.0.6"
+import type { Browser as _interface_Browser } from "jsr:@std/http@1.0.7"
 /**
  * The browser as described by a user agent string.
  */
 interface Browser extends _interface_Browser {}
 export type { Browser }
 
-import type { Device as _interface_Device } from "jsr:@std/http@1.0.6"
+import type { Device as _interface_Device } from "jsr:@std/http@1.0.7"
 /**
  * The device as described by a user agent string.
  */
 interface Device extends _interface_Device {}
 export type { Device }
 
-import type { Engine as _interface_Engine } from "jsr:@std/http@1.0.6"
+import type { Engine as _interface_Engine } from "jsr:@std/http@1.0.7"
 /**
  * The browser engine as described by a user agent string.
  */
 interface Engine extends _interface_Engine {}
 export type { Engine }
 
-import type { Os as _interface_Os } from "jsr:@std/http@1.0.6"
+import type { Os as _interface_Os } from "jsr:@std/http@1.0.7"
 /**
  * The OS as described by a user agent string.
  */
 interface Os extends _interface_Os {}
 export type { Os }
 
-import type { Cpu as _interface_Cpu } from "jsr:@std/http@1.0.6"
+import type { Cpu as _interface_Cpu } from "jsr:@std/http@1.0.7"
 /**
  * The CPU information as described by a user agent string.
  */
 interface Cpu extends _interface_Cpu {}
 export type { Cpu }
 
-import { UserAgent as _class_UserAgent } from "jsr:@std/http@1.0.6"
+import { UserAgent as _class_UserAgent } from "jsr:@std/http@1.0.7"
 /**
  * A representation of user agent string, which can be used to determine
  * environmental information represented by the string. All properties are
  * determined lazily.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { UserAgent } from "@std/http/user-agent";
  *
  * Deno.serve((req) => {
@@ -629,19 +631,19 @@ import { UserAgent as _class_UserAgent } from "jsr:@std/http@1.0.6"
 class UserAgent extends _class_UserAgent {}
 export { UserAgent }
 
-import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@1.0.6"
+import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@1.0.7"
 /**
  * Options for {@linkcode serveFile}.
  */
 interface ServeFileOptions extends _interface_ServeFileOptions {}
 export type { ServeFileOptions }
 
-import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.6"
+import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.7"
 /**
  * Resolves a {@linkcode Response} with the requested file as the body.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { serveFile } from "@std/http/file-server";
  *
  * Deno.serve((req) => {
@@ -657,19 +659,19 @@ import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.6"
 const serveFile = _function_serveFile as typeof _function_serveFile
 export { serveFile }
 
-import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@1.0.6"
+import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@1.0.7"
 /**
  * Interface for serveDir options.
  */
 interface ServeDirOptions extends _interface_ServeDirOptions {}
 export type { ServeDirOptions }
 
-import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.6"
+import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.7"
 /**
  * Serves the files under the given directory root (opts.fsRoot).
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { serveDir } from "@std/http/file-server";
  *
  * Deno.serve((req) => {
@@ -688,7 +690,7 @@ import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.6"
  *
  * Requests to `/static/path/to/file` will be served from `./public/path/to/file`.
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { serveDir } from "@std/http/file-server";
  *
  * Deno.serve((req) => serveDir(req, {
@@ -704,7 +706,7 @@ import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.6"
 const serveDir = _function_serveDir as typeof _function_serveDir
 export { serveDir }
 
-import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.6"
+import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.7"
 /**
  * Request handler for {@linkcode Route}.
  *
@@ -716,7 +718,7 @@ import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.6"
 type Handler = _typeAlias_Handler
 export type { Handler }
 
-import type { Route as _interface_Route } from "jsr:@std/http@1.0.6"
+import type { Route as _interface_Route } from "jsr:@std/http@1.0.7"
 /**
  * Route configuration for {@linkcode route}.
  *
@@ -725,13 +727,13 @@ import type { Route as _interface_Route } from "jsr:@std/http@1.0.6"
 interface Route extends _interface_Route {}
 export type { Route }
 
-import { route as _function_route } from "jsr:@std/http@1.0.6"
+import { route as _function_route } from "jsr:@std/http@1.0.7"
 /**
  * Routes requests to different handlers based on the request path and method.
  *
  * @experimental
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { route, type Route } from "@std/http/unstable-route";
  * import { serveDir } from "@std/http/file-server";
  *
@@ -747,7 +749,12 @@ import { route as _function_route } from "jsr:@std/http@1.0.6"
  *   {
  *     pattern: new URLPattern({ pathname: "/static/*" }),
  *     handler: (req: Request) => serveDir(req)
- *   }
+ *   },
+ *   {
+ *     pattern: new URLPattern({ pathname: "/api" }),
+ *     method: ["GET", "HEAD"],
+ *     handler: (req: Request) => new Response(req.method === 'HEAD' ? null : 'ok'),
+ *   },
  * ];
  *
  * function defaultHandler(_req: Request) {

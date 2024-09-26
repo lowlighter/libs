@@ -1,11 +1,11 @@
-import { copy as _function_copy } from "jsr:@std/io@0.224.8/copy"
+import { copy as _function_copy } from "jsr:@std/io@0.224.9/copy"
 /**
  * Copies from `src` to `dst` until either EOF (`null`) is read from `src` or
  * an error occurs. It resolves to the number of bytes copied or rejects with
  * the first error encountered while copying.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { copy } from "@std/io/copy";
  *
  * const source = await Deno.open("my_file.txt");

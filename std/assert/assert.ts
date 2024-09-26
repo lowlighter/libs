@@ -1,9 +1,9 @@
-import { assert as _function_assert } from "jsr:@std/assert@1.0.5/assert"
+import { assert as _function_assert } from "jsr:@std/assert@1.0.6/assert"
 /**
  * Make an assertion, error will be thrown if `expr` does not have truthy value.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assert } from "@std/assert";
  *
  * assert("hello".includes("ello")); // Doesn't throw

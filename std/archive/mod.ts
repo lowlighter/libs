@@ -3,7 +3,7 @@
  * archive file, while untar is the inverse utility to extract the files from an
  * archive. Files are not compressed, only collected into the archive.
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { Tar } from "@std/archive/tar";
  * import { Buffer } from "@std/io/buffer";
  * import { copy } from "@std/io/copy";
@@ -23,7 +23,7 @@
  *   filePath: "./filename_on_filesystem.txt",
  * });
  *
- * // Now let's write the tar (with it's two files) to the filesystem
+ * // Now let's write the tar (with its two files) to the filesystem
  * // use tar.getReader() to read the contents.
  *
  * const writer = await Deno.open("./out.tar", { write: true, create: true });
@@ -31,60 +31,81 @@
  * writer.close();
  * ```
  *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
+ *
  * @experimental
  * @module
  */
-import type { TarInfo as _interface_TarInfo } from "jsr:@std/archive@0.225.3"
+import type { TarInfo as _interface_TarInfo } from "jsr:@std/archive@0.225.4"
 /**
  * Base interface for {@linkcode TarMeta}.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarInfo extends _interface_TarInfo {}
 export type { TarInfo }
 
-import type { TarMeta as _interface_TarMeta } from "jsr:@std/archive@0.225.3"
+import type { TarMeta as _interface_TarMeta } from "jsr:@std/archive@0.225.4"
 /**
  * Base interface for {@linkcode TarMetaWithLinkName}.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarMeta extends _interface_TarMeta {}
 export type { TarMeta }
 
-import type { TarOptions as _interface_TarOptions } from "jsr:@std/archive@0.225.3"
+import type { TarOptions as _interface_TarOptions } from "jsr:@std/archive@0.225.4"
 /**
  * Options for {@linkcode Tar.append}.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarOptions extends _interface_TarOptions {}
 export type { TarOptions }
 
-import type { TarData as _interface_TarData } from "jsr:@std/archive@0.225.3"
+import type { TarData as _interface_TarData } from "jsr:@std/archive@0.225.4"
 /**
  * Base interface for {@linkcode TarDataWithSource}.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarData extends _interface_TarData {}
 export type { TarData }
 
-import type { TarDataWithSource as _interface_TarDataWithSource } from "jsr:@std/archive@0.225.3"
+import type { TarDataWithSource as _interface_TarDataWithSource } from "jsr:@std/archive@0.225.4"
 /**
  * Tar data interface for {@linkcode Tar.data}.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarDataWithSource extends _interface_TarDataWithSource {}
 export type { TarDataWithSource }
 
-import { Tar as _class_Tar } from "jsr:@std/archive@0.225.3"
+import { Tar as _class_Tar } from "jsr:@std/archive@0.225.4"
 /**
  * ### Overview
  * A class to create a tar archive.  Tar archives allow for storing multiple files in a
  * single file (called an archive, or sometimes a tarball).  These archives typically
  * have the '.tar' extension.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * ### Usage
  * The workflow is to create a Tar instance, append files to it, and then write the
@@ -107,7 +128,7 @@ import { Tar as _class_Tar } from "jsr:@std/archive@0.225.3"
  * * Sparse files are not supported
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { Tar } from "@std/archive/tar";
  * import { Buffer } from "@std/io/buffer";
  * import { copy } from "@std/io/copy";
@@ -127,7 +148,7 @@ import { Tar as _class_Tar } from "jsr:@std/archive@0.225.3"
  *   filePath: "./filename_on_filesystem.txt",
  * });
  *
- * // Now let's write the tar (with it's two files) to the filesystem
+ * // Now let's write the tar (with its two files) to the filesystem
  * // use tar.getReader() to read the contents.
  *
  * const writer = await Deno.open("./out.tar", { write: true, create: true });
@@ -140,7 +161,7 @@ import { Tar as _class_Tar } from "jsr:@std/archive@0.225.3"
 class Tar extends _class_Tar {}
 export { Tar }
 
-import type { Reader as _interface_Reader } from "jsr:@std/archive@0.225.3"
+import type { Reader as _interface_Reader } from "jsr:@std/archive@0.225.4"
 /**
  * An abstract interface which when implemented provides an interface to read
  * bytes into an array buffer asynchronously.
@@ -148,7 +169,7 @@ import type { Reader as _interface_Reader } from "jsr:@std/archive@0.225.3"
 interface Reader extends _interface_Reader {}
 export type { Reader }
 
-import type { Seeker as _interface_Seeker } from "jsr:@std/archive@0.225.3"
+import type { Seeker as _interface_Seeker } from "jsr:@std/archive@0.225.4"
 /**
  * An abstract interface which when implemented provides an interface to seek
  * within an open file/resource asynchronously.
@@ -156,32 +177,41 @@ import type { Seeker as _interface_Seeker } from "jsr:@std/archive@0.225.3"
 interface Seeker extends _interface_Seeker {}
 export type { Seeker }
 
-import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:@std/archive@0.225.3"
+import type { TarMetaWithLinkName as _interface_TarMetaWithLinkName } from "jsr:@std/archive@0.225.4"
 /**
  * Extend TarMeta with the `linkName` property so that readers can access
  * symbolic link values without polluting the world of archive writers.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarMetaWithLinkName extends _interface_TarMetaWithLinkName {}
 export type { TarMetaWithLinkName }
 
-import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.225.3"
+import type { TarHeader as _typeAlias_TarHeader } from "jsr:@std/archive@0.225.4"
 /**
  * Tar header with raw, unprocessed bytes as values.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 type TarHeader = _typeAlias_TarHeader
 export type { TarHeader }
 
-import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.3"
+import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.4"
 /**
  * Contains tar header metadata and a reader to the entry's body.
  *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
+ *
  * @experimental
  * @example Usage
- * ```ts no-assert
+ * ```ts ignore
  * import { TarEntry } from "@std/archive/untar";
  * import { Buffer } from "@std/io/buffer";
  *
@@ -204,12 +234,15 @@ import { TarEntry as _class_TarEntry } from "jsr:@std/archive@0.225.3"
 class TarEntry extends _class_TarEntry {}
 export { TarEntry }
 
-import { Untar as _class_Untar } from "jsr:@std/archive@0.225.3"
+import { Untar as _class_Untar } from "jsr:@std/archive@0.225.4"
 /**
  * ### Overview
  * A class to extract from a tar archive.  Tar archives allow for storing multiple
  * files in a single file (called an archive, or sometimes a tarball).  These
  * archives typically have the '.tar' extension.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * ### Supported file formats
  * Only the ustar file format is supported.  This is the most common format. The
@@ -227,7 +260,7 @@ import { Untar as _class_Untar } from "jsr:@std/archive@0.225.3"
  * the files.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { Untar } from "@std/archive/untar";
  * import { ensureFile } from "@std/fs/ensure-file";
  * import { ensureDir } from "@std/fs/ensure-dir";

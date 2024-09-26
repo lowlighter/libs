@@ -1,4 +1,4 @@
-import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.8/buf-reader"
+import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.9/buf-reader"
 /**
  * Thrown when a write operation is attempted on a full buffer.
  *
@@ -21,12 +21,14 @@ import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.8/b
  * }
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
+ * This will be removed in 0.225.0.
  */
 class BufferFullError extends _class_BufferFullError {}
 export { BufferFullError }
 
-import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.8/buf-reader"
+import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.9/buf-reader"
 /**
  * Thrown when a read from a stream fails to read the
  * requested number of bytes.
@@ -41,21 +43,25 @@ import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.8
  *
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
+ * This will be removed in 0.225.0.
  */
 class PartialReadError extends _class_PartialReadError {}
 export { PartialReadError }
 
-import type { ReadLineResult as _interface_ReadLineResult } from "jsr:@std/io@0.224.8/buf-reader"
+import type { ReadLineResult as _interface_ReadLineResult } from "jsr:@std/io@0.224.9/buf-reader"
 /**
  * Result type returned by of {@linkcode BufReader.readLine}.
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
+ * This will be removed in 0.225.0.
  */
 interface ReadLineResult extends _interface_ReadLineResult {}
 export type { ReadLineResult }
 
-import { BufReader as _class_BufReader } from "jsr:@std/io@0.224.8/buf-reader"
+import { BufReader as _class_BufReader } from "jsr:@std/io@0.224.9/buf-reader"
 /**
  * Implements buffering for a {@linkcode Reader} object.
  *
@@ -73,7 +79,9 @@ import { BufReader as _class_BufReader } from "jsr:@std/io@0.224.8/buf-reader"
  * assertEquals(decoder.decode(buf), "hello world");
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
+ * This will be removed in 0.225.0.
  */
 class BufReader extends _class_BufReader {}
 export { BufReader }

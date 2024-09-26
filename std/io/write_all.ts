@@ -1,4 +1,4 @@
-import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.8/write-all"
+import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.9/write-all"
 /**
  * Write all the content of the array buffer (`arr`) to the writer (`w`).
  *
@@ -11,7 +11,7 @@ import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.8/write-all"
  * ```
  *
  * @example Writing to file
- * ```ts no-eval no-assert
+ * ```ts ignore no-assert
  * import { writeAll } from "@std/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");
@@ -25,7 +25,7 @@ import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.8/write-all"
 const writeAll = _function_writeAll as typeof _function_writeAll
 export { writeAll }
 
-import { writeAllSync as _function_writeAllSync } from "jsr:@std/io@0.224.8/write-all"
+import { writeAllSync as _function_writeAllSync } from "jsr:@std/io@0.224.9/write-all"
 /**
  * Synchronously write all the content of the array buffer (`arr`) to the
  * writer (`w`).
@@ -39,7 +39,7 @@ import { writeAllSync as _function_writeAllSync } from "jsr:@std/io@0.224.8/writ
  * ```
  *
  * @example Writing to file
- * ```ts no-eval no-assert
+ * ```ts ignore no-assert
  * import { writeAllSync } from "@std/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");

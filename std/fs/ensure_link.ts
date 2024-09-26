@@ -1,4 +1,4 @@
-import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.3/ensure-link"
+import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.4/ensure-link"
 /**
  * Asynchronously ensures that the hard link exists.
  *
@@ -16,7 +16,7 @@ import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.3/ensure-lin
  * @return A void promise that resolves once the hard link exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureLink } from "@std/fs/ensure-link";
  *
  * await ensureLink("./folder/targetFile.dat", "./folder/targetFile.link.dat");
@@ -25,7 +25,7 @@ import { ensureLink as _function_ensureLink } from "jsr:@std/fs@1.0.3/ensure-lin
 const ensureLink = _function_ensureLink as typeof _function_ensureLink
 export { ensureLink }
 
-import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.3/ensure-link"
+import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.4/ensure-link"
 /**
  * Synchronously ensures that the hard link exists.
  *
@@ -43,7 +43,7 @@ import { ensureLinkSync as _function_ensureLinkSync } from "jsr:@std/fs@1.0.3/en
  * @return A void value that returns once the hard link exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureLinkSync } from "@std/fs/ensure-link";
  *
  * ensureLinkSync("./folder/targetFile.dat", "./folder/targetFile.link.dat");

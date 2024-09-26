@@ -1,10 +1,10 @@
-import { assertStringIncludes as _function_assertStringIncludes } from "jsr:@std/assert@1.0.5/string-includes"
+import { assertStringIncludes as _function_assertStringIncludes } from "jsr:@std/assert@1.0.6/string-includes"
 /**
  * Make an assertion that actual includes expected. If not
  * then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertStringIncludes } from "@std/assert";
  *
  * assertStringIncludes("Hello", "ello"); // Doesn't throw

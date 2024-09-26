@@ -1,54 +1,72 @@
-import type { TarInfo as _interface_TarInfo } from "jsr:@std/archive@0.225.3/tar"
+import type { TarInfo as _interface_TarInfo } from "jsr:@std/archive@0.225.4/tar"
 /**
  * Base interface for {@linkcode TarMeta}.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarInfo extends _interface_TarInfo {}
 export type { TarInfo }
 
-import type { TarMeta as _interface_TarMeta } from "jsr:@std/archive@0.225.3/tar"
+import type { TarMeta as _interface_TarMeta } from "jsr:@std/archive@0.225.4/tar"
 /**
  * Base interface for {@linkcode TarMetaWithLinkName}.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarMeta extends _interface_TarMeta {}
 export type { TarMeta }
 
-import type { TarOptions as _interface_TarOptions } from "jsr:@std/archive@0.225.3/tar"
+import type { TarOptions as _interface_TarOptions } from "jsr:@std/archive@0.225.4/tar"
 /**
  * Options for {@linkcode Tar.append}.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarOptions extends _interface_TarOptions {}
 export type { TarOptions }
 
-import type { TarData as _interface_TarData } from "jsr:@std/archive@0.225.3/tar"
+import type { TarData as _interface_TarData } from "jsr:@std/archive@0.225.4/tar"
 /**
  * Base interface for {@linkcode TarDataWithSource}.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarData extends _interface_TarData {}
 export type { TarData }
 
-import type { TarDataWithSource as _interface_TarDataWithSource } from "jsr:@std/archive@0.225.3/tar"
+import type { TarDataWithSource as _interface_TarDataWithSource } from "jsr:@std/archive@0.225.4/tar"
 /**
  * Tar data interface for {@linkcode Tar.data}.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * @experimental
  */
 interface TarDataWithSource extends _interface_TarDataWithSource {}
 export type { TarDataWithSource }
 
-import { Tar as _class_Tar } from "jsr:@std/archive@0.225.3/tar"
+import { Tar as _class_Tar } from "jsr:@std/archive@0.225.4/tar"
 /**
  * ### Overview
  * A class to create a tar archive.  Tar archives allow for storing multiple files in a
  * single file (called an archive, or sometimes a tarball).  These archives typically
  * have the '.tar' extension.
+ *
+ * @deprecated Use {@linkcode https://jsr.io/@std/tar | @std/tar} instead.
+ * `@std/archive` will be removed in the future.
  *
  * ### Usage
  * The workflow is to create a Tar instance, append files to it, and then write the
@@ -71,7 +89,7 @@ import { Tar as _class_Tar } from "jsr:@std/archive@0.225.3/tar"
  * * Sparse files are not supported
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { Tar } from "@std/archive/tar";
  * import { Buffer } from "@std/io/buffer";
  * import { copy } from "@std/io/copy";
@@ -91,7 +109,7 @@ import { Tar as _class_Tar } from "jsr:@std/archive@0.225.3/tar"
  *   filePath: "./filename_on_filesystem.txt",
  * });
  *
- * // Now let's write the tar (with it's two files) to the filesystem
+ * // Now let's write the tar (with its two files) to the filesystem
  * // use tar.getReader() to read the contents.
  *
  * const writer = await Deno.open("./out.tar", { write: true, create: true });

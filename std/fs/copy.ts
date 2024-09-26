@@ -1,11 +1,11 @@
-import type { CopyOptions as _interface_CopyOptions } from "jsr:@std/fs@1.0.3/copy"
+import type { CopyOptions as _interface_CopyOptions } from "jsr:@std/fs@1.0.4/copy"
 /**
  * Options for {@linkcode copy} and {@linkcode copySync}.
  */
 interface CopyOptions extends _interface_CopyOptions {}
 export type { CopyOptions }
 
-import { copy as _function_copy } from "jsr:@std/fs@1.0.3/copy"
+import { copy as _function_copy } from "jsr:@std/fs@1.0.4/copy"
 /**
  * Asynchronously copy a file or directory (along with its contents), like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=c-cp-command#cp__cp_flagr | cp -r}.
@@ -24,7 +24,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.3/copy"
  * @return A promise that resolves once the copy operation completes.
  *
  * @example Basic usage
- * ```ts no-eval
+ * ```ts ignore
  * import { copy } from "@std/fs/copy";
  *
  * await copy("./foo", "./bar");
@@ -34,7 +34,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.3/copy"
  * overwriting.
  *
  * @example Overwriting files/directories
- * ```ts no-eval
+ * ```ts ignore
  * import { copy } from "@std/fs/copy";
  *
  * await copy("./foo", "./bar", { overwrite: true });
@@ -44,7 +44,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.3/copy"
  * any existing files or directories.
  *
  * @example Preserving timestamps
- * ```ts no-eval
+ * ```ts ignore
  * import { copy } from "@std/fs/copy";
  *
  * await copy("./foo", "./bar", { preserveTimestamps: true });
@@ -56,7 +56,7 @@ import { copy as _function_copy } from "jsr:@std/fs@1.0.3/copy"
 const copy = _function_copy as typeof _function_copy
 export { copy }
 
-import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3/copy"
+import { copySync as _function_copySync } from "jsr:@std/fs@1.0.4/copy"
 /**
  * Synchronously copy a file or directory (along with its contents), like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=c-cp-command#cp__cp_flagr | cp -r}.
@@ -75,7 +75,7 @@ import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3/copy"
  * @return A void value that returns once the copy operation completes.
  *
  * @example Basic usage
- * ```ts no-eval
+ * ```ts ignore
  * import { copySync } from "@std/fs/copy";
  *
  * copySync("./foo", "./bar");
@@ -85,7 +85,7 @@ import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3/copy"
  * overwriting.
  *
  * @example Overwriting files/directories
- * ```ts no-eval
+ * ```ts ignore
  * import { copySync } from "@std/fs/copy";
  *
  * copySync("./foo", "./bar", { overwrite: true });
@@ -95,7 +95,7 @@ import { copySync as _function_copySync } from "jsr:@std/fs@1.0.3/copy"
  * any existing files or directories.
  *
  * @example Preserving timestamps
- * ```ts no-eval
+ * ```ts ignore
  * import { copySync } from "@std/fs/copy";
  *
  * copySync("./foo", "./bar", { preserveTimestamps: true });

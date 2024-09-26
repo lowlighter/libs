@@ -1,4 +1,4 @@
-import { firstNotNullishOf as _function_firstNotNullishOf } from "jsr:@std/collections@1.0.6/first-not-nullish-of"
+import { firstNotNullishOf as _function_firstNotNullishOf } from "jsr:@std/collections@1.0.7/first-not-nullish-of"
 /**
  * Applies the given selector to elements in the given array until a value is
  * produced that is neither `null` nor `undefined` and returns that value.

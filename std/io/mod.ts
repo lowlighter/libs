@@ -4,7 +4,7 @@
  * `Reader` and `Writer` interfaces are deprecated in Deno, and so many of these
  * utilities are also deprecated. Consider using web streams instead.
  *
- * ```ts no-assert
+ * ```ts ignore
  * import { toReadableStream, toWritableStream } from "@std/io";
  *
  * await toReadableStream(Deno.stdin)
@@ -13,7 +13,7 @@
  *
  * @module
  */
-import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.8"
+import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.9"
 /**
  * Thrown when a write operation is attempted on a full buffer.
  *
@@ -36,12 +36,14 @@ import { BufferFullError as _class_BufferFullError } from "jsr:@std/io@0.224.8"
  * }
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
+ * This will be removed in 0.225.0.
  */
 class BufferFullError extends _class_BufferFullError {}
 export { BufferFullError }
 
-import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.8"
+import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.9"
 /**
  * Thrown when a read from a stream fails to read the
  * requested number of bytes.
@@ -56,21 +58,25 @@ import { PartialReadError as _class_PartialReadError } from "jsr:@std/io@0.224.8
  *
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
+ * This will be removed in 0.225.0.
  */
 class PartialReadError extends _class_PartialReadError {}
 export { PartialReadError }
 
-import type { ReadLineResult as _interface_ReadLineResult } from "jsr:@std/io@0.224.8"
+import type { ReadLineResult as _interface_ReadLineResult } from "jsr:@std/io@0.224.9"
 /**
  * Result type returned by of {@linkcode BufReader.readLine}.
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
+ * This will be removed in 0.225.0.
  */
 interface ReadLineResult extends _interface_ReadLineResult {}
 export type { ReadLineResult }
 
-import { BufReader as _class_BufReader } from "jsr:@std/io@0.224.8"
+import { BufReader as _class_BufReader } from "jsr:@std/io@0.224.9"
 /**
  * Implements buffering for a {@linkcode Reader} object.
  *
@@ -88,12 +94,14 @@ import { BufReader as _class_BufReader } from "jsr:@std/io@0.224.8"
  * assertEquals(decoder.decode(buf), "hello world");
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
+ * This will be removed in 0.225.0.
  */
 class BufReader extends _class_BufReader {}
 export { BufReader }
 
-import { AbstractBufBase as _class_AbstractBufBase } from "jsr:@std/io@0.224.8"
+import { AbstractBufBase as _class_AbstractBufBase } from "jsr:@std/io@0.224.9"
 /**
  * AbstractBufBase is a base class which other classes can embed to
  * implement the {@inkcode Reader} and {@linkcode Writer} interfaces.
@@ -117,7 +125,7 @@ import { AbstractBufBase as _class_AbstractBufBase } from "jsr:@std/io@0.224.8"
 abstract class AbstractBufBase extends _class_AbstractBufBase {}
 export { AbstractBufBase }
 
-import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.8"
+import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.9"
 /**
  * `BufWriter` implements buffering for an {@linkcode Writer} object.
  * If an error occurs writing to a Writer, no more data will be
@@ -146,12 +154,13 @@ import { BufWriter as _class_BufWriter } from "jsr:@std/io@0.224.8"
  * assertEquals(bufWriter.buffered(), 0);
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0. Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
  */
 class BufWriter extends _class_BufWriter {}
 export { BufWriter }
 
-import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.8"
+import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.9"
 /**
  * BufWriterSync implements buffering for a deno.WriterSync object.
  * If an error occurs writing to a WriterSync, no more data will be
@@ -180,12 +189,13 @@ import { BufWriterSync as _class_BufWriterSync } from "jsr:@std/io@0.224.8"
  * assertEquals(bufWriter.buffered(), 0);
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0. Use
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instead.
  */
 class BufWriterSync extends _class_BufWriterSync {}
 export { BufWriterSync }
 
-import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.8"
+import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.9"
 /**
  * A variable-sized buffer of bytes with `read()` and `write()` methods.
  *
@@ -220,14 +230,14 @@ import { Buffer as _class_Buffer } from "jsr:@std/io@0.224.8"
 class Buffer extends _class_Buffer {}
 export { Buffer }
 
-import { copy as _function_copy } from "jsr:@std/io@0.224.8"
+import { copy as _function_copy } from "jsr:@std/io@0.224.9"
 /**
  * Copies from `src` to `dst` until either EOF (`null`) is read from `src` or
  * an error occurs. It resolves to the number of bytes copied or rejects with
  * the first error encountered while copying.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { copy } from "@std/io/copy";
  *
  * const source = await Deno.open("my_file.txt");
@@ -244,7 +254,7 @@ import { copy as _function_copy } from "jsr:@std/io@0.224.8"
 const copy = _function_copy as typeof _function_copy
 export { copy }
 
-import { copyN as _function_copyN } from "jsr:@std/io@0.224.8"
+import { copyN as _function_copyN } from "jsr:@std/io@0.224.9"
 /**
  * Copy N size at the most. If read size is lesser than N, then returns nread
  *
@@ -253,7 +263,7 @@ import { copyN as _function_copyN } from "jsr:@std/io@0.224.8"
  * import { copyN } from "@std/io/copy-n";
  * import { assertEquals } from "@std/assert/equals";
  *
- * const source = await Deno.open("README.md");
+ * using source = await Deno.open("README.md");
  *
  * const res = await copyN(source, Deno.stdout, 10);
  * assertEquals(res, 10);
@@ -264,12 +274,14 @@ import { copyN as _function_copyN } from "jsr:@std/io@0.224.8"
  * @param size Read size
  * @return Number of bytes copied
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Pipe the readable stream through a new
+ * {@linkcode https://jsr.io/@std/streams/doc/~/ByteSliceStream | ByteSliceStream}
+ * instead. This will be removed in 0.225.0.
  */
 const copyN = _function_copyN as typeof _function_copyN
 export { copyN }
 
-import type { Reader as _interface_Reader } from "jsr:@std/io@0.224.8"
+import type { Reader as _interface_Reader } from "jsr:@std/io@0.224.9"
 /**
  * An abstract interface which when implemented provides an interface to read
  * bytes into an array buffer asynchronously.
@@ -277,7 +289,7 @@ import type { Reader as _interface_Reader } from "jsr:@std/io@0.224.8"
 interface Reader extends _interface_Reader {}
 export type { Reader }
 
-import type { ReaderSync as _interface_ReaderSync } from "jsr:@std/io@0.224.8"
+import type { ReaderSync as _interface_ReaderSync } from "jsr:@std/io@0.224.9"
 /**
  * An abstract interface which when implemented provides an interface to read
  * bytes into an array buffer synchronously.
@@ -285,7 +297,7 @@ import type { ReaderSync as _interface_ReaderSync } from "jsr:@std/io@0.224.8"
 interface ReaderSync extends _interface_ReaderSync {}
 export type { ReaderSync }
 
-import { iterateReader as _function_iterateReader } from "jsr:@std/io@0.224.8"
+import { iterateReader as _function_iterateReader } from "jsr:@std/io@0.224.9"
 /**
  * Turns a {@linkcode Reader} into an async iterator.
  *
@@ -320,7 +332,7 @@ import { iterateReader as _function_iterateReader } from "jsr:@std/io@0.224.8"
 const iterateReader = _function_iterateReader as typeof _function_iterateReader
 export { iterateReader }
 
-import { iterateReaderSync as _function_iterateReaderSync } from "jsr:@std/io@0.224.8"
+import { iterateReaderSync as _function_iterateReaderSync } from "jsr:@std/io@0.224.9"
 /**
  * Turns a {@linkcode ReaderSync} into an iterator.
  *
@@ -364,7 +376,7 @@ import { iterateReaderSync as _function_iterateReaderSync } from "jsr:@std/io@0.
 const iterateReaderSync = _function_iterateReaderSync as typeof _function_iterateReaderSync
 export { iterateReaderSync }
 
-import { LimitedReader as _class_LimitedReader } from "jsr:@std/io@0.224.8"
+import { LimitedReader as _class_LimitedReader } from "jsr:@std/io@0.224.9"
 /**
  * Reads from `reader` but limits the amount of data returned to just `limit` bytes.
  * Each call to `read` updates `limit` to reflect the new amount remaining.
@@ -385,12 +397,14 @@ import { LimitedReader as _class_LimitedReader } from "jsr:@std/io@0.224.8"
  * assertEquals(new TextDecoder().decode(res), "hello");
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Pipe the readable through a
+ * {@linkcode https://jsr.io/@std/streams/doc/limited-bytes-transform-stream/~/LimitedBytesTransformStream | LimitedBytesTransformStream}
+ * instead. This will be removed in 0.225.0.
  */
 class LimitedReader extends _class_LimitedReader {}
 export { LimitedReader }
 
-import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.8"
+import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.9"
 /**
  * Reader utility for combining multiple readers.
  *
@@ -410,18 +424,20 @@ import { MultiReader as _class_MultiReader } from "jsr:@std/io@0.224.8"
  * assertEquals(new TextDecoder().decode(res), "helloworld");
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/merge-readable-streams/~/mergeReadableStreams | mergeReadableStreams}
+ * on readable streams instead. This will be removed in 0.225.0.
  */
 class MultiReader extends _class_MultiReader {}
 export { MultiReader }
 
-import { readAll as _function_readAll } from "jsr:@std/io@0.224.8"
+import { readAll as _function_readAll } from "jsr:@std/io@0.224.9"
 /**
  * Read {@linkcode Reader} `r` until EOF (`null`) and resolve to the content as
  * {@linkcode Uint8Array}.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { readAll } from "@std/io/read-all";
  *
  * // Example from stdin
@@ -438,13 +454,13 @@ import { readAll as _function_readAll } from "jsr:@std/io@0.224.8"
 const readAll = _function_readAll as typeof _function_readAll
 export { readAll }
 
-import { readAllSync as _function_readAllSync } from "jsr:@std/io@0.224.8"
+import { readAllSync as _function_readAllSync } from "jsr:@std/io@0.224.9"
 /**
  * Synchronously reads {@linkcode ReaderSync} `r` until EOF (`null`) and returns
  * the content as {@linkcode Uint8Array}.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { readAllSync } from "@std/io/read-all";
  *
  * // Example from stdin
@@ -461,7 +477,7 @@ import { readAllSync as _function_readAllSync } from "jsr:@std/io@0.224.8"
 const readAllSync = _function_readAllSync as typeof _function_readAllSync
 export { readAllSync }
 
-import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.8"
+import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.9"
 /**
  * Read delimited bytes from a {@linkcode Reader} through an
  * {@linkcode AsyncIterableIterator} of {@linkcode Uint8Array}.
@@ -471,7 +487,8 @@ import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.8"
  * import { readDelim } from "@std/io/read-delim";
  * import { assert } from "@std/assert/assert"
  *
- * const fileReader = await Deno.open("README.md");
+ * using fileReader = await Deno.open("README.md");
+ *
  * for await (const chunk of readDelim(fileReader, new TextEncoder().encode("\n"))) {
  *   assert(chunk instanceof Uint8Array);
  * }
@@ -481,12 +498,14 @@ import { readDelim as _function_readDelim } from "jsr:@std/io@0.224.8"
  * @param delim The delimiter to read until
  * @return The {@linkcode AsyncIterableIterator} of {@linkcode Uint8Array}s.
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/byte-slice-stream/~/ByteSliceStream | ByteSliceStream}
+ * instead. This will be removed in 0.225.0.
  */
 const readDelim = _function_readDelim as typeof _function_readDelim
 export { readDelim }
 
-import { readInt as _function_readInt } from "jsr:@std/io@0.224.8"
+import { readInt as _function_readInt } from "jsr:@std/io@0.224.9"
 /**
  * Read big endian 32bit integer from a {@linkcode BufReader}.
  *
@@ -505,12 +524,12 @@ import { readInt as _function_readInt } from "jsr:@std/io@0.224.8"
  * @param buf The buffer reader to read from
  * @return The 32bit integer
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0.
  */
 const readInt = _function_readInt as typeof _function_readInt
 export { readInt }
 
-import { readLines as _function_readLines } from "jsr:@std/io@0.224.8"
+import { readLines as _function_readLines } from "jsr:@std/io@0.224.9"
 /**
  * Read strings line-by-line from a {@linkcode Reader}.
  *
@@ -519,7 +538,7 @@ import { readLines as _function_readLines } from "jsr:@std/io@0.224.8"
  * import { readLines } from "@std/io/read-lines";
  * import { assert } from "@std/assert/assert"
  *
- * let fileReader = await Deno.open("README.md");
+ * using fileReader = await Deno.open("README.md");
  *
  * for await (let line of readLines(fileReader)) {
  *   assert(typeof line === "string");
@@ -530,12 +549,14 @@ import { readLines as _function_readLines } from "jsr:@std/io@0.224.8"
  * @param decoderOpts The options
  * @return The async iterator of strings
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/unstable-to-lines/~/toLines | toLines}
+ * on the readable stream instead. This will be removed in 0.225.0.
  */
 const readLines = _function_readLines as typeof _function_readLines
 export { readLines }
 
-import { readLong as _function_readLong } from "jsr:@std/io@0.224.8"
+import { readLong as _function_readLong } from "jsr:@std/io@0.224.9"
 /**
  * Read big endian 64bit long from a {@linkcode BufReader}.
  *
@@ -556,12 +577,12 @@ import { readLong as _function_readLong } from "jsr:@std/io@0.224.8"
  * @throws If the reader returns unexpected EOF
  * @throws If the long value is too big to be represented as a JavaScript number
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0.
  */
 const readLong = _function_readLong as typeof _function_readLong
 export { readLong }
 
-import type { ByteRange as _interface_ByteRange } from "jsr:@std/io@0.224.8"
+import type { ByteRange as _interface_ByteRange } from "jsr:@std/io@0.224.9"
 /**
  * The range of bytes to read from a file or other resource that is readable.
  *
@@ -570,14 +591,14 @@ import type { ByteRange as _interface_ByteRange } from "jsr:@std/io@0.224.8"
 interface ByteRange extends _interface_ByteRange {}
 export type { ByteRange }
 
-import { readRange as _function_readRange } from "jsr:@std/io@0.224.8"
+import { readRange as _function_readRange } from "jsr:@std/io@0.224.9"
 /**
  * Read a range of bytes from a file or other resource that is readable and
  * seekable.  The range start and end are inclusive of the bytes within that
  * range.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertEquals } from "@std/assert";
  * import { readRange } from "@std/io/read-range";
  *
@@ -591,19 +612,21 @@ import { readRange as _function_readRange } from "jsr:@std/io@0.224.8"
  * @param range The range of bytes to read
  * @return The bytes read
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Use
+ * {@linkcode https://jsr.io/@std/streams/doc/byte-slice-stream/~/ByteSliceStream | ByteSliceStream}
+ * instead. This will be removed in 0.225.0.
  */
 const readRange = _function_readRange as typeof _function_readRange
 export { readRange }
 
-import { readRangeSync as _function_readRangeSync } from "jsr:@std/io@0.224.8"
+import { readRangeSync as _function_readRangeSync } from "jsr:@std/io@0.224.9"
 /**
  * Read a range of bytes synchronously from a file or other resource that is
  * readable and seekable.  The range start and end are inclusive of the bytes
  * within that range.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertEquals } from "@std/assert";
  * import { readRangeSync } from "@std/io/read-range";
  *
@@ -622,7 +645,7 @@ import { readRangeSync as _function_readRangeSync } from "jsr:@std/io@0.224.8"
 const readRangeSync = _function_readRangeSync as typeof _function_readRangeSync
 export { readRangeSync }
 
-import { readShort as _function_readShort } from "jsr:@std/io@0.224.8"
+import { readShort as _function_readShort } from "jsr:@std/io@0.224.9"
 /**
  * Read big endian 16bit short from a {@linkcode BufReader}.
  *
@@ -641,12 +664,12 @@ import { readShort as _function_readShort } from "jsr:@std/io@0.224.8"
  * @param buf The reader to read from
  * @return The 16bit short
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0.
  */
 const readShort = _function_readShort as typeof _function_readShort
 export { readShort }
 
-import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.8"
+import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.9"
 /**
  * Read {@linkcode Reader} chunk by chunk, splitting based on delimiter.
  *
@@ -655,7 +678,7 @@ import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.
  * import { readStringDelim } from "@std/io/read-string-delim";
  * import { assert } from "@std/assert/assert"
  *
- * let fileReader = await Deno.open("README.md");
+ * using fileReader = await Deno.open("README.md");
  *
  * for await (let line of readStringDelim(fileReader, "\n")) {
  *   assert(typeof line === "string");
@@ -667,17 +690,19 @@ import { readStringDelim as _function_readStringDelim } from "jsr:@std/io@0.224.
  * @param decoderOpts The options
  * @return The async iterator of strings
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Pipe the readable stream through a
+ * {@linkcode https://jsr.io/@std/streams/doc/~/TextDelimiterStream | TextDelimiterStream}
+ * instead. This will be removed in 0.225.0.
  */
 const readStringDelim = _function_readStringDelim as typeof _function_readStringDelim
 export { readStringDelim }
 
-import { readerFromStreamReader as _function_readerFromStreamReader } from "jsr:@std/io@0.224.8"
+import { readerFromStreamReader as _function_readerFromStreamReader } from "jsr:@std/io@0.224.9"
 /**
  * Create a {@linkcode Reader} from a {@linkcode ReadableStreamDefaultReader}.
  *
  * @example Usage
- * ```ts no-assert
+ * ```ts ignore
  * import { copy } from "@std/io/copy";
  * import { readerFromStreamReader } from "@std/io/reader-from-stream-reader";
  *
@@ -693,7 +718,7 @@ import { readerFromStreamReader as _function_readerFromStreamReader } from "jsr:
 const readerFromStreamReader = _function_readerFromStreamReader as typeof _function_readerFromStreamReader
 export { readerFromStreamReader }
 
-import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.224.8"
+import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.224.9"
 /**
  * Slice number into 64bit big endian byte array.
  *
@@ -710,12 +735,12 @@ import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.22
  * @param dest The array to store the sliced bytes
  * @return The sliced bytes
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0.
  */
 const sliceLongToBytes = _function_sliceLongToBytes as typeof _function_sliceLongToBytes
 export { sliceLongToBytes }
 
-import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.8"
+import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.9"
 /**
  * Reader utility for strings.
  *
@@ -734,12 +759,14 @@ import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.8"
  * assertEquals(new TextDecoder().decode(data), "abcdef");
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Pass an encoded string to a new
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instance
+ * instead. This will be removed in 0.225.0.
  */
 class StringReader extends _class_StringReader {}
 export { StringReader }
 
-import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.8"
+import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.9"
 /**
  * Writer utility for buffering string chunks.
  *
@@ -763,19 +790,21 @@ import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.8"
  * assertEquals(w.toString(), "base0123456789");
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Write to a
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer}'s
+ * `writable` property instead. This will be removed in 0.225.0.
  */
 class StringWriter extends _class_StringWriter {}
 export { StringWriter }
 
-import type { ToReadableStreamOptions as _interface_ToReadableStreamOptions } from "jsr:@std/io@0.224.8"
+import type { ToReadableStreamOptions as _interface_ToReadableStreamOptions } from "jsr:@std/io@0.224.9"
 /**
  * Options for {@linkcode toReadableStream}.
  */
 interface ToReadableStreamOptions extends _interface_ToReadableStreamOptions {}
 export type { ToReadableStreamOptions }
 
-import { toReadableStream as _function_toReadableStream } from "jsr:@std/io@0.224.8"
+import { toReadableStream as _function_toReadableStream } from "jsr:@std/io@0.224.9"
 /**
  * Create a {@linkcode ReadableStream} of {@linkcode Uint8Array}s from a
  * {@linkcode Reader}.
@@ -788,7 +817,7 @@ import { toReadableStream as _function_toReadableStream } from "jsr:@std/io@0.22
  * ```ts no-assert
  * import { toReadableStream } from "@std/io/to-readable-stream";
  *
- * const file = await Deno.open("./README.md", { read: true });
+ * using file = await Deno.open("./README.md", { read: true });
  * const fileStream = toReadableStream(file);
  * ```
  *
@@ -799,14 +828,14 @@ import { toReadableStream as _function_toReadableStream } from "jsr:@std/io@0.22
 const toReadableStream = _function_toReadableStream as typeof _function_toReadableStream
 export { toReadableStream }
 
-import type { toWritableStreamOptions as _interface_toWritableStreamOptions } from "jsr:@std/io@0.224.8"
+import type { toWritableStreamOptions as _interface_toWritableStreamOptions } from "jsr:@std/io@0.224.9"
 /**
  * Options for {@linkcode toWritableStream}.
  */
 interface toWritableStreamOptions extends _interface_toWritableStreamOptions {}
 export type { toWritableStreamOptions }
 
-import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.224.8"
+import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.224.9"
 /**
  * Create a {@linkcode WritableStream} from a {@linkcode Writer}.
  *
@@ -814,9 +843,7 @@ import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.22
  * ```ts no-assert
  * import { toWritableStream } from "@std/io/to-writable-stream";
  *
- * await ReadableStream.from(["Hello World"])
- *   .pipeThrough(new TextEncoderStream())
- *   .pipeTo(toWritableStream(Deno.stdout));
+ * const a = toWritableStream(Deno.stdout); // Same as `Deno.stdout.writable`
  * ```
  *
  * @param writer The writer to write to
@@ -826,7 +853,7 @@ import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.22
 const toWritableStream = _function_toWritableStream as typeof _function_toWritableStream
 export { toWritableStream }
 
-import type { Writer as _interface_Writer } from "jsr:@std/io@0.224.8"
+import type { Writer as _interface_Writer } from "jsr:@std/io@0.224.9"
 /**
  * An abstract interface which when implemented provides an interface to write
  * bytes from an array buffer to a file/resource asynchronously.
@@ -834,7 +861,7 @@ import type { Writer as _interface_Writer } from "jsr:@std/io@0.224.8"
 interface Writer extends _interface_Writer {}
 export type { Writer }
 
-import type { WriterSync as _interface_WriterSync } from "jsr:@std/io@0.224.8"
+import type { WriterSync as _interface_WriterSync } from "jsr:@std/io@0.224.9"
 /**
  * An abstract interface which when implemented provides an interface to write
  * bytes from an array buffer to a file/resource synchronously.
@@ -842,7 +869,7 @@ import type { WriterSync as _interface_WriterSync } from "jsr:@std/io@0.224.8"
 interface WriterSync extends _interface_WriterSync {}
 export type { WriterSync }
 
-import type { Closer as _interface_Closer } from "jsr:@std/io@0.224.8"
+import type { Closer as _interface_Closer } from "jsr:@std/io@0.224.9"
 /**
  * An abstract interface which when implemented provides an interface to close
  * files/resources that were previously opened.
@@ -850,7 +877,7 @@ import type { Closer as _interface_Closer } from "jsr:@std/io@0.224.8"
 interface Closer extends _interface_Closer {}
 export type { Closer }
 
-import { SeekMode as _enum_SeekMode } from "jsr:@std/io@0.224.8"
+import { SeekMode as _enum_SeekMode } from "jsr:@std/io@0.224.9"
 /**
  * A enum which defines the seek mode for IO related APIs that support
  * seeking.
@@ -858,7 +885,7 @@ import { SeekMode as _enum_SeekMode } from "jsr:@std/io@0.224.8"
 const SeekMode = _enum_SeekMode as typeof _enum_SeekMode
 export { SeekMode }
 
-import type { Seeker as _interface_Seeker } from "jsr:@std/io@0.224.8"
+import type { Seeker as _interface_Seeker } from "jsr:@std/io@0.224.9"
 /**
  * An abstract interface which when implemented provides an interface to seek
  * within an open file/resource asynchronously.
@@ -866,7 +893,7 @@ import type { Seeker as _interface_Seeker } from "jsr:@std/io@0.224.8"
 interface Seeker extends _interface_Seeker {}
 export type { Seeker }
 
-import type { SeekerSync as _interface_SeekerSync } from "jsr:@std/io@0.224.8"
+import type { SeekerSync as _interface_SeekerSync } from "jsr:@std/io@0.224.9"
 /**
  * An abstract interface which when implemented provides an interface to seek
  * within an open file/resource synchronously.
@@ -874,7 +901,7 @@ import type { SeekerSync as _interface_SeekerSync } from "jsr:@std/io@0.224.8"
 interface SeekerSync extends _interface_SeekerSync {}
 export type { SeekerSync }
 
-import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.8"
+import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.9"
 /**
  * Write all the content of the array buffer (`arr`) to the writer (`w`).
  *
@@ -887,7 +914,7 @@ import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.8"
  * ```
  *
  * @example Writing to file
- * ```ts no-eval no-assert
+ * ```ts ignore no-assert
  * import { writeAll } from "@std/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");
@@ -901,7 +928,7 @@ import { writeAll as _function_writeAll } from "jsr:@std/io@0.224.8"
 const writeAll = _function_writeAll as typeof _function_writeAll
 export { writeAll }
 
-import { writeAllSync as _function_writeAllSync } from "jsr:@std/io@0.224.8"
+import { writeAllSync as _function_writeAllSync } from "jsr:@std/io@0.224.9"
 /**
  * Synchronously write all the content of the array buffer (`arr`) to the
  * writer (`w`).
@@ -915,7 +942,7 @@ import { writeAllSync as _function_writeAllSync } from "jsr:@std/io@0.224.8"
  * ```
  *
  * @example Writing to file
- * ```ts no-eval no-assert
+ * ```ts ignore no-assert
  * import { writeAllSync } from "@std/io/write-all";
  *
  * const contentBytes = new TextEncoder().encode("Hello World");

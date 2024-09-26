@@ -1,4 +1,4 @@
-import { filterValues as _function_filterValues } from "jsr:@std/collections@1.0.6/filter-values"
+import { filterValues as _function_filterValues } from "jsr:@std/collections@1.0.7/filter-values"
 /**
  * Returns a new record with all entries of the given record except the ones
  * that have a value that does not match the given predicate.

@@ -1,16 +1,16 @@
-import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@1.0.6/file-server"
+import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@1.0.7/file-server"
 /**
  * Options for {@linkcode serveFile}.
  */
 interface ServeFileOptions extends _interface_ServeFileOptions {}
 export type { ServeFileOptions }
 
-import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.6/file-server"
+import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.7/file-server"
 /**
  * Resolves a {@linkcode Response} with the requested file as the body.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { serveFile } from "@std/http/file-server";
  *
  * Deno.serve((req) => {
@@ -26,19 +26,19 @@ import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.6/file-serve
 const serveFile = _function_serveFile as typeof _function_serveFile
 export { serveFile }
 
-import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@1.0.6/file-server"
+import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@1.0.7/file-server"
 /**
  * Interface for serveDir options.
  */
 interface ServeDirOptions extends _interface_ServeDirOptions {}
 export type { ServeDirOptions }
 
-import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.6/file-server"
+import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.7/file-server"
 /**
  * Serves the files under the given directory root (opts.fsRoot).
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { serveDir } from "@std/http/file-server";
  *
  * Deno.serve((req) => {
@@ -57,7 +57,7 @@ import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.6/file-server"
  *
  * Requests to `/static/path/to/file` will be served from `./public/path/to/file`.
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { serveDir } from "@std/http/file-server";
  *
  * Deno.serve((req) => serveDir(req, {

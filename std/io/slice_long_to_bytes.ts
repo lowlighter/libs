@@ -1,4 +1,4 @@
-import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.224.8/slice-long-to-bytes"
+import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.224.9/slice-long-to-bytes"
 /**
  * Slice number into 64bit big endian byte array.
  *
@@ -15,7 +15,7 @@ import { sliceLongToBytes as _function_sliceLongToBytes } from "jsr:@std/io@0.22
  * @param dest The array to store the sliced bytes
  * @return The sliced bytes
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0.
  */
 const sliceLongToBytes = _function_sliceLongToBytes as typeof _function_sliceLongToBytes
 export { sliceLongToBytes }

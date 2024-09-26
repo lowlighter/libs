@@ -1,4 +1,4 @@
-import { sumOf as _function_sumOf } from "jsr:@std/collections@1.0.6/sum-of"
+import { sumOf as _function_sumOf } from "jsr:@std/collections@1.0.7/sum-of"
 /**
  * Applies the given selector to all elements in the given collection and
  * calculates the sum of the results.

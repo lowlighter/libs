@@ -1,10 +1,10 @@
-import { assertGreaterOrEqual as _function_assertGreaterOrEqual } from "jsr:@std/assert@1.0.5/greater-or-equal"
+import { assertGreaterOrEqual as _function_assertGreaterOrEqual } from "jsr:@std/assert@1.0.6/greater-or-equal"
 /**
  * Make an assertion that `actual` is greater than or equal to `expected`.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertGreaterOrEqual } from "@std/assert";
  *
  * assertGreaterOrEqual(2, 1); // Doesn't throw

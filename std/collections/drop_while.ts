@@ -1,4 +1,4 @@
-import { dropWhile as _function_dropWhile } from "jsr:@std/collections@1.0.6/drop-while"
+import { dropWhile as _function_dropWhile } from "jsr:@std/collections@1.0.7/drop-while"
 /**
  * Returns a new array that drops all elements in the given collection until the
  * first element that does not match the given predicate.

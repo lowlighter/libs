@@ -6,7 +6,7 @@
  * This module is browser compatible, but do not rely on good formatting of
  * values for AssertionError messages in browsers.
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { assert } from "@std/assert";
  *
  * assert("I am truthy"); // Doesn't throw
@@ -15,7 +15,7 @@
  *
  * @module
  */
-import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/assert@1.0.5"
+import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` and `expected` are almost equal numbers
  * through a given tolerance. It can be used to take into account IEEE-754
@@ -26,7 +26,7 @@ import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/ass
  * expected value.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertAlmostEquals } from "@std/assert";
  *
  * assertAlmostEquals(0.01, 0.02); // Throws
@@ -46,14 +46,14 @@ import { assertAlmostEquals as _function_assertAlmostEquals } from "jsr:@std/ass
 const assertAlmostEquals = _function_assertAlmostEquals as typeof _function_assertAlmostEquals
 export { assertAlmostEquals }
 
-import type { ArrayLikeArg as _typeAlias_ArrayLikeArg } from "jsr:@std/assert@1.0.5"
+import type { ArrayLikeArg as _typeAlias_ArrayLikeArg } from "jsr:@std/assert@1.0.6"
 /**
  * An array-like object (`Array`, `Uint8Array`, `NodeList`, etc.) that is not a string
  */
 type ArrayLikeArg<T> = _typeAlias_ArrayLikeArg<T>
 export type { ArrayLikeArg }
 
-import { assertArrayIncludes as _function_assertArrayIncludes } from "jsr:@std/assert@1.0.5"
+import { assertArrayIncludes as _function_assertArrayIncludes } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` includes the `expected` values. If not then
  * an error will be thrown.
@@ -62,7 +62,7 @@ import { assertArrayIncludes as _function_assertArrayIncludes } from "jsr:@std/a
  * same type.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertArrayIncludes } from "@std/assert";
  *
  * assertArrayIncludes([1, 2], [2]); // Doesn't throw
@@ -77,7 +77,7 @@ import { assertArrayIncludes as _function_assertArrayIncludes } from "jsr:@std/a
 const assertArrayIncludes = _function_assertArrayIncludes as typeof _function_assertArrayIncludes
 export { assertArrayIncludes }
 
-import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.5"
+import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` and `expected` are equal, deeply. If not
  * deeply equal, then throw.
@@ -86,7 +86,7 @@ import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.5"
  * same type.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertEquals } from "@std/assert";
  *
  * assertEquals("world", "world"); // Doesn't throw
@@ -101,13 +101,13 @@ import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.5"
 const assertEquals = _function_assertEquals as typeof _function_assertEquals
 export { assertEquals }
 
-import { assertExists as _function_assertExists } from "jsr:@std/assert@1.0.5"
+import { assertExists as _function_assertExists } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that actual is not null or undefined.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertExists } from "@std/assert";
  *
  * assertExists("something"); // Doesn't throw
@@ -121,19 +121,19 @@ import { assertExists as _function_assertExists } from "jsr:@std/assert@1.0.5"
 const assertExists = _function_assertExists as typeof _function_assertExists
 export { assertExists }
 
-import type { Falsy as _typeAlias_Falsy } from "jsr:@std/assert@1.0.5"
+import type { Falsy as _typeAlias_Falsy } from "jsr:@std/assert@1.0.6"
 /**
  * Assertion condition for {@linkcode assertFalse}.
  */
 type Falsy = _typeAlias_Falsy
 export type { Falsy }
 
-import { assertFalse as _function_assertFalse } from "jsr:@std/assert@1.0.5"
+import { assertFalse as _function_assertFalse } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion, error will be thrown if `expr` have truthy value.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertFalse } from "@std/assert";
  *
  * assertFalse(false); // Doesn't throw
@@ -146,13 +146,13 @@ import { assertFalse as _function_assertFalse } from "jsr:@std/assert@1.0.5"
 const assertFalse = _function_assertFalse as typeof _function_assertFalse
 export { assertFalse }
 
-import { assertGreaterOrEqual as _function_assertGreaterOrEqual } from "jsr:@std/assert@1.0.5"
+import { assertGreaterOrEqual as _function_assertGreaterOrEqual } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` is greater than or equal to `expected`.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertGreaterOrEqual } from "@std/assert";
  *
  * assertGreaterOrEqual(2, 1); // Doesn't throw
@@ -168,13 +168,13 @@ import { assertGreaterOrEqual as _function_assertGreaterOrEqual } from "jsr:@std
 const assertGreaterOrEqual = _function_assertGreaterOrEqual as typeof _function_assertGreaterOrEqual
 export { assertGreaterOrEqual }
 
-import { assertGreater as _function_assertGreater } from "jsr:@std/assert@1.0.5"
+import { assertGreater as _function_assertGreater } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` is greater than `expected`.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertGreater } from "@std/assert";
  *
  * assertGreater(2, 1); // Doesn't throw
@@ -190,27 +190,27 @@ import { assertGreater as _function_assertGreater } from "jsr:@std/assert@1.0.5"
 const assertGreater = _function_assertGreater as typeof _function_assertGreater
 export { assertGreater }
 
-import type { AnyConstructor as _typeAlias_AnyConstructor } from "jsr:@std/assert@1.0.5"
+import type { AnyConstructor as _typeAlias_AnyConstructor } from "jsr:@std/assert@1.0.6"
 /**
  * Any constructor
  */
 type AnyConstructor = _typeAlias_AnyConstructor
 export type { AnyConstructor }
 
-import type { GetConstructorType as _typeAlias_GetConstructorType } from "jsr:@std/assert@1.0.5"
+import type { GetConstructorType as _typeAlias_GetConstructorType } from "jsr:@std/assert@1.0.6"
 /**
  * Gets constructor type
  */
 type GetConstructorType<T extends AnyConstructor> = _typeAlias_GetConstructorType<T>
 export type { GetConstructorType }
 
-import { assertInstanceOf as _function_assertInstanceOf } from "jsr:@std/assert@1.0.5"
+import { assertInstanceOf as _function_assertInstanceOf } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `obj` is an instance of `type`.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertInstanceOf } from "@std/assert";
  *
  * assertInstanceOf(new Date(), Date); // Doesn't throw
@@ -225,7 +225,7 @@ import { assertInstanceOf as _function_assertInstanceOf } from "jsr:@std/assert@
 const assertInstanceOf = _function_assertInstanceOf as typeof _function_assertInstanceOf
 export { assertInstanceOf }
 
-import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.5"
+import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `error` is an `Error`.
  * If not then an error will be thrown.
@@ -233,7 +233,7 @@ import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.5"
  * error message can also be asserted.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertIsError } from "@std/assert";
  *
  * assertIsError(null); // Throws
@@ -252,13 +252,13 @@ import { assertIsError as _function_assertIsError } from "jsr:@std/assert@1.0.5"
 const assertIsError = _function_assertIsError as typeof _function_assertIsError
 export { assertIsError }
 
-import { assertLessOrEqual as _function_assertLessOrEqual } from "jsr:@std/assert@1.0.5"
+import { assertLessOrEqual as _function_assertLessOrEqual } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` is less than or equal to `expected`.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertLessOrEqual } from "@std/assert";
  *
  * assertLessOrEqual(1, 2); // Doesn't throw
@@ -274,13 +274,13 @@ import { assertLessOrEqual as _function_assertLessOrEqual } from "jsr:@std/asser
 const assertLessOrEqual = _function_assertLessOrEqual as typeof _function_assertLessOrEqual
 export { assertLessOrEqual }
 
-import { assertLess as _function_assertLess } from "jsr:@std/assert@1.0.5"
+import { assertLess as _function_assertLess } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` is less than `expected`.
  * If not then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertLess } from "@std/assert";
  *
  * assertLess(1, 2); // Doesn't throw
@@ -295,13 +295,13 @@ import { assertLess as _function_assertLess } from "jsr:@std/assert@1.0.5"
 const assertLess = _function_assertLess as typeof _function_assertLess
 export { assertLess }
 
-import { assertMatch as _function_assertMatch } from "jsr:@std/assert@1.0.5"
+import { assertMatch as _function_assertMatch } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` match RegExp `expected`. If not
  * then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertMatch } from "@std/assert";
  *
  * assertMatch("Raptor", /Raptor/); // Doesn't throw
@@ -315,7 +315,7 @@ import { assertMatch as _function_assertMatch } from "jsr:@std/assert@1.0.5"
 const assertMatch = _function_assertMatch as typeof _function_assertMatch
 export { assertMatch }
 
-import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.0.5"
+import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` and `expected` are not equal, deeply.
  * If not then throw.
@@ -323,7 +323,7 @@ import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.
  * Type parameter can be specified to ensure values under comparison have the same type.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertNotEquals } from "@std/assert";
  *
  * assertNotEquals(1, 2); // Doesn't throw
@@ -338,13 +338,13 @@ import { assertNotEquals as _function_assertNotEquals } from "jsr:@std/assert@1.
 const assertNotEquals = _function_assertNotEquals as typeof _function_assertNotEquals
 export { assertNotEquals }
 
-import { assertNotInstanceOf as _function_assertNotInstanceOf } from "jsr:@std/assert@1.0.5"
+import { assertNotInstanceOf as _function_assertNotInstanceOf } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `obj` is not an instance of `type`.
  * If so, then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertNotInstanceOf } from "@std/assert";
  *
  * assertNotInstanceOf(new Date(), Number); // Doesn't throw
@@ -360,13 +360,13 @@ import { assertNotInstanceOf as _function_assertNotInstanceOf } from "jsr:@std/a
 const assertNotInstanceOf = _function_assertNotInstanceOf as typeof _function_assertNotInstanceOf
 export { assertNotInstanceOf }
 
-import { assertNotMatch as _function_assertNotMatch } from "jsr:@std/assert@1.0.5"
+import { assertNotMatch as _function_assertNotMatch } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` not match RegExp `expected`. If match
  * then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertNotMatch } from "@std/assert";
  *
  * assertNotMatch("Denosaurus", /Raptor/); // Doesn't throw
@@ -380,14 +380,14 @@ import { assertNotMatch as _function_assertNotMatch } from "jsr:@std/assert@1.0.
 const assertNotMatch = _function_assertNotMatch as typeof _function_assertNotMatch
 export { assertNotMatch }
 
-import { assertNotStrictEquals as _function_assertNotStrictEquals } from "jsr:@std/assert@1.0.5"
+import { assertNotStrictEquals as _function_assertNotStrictEquals } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` and `expected` are not strictly equal, using
  * {@linkcode Object.is} for equality comparison. If the values are strictly
  * equal then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertNotStrictEquals } from "@std/assert";
  *
  * assertNotStrictEquals(1, 1); // Throws
@@ -405,13 +405,13 @@ import { assertNotStrictEquals as _function_assertNotStrictEquals } from "jsr:@s
 const assertNotStrictEquals = _function_assertNotStrictEquals as typeof _function_assertNotStrictEquals
 export { assertNotStrictEquals }
 
-import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/assert@1.0.5"
+import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `expected` object is a subset of `actual` object,
  * deeply. If not, then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertObjectMatch } from "@std/assert";
  *
  * assertObjectMatch({ foo: "bar" }, { foo: "bar" }); // Doesn't throw
@@ -421,7 +421,7 @@ import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/asser
  * ```
  *
  * @example Usage with nested objects
- * ```ts no-eval
+ * ```ts ignore
  * import { assertObjectMatch } from "@std/assert";
  *
  * assertObjectMatch({ foo: { bar: 3, baz: 4 } }, { foo: { bar: 3 } }); // Doesn't throw
@@ -435,18 +435,18 @@ import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/asser
 const assertObjectMatch = _function_assertObjectMatch as typeof _function_assertObjectMatch
 export { assertObjectMatch }
 
-import { assertRejects as _function_assertRejects } from "jsr:@std/assert@1.0.5"
+import { assertRejects as _function_assertRejects } from "jsr:@std/assert@1.0.6"
 /** UNDOCUMENTED */
 const assertRejects = _function_assertRejects as typeof _function_assertRejects
 export { assertRejects }
 
-import { assertStrictEquals as _function_assertStrictEquals } from "jsr:@std/assert@1.0.5"
+import { assertStrictEquals as _function_assertStrictEquals } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that `actual` and `expected` are strictly equal, using
  * {@linkcode Object.is} for equality comparison. If not, then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertStrictEquals } from "@std/assert";
  *
  * const a = {};
@@ -466,13 +466,13 @@ import { assertStrictEquals as _function_assertStrictEquals } from "jsr:@std/ass
 const assertStrictEquals = _function_assertStrictEquals as typeof _function_assertStrictEquals
 export { assertStrictEquals }
 
-import { assertStringIncludes as _function_assertStringIncludes } from "jsr:@std/assert@1.0.5"
+import { assertStringIncludes as _function_assertStringIncludes } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion that actual includes expected. If not
  * then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertStringIncludes } from "@std/assert";
  *
  * assertStringIncludes("Hello", "ello"); // Doesn't throw
@@ -486,17 +486,17 @@ import { assertStringIncludes as _function_assertStringIncludes } from "jsr:@std
 const assertStringIncludes = _function_assertStringIncludes as typeof _function_assertStringIncludes
 export { assertStringIncludes }
 
-import { assertThrows as _function_assertThrows } from "jsr:@std/assert@1.0.5"
+import { assertThrows as _function_assertThrows } from "jsr:@std/assert@1.0.6"
 /** UNDOCUMENTED */
 const assertThrows = _function_assertThrows as typeof _function_assertThrows
 export { assertThrows }
 
-import { assert as _function_assert } from "jsr:@std/assert@1.0.5"
+import { assert as _function_assert } from "jsr:@std/assert@1.0.6"
 /**
  * Make an assertion, error will be thrown if `expr` does not have truthy value.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assert } from "@std/assert";
  *
  * assert("hello".includes("ello")); // Doesn't throw
@@ -509,12 +509,12 @@ import { assert as _function_assert } from "jsr:@std/assert@1.0.5"
 const assert = _function_assert as typeof _function_assert
 export { assert }
 
-import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.5"
+import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.6"
 /**
  * Error thrown when an assertion fails.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { AssertionError } from "@std/assert";
  *
  * try {
@@ -530,9 +530,9 @@ import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.5"
 class AssertionError extends _class_AssertionError {}
 export { AssertionError }
 
-import { equal as _function_equal } from "jsr:@std/assert@1.0.5"
+import { equal as _function_equal } from "jsr:@std/assert@1.0.6"
 /**
- * Deep equality comparison used in assertions
+ * Deep equality comparison used in assertions.
  *
  * @param c The actual value
  * @param d The expected value
@@ -540,7 +540,7 @@ import { equal as _function_equal } from "jsr:@std/assert@1.0.5"
  *
  * @example Usage
  * ```ts
- * import { equal } from "@std/assert";
+ * import { equal } from "@std/assert/equal";
  *
  * equal({ foo: "bar" }, { foo: "bar" }); // Returns `true`
  * equal({ foo: "bar" }, { foo: "baz" }); // Returns `false
@@ -549,12 +549,12 @@ import { equal as _function_equal } from "jsr:@std/assert@1.0.5"
 const equal = _function_equal as typeof _function_equal
 export { equal }
 
-import { fail as _function_fail } from "jsr:@std/assert@1.0.5"
+import { fail as _function_fail } from "jsr:@std/assert@1.0.6"
 /**
  * Forcefully throws a failed assertion.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { fail } from "@std/assert";
  *
  * fail("Deliberately failed!"); // Throws
@@ -566,12 +566,12 @@ import { fail as _function_fail } from "jsr:@std/assert@1.0.5"
 const fail = _function_fail as typeof _function_fail
 export { fail }
 
-import { unimplemented as _function_unimplemented } from "jsr:@std/assert@1.0.5"
+import { unimplemented as _function_unimplemented } from "jsr:@std/assert@1.0.6"
 /**
  * Use this to stub out methods that will throw when invoked.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { unimplemented } from "@std/assert";
  *
  * unimplemented(); // Throws
@@ -583,12 +583,12 @@ import { unimplemented as _function_unimplemented } from "jsr:@std/assert@1.0.5"
 const unimplemented = _function_unimplemented as typeof _function_unimplemented
 export { unimplemented }
 
-import { unreachable as _function_unreachable } from "jsr:@std/assert@1.0.5"
+import { unreachable as _function_unreachable } from "jsr:@std/assert@1.0.6"
 /**
  * Use this to assert unreachable code.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { unreachable } from "@std/assert";
  *
  * unreachable(); // Throws

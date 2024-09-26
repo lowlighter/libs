@@ -1,4 +1,4 @@
-import { readLong as _function_readLong } from "jsr:@std/io@0.224.8/read-long"
+import { readLong as _function_readLong } from "jsr:@std/io@0.224.9/read-long"
 /**
  * Read big endian 64bit long from a {@linkcode BufReader}.
  *
@@ -19,7 +19,7 @@ import { readLong as _function_readLong } from "jsr:@std/io@0.224.8/read-long"
  * @throws If the reader returns unexpected EOF
  * @throws If the long value is too big to be represented as a JavaScript number
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0.
  */
 const readLong = _function_readLong as typeof _function_readLong
 export { readLong }

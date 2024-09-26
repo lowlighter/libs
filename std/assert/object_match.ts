@@ -1,10 +1,10 @@
-import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/assert@1.0.5/object-match"
+import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/assert@1.0.6/object-match"
 /**
  * Make an assertion that `expected` object is a subset of `actual` object,
  * deeply. If not, then throw.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertObjectMatch } from "@std/assert";
  *
  * assertObjectMatch({ foo: "bar" }, { foo: "bar" }); // Doesn't throw
@@ -14,7 +14,7 @@ import { assertObjectMatch as _function_assertObjectMatch } from "jsr:@std/asser
  * ```
  *
  * @example Usage with nested objects
- * ```ts no-eval
+ * ```ts ignore
  * import { assertObjectMatch } from "@std/assert";
  *
  * assertObjectMatch({ foo: { bar: 3, baz: 4 } }, { foo: { bar: 3 } }); // Doesn't throw

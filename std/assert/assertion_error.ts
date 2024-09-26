@@ -1,9 +1,9 @@
-import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.5/assertion-error"
+import { AssertionError as _class_AssertionError } from "jsr:@std/assert@1.0.6/assertion-error"
 /**
  * Error thrown when an assertion fails.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { AssertionError } from "@std/assert";
  *
  * try {

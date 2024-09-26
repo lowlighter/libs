@@ -1,4 +1,4 @@
-import { readShort as _function_readShort } from "jsr:@std/io@0.224.8/read-short"
+import { readShort as _function_readShort } from "jsr:@std/io@0.224.9/read-short"
 /**
  * Read big endian 16bit short from a {@linkcode BufReader}.
  *
@@ -17,7 +17,7 @@ import { readShort as _function_readShort } from "jsr:@std/io@0.224.8/read-short
  * @param buf The reader to read from
  * @return The 16bit short
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0.
  */
 const readShort = _function_readShort as typeof _function_readShort
 export { readShort }

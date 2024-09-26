@@ -1,4 +1,4 @@
-import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.3/ensure-dir"
+import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.4/ensure-dir"
 /**
  * Asynchronously ensures that the directory exists, like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=m-mkdir-command#mkdir__row-d3e133766 | mkdir -p}.
@@ -16,7 +16,7 @@ import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.3/ensure-dir"
  * @return A promise that resolves once the directory exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureDir } from "@std/fs/ensure-dir";
  *
  * await ensureDir("./bar");
@@ -25,7 +25,7 @@ import { ensureDir as _function_ensureDir } from "jsr:@std/fs@1.0.3/ensure-dir"
 const ensureDir = _function_ensureDir as typeof _function_ensureDir
 export { ensureDir }
 
-import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.3/ensure-dir"
+import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.4/ensure-dir"
 /**
  * Synchronously ensures that the directory exists, like
  * {@linkcode https://www.ibm.com/docs/en/aix/7.3?topic=m-mkdir-command#mkdir__row-d3e133766 | mkdir -p}.
@@ -43,7 +43,7 @@ import { ensureDirSync as _function_ensureDirSync } from "jsr:@std/fs@1.0.3/ensu
  * @return A void value that returns once the directory exists.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { ensureDirSync } from "@std/fs/ensure-dir";
  *
  * ensureDirSync("./bar");

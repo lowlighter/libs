@@ -1,4 +1,4 @@
-import { readInt as _function_readInt } from "jsr:@std/io@0.224.8/read-int"
+import { readInt as _function_readInt } from "jsr:@std/io@0.224.9/read-int"
 /**
  * Read big endian 32bit integer from a {@linkcode BufReader}.
  *
@@ -17,7 +17,7 @@ import { readInt as _function_readInt } from "jsr:@std/io@0.224.8/read-int"
  * @param buf The buffer reader to read from
  * @return The 32bit integer
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated This will be removed in 0.225.0.
  */
 const readInt = _function_readInt as typeof _function_readInt
 export { readInt }

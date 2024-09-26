@@ -1,4 +1,4 @@
-import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.8/string-writer"
+import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.9/string-writer"
 /**
  * Writer utility for buffering string chunks.
  *
@@ -22,7 +22,9 @@ import { StringWriter as _class_StringWriter } from "jsr:@std/io@0.224.8/string-
  * assertEquals(w.toString(), "base0123456789");
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Write to a
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer}'s
+ * `writable` property instead. This will be removed in 0.225.0.
  */
 class StringWriter extends _class_StringWriter {}
 export { StringWriter }

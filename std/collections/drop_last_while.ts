@@ -1,4 +1,4 @@
-import { dropLastWhile as _function_dropLastWhile } from "jsr:@std/collections@1.0.6/drop-last-while"
+import { dropLastWhile as _function_dropLastWhile } from "jsr:@std/collections@1.0.7/drop-last-while"
 /**
  * Returns a new array that drops all elements in the given collection until the
  * last element that does not match the given predicate.

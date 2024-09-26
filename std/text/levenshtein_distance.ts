@@ -1,4 +1,4 @@
-import { levenshteinDistance as _function_levenshteinDistance } from "jsr:@std/text@1.0.6/levenshtein-distance"
+import { levenshteinDistance as _function_levenshteinDistance } from "jsr:@std/text@1.0.7/levenshtein-distance"
 /**
  * Calculates the
  * {@link https://en.wikipedia.org/wiki/Levenshtein_distance | Levenshtein distance}

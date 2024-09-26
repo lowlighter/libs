@@ -1,11 +1,11 @@
-import type { toWritableStreamOptions as _interface_toWritableStreamOptions } from "jsr:@std/io@0.224.8/to-writable-stream"
+import type { toWritableStreamOptions as _interface_toWritableStreamOptions } from "jsr:@std/io@0.224.9/to-writable-stream"
 /**
  * Options for {@linkcode toWritableStream}.
  */
 interface toWritableStreamOptions extends _interface_toWritableStreamOptions {}
 export type { toWritableStreamOptions }
 
-import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.224.8/to-writable-stream"
+import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.224.9/to-writable-stream"
 /**
  * Create a {@linkcode WritableStream} from a {@linkcode Writer}.
  *
@@ -13,9 +13,7 @@ import { toWritableStream as _function_toWritableStream } from "jsr:@std/io@0.22
  * ```ts no-assert
  * import { toWritableStream } from "@std/io/to-writable-stream";
  *
- * await ReadableStream.from(["Hello World"])
- *   .pipeThrough(new TextEncoderStream())
- *   .pipeTo(toWritableStream(Deno.stdout));
+ * const a = toWritableStream(Deno.stdout); // Same as `Deno.stdout.writable`
  * ```
  *
  * @param writer The writer to write to

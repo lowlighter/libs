@@ -1,4 +1,4 @@
-import { intersect as _function_intersect } from "jsr:@std/collections@1.0.6/intersect"
+import { intersect as _function_intersect } from "jsr:@std/collections@1.0.7/intersect"
 /**
  * Returns all distinct elements that appear at least once in each of the given
  * arrays.

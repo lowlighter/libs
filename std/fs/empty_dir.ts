@@ -1,4 +1,4 @@
-import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.3/empty-dir"
+import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.4/empty-dir"
 /**
  * Asynchronously ensures that a directory is empty.
  *
@@ -15,7 +15,7 @@ import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.3/empty-dir"
  * @return A void promise that resolves once the directory is empty.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { emptyDir } from "@std/fs/empty-dir";
  *
  * await emptyDir("./foo");
@@ -24,7 +24,7 @@ import { emptyDir as _function_emptyDir } from "jsr:@std/fs@1.0.3/empty-dir"
 const emptyDir = _function_emptyDir as typeof _function_emptyDir
 export { emptyDir }
 
-import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.3/empty-dir"
+import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.4/empty-dir"
 /**
  * Synchronously ensures that a directory is empty deletes the directory
  * contents it is not empty.
@@ -42,7 +42,7 @@ import { emptyDirSync as _function_emptyDirSync } from "jsr:@std/fs@1.0.3/empty-
  * @return A void value that returns once the directory is empty.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { emptyDirSync } from "@std/fs/empty-dir";
  *
  * emptyDirSync("./foo");

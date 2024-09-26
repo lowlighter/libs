@@ -1,4 +1,4 @@
-import { LimitedReader as _class_LimitedReader } from "jsr:@std/io@0.224.8/limited-reader"
+import { LimitedReader as _class_LimitedReader } from "jsr:@std/io@0.224.9/limited-reader"
 /**
  * Reads from `reader` but limits the amount of data returned to just `limit` bytes.
  * Each call to `read` updates `limit` to reflect the new amount remaining.
@@ -19,7 +19,9 @@ import { LimitedReader as _class_LimitedReader } from "jsr:@std/io@0.224.8/limit
  * assertEquals(new TextDecoder().decode(res), "hello");
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Pipe the readable through a
+ * {@linkcode https://jsr.io/@std/streams/doc/limited-bytes-transform-stream/~/LimitedBytesTransformStream | LimitedBytesTransformStream}
+ * instead. This will be removed in 0.225.0.
  */
 class LimitedReader extends _class_LimitedReader {}
 export { LimitedReader }

@@ -1,4 +1,4 @@
-import { union as _function_union } from "jsr:@std/collections@1.0.6/union"
+import { union as _function_union } from "jsr:@std/collections@1.0.7/union"
 /**
  * Returns all distinct elements that appear in any of the given arrays.
  *

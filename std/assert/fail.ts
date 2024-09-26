@@ -1,9 +1,9 @@
-import { fail as _function_fail } from "jsr:@std/assert@1.0.5/fail"
+import { fail as _function_fail } from "jsr:@std/assert@1.0.6/fail"
 /**
  * Forcefully throws a failed assertion.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { fail } from "@std/assert";
  *
  * fail("Deliberately failed!"); // Throws

@@ -1,4 +1,4 @@
-import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.8/string-reader"
+import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.9/string-reader"
 /**
  * Reader utility for strings.
  *
@@ -17,7 +17,9 @@ import { StringReader as _class_StringReader } from "jsr:@std/io@0.224.8/string-
  * assertEquals(new TextDecoder().decode(data), "abcdef");
  * ```
  *
- * @deprecated This will be removed in 1.0.0. Use the {@link https://developer.mozilla.org/en-US/docs/Web/API/Streams_API | Web Streams API} instead.
+ * @deprecated Pass an encoded string to a new
+ * {@linkcode https://jsr.io/@std/streams/doc/buffer/~/Buffer | Buffer} instance
+ * instead. This will be removed in 0.225.0.
  */
 class StringReader extends _class_StringReader {}
 export { StringReader }

@@ -1,4 +1,4 @@
-import { reduceGroups as _function_reduceGroups } from "jsr:@std/collections@1.0.6/reduce-groups"
+import { reduceGroups as _function_reduceGroups } from "jsr:@std/collections@1.0.7/reduce-groups"
 /**
  * Applies the given reducer to each group in the given grouping, returning the
  * results together with the respective group keys.

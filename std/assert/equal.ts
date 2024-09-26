@@ -1,6 +1,6 @@
-import { equal as _function_equal } from "jsr:@std/assert@1.0.5/equal"
+import { equal as _function_equal } from "jsr:@std/assert@1.0.6/equal"
 /**
- * Deep equality comparison used in assertions
+ * Deep equality comparison used in assertions.
  *
  * @param c The actual value
  * @param d The expected value
@@ -8,7 +8,7 @@ import { equal as _function_equal } from "jsr:@std/assert@1.0.5/equal"
  *
  * @example Usage
  * ```ts
- * import { equal } from "@std/assert";
+ * import { equal } from "@std/assert/equal";
  *
  * equal({ foo: "bar" }, { foo: "bar" }); // Returns `true`
  * equal({ foo: "bar" }, { foo: "baz" }); // Returns `false

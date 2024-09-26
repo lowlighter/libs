@@ -1,4 +1,4 @@
-import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.5/equals"
+import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.6/equals"
 /**
  * Make an assertion that `actual` and `expected` are equal, deeply. If not
  * deeply equal, then throw.
@@ -7,7 +7,7 @@ import { assertEquals as _function_assertEquals } from "jsr:@std/assert@1.0.5/eq
  * same type.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { assertEquals } from "@std/assert";
  *
  * assertEquals("world", "world"); // Doesn't throw

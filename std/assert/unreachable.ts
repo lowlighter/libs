@@ -1,9 +1,9 @@
-import { unreachable as _function_unreachable } from "jsr:@std/assert@1.0.5/unreachable"
+import { unreachable as _function_unreachable } from "jsr:@std/assert@1.0.6/unreachable"
 /**
  * Use this to assert unreachable code.
  *
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { unreachable } from "@std/assert";
  *
  * unreachable(); // Throws

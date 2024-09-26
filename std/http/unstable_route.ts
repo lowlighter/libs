@@ -1,4 +1,4 @@
-import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.6/unstable-route"
+import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.7/unstable-route"
 /**
  * Request handler for {@linkcode Route}.
  *
@@ -10,7 +10,7 @@ import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.6/unstable
 type Handler = _typeAlias_Handler
 export type { Handler }
 
-import type { Route as _interface_Route } from "jsr:@std/http@1.0.6/unstable-route"
+import type { Route as _interface_Route } from "jsr:@std/http@1.0.7/unstable-route"
 /**
  * Route configuration for {@linkcode route}.
  *
@@ -19,13 +19,13 @@ import type { Route as _interface_Route } from "jsr:@std/http@1.0.6/unstable-rou
 interface Route extends _interface_Route {}
 export type { Route }
 
-import { route as _function_route } from "jsr:@std/http@1.0.6/unstable-route"
+import { route as _function_route } from "jsr:@std/http@1.0.7/unstable-route"
 /**
  * Routes requests to different handlers based on the request path and method.
  *
  * @experimental
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { route, type Route } from "@std/http/unstable-route";
  * import { serveDir } from "@std/http/file-server";
  *
@@ -41,7 +41,12 @@ import { route as _function_route } from "jsr:@std/http@1.0.6/unstable-route"
  *   {
  *     pattern: new URLPattern({ pathname: "/static/*" }),
  *     handler: (req: Request) => serveDir(req)
- *   }
+ *   },
+ *   {
+ *     pattern: new URLPattern({ pathname: "/api" }),
+ *     method: ["GET", "HEAD"],
+ *     handler: (req: Request) => new Response(req.method === 'HEAD' ? null : 'ok'),
+ *   },
  * ];
  *
  * function defaultHandler(_req: Request) {

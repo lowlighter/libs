@@ -56,19 +56,19 @@
  * - Utilities:
  *   - {@linkcode expect.addEqualityTester}
  *   - {@linkcode expect.extend}
+ *   - {@linkcode expect.hasAssertions}
  *
  * Only these functions are still not available:
  * - Matchers:
  *   - `toMatchSnapShot`
- *   - `toMatchInlineSnapShot`
- *   - `toThrowErrorMatchingSnapShot`
- *   - `toThrowErrorMatchingInlineSnapShot`
+ *   - `toMatchInlineSnapshot`
+ *   - `toThrowErrorMatchingSnapshot`
+ *   - `toThrowErrorMatchingInlineSnapshot`
  * - Asymmetric matchers:
  *   - `expect.objectContaining`
  *   - `expect.not.objectContaining`
  * - Utilities:
  *   - `expect.assertions`
- *   - `expect.hasAssertions`
  *   - `expect.addSnapshotSerializer`
  *
  * The tracking issue to add support for unsupported parts of the API is
@@ -80,35 +80,35 @@
  *
  * @module
  */
-import type { AnyConstructor as _typeAlias_AnyConstructor } from "jsr:@std/expect@1.0.3"
+import type { AnyConstructor as _typeAlias_AnyConstructor } from "jsr:@std/expect@1.0.4"
 /**
  * A constructor that accepts any args and returns any value
  */
 type AnyConstructor = _typeAlias_AnyConstructor
 export type { AnyConstructor }
 
-import type { Async as _typeAlias_Async } from "jsr:@std/expect@1.0.3"
+import type { Async as _typeAlias_Async } from "jsr:@std/expect@1.0.4"
 /**
  * converts all the methods in an interface to be async functions
  */
 type Async<T> = _typeAlias_Async<T>
 export type { Async }
 
-import type { Expected as _interface_Expected } from "jsr:@std/expect@1.0.3"
+import type { Expected as _interface_Expected } from "jsr:@std/expect@1.0.4"
 /**
  * The Expected interface defines the available assertion methods.
  */
 interface Expected<IsAsync = false> extends _interface_Expected<IsAsync> {}
 export type { Expected }
 
-import { expect as _namespace_expect } from "jsr:@std/expect@1.0.3"
+import { expect as _namespace_expect } from "jsr:@std/expect@1.0.4"
 /**
  * Additional properties on the `expect` function.
  */
 const expect = _namespace_expect as typeof _namespace_expect
 export { expect }
 
-import { fn as _function_fn } from "jsr:@std/expect@1.0.3"
+import { fn as _function_fn } from "jsr:@std/expect@1.0.4"
 /**
  * Creates a mock function that can be used for testing and assertions.
  *
