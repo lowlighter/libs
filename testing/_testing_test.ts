@@ -70,7 +70,10 @@ for (const runtime of Object.keys(available) as runtime[]) {
   }, { permissions: { run: "inherit" } })
 }
 
-Deno.env.set("TEST_BAR", "baz")
+if (globalThis.Deno) {
+  Deno.env.set("TEST_BAR", "baz")
+}
+
 test("deno")("test() supports custom env", () => {
   expect(Deno.env.get("TEST_FOO")).toBe("bar")
   expect(Deno.env.get("TEST_BAR")).toBe("qux")

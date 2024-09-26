@@ -169,12 +169,11 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
       if ((options as { __norun?: boolean })?.__norun) {
         continue
       }
-      const { env } = options
-      const original = { env: {} as NonNullable<typeof env> }
       runner(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, function () {
+        const original = { env: {} as NonNullable<typeof options["env"]> }
         try {
-          if ((runtime === "deno") && env) {
-            for (const [key, value] of Object.entries(env)) {
+          if ((runtime === "deno") && options.env) {
+            for (const [key, value] of Object.entries(options.env)) {
               if (Deno.env.has(key)) {
                 original.env[key] = Deno.env.get(key)!
               }
@@ -183,8 +182,8 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
           }
           return testcase(runtime, filename, name, fn, (options as { __dryrun?: boolean })?.__dryrun)
         } finally {
-          if ((runtime === "deno") && env) {
-            for (const key of Object.keys(env)) {
+          if ((runtime === "deno") && options.env) {
+            for (const key of Object.keys(options.env)) {
               Deno.env.delete(key)
               if (original.env[key] !== undefined) {
                 Deno.env.set(key, original.env[key])
