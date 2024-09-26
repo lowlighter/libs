@@ -43,6 +43,7 @@ export type options = {
   sanitizeResources?: Deno.TestDefinition["sanitizeResources"]
   sanitizeOps?: Deno.TestDefinition["sanitizeOps"]
   sanitizeExit?: Deno.TestDefinition["sanitizeExit"]
+  env?: Record<string, string>
 }
 
 /** Test runner. */
@@ -85,6 +86,9 @@ export type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn:
  *
  * // Using custom permissions for deno runtime
  * test("deno")(name, () => expect(globalThis.Deno).toBeDefined(), { permissions: "inherit" })
+ *
+ * // Using custom environment variables for deno runtime (this requires `--allow-env` permissions)
+ * test("deno")(name, () => expect(globalThis.Deno.env.get("MY_ENV")).toBe("value"), { permissions: { env: [ "MY_ENV" ] },  env: { MY_ENV: "value" } })
  * ```
  *
  * @example
@@ -166,7 +170,27 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
         continue
       }
       runner(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, function () {
-        return testcase(runtime, filename, name, fn, (options as { __dryrun?: boolean })?.__dryrun)
+        const original = { env: {} as NonNullable<typeof options["env"]> }
+        try {
+          if ((runtime === "deno") && options.env) {
+            for (const [key, value] of Object.entries(options.env)) {
+              if (Deno.env.has(key)) {
+                original.env[key] = Deno.env.get(key)!
+              }
+              Deno.env.set(key, value)
+            }
+          }
+          return testcase(runtime, filename, name, fn, (options as { __dryrun?: boolean })?.__dryrun)
+        } finally {
+          if ((runtime === "deno") && options.env) {
+            for (const key of Object.keys(options.env)) {
+              Deno.env.delete(key)
+              if (original.env[key] !== undefined) {
+                Deno.env.set(key, original.env[key])
+              }
+            }
+          }
+        }
       })
     }
   }

@@ -69,3 +69,17 @@ for (const runtime of Object.keys(available) as runtime[]) {
     await expect(testcase(runtime, filename, "test() stub throws error", () => {})).not.resolves.toThrow()
   }, { permissions: { run: "inherit" } })
 }
+
+if (globalThis.Deno) {
+  Deno.env.set("TEST_BAR", "baz")
+}
+
+test("deno")("test() supports custom env", () => {
+  expect(Deno.env.get("TEST_FOO")).toBe("bar")
+  expect(Deno.env.get("TEST_BAR")).toBe("qux")
+}, { permissions: { env: ["TEST_FOO", "TEST_BAR"] }, env: { TEST_FOO: "bar", TEST_BAR: "qux" } })
+
+test("deno")("test() restore env after applying custom env", () => {
+  expect(Deno.env.get("TEST_FOO")).toBeUndefined()
+  expect(Deno.env.get("TEST_BAR")).toBe("baz")
+}, { permissions: { env: ["TEST_FOO", "TEST_BAR"] } })
