@@ -87,7 +87,7 @@ export type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn:
  * // Using custom permissions for deno runtime
  * test("deno")(name, () => expect(globalThis.Deno).toBeDefined(), { permissions: "inherit" })
  *
- * // Using custom environment variables (this requires `--allow-env` permissions)
+ * // Using custom environment variables for deno runtime (this requires `--allow-env` permissions)
  * test("deno")(name, () => expect(globalThis.Deno.env.get("MY_ENV")).toBe("value"), { permissions: { env: [ "MY_ENV" ] },  env: { MY_ENV: "value" } })
  * ```
  *
@@ -173,7 +173,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
       const original = { env: {} as NonNullable<typeof env> }
       runner(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, function () {
         try {
-          if (env) {
+          if ((runtime === "deno") && env) {
             for (const [key, value] of Object.entries(env)) {
               if (Deno.env.has(key)) {
                 original.env[key] = Deno.env.get(key)!
@@ -183,7 +183,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
           }
           return testcase(runtime, filename, name, fn, (options as { __dryrun?: boolean })?.__dryrun)
         } finally {
-          if (env) {
+          if ((runtime === "deno") && env) {
             for (const key of Object.keys(env)) {
               Deno.env.delete(key)
               if (original.env[key] !== undefined) {
