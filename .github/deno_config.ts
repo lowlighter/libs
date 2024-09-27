@@ -37,6 +37,7 @@ const order = [
   "tasks",
   "lint",
   "fmt",
+  "compilerOptions",
 ]
 
 // Load local configurations
