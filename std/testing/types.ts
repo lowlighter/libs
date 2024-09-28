@@ -1,3 +1,20 @@
+/**
+ * Testing utilities for types.
+ *
+ * ```ts expect-error ignore
+ * import { assertType, IsExact, IsNullable } from "@std/testing/types";
+ *
+ * const result = "some result" as string | number;
+ *
+ * // compile error if the type of `result` is not exactly `string | number`
+ * assertType<IsExact<typeof result, string | number>>(true);
+ *
+ * // causes a compile error that `true` is not assignable to `false`
+ * assertType<IsNullable<string>>(true); // error: string is not nullable
+ * ```
+ *
+ * @module
+ */
 import { assertType as _function_assertType } from "jsr:@std/testing@1.0.3/types"
 /**
  * Asserts at compile time that the provided type argument's type resolves to the expected boolean literal type.

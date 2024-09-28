@@ -1,3 +1,20 @@
+/**
+ * Format milliseconds to time duration.
+ *
+ * ```ts
+ * import { format } from "@std/fmt/duration";
+ * import { assertEquals } from "@std/assert";
+ *
+ * assertEquals(format(99674, { style: "digital" }), "00:00:01:39:674:000:000");
+ *
+ * assertEquals(format(99674), "0d 0h 1m 39s 674ms 0µs 0ns");
+ *
+ * assertEquals(format(99674, { ignoreZero: true }), "1m 39s 674ms");
+ *
+ * assertEquals(format(99674, { style: "full", ignoreZero: true }), "1 minutes, 39 seconds, 674 milliseconds");
+ * ```
+ * @module
+ */
 import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/fmt@1.0.2/duration"
 /**
  * Options for {@linkcode format}.

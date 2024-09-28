@@ -1,3 +1,18 @@
+/**
+ * Convert bytes to a human-readable string: 1337 → 1.34 kB
+ *
+ * Based on {@link https://github.com/sindresorhus/pretty-bytes | pretty-bytes}.
+ * A utility for displaying file sizes for humans.
+ *
+ * ```ts
+ * import { format } from "@std/fmt/bytes";
+ * import { assertEquals } from "@std/assert";
+ *
+ * assertEquals(format(1337), "1.34 kB");
+ * assertEquals(format(100), "100 B");
+ * ```
+ * @module
+ */
 import type { FormatOptions as _interface_FormatOptions } from "jsr:@std/fmt@1.0.2/bytes"
 /**
  * Options for {@linkcode format}.

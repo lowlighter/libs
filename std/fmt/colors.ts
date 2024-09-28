@@ -1,3 +1,51 @@
+/**
+ * String formatters and utilities for dealing with ANSI color codes.
+ *
+ * > [!IMPORTANT]
+ * > If printing directly to the console, it's recommended to style console
+ * > output using CSS (guide
+ * > {@linkcode https://developer.mozilla.org/en-US/docs/Web/API/console#styling_console_output | here}).
+ *
+ * This module supports `NO_COLOR` environmental variable disabling any coloring
+ * if `NO_COLOR` is set.
+ *
+ * ```ts no-assert
+ * import {
+ *   bgBlue,
+ *   bgRgb24,
+ *   bgRgb8,
+ *   bold,
+ *   italic,
+ *   red,
+ *   rgb24,
+ *   rgb8,
+ * } from "@std/fmt/colors";
+ *
+ * console.log(bgBlue(italic(red(bold("Hello, World!")))));
+ *
+ * // also supports 8bit colors
+ *
+ * console.log(rgb8("Hello, World!", 42));
+ *
+ * console.log(bgRgb8("Hello, World!", 42));
+ *
+ * // and 24bit rgb
+ *
+ * console.log(rgb24("Hello, World!", {
+ *   r: 41,
+ *   g: 42,
+ *   b: 43,
+ * }));
+ *
+ * console.log(bgRgb24("Hello, World!", {
+ *   r: 41,
+ *   g: 42,
+ *   b: 43,
+ * }));
+ * ```
+ *
+ * @module
+ */
 import type { Rgb as _interface_Rgb } from "jsr:@std/fmt@1.0.2/colors"
 /**
  * RGB 8-bits per channel. Each in range `0->255` or `0x00->0xff`

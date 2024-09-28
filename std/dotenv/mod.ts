@@ -35,7 +35,6 @@ import { load as _function_load } from "jsr:@std/dotenv@0.225.2"
  *
  * ## Basic usage
  * ```sh
- * # .env
  * GREETING=hello world
  * ```
  *
