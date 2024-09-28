@@ -1,7 +1,7 @@
 {
   "icon": "💰",
   "name": "@libs/orm",
-  "version": "0.8.4",
+  "version": "0.9.0",
   "description": "Object-relational mapping toolbox.",
   "keywords": [
     "orm",
