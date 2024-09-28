@@ -27,11 +27,11 @@ export class Attr extends Node implements _Attr {
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Attr/ownerElement
-  get ownerDocument(): Document {
+  override get ownerDocument(): Document {
     return super.ownerDocument!
   }
 
-  set ownerDocument(_: Document) {
+  override set ownerDocument(_: Document) {
     return
   }
 

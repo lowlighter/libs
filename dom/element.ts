@@ -6,7 +6,7 @@ import type { Document } from "./document.ts"
 
 /** https://developer.mozilla.org/en-US/docs/Web/API/Element */
 export class Element extends Node implements _Element {
-  get ownerDocument(): Document {
+  override get ownerDocument(): Document {
     return unimplemented.getter<"immutable">()
   }
 
@@ -337,7 +337,7 @@ export class Element extends Node implements _Element {
     return unimplemented()
   }
 
-  removeChild<T extends _Node>(_child: T): T {
+  override removeChild<T extends _Node>(_child: T): T {
     return unimplemented()
   }
 
@@ -345,7 +345,7 @@ export class Element extends Node implements _Element {
     return unimplemented()
   }
 
-  requestPointerLock(): void {
+  requestPointerLock(): Promise<void> {
     return unimplemented()
   }
 

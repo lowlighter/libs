@@ -555,7 +555,7 @@ export class NodeList<T extends _Node> extends Indexable<T> implements _NodeList
 
   // https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach
   // deno-lint-ignore no-explicit-any
-  forEach(callbackfn: (value: T, index: number, array: this) => void, thisArg?: any): void {
+  override forEach(callbackfn: (value: T, index: number, array: this) => void, thisArg?: any): void {
     // deno-lint-ignore no-explicit-any
     return super.forEach(callbackfn as any, thisArg)
   }

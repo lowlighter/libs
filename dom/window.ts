@@ -730,6 +730,9 @@ export class Window extends EventTarget implements _Window {
   ondragover = null as _Window["ondragover"] // unimplemented
   ondrop = null as _Window["ondrop"] // unimplemented
 
+  oncontextlost = null as _Window["oncontextlost"] // unimplemented
+  oncontextrestored = null as _Window["oncontextrestored"] // unimplemented
+
   onbeforeinput = null as _Window["onbeforeinput"] // unimplemented
   oninput = null as _Window["oninput"] // unimplemented
   onchange = null as _Window["onchange"] // unimplemented

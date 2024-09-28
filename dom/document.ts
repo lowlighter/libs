@@ -19,11 +19,11 @@ export class Document extends Node implements _Document {
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Node/ownerDocument
   // Note: always null for Document
-  get ownerDocument(): null {
+  override get ownerDocument(): null {
     return null
   }
 
-  set ownerDocument(_: null) {
+  override set ownerDocument(_: null) {
     return
   }
 
@@ -276,7 +276,7 @@ export class Document extends Node implements _Document {
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Document/startViewTransition
   // Depends: ViewTransition implementation
-  startViewTransition(): void {
+  startViewTransition(): ViewTransition {
     return unimplemented()
   }
 
@@ -944,6 +944,9 @@ export class Document extends Node implements _Document {
   ondragleave = null as _Document["ondragleave"] // unimplemented
   ondragover = null as _Document["ondragover"] // unimplemented
   ondrop = null as _Document["ondrop"] // unimplemented
+
+  oncontextlost = null as _Document["oncontextlost"] // unimplemented
+  oncontextrestored = null as _Document["oncontextrestored"] // unimplemented
 
   onbeforeinput = null as _Document["onbeforeinput"] // unimplemented
   oninput = null as _Document["oninput"] // unimplemented

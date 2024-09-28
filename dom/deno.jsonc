@@ -25,9 +25,9 @@
   },
   "imports": {
     "@std/fmt/colors": "jsr:@std/fmt@1/colors",
-    "@libs/testing": "jsr:@libs/testing@2",
-    "@libs/typing": "jsr:@libs/typing@2",
-    "@libs/logger": "jsr:@libs/logger@2",
+    "@libs/testing": "jsr:@libs/testing@3",
+    "@libs/typing": "jsr:@libs/typing@3",
+    "@libs/logger": "jsr:@libs/logger@3",
     "@std/async/delay": "jsr:@std/async@1/delay"
   },
   "test:permissions": {
@@ -41,11 +41,11 @@
   },
   "tasks": {
     "test": "deno test --allow-net --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
-    "test:deno": "deno task clean:deno && deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "test:deno": "deno task clean:deno && deno fmt --check && deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js && deno lint",
     "test:deno-future": "deno task clean:deno && DENO_FUTURE=1 && deno task test:deno",
-    "test:others": "deno task clean:others && deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
-    "coverage:html": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js --html && sleep 1",
-    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint",
+    "test:others": "deno task clean:others && deno fmt --check && deno task test --filter='/NODE|BUN/' --quiet && deno coverage --exclude=.js && deno lint",
+    "coverage:html": "deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js --html && sleep 1",
+    "dev": "deno fmt && deno task test --filter='/DENO/' && deno coverage --exclude=.js --detailed && deno task lint",
     "lint": "deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish --dry-run --quiet --allow-dirty",
     "clean:deno": "rm -rf node_modules .npmrc deno.lock",
     "clean:others": "rm -rf node_modules .npmrc deno.lock package.json package-lock.json bun.lockb"
