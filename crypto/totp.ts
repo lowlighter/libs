@@ -77,8 +77,8 @@ export async function totp(secret: string, { t = Date.now(), dt = 0 } = {}): Pro
  * console.log(secret)
  * ```
  */
-export function otpsecret(): string {
-  return encodeBase32(crypto.getRandomValues(new Uint8Array(20))).replaceAll("=", "")
+export function otpsecret(length = 20): string {
+  return encodeBase32(crypto.getRandomValues(new Uint8Array(length))).replaceAll("=", "")
 }
 
 /**
