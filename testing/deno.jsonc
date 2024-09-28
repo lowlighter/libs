@@ -1,7 +1,7 @@
 {
   "icon": "🧪",
   "name": "@libs/testing",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
   "keywords": [
     "testing",
