@@ -21,17 +21,14 @@ for (const runtime of ["node", "bun"] as const) {
     const _available = { ...available }
     try {
       Object.assign(available, { [runtime]: null })
-      paths[runtime] = "invalid_path"
+      paths[runtime] = "deno" // Must be a resolvable binary, since run permission is not granted it'll throw a NotCapable error
       test(runtime)
       expect(available[runtime]).toBe(false)
-      Object.assign(available, { [runtime]: null })
-      paths[runtime] = "forbidden_path"
-      expect(() => test(runtime)).toThrow()
     } finally {
       paths[runtime] = _paths[runtime]
       Object.assign(available, { [runtime]: _available[runtime] })
     }
-  }, { permissions: { run: ["invalid_path"] } })
+  })
 }
 
 test("deno")("test() is able to detect bun runtime environment", async () => {
@@ -46,13 +43,15 @@ test("deno")("test() is able to detect bun runtime environment", async () => {
 })
 
 test("deno")("test() is able to detect node runtime environment", async () => {
+  const _Deno = globalThis.Deno
   try {
+    delete (globalThis as testing).Deno
     Object.assign(globalThis, { process: { versions: { node: true } } })
     const testcase = test("node")
     expect(testcase).toBeInstanceOf(Function)
     await expect(testcase("", () => {}, { __dryrun: true } as testing)).rejects.toThrow(Error)
   } finally {
-    delete (globalThis as testing).process
+    Object.assign(globalThis, { Deno: _Deno })
   }
 })
 

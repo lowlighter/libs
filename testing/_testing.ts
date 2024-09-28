@@ -120,7 +120,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
       command(paths.bun, ["--version"], { stdout: null, stderr: null, sync: true, throw: true })
       Object.assign(available, { bun: true })
     } catch (error) {
-      if (error instanceof Deno.errors.NotFound) {
+      if ((error instanceof Deno.errors.NotFound) || (error instanceof Deno.errors.NotCapable)) {
         Object.assign(available, { bun: false })
       } else {
         throw error
@@ -144,14 +144,14 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
       command(paths.npx, ["tsx", "--version"], { stdout: null, stderr: null, sync: true, throw: true, winext: ".cmd" })
       Object.assign(available, { node: true })
     } catch (error) {
-      if (error instanceof Deno.errors.NotFound) {
+      if ((error instanceof Deno.errors.NotFound) || (error instanceof Deno.errors.NotCapable)) {
         Object.assign(available, { node: false })
       } else {
         throw error
       }
     }
   }
-  if (global.process?.versions?.node) {
+  if ((!global.Deno) && (global.process?.versions?.node)) {
     return async function (name: string, fn: () => Promisable<void>) {
       try {
         const { test } = await import(`${"node"}:test`)

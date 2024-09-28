@@ -39,8 +39,7 @@
       "deno",
       "node",
       "bun",
-      "npx",
-      "invalid_path"
+      "npx"
     ],
     "env": [
       "TEST_FOO",
@@ -48,7 +47,7 @@
     ]
   },
   "tasks": {
-    "test": "deno test --allow-run=deno,node,bun,npx,invalid_path --allow-env=TEST_FOO,TEST_BAR --no-prompt --coverage --clean --trace-leaks --doc",
+    "test": "deno test --allow-run=deno,node,bun,npx --allow-env=TEST_FOO,TEST_BAR --no-prompt --coverage --clean --trace-leaks --doc",
     "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint",
     "test:deno": "deno task clean:deno && deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
     "test:deno-future": "deno task clean:deno && DENO_FUTURE=1 && deno task test:deno",
