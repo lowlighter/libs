@@ -4,7 +4,7 @@
  */
 // Imports
 import { type Async, expect as _expect, type Expected, fn } from "@std/expect"
-import { assert, assertEquals, type AssertionError as _AssertionError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
+import { assert, assertEquals, type AssertionError as _AssertionError, assertIsError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
 import type { Arg, Arrayable, callback, Nullable, record, TypeOf } from "@libs/typing"
 import type { testing } from "./_testing.ts"
 import { STATUS_CODE as Status } from "@std/http/status"
@@ -13,6 +13,25 @@ import { STATUS_CODE as Status } from "@std/http/status"
  * The ExtendedExpected interface defines the available assertion methods.
  */
 export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
+  /**
+   * Asserts a function to throw an error.
+   *
+   * Unlike the epoynmous method from `@std/expect`, this matcher accepts a second argument that can be either a string or a regular expression when the first argument is a Error class or instance.
+   * In this case, the behavior is the same as {@link assertIsError} where you can both check the error type and message.
+   *
+   * @example
+   * ```ts ignore
+   * import { expect } from "./expect.ts"
+   * const throws = () => { throw new Error("Expected error") }
+   * expect(throws).toThrow(Error)
+   * expect(throws).toThrow("Expected error")
+   * expect(throws).toThrow(Error, /Expected/)
+   * ```
+   *
+   * @experimental This method may be renamed to `toThrow()` directly without being marked as breaking change.
+   */
+  // deno-lint-ignore no-explicit-any
+  _toThrow: <E extends Error = Error>(error?: string | RegExp | E | (new (...args: any[]) => E), message?: string | RegExp) => void
   /**
    * Asserts a value matches the given predicate.
    *
@@ -354,6 +373,37 @@ function isType(value: testing, type: TypeOf, { nullable = false } = {}) {
 }
 
 _expect.extend({
+  _toThrow(context, error, message) {
+    // deno-lint-ignore no-explicit-any
+    type ErrorConstructor = new (...args: any[]) => Error
+    if (typeof context.value === "function") {
+      try {
+        context.value = context.value()
+      } catch (error) {
+        context.value = error
+      }
+    }
+    if ((message !== undefined) && ((typeof error === "string") || (error instanceof RegExp))) {
+      throw new TypeError("First argument must be an Error class or instance when second argument is a string or RegExp")
+    }
+    return process(context.isNot, () => {
+      const expect = { class: undefined as ErrorConstructor | undefined, message: undefined as string | RegExp | undefined }
+      if (error instanceof Error) {
+        expect.class = error.constructor as ErrorConstructor
+        expect.message = error.message
+      }
+      if (error instanceof Function) {
+        expect.class = error as ErrorConstructor
+      }
+      if ((typeof error === "string") || (error instanceof RegExp)) {
+        expect.message = error
+      }
+      if (message) {
+        expect.message = message
+      }
+      assertIsError(context.value, expect.class, expect.message)
+    }, context.isNot ? `Expected to NOT throw ${error}` : "")
+  },
   toSatisfy(context, predicate) {
     return process(context.isNot, () => {
       assert(predicate(context.value))
