@@ -1,6 +1,6 @@
 // Imports
 import { initSync, JsReader, source, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
-import type { record, rw } from "@libs/typing"
+import type { record, rw } from "jsr:@libs/typing@3"
 import type { Nullable, ReaderSync, xml_document, xml_node, xml_text } from "./_types.ts"
 export type { Nullable, ReaderSync, xml_document, xml_node, xml_text }
 initSync(source())

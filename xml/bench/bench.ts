@@ -1,4 +1,4 @@
-import { expandGlob } from "@std/fs/expand-glob"
+import { expandGlob } from "jsr:@std/fs@1/expand-glob"
 import { parse } from "../mod.ts"
 import { parse as parse_v5 } from "jsr:@libs/xml@5.0.2/parse"
 import { parse as parse_v4 } from "https://deno.land/x/xml@4.0.0/parse.ts"
