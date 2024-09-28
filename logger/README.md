@@ -28,6 +28,11 @@ log
   .wdebug("🍵 matcha")
   .trace("🍙 onigiri")
   .probe("🥟 gyoza")
+
+//
+log
+  .censor({ keys: ["password", /^api_/], values: [/offensive-word/] })
+  .log({ user: "foo", password: "bar", api_key: "foobar", message: "offensive-word content" })
 ```
 
 ## ✨ Features
@@ -39,8 +44,13 @@ log
 - Support for timestamps (date, time, delta).
 - Support for displaying caller information (file, function name, line and column).
 - Support for multiple log formatters (text, JSON).
+- Support censorship of sensitive data.
 
-## 🕊️ Migrating from 1.x.x to 2.x.x
+## 🕊️ Migrating from `2.x.x` to `3.x.x`
+
+Version `3.x.x` and onwards require Deno `2.x.x` or later.
+
+## 🕊️ Migrating from `1.x.x` to `2.x.x`
 
 ### Flattened constructor options
 

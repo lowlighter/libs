@@ -33,7 +33,7 @@ function channel(level: string): "error" | "warn" | "info" | "log" | "debug" {
   return "log"
 }
 
-test("all")(`Logger.constructor() instantiates a new Logger`, () => {
+test("all")("`Logger.constructor()` instantiates a new Logger", () => {
   new Logger()
   const _ = Deno.env.get("LOG_LEVEL")
   try {
@@ -52,7 +52,7 @@ test("all")(`Logger.constructor() instantiates a new Logger`, () => {
   }
 }, { permissions: { env: ["LOG_LEVEL"] } })
 
-test("all")(`Logger.options() gets logger options`, () => {
+test("all")("`Logger.options()` gets logger options", () => {
   const log = new Logger()
   expect(log.options()).not.toBeInstanceOf(Logger)
   expect(log.options()).toHaveProperty("date")
@@ -65,7 +65,7 @@ test("all")(`Logger.options() gets logger options`, () => {
   expect(log.options()).toHaveProperty("caller.fileformat")
 })
 
-test("all")(`Logger.options() sets logger options`, () => {
+test("all")("`Logger.options()` sets logger options", () => {
   const log = new Logger()
   expect(log.options({})).toBeInstanceOf(Logger)
   expect(log.options({ date: true }).options()).toMatchObject({ date: true })
@@ -79,13 +79,13 @@ test("all")(`Logger.options() sets logger options`, () => {
   expect(log.options({ caller: false }).options()).toMatchObject({ caller: { file: false, name: false, line: false, fileformat: [/foo/, "bar"] } })
 })
 
-test("all")(`Logger.level() gets logger level`, () => {
+test("all")("`Logger.level()` gets logger level", () => {
   const log = new Logger()
   expect(log.level()).not.toBeInstanceOf(Logger)
   expect(log.level()).toBeType("number")
 })
 
-test("all")(`Logger.level() sets logger options`, () => {
+test("all")("`Logger.level()` sets logger options", () => {
   expect(new Logger().level(0)).toBeInstanceOf(Logger)
   expect(new Logger().level(0).level()).toBe(Logger.level.error)
   expect(new Logger().level(Logger.level.error).level()).toBe(Logger.level.error)
@@ -101,7 +101,7 @@ test("all")(`Logger.level() sets logger options`, () => {
 
 const levels = Object.keys(Logger.level).filter((level) => !["always", "disabled"].includes(level)) as loglevel[]
 for (const level of levels) {
-  test("all")(`Logger.${level}() prints content to Logger.output`, () => {
+  test("all")(`\`Logger.${level}()\` prints content to \`Logger.output\``, () => {
     const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
     const log = new Logger({ output, level: "always", format: "json" })
     log[level]("foo")
@@ -112,7 +112,7 @@ for (const level of levels) {
     }
   })
 
-  test("all")(`Logger.${level}() does not print content to Logger.output when log level is disabled`, () => {
+  test("all")(`\`Logger.${level}()\` does not print content to \`Logger.output\` when log level is disabled`, () => {
     const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
     const log = new Logger({ output, level: "disabled", format: "json" })
     for (const level of levels.filter((channel) => (channel !== "probe"))) {
@@ -122,7 +122,7 @@ for (const level of levels) {
   })
 }
 
-test("all")(`Logger.tags are readonly and typed`, () => {
+test("all")("`Logger.tags` are readonly and typed", () => {
   const log = new Logger({ tags: { foo: true } })
   expect(log.tags).toEqual({ foo: true })
   // @ts-check: tags are correctly typed
@@ -133,7 +133,7 @@ test("all")(`Logger.tags are readonly and typed`, () => {
   log.tags.foo = true
 })
 
-test("all")("Logger.with() creates a new Logger with additional tags", () => {
+test("all")("`Logger.with()` creates a new logger with additional tags", () => {
   const log = new Logger({ tags: { foo: true } }).with({ bar: true })
   expect(log.tags).toEqual({ foo: true, bar: true })
   // @ts-check: tags are correctly typed
@@ -145,18 +145,15 @@ test("all")("Logger.with() creates a new Logger with additional tags", () => {
   log.tags.foo = true
 })
 
-test("all")("Logger.prototype.inspect() inspects values", () => {
-  expect(Logger.inspect({ foo: true })).toBeDefined()
-  const { Deno: _ } = globalThis
-  try {
-    delete (globalThis as testing).Deno
-    expect(Logger.inspect({ foo: true })).toBeDefined()
-  } finally {
-    Object.assign(globalThis, { Deno: _ })
-  }
+test("all")("`Logger.with()` creates a new logger with inherited censorship", () => {
+  const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
+  const log = new Logger({ output, level: "log", format: "text" }).censor({ keys: ["foo"], values: ["bar"], replace: "****" }).with()
+  log.log({ foo: "hello", foobar: "abc bar qux" })
+  expect(text(output.log, { call: 0 }).content[0]).toContain('foo: "****"')
+  expect(text(output.log, { call: 0 }).content[0]).toContain('foobar: "abc **** qux"')
 })
 
-test("all")("Logger.prototype.format.text() formats output", () => {
+test("all")("`Logger.prototype.format.text()` formats output", () => {
   const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
   const log = new Logger({ output, level: "log", format: "text", tags: { tag: true } })
   log.log("foo")
@@ -197,7 +194,7 @@ test("all")("Logger.prototype.format.text() formats output", () => {
   expect(text(output.log, { call: 7 }).content).toEqual(['"garply"'])
 })
 
-test("deno")("Logger.prototype.format.text() formats delta value smartly", () => {
+test("deno")("`Logger.prototype.format.text()` formats delta value smartly", () => {
   const _ = performance.now
   try {
     const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
@@ -216,7 +213,44 @@ test("deno")("Logger.prototype.format.text() formats delta value smartly", () =>
   }
 })
 
-test("all")("Logger.prototype.format.json() formats output", () => {
+test("deno")("`Logger.prototype.format.text()` supports censorship", () => {
+  const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
+  const log = new Logger({ output, level: "log", format: "text", tags: { token: "api_foobar" } })
+  log
+    .censor({ values: [/(api_)\w+/], replace: "$1****" })
+    .censor({ keys: ["password", /^secret_/], replace: "****" })
+    .log("my key is <api_foobar>", { user: "foo", password: "bar", secret_a: "a", secret_b: "b", friend: "bar", meta: { created: 123, deleted: null, secret_c: "c", api: "<api_foobar>", fn() {} } })
+  expect(text(output.log, { call: 0 }).header).toContain('token:"api_****"')
+  expect(text(output.log, { call: 0 }).content[0]).toContain("my key is <api_****>")
+  expect(text(output.log, { call: 0 }).content[1]).toContain('user: "foo"')
+  expect(text(output.log, { call: 0 }).content[1]).toContain('password: "****"')
+  expect(text(output.log, { call: 0 }).content[1]).toContain('secret_a: "****"')
+  expect(text(output.log, { call: 0 }).content[1]).toContain('secret_b: "****"')
+  expect(text(output.log, { call: 0 }).content[1]).toContain('friend: "bar"')
+  expect(text(output.log, { call: 0 }).content[1]).toContain("created: 123")
+  expect(text(output.log, { call: 0 }).content[1]).toContain("deleted: null")
+  expect(text(output.log, { call: 0 }).content[1]).toContain('secret_c: "****"')
+  expect(text(output.log, { call: 0 }).content[1]).toContain('api: "<api_****>"')
+  expect(text(output.log, { call: 0 }).content[1]).toContain("fn: [Function: fn]")
+  log
+    .censor({ values: [/offensive-word/g], replace: "****" })
+    .log("foo bar offensive-word baz another offensive-word")
+  expect(text(output.log, { call: 1 }).content[0]).toContain("foo bar **** baz another ****")
+})
+
+test("all")("Logger.prototype.inspect() supports non-deno platforms", () => {
+  const { Deno: _ } = globalThis
+  try {
+    delete (globalThis as testing).Deno
+    const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
+    const log = new Logger({ output, level: "log", format: "text" })
+    log.log({ foo: "bar" })
+  } finally {
+    Object.assign(globalThis, { Deno: _ })
+  }
+})
+
+test("all")("`Logger.prototype.format.json()` formats output", () => {
   const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
   const log = new Logger({ output, level: "log", format: "json", tags: { tag: true } })
   log.log("foo")
@@ -256,4 +290,24 @@ test("all")("Logger.prototype.format.json() formats output", () => {
   log.log("garply")
   expect(json(output.log, { call: 7 })).toHaveProperty("delta")
   expect(json(output.log, { call: 7 })).toMatchObject({ content: ["garply"] })
+})
+
+test("deno")("`Logger.prototype.format.json()` supports censorship", () => {
+  const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
+  const log = new Logger({ output, level: "log", format: "json", tags: { token: "api_foobar" } })
+  log
+    .censor({ values: [/(api_)\w+/], replace: "$1****" })
+    .censor({ keys: ["password", /^secret_/], replace: "****" })
+    .log("my key is <api_foobar>", { user: "foo", password: "bar", secret_a: "a", secret_b: "b", friend: "bar", meta: { created: 123, deleted: null, secret_c: "c", api: "<api_foobar>", fn() {} } })
+  expect(json(output.log, { call: 0 })).toMatchObject({ tags: { token: "api_****" } })
+  expect(json(output.log, { call: 0 })).toMatchObject({
+    content: ["my key is <api_****>", {
+      user: "foo",
+      password: "****",
+      secret_a: "****",
+      secret_b: "****",
+      friend: "bar",
+      meta: { created: 123, deleted: null, secret_c: "****", api: "<api_****>" },
+    }],
+  })
 })
