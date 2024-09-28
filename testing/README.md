@@ -80,9 +80,19 @@ jobs:
       - run: deno task ci
 ```
 
-## 🕊️ Migrating from 2.x.x to 3.x.x
+## 🕊️ Migrating from `2.x.x` to `3.x.x`
 
 Version `3.x.x` and onwards require Deno `2.x.x` or later.
+
+### `toBeType("object")` and `null`
+
+The `toBeType("object")` matcher now excludes `null` by default.
+The second argument has been replaced by an object with a `nullable` property for better readability.
+
+```diff
+- expect(null).toBeType("object", !null)
++ expect(null).toBeType("object", { nullable: true })
+```
 
 ## 📜 License
 
