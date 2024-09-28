@@ -35,7 +35,7 @@ function observe(target: target, context = new Context(target)) {
   return { context, observable: context.target, target, listeners }
 }
 
-test("all")("Context.target reacts to read operations", () => {
+test("all")("`Context.target` reacts to `read` operations", () => {
   const { observable, target, listeners } = observe({ property: false, nested: { property: false }, [Symbol.for("test")]: false })
 
   listeners.get.clear()
@@ -66,7 +66,7 @@ test("all")("Context.target reacts to read operations", () => {
   expect(listeners.get.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: false })
 })
 
-test("all")("Context.target reacts to read operations (child context)", () => {
+test("all")("`Context.target` reacts to `read` operations (child context)", () => {
   const { context: a, listeners: a_listeners } = observe({ foo: false })
   const { context: b, listeners: b_listeners } = observe(null, a.with({ bar: false }))
   const { context: c, listeners: c_listeners } = observe(null, b.with({ baz: false }))
@@ -87,7 +87,7 @@ test("all")("Context.target reacts to read operations (child context)", () => {
   expect(c_listeners.get).toBeCalledTimes(3)
 })
 
-test("all")("Context.target reacts to write operations", () => {
+test("all")("`Context.target` reacts to `write` operations", () => {
   const { observable, target, listeners } = observe({ property: false, nested: { property: false }, [Symbol.for("test")]: false })
 
   listeners.set.clear()
@@ -124,7 +124,7 @@ test("all")("Context.target reacts to write operations", () => {
   expect(listeners.set.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: { old: false, new: true } })
 })
 
-test("all")("Context.target reacts to write operations (child context)", () => {
+test("all")("`Context.target` reacts to `write` operations (child context)", () => {
   const { context: a, listeners: a_listeners } = observe({ foo: "" })
   const { context: b, listeners: b_listeners } = observe(null, a.with({ bar: "" }))
   const { context: c, listeners: c_listeners } = observe(null, b.with({ baz: "" }))
@@ -169,7 +169,7 @@ test("all")("Context.target reacts to write operations (child context)", () => {
   expect(c.target.xbaz).toBe(true)
 })
 
-test("all")("Context.target reacts to delete operations", () => {
+test("all")("`Context.target` reacts to `delete` operations", () => {
   const { observable, target, listeners } = observe({ property: false, nested: { property: false }, [Symbol.for("test")]: false })
 
   listeners.delete.clear()
@@ -206,7 +206,7 @@ test("all")("Context.target reacts to delete operations", () => {
   expect(listeners.delete.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: false })
 })
 
-test("all")("Context.target reacts to delete operations (child context)", () => {
+test("all")("`Context.target` reacts to `delete` operations (child context)", () => {
   const { context: a, listeners: a_listeners } = observe({ foo: false })
   const { context: b, listeners: b_listeners } = observe(null, a.with({ bar: false }))
   const { context: c, listeners: c_listeners } = observe(null, b.with({ baz: false }))
@@ -227,7 +227,7 @@ test("all")("Context.target reacts to delete operations (child context)", () => 
   expect(c_listeners.delete).toBeCalledTimes(3)
 })
 
-test("all")("Context.target manages delete operations cleanly with correct property descriptors and presence", () => {
+test("all")("`Context.target` manages delete operations cleanly with correct property descriptors and presence", () => {
   const a = new Context({ a: "a", b: "a" })
   const b = a.with({ b: "b", c: "b" })
   const c = b.with({ c: "c", d: "c" })
@@ -320,7 +320,7 @@ test("all")("Context.target manages delete operations cleanly with correct prope
   expect(Object.keys(c.target).sort()).toEqual(["b", "d"])
 })
 
-test("all")("Context.target manages delete operations cleanly with correct property descriptors and presence (nested)", () => {
+test("all")("`Context.target` manages delete operations cleanly with correct property descriptors and presence (nested)", () => {
   const a = new Context({ nested: { a: "a", b: "a" } })
   const b = a.with({})
   const c = b.with({ nested: { c: "c" } })
@@ -373,7 +373,7 @@ test("all")("Context.target manages delete operations cleanly with correct prope
   expect(Object.keys(b.target.nested).sort()).toEqual(["a", "b"])
 })
 
-test("all")("Context.target reacts to call operations", () => {
+test("all")("`Context.target` reacts to `call` operations", () => {
   const { observable, target, listeners } = observe({ function: () => null, nested: { function: () => null } })
 
   listeners.call.clear()
@@ -396,7 +396,7 @@ test("all")("Context.target reacts to call operations", () => {
   expect(listeners.call.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "function", args: ["foo"] })
 })
 
-test("all")("Context.target reacts to call operations (child context)", () => {
+test("all")("`Context.target` reacts to `call` operations (child context)", () => {
   const { context: a, target, listeners: a_listeners } = observe({ function: () => null })
   const { context: b, listeners: b_listeners } = observe(null, a.with({}))
   const { context: c, listeners: c_listeners } = observe(null, b.with({}))
@@ -409,7 +409,7 @@ test("all")("Context.target reacts to call operations (child context)", () => {
   expect(c_listeners.call.event).toMatchObject({ path: [], target, property: "function", args: [] })
 })
 
-test("all")("Context.target reacts to change operations", () => {
+test("all")("`Context.target` reacts to `change` operations", () => {
   const { context, observable } = observe({ property: false, function: () => null })
   const listener = fn()
   context.addEventListener("change", listener)
@@ -423,7 +423,7 @@ test("all")("Context.target reacts to change operations", () => {
   expect(listener).toHaveBeenCalledTimes(3)
 })
 
-test("all")("Context.target works as expected when run within a `with` context", () => {
+test("all")("`Context.target` works as expected when run within a `with` context", () => {
   const { observable, listeners } = observe({ foo: false, bar: () => true })
   expect(() => new Function("observable", "with (observable) { foo = bar() }")(observable)).not.toThrow()
   expect(listeners.set).toHaveBeenCalledTimes(1)
@@ -431,7 +431,7 @@ test("all")("Context.target works as expected when run within a `with` context",
   expect(observable.foo).toBe(true)
 })
 
-test("all")("Context.target skips proxification of Context.unproxyable objects", async () => {
+test("all")("`Context.target` skips proxification of `Context.unproxyable` objects", async () => {
   const uint8 = new TextEncoder().encode("foo")
   const messagechannel = new MessageChannel()
   const _worker = URL.createObjectURL(new Blob([""], { type: "text/javascript" }))
@@ -477,7 +477,7 @@ test("all")("Context.target skips proxification of Context.unproxyable objects",
   URL?.revokeObjectURL?.(_worker)
 })
 
-test("all")("Context.with() returns a new context that inherits parent context", () => {
+test("all")("`Context.with()` returns a new context that inherits parent context", () => {
   const a = new Context({ a: "a", b: "a" })
   const b = a.with({ b: "b", c: "b" })
   const c = b.with({ c: "c", d: "c" })
@@ -489,14 +489,14 @@ test("all")("Context.with() returns a new context that inherits parent context",
   expect(Object.keys(c.target).sort()).toEqual(["a", "b", "c", "d"])
 })
 
-test("all")("Context.with() contexts support nullish values", () => {
+test("all")("`Context.with()` contexts support nullish values", () => {
   const a = new Context({ a: undefined, b: null })
   const b = a.with({ c: undefined, d: null })
   expect(a.target).toEqual({ a: undefined, b: null })
   expect(b.target).toEqual({ a: undefined, b: null, c: undefined, d: null })
 })
 
-test("all")("Context.with() contexts operates bidirectionaly when value is inherited from parent", () => {
+test("all")("`Context.with()` contexts operates bidirectionaly when value is inherited from parent", () => {
   const a = new Context({ foo: null as Nullable<boolean> })
   const b = a.with({})
   const listeners = { a: fn(), b: fn() }
@@ -514,7 +514,7 @@ test("all")("Context.with() contexts operates bidirectionaly when value is inher
   expect(listeners.b).toHaveBeenCalledTimes(2)
 })
 
-test("all")("Context.with() contexts operates unidirectionaly when value is overidden from parent", () => {
+test("all")("`Context.with()` contexts operates unidirectionaly when value is overidden from parent", () => {
   const a = new Context({ foo: null as Nullable<boolean> })
   const b = a.with({ foo: null as Nullable<boolean> })
   const listeners = { a: fn(), b: fn() }
@@ -532,7 +532,7 @@ test("all")("Context.with() contexts operates unidirectionaly when value is over
   expect(listeners.b).toHaveBeenCalledTimes(1)
 })
 
-test("all")("Context.with() contexts operates unidirectionaly when value is not present in parent", () => {
+test("all")("`Context.with()` contexts operates unidirectionaly when value is not present in parent", () => {
   const a = new Context({})
   const b = a.with({ bar: null as Nullable<boolean> })
   const listeners = { a: fn(), b: fn() }
@@ -545,7 +545,7 @@ test("all")("Context.with() contexts operates unidirectionaly when value is not 
   expect(listeners.b).toHaveBeenCalledTimes(1)
 })
 
-test("all")("Context.with() contexts supports Set instance methods", () => {
+test("all")("`Context.with()` contexts supports `Set()` instance methods", () => {
   const { context: a } = observe({ foo: new Set<number>([0]) })
   const { context: b } = observe(null, a.with({}))
 
@@ -558,20 +558,7 @@ test("all")("Context.with() contexts supports Set instance methods", () => {
   expect([...b.target.foo]).toEqual([0, 1, 2])
 })
 
-test("all")("Context.with() contexts supports Map instance methods", () => {
-  const { context: a } = observe({ foo: new Map<string, number>([["foo", 0]]) })
-  const { context: b } = observe(null, a.with({}))
-
-  a.target.foo.set("bar", 1)
-  expect([...a.target.foo]).toEqual([["foo", 0], ["bar", 1]])
-  expect([...b.target.foo]).toEqual([["foo", 0], ["bar", 1]])
-
-  b.target.foo.set("baz", 2)
-  expect([...a.target.foo]).toEqual([["foo", 0], ["bar", 1], ["baz", 2]])
-  expect([...b.target.foo]).toEqual([["foo", 0], ["bar", 1], ["baz", 2]])
-})
-
-test("all")("Context.with() contexts supports Map instance methods", () => {
+test("all")("`Context.with()` contexts supports `Map()` instance methods", () => {
   const { context: a } = observe({ foo: new Map<string, number>([["foo", 0]]) })
   const { context: b } = observe(null, a.with({}))
 
