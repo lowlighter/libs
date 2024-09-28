@@ -1,7 +1,7 @@
 {
   "icon": "🖨️",
   "name": "@libs/markdown",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "Markdown renderer with optional plugins based on the unified ecosystem.",
   "keywords": [
     "markdown",
