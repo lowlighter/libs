@@ -79,11 +79,10 @@ for await (const { path } of expandGlob(`*/deno.jsonc`, { root })) {
   }
   const permissions = Object.entries(test).map(([key, value]) => `--allow-${key}${value === true ? "" : `=${value.join(",")}`}`).join(" ")
   tasks["test"] = `deno test ${permissions} --no-prompt --coverage --clean --trace-leaks ${local.mirror === true ? "" : "--doc"}`
-  tasks["test:deno"] = `deno task clean:deno && deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint`
-  tasks["test:deno-future"] = "deno task clean:deno && DENO_FUTURE=1 && deno task test:deno"
-  tasks["test:others"] = "deno task clean:others && deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint"
-  tasks["coverage:html"] = "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js --html && sleep 1"
-  tasks["dev"] = `deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint`
+  tasks["test:deno"] = `deno task clean:deno && deno fmt --check && deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js && deno lint`
+  tasks["test:others"] = "deno task clean:others && deno fmt --check && deno task test --filter='/NODE|BUN/' --quiet && deno coverage --exclude=.js && deno lint"
+  tasks["coverage:html"] = "deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js --html && sleep 1"
+  tasks["dev"] = `deno fmt && deno task test --filter='/DENO/' && deno coverage --exclude=.js --detailed && deno task lint`
   tasks["lint"] = `deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish ${slow ? "--allow-slow-types " : ""}--dry-run --quiet --allow-dirty`
   tasks["clean:deno"] = "rm -rf node_modules .npmrc deno.lock"
   tasks["clean:others"] = "rm -rf node_modules .npmrc deno.lock package.json package-lock.json bun.lockb"
