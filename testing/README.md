@@ -80,6 +80,10 @@ jobs:
       - run: deno task ci
 ```
 
+## 🕊️ Migrating from 2.x.x to 3.x.x
+
+Version `3.x.x` and onwards require Deno `2.x.x` or later.
+
 ## 📜 License
 
 ```plaintext

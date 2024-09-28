@@ -1,3 +1,7 @@
+/**
+ * An extended {@link https://jsr.io/@std/expect/doc/~/expect | expect} that defines additional matchers.
+ * @module
+ */
 // Imports
 import { type Async, expect as _expect, type Expected, fn } from "@std/expect"
 import { assert, assertEquals, type AssertionError as _AssertionError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
@@ -7,8 +11,6 @@ import { STATUS_CODE as Status } from "@std/http/status"
 
 /**
  * The ExtendedExpected interface defines the available assertion methods.
- *
- * @module
  */
 export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
