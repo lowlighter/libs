@@ -40,7 +40,6 @@ inject:
     type Aliases<TArgNames = string, TAliasNames extends string = string> = Partial<Record<Extract<TArgNames, string>, TAliasNames | ReadonlyArray<TAliasNames>>>;
 
 aliases:
-
   ./console/mod.ts#unicodeWidth: ~
 
   ./flags/mod.ts#Args: ~
