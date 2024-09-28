@@ -79,6 +79,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
+        with:
+          deno-version: rc
       - run: deno lint
       - run: deno fmt --check
       - run: |
@@ -132,7 +134,7 @@ jobs:
           fetch-depth: 0
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: 1.x
+          deno-version: rc
       - uses: actions/setup-node@v4
         with:
           node-version: 22.x
@@ -153,7 +155,6 @@ jobs:
         if: ${{ steps.package.outputs.has_build }}
       # Tests
       - run: deno task test:deno
-      - run: deno task test:deno-future
       - run: deno task test:others
       # Bench
       - run: deno task bench
@@ -218,6 +219,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v1
+        with:
+          deno-version: rc
       - name: Configure git
         run: |
           git config user.name 'github-actions[bot]'
