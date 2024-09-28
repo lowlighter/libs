@@ -1,7 +1,7 @@
 {
   "icon": "🧮",
   "name": "@libs/crypto",
-  "version": "1.1.6",
+  "version": "2.0.0",
   "description": "Features based upon Web Crypto APIs",
   "keywords": [
     "crypto",
