@@ -1,7 +1,7 @@
 import { qrcode } from "./_qrcode.ts"
 import { expect, fn, test } from "@libs/testing"
 
-test("all")(`qrcode() for numeric mode`, () => {
+test("all")("`qrcode()` for numeric mode", () => {
   const expected = [
     "██████████████  ████████    ██████████████",
     "██          ██      ██  ██  ██          ██",
@@ -28,7 +28,7 @@ test("all")(`qrcode() for numeric mode`, () => {
   expect(qrcode("123")).toEqual(expected)
 })
 
-test("all")(`qrcode() for alphanumeric mode`, () => {
+test("all")("`qrcode()` for alphanumeric mode", () => {
   const expected = [
     "██████████████  ████  ██    ██████████████",
     "██          ██    ████  ██  ██          ██",
@@ -55,7 +55,7 @@ test("all")(`qrcode() for alphanumeric mode`, () => {
   expect(qrcode("FOO")).toEqual(expected)
 })
 
-test("all")(`qrcode() for bytes mode`, () => {
+test("all")("`qrcode()` for bytes mode", () => {
   const expected = [
     "██████████████  ████        ██████████████",
     "██          ██    ██        ██          ██",
@@ -82,7 +82,7 @@ test("all")(`qrcode() for bytes mode`, () => {
   expect(qrcode("foo")).toEqual(expected)
 })
 
-test("all")(`qrcode() for empty content`, () => {
+test("all")("`qrcode()` for empty content", () => {
   const expected = [
     "██████████████    ██        ██████████████",
     "██          ██      ████    ██          ██",
@@ -109,15 +109,15 @@ test("all")(`qrcode() for empty content`, () => {
   expect(qrcode("")).toEqual(expected)
 })
 
-test("all")(`qrcode() with long content`, () => {
+test("all")("`qrcode()` with long content", () => {
   expect(qrcode("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")).not.toThrow()
 })
 
-test("all")(`qrcode() with oversized content`, () => {
+test("all")("`qrcode()` with oversized content", () => {
   expect(() => qrcode("lorem ipsum".repeat(1000))).toThrow("Data too long")
 })
 
-test("all")(`qrcode() returns consistant results across all input types`, () => {
+test("all")("`qrcode()` returns consistant results across all input types", () => {
   const test = new URL("https://example.com")
   const url = qrcode(test)
   const string = qrcode(test.href)
@@ -127,13 +127,13 @@ test("all")(`qrcode() returns consistant results across all input types`, () => 
   expect(string).toEqual(buffer)
 })
 
-test("all")(`qrcode() with svg output`, () => {
+test("all")("`qrcode()` with svg output", () => {
   const svg = qrcode("foo", { output: "svg" })
   expect(typeof svg).toBe("string")
   expect(svg).toMatch(/<svg.*?>[\s\S]+<\/svg>/)
 })
 
-test("all")(`qrcode() with console output`, () => {
+test("all")("`qrcode()` with console output", () => {
   const mock = fn()
   const unmocked = console.log
   Object.assign(console, { log: mock })
@@ -145,7 +145,7 @@ test("all")(`qrcode() with console output`, () => {
   }
 })
 
-test("all")(`qrcode() with array output`, () => {
+test("all")("`qrcode()` with array output", () => {
   const array = qrcode("foo", { output: "array" })
   expect(array).toBeInstanceOf(Array)
   expect(array.length).toEqual(array[0].length)
