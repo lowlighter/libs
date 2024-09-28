@@ -1,7 +1,7 @@
 {
   "icon": "🦕",
   "name": "@libs/std",
-  "version": "2024.9.26",
+  "version": "2024.9.28",
   "versioning": "date",
   "description": "All-in-one mirror of Deno's Standard Library.",
   "keywords": [
