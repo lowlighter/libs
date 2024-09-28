@@ -3,7 +3,7 @@ import { Store } from "./kv.ts"
 import { Logger } from "@libs/logger"
 const log = new Logger({ level: "disabled" })
 
-test("deno")(`Store[Deno.Kv] implements Store interface`, async () => {
+test("deno")("`Store[Deno.Kv]` implements `Store` interface", async () => {
   await using store = await new Store({ path: ":memory:", log }).ready
   expect((store as testing).options.path).toBe(":memory:")
   await expect(store.get(["a"])).resolves.toHaveProperty("value", null)
@@ -25,7 +25,7 @@ test("deno")(`Store[Deno.Kv] implements Store interface`, async () => {
   await expect(Array.fromAsync(await store.list([["a"], ["b"]], { array: false }))).resolves.toHaveLength(0)
 })
 
-test("deno")(`Store[Deno.Kv] supports transactions`, async () => {
+test("deno")("`Store[Deno.Kv]` supports transactions", async () => {
   await using store = await new Store({ path: ":memory:", log }).ready
   const { version } = await store.set([["a"], ["b"], ["c"]], { foo: true })
   await expect(store.get(["a"])).resolves.toHaveProperty("value", { foo: true })

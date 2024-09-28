@@ -8,11 +8,11 @@ import { is } from "./mod.ts"
 const log = new Logger({ level: "disabled" })
 const store = await new Store({ path: ":memory:", log }).ready
 
-test("deno")(`Resource cannot be instantiated without extending constructor with Resource.with`, () => {
+test("deno")("`Resource` cannot be instantiated without extending constructor with `Resource.with()`", () => {
   expect(() => new Resource()).toThrow(ReferenceError)
 })
 
-test("deno")(`Resource.with returns a new resource constructor`, async () => {
+test("deno")("`Resource.with()` returns a new resource constructor", async () => {
   const init1 = fn() as testing
   const listeners1 = { save: fn() }
   const TestResource = await Resource.with({ store, log, init: init1, listeners: listeners1, bind: { foo: true } }).ready
@@ -30,7 +30,7 @@ test("deno")(`Resource.with returns a new resource constructor`, async () => {
   expect(listeners2.save).toBeCalledTimes(1)
 })
 
-test("deno")(`Resource.with returns a new resource constructor with correct typings and can be extended`, () => {
+test("deno")("`Resource.with() returns a new resource constructor with correct typings and can be extended", () => {
   class TestResource extends Resource.with({ store, log, bind: { bar: true } }) {
     static readonly foo = true
     static bar() {
@@ -50,7 +50,7 @@ test("deno")(`Resource.with returns a new resource constructor with correct typi
   expect(new AggregatedTestResource().test.bar()).toBe(true)
 })
 
-test("deno")(`Resource.constructor fetches back data from store when id is given`, async () => {
+test("deno")("`Resource.constructor()` fetches back data from store when id is given", async () => {
   const TestResource = await Resource.with({ name: "load", store, log, model: is.object({ foo: is.string() }) }).ready
   const resource = await new TestResource({ foo: "bar" }).save()
   TestResource.uncache(resource.id)
@@ -61,9 +61,9 @@ test("deno")(`Resource.constructor fetches back data from store when id is given
   await expect(new TestResource("invalid").ready).rejects.toThrow(Error)
 })
 
-test("deno")(`Resource.constructor prevents duplicates`, async () => {
+test("deno")("`Resource.constructor()` prevents duplicates", async () => {
   class TestResource extends Resource.with({ name: "duplicates", store, log, model: is.object({ foo: is.string() }) }) {
-    get keys() {
+    override get keys() {
       return [
         [this.constructor.name, this.id],
         [this.constructor.name, this.data.foo],
@@ -75,7 +75,7 @@ test("deno")(`Resource.constructor prevents duplicates`, async () => {
   await expect(new TestResource({ foo: "bar" }).save()).rejects.toThrow(Error)
 })
 
-test("deno")(`Resource.data is not writable`, async () => {
+test("deno")("`Resource.data` is not writable", async () => {
   const TestResource = await Resource.with({ name: "data", store, log, model: is.object({ foo: is.object({ bar: is.boolean() }) }) }).ready
   const resource = await new TestResource({ foo: { bar: true } }).save()
   expect(resource.data).toMatchObject({ foo: { bar: true } })
@@ -85,14 +85,14 @@ test("deno")(`Resource.data is not writable`, async () => {
   await expect(new TestResource({ baz: true } as testing).ready).rejects.toThrow(TypeError)
 })
 
-test("deno")(`Resource.{id, created, updated} are readonly`, async () => {
+test("deno")("`Resource.{id, created, updated}` are readonly", async () => {
   const TestResource = await Resource.with({ name: "data_ro", store, log }).ready
   await expect(new TestResource({ id: "<invalid>" } as testing).ready).rejects.toThrow(TypeError)
   await expect(new TestResource({ created: -1 } as testing).ready).rejects.toThrow(TypeError)
   await expect(new TestResource({ updated: -1 } as testing).ready).rejects.toThrow(TypeError)
 })
 
-test("deno")(`Resource.patch patches resource data`, async () => {
+test("deno")("`Resource.patch()` patches resource data", async () => {
   const listeners = { patch: fn(), patched: fn() }
   const TestResource = await Resource.with({ name: "patch", store, log, model: is.object({ foo: is.boolean().default(false).describe("@readonly"), bar: is.boolean().default(false) }), listeners }).ready
   const resource = await new TestResource({ foo: true }).ready
@@ -108,7 +108,7 @@ test("deno")(`Resource.patch patches resource data`, async () => {
   await expect(resource.patch({ baz: false } as testing)).rejects.toThrow(TypeError)
 })
 
-test("deno")(`Resource.load loads data from store`, async () => {
+test("deno")("`Resource.load()` loads data from store", async () => {
   const listeners = { load: fn(), loaded: fn() }
   const TestResource = await Resource.with({ name: "load", store, log, listeners }).ready
   const resource = new TestResource()
@@ -121,7 +121,7 @@ test("deno")(`Resource.load loads data from store`, async () => {
   await expect(resource.load()).resolves.toBe(resource)
 })
 
-test("deno")(`Resource.save saves data into store`, async () => {
+test("deno")("`Resource.save()` saves data into store", async () => {
   const listeners = { save: fn(), saved: fn() }
   const TestResource = await Resource.with({ name: "save", store, log, listeners }).ready
   const resource = new TestResource()
@@ -139,20 +139,20 @@ test("deno")(`Resource.save saves data into store`, async () => {
   await expect(resource.save()).resolves.toBe(resource)
 })
 
-test("deno")(`Resource.save prevents saving invalid data into store`, async () => {
+test("deno")("`Resource.save()` prevents saving invalid data into store", async () => {
   const TestResource = await Resource.with({ name: "save", store, log, model: is.object({ foo: is.string() }) }).ready
   await expect(new TestResource({ foo: true } as testing).ready).rejects.toThrow(TypeError)
   await expect(new TestResource({ foo: "bar", foobar: true } as testing).ready).rejects.toThrow(TypeError)
   await expect(new TestResource({ foo: "bar" }).save()).resolves.toBeInstanceOf(TestResource)
 })
 
-test("deno")(`Resource.save initialize defaults value in store`, async () => {
+test("deno")("`Resource.save()` initialize defaults value in store", async () => {
   const TestResource = await Resource.with({ name: "save", store, log, model: is.object({ foo: is.string().default("bar") }) }).ready
   const resource = await new TestResource().save()
   expect(resource.data.foo).toBe("bar")
 })
 
-test("deno")(`Resource.delete deletes data from store`, async () => {
+test("deno")("`Resource.delete()` deletes data from store", async () => {
   const listeners = { delete: fn(), deleted: fn() }
   const TestResource = await Resource.with({ name: "delete", store, log, listeners }).ready
   const resource = new TestResource()
@@ -167,7 +167,7 @@ test("deno")(`Resource.delete deletes data from store`, async () => {
   await expect(resource.delete()).resolves.toBeNull()
 })
 
-test("deno")(`Resource.has tests resource presence in store`, async () => {
+test("deno")("`Resource.has()` tests resource presence in store", async () => {
   const TestResource = await Resource.with({ name: "has", store, log }).ready
   const resource = new TestResource()
   await expect(TestResource.has(resource.keys[0])).resolves.toBe(false)
@@ -177,7 +177,7 @@ test("deno")(`Resource.has tests resource presence in store`, async () => {
   await expect(TestResource.has(resource.id)).resolves.toBe(true)
 })
 
-test("deno")(`Resource.get gets resource from store and is the same instance each time`, async () => {
+test("deno")("`Resource.get()` gets resource from store and is the same instance each time", async () => {
   const TestResource = await Resource.with({ name: "get", store, log }).ready
   const resource = new TestResource()
   await expect(TestResource.get(resource.keys[0])).resolves.toBeNull()
@@ -190,7 +190,7 @@ test("deno")(`Resource.get gets resource from store and is the same instance eac
   await expect(TestResource.get(["unknown"])).resolves.toBeNull()
 })
 
-test("deno")(`Resource.get gets resource data from store`, async () => {
+test("deno")("`Resource.get()` gets resource data from store", async () => {
   const TestResource = await Resource.with({ name: "get_data", store, log }).ready
   const resource = new TestResource()
   await expect(TestResource.get(resource.id, { raw: true })).resolves.toBeNull()
@@ -198,7 +198,7 @@ test("deno")(`Resource.get gets resource data from store`, async () => {
   await expect(TestResource.get(resource.id, { raw: true })).resolves.toEqual(resource.data)
 })
 
-test("deno")(`Resource.delete deletes resource from store`, async () => {
+test("deno")("`Resource.delete()` deletes resource from store", async () => {
   const TestResource = await Resource.with({ name: "delete", store, log }).ready
   const resource = new TestResource()
   await expect(TestResource.delete(resource.keys[0])).resolves.toBeNull()
@@ -209,7 +209,7 @@ test("deno")(`Resource.delete deletes resource from store`, async () => {
   await expect(TestResource.delete(resource.id)).resolves.toBe(resource)
 })
 
-test("deno")(`Resource.list lists resources from store`, async () => {
+test("deno")("`Resource.list()` lists resources from store", async () => {
   const TestResource = await Resource.with({ name: "list", store, log }).ready
   await expect(TestResource.list(undefined, { array: true })).resolves.toEqual([])
   const resources = []
@@ -223,7 +223,7 @@ test("deno")(`Resource.list lists resources from store`, async () => {
   await expect(Array.fromAsync(await TestResource.list([], { array: false }))).resolves.toEqual(resources)
 })
 
-test("deno")(`Resource.list lists resource data from store`, async () => {
+test("deno")("`Resource.list()` lists resource data from store", async () => {
   const TestResource = await Resource.with({ name: "list_data", store, log }).ready
   await expect(TestResource.list(undefined, { array: true })).resolves.toEqual([])
   const data = []
@@ -236,7 +236,7 @@ test("deno")(`Resource.list lists resource data from store`, async () => {
   await expect(Array.fromAsync(await TestResource.list([], { array: false, raw: true }))).resolves.toEqual(data)
 })
 
-test("deno")(`Resource.schema returns a JSON schema of the resource`, async () => {
+test("deno")("`Resource.schema` returns a JSON schema of the resource", async () => {
   const TestResource = await Resource.with({ name: "schema", store, log, model: is.object({ foo: is.boolean().describe("foobar") }) }).ready
   expect(TestResource.schema).toMatchObject({
     "$schema": "http://json-schema.org/draft-07/schema#",

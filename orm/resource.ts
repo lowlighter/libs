@@ -378,14 +378,14 @@ export class Resource<T extends model> {
     const that = this as rw
     // @ts-expect-error: `extended` has same signature as `this`
     const extended = class extends this {
-      static log = log
-      static store = store
+      static override log = log
+      static override store = store
       static ready = promise
-      static listeners = Object.fromEntries(Object.entries(listeners).map(([key, value]) => [key, [...(this.listeners[key] ?? []), value].flat()])) as typeof Resource["listeners"]
-      static model = that.model.merge(_model)
+      static override listeners = Object.fromEntries(Object.entries(listeners).map(([key, value]) => [key, [...(this.listeners[key] ?? []), value].flat()])) as typeof Resource["listeners"]
+      static override model = that.model.merge(_model)
       static bound = { ...that.bound, ...bind }
-      static readonly = Object.fromEntries(Object.entries(that.model.merge(_model).shape).filter(([_, value]) => (value as { description?: string }).description?.includes("@readonly")).map(([key]) => [key, true]))
-      protected static async init() {
+      static override readonly = Object.fromEntries(Object.entries(that.model.merge(_model).shape).filter(([_, value]) => (value as { description?: string }).description?.includes("@readonly")).map(([key]) => [key, true]))
+      protected static override async init() {
         await super.init()
         await init(this as unknown as T)
       }
