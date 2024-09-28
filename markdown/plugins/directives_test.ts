@@ -2,7 +2,7 @@ import { expect, test } from "@libs/testing"
 import { Renderer } from "../renderer.ts"
 import plugin, { directive, h } from "./directives.ts"
 
-test("deno")("Plugin.directives renders custom directive blocks", async () => {
+test("deno")("`Plugin.directives` renders custom directive blocks", async () => {
   const custom = directive((node) => {
     node.data ??= {}
     node.data.hName = "div"
