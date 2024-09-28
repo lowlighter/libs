@@ -38,6 +38,7 @@ const order = [
   "lint",
   "fmt",
   "compilerOptions",
+  "nodeModulesDir",
 ]
 
 // Load local configurations
