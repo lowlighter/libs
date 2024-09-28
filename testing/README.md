@@ -28,14 +28,17 @@ test("node", "bun")("test only on node and bun runtimes", () => {
 
 // Test on deno are performed without any additional permissions by default
 // to satisfy the principle of least privilege, but can be overridden (this is ignored on other runtimes)
-test("deno")("test only on deno, with additional permissions", async () => {
+// Additionally, everything specified in backticks in test names will be syntax highlighted
+test("deno")("test `Deno.serve({ port: 8080 })` with additional `{ permissions: { net: 'inherit' } }`", async () => {
   await using server = Deno.serve({ port: 8080, onListen: () => null }, () => new Response(null, { status: Status.OK }))
   await expect(fetch(`http://${server.addr.hostname}:${server.addr.port}`)).resolves.toRespondWithStatus("2XX")
 }, { permissions: { net: "inherit" } })
 
-// `Deno.test.only` and `Deno.test.ignore` (renamed to `skip`) are supported too
-test.skip("node")("test to implement later", () => {
-  throw new Error("TODO")
+// You can also use `test.only` (alias to `Deno.test.only`), `test.skip` (alias to `Deno.test.ignore` with gray color),
+// and `test.todo` (alias to `Deno.test.skip` with yellow color) to mark tests accordingly
+test.todo("node")("todo test")
+test.skip("node")("broken test", () => {
+  throw new Error()
 })
 ```
 
@@ -49,6 +52,7 @@ test.skip("node")("test to implement later", () => {
 - Automatically detect which runtimes are available and skip tests accordingly for a streamlined development experience.
 - Automatically install dependencies using `deno info` and the correct package manager for each runtime.
 - The permissions for deno test are defaulted to `"none"` rather than `"inherit"`.
+- Syntax highlighting in test names for better readability.
 
 > [!WARNING]
 > Although this library is designed for cross-platform testing, it must be run through Deno.
@@ -79,6 +83,32 @@ jobs:
           node-version: 22.x
       - run: deno task ci
 ```
+
+## 🕊️ Migrating from `2.x.x` to `3.x.x`
+
+Version `3.x.x` and onwards require Deno `2.x.x` or later.
+
+### `toBeType("object")` and `null`
+
+The `toBeType("object")` matcher now excludes `null` by default.
+The second argument has been replaced by an object with a `nullable` property for better readability.
+
+```diff
+- expect(null).toBeType("object", !null)
++ expect(null).toBeType("object", { nullable: true })
+```
+
+### Updated headers and syntax highlighting
+
+The prefix for runtime in test names has been changed to be displayed in uppercase over a colored background.
+If you were using the `deno test --filter` option, you will need to update your filter accordingly.
+
+```diff
+- [deno]
++  DENO
+```
+
+Additionally, test names now syntax highlight everything specified in backticks.
 
 ## 📜 License
 

@@ -3,6 +3,13 @@ import type { Nullable, Promisable, rw } from "@libs/typing"
 import { command } from "@libs/run/command"
 export type { Nullable, Promisable }
 
+// Load syntax highlighting
+let format = (name: string, { header = "" } = {} as { header?: string; underline?: boolean; type?: string }) => `${header} ${name}`
+if (globalThis.Deno) {
+  const { highlight } = await import("./highlight.ts")
+  format = highlight
+}
+
 /** Alias for `any` that can be used for testing. */
 //deno-lint-ignore no-explicit-any
 export type testing = any
@@ -32,6 +39,9 @@ export const paths = {
   npx: "npx",
 }
 
+/** Placeholder testcase. */
+export const placeholder = () => void null
+
 /** Runtime. */
 export type runtime = "deno" | "bun" | "node"
 
@@ -48,6 +58,9 @@ export type options = {
 
 /** Test runner. */
 export type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn: () => Promisable<void>, options?: options) => Promisable<void>
+
+/** Test runner with todo. */
+export type todo_tester = (...runtimes: Array<runtime | "all">) => (name: string, fn?: () => Promisable<void>, options?: options) => Promisable<void>
 
 /**
  * Run a test case with selected runtimes using their own test engine.
@@ -81,14 +94,14 @@ export type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn:
  * import { test, expect } from "./mod.ts"
  *
  * // Run tests on specified runtimes
- * test("all")(name, () => void expect(true))
- * test("deno", "bun", "node")(name, () => void expect(true))
+ * test("all")("test name", () => void expect(true))
+ * test("deno", "bun", "node")("test name", () => void expect(true))
  *
  * // Using custom permissions for deno runtime
- * test("deno")(name, () => expect(globalThis.Deno).toBeDefined(), { permissions: "inherit" })
+ * test("deno")("test name", () => expect(globalThis.Deno).toBeDefined(), { permissions: "inherit" })
  *
  * // Using custom environment variables for deno runtime (this requires `--allow-env` permissions)
- * test("deno")(name, () => expect(globalThis.Deno.env.get("MY_ENV")).toBe("value"), { permissions: { env: [ "MY_ENV" ] },  env: { MY_ENV: "value" } })
+ * test("deno")("test name", () => expect(globalThis.Deno.env.get("MY_ENV")).toBe("value"), { permissions: { env: [ "MY_ENV" ] },  env: { MY_ENV: "value" } })
  * ```
  *
  * @example
@@ -96,10 +109,13 @@ export type tester = (...runtimes: Array<runtime | "all">) => (name: string, fn:
  * import { test, expect } from "./mod.ts"
  *
  * // `skip` and `only` can be used to respectively ignore or restrict a test run to specific cases
- * test.skip()(name, () => void null)
+ * test.skip()("test name", () => void null)
+ *
+ * // `todo` can be used to mark a test as a work in progress
+ * test.todo()("test name")
  * ```
  */
-export const test = Object.assign(_test.bind(null, "test"), { skip: _test.bind(null, "skip"), only: _test.bind(null, "only") }) as (tester & { skip: tester; only: tester })
+export const test = Object.assign(_test.bind(null, "test"), { skip: _test.bind(null, "skip"), only: _test.bind(null, "only"), todo: _test.bind(null, "todo") }) as (tester & { skip: tester; only: tester; todo: todo_tester })
 
 /**
  * Run a single test case in multiple runtimes using their own test engine within Deno.
@@ -120,7 +136,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
       command(paths.bun, ["--version"], { stdout: null, stderr: null, sync: true, throw: true })
       Object.assign(available, { bun: true })
     } catch (error) {
-      if (error instanceof Deno.errors.NotFound) {
+      if (error instanceof Deno.errors.NotCapable) {
         Object.assign(available, { bun: false })
       } else {
         throw error
@@ -128,7 +144,7 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
     }
   }
   if (global.Bun) {
-    return async function (name: string, fn: () => Promisable<void>) {
+    return async function (name: string, fn = placeholder) {
       try {
         const { test } = await import(`${"bun"}:test`)
         test(name, fn)
@@ -144,15 +160,15 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
       command(paths.npx, ["tsx", "--version"], { stdout: null, stderr: null, sync: true, throw: true, winext: ".cmd" })
       Object.assign(available, { node: true })
     } catch (error) {
-      if (error instanceof Deno.errors.NotFound) {
+      if (error instanceof Deno.errors.NotCapable) {
         Object.assign(available, { node: false })
       } else {
         throw error
       }
     }
   }
-  if (global.process?.versions?.node) {
-    return async function (name: string, fn: () => Promisable<void>) {
+  if ((!global.Deno) && (global.process?.versions?.node)) {
+    return async function (name: string, fn = placeholder) {
       try {
         const { test } = await import(`${"node"}:test`)
         test(name, fn)
@@ -163,13 +179,13 @@ function _test(mode: mode, ...runtimes: Array<runtime | "all">): (name: string, 
   }
   // Deno runtime
   const filename = caller()
-  return function (name: string, fn: () => Promisable<void>, options = { permissions: "none" } as options) {
+  return function (name: string, fn = placeholder, options = { permissions: "none" } as options) {
     for (const runtime of runtimes as runtime[]) {
-      const runner = { test: Deno.test, skip: Deno.test.ignore, only: Deno.test.only }[available[runtime as runtime] ? mode : "skip"]
+      const runner = { test: Deno.test, skip: Deno.test.ignore, todo: Deno.test.ignore, only: Deno.test.only }[available[runtime as runtime] ? mode : "skip"]
       if ((options as { __norun?: boolean })?.__norun) {
         continue
       }
-      runner(`[${runtime.padEnd(4)}] ${name}`, runtime === "deno" ? options : {}, function () {
+      runner(format(name, { header: runtime.padEnd(4).toLocaleUpperCase(), underline: true, type: ({ skip: "warn", todo: "debug" } as Record<PropertyKey, string>)[mode] }), runtime === "deno" ? options : {}, function () {
         const original = { env: {} as NonNullable<typeof options["env"]> }
         try {
           if ((runtime === "deno") && options.env) {
@@ -208,6 +224,9 @@ export function install([bin, ...args]: string[], filename: string, { winext = "
   const { packages, npmPackages: _ } = JSON.parse(stdout)
   command(bin, [...args, ...Object.keys(packages)], { stdout: null, stderr: null, sync: true, throw: true, winext, dryrun: !bin })
   cache.add(`${bin}:${filename}`)
+  // Force module type in package.json
+  const payload = "let meta = JSON.parse(await Deno.readTextFile('package.json')); if (meta.type !== 'module') await Deno.writeTextFile('package.json', JSON.stringify((meta.type = 'module', meta)))"
+  command(paths.deno, ["eval", payload], { stdout: null, stderr: null, sync: true, throw: true, winext, dryrun: !bin })
 }
 
 /** Run test function for given filename on the specified runtime. */
@@ -242,4 +261,4 @@ function caller() {
 type CallSite = { getFileName: () => string }
 
 /** Test runner mode. */
-type mode = "test" | "skip" | "only"
+type mode = "test" | "skip" | "only" | "todo"

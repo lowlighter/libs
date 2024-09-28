@@ -1,16 +1,37 @@
+/**
+ * An extended {@link https://jsr.io/@std/expect/doc/~/expect | expect} that defines additional matchers.
+ * @module
+ */
 // Imports
 import { type Async, expect as _expect, type Expected, fn } from "@std/expect"
-import { assert, assertEquals, type AssertionError as _AssertionError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
+import { assert, assertEquals, type AssertionError as _AssertionError, assertIsError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
 import type { Arg, Arrayable, callback, Nullable, record, TypeOf } from "@libs/typing"
 import type { testing } from "./_testing.ts"
 import { STATUS_CODE as Status } from "@std/http/status"
 
 /**
  * The ExtendedExpected interface defines the available assertion methods.
- *
- * @module
  */
 export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
+  /**
+   * Asserts a function to throw an error.
+   *
+   * Unlike the epoynmous method from `@std/expect`, this matcher accepts a second argument that can be either a string or a regular expression when the first argument is a Error class or instance.
+   * In this case, the behavior is the same as {@link assertIsError} where you can both check the error type and message.
+   *
+   * @example
+   * ```ts ignore
+   * import { expect } from "./expect.ts"
+   * const throws = () => { throw new Error("Expected error") }
+   * expect(throws).toThrow(Error)
+   * expect(throws).toThrow("Expected error")
+   * expect(throws).toThrow(Error, /Expected/)
+   * ```
+   *
+   * @experimental This method may be renamed to `toThrow()` directly without being marked as breaking change.
+   */
+  // deno-lint-ignore no-explicit-any
+  _toThrow: <E extends Error = Error>(error?: string | RegExp | E | (new (...args: any[]) => E), message?: string | RegExp) => void
   /**
    * Asserts a value matches the given predicate.
    *
@@ -23,17 +44,18 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   toSatisfy: (evaluate: callback) => unknown
   /**
    * Asserts a value is of a given type (using `typeof` operator).
+   * Note that `null` is not considered of type `"object"` unless `nullable` option is set to `true`.
    *
    * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect("foo").toBeType("string")
    * expect({}).toBeType("object")
-   * expect(null).toBeType("object")
-   * expect(null).not.toBeType("object", !null)
+   * expect(null).toBeType("object", { nullable: true })
+   * expect(null).not.toBeType("object")
    * ```
    */
-  toBeType: (type: string, notnull?: boolean) => unknown
+  toBeType: (type: string, options?: { nullable?: boolean }) => unknown
   /**
    * Asserts a property matches a given descriptor (using `Object.getOwnPropertyDescriptor`).
    *
@@ -338,36 +360,67 @@ function isType(value: testing, type: "bigint"): asserts value is bigint
 function isType(value: testing, type: "boolean"): asserts value is boolean
 function isType(value: testing, type: "symbol"): asserts value is symbol
 function isType(value: testing, type: "undefined"): asserts value is undefined
-function isType(value: testing, type: "object", notnull?: false): asserts value is Nullable<record>
-function isType(value: testing, type: "object", notnull: true): asserts value is record
+function isType(value: testing, type: "object", options?: { nullable: true }): asserts value is Nullable<record>
+function isType(value: testing, type: "object", options: { nullable: false }): asserts value is record
 function isType(value: testing, type: "function"): asserts value is callback
-function isType(value: testing, type: TypeOf, notnull?: boolean) {
+function isType(value: testing, type: TypeOf, { nullable = false } = {}) {
   if ((typeof value) !== type) {
     throw new TypeError(`Value is not of type "${type}"`)
   }
-  if (notnull && (type === "object") && (value === null)) {
+  if ((!nullable) && (type === "object") && (value === null)) {
     throw new TypeError(`Value is null`)
   }
 }
 
 _expect.extend({
+  _toThrow(context, error, message) {
+    // deno-lint-ignore no-explicit-any
+    type ErrorConstructor = new (...args: any[]) => Error
+    if (typeof context.value === "function") {
+      try {
+        context.value = context.value()
+      } catch (error) {
+        context.value = error
+      }
+    }
+    if ((message !== undefined) && ((typeof error === "string") || (error instanceof RegExp))) {
+      throw new TypeError("First argument must be an Error class or instance when second argument is a string or RegExp")
+    }
+    return process(context.isNot, () => {
+      const expect = { class: undefined as ErrorConstructor | undefined, message: undefined as string | RegExp | undefined }
+      if (error instanceof Error) {
+        expect.class = error.constructor as ErrorConstructor
+        expect.message = error.message
+      }
+      if (error instanceof Function) {
+        expect.class = error as ErrorConstructor
+      }
+      if ((typeof error === "string") || (error instanceof RegExp)) {
+        expect.message = error
+      }
+      if (message) {
+        expect.message = message
+      }
+      assertIsError(context.value, expect.class, expect.message)
+    }, context.isNot ? `Expected to NOT throw ${error}` : "")
+  },
   toSatisfy(context, predicate) {
     return process(context.isNot, () => {
       assert(predicate(context.value))
     }, "Expected value to {!NOT} satisfy predicate")
   },
-  toBeType(context, type, notnull) {
+  toBeType(context, type, { nullable = false } = {}) {
     return process(context.isNot, () => {
       try {
-        isType(context.value, type, notnull)
+        isType(context.value, type, { nullable })
       } catch (error) {
         throw new AssertionError(error.message)
       }
-    }, `Expected value to {!NOT} be of type "${type}"${notnull ? " and not null but " : ""}`)
+    }, `Expected value to {!NOT} be of type "${type}"${!nullable ? " and not null but " : ""}`)
   },
   toHaveDescribedProperty(context, key, expected) {
     return process(context.isNot, () => {
-      isType(context.value, "object", !null)
+      isType(context.value, "object", { nullable: false })
       const descriptor = Object.getOwnPropertyDescriptor(context.value, key)
       if (!descriptor) {
         throw new ReferenceError(`Property "${String(key)}" does not exist on object`)
