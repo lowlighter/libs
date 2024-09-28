@@ -32,8 +32,8 @@
     "@std/path/from-file-url": "jsr:@std/path@1/from-file-url",
     "@std/fmt/colors": "jsr:@std/fmt@1/colors",
     "@std/html/entities": "jsr:@std/html@1/entities",
-    "@libs/typing": "jsr:@libs/typing@2",
-    "@libs/run": "jsr:@libs/run@2",
+    "@libs/typing": "jsr:@libs/typing@3",
+    "@libs/run": "jsr:@libs/run@3",
     "bun:test": "./_stub.ts",
     "node:test": "./_stub.ts"
   },

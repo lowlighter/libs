@@ -40,13 +40,18 @@ export function highlight(text: string, { underline: underlined = false, header 
 
 /** Process rendered highlight.js html back to cli formatted highlighing. */
 function process(html: string) {
-  const regex = /<span[^>]*class="(?<classname>[^"]*)"[^>]*>(?<content>.*?)<\/span>/gs
-  let match
+  const stack = []
+  const regex = /(?<open><span[^>]*class="(?<classname>[^"]*)"[^>]*>)|(?<close><\/span>)/gs
+  let match = null as ReturnType<typeof regex.exec>
   while ((match = regex.exec(html)) !== null) {
     const [captured] = match
-    const { classname, content } = match.groups!
-    if (!content.includes("<span")) {
-      return process(html.replace(captured, color(content, classname)))
+    const { open, close, classname } = match.groups!
+    if (open) {
+      stack.push({ classname, a: match.index, b: match.index + captured.length })
+    }
+    if (close) {
+      const { a, b, classname } = stack.pop()!
+      return process(`${html.substring(0, a)}${color(html.substring(b, match.index), classname)}${html.substring(match.index + close.length)}`)
     }
   }
   return html
@@ -59,6 +64,7 @@ function color(content: string, classname: string) {
     "hljs-keyword": cyan,
     "hljs-string": green,
     "hljs-title function_": blue,
+    "hljs-title class_": blue,
     "hljs-literal": yellow,
     "hljs-number": yellow,
   }[classname] ?? ((text: string) => text))(content)
