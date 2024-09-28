@@ -1,91 +1,105 @@
 {
-  "version": "3",
-  "packages": {
-    "specifiers": {
-      "jsr:@libs/logger@2": "jsr:@libs/logger@2.1.2",
-      "jsr:@libs/qrcode": "jsr:@libs/qrcode@1.2.6",
-      "jsr:@libs/run@2": "jsr:@libs/run@2.0.3",
-      "jsr:@libs/testing@2": "jsr:@libs/testing@2.2.4",
-      "jsr:@libs/typing@2": "jsr:@libs/typing@2.8.2",
-      "jsr:@std/assert@1": "jsr:@std/assert@1.0.3",
-      "jsr:@std/assert@^1.0.3": "jsr:@std/assert@1.0.3",
-      "jsr:@std/async@1": "jsr:@std/async@1.0.4",
-      "jsr:@std/bytes@^1.0.2": "jsr:@std/bytes@1.0.2",
-      "jsr:@std/encoding@1": "jsr:@std/encoding@1.0.3",
-      "jsr:@std/expect@1": "jsr:@std/expect@1.0.1",
-      "jsr:@std/http@1": "jsr:@std/http@1.0.4",
-      "jsr:@std/internal@^1.0.2": "jsr:@std/internal@1.0.2",
-      "jsr:@std/streams@1": "jsr:@std/streams@1.0.3"
+  "version": "4",
+  "specifiers": {
+    "jsr:@libs/logger@2": "2.1.4",
+    "jsr:@libs/qrcode@*": "2.0.0",
+    "jsr:@libs/run@2": "2.0.5",
+    "jsr:@libs/testing@3": "3.0.0",
+    "jsr:@libs/typing@2": "2.9.0",
+    "jsr:@std/assert@1": "1.0.6",
+    "jsr:@std/assert@^1.0.6": "1.0.6",
+    "jsr:@std/async@1": "1.0.5",
+    "jsr:@std/bytes@^1.0.2": "1.0.2",
+    "jsr:@std/encoding@1": "1.0.5",
+    "jsr:@std/expect@1": "1.0.4",
+    "jsr:@std/fmt@1": "1.0.2",
+    "jsr:@std/html@1": "1.0.3",
+    "jsr:@std/http@1": "1.0.7",
+    "jsr:@std/internal@^1.0.4": "1.0.4",
+    "jsr:@std/streams@1": "1.0.6",
+    "npm:highlight.js@11": "11.10.0"
+  },
+  "jsr": {
+    "@libs/logger@2.1.4": {
+      "integrity": "47d100412f9c16b5752d670d7fb182a2dce2cda26a72896e0f69d3a2de35fa1f"
     },
-    "jsr": {
-      "@libs/logger@2.1.2": {
-        "integrity": "2a5f4b148fd8d6b1221ff89cff73367ca0511137f4d6548c532b6e220ed22bcc"
-      },
-      "@libs/qrcode@1.2.6": {
-        "integrity": "4a5d77a34e615c5d3731fe287749d51fe6b374ff7b1f3bbb88e57d9f8d32780d"
-      },
-      "@libs/run@2.0.3": {
-        "integrity": "77fe95cbfdc6c0855ab1bc5fb008ad4e37c6da848fd20ed8e88d98c3cf51eccb",
-        "dependencies": [
-          "jsr:@libs/logger@2",
-          "jsr:@libs/typing@2",
-          "jsr:@std/async@1",
-          "jsr:@std/streams@1"
-        ]
-      },
-      "@libs/testing@2.2.4": {
-        "integrity": "3ef407b62cf18424b3e2e604eef5df81d3c07cf8adb4b78ab4cf40db2a029f2c",
-        "dependencies": [
-          "jsr:@libs/run@2",
-          "jsr:@libs/typing@2",
-          "jsr:@std/assert@1",
-          "jsr:@std/expect@1",
-          "jsr:@std/http@1"
-        ]
-      },
-      "@libs/typing@2.8.2": {
-        "integrity": "c53f8aad9b01621de893aeac5d6cd592ec2ce783f8e89b677dcd81490a3be0a0"
-      },
-      "@std/assert@1.0.3": {
-        "integrity": "b0d03ce1ced880df67132eea140623010d415848df66f6aa5df76507ca7c26d8",
-        "dependencies": [
-          "jsr:@std/internal@^1.0.2"
-        ]
-      },
-      "@std/async@1.0.4": {
-        "integrity": "373f5168a01b46ecaabc785d4e0f9ef18a010ab867af069fb905d93a9129ae5b"
-      },
-      "@std/bytes@1.0.2": {
-        "integrity": "fbdee322bbd8c599a6af186a1603b3355e59a5fb1baa139f8f4c3c9a1b3e3d57"
-      },
-      "@std/encoding@1.0.3": {
-        "integrity": "5dbc2d7f5aa6062de7e19862ea856ac7a0dcce0b6fb46bb7b332d3bdcd4408b7"
-      },
-      "@std/expect@1.0.1": {
-        "integrity": "44075d9c2cb701ddfc4d5a260da2fb26ba3cfd94c45d3a0359f63cabbf85a058",
-        "dependencies": [
-          "jsr:@std/assert@^1.0.3",
-          "jsr:@std/internal@^1.0.2"
-        ]
-      },
-      "@std/http@1.0.4": {
-        "integrity": "1a8142217907d49c4687f90ef3d257e7df2baf344c5122c322d7316df09df453"
-      },
-      "@std/internal@1.0.2": {
-        "integrity": "f4cabe2021352e8bfc24e6569700df87bf070914fc38d4b23eddd20108ac4495"
-      },
-      "@std/streams@1.0.3": {
-        "integrity": "d62e645ab981cee2c3d03040eb03cf387fc6bceef6d4564f3ed485a43741a81f",
-        "dependencies": [
-          "jsr:@std/bytes@^1.0.2"
-        ]
-      }
+    "@libs/qrcode@2.0.0": {
+      "integrity": "5e2b02be0bed39473289abeafd6987c3cc6e6c7410fe5236d8e3a2e72847e178"
+    },
+    "@libs/run@2.0.5": {
+      "integrity": "6da09b6d9458a7f8134a113f7a70186742e6f759423a60f7037ca1001bbf1b78",
+      "dependencies": [
+        "jsr:@libs/logger",
+        "jsr:@libs/typing",
+        "jsr:@std/async",
+        "jsr:@std/streams"
+      ]
+    },
+    "@libs/testing@3.0.0": {
+      "integrity": "514547988fadac36890692ccafc932546d9e27680df1b736dd7674ad2e7c9625",
+      "dependencies": [
+        "jsr:@libs/run",
+        "jsr:@libs/typing",
+        "jsr:@std/assert@1",
+        "jsr:@std/expect",
+        "jsr:@std/fmt",
+        "jsr:@std/html",
+        "jsr:@std/http",
+        "npm:highlight.js"
+      ]
+    },
+    "@libs/typing@2.9.0": {
+      "integrity": "ddf35ea652b807cd9b19b4f3f163fb5d76d57299053753fbd01ba8b02d9306ad"
+    },
+    "@std/assert@1.0.6": {
+      "integrity": "1904c05806a25d94fe791d6d883b685c9e2dcd60e4f9fc30f4fc5cf010c72207",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/async@1.0.5": {
+      "integrity": "31d68214bfbb31bd4c6022401d484e3964147c76c9220098baa703a39b6c2da6"
+    },
+    "@std/bytes@1.0.2": {
+      "integrity": "fbdee322bbd8c599a6af186a1603b3355e59a5fb1baa139f8f4c3c9a1b3e3d57"
+    },
+    "@std/encoding@1.0.5": {
+      "integrity": "ecf363d4fc25bd85bd915ff6733a7e79b67e0e7806334af15f4645c569fefc04"
+    },
+    "@std/expect@1.0.4": {
+      "integrity": "97f68a445a9de0d9670200d2b7a19a7505a01b2cb390a983ba8d97d90ce30c4f",
+      "dependencies": [
+        "jsr:@std/assert@^1.0.6",
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/fmt@1.0.2": {
+      "integrity": "87e9dfcdd3ca7c066e0c3c657c1f987c82888eb8103a3a3baa62684ffeb0f7a7"
+    },
+    "@std/html@1.0.3": {
+      "integrity": "7a0ac35e050431fb49d44e61c8b8aac1ebd55937e0dc9ec6409aa4bab39a7988"
+    },
+    "@std/http@1.0.7": {
+      "integrity": "9b904fc256678a5c9759f1a53a24a3fdcc59d83dc62099bb472683b6f819194c"
+    },
+    "@std/internal@1.0.4": {
+      "integrity": "62e8e4911527e5e4f307741a795c0b0a9e6958d0b3790716ae71ce085f755422"
+    },
+    "@std/streams@1.0.6": {
+      "integrity": "022ed94e380d06b4d91c49eb70241b7289ab78b8c2b4c4bbb7eb265e4997c25c",
+      "dependencies": [
+        "jsr:@std/bytes"
+      ]
     }
   },
-  "remote": {},
+  "npm": {
+    "highlight.js@11.10.0": {
+      "integrity": "sha512-SYVnVFswQER+zu1laSya563s+F8VDGt7o35d4utbamowvUNLLMovFqwCLSocpZTz3MgaSRA1IbqRWZv97dtErQ=="
+    }
+  },
   "workspace": {
     "dependencies": [
-      "jsr:@libs/testing@2",
+      "jsr:@libs/testing@3",
       "jsr:@std/encoding@1"
     ]
   }

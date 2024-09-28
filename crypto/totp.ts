@@ -13,7 +13,7 @@
  * @example
  * ```ts
  * import { otpauth, otpsecret, verify } from "./totp.ts"
- * import { qrcode } from "../qrcode/mod.ts"
+ * import { qrcode } from "jsr:@libs/qrcode"
  *
  * // Issue a new TOTP secret
  * const secret = otpsecret()
