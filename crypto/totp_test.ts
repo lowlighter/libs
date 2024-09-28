@@ -1,4 +1,4 @@
-import { otpauth, otpsecret, verify } from "./totp.ts"
+import { otpauth, otpsecret, totp, verify } from "./totp.ts"
 import { expect, test } from "@libs/testing"
 
 test("all")("`otpsecret()` returns a string", () => {
@@ -21,6 +21,12 @@ test("all")("`otpauth()` throws when either issuer or account contains a colon c
 test("all")("`otpauth()` throws when either issuer or account contains a colon character", () => {
   expect(() => otpauth({ issuer: "issuer:invalid", account: "account" })).toThrow("Label may not contain a colon character")
   expect(() => otpauth({ issuer: "issuer", account: "account:invalid" })).toThrow("Label may not contain a colon character")
+})
+
+test("all")("`totp()` supports secret with longer lengths", async () => {
+  const secret = otpsecret(24)
+  expect(secret).not.toContain("=")
+  await expect(totp(secret)).resolves.toBeType("string")
 })
 
 test("all")("`verify()` returns true if token is valid", async () => {

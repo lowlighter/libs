@@ -46,7 +46,7 @@ import { decodeBase32, encodeBase32 } from "@std/encoding/base32"
 async function htop(secret: string, counter: bigint): Promise<string> {
   const buffer = new DataView(new ArrayBuffer(8))
   buffer.setBigUint64(0, counter, false)
-  const key = await crypto.subtle.importKey("raw", decodeBase32(secret), { name: "HMAC", hash: "SHA-1" }, false, ["sign"])
+  const key = await crypto.subtle.importKey("raw", decodeBase32(`${secret}${"=".repeat((8 - (secret.length % 8)) % 8)}`), { name: "HMAC", hash: "SHA-1" }, false, ["sign"])
   const hmac = new Uint8Array(await crypto.subtle.sign("HMAC", key, buffer))
   const offset = hmac[hmac.length - 1] & 0xf
   const code = (hmac[offset] & 0x7f) << 24 | (hmac[offset + 1] & 0xff) << 16 | (hmac[offset + 2] & 0xff) << 8 | (hmac[offset + 3] & 0xff)
