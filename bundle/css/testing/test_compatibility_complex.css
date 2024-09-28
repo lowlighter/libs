@@ -45,7 +45,7 @@ div:first-child, input:user-invalid {
 }
 
 @font-face {
-  font-family: 'foo_font';
+  font-family: "foo_font";
   src: url();
 }
 

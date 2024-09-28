@@ -288,5 +288,5 @@ function fixKeyOf(params: string) {
 /** Parse module documentation. */
 async function parseDoc(file: string) {
   const { stdout } = await command("deno", ["doc", "--quiet", "--json", file], { stdout: "trace" })
-  return JSON.parse(stdout)
+  return JSON.parse(stdout).nodes
 }

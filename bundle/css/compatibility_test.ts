@@ -6,19 +6,19 @@ import { encodeBase64 } from "@std/encoding/base64"
 
 const base = new URL("testing/", import.meta.url)
 
-test("deno")("report.for() detects features", async () => {
+test("deno")("`report.for()` detects features", async () => {
   const css = await bundle(new URL("test_compatibility.css", base))
   const result = new Report("defaults, ie > 8", { loglevel: -1 }).for(css)
   expect(result.features.list).toContain("properties/backdrop-filter")
   expect(result.browsers.ie["9"].support.unsupported).toHaveProperty("properties/backdrop-filter")
 }, { permissions: { read: true } })
 
-test("deno")("report.for() supports advanced usecases", async () => {
+test("deno")("`report.for()` supports advanced usecases", async () => {
   const css = await bundle(new URL("test_compatibility_complex.css", base))
   expect(() => new Report("> 0%", { loglevel: -1 }).for(css)).not.toThrow()
 }, { permissions: { read: true } })
 
-test("deno")("report.print() formats and outputs results", async () => {
+test("deno")("`report.print()` formats and outputs results", async () => {
   const report = new Report("> 0%", { loglevel: -1 })
   const _ = console.log
   try {
@@ -61,7 +61,7 @@ test("deno")("report.print() formats and outputs results", async () => {
   }
 }, { permissions: { read: true } })
 
-test("deno")("compatibility() supports printing reports", async () => {
+test("deno")("`compatibility()` supports printing reports", async () => {
   const input = "body { color: salmon; }"
   await expect(compatibility(input, { output: "html", style: false })).resolves.toMatch(/^<table.*?>[\s\S]+<\/table>$/)
   await expect(compatibility(new URL(`data:text/css;base64,${encodeBase64(input)}`), { output: "html", style: false })).resolves.toMatch(/^<table.*?>[\s\S]+<\/table>$/)

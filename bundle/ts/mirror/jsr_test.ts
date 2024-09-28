@@ -4,7 +4,7 @@ import { Logger } from "@libs/logger"
 import { STATUS_CODE as StatusCode } from "@std/http/status"
 import { resolve } from "@std/path"
 
-test("deno")("mirror() generates a dictionary with everything necessary to create a mirrored jsr.io repo", async () => {
+test("deno")("`mirror()` generates a dictionary with everything necessary to create a mirrored jsr.io repo", async () => {
   const items = [
     { name: "multi_exports", latestVersion: "0.0.0" },
     { name: "single_export", latestVersion: "0.0.0" },

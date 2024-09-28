@@ -61,11 +61,11 @@
     "@std/tar": "jsr:@std/tar@^0.1.0",
     "@std/cli": "jsr:@std/cli@1",
     "@std/fmt/colors": "jsr:@std/fmt@1/colors",
-    "@libs/logger": "jsr:@libs/logger@2",
-    "@libs/testing": "jsr:@libs/testing@2",
-    "@libs/typing": "jsr:@libs/typing@2",
-    "@libs/xml": "jsr:@libs/xml@5",
-    "@libs/run": "jsr:@libs/run@2",
+    "@libs/logger": "jsr:@libs/logger@3",
+    "@libs/testing": "jsr:@libs/testing@3",
+    "@libs/typing": "jsr:@libs/typing@3",
+    "@libs/xml": "jsr:@libs/xml@6",
+    "@libs/run": "jsr:@libs/run@3",
     "@cliffy/table": "jsr:@cliffy/table@1.0.0-rc.5",
     "@std/yaml": "jsr:@std/yaml@1",
     "@mdn/browser-compat-data": "npm:@mdn/browser-compat-data@5",
@@ -95,11 +95,11 @@
   },
   "tasks": {
     "test": "deno test --allow-read --allow-env --allow-sys --allow-net --allow-write --allow-run --no-prompt --coverage --clean --trace-leaks --doc",
-    "test:deno": "deno task clean:deno && deno fmt --check && deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js && deno lint",
+    "test:deno": "deno task clean:deno && deno fmt --check && deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js && deno lint",
     "test:deno-future": "deno task clean:deno && DENO_FUTURE=1 && deno task test:deno",
-    "test:others": "deno task clean:others && deno fmt --check && deno task test --filter='/^\\[node|bun \\]/' --quiet && deno coverage --exclude=.js && deno lint",
-    "coverage:html": "deno task test --filter='/^\\[deno\\]/' --quiet && deno coverage --exclude=.js --html && sleep 1",
-    "dev": "deno fmt && deno task test --filter='/^\\[deno\\]/' && deno coverage --exclude=.js --detailed && deno task lint",
+    "test:others": "deno task clean:others && deno fmt --check && deno task test --filter='/NODE|BUN/' --quiet && deno coverage --exclude=.js && deno lint",
+    "coverage:html": "deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js --html && sleep 1",
+    "dev": "deno fmt && deno task test --filter='/DENO/' && deno coverage --exclude=.js --detailed && deno task lint",
     "lint": "deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish --dry-run --quiet --allow-dirty",
     "clean:deno": "rm -rf node_modules .npmrc deno.lock",
     "clean:others": "rm -rf node_modules .npmrc deno.lock package.json package-lock.json bun.lockb"
@@ -131,5 +131,8 @@
       "**/*.mjs"
     ],
     "proseWrap": "preserve"
+  },
+  "compilerOptions": {
+    "useUnknownInCatchVariables": false
   }
 }
