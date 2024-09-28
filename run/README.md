@@ -54,6 +54,10 @@ console.assert(stdout.includes("hello"))
   - Optionally decide to throw an error when the process exits with a non-zero code.
 - Generates a `stdio` history that contains timestamped entries with configurable buffering
 
+## 🕊️ Migrating from `2.x.x` to `3.x.x`
+
+Version `3.x.x` and onwards require Deno `2.x.x` or later.
+
 ## 📜 Licenses
 
 ```plaintext

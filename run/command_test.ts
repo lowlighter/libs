@@ -2,7 +2,7 @@ import { Logger } from "@libs/logger"
 import { command } from "./command.ts"
 import { expect, test, type testing } from "@libs/testing"
 
-test("deno")("command() can spawn subprocesses asynchronously", async () => {
+test("deno")("`command()` can spawn subprocesses asynchronously", async () => {
   let result = command("deno", ["--version"], { env: { NO_COLOR: "true" } }) as testing
   expect(result).toBeInstanceOf(Promise)
   result = await result
@@ -11,7 +11,7 @@ test("deno")("command() can spawn subprocesses asynchronously", async () => {
   expect(result.stdout).toMatch(/deno/)
 }, { permissions: { run: ["deno"] } })
 
-test("deno")("command() can spawn subprocesses synchronously", () => {
+test("deno")("`command()` can spawn subprocesses synchronously", () => {
   const result = command("deno", ["--version"], { env: { NO_COLOR: "true" }, sync: true })
   expect(result).not.toBeInstanceOf(Promise)
   expect(result).toMatchObject({ success: true, code: 0, stdin: "", stderr: "" })
@@ -19,13 +19,13 @@ test("deno")("command() can spawn subprocesses synchronously", () => {
   expect(result.stdout).toMatch(/deno/)
 }, { permissions: { run: ["deno"] } })
 
-test("deno")("command() handles callback<write()> and callback<close()> calls", async () => {
+test("deno")("`command()` handles `callback<write()>` and `callback<close()>` calls", async () => {
   const result = await command("deno", ["repl"], { stdin: "debug", env: { NO_COLOR: "true" }, callback: ({ i, write, close }) => i === 0 ? write("console.log('hello')") : close() })
   expect(result).toMatchObject({ success: true, code: 0, stdin: "console.log('hello')" })
   expect(result.stdout).toMatch(/hello/)
 }, { permissions: { run: ["deno"] } })
 
-test("deno")("command() handles multiple callback<close()> calls", async () => {
+test("deno")("`command()` handles multiple `callback<close()>` calls", async () => {
   const result = await command("deno", ["repl"], {
     env: { NO_COLOR: "true" },
     callback: async ({ close }) => {
@@ -36,7 +36,7 @@ test("deno")("command() handles multiple callback<close()> calls", async () => {
   expect(result).toMatchObject({ success: true, code: 0 })
 }, { permissions: { run: ["deno"] } })
 
-test("deno")("command() handles callback<wait()> calls", async () => {
+test("deno")("`command()` handles `callback<wait()>` calls", async () => {
   let waited = false
   const result = await command("deno", ["repl"], {
     env: { NO_COLOR: "true" },
@@ -47,7 +47,7 @@ test("deno")("command() handles callback<wait()> calls", async () => {
 
 for (const sync of [false, true]) {
   for (const mode of ["inherit", "piped", null, "debug", "log", "info", "warn", "error"] as const) {
-    test("deno")(`command() supports stdio set to "${mode}" in "${sync ? "sync" : "async"}" mode`, async () => {
+    test("deno")(`\`command()\` supports stdio set to \`"${mode}"\` in ${sync ? "sync" : "async"} mode`, async () => {
       const result = await command("deno", ["eval", "null"], {
         logger: new Logger({ level: "disabled" }),
         env: { NO_COLOR: "true" },
@@ -61,7 +61,7 @@ for (const sync of [false, true]) {
   }
 }
 
-test("deno")("command() handles both stdout and stderr channels", async () => {
+test("deno")("`command()` handles both stdout and stderr channels", async () => {
   const result = await command("deno", ["eval", "await Deno.stdout.write(new TextEncoder().encode(`foo\n`));await Deno.stderr.write(new TextEncoder().encode(`bar\n`))"], {
     env: { NO_COLOR: "true" },
     stdout: "piped",
@@ -70,7 +70,7 @@ test("deno")("command() handles both stdout and stderr channels", async () => {
   expect(result).toMatchObject({ success: true, code: 0, stdout: "foo", stderr: "bar" })
 }, { permissions: { run: ["deno"] } })
 
-test("deno")("command() supports buffering", async () => {
+test("deno")("`command()` supports buffering", async () => {
   // Combined entries if buffering is greater than the time between writes
   {
     const result = await command("deno", ["eval", "console.log(`foo`);await new Promise(resolve => setTimeout(resolve, 100));console.log(`bar`)"], {
@@ -112,16 +112,16 @@ test("deno")("command() supports buffering", async () => {
   }
 }, { permissions: { run: ["deno"] } })
 
-test("deno")("command() throws an error when `throw` option is enabled and exit code is non-zero", async () => {
+test("deno")("`command()` throws an error when throw option is enabled and exit code is non-zero", async () => {
   expect(() => command("deno", ["eval", "Deno.exit(1)"], { env: { NO_COLOR: "true" }, throw: true, sync: true })).toThrow(EvalError)
   await expect(command("deno", ["eval", "Deno.exit(1)"], { env: { NO_COLOR: "true" }, throw: true })).rejects.toThrow(EvalError)
 }, { permissions: { run: ["deno"] } })
 
-test("deno")("command() does nothing in dryrun", async () => {
+test("deno")("`command()` does nothing in dryrun", async () => {
   expect(command("deno", ["--version"], { dryrun: true, sync: true })).toMatchObject({ success: true, code: 0, stdio: [], stdin: "", stderr: "", stdout: "" })
   await expect(command("deno", ["--version"], { dryrun: true })).resolves.toMatchObject({ success: true, code: 0, stdio: [], stdin: "", stderr: "", stdout: "" })
 }, { permissions: { run: ["deno"] } })
 
-test("deno")("command() appends windows extension when os platform is windows", () => {
+test("deno")("`command()` appends windows extension when os platform is windows", () => {
   expect(command("", ["--version"], { logger: new Logger({ level: "disabled" }), sync: true, winext: "deno", os: "windows" })).toMatchObject({ success: true, code: 0 })
 }, { permissions: { run: ["deno"] } })
