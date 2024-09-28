@@ -64,6 +64,10 @@ console.log(stringify({
   - Support for custom `reviver` and `replacer` functions
 - Support for metadata stored into non-enumerable properties (advanced usage).
 
+## 🕊️ Migrating from `5.x.x` to `6.x.x`
+
+Version `6.x.x` and onwards require Deno `2.x.x` or later.
+
 ## 🕊️ Migrating from `4.x.x` to `5.x.x`
 
 Prior to version version `5.0.0`, this library was fully written in TypeScript.

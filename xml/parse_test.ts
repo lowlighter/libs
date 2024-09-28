@@ -18,7 +18,7 @@ export async function write(size: number) {
   await file.write(encoder.encode("</root>"))
 }
 
-test("all")("parse() xml syntax tag", () =>
+test("all")("`parse()` xml syntax tag", () =>
   expect(
     parse(`
   <root>hello world</root>
@@ -29,7 +29,7 @@ test("all")("parse() xml syntax tag", () =>
     },
   ))
 
-test("all")("parse(): xml syntax tag with attributes", () =>
+test("all")("`parse()` xml syntax tag with attributes", () =>
   expect(
     parse(`
   <root lang="en" type="greeting">hello world</root>
@@ -44,7 +44,7 @@ test("all")("parse(): xml syntax tag with attributes", () =>
     },
   ))
 
-test("all")("parse(): xml syntax self-closing tag", () =>
+test("all")("`parse()` xml syntax self-closing tag", () =>
   expect(
     parse(`
   <root/>
@@ -55,7 +55,7 @@ test("all")("parse(): xml syntax self-closing tag", () =>
     },
   ))
 
-test("all")("parse(): xml syntax self-closing with attributes", () =>
+test("all")("`parse()` xml syntax self-closing with attributes", () =>
   expect(
     parse(`
   <root lang="en" type="greeting" text="hello world"></root>
@@ -70,7 +70,7 @@ test("all")("parse(): xml syntax self-closing with attributes", () =>
     },
   ))
 
-test("all")("parse(): xml syntax empty tag", () =>
+test("all")("`parse()` xml syntax empty tag", () =>
   expect(
     parse(`
   <root></root>
@@ -81,7 +81,7 @@ test("all")("parse(): xml syntax empty tag", () =>
     },
   ))
 
-test("all")("parse(): xml syntax empty tag with attributes", () =>
+test("all")("`parse()` xml syntax empty tag with attributes", () =>
   expect(
     parse(`
   <root type="test"></root>
@@ -94,7 +94,7 @@ test("all")("parse(): xml syntax empty tag with attributes", () =>
     },
   ))
 
-test("all")("parse(): xml syntax simple tree", () =>
+test("all")("`parse()` xml syntax simple tree", () =>
   expect(
     parse(`
   <root>
@@ -113,7 +113,7 @@ test("all")("parse(): xml syntax simple tree", () =>
     },
   ))
 
-test("all")("parse(): xml syntax simple tree with same tags", () =>
+test("all")("`parse()` xml syntax simple tree with same tags", () =>
   expect(
     parse(`
   <root>
@@ -131,7 +131,7 @@ test("all")("parse(): xml syntax simple tree with same tags", () =>
     },
   ))
 
-test("all")("parse(): xml syntax simple tree with same tags and attributes", () =>
+test("all")("`parse()` xml syntax simple tree with same tags and attributes", () =>
   expect(
     parse(`
   <root>
@@ -154,7 +154,7 @@ test("all")("parse(): xml syntax simple tree with same tags and attributes", () 
     },
   ))
 
-test("all")("parse(): xml syntax simple tree with nested tags of same name", () =>
+test("all")("`parse()` xml syntax simple tree with nested tags of same name", () =>
   expect(
     parse(`
   <root>
@@ -175,7 +175,7 @@ test("all")("parse(): xml syntax simple tree with nested tags of same name", () 
     },
   ))
 
-test("all")("parse(): xml syntax mixed content", () =>
+test("all")("`parse()` xml syntax mixed content", () =>
   expect(
     parse(`
   <root>some <b>bold</b> text</root>
@@ -189,7 +189,7 @@ test("all")("parse(): xml syntax mixed content", () =>
     },
   ))
 
-test("all")("parse(): xml syntax nested mixed content", () =>
+test("all")("`parse()` xml syntax nested mixed content", () =>
   expect(
     parse(`
   <root>some <b>bold <i>italic</i> </b> text</root>
@@ -206,7 +206,7 @@ test("all")("parse(): xml syntax nested mixed content", () =>
     },
   ))
 
-test("all")("parse(): xml syntax xml prolog", () =>
+test("all")("`parse()` xml syntax xml prolog", () =>
   expect(
     parse(
       `
@@ -223,7 +223,7 @@ test("all")("parse(): xml syntax xml prolog", () =>
     },
   ))
 
-test("all")("parse(): xml syntax xml stylesheet", () =>
+test("all")("`parse()` xml syntax xml stylesheet", () =>
   expect(
     parse(
       `
@@ -254,7 +254,7 @@ test("all")("parse(): xml syntax xml stylesheet", () =>
     },
   ))
 
-test("all")("parse(): xml syntax doctype", () =>
+test("all")("`parse()` xml syntax doctype", () =>
   expect(
     parse(
       `
@@ -272,7 +272,7 @@ test("all")("parse(): xml syntax doctype", () =>
     },
   ))
 
-test("all")("parse(): xml syntax doctype with element", () =>
+test("all")("`parse()` xml syntax doctype with element", () =>
   expect(
     parse(
       `
@@ -303,7 +303,7 @@ test("all")("parse(): xml syntax doctype with element", () =>
     },
   ))
 
-test("all")("parse(): xml syntax case sensitive", () =>
+test("all")("`parse()` xml syntax case sensitive", () =>
   expect(
     parse(`
   <root>
@@ -333,7 +333,7 @@ test("all")("parse(): xml syntax case sensitive", () =>
     },
   ))
 
-test("all")("parse(): xml syntax defined entities", () =>
+test("all")("`parse()` xml syntax defined entities", () =>
   expect(
     parse(`
   <root>
@@ -346,7 +346,7 @@ test("all")("parse(): xml syntax defined entities", () =>
     },
   ))
 
-test("all")("parse(): xml syntax decimal entity reference", () =>
+test("all")("`parse()` xml syntax decimal entity reference", () =>
   expect(
     parse(`
   <root>
@@ -359,7 +359,7 @@ test("all")("parse(): xml syntax decimal entity reference", () =>
     },
   ))
 
-test("all")("parse(): xml syntax hexadecimal entity reference", () =>
+test("all")("`parse()` xml syntax hexadecimal entity reference", () =>
   expect(
     parse(`
   <root>
@@ -372,7 +372,7 @@ test("all")("parse(): xml syntax hexadecimal entity reference", () =>
     },
   ))
 
-test("all")("parse(): xml syntax comments", () =>
+test("all")("`parse()` xml syntax comments", () =>
   expect(
     parse(`
   <root>
@@ -393,7 +393,7 @@ test("all")("parse(): xml syntax comments", () =>
     },
   ))
 
-test("all")("parse(): xml syntax comments in-between text nodes", () =>
+test("all")("`parse()` xml syntax comments in-between text nodes", () =>
   expect(
     parse(`
     <root>
@@ -411,7 +411,7 @@ test("all")("parse(): xml syntax comments in-between text nodes", () =>
     },
   ))
 
-test("all")("parse(): xml syntax white spaces preserved", () =>
+test("all")("`parse()` xml syntax white spaces preserved", () =>
   expect(
     parse(`
   <root>
@@ -426,7 +426,7 @@ are   you?`,
     },
   ))
 
-test("all")("parse(): xml syntax CDATA", () =>
+test("all")("`parse()` xml syntax CDATA", () =>
   expect(
     parse(`
   <root>
@@ -450,7 +450,7 @@ test("all")("parse(): xml syntax CDATA", () =>
     },
   ))
 
-test("all")("parse(): xml syntax mixed content with CDATA", () =>
+test("all")("`parse()` xml syntax mixed content with CDATA", () =>
   expect(
     parse(`
   <root>
@@ -475,7 +475,7 @@ test("all")("parse(): xml syntax mixed content with CDATA", () =>
     },
   ))
 
-test("all")("parse(): xml syntax with multiple CDATA's", () =>
+test("all")("`parse()` xml syntax with multiple CDATA's", () =>
   expect(
     parse(`
     <root>
@@ -493,7 +493,7 @@ test("all")("parse(): xml syntax with multiple CDATA's", () =>
     },
   ))
 
-test("all")("parse(): xml space preserve", () =>
+test("all")("`parse()` xml space preserve", () =>
   expect(
     parse(`
     <root>
@@ -513,7 +513,7 @@ test("all")("parse(): xml space preserve", () =>
 
 //Errors checks
 
-test("all")("parse(): xml syntax unique root", () =>
+test("all")("`parse()` xml syntax unique root", () =>
   expect(() =>
     parse(`
   <root>
@@ -529,7 +529,7 @@ test("all")("parse(): xml syntax unique root", () =>
 `)
   ).toThrow(SyntaxError))
 
-test("all")("parse(): xml syntax closing tag", () =>
+test("all")("`parse()` xml syntax closing tag", () =>
   expect(() =>
     parse(`
   <root>
@@ -538,7 +538,7 @@ test("all")("parse(): xml syntax closing tag", () =>
 `)
   ).toThrow(SyntaxError))
 
-test("all")("parse(): xml syntax closing properly nested", () =>
+test("all")("`parse()` xml syntax closing properly nested", () =>
   expect(() =>
     parse(`
   <root>
@@ -547,7 +547,7 @@ test("all")("parse(): xml syntax closing properly nested", () =>
 `)
   ).toThrow(SyntaxError))
 
-test("all")("parse(): xml syntax attributes quoted", () =>
+test("all")("`parse()` xml syntax attributes quoted", () =>
   expect(() =>
     parse(`
   <root>
@@ -556,7 +556,7 @@ test("all")("parse(): xml syntax attributes quoted", () =>
 `)
   ).toThrow(SyntaxError))
 
-test("all")("parse(): xml syntax attributes properly quoted", () =>
+test("all")("`parse()` xml syntax attributes properly quoted", () =>
   expect(() =>
     parse(`
   <root>
@@ -565,20 +565,20 @@ test("all")("parse(): xml syntax attributes properly quoted", () =>
 `)
   ).toThrow(SyntaxError))
 
-test("all")("parse(): xml syntax first character", () => {
+test("all")("`parse()` xml syntax first character", () => {
   expect(() => parse(`a>1</a>`)).toThrow(SyntaxError)
   expect(() => parse(`xml`)).toThrow(SyntaxError)
   expect(() => parse(`""`)).toThrow(SyntaxError)
   expect(() => parse(`{a: 1}`)).toThrow(SyntaxError)
 })
 
-test("all")("parse(): wasm crashed", () => {
+test("all")("`parse()` wasm crashed", () => {
   expect(() => parse(Symbol("Expected error") as testing)).toThrow(EvalError)
 })
 
 //Example below were taken from https://www.w3schools.com/xml/default.asp
 
-test("all")("parse(): xml example w3schools.com#1", () =>
+test("all")("`parse()` xml example w3schools.com#1", () =>
   expect(
     parse(`
   <note>
@@ -599,7 +599,7 @@ test("all")("parse(): xml example w3schools.com#1", () =>
     },
   ))
 
-test("all")("parse(): xml example w3schools.com#2", () =>
+test("all")("`parse()` xml example w3schools.com#2", () =>
   expect(
     parse(`
   <note>
@@ -622,7 +622,7 @@ test("all")("parse(): xml example w3schools.com#2", () =>
     },
   ))
 
-test("all")("parse(): xml example w3schools.com#3", () =>
+test("all")("`parse()` xml example w3schools.com#3", () =>
   expect(
     parse(`
   <bookstore>
@@ -705,7 +705,7 @@ test("all")("parse(): xml example w3schools.com#3", () =>
     },
   ))
 
-test("all")("parse(): xml example w3schools.com#4", () =>
+test("all")("`parse()` xml example w3schools.com#4", () =>
   expect(
     parse(`
   <nitf>
@@ -748,7 +748,7 @@ test("all")("parse(): xml example w3schools.com#4", () =>
     },
   ))
 
-test("all")("parse(): xml example w3schools.com#5", () =>
+test("all")("`parse()` xml example w3schools.com#5", () =>
   expect(
     parse(
       `
@@ -833,7 +833,7 @@ test("all")("parse(): xml example w3schools.com#5", () =>
     },
   ))
 
-test("all")("parse(): xml example w3schools.com#6", () =>
+test("all")("`parse()` xml example w3schools.com#6", () =>
   expect(
     parse(`
   <breakfast_menu>
@@ -920,7 +920,7 @@ test("all")("parse(): xml example w3schools.com#6", () =>
 
 // Parser options
 
-test("all")("parse(): xml parser option no flatten text", () =>
+test("all")("`parse()` xml parser option no flatten text", () =>
   expect(
     parse(
       `
@@ -944,7 +944,7 @@ test("all")("parse(): xml parser option no flatten text", () =>
     },
   ))
 
-test("all")("parse(): xml parser option revive", () =>
+test("all")("`parse()` xml parser option revive", () =>
   expect(
     parse(
       `
@@ -974,7 +974,7 @@ test("all")("parse(): xml parser option revive", () =>
     },
   ))
 
-test("all")("parse(): xml parser option no-revive", () =>
+test("all")("`parse()` xml parser option no-revive", () =>
   expect(
     parse(
       `
@@ -1004,7 +1004,7 @@ test("all")("parse(): xml parser option no-revive", () =>
     },
   ))
 
-test("all")("parse(): xml parser reviver", () =>
+test("all")("`parse()` xml parser reviver", () =>
   expect(
     parse(
       `
@@ -1040,7 +1040,7 @@ test("all")("parse(): xml parser reviver", () =>
     },
   ))
 
-test("all")("parse(): xml parser option clean", () =>
+test("all")("`parse()` xml parser option clean", () =>
   expect(
     parse(
       `
@@ -1061,7 +1061,7 @@ test("all")("parse(): xml parser option clean", () =>
     },
   ))
 
-test("all")("parse(): xml parser option clean (no matching elements)", () =>
+test("all")("`parse()` xml parser option clean (no matching elements)", () =>
   expect(
     parse(
       `
@@ -1080,7 +1080,7 @@ test("all")("parse(): xml parser option clean (no matching elements)", () =>
     },
   ))
 
-test("all")("parse(): xml parser option no clean", () =>
+test("all")("`parse()` xml parser option no clean", () =>
   expect(
     parse(
       `
@@ -1116,7 +1116,7 @@ test("all")("parse(): xml parser option no clean", () =>
     },
   ))
 
-test("all")("parse(): xml parser option flatten", () =>
+test("all")("`parse()` xml parser option flatten", () =>
   expect(
     parse(
       `
@@ -1138,7 +1138,7 @@ test("all")("parse(): xml parser option flatten", () =>
     },
   ))
 
-test("all")("parse(): xml parser option no flatten", () =>
+test("all")("`parse()` xml parser option no flatten", () =>
   expect(
     parse(
       `
@@ -1160,7 +1160,7 @@ test("all")("parse(): xml parser option no flatten", () =>
     },
   ))
 
-test("all")("parse(): xml parser option revive", () =>
+test("all")("`parse()` xml parser option revive", () =>
   expect(
     parse(
       `
@@ -1189,7 +1189,7 @@ test("all")("parse(): xml parser option revive", () =>
     },
   ))
 
-test("all")("parse(): xml parser option no revive", () =>
+test("all")("`parse()` xml parser option no revive", () =>
   expect(
     parse(
       `
@@ -1218,7 +1218,7 @@ test("all")("parse(): xml parser option no revive", () =>
     },
   ))
 
-test("all")("parse(): xml parser option mode 'xml'", () =>
+test("all")("`parse()` xml parser option mode 'xml'", () =>
   expect(() =>
     parse(
       `
@@ -1228,7 +1228,7 @@ test("all")("parse(): xml parser option mode 'xml'", () =>
     )
   ).toThrow(SyntaxError))
 
-test("all")("parse(): xml parser option mode 'html'", () =>
+test("all")("`parse()` xml parser option mode 'html'", () =>
   expect(
     parse(
       `
@@ -1244,7 +1244,7 @@ test("all")("parse(): xml parser option mode 'html'", () =>
 
 // Metadata
 
-test("all")("parse(): xml parser option metadata", () => {
+test("all")("`parse()` xml parser option metadata", () => {
   const xml = parse(
     `
   <root>
@@ -1273,7 +1273,7 @@ test("all")("parse(): xml parser option metadata", () => {
 
 // Other inputs
 
-test("deno")("parse(): using a reader", async () => {
+test("deno")("`parse()` using a reader", async () => {
   using file = await Deno.open("bench/assets/small.xml")
   expect(
     parse(file),
@@ -1296,7 +1296,7 @@ test("deno")("parse(): using a reader", async () => {
 
 for (let i = 0; i <= 5; i++) {
   const ignore = false && (i > 2) && (!Deno.env.get("CI"))
-  test("all")(`parse(): parse large files ~${(2 ** i)}Mb`, async () => {
+  test("all")(`\`parse()\` parse large files ~${(2 ** i)}Mb`, async () => {
     await write(i)
     expect(parse(await Deno.readTextFile(`bench/assets/x-${i}x-large.xml`))).not.toThrow()
   }, { permissions: { read: ["bench"], write: ["bench"] }, ignore } as testing)
