@@ -23,17 +23,18 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   toSatisfy: (evaluate: callback) => unknown
   /**
    * Asserts a value is of a given type (using `typeof` operator).
+   * Note that `null` is not considered of type `"object"` unless `nullable` option is set to `true`.
    *
    * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect("foo").toBeType("string")
    * expect({}).toBeType("object")
-   * expect(null).toBeType("object")
-   * expect(null).not.toBeType("object", !null)
+   * expect(null).toBeType("object", { nullable: true })
+   * expect(null).not.toBeType("object")
    * ```
    */
-  toBeType: (type: string, notnull?: boolean) => unknown
+  toBeType: (type: string, options?: { nullable?: boolean }) => unknown
   /**
    * Asserts a property matches a given descriptor (using `Object.getOwnPropertyDescriptor`).
    *
@@ -338,14 +339,14 @@ function isType(value: testing, type: "bigint"): asserts value is bigint
 function isType(value: testing, type: "boolean"): asserts value is boolean
 function isType(value: testing, type: "symbol"): asserts value is symbol
 function isType(value: testing, type: "undefined"): asserts value is undefined
-function isType(value: testing, type: "object", notnull?: false): asserts value is Nullable<record>
-function isType(value: testing, type: "object", notnull: true): asserts value is record
+function isType(value: testing, type: "object", options?: { nullable: true }): asserts value is Nullable<record>
+function isType(value: testing, type: "object", options: { nullable: false }): asserts value is record
 function isType(value: testing, type: "function"): asserts value is callback
-function isType(value: testing, type: TypeOf, notnull?: boolean) {
+function isType(value: testing, type: TypeOf, { nullable = false } = {}) {
   if ((typeof value) !== type) {
     throw new TypeError(`Value is not of type "${type}"`)
   }
-  if (notnull && (type === "object") && (value === null)) {
+  if ((!nullable) && (type === "object") && (value === null)) {
     throw new TypeError(`Value is null`)
   }
 }
@@ -356,18 +357,18 @@ _expect.extend({
       assert(predicate(context.value))
     }, "Expected value to {!NOT} satisfy predicate")
   },
-  toBeType(context, type, notnull) {
+  toBeType(context, type, { nullable = false } = {}) {
     return process(context.isNot, () => {
       try {
-        isType(context.value, type, notnull)
+        isType(context.value, type, { nullable })
       } catch (error) {
         throw new AssertionError(error.message)
       }
-    }, `Expected value to {!NOT} be of type "${type}"${notnull ? " and not null but " : ""}`)
+    }, `Expected value to {!NOT} be of type "${type}"${!nullable ? " and not null but " : ""}`)
   },
   toHaveDescribedProperty(context, key, expected) {
     return process(context.isNot, () => {
-      isType(context.value, "object", !null)
+      isType(context.value, "object", { nullable: false })
       const descriptor = Object.getOwnPropertyDescriptor(context.value, key)
       if (!descriptor) {
         throw new ReferenceError(`Property "${String(key)}" does not exist on object`)

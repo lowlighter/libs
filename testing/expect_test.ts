@@ -22,12 +22,12 @@ test()("expect.toSatisfy() asserts predicate", () => {
 test()("expect.toBeType() asserts typeof", () => {
   expect("foo").toBeType("string")
   expect("foo").not.toBeType("number")
-  expect(null).toBeType("object")
-  expect(null).not.toBeType("object", !null)
+  expect(null).toBeType("object", { nullable: true })
+  expect(null).not.toBeType("object", { nullable: false })
   expect(() => expect("foo").toBeType("number")).toThrow("to be of type")
   expect(() => expect("foo").not.toBeType("string")).toThrow("to NOT be of type")
-  expect(() => expect(null).toBeType("object", !null)).toThrow("to be of type")
-  expect(() => expect(null).not.toBeType("object")).toThrow("to NOT be of type")
+  expect(() => expect(null).toBeType("object", { nullable: false })).toThrow("to be of type")
+  expect(() => expect(null).not.toBeType("object", { nullable: true })).toThrow("to NOT be of type")
 })
 
 test()("expect.toHaveDescribedProperty() asserts Object.getOwnPropertyDescriptor", () => {
