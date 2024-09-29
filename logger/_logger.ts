@@ -36,7 +36,7 @@
 // deno-lint-ignore ban-types
 export class Logger<T extends Record<PropertyKey, unknown> = {}> {
   /** Constructor. */
-  constructor({ level, format, output, tags, ...options } = {} as LoggerOptions<T>) {
+  constructor({ level, format, output, tags, censor, ...options } = {} as LoggerOptions<T>) {
     if (globalThis.Deno?.permissions.querySync?.({ name: "env", variable: "LOG_LEVEL" }).state === "granted") {
       level ??= globalThis.Deno?.env.get("LOG_LEVEL") as LoggerOptions<T>["level"]
     }
@@ -46,6 +46,9 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
     this.#options = { date: false, time: false, delta: true, caller: { file: false, name: false, line: false, fileformat: null } }
     this.level(level).format(format).options(options)
     this.tags = (tags ?? {}) as Logger<T>["tags"]
+    if (censor) {
+      ;[censor].flat().forEach((censor) => this.censor(censor))
+    }
   }
 
   /** Logger output streams. */
@@ -470,6 +473,12 @@ export type LoggerOptions<T extends Record<PropertyKey, unknown> = {}> = {
   output?: Nullable<Record<"error" | "warn" | "info" | "log" | "debug", Function>>
   /** Logger tags. */
   tags?: T
+  /**
+   * Register censored values or keys.
+   *
+   * See {@link Logger.censor} for more information.
+   */
+  censor?: Parameters<Logger["censor"]>[0] | Array<Parameters<Logger["censor"]>[0]>
   /** Display caller informations (requires to be run on a V8 runtime). */
   caller?: {
     /** Display caller file path (e.g. `file://shadow/libs/logger/mod.ts`). */

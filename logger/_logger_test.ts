@@ -215,7 +215,7 @@ test("deno")("`Logger.prototype.format.text()` formats delta value smartly", () 
 
 test("deno")("`Logger.prototype.format.text()` supports censorship", () => {
   const output = { log: fn(), debug: fn(), info: fn(), warn: fn(), error: fn() }
-  const log = new Logger({ output, level: "log", format: "text", tags: { token: "api_foobar" } })
+  const log = new Logger({ output, level: "log", format: "text", tags: { token: "api_foobar" }, censor: {} })
   log
     .censor({ values: [/(api_)\w+/], replace: "$1****" })
     .censor({ keys: ["password", /^secret_/], replace: "****" })
