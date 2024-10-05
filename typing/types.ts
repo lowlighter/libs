@@ -42,6 +42,9 @@ export type Promisable<T> = T | Promise<T>
 /** Arrayable type. */
 export type Arrayable<T> = T | Array<T>
 
+/** Non `void` type. */
+export type NonVoid<T> = T extends void ? never : T
+
 /** Extract function argument. */
 // deno-lint-ignore no-explicit-any
 export type Arg<T extends ((...args: any[]) => any), index extends number = 0, required extends boolean = false> = required extends true ? NonNullable<Parameters<T>[index]> : Parameters<T>[index]
