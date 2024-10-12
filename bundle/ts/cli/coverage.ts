@@ -111,8 +111,10 @@ for (const glob of globs) {
       const value = Number.parseFloat(coverage)
       const color = Number.isFinite(value) ? (value >= 80 ? "#3fb950" : value >= 60 ? "#db6d28" : "#f85149") : "#656d76"
       const svg = await fetch(`https://img.shields.io/badge/${encodeURIComponent(`Coverage-${coverage}-${color}`)}`).then((response) => response.text())
-      await Deno.writeTextFile(resolve(dirname(path), "badge.svg"), svg)
-      log.ok(`generated badge: ${resolve(dirname(path), "badge.svg")}`)
+      if (!flags["no-write"]) {
+        await Deno.writeTextFile(resolve(dirname(path), "badge.svg"), svg)
+        log.ok(`generated badge: ${resolve(dirname(path), "badge.svg")}`)
+      }
     }
 
     // Global summary
@@ -137,7 +139,7 @@ for (const glob of globs) {
 }
 
 // Write global summary
-if (!flags.summary) {
+if (flags.summary) {
   const path = resolve(root, "index.html")
   await Deno.writeTextFile(resolve(root, "index.html"), `<!DOCTYPE html>${summary.documentElement!.outerHTML}`)
   logger.with({ path }).ok("updated summary")
