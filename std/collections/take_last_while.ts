@@ -1,4 +1,4 @@
-import { takeLastWhile as _function_takeLastWhile } from "jsr:@std/collections@1.0.7/take-last-while"
+import { takeLastWhile as _function_takeLastWhile } from "jsr:@std/collections@1.0.8/take-last-while"
 /**
  * Returns all elements in the given array after the last element that does not
  * match the given predicate.

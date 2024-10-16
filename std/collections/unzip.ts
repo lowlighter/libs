@@ -1,4 +1,4 @@
-import { unzip as _function_unzip } from "jsr:@std/collections@1.0.7/unzip"
+import { unzip as _function_unzip } from "jsr:@std/collections@1.0.8/unzip"
 /**
  * Builds two separate arrays from the given array of 2-tuples, with the first
  * returned array holding all first tuple elements and the second one holding

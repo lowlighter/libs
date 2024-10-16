@@ -1,18 +1,18 @@
-import type { Order as _typeAlias_Order } from "jsr:@std/collections@1.0.7/unstable-sort-by"
+import type { Order as _typeAlias_Order } from "jsr:@std/collections@1.0.8/unstable-sort-by"
 /**
  * Order option for {@linkcode SortByOptions}.
  */
 type Order = _typeAlias_Order
 export type { Order }
 
-import type { SortByOptions as _typeAlias_SortByOptions } from "jsr:@std/collections@1.0.7/unstable-sort-by"
+import type { SortByOptions as _typeAlias_SortByOptions } from "jsr:@std/collections@1.0.8/unstable-sort-by"
 /**
  * Options for {@linkcode sortBy}.
  */
 type SortByOptions = _typeAlias_SortByOptions
 export type { SortByOptions }
 
-import type { Comparable as _typeAlias_Comparable } from "jsr:@std/collections@1.0.7/unstable-sort-by"
+import type { Comparable as _typeAlias_Comparable } from "jsr:@std/collections@1.0.8/unstable-sort-by"
 /**
  * Types that can be compared with other values of the same type
  * using comparison operators.
@@ -20,7 +20,7 @@ import type { Comparable as _typeAlias_Comparable } from "jsr:@std/collections@1
 type Comparable = _typeAlias_Comparable
 export type { Comparable }
 
-import { sortBy as _function_sortBy } from "jsr:@std/collections@1.0.7/unstable-sort-by"
+import { sortBy as _function_sortBy } from "jsr:@std/collections@1.0.8/unstable-sort-by"
 /**
  * Returns all elements in the given collection, sorted by their result using
  * the given selector. The selector function is called only once for each

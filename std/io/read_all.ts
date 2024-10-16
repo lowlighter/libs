@@ -1,4 +1,4 @@
-import { readAll as _function_readAll } from "jsr:@std/io@0.224.9/read-all"
+import { readAll as _function_readAll } from "jsr:@std/io@0.225.0/read-all"
 /**
  * Read {@linkcode Reader} `r` until EOF (`null`) and resolve to the content as
  * {@linkcode Uint8Array}.
@@ -21,7 +21,7 @@ import { readAll as _function_readAll } from "jsr:@std/io@0.224.9/read-all"
 const readAll = _function_readAll as typeof _function_readAll
 export { readAll }
 
-import { readAllSync as _function_readAllSync } from "jsr:@std/io@0.224.9/read-all"
+import { readAllSync as _function_readAllSync } from "jsr:@std/io@0.225.0/read-all"
 /**
  * Synchronously reads {@linkcode ReaderSync} `r` until EOF (`null`) and returns
  * the content as {@linkcode Uint8Array}.

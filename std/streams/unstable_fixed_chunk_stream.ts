@@ -1,4 +1,4 @@
-import { FixedChunkStream as _class_FixedChunkStream } from "jsr:@std/streams@1.0.6/unstable-fixed-chunk-stream"
+import { FixedChunkStream as _class_FixedChunkStream } from "jsr:@std/streams@1.0.7/unstable-fixed-chunk-stream"
 /**
  * A transform stream that resize {@linkcode Uint8Array} chunks into perfectly
  * `size` chunks with the exception of the last chunk.

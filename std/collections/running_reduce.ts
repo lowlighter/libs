@@ -1,4 +1,4 @@
-import { runningReduce as _function_runningReduce } from "jsr:@std/collections@1.0.7/running-reduce"
+import { runningReduce as _function_runningReduce } from "jsr:@std/collections@1.0.8/running-reduce"
 /**
  * Calls the given reducer on each element of the given collection, passing its
  * result as the accumulator to the next respective call, starting with the

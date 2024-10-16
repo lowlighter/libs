@@ -1,4 +1,4 @@
-import { associateWith as _function_associateWith } from "jsr:@std/collections@1.0.7/associate-with"
+import { associateWith as _function_associateWith } from "jsr:@std/collections@1.0.8/associate-with"
 /**
  * Associates each string element of an array with a value returned by a selector
  * function.

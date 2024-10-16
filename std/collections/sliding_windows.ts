@@ -1,11 +1,11 @@
-import type { SlidingWindowsOptions as _interface_SlidingWindowsOptions } from "jsr:@std/collections@1.0.7/sliding-windows"
+import type { SlidingWindowsOptions as _interface_SlidingWindowsOptions } from "jsr:@std/collections@1.0.8/sliding-windows"
 /**
  * Options for {@linkcode slidingWindows}.
  */
 interface SlidingWindowsOptions extends _interface_SlidingWindowsOptions {}
 export type { SlidingWindowsOptions }
 
-import { slidingWindows as _function_slidingWindows } from "jsr:@std/collections@1.0.7/sliding-windows"
+import { slidingWindows as _function_slidingWindows } from "jsr:@std/collections@1.0.8/sliding-windows"
 /**
  * Generates sliding views of the given array of the given size and returns a
  * new array containing all of them.

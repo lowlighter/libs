@@ -3,7 +3,7 @@
  *
  * Files are not compressed, only collected into the archive.
  *
- * ```ts no-eval
+ * ```ts ignore
  * import { UntarStream } from "@std/tar/untar-stream";
  * import { dirname, normalize } from "@std/path";
  *
@@ -22,7 +22,7 @@
  * @experimental
  * @module
  */
-import type { TarStreamFile as _interface_TarStreamFile } from "jsr:@std/tar@0.1.1"
+import type { TarStreamFile as _interface_TarStreamFile } from "jsr:@std/tar@0.1.2"
 /**
  * The interface required to provide a file.
  *
@@ -31,7 +31,7 @@ import type { TarStreamFile as _interface_TarStreamFile } from "jsr:@std/tar@0.1
 interface TarStreamFile extends _interface_TarStreamFile {}
 export type { TarStreamFile }
 
-import type { TarStreamDir as _interface_TarStreamDir } from "jsr:@std/tar@0.1.1"
+import type { TarStreamDir as _interface_TarStreamDir } from "jsr:@std/tar@0.1.2"
 /**
  * The interface required to provide a directory.
  *
@@ -40,7 +40,7 @@ import type { TarStreamDir as _interface_TarStreamDir } from "jsr:@std/tar@0.1.1
 interface TarStreamDir extends _interface_TarStreamDir {}
 export type { TarStreamDir }
 
-import type { TarStreamInput as _typeAlias_TarStreamInput } from "jsr:@std/tar@0.1.1"
+import type { TarStreamInput as _typeAlias_TarStreamInput } from "jsr:@std/tar@0.1.2"
 /**
  * A union type merging all the TarStream interfaces that can be piped into the
  * TarStream class.
@@ -50,7 +50,7 @@ import type { TarStreamInput as _typeAlias_TarStreamInput } from "jsr:@std/tar@0
 type TarStreamInput = _typeAlias_TarStreamInput
 export type { TarStreamInput }
 
-import type { TarStreamOptions as _interface_TarStreamOptions } from "jsr:@std/tar@0.1.1"
+import type { TarStreamOptions as _interface_TarStreamOptions } from "jsr:@std/tar@0.1.2"
 /**
  * The options that can go along with a file or directory.
  *
@@ -59,7 +59,7 @@ import type { TarStreamOptions as _interface_TarStreamOptions } from "jsr:@std/t
 interface TarStreamOptions extends _interface_TarStreamOptions {}
 export type { TarStreamOptions }
 
-import { TarStream as _class_TarStream } from "jsr:@std/tar@0.1.1"
+import { TarStream as _class_TarStream } from "jsr:@std/tar@0.1.2"
 /**
  * ### Overview
  * A TransformStream to create a tar archive. Tar archives allow for storing
@@ -87,7 +87,7 @@ import { TarStream as _class_TarStream } from "jsr:@std/tar@0.1.1"
  *
  * @experimental
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { TarStream, type TarStreamInput } from "@std/tar/tar-stream";
  *
  * await ReadableStream.from<TarStreamInput>([
@@ -116,7 +116,7 @@ import { TarStream as _class_TarStream } from "jsr:@std/tar@0.1.1"
 class TarStream extends _class_TarStream {}
 export { TarStream }
 
-import { assertValidPath as _function_assertValidPath } from "jsr:@std/tar@0.1.1"
+import { assertValidPath as _function_assertValidPath } from "jsr:@std/tar@0.1.2"
 /**
  * Asserts that the path provided is valid for a {@linkcode TarStream}.
  *
@@ -124,7 +124,7 @@ import { assertValidPath as _function_assertValidPath } from "jsr:@std/tar@0.1.1
  * @param path The path as a string
  *
  * @example Usage
- * ```ts no-assert no-eval
+ * ```ts no-assert ignore
  * import { assertValidPath, TarStream, type TarStreamInput } from "@std/tar";
  *
  * const paths = (await Array.fromAsync(Deno.readDir("./")))
@@ -163,7 +163,7 @@ import { assertValidPath as _function_assertValidPath } from "jsr:@std/tar@0.1.1
 const assertValidPath = _function_assertValidPath as typeof _function_assertValidPath
 export { assertValidPath }
 
-import { assertValidTarStreamOptions as _function_assertValidTarStreamOptions } from "jsr:@std/tar@0.1.1"
+import { assertValidTarStreamOptions as _function_assertValidTarStreamOptions } from "jsr:@std/tar@0.1.2"
 /**
  * Asserts that the options provided are valid for a {@linkcode TarStream}.
  *
@@ -171,7 +171,7 @@ import { assertValidTarStreamOptions as _function_assertValidTarStreamOptions } 
  * @param options The TarStreamOptions
  *
  * @example Usage
- * ```ts no-assert no-eval
+ * ```ts no-assert ignore
  * import { assertValidTarStreamOptions, TarStream, type TarStreamInput } from "@std/tar";
  *
  *  const paths = (await Array.fromAsync(Deno.readDir('./')))
@@ -207,7 +207,7 @@ import { assertValidTarStreamOptions as _function_assertValidTarStreamOptions } 
 const assertValidTarStreamOptions = _function_assertValidTarStreamOptions as typeof _function_assertValidTarStreamOptions
 export { assertValidTarStreamOptions }
 
-import type { OldStyleFormat as _interface_OldStyleFormat } from "jsr:@std/tar@0.1.1"
+import type { OldStyleFormat as _interface_OldStyleFormat } from "jsr:@std/tar@0.1.2"
 /**
  * The original tar	archive	header format.
  *
@@ -216,7 +216,7 @@ import type { OldStyleFormat as _interface_OldStyleFormat } from "jsr:@std/tar@0
 interface OldStyleFormat extends _interface_OldStyleFormat {}
 export type { OldStyleFormat }
 
-import type { PosixUstarFormat as _interface_PosixUstarFormat } from "jsr:@std/tar@0.1.1"
+import type { PosixUstarFormat as _interface_PosixUstarFormat } from "jsr:@std/tar@0.1.2"
 /**
  * The POSIX ustar archive header format.
  *
@@ -225,7 +225,7 @@ import type { PosixUstarFormat as _interface_PosixUstarFormat } from "jsr:@std/t
 interface PosixUstarFormat extends _interface_PosixUstarFormat {}
 export type { PosixUstarFormat }
 
-import type { TarStreamEntry as _interface_TarStreamEntry } from "jsr:@std/tar@0.1.1"
+import type { TarStreamEntry as _interface_TarStreamEntry } from "jsr:@std/tar@0.1.2"
 /**
  * The structure of an entry extracted from a Tar archive.
  *
@@ -234,7 +234,7 @@ import type { TarStreamEntry as _interface_TarStreamEntry } from "jsr:@std/tar@0
 interface TarStreamEntry extends _interface_TarStreamEntry {}
 export type { TarStreamEntry }
 
-import { UntarStream as _class_UntarStream } from "jsr:@std/tar@0.1.1"
+import { UntarStream as _class_UntarStream } from "jsr:@std/tar@0.1.2"
 /**
  * ### Overview
  * A TransformStream to expand a tar archive.  Tar archives allow for storing
@@ -260,7 +260,7 @@ import { UntarStream as _class_UntarStream } from "jsr:@std/tar@0.1.1"
  *
  * @experimental
  * @example Usage
- * ```ts no-eval
+ * ```ts ignore
  * import { UntarStream } from "@std/tar/untar-stream";
  * import { dirname, normalize } from "@std/path";
  *

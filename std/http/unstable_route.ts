@@ -1,4 +1,4 @@
-import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.7/unstable-route"
+import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.8/unstable-route"
 /**
  * Request handler for {@linkcode Route}.
  *
@@ -10,7 +10,7 @@ import type { Handler as _typeAlias_Handler } from "jsr:@std/http@1.0.7/unstable
 type Handler = _typeAlias_Handler
 export type { Handler }
 
-import type { Route as _interface_Route } from "jsr:@std/http@1.0.7/unstable-route"
+import type { Route as _interface_Route } from "jsr:@std/http@1.0.8/unstable-route"
 /**
  * Route configuration for {@linkcode route}.
  *
@@ -19,7 +19,7 @@ import type { Route as _interface_Route } from "jsr:@std/http@1.0.7/unstable-rou
 interface Route extends _interface_Route {}
 export type { Route }
 
-import { route as _function_route } from "jsr:@std/http@1.0.7/unstable-route"
+import { route as _function_route } from "jsr:@std/http@1.0.8/unstable-route"
 /**
  * Routes requests to different handlers based on the request path and method.
  *
@@ -43,8 +43,8 @@ import { route as _function_route } from "jsr:@std/http@1.0.7/unstable-route"
  *     handler: (req: Request) => serveDir(req)
  *   },
  *   {
- *     pattern: new URLPattern({ pathname: "/api" }),
  *     method: ["GET", "HEAD"],
+ *     pattern: new URLPattern({ pathname: "/api" }),
  *     handler: (req: Request) => new Response(req.method === 'HEAD' ? null : 'ok'),
  *   },
  * ];

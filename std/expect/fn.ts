@@ -1,4 +1,4 @@
-import { fn as _function_fn } from "jsr:@std/expect@1.0.4/fn"
+import { fn as _function_fn } from "jsr:@std/expect@1.0.5/fn"
 /**
  * Creates a mock function that can be used for testing and assertions.
  *

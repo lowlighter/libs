@@ -1,4 +1,4 @@
-import { mapEntries as _function_mapEntries } from "jsr:@std/collections@1.0.7/map-entries"
+import { mapEntries as _function_mapEntries } from "jsr:@std/collections@1.0.8/map-entries"
 /**
  * Applies the given transformer to all entries in the given record and returns
  * a new record containing the results.

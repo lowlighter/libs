@@ -1,4 +1,4 @@
-import { permutations as _function_permutations } from "jsr:@std/collections@1.0.7/permutations"
+import { permutations as _function_permutations } from "jsr:@std/collections@1.0.8/permutations"
 /**
  * Builds all possible orders of all elements in the given array
  * Ignores equality of elements, meaning this will always return the same

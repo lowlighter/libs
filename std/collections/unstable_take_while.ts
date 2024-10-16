@@ -1,4 +1,4 @@
-import { takeWhile as _function_takeWhile } from "jsr:@std/collections@1.0.7/unstable-take-while"
+import { takeWhile as _function_takeWhile } from "jsr:@std/collections@1.0.8/unstable-take-while"
 /**
  * Returns all elements in the given collection until the first element that
  * does not match the given predicate.

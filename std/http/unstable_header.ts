@@ -1,4 +1,4 @@
-import { HEADER as _variable_HEADER } from "jsr:@std/http@1.0.7/unstable-header"
+import { HEADER as _variable_HEADER } from "jsr:@std/http@1.0.8/unstable-header"
 /**
  * HTTP Headers with status permanent
  *
@@ -8,7 +8,7 @@ import { HEADER as _variable_HEADER } from "jsr:@std/http@1.0.7/unstable-header"
 const HEADER = _variable_HEADER as typeof _variable_HEADER
 export { HEADER }
 
-import type { Header as _typeAlias_Header } from "jsr:@std/http@1.0.7/unstable-header"
+import type { Header as _typeAlias_Header } from "jsr:@std/http@1.0.8/unstable-header"
 /**
  * A HTTP Header
  *

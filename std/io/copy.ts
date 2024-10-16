@@ -1,4 +1,4 @@
-import { copy as _function_copy } from "jsr:@std/io@0.224.9/copy"
+import { copy as _function_copy } from "jsr:@std/io@0.225.0/copy"
 /**
  * Copies from `src` to `dst` until either EOF (`null`) is read from `src` or
  * an error occurs. It resolves to the number of bytes copied or rejects with

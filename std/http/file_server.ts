@@ -1,11 +1,11 @@
-import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@1.0.7/file-server"
+import type { ServeFileOptions as _interface_ServeFileOptions } from "jsr:@std/http@1.0.8/file-server"
 /**
  * Options for {@linkcode serveFile}.
  */
 interface ServeFileOptions extends _interface_ServeFileOptions {}
 export type { ServeFileOptions }
 
-import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.7/file-server"
+import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.8/file-server"
 /**
  * Resolves a {@linkcode Response} with the requested file as the body.
  *
@@ -26,14 +26,14 @@ import { serveFile as _function_serveFile } from "jsr:@std/http@1.0.7/file-serve
 const serveFile = _function_serveFile as typeof _function_serveFile
 export { serveFile }
 
-import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@1.0.7/file-server"
+import type { ServeDirOptions as _interface_ServeDirOptions } from "jsr:@std/http@1.0.8/file-server"
 /**
  * Interface for serveDir options.
  */
 interface ServeDirOptions extends _interface_ServeDirOptions {}
 export type { ServeDirOptions }
 
-import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.7/file-server"
+import { serveDir as _function_serveDir } from "jsr:@std/http@1.0.8/file-server"
 /**
  * Serves the files under the given directory root (opts.fsRoot).
  *

@@ -1,4 +1,4 @@
-import { minWith as _function_minWith } from "jsr:@std/collections@1.0.7/min-with"
+import { minWith as _function_minWith } from "jsr:@std/collections@1.0.8/min-with"
 /**
  * Returns the first element having the smallest value according to the provided
  * comparator or undefined if there are no elements.

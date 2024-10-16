@@ -1,4 +1,4 @@
-import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.7/cookie"
+import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.8/cookie"
 /**
  * Represents an HTTP Cookie.
  *
@@ -7,7 +7,7 @@ import type { Cookie as _interface_Cookie } from "jsr:@std/http@1.0.7/cookie"
 interface Cookie extends _interface_Cookie {}
 export type { Cookie }
 
-import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.7/cookie"
+import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.8/cookie"
 /**
  * Parse cookies of a header
  *
@@ -29,7 +29,7 @@ import { getCookies as _function_getCookies } from "jsr:@std/http@1.0.7/cookie"
 const getCookies = _function_getCookies as typeof _function_getCookies
 export { getCookies }
 
-import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.7/cookie"
+import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.8/cookie"
 /**
  * Set the cookie header properly in the headers
  *
@@ -53,7 +53,7 @@ import { setCookie as _function_setCookie } from "jsr:@std/http@1.0.7/cookie"
 const setCookie = _function_setCookie as typeof _function_setCookie
 export { setCookie }
 
-import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.7/cookie"
+import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.8/cookie"
 /**
  * Set the cookie header with empty value in the headers to delete it.
  *
@@ -83,7 +83,7 @@ import { deleteCookie as _function_deleteCookie } from "jsr:@std/http@1.0.7/cook
 const deleteCookie = _function_deleteCookie as typeof _function_deleteCookie
 export { deleteCookie }
 
-import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.7/cookie"
+import { getSetCookies as _function_getSetCookies } from "jsr:@std/http@1.0.8/cookie"
 /**
  * Parse set-cookies of a header
  *

@@ -1,4 +1,4 @@
-import type { Reader as _interface_Reader } from "jsr:@std/io@0.224.9/iterate-reader"
+import type { Reader as _interface_Reader } from "jsr:@std/io@0.225.0/iterate-reader"
 /**
  * An abstract interface which when implemented provides an interface to read
  * bytes into an array buffer asynchronously.
@@ -6,7 +6,7 @@ import type { Reader as _interface_Reader } from "jsr:@std/io@0.224.9/iterate-re
 interface Reader extends _interface_Reader {}
 export type { Reader }
 
-import type { ReaderSync as _interface_ReaderSync } from "jsr:@std/io@0.224.9/iterate-reader"
+import type { ReaderSync as _interface_ReaderSync } from "jsr:@std/io@0.225.0/iterate-reader"
 /**
  * An abstract interface which when implemented provides an interface to read
  * bytes into an array buffer synchronously.
@@ -14,7 +14,7 @@ import type { ReaderSync as _interface_ReaderSync } from "jsr:@std/io@0.224.9/it
 interface ReaderSync extends _interface_ReaderSync {}
 export type { ReaderSync }
 
-import { iterateReader as _function_iterateReader } from "jsr:@std/io@0.224.9/iterate-reader"
+import { iterateReader as _function_iterateReader } from "jsr:@std/io@0.225.0/iterate-reader"
 /**
  * Turns a {@linkcode Reader} into an async iterator.
  *
@@ -49,7 +49,7 @@ import { iterateReader as _function_iterateReader } from "jsr:@std/io@0.224.9/it
 const iterateReader = _function_iterateReader as typeof _function_iterateReader
 export { iterateReader }
 
-import { iterateReaderSync as _function_iterateReaderSync } from "jsr:@std/io@0.224.9/iterate-reader"
+import { iterateReaderSync as _function_iterateReaderSync } from "jsr:@std/io@0.225.0/iterate-reader"
 /**
  * Turns a {@linkcode ReaderSync} into an iterator.
  *

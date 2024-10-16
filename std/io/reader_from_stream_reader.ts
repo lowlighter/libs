@@ -1,4 +1,4 @@
-import { readerFromStreamReader as _function_readerFromStreamReader } from "jsr:@std/io@0.224.9/reader-from-stream-reader"
+import { readerFromStreamReader as _function_readerFromStreamReader } from "jsr:@std/io@0.225.0/reader-from-stream-reader"
 /**
  * Create a {@linkcode Reader} from a {@linkcode ReadableStreamDefaultReader}.
  *

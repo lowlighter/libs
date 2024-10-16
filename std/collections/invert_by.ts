@@ -1,11 +1,11 @@
-import type { InvertByResult as _typeAlias_InvertByResult } from "jsr:@std/collections@1.0.7/invert-by"
+import type { InvertByResult as _typeAlias_InvertByResult } from "jsr:@std/collections@1.0.8/invert-by"
 /**
  * Return type for {@linkcode invertBy}.
  */
 type InvertByResult<T extends Record<PropertyKey, PropertyKey>, K extends keyof T> = _typeAlias_InvertByResult<T, K>
 export type { InvertByResult }
 
-import { invertBy as _function_invertBy } from "jsr:@std/collections@1.0.7/invert-by"
+import { invertBy as _function_invertBy } from "jsr:@std/collections@1.0.8/invert-by"
 /**
  * Composes a new record with all keys and values inverted.
  *

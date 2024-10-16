@@ -1,4 +1,4 @@
-import { toBytes as _function_toBytes } from "jsr:@std/streams@1.0.6/unstable-to-bytes"
+import { toBytes as _function_toBytes } from "jsr:@std/streams@1.0.7/unstable-to-bytes"
 /**
  * Converts a {@linkcode ReadableStream} of {@linkcode Uint8Array}s to a
  * {@linkcode Uint8Array}. Works the same as {@linkcode Response.bytes}.

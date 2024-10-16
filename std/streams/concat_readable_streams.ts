@@ -1,4 +1,4 @@
-import { concatReadableStreams as _function_concatReadableStreams } from "jsr:@std/streams@1.0.6/concat-readable-streams"
+import { concatReadableStreams as _function_concatReadableStreams } from "jsr:@std/streams@1.0.7/concat-readable-streams"
 /**
  * Concatenates multiple `ReadableStream`s into a single ordered
  * `ReadableStream`.

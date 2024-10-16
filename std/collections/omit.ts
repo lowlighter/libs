@@ -1,4 +1,4 @@
-import { omit as _function_omit } from "jsr:@std/collections@1.0.7/omit"
+import { omit as _function_omit } from "jsr:@std/collections@1.0.8/omit"
 /**
  * Creates a new object by excluding the specified keys from the provided object.
  *

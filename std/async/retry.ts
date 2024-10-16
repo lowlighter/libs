@@ -1,10 +1,10 @@
-import { RetryError as _class_RetryError } from "jsr:@std/async@1.0.5/retry"
+import { RetryError as _class_RetryError } from "jsr:@std/async@1.0.6/retry"
 /**
  * Error thrown in {@linkcode retry} once the maximum number of failed attempts
  * has been reached.
  *
  * @example Usage
- * ```ts no-assert no-eval
+ * ```ts no-assert ignore
  * import { RetryError } from "@std/async/retry";
  *
  * throw new RetryError({ foo: "bar" }, 3);
@@ -13,14 +13,14 @@ import { RetryError as _class_RetryError } from "jsr:@std/async@1.0.5/retry"
 class RetryError extends _class_RetryError {}
 export { RetryError }
 
-import type { RetryOptions as _interface_RetryOptions } from "jsr:@std/async@1.0.5/retry"
+import type { RetryOptions as _interface_RetryOptions } from "jsr:@std/async@1.0.6/retry"
 /**
  * Options for {@linkcode retry}.
  */
 interface RetryOptions extends _interface_RetryOptions {}
 export type { RetryOptions }
 
-import { retry as _function_retry } from "jsr:@std/async@1.0.5/retry"
+import { retry as _function_retry } from "jsr:@std/async@1.0.6/retry"
 /**
  * Calls the given (possibly asynchronous) function up to `maxAttempts` times.
  * Retries as long as the given function throws. If the attempts are exhausted,

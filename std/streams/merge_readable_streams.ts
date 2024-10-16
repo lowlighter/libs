@@ -1,4 +1,4 @@
-import { mergeReadableStreams as _function_mergeReadableStreams } from "jsr:@std/streams@1.0.6/merge-readable-streams"
+import { mergeReadableStreams as _function_mergeReadableStreams } from "jsr:@std/streams@1.0.7/merge-readable-streams"
 /**
  * Merge multiple streams into a single one, not taking order into account.
  * If a stream ends before other ones, the other will continue adding data,

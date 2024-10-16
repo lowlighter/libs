@@ -1,4 +1,4 @@
-import { withoutAll as _function_withoutAll } from "jsr:@std/collections@1.0.7/unstable-without-all"
+import { withoutAll as _function_withoutAll } from "jsr:@std/collections@1.0.8/unstable-without-all"
 /**
  * Returns an array excluding all given values from an iterable.
  *

@@ -1,4 +1,4 @@
-import { mapKeys as _function_mapKeys } from "jsr:@std/collections@1.0.7/map-keys"
+import { mapKeys as _function_mapKeys } from "jsr:@std/collections@1.0.8/map-keys"
 /**
  * Applies the given transformer to all keys in the given record's entries and
  * returns a new record containing the transformed entries.

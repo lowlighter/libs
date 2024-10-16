@@ -1,4 +1,4 @@
-import { distinct as _function_distinct } from "jsr:@std/collections@1.0.7/distinct"
+import { distinct as _function_distinct } from "jsr:@std/collections@1.0.8/distinct"
 /**
  * Returns all distinct elements in the given array, preserving order by first
  * occurrence.

@@ -1,11 +1,11 @@
-import type { JoinToStringOptions as _typeAlias_JoinToStringOptions } from "jsr:@std/collections@1.0.7/join-to-string"
+import type { JoinToStringOptions as _typeAlias_JoinToStringOptions } from "jsr:@std/collections@1.0.8/join-to-string"
 /**
  * Options for {@linkcode joinToString}.
  */
 type JoinToStringOptions = _typeAlias_JoinToStringOptions
 export type { JoinToStringOptions }
 
-import { joinToString as _function_joinToString } from "jsr:@std/collections@1.0.7/join-to-string"
+import { joinToString as _function_joinToString } from "jsr:@std/collections@1.0.8/join-to-string"
 /**
  * Transforms the elements in the given array to strings using the given
  * selector. Joins the produced strings into one using the given `separator`

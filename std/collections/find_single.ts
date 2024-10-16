@@ -1,4 +1,4 @@
-import { findSingle as _function_findSingle } from "jsr:@std/collections@1.0.7/find-single"
+import { findSingle as _function_findSingle } from "jsr:@std/collections@1.0.8/find-single"
 /**
  * Returns an element if and only if that element is the only one matching the
  * given condition. Returns `undefined` otherwise.

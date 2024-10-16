@@ -1,11 +1,11 @@
-import type { DelayOptions as _interface_DelayOptions } from "jsr:@std/async@1.0.5/delay"
+import type { DelayOptions as _interface_DelayOptions } from "jsr:@std/async@1.0.6/delay"
 /**
  * Options for {@linkcode delay}.
  */
 interface DelayOptions extends _interface_DelayOptions {}
 export type { DelayOptions }
 
-import { delay as _function_delay } from "jsr:@std/async@1.0.5/delay"
+import { delay as _function_delay } from "jsr:@std/async@1.0.6/delay"
 /**
  * Resolve a {@linkcode Promise} after a given amount of milliseconds.
  *
@@ -29,7 +29,7 @@ import { delay as _function_delay } from "jsr:@std/async@1.0.5/delay"
  * Setting `persistent` to `false` will allow the process to continue to run as
  * long as the timer exists.
  *
- * ```ts no-assert
+ * ```ts no-assert ignore
  * import { delay } from "@std/async/delay";
  *
  * // ...

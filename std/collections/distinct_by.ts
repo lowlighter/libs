@@ -1,4 +1,4 @@
-import { distinctBy as _function_distinctBy } from "jsr:@std/collections@1.0.7/distinct-by"
+import { distinctBy as _function_distinctBy } from "jsr:@std/collections@1.0.8/distinct-by"
 /**
  * Returns all elements in the given array that produce a distinct value using
  * the given selector, preserving order by first occurrence.

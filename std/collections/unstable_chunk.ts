@@ -1,4 +1,4 @@
-import { chunk as _function_chunk } from "jsr:@std/collections@1.0.7/unstable-chunk"
+import { chunk as _function_chunk } from "jsr:@std/collections@1.0.8/unstable-chunk"
 /**
  * Splits the given array into an array of chunks of the given size and returns them.
  *
