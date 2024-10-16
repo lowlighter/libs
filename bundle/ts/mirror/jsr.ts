@@ -38,7 +38,7 @@ export async function mirror(
     registryApi?: string
     cwd?: string
     logger?: Logger
-    patches?: { inject?: record<string>; aliases?: { [key: string]: { [key: string]: Nullable<string> } } }
+    patches?: { inject?: record<string>; types?: { [key: string]: boolean }; aliases?: { [key: string]: { [key: string]: Nullable<string> } } }
   },
 ): Promise<{ files: record<string>; exports: record<string> }> {
   // List packages
@@ -103,7 +103,7 @@ export async function mirror(
         ])
       } // Handle regular exports
       else {
-        const symbols = await generate(jsr)
+        const symbols = await generate(jsr, { path: paths.b, patches })
         output.files[path] = [...symbols.values()].map(({ content }) => content).join("\n")
         if (patches?.inject?.[paths.b]) {
           output.files[path] = `${patches.inject[paths.b]}\n${output.files[path]}`
@@ -169,13 +169,18 @@ export async function mirror(
  * This is computed by extracting `deno doc` information and re-attaching documentation and type information.
  * This is to ensure that it is properly documented once published back on the registry.
  */
-async function generate(jsr: string) {
+async function generate(jsr: string, { path, patches }: { path: string; patches?: { types?: { [key: string]: boolean } } }) {
   const temp = await Deno.makeTempFile()
   const symbols = new Map<string, { type: boolean; content: string }>()
   try {
     await Deno.writeTextFile(temp, `export * from "${jsr}"\n`)
     const ast = await parseDoc(temp)
-    for (const { kind, name, jsDoc, ..._ } of ast) {
+    for (let { kind, name, jsDoc, ..._ } of ast) {
+      let forced = false
+      if (patches?.types?.[`${path}#${name}`]) {
+        kind = "typeAlias"
+        forced = true
+      }
       const { stdout } = await command("deno", ["doc", "--filter", name, temp])
       const signature = stripAnsiCode(stdout).split("\n")[2]
       const type = ["interface", "typeAlias"].includes(kind)
@@ -206,7 +211,7 @@ async function generate(jsr: string) {
           break
         }
       }
-      if ((!type) || (type && (!ast.some((node: { name: string; kind: string }) => node.name === name && node.kind !== kind)))) {
+      if ((!type) || forced || (type && (!ast.some((node: { name: string; kind: string }) => node.name === name && node.kind !== kind)))) {
         lines.push(`export ${type ? "type " : ""}{ ${name} }`, "")
       }
       symbols.set(name, { type, content: lines.join("\n") })

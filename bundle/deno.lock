@@ -17,6 +17,7 @@
     "jsr:@std/async@1": "1.0.6",
     "jsr:@std/bytes@^1.0.2": "1.0.2",
     "jsr:@std/bytes@~0.218.2": "0.218.2",
+    "jsr:@std/cli@1": "1.0.6",
     "jsr:@std/cli@1.0.0-rc.2": "1.0.0-rc.2",
     "jsr:@std/encoding@1": "1.0.5",
     "jsr:@std/encoding@^1.0.5": "1.0.5",
@@ -39,6 +40,7 @@
     "jsr:@std/streams@1": "1.0.7",
     "jsr:@std/streams@^1.0.7": "1.0.7",
     "jsr:@std/tar@0.1": "0.1.2",
+    "jsr:@std/yaml@1": "1.0.5",
     "npm:@mdn/browser-compat-data@5": "5.6.5",
     "npm:browserslist@4": "4.24.0",
     "npm:css-tree@2": "2.3.1",
@@ -56,7 +58,7 @@
     "@cliffy/table@1.0.0-rc.5": {
       "integrity": "2b3e1b4764bbb56b0c39aeba95bc0bb551d9bd4475fbb6d1ce368c08b7ef9eb3",
       "dependencies": [
-        "jsr:@std/cli",
+        "jsr:@std/cli@1.0.0-rc.2",
         "jsr:@std/fmt@~0.225.4"
       ]
     },
@@ -140,6 +142,9 @@
     "@std/cli@1.0.0-rc.2": {
       "integrity": "97dfae82b9f0e189768ebfa7a5da53375955b94bad0a1804f8e3b73563b03787"
     },
+    "@std/cli@1.0.6": {
+      "integrity": "d22d8b38c66c666d7ad1f2a66c5b122da1704f985d3c47f01129f05abb6c5d3d"
+    },
     "@std/encoding@1.0.5": {
       "integrity": "ecf363d4fc25bd85bd915ff6733a7e79b67e0e7806334af15f4645c569fefc04"
     },
@@ -216,6 +221,9 @@
       "dependencies": [
         "jsr:@std/streams@^1.0.7"
       ]
+    },
+    "@std/yaml@1.0.5": {
+      "integrity": "71ba3d334305ee2149391931508b2c293a8490f94a337eef3a09cade1a2a2742"
     }
   },
   "npm": {
