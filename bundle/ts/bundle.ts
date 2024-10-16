@@ -47,7 +47,7 @@ export async function bundle(input: URL | string, { minify = "terser", format = 
   let code = ""
   try {
     const { outputFiles: [{ text: output }] } = await esbuild.build({
-      plugins: [...plugins({ configPath: config ? fromFileUrl(config) : undefined, nodeModulesDir: true })],
+      plugins: [...plugins({ configPath: config ? fromFileUrl(config) : undefined })],
       entryPoints: [url.href],
       format,
       globalName: exports,
