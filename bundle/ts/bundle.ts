@@ -42,7 +42,7 @@ import { delay } from "@std/async/delay"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */
-export async function bundle(input: URL | string, { minify = "terser", format = "esm", debug = false, banner = "", shadow = true, config, exports } = {} as options): Promise<string> {
+export async function bundle(input: URL | string, { minify = "terser", format = "esm", debug = false, banner = "", shadow = true, config, exports, raw } = {} as options): Promise<string> {
   const url = input instanceof URL ? input : new URL(`data:application/typescript;base64,${encodeBase64(input)}`)
   let code = ""
   try {
@@ -59,6 +59,7 @@ export async function bundle(input: URL | string, { minify = "terser", format = 
       sourcesContent: debug,
       bundle: true,
       logLevel: "silent",
+      ...raw,
     })
     code = output
     if (minify) {
@@ -97,4 +98,5 @@ export type options = {
   config?: URL
   banner?: string
   shadow?: boolean
+  raw?: Record<PropertyKey, unknown>
 }
