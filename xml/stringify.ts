@@ -240,7 +240,7 @@ function xml_children(node: xml_node, options: options): Array<xml_node> {
       if ("#text" in node) {
         const cdata = node[internal] === "~cdata"
         const comment = node[internal] === "~comment"
-        node["#text"] = replace(node as xml_node, "#text", { ...options, escape: cdata ? [] : ["<", ">"] }) as string
+        node["#text"] = replace(node as xml_node, "#text", { ...options, escape: cdata ? [] : ["&", "<", ">"] }) as string
         if (node["#text"] === undefined) {
           delete node["#text"]
         } else {
@@ -256,7 +256,7 @@ function xml_children(node: xml_node, options: options): Array<xml_node> {
 function xml_attributes(node: xml_node, options: options): Array<[string, string]> {
   return Object.entries(node!)
     .filter(([key]) => key.startsWith("@"))
-    .map(([key]) => [key.slice(1), replace(node!, key, { ...options, escape: ['"', "'"] })])
+    .map(([key]) => [key.slice(1), replace(node!, key, { ...options, escape: ["&", '"', "'"] })])
     .filter(([_, value]) => value !== undefined) as ReturnType<typeof xml_attributes>
 }
 

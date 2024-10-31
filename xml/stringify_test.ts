@@ -201,14 +201,14 @@ test("all")(
   () =>
     expect(stringify({
       root: {
-        "@attribute": `<text with escaped quotes (',")>`,
-        text: `only < and > should be escaped, not &, ", '`,
+        "@attribute": `<text with escaped quotes (',") and ampersand &>`,
+        text: `only <, > and & should be escaped, not " and '`,
       },
     }, { format: { breakline: 0 } })).toEqual(
       `
-<root attribute="<text with escaped quotes (&apos;,&quot;)>">
+<root attribute="<text with escaped quotes (&apos;,&quot;) and ampersand &amp;>">
   <text>
-    only &lt; and &gt; should be escaped, not &, ", '
+    only &lt;, &gt; and &amp; should be escaped, not " and '
   </text>
 </root>`.trim(),
     ),
