@@ -22,8 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v2
-        with:
-          deno-version: rc
       - name: List packages
         id: packages
         run: |
@@ -70,8 +68,6 @@ jobs:
           ref: main
       - uses: actions/configure-pages@v5
       - uses: denoland/setup-deno@v2
-        with:
-          deno-version: rc
       - uses: actions/setup-node@v4
         with:
           node-version: 22.x
@@ -101,8 +97,6 @@ jobs:
         with:
           ref: main
       - uses: denoland/setup-deno@v2
-        with:
-          deno-version: rc
       - name: Configure git
         run: |
           git config user.name 'github-actions[bot]'
@@ -158,8 +152,6 @@ jobs:
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v2
-        with:
-          deno-version: rc
       - name: Configure git
         run: |
           git config user.name 'github-actions[bot]'

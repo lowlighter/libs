@@ -79,8 +79,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v2
-        with:
-          deno-version: rc
       - run: deno lint
       - run: deno fmt --check
       - run: |
@@ -133,8 +131,6 @@ jobs:
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v2
-        with:
-          deno-version: rc
       - uses: actions/setup-node@v4
         with:
           node-version: 22.x
@@ -219,8 +215,6 @@ jobs:
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v2
-        with:
-          deno-version: rc
       - name: Configure git
         run: |
           git config user.name 'github-actions[bot]'
