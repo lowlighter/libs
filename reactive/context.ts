@@ -249,6 +249,9 @@ export class Context<T extends record = record> extends EventTarget {
     try {
       return Reflect.apply(callable, target, args)
     } finally {
+      if (Context.mutable(target, path.at(-1)!.toString())) {
+        this.#dispatch("set", { path: path.slice(0, -2), target, property: path.at(-2)!, value: null })
+      }
       this.#dispatch("call", { path, target, property: path.at(-1)!, args })
     }
   }
@@ -346,7 +349,7 @@ export class Context<T extends record = record> extends EventTarget {
   #dispatch(type: string, detail: Omit<detail, "type">) {
     Object.assign(detail, { type })
     this.dispatchEvent(new Context.Event(type, { detail }))
-    if ((type === "set") || (type === "delete") || (type === "call")) {
+    if (((type === "set") && (detail.value !== null)) || (type === "delete") || (type === "call")) {
       this.dispatchEvent(new Context.Event("change", { detail }))
     }
     for (const child of this.#children) {
@@ -382,9 +385,6 @@ export class Context<T extends record = record> extends EventTarget {
    * You can also remove classes from this list if you know what you are doing or if you are sure to never work with them to increase performance.
    */
   static unproxyable = [
-    Map,
-    Set,
-    Date,
     RegExp,
     Promise,
     Error,
@@ -425,6 +425,30 @@ export class Context<T extends record = record> extends EventTarget {
     globalThis.Intl?.RelativeTimeFormat,
     globalThis.Intl?.Segmenter,
   ] as Array<callback | undefined>
+
+  /**
+   * Test if a property mutates the object.
+   *
+   * It is used to track inplace changes to objects like `Array`, `Map`, `Set`, `Date`.
+   */
+  static mutable(object: unknown, property: string): boolean {
+    if (typeof object !== "object") {
+      return false
+    }
+    if (Array.isArray(object)) {
+      return ["push", "pop", "shift", "unshift", "splice", "sort", "reverse", "fill", "copyWithin"].includes(property)
+    }
+    if (object instanceof Map) {
+      return ["set", "delete", "clear"].includes(property)
+    }
+    if (object instanceof Set) {
+      return ["add", "delete", "clear"].includes(property)
+    }
+    if (object instanceof Date) {
+      return /^set(?:(?:(?:UTC)?(Date|FullYear|Month|Hours|Minutes|Seconds|Milliseconds))|(?:Year|Time|UTCDate))$/.test(property)
+    }
+    return false
+  }
 
   /** Context event. */
   static readonly Event = class ContextEvent extends CustomEvent<detail> {} as typeof CustomEvent

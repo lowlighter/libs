@@ -33,6 +33,33 @@ context.target.bar() // Triggers the "call" and "change" events
 - Applies recursively!
 - Supports inherited context.
 
+## 🕊️ Migrating from `4.x.x` to `5.x.x`
+
+### `Context.unproxyable` default value
+
+`Map`, `Set` and `Date` are not in `Context.unproxyable` by default anymore.
+To restore the previous behavior, you can add them back:
+
+```diff
++ Context.unproxyable.unshift(Map, Set, Date)
+```
+
+### Now tracking inplace data changes for built-in objects
+
+When a built-in object is modified in place by a known method (e.g. `Array.prototype.push`, `Array.prototype.pop`, etc.), a `"set"` event is now also emitted, in addition to the `"change"` and `"call"` events.
+
+This event has the same properties as if the object was set entirely, with the only difference being that the `value` property is `null` rather than a `{ old, new }` object (since the object has been changed inplace, creating this diff would cause a significant performance and memory overhead).
+
+```ts ignore
+const context = new Context({ foo: ["a", "b"] })
+context.target.foo.push("c")
+// Dispatches a "set" event with the following properties:
+// - path: []
+// - target: context.target.foo
+// - property: "foo"
+// - value: null
+```
+
 ## 📜 License
 
 ```plaintext

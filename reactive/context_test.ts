@@ -444,15 +444,12 @@ test("all")("`Context.target` skips proxification of `Context.unproxyable` objec
   }
 
   const { observable, target } = observe({
-    map: new Map(),
-    set: new Set(),
     error: new Error(),
     regexp: new RegExp(""),
     weakmap: new WeakMap(),
     weakset: new WeakSet(),
     weakref: new WeakRef({}),
     promise: Promise.resolve(),
-    date: new Date(),
     arraybuffer: uint8.buffer,
     typedarray: uint8,
     symbol: Symbol("unique"),
@@ -569,4 +566,77 @@ test("all")("`Context.with()` contexts supports `Map()` instance methods", () =>
   b.target.foo.set("baz", 2)
   expect([...a.target.foo]).toEqual([["foo", 0], ["bar", 1], ["baz", 2]])
   expect([...b.target.foo]).toEqual([["foo", 0], ["bar", 1], ["baz", 2]])
+})
+
+test("all")('`Context.with()` is able to track mutable functions of `Array`-like objects and dispatch a `"set"` event', () => {
+  const { observable, target, listeners } = observe({ foo: ["a", "b"] })
+
+  expect(target.foo).toEqual(["a", "b"])
+  observable.foo.push("c")
+  expect(target.foo).toEqual(["a", "b", "c"])
+  expect(listeners.set).toHaveBeenCalledTimes(1)
+  expect(listeners.set.event).toMatchObject({ path: [], target: target.foo, property: "foo", value: null })
+
+  observable.foo.shift()
+  expect(target.foo).toEqual(["b", "c"])
+  expect(listeners.set).toHaveBeenCalledTimes(2)
+  expect(listeners.set.event).toMatchObject({ path: [], target: target.foo, property: "foo", value: null })
+})
+
+test("all")('`Context.with()` is able to track mutable functions of collections-like objects and dispatch a `"set"` event', () => {
+  const { observable, target, listeners } = observe({ foo: new Set(["a", "b"]) })
+
+  expect(target.foo).toEqual(new Set(["a", "b"]))
+  observable.foo.add("c")
+  expect(target.foo).toEqual(new Set(["a", "b", "c"]))
+  expect(listeners.set).toHaveBeenCalledTimes(1)
+  expect(listeners.set.event).toMatchObject({ path: [], target: target.foo, property: "foo", value: null })
+
+  observable.foo.delete("a")
+  expect(target.foo).toEqual(new Set(["b", "c"]))
+  expect(listeners.set).toHaveBeenCalledTimes(2)
+  expect(listeners.set.event).toMatchObject({ path: [], target: target.foo, property: "foo", value: null })
+})
+
+test("all")("`Context.mutable()` returns `true` for methods that changes target inplace", () => {
+  expect(Context.mutable(1, "foo")).toBe(false)
+  expect(Context.mutable({}, "foo")).toBe(false)
+
+  expect(Context.mutable([], "push")).toBe(true)
+  expect(Context.mutable([], "pop")).toBe(true)
+  expect(Context.mutable([], "shift")).toBe(true)
+  expect(Context.mutable([], "unshift")).toBe(true)
+  expect(Context.mutable([], "splice")).toBe(true)
+  expect(Context.mutable([], "sort")).toBe(true)
+  expect(Context.mutable([], "reverse")).toBe(true)
+  expect(Context.mutable([], "fill")).toBe(true)
+  expect(Context.mutable([], "copyWithin")).toBe(true)
+  expect(Context.mutable([], "foo")).toBe(false)
+
+  expect(Context.mutable(new Map(), "set")).toBe(true)
+  expect(Context.mutable(new Map(), "delete")).toBe(true)
+  expect(Context.mutable(new Map(), "clear")).toBe(true)
+  expect(Context.mutable(new Map(), "foo")).toBe(false)
+
+  expect(Context.mutable(new Set(), "add")).toBe(true)
+  expect(Context.mutable(new Set(), "delete")).toBe(true)
+  expect(Context.mutable(new Set(), "clear")).toBe(true)
+  expect(Context.mutable(new Set(), "foo")).toBe(false)
+
+  expect(Context.mutable(new Date(), "setFullYear")).toBe(true)
+  expect(Context.mutable(new Date(), "setMonth")).toBe(true)
+  expect(Context.mutable(new Date(), "setDate")).toBe(true)
+  expect(Context.mutable(new Date(), "setHours")).toBe(true)
+  expect(Context.mutable(new Date(), "setMinutes")).toBe(true)
+  expect(Context.mutable(new Date(), "setSeconds")).toBe(true)
+  expect(Context.mutable(new Date(), "setMilliseconds")).toBe(true)
+  expect(Context.mutable(new Date(), "setTime")).toBe(true)
+  expect(Context.mutable(new Date(), "setUTCFullYear")).toBe(true)
+  expect(Context.mutable(new Date(), "setUTCMonth")).toBe(true)
+  expect(Context.mutable(new Date(), "setUTCDate")).toBe(true)
+  expect(Context.mutable(new Date(), "setUTCHours")).toBe(true)
+  expect(Context.mutable(new Date(), "setUTCMinutes")).toBe(true)
+  expect(Context.mutable(new Date(), "setUTCSeconds")).toBe(true)
+  expect(Context.mutable(new Date(), "setUTCMilliseconds")).toBe(true)
+  expect(Context.mutable(new Date(), "foo")).toBe(false)
 })
