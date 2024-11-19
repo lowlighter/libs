@@ -38,7 +38,7 @@ test("deno")("`test()` is able to detect bun runtime environment", async () => {
     Object.assign(globalThis, { Bun: true })
     const testcase = test("bun")
     expect(testcase).toBeInstanceOf(Function)
-    await expect(testcase("", () => {}, { __dryrun: true } as testing)).rejects._toThrow(Error, "Not implemented")
+    await expect(testcase("", () => {}, { __dryrun: true } as testing)).rejects.toThrow(Error, "Not implemented")
   } finally {
     delete (globalThis as testing).Bun
   }
@@ -51,7 +51,7 @@ test("deno")("`test()` is able to detect node runtime environment", async () => 
     Object.assign(globalThis, { process: { versions: { node: true } } })
     const testcase = test("node")
     expect(testcase).toBeInstanceOf(Function)
-    await expect(testcase("", () => {}, { __dryrun: true } as testing)).rejects._toThrow(Error, "Not implemented")
+    await expect(testcase("", () => {}, { __dryrun: true } as testing)).rejects.toThrow(Error, "Not implemented")
   } finally {
     Object.assign(globalThis, { Deno: _Deno })
   }
@@ -59,7 +59,7 @@ test("deno")("`test()` is able to detect node runtime environment", async () => 
 
 test("deno")("`install()` resolves and install dependencies", () => {
   for (const _ of [1, 2]) {
-    expect(() => install([null as testing], import.meta.filename!)).not._toThrow()
+    expect(() => install([null as testing], import.meta.filename!)).not.toThrow()
   }
   expect(cache.has(`null:${import.meta.filename}`)).toBe(true)
 }, { permissions: { run: ["deno"] } })
@@ -67,7 +67,7 @@ test("deno")("`install()` resolves and install dependencies", () => {
 for (const runtime of Object.keys(available) as runtime[]) {
   test("deno")(`\`testcase()\` is able to run tests on ${runtime} runtime`, async () => {
     const filename = fromFileUrl(import.meta.resolve("./_stub_test.ts"))
-    await expect(testcase(runtime, filename, "test() stub throws error", () => {})).not.resolves._toThrow()
+    await expect(testcase(runtime, filename, "test() stub throws error", () => {})).not.resolves.toThrow()
   }, { permissions: { run: "inherit" } })
 }
 
@@ -85,4 +85,4 @@ test("deno")("`test()` restore environment after applying custom environment", (
   expect(Deno.env.get("TEST_BAR")).toBe("baz")
 }, { permissions: { env: ["TEST_FOO", "TEST_BAR"] } })
 
-test()("`placeholder()` use default runtimes when none is specified", () => void expect(placeholder).not._toThrow())
+test()("`placeholder()` use default runtimes when none is specified", () => void expect(placeholder).not.toThrow())

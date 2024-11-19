@@ -31,7 +31,7 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * @experimental This method may be renamed to `toThrow()` directly without being marked as breaking change.
    */
   // deno-lint-ignore no-explicit-any
-  _toThrow: <E extends Error = Error>(error?: string | RegExp | E | (new (...args: any[]) => E), message?: string | RegExp) => void
+  toThrow: <E extends Error = Error>(error?: string | RegExp | E | (new (...args: any[]) => E), message?: string | RegExp) => void
   /**
    * Asserts a value matches the given predicate.
    *
@@ -373,7 +373,7 @@ function isType(value: testing, type: TypeOf, { nullable = false } = {}) {
 }
 
 _expect.extend({
-  _toThrow(context, error, message) {
+  toThrow(context, error, message) {
     // deno-lint-ignore no-explicit-any
     type ErrorConstructor = new (...args: any[]) => Error
     if (typeof context.value === "function") {
