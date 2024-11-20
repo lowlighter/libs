@@ -5,7 +5,6 @@ import { TextLineStream } from "@std/streams"
 import { debounce } from "@std/async/debounce"
 import { delay } from "@std/async/delay"
 export type { Logger, loglevel, Promisable }
-export type { DeepReadonly } from "@libs/logger"
 
 /** Run options. */
 export type options = {
