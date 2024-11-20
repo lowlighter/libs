@@ -1,6 +1,6 @@
 #!/usr/bin/env DENO_DIR=/tmp deno run
-import { verify } from "jsr:@libs/crypto/totp"
-import { STATUS_CODE, STATUS_TEXT } from "jsr:@std/http/status"
+import { verify } from "@libs/crypto/totp"
+import { STATUS_CODE, STATUS_TEXT } from "@std/http/status"
 
 /** Get OTP */
 export default async function (request: Request) {

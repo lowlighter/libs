@@ -1,6 +1,6 @@
 #!/usr/bin/env DENO_DIR=/tmp deno run
-import * as XML from "jsr:@libs/xml/stringify"
-import { STATUS_CODE, STATUS_TEXT } from "jsr:@std/http/status"
+import * as XML from "@libs/xml/stringify"
+import { STATUS_CODE, STATUS_TEXT } from "@std/http/status"
 
 /** Stringify XML */
 export default async function (request: Request) {
