@@ -27,7 +27,9 @@
     // Generate README.md
     "make:readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
     // Generate html coverage
-    "make:coverage": "deno task test:deno --clean --coverage --fail-fast --reporter=dot && deno coverage --exclude=.js --html && sleep 1 && deno run --allow-read --allow-net=img.shields.io --allow-write=coverage jsr:@libs/bundle/ts/cli/coverage --root=coverage"
+    "make:coverage": "deno task test:deno --clean --coverage --fail-fast --reporter=dot && deno coverage --exclude=.js --html && sleep 1 && deno run --allow-read --allow-net=img.shields.io --allow-write=coverage jsr:@libs/bundle/ts/cli/coverage --root=coverage",
+    // Query in JSONC
+    "jq": "deno run --allow-read .github/deno_config_parser.ts --cwd=$INIT_CWD"
   },
   "imports": {
     // Standard library dependencies
@@ -69,6 +71,8 @@
     "hast": "npm:@types/hast@3",
     "hastscript": "npm:hastscript@9",
     "highlight.js": "npm:highlight.js@11",
+    "highlight.js/lib/core": "npm:highlight.js@11/lib/core",
+    "highlight.js/lib/languages/typescript": "npm:highlight.js@11/lib/languages/typescript",
     "octokit": "npm:octokit@4",
     "playwright": "npm:playwright@1",
     "rehype-autolink-headings": "npm:rehype-autolink-headings@7",
@@ -103,7 +107,7 @@
     "zod-to-json-schema": "npm:zod-to-json-schema@3",
     // Stubs
     "bun:test": "./testing/_stub.ts",
-    "node:test": "./testing/_stub.ts",
+    "node:test": "./testing/_stub.ts"
   },
   "nodeModulesDir": "auto",
   "workspace": [
