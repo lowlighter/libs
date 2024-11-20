@@ -221,6 +221,7 @@ jobs:
           git pull --rebase
           git push origin '${{ needs.test.outputs.tag }}'
       # Publish
+      - run: deno publish
       - name: Run npm publish
         if: ${{ needs.test.outputs.has_npm }}
         run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --npm.registry 'https://registry.npmjs.org' --npm.token '${{ secrets.NPM_TOKEN }}' --npm.scope '@lowlighter' --npm.access public

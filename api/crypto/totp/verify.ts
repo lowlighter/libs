@@ -1,4 +1,4 @@
-#!/usr/bin/env DENO_DIR=/tmp deno run
+#!/usr/bin/env DENO_DIR=/tmp deno run --version=v2.0.6
 import { verify } from "@libs/crypto/totp"
 import { STATUS_CODE, STATUS_TEXT } from "@std/http/status"
 

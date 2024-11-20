@@ -15,9 +15,9 @@
     // Test code and print detailed coverage
     "test": "cd $INIT_CWD && deno task --cwd=$INIT_CWD test:deno --doc --clean --coverage && deno coverage --detailed --include=$INIT_CWD --exclude='((\\.m?js)|(test\\.ts))$'",
     // Test code (deno)
-    "test:deno": "deno test --filter='/DENO/' --allow-all",
+    "test:deno": "cd $INIT_CWD && deno test --filter='/DENO/' --allow-all",
     // Test code (others)
-    "test:others": "deno test --filter='/<<<NODE|BUN>>>/' --allow-all",
+    "test:others": "cd $INIT_CWD && deno test --filter='/<<<NODE|BUN>>>/' --allow-all",
     // Run benchmarks
     "bench": "cd $INIT_CWD && deno bench --allow-read --allow-write=bench || true",
     // Test and lint code
