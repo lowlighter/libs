@@ -41,8 +41,6 @@
   },
   "tasks": {
     // Build WASM parser
-    "build": "deno run --allow-read --allow-net --allow-env --allow-write --allow-run jsr:@libs/bundle/wasm/cli/build --auto-install --banner='https://github.com/lowlighter/libs' wasm_xml_parser",
-    // Run benchmarks
-    "bench": "deno bench --allow-read --allow-write=bench"
+    "build": "deno run --allow-read --allow-net --allow-env --allow-write --allow-run jsr:@libs/bundle/wasm/cli/build --auto-install --banner='https://github.com/lowlighter/libs' wasm_xml_parser"
   }
 }
