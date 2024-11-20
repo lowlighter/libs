@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: main
     paths-ignore:
-      - '**/*.md'
+      - "**/*.md"
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true

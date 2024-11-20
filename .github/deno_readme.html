@@ -3,7 +3,9 @@
   <li>
     Bundle, minify, anonymize local file paths, unmap imports, license and publish TypeScript code
     <ul>
-      <li>Publish deno packages easily back to <a href="https://www.npmjs.com">NPM registries</a> and <a href="https://deno.land/x">deno.land/x</a></li>
+      <li>
+        Publish deno packages easily back to <a href="https://www.npmjs.com">NPM registries</a> and <a href="https://deno.land/x">deno.land/x</a>
+      </li>
     </ul>
   </li>
   <li>Compile Rust projects to Web assembly, hot-patch source in base64 and minify output</li>
@@ -64,12 +66,18 @@
   <li>
     Wrapper around <a href="https://deno.land/api?s=Deno.Command"><code>Deno.Command</code></a> with improved streams managements
     <ul>
-      <li>Add <code>stdio</code> that register each <code>stdin</code>, <code>stdout</code>, <code>stderr</code> entry with a timestamp for an accurate history</li>
+      <li>
+        Add <code>stdio</code> that register each <code>stdin</code>, <code>stdout</code>, <code>stderr</code> entry with a timestamp for an accurate history
+      </li>
       <li>Support <code>buffering</code> to merge closely-timed entries from same channel together</li>
-      <li>Pass a <code>callback</code> to react on output chanells and write to <code>stdin</code> for interactive scripting</li>
+      <li>
+        Pass a <code>callback</code> to react on output chanells and write to <code>stdin</code> for interactive scripting
+      </li>
     </ul>
   </li>
-  <li>Support <code>winext</code> to append an extension to binary when on Windows (e.g. <code>.cmd</code>, <code>.exe</code>, etc.)</li>
+  <li>
+    Support <code>winext</code> to append an extension to binary when on Windows (e.g. <code>.cmd</code>, <code>.exe</code>, etc.)
+  </li>
   <li>Support <code>dryrun</code> to skip command execution (useful for test environments)</li>
 </ul>
 <ul data-for="testing">
@@ -77,16 +85,24 @@
     Cross-runtime testing framework
     <ul>
       <li>Support <a href="https://deno.com">deno</a> natively</li>
-      <li>Support <a href="https://nodejs.org">Node.js</a> through <code>npx tsx --test</code></li>
-      <li>Support <a href="https://bun.sh">bun</a> through <code>bun test</code></li>
+      <li>
+        Support <a href="https://nodejs.org">Node.js</a> through <code>npx tsx --test</code>
+      </li>
+      <li>
+        Support <a href="https://bun.sh">bun</a> through <code>bun test</code>
+      </li>
       <li><i>Note: although tests are run on multiple runtimes, this library <b>must</b> be run on deno</i></li>
     </ul>
   </li>
   <li>Automatically skip test cases when runtime is not available on current platform</li>
 </ul>
 <ul data-for="typing">
-  <li>Utility types such as <code>Promisable</code>, <code>Nullable</code>, <code>MapKey</code>, <code>MapValue</code>, <code>SetValue</code>, etc.</li>
-  <li>Functions constructors (<code>AsyncFunction</code>, <code>GeneratorFunction</code>, <code>AsyncGeneratorFunction</code>)</li>
+  <li>
+    Utility types such as <code>Promisable</code>, <code>Nullable</code>, <code>MapKey</code>, <code>MapValue</code>, <code>SetValue</code>, etc.
+  </li>
+  <li>
+    Functions constructors (<code>AsyncFunction</code>, <code>GeneratorFunction</code>, <code>AsyncGeneratorFunction</code>)
+  </li>
 </ul>
 <ul data-for="xml">
   <li>
