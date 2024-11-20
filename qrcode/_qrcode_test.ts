@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-console
 import { qrcode } from "./_qrcode.ts"
 import { expect, fn, test } from "@libs/testing"
 
