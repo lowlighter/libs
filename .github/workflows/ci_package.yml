@@ -79,16 +79,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v2
-      - run: deno lint
-      - run: deno fmt --check
-      - run: |
-          if [ "$(jq -r '.mirror' deno.jsonc)" != "true"]; then
-            deno doc --lint mod.ts
-          fi
-      - name: Run deno publish --dry-run
-        run: |
-          SLOW_TYPES="$(jq -r 'if .types == "slow" then "--allow-slow-types" else "" end' deno.jsonc)"
-          deno publish --dry-run --quiet --allow-dirty $SLOW_TYPES
+      - run: deno task lint --check
 
   codeql:
     name: Code quality
@@ -118,11 +109,8 @@ jobs:
     outputs:
       releasable: ${{ steps.releasable.outputs.releasable }}
       has_build: ${{ steps.package.outputs.has_build }}
-      has_bench: ${{ steps.package.outputs.has_bench }}
       has_npm: ${{ steps.package.outputs.has_npm }}
       has_x: ${{ steps.package.outputs.has_x }}
-      slow_types: ${{ steps.package.outputs.slow_types }}
-      versioning: ${{ steps.package.outputs.versioning }}
       tag: ${{ steps.tag.outputs.tag }}
       version: ${{ steps.tag.outputs.semver }}
     steps:
@@ -141,11 +129,8 @@ jobs:
         id: package
         run: |
           echo "has_build=$(jq -r 'if .tasks.build then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
-          echo "has_bench=$(jq -r 'if .tasks.bench then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
           echo "has_npm=$(jq -r 'if .npm then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
           echo "has_x=$(jq -r 'if .["deno.land/x"] then "run" else empty end' deno.jsonc)" >> "$GITHUB_OUTPUT"
-          echo "slow_types=$(jq -r 'if .types == "slow" then "--allow-slow-types" else "" end' deno.jsonc)" >> "$GITHUB_OUTPUT"
-          echo "versioning=$(jq -r 'if .versioning == "date" then "date" else "semver" end' deno.jsonc)" >> "$GITHUB_OUTPUT"
       # Build
       - run: deno task build
         if: ${{ steps.package.outputs.has_build }}
@@ -154,7 +139,6 @@ jobs:
       - run: deno task test:others
       # Bench
       - run: deno task bench
-        if: ${{ steps.package.outputs.has_bench }}
       # Tag
       - name: Run git tag --list '${{ inputs.package }}-*'
         id: releasable
@@ -171,26 +155,13 @@ jobs:
         run: |
           CURRENT_SEMVER="$(jq -r .version deno.jsonc)"
           CURRENT_TAG="$(git tag --list '${{ inputs.package }}-*' | tail -1)"
-          if [ "${{ steps.package.outputs.versioning }}" == "date" ]; then
-            TAG="${{ inputs.package }}-$(date '+%Y.%m.%d')"
-            SEMVER="$(date '+%Y.%-m.%-d')"
-            if [ "$CURRENT_SEMVER" == "$SEMVER" ]; then
-              echo -e "\033[33mversion $SEMVER is already published, skipping\033[0m"
-              TAG=""
-              SEMVER=""
-            fi
-          else
             TAG="${{ steps.tag-next.outputs.tag }}"
             SEMVER="${{ steps.tag-next.outputs.semver }}"
-          fi
-          echo "versioning: ${{ steps.package.outputs.versioning }}"
           echo   "┌──────────────┬──────────────────────┬──────────────────────┐"
           printf "│ %-12s │ %-20s │ %-20s │\n" "" "CURRENT" "NEXT"
           printf "│ %-12s │ %-20s │ %-20s │\n" "TAG" "$CURRENT_TAG" "$TAG"
           printf "│ %-12s │ %-20s │ %-20s │\n" "SEMVER" "$CURRENT_SEMVER" "$SEMVER"
-          echo   "├──────────────┴──────────────────────┴──────────────────────┤"
-          printf "│ %-12s │ %-43s │\n" "VERSIONING" "${{ steps.package.outputs.versioning }}"
-          echo   "└────────────────────────────────────────────────────────────┘"
+          echo   "└──────────────┴──────────────────────┴──────────────────────┘"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "semver=$SEMVER" >> "$GITHUB_OUTPUT"
 
@@ -231,11 +202,11 @@ jobs:
             git push
           fi
       # Tag
-      - name: Run deno task tag
+      - name: Run deno task make:bump
         if: ${{ needs.test.outputs.tag }}
         run: |
           pushd "$(git rev-parse --show-toplevel)"
-          deno task tag --version '${{ needs.test.outputs.version }}' ${{ inputs.package }}
+          deno task make:bump --version '${{ needs.test.outputs.version }}' ${{ inputs.package }}
           popd
           deno fmt deno.jsonc
           git add deno.jsonc
@@ -250,7 +221,6 @@ jobs:
           git pull --rebase
           git push origin '${{ needs.test.outputs.tag }}'
       # Publish
-      - run: deno publish ${{ needs.test.outputs.slow_types }}
       - name: Run npm publish
         if: ${{ needs.test.outputs.has_npm }}
         run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --npm.registry 'https://registry.npmjs.org' --npm.token '${{ secrets.NPM_TOKEN }}' --npm.scope '@lowlighter' --npm.access public
