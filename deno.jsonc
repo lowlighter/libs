@@ -1,6 +1,4 @@
 {
-  "name": "@lowlighter/libs",
-  "version": "0.0.0",
   "description": "Collection of carefully crafted TypeScript standalone libraries. Minimal, unbloated, convenient.",
   "license": "MIT",
   "author": "lowlighter (Simon Lecoq)",
@@ -10,128 +8,167 @@
     "type": "git",
     "url": "git+https://github.com/lowlighter/libs.git"
   },
-  "exports": {},
-  "lock": false,
+  "tasks": {
+    // Lint code, documentation, package and formatting
+    // - `--check`: skip actual formatting (check only)
+    "lint": "cd $INIT_CWD && deno lint && deno doc --lint **/mod.ts && deno publish --quiet --dry-run --allow-dirty && deno fmt",
+    // Test code and print detailed coverage
+    "test": "cd $INIT_CWD && deno task --cwd=$INIT_CWD test:deno --doc --clean --coverage && deno coverage --detailed --include=$INIT_CWD --exclude='((\\.m?js)|(test\\.ts))$'",
+    // Test code (deno)
+    "test:deno": "deno test --filter='/DENO/' --allow-all",
+    // Test code (others)
+    "test:others": "deno test --filter='/<<<NODE|BUN>>>/' --allow-all",
+    // Run benchmarks
+    "bench": "cd $INIT_CWD && deno bench --allow-read --allow-write=bench || true",
+    // Test and lint code
+    "qa": "deno task test && deno task lint",
+    // Bump package version
+    "make:bump": "deno run --allow-read --allow-write=. .github/deno_bump.ts",
+    // Generate README.md
+    "make:readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
+    // Generate html coverage
+    "make:coverage": "deno task test:deno --clean --coverage --fail-fast --reporter=dot && deno coverage --exclude=.js --html && sleep 1 && deno run --allow-read --allow-net=img.shields.io --allow-write=coverage jsr:@libs/bundle/ts/cli/coverage --root=coverage"
+  },
   "imports": {
-    "@std/jsonc": "jsr:@std/jsonc@1",
-    "@std/yaml": "jsr:@std/yaml@1",
+    // Standard library dependencies
+    "@std/assert": "jsr:@std/assert@1",
+    "@std/async": "jsr:@std/async@1",
+    "@std/cli": "jsr:@std/cli@1",
+    "@std/collections": "jsr:@std/collections@1",
+    "@std/encoding": "jsr:@std/encoding@1",
+    "@std/expect": "jsr:@std/expect@1",
+    "@std/fmt/colors": "jsr:@std/fmt@1/colors",
     "@std/fs": "jsr:@std/fs@1",
-    "@std/fs/expand-glob": "jsr:@std/fs@1/expand-glob",
-    "@std/fs/exists": "jsr:@std/fs@1/exists",
+    "@std/html": "jsr:@std/html@1",
+    "@std/http": "jsr:@std/http@1",
+    "@std/jsonc": "jsr:@std/jsonc@1",
     "@std/path": "jsr:@std/path@1",
-    "@std/path/basename": "jsr:@std/path@1/basename",
-    "@std/path/from-file-url": "jsr:@std/path@1/from-file-url",
-    "@std/async/debounce": "jsr:@std/async@1/debounce",
-    "@std/async/delay": "jsr:@std/async@1/delay",
-    "@std/async/retry": "jsr:@std/async@1/retry",
-    "@std/http/status": "jsr:@std/http@1/status",
-    "@std/html/entities": "jsr:@std/html@1/entities",
+    "@std/semver": "jsr:@std/semver@1",
     "@std/streams": "jsr:@std/streams@1",
     "@std/tar": "jsr:@std/tar@^0.1.3",
-    "@std/encoding/base32": "jsr:@std/encoding@1/base32",
-    "@std/encoding/base64": "jsr:@std/encoding@1/base64",
-    "@std/text/to-camel-case": "jsr:@std/text@1/to-camel-case",
-    "@std/text/to-pascal-case": "jsr:@std/text@1/to-pascal-case",
-    "@std/text/slugify": "jsr:@std/text@1/unstable-slugify",
-    "@std/collections/deep-merge": "jsr:@std/collections@1/deep-merge",
+    "@std/text": "jsr:@std/text@1",
     "@std/ulid": "jsr:@std/ulid@1",
-    "@std/cli": "jsr:@std/cli@1",
-    "@std/fmt/colors": "jsr:@std/fmt@1/colors",
-    "@std/semver": "jsr:@std/semver@1",
-    "@std/assert": "jsr:@std/assert@1",
-    "@std/expect": "jsr:@std/expect@1",
-    "@libs/logger": "jsr:@libs/logger@3",
-    "@libs/testing": "jsr:@libs/testing@3",
-    "@libs/typing": "jsr:@libs/typing@3",
-    "@libs/xml": "jsr:@libs/xml@6",
-    "@libs/run": "jsr:@libs/run@3",
-    "@deno-libs/gql": "jsr:@deno-libs/gql@3",
-    "@cliffy/table": "jsr:@cliffy/table@1.0.0-rc.7",
+    "@std/yaml": "jsr:@std/yaml@1",
+    // External dependencies
     "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@0.1.48",
+    "@cliffy/table": "jsr:@cliffy/table@1.0.0-rc.7",
     "@deno/doc": "jsr:@deno/doc@0.160.0",
+    "@deno-libs/gql": "jsr:@deno-libs/gql@3.0.1",
     "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@0.11.0",
-    "octokit": "npm:octokit@4",
-    "highlight.js": "npm:highlight.js@11",
+    // External npm dependencies
     "@graphql-tools/schema": "npm:@graphql-tools/schema@10",
     "@graphql-tools/utils": "npm:@graphql-tools/utils@10",
     "@graphql-tools/merge": "npm:@graphql-tools/merge@9",
-    "graphql-tag": "npm:graphql-tag@2",
-    "zod": "npm:zod@3",
-    "zod-error": "npm:zod-error@1",
-    "zod-to-json-schema": "npm:zod-to-json-schema@3",
     "@mdn/browser-compat-data": "npm:@mdn/browser-compat-data@5",
     "browserslist": "npm:browserslist@4",
-    "esbuild": "npm:esbuild@0.24.0",
-    "terser": "npm:terser@5",
     "css-tree": "npm:css-tree@3",
     "csso": "npm:csso@5",
-    "stylelint": "npm:stylelint@16",
-    "stylelint-order": "npm:stylelint-order@6",
-    "stylelint-config-recommended": "npm:stylelint-config-recommended@14",
-    "stylelint-config-idiomatic-order": "npm:stylelint-config-idiomatic-order@10",
-    "bun:test": "./_stub.ts",
-    "node:test": "./_stub.ts",
-    "unified": "npm:unified@11",
+    "esbuild": "npm:esbuild@0.24.0",
+    "graphql": "npm:graphql@16.8.1",
+    "graphql-tag": "npm:graphql-tag@2",
     "hast": "npm:@types/hast@3",
     "hastscript": "npm:hastscript@9",
-    "unist-util-visit": "npm:unist-util-visit@5",
-    "rehype-slug": "npm:rehype-slug@6",
+    "highlight.js": "npm:highlight.js@11",
+    "octokit": "npm:octokit@4",
+    "playwright": "npm:playwright@1",
     "rehype-autolink-headings": "npm:rehype-autolink-headings@7",
     "rehype-highlight": "npm:rehype-highlight@7",
     "rehype-raw": "npm:rehype-raw@7",
     "rehype-sanitize": "npm:rehype-sanitize@6",
+    "rehype-slug": "npm:rehype-slug@6",
     "rehype-stringify": "npm:rehype-stringify@10",
     "remark-breaks": "npm:remark-breaks@4",
-    "remark-flexible-markers": "npm:remark-flexible-markers@1",
-    "remark-wiki-link": "npm:remark-wiki-link@2",
-    "remark-gfm": "npm:remark-gfm@4",
-    "remark-parse": "npm:remark-parse@11",
-    "remark-rehype": "npm:remark-rehype@11",
     "remark-directive": "npm:remark-directive@3",
-    "remark-ruby": "npm:remark-ruby@0.4.0",
-    "remark-frontmatter": "npm:remark-frontmatter@5",
     "remark-emoji": "npm:remark-emoji@5",
-    "remark-remove-comments": "npm:remark-remove-comments@1",
+    "remark-flexible-markers": "npm:remark-flexible-markers@1",
+    "remark-frontmatter": "npm:remark-frontmatter@5",
+    "remark-gfm": "npm:remark-gfm@4",
     "remark-math": "npm:remark-math@6",
     "rehype-mathjax": "npm:rehype-mathjax@6",
-    "rehype-mermaid": "npm:rehype-mermaid@3"
+    "rehype-mermaid": "npm:rehype-mermaid@3",
+    "remark-parse": "npm:remark-parse@11",
+    "remark-rehype": "npm:remark-rehype@11",
+    "remark-remove-comments": "npm:remark-remove-comments@1",
+    "remark-ruby": "npm:remark-ruby@0.4.0",
+    "remark-wiki-link": "npm:remark-wiki-link@2",
+    "stylelint": "npm:stylelint@16",
+    "stylelint-config-idiomatic-order": "npm:stylelint-config-idiomatic-order@10",
+    "stylelint-config-recommended": "npm:stylelint-config-recommended@14",
+    "stylelint-order": "npm:stylelint-order@6",
+    "terser": "npm:terser@5",
+    "unified": "npm:unified@11",
+    "unist-util-visit": "npm:unist-util-visit@5",
+    "zod": "npm:zod@3",
+    "zod-error": "npm:zod-error@1",
+    "zod-to-json-schema": "npm:zod-to-json-schema@3",
+    // Stubs
+    "bun:test": "./testing/_stub.ts",
+    "node:test": "./testing/_stub.ts",
   },
-  "tasks": {
-    "make:readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
-    "make:config": "deno run --allow-env=LOG_LEVEL,UPGRADE_PACKAGES --allow-read=. --allow-write=. .github/deno_config.ts",
-    "make:config-upgrade": "UPGRADE_PACKAGES=true deno task make:config",
-    "tag": "deno run --allow-read --allow-write=. .github/deno_tag.ts",
-    "test": "cd bundle && deno task test:deno && cd .. && cd crypto && deno task test:deno && cd .. && cd diff && deno task test:deno && cd .. && cd dom && deno task test:deno && cd .. && cd logger && deno task test:deno && cd .. && cd markdown && deno task test:deno && cd .. && cd orm && deno task test:deno && cd .. && cd qrcode && deno task test:deno && cd .. && cd reactive && deno task test:deno && cd .. && cd run && deno task test:deno && cd .. && cd std && deno task test:deno && cd .. && cd testing && deno task test:deno && cd .. && cd typing && deno task test:deno && cd .. && cd xml && deno task test:deno && cd ..",
-    "lint": "cd bundle && deno task lint && cd .. && cd crypto && deno task lint && cd .. && cd diff && deno task lint && cd .. && cd dom && deno task lint && cd .. && cd logger && deno task lint && cd .. && cd markdown && deno task lint && cd .. && cd orm && deno task lint && cd .. && cd qrcode && deno task lint && cd .. && cd reactive && deno task lint && cd .. && cd run && deno task lint && cd .. && cd std && deno task lint && cd .. && cd testing && deno task lint && cd .. && cd typing && deno task lint && cd .. && cd xml && deno task lint && cd ..",
-    "coverage": "rm -rf coverage && mkdir -p coverage && cd bundle && deno task coverage:html && mv coverage/html ../coverage/bundle && cd .. && cd crypto && deno task coverage:html && mv coverage/html ../coverage/crypto && cd .. && cd diff && deno task coverage:html && mv coverage/html ../coverage/diff && cd .. && cd dom && deno task coverage:html && mv coverage/html ../coverage/dom && cd .. && cd logger && deno task coverage:html && mv coverage/html ../coverage/logger && cd .. && cd markdown && deno task coverage:html && mv coverage/html ../coverage/markdown && cd .. && cd orm && deno task coverage:html && mv coverage/html ../coverage/orm && cd .. && cd qrcode && deno task coverage:html && mv coverage/html ../coverage/qrcode && cd .. && cd reactive && deno task coverage:html && mv coverage/html ../coverage/reactive && cd .. && cd run && deno task coverage:html && mv coverage/html ../coverage/run && cd .. && cd std && deno task coverage:html && mv coverage/html ../coverage/std && cd .. && cd testing && deno task coverage:html && mv coverage/html ../coverage/testing && cd .. && cd typing && deno task coverage:html && mv coverage/html ../coverage/typing && cd .. && cd xml && deno task coverage:html && mv coverage/html ../coverage/xml && cd .."
-  },
-  "lint": {
-    "rules": {
-      "include": [
-        "no-throw-literal",
-        "no-eval",
-        "eqeqeq",
-        "ban-untagged-todo"
-      ]
-    },
-    "exclude": [
-      "**/wasm_*",
-      "**/*.mjs"
-    ]
-  },
+  "nodeModulesDir": "auto",
+  "workspace": [
+    "bundle",
+    "crypto",
+    "diff",
+    "dom",
+    "logger",
+    "markdown",
+    "orm",
+    "qrcode",
+    "reactive",
+    "run",
+    "testing",
+    "typing",
+    "xml",
+    // Testing
+    "bundle/ts/testing"
+  ],
+  "unstable": [
+    "kv"
+  ],
   "fmt": {
-    "lineWidth": 280,
     "semiColons": false,
+    "lineWidth": 280,
+    "proseWrap": "preserve",
     "exclude": [
-      "coverage",
-      "**/coverage",
       "**/node_modules",
+      "**/coverage",
       "**/package.json",
       "**/package-lock.json",
       "**/wasm_*",
       "**/*.mjs"
-    ],
-    "proseWrap": "preserve"
+    ]
+  },
+  "lint": {
+    "rules": {
+      "include": [
+        "ban-untagged-todo",
+        "eqeqeq",
+        "no-console",
+        "no-eval",
+        "no-external-import",
+        "no-inferrable-types",
+        "no-sync-fn-in-async-fn",
+        "no-throw-literal",
+        "single-var-declarator",
+        "triple-slash-reference"
+      ]
+    },
+    "exclude": [
+      "**/node_modules",
+      "**/coverage",
+      "**/wasm_*",
+      "**/*.mjs"
+    ]
+  },
+  "publish": {
+    "exclude": [
+      ".devcontainer/**",
+      ".github/**",
+      "**/*_test.ts",
+      "CONTRIBUTING.md",
+      "vercel.json"
+    ]
   },
   "compilerOptions": {
     "useUnknownInCatchVariables": false
