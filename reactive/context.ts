@@ -184,7 +184,6 @@ export class Context<T extends record = record> extends EventTarget {
   /**
    * Instantiate a new inherited {@link Context} with superseded value.
    *
-   * @example
    * ```ts
    * import { Context } from "./context.ts"
    *
@@ -252,7 +251,7 @@ export class Context<T extends record = record> extends EventTarget {
       if (Context.mutable(target, path.at(-1)!.toString())) {
         this.#dispatch("set", { path: path.slice(0, -2), target, property: path.at(-2)!, value: null })
       }
-      this.#dispatch("call", { path, target, property: path.at(-1)!, args })
+      this.#dispatch("call", { path: path.slice(0, -1), target, property: path.at(-1)!, args })
     }
   }
 
