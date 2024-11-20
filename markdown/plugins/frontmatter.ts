@@ -12,7 +12,6 @@ import * as YAML from "@std/yaml/parse"
  * Passing `metadata: true` to the the markdown rendering method is required to retrieve the frontmatter.
  * The frontmatter is automatically parsed as YAML.
  *
- * @example
  * ```md
  * ---
  * title: foo

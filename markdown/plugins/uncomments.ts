@@ -5,7 +5,6 @@ import remarkRemoveComments from "remark-remove-comments"
 /**
  * Remove HTML comments.
  *
- * @example
  * ```md
  * <!-- foo -->
  * ```

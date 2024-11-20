@@ -8,7 +8,6 @@ const dictionary = Object.fromEntries([..."abcdefghijklmnopqrstuvwxyz"].map((let
 /**
  * Add support for markers.
  *
- * @example
  * ```md
  * ==foo==
  * =r=bar=

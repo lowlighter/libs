@@ -20,7 +20,6 @@ export default {
 /**
  * Create a new custom directive.
  *
- * @example
  * ```ts
  * import { Renderer } from "../renderer.ts"
  * import directives, { directive, h } from "./directives.ts"
@@ -61,7 +60,7 @@ export function directive(callback: (node: AugmentedNode) => void): Plugin {
  *
  * Augmented from {@link https://github.com/syntax-tree/mdast-util-directive/blob/main/index.d.ts | mdast-util-directive}.
  */
-interface AugmentedNode extends Arg<typeof visit> {
+export interface AugmentedNode extends Arg<typeof visit> {
   /**
    * Directive name.
    */
@@ -87,7 +86,7 @@ interface AugmentedNode extends Arg<typeof visit> {
  *
  * Augmented from {@link  https://github.com/syntax-tree/mdast-util-to-hast/blob/main/index.d.ts | mdast-util-to-hast}.
  */
-interface AugmentedData extends Data {
+export interface AugmentedData extends Data {
   /**
    * Signal that a node should result in something with these children.
    *

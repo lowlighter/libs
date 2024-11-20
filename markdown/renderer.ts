@@ -29,12 +29,10 @@ export class Renderer {
   /**
    * Render markdown content into an HTML string.
    *
-   * @example
    * ```ts
    * import { Renderer } from "./renderer.ts"
    * await Renderer.render("# Hello, world!")
    * ```
-   * @example
    * ```ts
    * import { Renderer } from "./renderer.ts"
    * import { gfm, highlighting, math, markers, wikilinks, sanitize  } from "./plugins/mod.ts"
@@ -46,7 +44,6 @@ export class Renderer {
   /**
    * Render markdown content into an HTML string with parsed metadata.
    *
-   * @example
    * ```ts
    * import { Renderer } from "./renderer.ts"
    * import pluginGfm from "./plugins/gfm.ts"
@@ -92,7 +89,6 @@ export class Renderer {
    *
    * Plugins may be specified as a URL or string path to a module, or as an already import {@link Plugin} object.
    *
-   * @example
    * ```ts
    * import { Renderer } from "./renderer.ts"
    * import frontmatter from "./plugins/frontmatter.ts"

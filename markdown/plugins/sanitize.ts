@@ -6,7 +6,6 @@ export { defaults as schema }
 /**
  * Sanitize HTML.
  *
- * @example
  * ```md
  * <script>alert('foo')</script>
  * ```

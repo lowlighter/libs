@@ -1,5 +1,6 @@
+export type { Arg, Nullable, Optional } from "@libs/typing/types"
 export { default as anchors } from "./anchors.ts"
-export { default as directives, directive, h } from "./directives.ts"
+export { type AugmentedData, type AugmentedNode, default as directives, directive, h } from "./directives.ts"
 export { default as emojis } from "./emojis.ts"
 export { default as frontmatter } from "./frontmatter.ts"
 export { default as gfm } from "./gfm.ts"

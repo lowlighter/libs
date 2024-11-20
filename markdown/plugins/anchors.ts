@@ -6,7 +6,6 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings"
 /**
  * Add anchors to headings and autolink them.
  *
- * @example
  * ```md
  * # foo
  * ```

@@ -5,7 +5,6 @@ import rehypeHighlight from "rehype-highlight"
 /**
  * Highlight code blocks.
  *
- * @example
  * ````md
  * ```ts
  * const foo = 'bar'
