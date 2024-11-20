@@ -222,11 +222,11 @@ export function install([bin, ...args]: string[], filename: string, { winext = "
   }
   const { stdout } = command(paths.deno, ["info", "--json", filename], { stdout: "piped", stderr: null, sync: true, throw: true })
   const { packages, npmPackages: _ } = JSON.parse(stdout)
-  command(bin, [...args, ...Object.keys(packages)], { stdout: null, stderr: null, sync: true, throw: true, winext, dryrun: !bin })
+  command(bin, [...args, ...Object.keys(packages)], { stdout: "piped", stderr: "piped", sync: true, throw: true, winext, dryrun: !bin })
   cache.add(`${bin}:${filename}`)
   // Force module type in package.json
   const payload = "let meta = JSON.parse(await Deno.readTextFile('package.json')); if (meta.type !== 'module') await Deno.writeTextFile('package.json', JSON.stringify((meta.type = 'module', meta)))"
-  command(paths.deno, ["eval", payload], { stdout: null, stderr: null, sync: true, throw: true, winext, dryrun: !bin })
+  command(paths.deno, ["eval", payload], { stdout: "piped", stderr: "piped", sync: true, throw: true, winext, dryrun: !bin })
 }
 
 /** Run test function for given filename on the specified runtime. */

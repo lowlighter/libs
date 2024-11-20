@@ -3,39 +3,19 @@
   "name": "@libs/testing",
   "version": "3.0.1",
   "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
+  "npm": true,
   "keywords": [
     "testing",
     "esm"
   ],
-  "license": "MIT",
-  "author": "lowlighter (Simon Lecoq)",
-  "funding": "https://github.com/sponsors/lowlighter",
-  "homepage": "https://github.com/lowlighter/libs",
   "supported": [
     "deno"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lowlighter/libs.git"
-  },
-  "npm": true,
   "exports": {
     ".": "./mod.ts",
     "./expect": "./expect.ts",
     "./test": "./test.ts",
     "./highlight": "./highlight.ts"
-  },
-  "imports": {
-    "@std/assert": "jsr:@std/assert@1",
-    "@std/expect": "jsr:@std/expect@1",
-    "@std/http/status": "jsr:@std/http@1/status",
-    "@std/path/from-file-url": "jsr:@std/path@1/from-file-url",
-    "@std/fmt/colors": "jsr:@std/fmt@1/colors",
-    "@std/html/entities": "jsr:@std/html@1/entities",
-    "@libs/typing": "jsr:@libs/typing@3",
-    "@libs/run": "jsr:@libs/run@3",
-    "bun:test": "./_stub.ts",
-    "node:test": "./_stub.ts"
   },
   "test:permissions": {
     "run": [
@@ -48,47 +28,5 @@
       "TEST_FOO",
       "TEST_BAR"
     ]
-  },
-  "tasks": {
-    "test": "deno test --allow-run=deno,node,bun,npx --allow-env=TEST_FOO,TEST_BAR --no-prompt --coverage --clean --trace-leaks --doc",
-    "dev": "deno fmt && deno task test --filter='/DENO/' && deno coverage --exclude=.js --detailed && deno task lint",
-    "test:deno": "deno task clean:deno && deno fmt --check && deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js && deno lint",
-    "test:others": "deno task clean:others && deno fmt --check && deno task test --filter='/NODE|BUN/' --quiet && deno coverage --exclude=.js && deno lint",
-    "coverage:html": "deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js --html && sleep 1",
-    "lint": "deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish --dry-run --quiet --allow-dirty",
-    "clean:deno": "rm -rf node_modules .npmrc deno.lock",
-    "clean:others": "rm -rf node_modules .npmrc deno.lock package.json package-lock.json bun.lockb"
-  },
-  "lint": {
-    "rules": {
-      "include": [
-        "no-throw-literal",
-        "no-eval",
-        "eqeqeq",
-        "ban-untagged-todo"
-      ]
-    },
-    "exclude": [
-      "**/wasm_*",
-      "**/*.mjs"
-    ]
-  },
-  "fmt": {
-    "lineWidth": 280,
-    "semiColons": false,
-    "exclude": [
-      "coverage",
-      "**/coverage",
-      "**/node_modules",
-      "**/package.json",
-      "**/package-lock.json",
-      "**/wasm_*",
-      "**/*.mjs"
-    ],
-    "proseWrap": "preserve"
-  },
-  "compilerOptions": {
-    "useUnknownInCatchVariables": false
-  },
-  "nodeModulesDir": "auto"
+  }
 }
