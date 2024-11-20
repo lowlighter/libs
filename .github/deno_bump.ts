@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-console
 // Imports
 import { fromFileUrl, resolve } from "@std/path"
 import * as JSONC from "@std/jsonc"
@@ -16,9 +17,9 @@ const path = resolve(fromFileUrl(import.meta.resolve("../")), `${name}`, "deno.j
 console.log(`patching: ${path}`)
 
 // Patch config version
-const config = JSONC.parse(await Deno.readTextFile(path)) as record<string>
+const raw = await Deno.readTextFile(path)
+const config = JSONC.parse(raw) as record<string>
 const { version: previous } = config
-config.version = version
 console.log(`version: ${previous} → ${version}`)
-await Deno.writeTextFile(path, `${JSON.stringify(config, null, 2)}\n`)
 assert(semver.greaterThan(semver.parse(version), semver.parse(previous)), "expected new version to be greater than previous one")
+await Deno.writeTextFile(path, raw.replace(`"version": "${previous}"`, `"version": "${version}"`))
