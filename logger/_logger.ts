@@ -6,7 +6,6 @@
  * It supports out-of-the-box colored output, a log level mechanism (that honor `LOG_LEVEL` environment variable), a tag system, and a variety of options to customize the output.
  * A neat addition is the ability to display caller information (file, name, line) which can be especially useful for debugging.
  *
- * @example
  * ```ts
  * import { Logger } from "./mod.ts"
  *
@@ -147,7 +146,6 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
    *
    * Note that not all formatters may support this feature.
    *
-   * @example
    * ```ts
    * import { Logger } from "./mod.ts"
    *
@@ -492,7 +490,6 @@ export type LoggerOptions<T extends Record<PropertyKey, unknown> = {}> = {
      * The captured named group `(?<file>)` will be used instead.
      * This is useful to trim long paths or rename them.
      *
-     * @example
      * ```ts
      * import { Logger } from "./mod.ts"
      *

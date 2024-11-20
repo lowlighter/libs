@@ -3,15 +3,12 @@
   "name": "@libs/logger",
   "version": "3.1.1",
   "description": "Simple logger",
+  "npm": true,
+  "playground": "https://libs.lecoq.io/logger",
   "keywords": [
     "logging",
     "esm"
   ],
-  "license": "MIT",
-  "author": "lowlighter (Simon Lecoq)",
-  "funding": "https://github.com/sponsors/lowlighter",
-  "homepage": "https://github.com/lowlighter/libs",
-  "playground": "https://libs.lecoq.io/logger",
   "supported": [
     "deno",
     "node",
@@ -19,19 +16,8 @@
     "cloudflare-workers",
     "browsers"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lowlighter/libs.git"
-  },
-  "npm": true,
   "exports": {
     ".": "./mod.ts"
-  },
-  "imports": {
-    "@std/fmt/colors": "jsr:@std/fmt@1/colors",
-    "@std/path/basename": "jsr:@std/path@1/basename",
-    "@std/path/from-file-url": "jsr:@std/path@1/from-file-url",
-    "@libs/testing": "jsr:@libs/testing@3"
   },
   "test:permissions": {
     "env": [
@@ -43,43 +29,5 @@
       "bun",
       "npx"
     ]
-  },
-  "tasks": {
-    "test": "deno test --allow-env=LOG_LEVEL --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
-    "dev": "deno fmt && deno task test --filter='/DENO/' && deno coverage --exclude=.js --detailed && deno task lint",
-    "test:deno": "deno task clean:deno && deno fmt --check && deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js && deno lint",
-    "test:others": "deno task clean:others && deno fmt --check && deno task test --filter='/NODE|BUN/' --quiet && deno coverage --exclude=.js && deno lint",
-    "coverage:html": "deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js --html && sleep 1",
-    "lint": "deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish --dry-run --quiet --allow-dirty",
-    "clean:deno": "rm -rf node_modules .npmrc deno.lock",
-    "clean:others": "rm -rf node_modules .npmrc deno.lock package.json package-lock.json bun.lockb"
-  },
-  "lint": {
-    "rules": {
-      "include": [
-        "no-throw-literal",
-        "no-eval",
-        "eqeqeq",
-        "ban-untagged-todo"
-      ]
-    },
-    "exclude": [
-      "**/wasm_*",
-      "**/*.mjs"
-    ]
-  },
-  "fmt": {
-    "lineWidth": 280,
-    "semiColons": false,
-    "exclude": [
-      "coverage",
-      "**/coverage",
-      "**/node_modules",
-      "**/package.json",
-      "**/package-lock.json",
-      "**/wasm_*",
-      "**/*.mjs"
-    ],
-    "proseWrap": "preserve"
   }
 }
