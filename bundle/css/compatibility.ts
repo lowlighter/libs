@@ -3,8 +3,8 @@ import { generate, parse, walk } from "css-tree"
 import browserslist from "browserslist"
 import bcd from "@mdn/browser-compat-data" with { type: "json" }
 import * as semver from "@std/semver"
-import type { Arg, Arrayable, rw } from "@libs/typing"
-import { type levellike as loglevel, Logger, type Nullable } from "@libs/logger"
+import type { Arg, Arrayable, Nullable, rw } from "@libs/typing"
+import { type levellike as loglevel, Logger } from "@libs/logger"
 import { brightGreen, brightMagenta, gray, green, italic, red, yellow } from "@std/fmt/colors"
 import { Table } from "@cliffy/table"
 export type { Arg, Arrayable, Nullable }
