@@ -84,7 +84,6 @@ export type options = {
  *
  * You can also pass an object that implement {@link ReaderSync} instead of a string.
  *
- * @example
  * ```ts
  * import { parse } from "./parse.ts"
  *
@@ -104,7 +103,6 @@ export type options = {
  * `))
  * ```
  *
- * @example
  * ```ts
  * import { parse } from "./parse.ts"
  *

@@ -3,17 +3,15 @@
   "name": "@libs/xml",
   "version": "6.0.1",
   "description": "XML parser/stringifier with no dependencies.",
+  "npm": true,
+  "deno.land/x": true,
+  "playground": "https://libs.lecoq.io/xml",
   "keywords": [
     "xml",
     "parser",
     "stringifier",
     "esm"
   ],
-  "license": "MIT",
-  "author": "lowlighter (Simon Lecoq)",
-  "funding": "https://github.com/sponsors/lowlighter",
-  "homepage": "https://github.com/lowlighter/libs",
-  "playground": "https://libs.lecoq.io/xml",
   "supported": [
     "deno",
     "node",
@@ -21,23 +19,10 @@
     "cloudflare-workers",
     "browsers"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lowlighter/libs.git"
-  },
-  "npm": true,
-  "deno.land/x": true,
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts",
     "./stringify": "./stringify.ts"
-  },
-  "imports": {
-    "@std/fs/expand-glob": "jsr:@std/fs@1/expand-glob",
-    "@std/fs/exists": "jsr:@std/fs@1/exists",
-    "@std/path/from-file-url": "jsr:@std/path@1/from-file-url",
-    "@libs/typing": "jsr:@libs/typing@3",
-    "@libs/testing": "jsr:@libs/testing@3"
   },
   "test:permissions": {
     "read": true,
@@ -55,43 +40,9 @@
     ]
   },
   "tasks": {
+    // Build WASM parser
     "build": "deno run --allow-read --allow-net --allow-env --allow-write --allow-run jsr:@libs/bundle/wasm/cli/build --auto-install --banner='https://github.com/lowlighter/libs' wasm_xml_parser",
-    "test": "deno test --allow-read --allow-env=CI --allow-write=bench --allow-run=deno,node,bun,npx --no-prompt --coverage --clean --trace-leaks --doc",
-    "dev": "deno fmt && deno task test --filter='/DENO/' && deno coverage --exclude=.js --detailed && deno task lint",
-    "bench": "deno bench --allow-read --allow-write=bench",
-    "test:deno": "deno task clean:deno && deno fmt --check && deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js && deno lint",
-    "test:others": "deno task clean:others && deno fmt --check && deno task test --filter='/NODE|BUN/' --quiet && deno coverage --exclude=.js && deno lint",
-    "coverage:html": "deno task test --filter='/DENO/' --quiet && deno coverage --exclude=.js --html && sleep 1",
-    "lint": "deno fmt --check && deno lint && deno doc --lint mod.ts && deno publish --dry-run --quiet --allow-dirty",
-    "clean:deno": "rm -rf node_modules .npmrc deno.lock",
-    "clean:others": "rm -rf node_modules .npmrc deno.lock package.json package-lock.json bun.lockb"
-  },
-  "lint": {
-    "rules": {
-      "include": [
-        "no-throw-literal",
-        "no-eval",
-        "eqeqeq",
-        "ban-untagged-todo"
-      ]
-    },
-    "exclude": [
-      "**/wasm_*",
-      "**/*.mjs"
-    ]
-  },
-  "fmt": {
-    "lineWidth": 280,
-    "semiColons": false,
-    "exclude": [
-      "coverage",
-      "**/coverage",
-      "**/node_modules",
-      "**/package.json",
-      "**/package-lock.json",
-      "**/wasm_*",
-      "**/*.mjs"
-    ],
-    "proseWrap": "preserve"
+    // Run benchmarks
+    "bench": "deno bench --allow-read --allow-write=bench"
   }
 }

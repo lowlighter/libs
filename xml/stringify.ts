@@ -43,7 +43,6 @@ const internal = Symbol("internal")
  *
  * Output can be customized using the {@link options} parameter.
  *
- * @example
  * ```ts
  * import { stringify } from "./stringify.ts"
  *
@@ -103,7 +102,6 @@ export function stringify(document: stringifyable, options?: options): string {
 /**
  * Helper to create a CDATA node.
  *
- * @example
  * ```ts
  * import { stringify, cdata } from "./stringify.ts"
  * stringify({ string: cdata(`hello <world>`) })
@@ -120,7 +118,6 @@ export function cdata(text: string): Omit<xml_text, "~parent"> {
 /**
  * Helper to create a comment node.
  *
- * @example
  * ```ts
  * import { stringify, comment } from "./stringify.ts"
  * stringify({ string: comment(`hello world`) })
