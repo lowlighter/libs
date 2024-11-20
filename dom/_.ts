@@ -1,3 +1,4 @@
+// deno-lint-ignore triple-slash-reference
 /// <reference lib="dom" />
 // Imports
 import type { record, rw } from "@libs/typing"
