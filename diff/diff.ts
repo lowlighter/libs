@@ -28,7 +28,6 @@
  * Based on {@link https://bramcohen.livejournal.com/73318.html | Bram Cohen's patience diff algorithm}.
  * This function was ported and modified by {@link https://gihub.com/lowlighter | Simon Lecoq} based on the previous work of {@link https://gihub.com/jonTrent | Jonathan Trent}.
  *
- * @example
  * ```ts
  * import { diff } from "./diff.ts"
  * diff("foo\n", "foo")
@@ -123,7 +122,6 @@ export function diff(a: string, b: string, { context = 3 } = {}): string {
 /**
  * Tokenize text into text lines
  *
- * @example
  * ```ts
  * import { tokenize } from "./diff.ts"
  * tokenize("foo\nbar")
