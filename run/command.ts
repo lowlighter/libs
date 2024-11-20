@@ -5,6 +5,7 @@ import { TextLineStream } from "@std/streams"
 import { debounce } from "@std/async/debounce"
 import { delay } from "@std/async/delay"
 export type { Logger, loglevel, Promisable }
+export type { DeepReadonly } from "@libs/logger"
 
 /** Run options. */
 export type options = {
@@ -86,12 +87,10 @@ const decoder = new TextDecoder()
  *
  * Note that stdin is not usable in sync mode and will always be empty.
  *
- * @example
  * ```ts
  * import { command } from "./command.ts"
  * command("deno", ["version"], { sync: true })
  * ```
- * @example
  * ```
  * import { command } from "./command.ts"
  * try {
@@ -106,7 +105,6 @@ export function command(bin: string, args: string[], options?: options & { sync?
 /**
  * Synchronous version of {@link command}.
  *
- * @example
  * ```
  * import { command } from "./command.ts"
  * try {
@@ -148,7 +146,6 @@ export function command(bin: string, args: string[], options?: options & { sync:
  * with an additional `stdio` property that contains an array of ordered tuples with the delta timestamp since process start, the channel idenfitier (0:stdin, 1:stdout, 2:stderr) and the content.
  * This offers a proper history of exchanged content.
  *
- * @example
  * ```ts
  * import { command } from "./command.ts"
  * import { Logger } from "jsr:@libs/logger"
@@ -158,7 +155,6 @@ export function command(bin: string, args: string[], options?: options & { sync:
  * await command("deno", ["version"], { winext: ".exe" })
  * ```
  *
- * @example
  * ```ts
  * import { command } from "./command.ts"
  *

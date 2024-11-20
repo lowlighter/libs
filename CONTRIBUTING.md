@@ -69,7 +69,6 @@ The following tasks are available from `@libs` scope:
     - `playground?:string`: URL to playground
     - `npm?:boolean`: Is this package published on npm?
     - `["deno.land/x"]?:boolean`: Is this package published on deno.land/x?
-    - `types?:"slow"`: Use `--allow-slow-types` when publishing _(do not use except is absolutely needed)_
     - `test:permissions?:Deno.TestDefinition["permissions"]`: Permissions required for tests _(these should be minimal, note that `--allow-run=deno,node,bun,npx` permissions is always appended as they're required for cross-runtime testing)_
 - `make:config-upgrade`<sub>👨‍💻</sub>: Same as `make:config` but also upgrade dependencies of `*/deno.jsonc` with the ones from `deno.jsonc`
   - _This action is to be performed by a maintainer, each package should be separately commited to ensure that each package are correctly rebuild in the CI_

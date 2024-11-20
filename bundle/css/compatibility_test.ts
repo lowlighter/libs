@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-console
 import { bundle } from "./bundle.ts"
 import { compatibility, Report } from "./compatibility.ts"
 import { expect, fn, test, type testing } from "@libs/testing"

@@ -106,15 +106,15 @@ test()("`expect.toHaveImmutableProperty()` asserts writable but not editable pro
       bar: { value: true, writable: true, enumerable: true },
     })
     const original = { ...record }
-    expect(record).toMatchObject(original)
+    expect({ ...record }).toMatchObject(original)
     expect(record).toHaveImmutableProperty("foo")
-    expect(record).toMatchObject(original)
+    expect({ ...record }).toMatchObject(original)
     expect(record).not.toHaveImmutableProperty("bar")
-    expect(record).toMatchObject(original)
+    expect({ ...record }).toMatchObject(original)
     expect(() => expect(record).not.toHaveImmutableProperty("foo")).toThrow(AssertionError, "to NOT be")
-    expect(record).toMatchObject(original)
+    expect({ ...record }).toMatchObject(original)
     expect(() => expect(record).toHaveImmutableProperty("bar")).toThrow(AssertionError, "to be")
-    expect(record).toMatchObject(original)
+    expect({ ...record }).toMatchObject(original)
   }
   expect(() => expect(null).toHaveImmutableProperty("foo")).toThrow(AssertionError, "value is not indexed")
   expect(() => expect(1).toHaveImmutableProperty("foo")).toThrow(AssertionError, "value is not indexed")

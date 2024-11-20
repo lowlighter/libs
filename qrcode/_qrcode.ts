@@ -1,3 +1,4 @@
+// deno-lint-ignore-file single-var-declarator no-console
 /**
  * QR Code generator library.
  *
@@ -51,7 +52,6 @@ const encoder = new TextEncoder()
  *
  * Border, colors and ECL can be customized using {@link options}.
  *
- * @example
  * ```ts
  * import { qrcode } from "jsr:@libs/qrcode"
  * const svg = qrcode("https://example.com", { output: "svg" })
@@ -65,7 +65,6 @@ export function qrcode(content: string | URL, options: { output: "svg" } & Pick<
  * Colors and ECL can be customized using {@link options}.
  * Note that custom colors must be supported by terminal ({@link https://developer.mozilla.org/en-US/docs/Web/API/console#styling_console_output | %c} directive is used to style the output).
  *
- * @example
  * ```ts
  * import { qrcode } from "./mod.ts"
  * qrcode("https://example.com", { output: "console" })
@@ -90,7 +89,6 @@ export function qrcode(content: string | URL | Uint8Array, options: { output: "c
  *
  * Returned array is indexed by using `[y][x]` and the boolean `true` is used to represent a dark square.
  *
- * @example
  * ```ts
  * import { qrcode } from "./mod.ts"
  * const array = qrcode("https://example.com")
@@ -108,7 +106,6 @@ export function qrcode(content: string | URL | Uint8Array, options?: { output?: 
  *
  * Output can be set to either `"svg"`, `"console"` or `"array"` and can be customized using supported {@link options}.
  *
- * @example
  * ```ts
  * import { qrcode } from "jsr:@libs/qrcode"
  * const svg = qrcode("https://example.com", { output: "svg" })

@@ -74,10 +74,9 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-      - name: Run deno task coverage
+      - name: Run deno task make:coverage
         run: |
-          deno task coverage
-          deno run --allow-read --allow-write=coverage --allow-net jsr:@libs/bundle/ts/cli/coverage --root=coverage --summary
+          deno task make:coverage
           mv coverage _site
       - uses: actions/upload-pages-artifact@v3
       - id: pages
@@ -101,15 +100,6 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-      - name: Run deno task make:config
-        run: |
-          deno task make:config
-          if [ -n "$(git status --porcelain)" ]; then
-            git add .
-            git commit -m 'chore: update `deno.jsonc`'
-            git pull --rebase
-            git push
-          fi
       - name: Run deno task make:readme
         run: |
           deno task make:readme

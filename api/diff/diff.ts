@@ -1,6 +1,6 @@
 #!/usr/bin/env DENO_DIR=/tmp deno run
-import { diff } from "jsr:@libs/diff/diff"
-import { STATUS_CODE, STATUS_TEXT } from "jsr:@std/http/status"
+import { diff } from "@libs/diff/diff"
+import { STATUS_CODE, STATUS_TEXT } from "@std/http/status"
 
 /** Diff */
 export default async function (request: Request) {

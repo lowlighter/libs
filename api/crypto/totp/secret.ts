@@ -1,6 +1,6 @@
 #!/usr/bin/env DENO_DIR=/tmp deno run
-import { otpsecret } from "jsr:@libs/crypto/totp"
-import { STATUS_CODE, STATUS_TEXT } from "jsr:@std/http/status"
+import { otpsecret } from "@libs/crypto/totp"
+import { STATUS_CODE, STATUS_TEXT } from "@std/http/status"
 
 /** Generate OTP secret */
 export default function (request: Request) {

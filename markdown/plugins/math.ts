@@ -8,7 +8,6 @@ import rehypeMathjax from "rehype-mathjax"
  *
  * {@link https://www.mathjax.org | See MathJax documentation for more information}.
  *
- * @example
  * ```md
  * $$
  * \frac{1}{2}

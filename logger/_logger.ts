@@ -6,7 +6,6 @@
  * It supports out-of-the-box colored output, a log level mechanism (that honor `LOG_LEVEL` environment variable), a tag system, and a variety of options to customize the output.
  * A neat addition is the ability to display caller information (file, name, line) which can be especially useful for debugging.
  *
- * @example
  * ```ts
  * import { Logger } from "./mod.ts"
  *
@@ -147,7 +146,6 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
    *
    * Note that not all formatters may support this feature.
    *
-   * @example
    * ```ts
    * import { Logger } from "./mod.ts"
    *
@@ -470,7 +468,7 @@ export type LoggerOptions<T extends Record<PropertyKey, unknown> = {}> = {
    * If set to `null`, the logger will not output anything whatever the log level is.
    */
   //deno-lint-ignore ban-types
-  output?: Nullable<Record<"error" | "warn" | "info" | "log" | "debug", Function>>
+  output?: Record<"error" | "warn" | "info" | "log" | "debug", Function> | null
   /** Logger tags. */
   tags?: T
   /**
@@ -492,7 +490,6 @@ export type LoggerOptions<T extends Record<PropertyKey, unknown> = {}> = {
      * The captured named group `(?<file>)` will be used instead.
      * This is useful to trim long paths or rename them.
      *
-     * @example
      * ```ts
      * import { Logger } from "./mod.ts"
      *
@@ -502,7 +499,7 @@ export type LoggerOptions<T extends Record<PropertyKey, unknown> = {}> = {
      * // logger/mod.ts
      * ```
      */
-    fileformat?: Nullable<[RegExp, string]>
+    fileformat?: [RegExp, string] | null
   } | boolean
   /**
    * Display date (e.g. `2024-07-13`).
@@ -520,7 +517,7 @@ export type LoggerOptions<T extends Record<PropertyKey, unknown> = {}> = {
 
 /** Logger options */
 export type options = DeepNonNullable<Pick<LoggerOptions, "date" | "time" | "delta">> & {
-  caller: DeepNonNullable<Omit<NonNullable<Exclude<LoggerOptions["caller"], boolean>>, "fileformat">> & { fileformat: Nullable<[RegExp, string]> }
+  caller: DeepNonNullable<Omit<NonNullable<Exclude<LoggerOptions["caller"], boolean>>, "fileformat">> & { fileformat: [RegExp, string] | null }
 }
 
 /** Logger level (numeric). */
@@ -538,7 +535,7 @@ export type formatter = (logger: Logger, options: { level: loglevel; content: un
 /** Caller. */
 type caller = {
   file: string
-  name: Nullable<string>
+  name: string | null
   line: number
   column: number
 }
@@ -546,15 +543,12 @@ type caller = {
 /** V8 CallSite (subset). */
 type CallSite = {
   getFileName: () => string
-  getFunctionName: () => Nullable<string>
+  getFunctionName: () => string | null
   getLineNumber: () => number
   getColumnNumber: () => number
 }
 
 // Note: The following types below should not use `@libs/typing` to avoid external dependencies.
-
-/** Nullable type. */
-export type Nullable<T> = T | null
 
 /** Deep readonly type. */
 export type DeepReadonly<T> = T extends object ? { readonly [P in keyof T]: DeepReadonly<T[P]> } : T

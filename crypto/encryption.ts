@@ -5,7 +5,6 @@
  * (for example in a {@link https://docs.deno.com/deploy/kv/manual | Deno.Kv} store) while being able to recover
  * them later using a single master key.
  *
- * @example
  * ```ts
  * import { decrypt, encrypt, exportKey, importKey } from "./encryption.ts"
  *
@@ -39,7 +38,6 @@ const decoder = new TextDecoder()
 /**
  * Convert bytes to hexadecimal string representation.
  *
- * @example
  * ```ts
  * import { hex } from "./encryption.ts"
  * console.log(hex(new Uint8Array([0x0a, 0x42]))) // "0a42"
@@ -55,7 +53,6 @@ export function hex(bytes: Uint8Array | number): string {
 /**
  * Convert hexadecimal string representation to bytes.
  *
- * @example
  * ```ts
  * import { bytes } from "./encryption.ts"
  * console.log(bytes("0a42")) // Uint8Array [ 10, 66 ]
@@ -70,7 +67,6 @@ export function bytes(hex: string): Uint8Array {
  *
  * Only algorithms supported by {@link https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest | SubtleCrypto.digest} are allowed.
  *
- * @example
  * ```ts
  * import { hash } from "./encryption.ts"
  * console.log(await hash("foo")) // "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae"
@@ -105,7 +101,6 @@ export async function hash(message: string, { algorithm = "SHA-256" as Algorithm
  * If set to `0` instead, padding will be disabled entirely allowing to encrypt larger values but at the cost of leaking the approximate values length.
  * Additionally, if a value size exceed 255 bytes, its integrity will only be checked by the hash field.
  *
- * @example
  * ```ts
  * import { decrypt, encrypt, exportKey } from "./encryption.ts"
  * const key = await exportKey({ seed: "", salt: "" })
@@ -137,7 +132,6 @@ export async function encrypt(message: string, { key, length = 512 }: { key: Cry
 /**
  * Decrypt message encrypted by {@link encrypt} function with specified key.
  *
- * @example
  * ```ts
  * import { decrypt, encrypt, exportKey } from "./encryption.ts"
  * const key = await exportKey({ seed: "", salt: "" })
@@ -165,7 +159,6 @@ export async function decrypt(message: string, { key }: { key: CryptoKey | strin
 /**
  * Convert encryption key to {@link https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey | CryptoKey}.
  *
- * @example
  * ```ts
  * import { importKey } from "./encryption.ts"
  * console.assert(await importKey("e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47") instanceof CryptoKey)
@@ -178,7 +171,6 @@ export async function importKey(key: string): Promise<CryptoKey> {
 /**
  * Generate encryption key from seed and salt.
  *
- * @example
  * ```ts
  * import { exportKey } from "./encryption.ts"
  * console.assert(typeof await exportKey({ seed: "", salt: "" }) === "string")

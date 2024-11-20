@@ -5,7 +5,6 @@ import remarkBreaks from "remark-breaks"
 /**
  * Force line-breaks to be hard-breaks.
  *
- * @example
  * ```md
  * foo
  * bar

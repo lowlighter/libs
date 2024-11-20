@@ -19,7 +19,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * Unlike the epoynmous method from `@std/expect`, this matcher accepts a second argument that can be either a string or a regular expression when the first argument is a Error class or instance.
    * In this case, the behavior is the same as {@link assertIsError} where you can both check the error type and message.
    *
-   * @example
    * ```ts ignore
    * import { expect } from "./expect.ts"
    * const throws = () => { throw new Error("Expected error") }
@@ -35,7 +34,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a value matches the given predicate.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect("foo").toSatisfy((value:string) => value.length > 1)
@@ -46,7 +44,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * Asserts a value is of a given type (using `typeof` operator).
    * Note that `null` is not considered of type `"object"` unless `nullable` option is set to `true`.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect("foo").toBeType("string")
@@ -59,7 +56,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a property matches a given descriptor (using `Object.getOwnPropertyDescriptor`).
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * const foo = Object.defineProperties({}, { bar: { value: true, writable: false, enumerable: true } })
@@ -72,7 +68,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    *
    * Note that it will actually proceed to assign `testValue` and restore it to original value after test.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * const foo = new (class {
@@ -91,7 +86,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Assert an object is iterable (checking `Symbol.iterator` presence).
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect([]).toBeIterable()
@@ -103,7 +97,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Assert an object is sealed (using `Object.isSealed`).
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect(Object.seal({})).toBeSealed()
@@ -113,7 +106,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Assert an object is frozen (using `Object.isFrozen`).
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect(Object.freeze({})).toBeFrozen()
@@ -123,7 +115,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Assert an object is extensible (using `Object.isExtensible`).
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect(Object.preventExtensions({})).not.toBeExtensible()
@@ -133,7 +124,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts an object is a shallow copy (i.e. its content is identical but reference is not).
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * const foo = { bar: true }
@@ -144,7 +134,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts an iterable is empty.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect([]).toBeEmpty()
@@ -156,7 +145,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts an iterable to be sorted.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect([1, 2, 3]).toBeSorted()
@@ -166,7 +154,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts an iterable to be reverse sorted.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect([3, 2, 1]).toBeReverseSorted()
@@ -176,7 +163,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a value is one of expected value.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect("foo").toBeOneOf(["foo", "bar"])
@@ -186,7 +172,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a number is with a given range.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect(Math.PI).toBeWithin([3, 4])
@@ -196,7 +181,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a number to be finite.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect(1).toBeFinite()
@@ -207,7 +191,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a string to be parseable JSON.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect('{"foo":"bar"}').toBeParseableJSON()
@@ -217,7 +200,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a string is a valid email address (using https://pdw.ex-parrot.com/Mail-RFC822-Address.html).
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect("foo@example.com").toBeEmail()
@@ -228,7 +210,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a string is a valid url (using `URL`).
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect("https://example.com").toBeUrl()
@@ -238,7 +219,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a string is a valid base64 string.
    *
-   * @example
    * ```ts
    * import { expect } from "./expect.ts"
    * expect(btoa("foo")).toBeBase64()
@@ -251,7 +231,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * Note that `Response.body.cancel()` is automatically called to prevent leaks.
    * If you need to perform more assertions on a response, it is advised use separate matchers instead.
    *
-   * @example
    * ```ts
    * import { expect, Status } from "./expect.ts"
    * expect(new Response(null, { status: Status.OK })).toRespondWithStatus(Status.OK)
@@ -268,7 +247,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    *
    * Please note that it only checks whether it could be a valid output of specified hash algorithm.
    *
-   * @example
    * ```ts
    * import { expect, Status } from "./expect.ts"
    * expect("$2a$12$lpGSoVPZ8erLDF93Sqyic.U73v0/w0owPb3dIP9goO7iC5Wp/I8OG").toBeHashed("bcrypt")
@@ -278,7 +256,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a value is a valid date (using `Date`).
    *
-   * @example
    * ```ts
    * import { expect, Status } from "./expect.ts"
    * expect("2024-07-13T20:30:57.958Z").toBeDate()
@@ -289,7 +266,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a date is before another date.
    *
-   * @example
    * ```ts
    * import { expect, Status } from "./expect.ts"
    * expect(new Date(Date.now() - 5000)).toBePast()
@@ -299,7 +275,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   /**
    * Asserts a date is after another date.
    *
-   * @example
    * ```ts
    * import { expect, Status } from "./expect.ts"
    * expect(new Date(Date.now() + 5000)).toBeFuture()

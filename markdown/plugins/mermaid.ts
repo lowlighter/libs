@@ -23,7 +23,6 @@ import rehypeMermaid from "rehype-mermaid"
  * > - write: <TMP>
  * > - run: <location to playwright browser executable>
  *
- * @example
  * ````md
  * ```mermaid
  * graph TD;

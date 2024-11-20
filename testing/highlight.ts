@@ -1,6 +1,6 @@
 // Imports
-import hljs from "npm:highlight.js@11/lib/core"
-import typescript from "npm:highlight.js@11/lib/languages/typescript"
+import hljs from "highlight.js/lib/core"
+import typescript from "highlight.js/lib/languages/typescript"
 import { bgBlack, bgWhite, bgYellow, black, blue, cyan, gray, green, stripAnsiCode, underline, yellow } from "@std/fmt/colors"
 import { unescape } from "@std/html/entities"
 hljs.registerLanguage("typescript", typescript)
@@ -8,7 +8,6 @@ hljs.registerLanguage("typescript", typescript)
 /**
  * Syntax highlights code strings within backticks with ANSI codes.
  *
- * @example
  * ```ts
  * import { highlight } from "./highlight.ts"
  * console.log(highlight("`const foo = 'bar'`"))

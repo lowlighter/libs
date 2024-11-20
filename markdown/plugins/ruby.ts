@@ -5,7 +5,6 @@ import remarkRuby from "remark-ruby"
 /**
  * Add support for {@link https://developer.mozilla.org/docs/Web/HTML/Element/ruby | ruby} text.
  *
- * @example
  * ```md
  * {漢字}^(kanji)
  * ```

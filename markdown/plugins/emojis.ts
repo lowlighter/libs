@@ -5,7 +5,6 @@ import remarkEmoji from "remark-emoji"
 /**
  * Add support for emojis.
  *
- * @example
  * ```md
  * :bento:
  * ```

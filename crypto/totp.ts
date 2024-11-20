@@ -10,7 +10,6 @@
  *   - Ignore parameters are hard-coded to their default values.
  * - Condense code.
  *
- * @example
  * ```ts
  * import { otpauth, otpsecret, verify } from "./totp.ts"
  * import { qrcode } from "jsr:@libs/qrcode"
@@ -56,7 +55,6 @@ async function htop(secret: string, counter: bigint): Promise<string> {
 /**
  * Returns a Time-based OTP.
  *
- * @example
  * ```ts
  * import { totp, otpsecret } from "./totp.ts"
  * const secret = otpsecret()
@@ -70,7 +68,6 @@ export async function totp(secret: string, { t = Date.now(), dt = 0 } = {}): Pro
 /**
  * Issue a new Time-based OTP secret.
  *
- * @example
  * ```ts
  * import { otpsecret } from "./totp.ts"
  * const secret = otpsecret()
@@ -84,7 +81,6 @@ export function otpsecret(length = 20): string {
 /**
  * Returns an URL that can be used to be added in a authenticator application.
  *
- * @example
  * ```ts
  * import { otpauth } from "./totp.ts"
  * import { qrcode } from "jsr:@libs/qrcode"
@@ -109,7 +105,6 @@ export function otpauth({ issuer, account, secret = otpsecret(), image }: { issu
 /**
  * Verify Time-based OTP.
  *
- * @example
  * ```ts
  * import { verify } from "./totp.ts"
  * console.assert(await verify({ secret: "JBSWY3DPEHPK3PXP", token: 152125, t: 1708671725109 }))

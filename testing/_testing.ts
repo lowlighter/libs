@@ -89,7 +89,6 @@ export type todo_tester = (...runtimes: Array<runtime | "all">) => (name: string
  * > It is currently not possible to use `jsr:` specifiers in runtime other than deno, which is why it is advised to use an import map to alias dependencies.
  * > When publishing on {@link https://jsr.io | jsr.io}, these will be rewritten into fully qualified specifiers (see {@link https://jsr.io/docs/publishing-packages#dependency-manifest | dependency manifest}).
  *
- * @example
  * ```ts
  * import { test, expect } from "./mod.ts"
  *
@@ -104,7 +103,6 @@ export type todo_tester = (...runtimes: Array<runtime | "all">) => (name: string
  * test("deno")("test name", () => expect(globalThis.Deno.env.get("MY_ENV")).toBe("value"), { permissions: { env: [ "MY_ENV" ] },  env: { MY_ENV: "value" } })
  * ```
  *
- * @example
  * ```ts
  * import { test, expect } from "./mod.ts"
  *
@@ -222,11 +220,11 @@ export function install([bin, ...args]: string[], filename: string, { winext = "
   }
   const { stdout } = command(paths.deno, ["info", "--json", filename], { stdout: "piped", stderr: null, sync: true, throw: true })
   const { packages, npmPackages: _ } = JSON.parse(stdout)
-  command(bin, [...args, ...Object.keys(packages)], { stdout: null, stderr: null, sync: true, throw: true, winext, dryrun: !bin })
+  command(bin, [...args, ...Object.keys(packages)], { stdout: "piped", stderr: "piped", sync: true, throw: true, winext, dryrun: !bin })
   cache.add(`${bin}:${filename}`)
   // Force module type in package.json
   const payload = "let meta = JSON.parse(await Deno.readTextFile('package.json')); if (meta.type !== 'module') await Deno.writeTextFile('package.json', JSON.stringify((meta.type = 'module', meta)))"
-  command(paths.deno, ["eval", payload], { stdout: null, stderr: null, sync: true, throw: true, winext, dryrun: !bin })
+  command(paths.deno, ["eval", payload], { stdout: "piped", stderr: "piped", sync: true, throw: true, winext, dryrun: !bin })
 }
 
 /** Run test function for given filename on the specified runtime. */
