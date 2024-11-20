@@ -15,7 +15,8 @@
     ".": "./mod.ts",
     "./expect": "./expect.ts",
     "./test": "./test.ts",
-    "./highlight": "./highlight.ts"
+    "./highlight": "./highlight.ts",
+    "./permissions": "./permissions.ts"
   },
   "test:permissions": {
     "run": [
