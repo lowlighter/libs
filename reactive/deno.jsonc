@@ -1,7 +1,7 @@
 {
   "icon": "🎯",
   "name": "@libs/reactive",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Reactive utilities for observable objects.",
   "npm": true,
   "playground": "https://libs.lecoq.io/reactive",
