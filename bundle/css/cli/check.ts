@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-console
 /**
  * CLI utility to check CSS browser support.
  *

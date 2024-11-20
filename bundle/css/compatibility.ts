@@ -3,11 +3,11 @@ import { generate, parse, walk } from "css-tree"
 import browserslist from "browserslist"
 import bcd from "@mdn/browser-compat-data" with { type: "json" }
 import * as semver from "@std/semver"
-import type { Arg, Arrayable, Nullable, rw } from "@libs/typing"
-import { type levellike as loglevel, Logger } from "@libs/logger"
+import type { Arg, Arrayable, rw } from "@libs/typing"
+import { type levellike as loglevel, Logger, type Nullable } from "@libs/logger"
 import { brightGreen, brightMagenta, gray, green, italic, red, yellow } from "@std/fmt/colors"
 import { Table } from "@cliffy/table"
-export type { Arg, Arrayable, loglevel, Nullable }
+export type { Arg, Arrayable, Nullable }
 
 /** Browsers list */
 const browsers = {
@@ -268,7 +268,9 @@ export class Report {
   #process(data: data, section: bcd_section, node: ast_node, name: string, _values?: ast_value) {
     const location = this.#location(node.loc)
     const log = this.#log.with({ location: `${location.line}:${location.column}`, section, name })
-    let realname = null as Nullable<string>, prefix = null as Nullable<string>, skipped = false
+    let realname = null as Nullable<string>
+    let prefix = null as Nullable<string>
+    let skipped = false
     ;({ section, name, _values, realname, prefix, skipped } = this.#preprocess(log, section, node, name, _values!, realname, prefix, skipped))
     const feature = bcd.css[section][name]?.__compat?.source_file?.replace(/^css\//, "").replace(/\.json$/, "") ?? `${section}/${name}`
     const value = _values ? this.#clean(generate(_values) as string) : realname ?? null
@@ -322,7 +324,7 @@ export class Report {
   }
 
   /** Resolve support from compatibility data against a single browser version */
-  #support(log: Logger, compatibility: bcd_compatibility | void, browser: browser, version: version, tags: tag[], prefix: Nullable<string>): { level: level; status: bcd_status } {
+  #support(log: Logger, compatibility: bcd_compatibility | void, browser: browser, version: version, tags: tag[], prefix: Nullable<string>): { level: support_level; status: bcd_status } {
     if (!compatibility) {
       return { level: "unknown", status: { standard_track: true, deprecated: false, experimental: false } }
     }
@@ -384,7 +386,7 @@ export class Report {
 
   /** Test browser version against a single matcher */
   #test(log: Logger, support: bcd_support, version: version, prefix: Nullable<string>) {
-    let level = "unsupported" as level
+    let level = "unsupported" as support_level
     const tested = this.#version(version)
     if (!support.version_added) {
       return level
@@ -501,9 +503,9 @@ export class Report {
         row.push(this.#view_browsers_cell(id, version, name, support))
       }
       // Prepare summary data
-      const support = { unknown: {}, partial: {}, unsupported: {}, prefixed: {}, supported: {} } as Record<level, browser_map>
+      const support = { unknown: {}, partial: {}, unsupported: {}, prefixed: {}, supported: {} } as Record<support_level, browser_map>
       for (const version of row.filter(Boolean) as table_entry[]) {
-        for (const level of Object.keys(version.features) as level[]) {
+        for (const level of Object.keys(version.features) as support_level[]) {
           for (const feature in version.features[level]) {
             support[level][feature] ??= []
             for (const occurence of version.features[level][feature]) {
@@ -524,7 +526,7 @@ export class Report {
   }
 
   /** Generate browsers table cell */
-  #view_browsers_cell(id: string, version: version, name: string, support: Record<level, browser_map>) {
+  #view_browsers_cell(id: string, version: version, name: string, support: Record<support_level, browser_map>) {
     const cell = {
       browser: name,
       version,
@@ -535,12 +537,12 @@ export class Report {
       features: { unknown: {}, unsupported: {}, partial: {}, prefixed: {}, supported: {} },
       users: NaN,
     }
-    for (const level of Object.keys(cell.features) as level[]) {
+    for (const level of Object.keys(cell.features) as support_level[]) {
       cell.count.flat[level] = Object.keys(support[level]).length
       cell.count.flat.total += cell.count.flat[level]
       cell.features[level] = support[level]
     }
-    for (const level of Object.keys(cell.features) as level[]) {
+    for (const level of Object.keys(cell.features) as support_level[]) {
       cell.count.percentage[level] = 100 * cell.count.flat[level] / cell.count.flat.total
     }
     try {
@@ -566,7 +568,7 @@ export class Report {
         text += `\n${this.#color(`${Math.floor(cell.count.percentage.supported)}%`, -2, output)}`
         text = this.#color(text, cell.count.percentage.supported, output)
         if (verbose) {
-          for (const level of ["unsupported", "partial", "prefixed", "unknown"] as Exclude<level, "supported">[]) {
+          for (const level of ["unsupported", "partial", "prefixed", "unknown"] as Exclude<support_level, "supported">[]) {
             for (const feature in cell.features[level]) {
               const color = { unknown: NaN, partial: 80, unsupported: 0, prefixed: -1 }[level]
               const [type, name] = feature.split("/")
@@ -725,7 +727,7 @@ type status = { nonstandard: boolean; deprecated: boolean; experimental: boolean
 export type location = { file: unknown; line: number; column: number }
 
 /** Support level */
-export type level = "unknown" | "unsupported" | "partial" | "prefixed" | "supported"
+export type support_level = "unknown" | "unsupported" | "partial" | "prefixed" | "supported"
 
 /** Browser compat data section */
 type bcd_section = "selectors" | "properties" | "types" | "at-rules"
@@ -777,7 +779,7 @@ type data = Array<{
   version: version
   location: location
   value: Nullable<value>
-  level: level
+  level: support_level
   status: status
 }>
 
@@ -796,11 +798,11 @@ export type report = {
       experimental: feature_map
       nonstandard: feature_map
     }
-    support: Record<level, feature_map>
+    support: Record<support_level, feature_map>
   }
   browsers: Record<
     browser,
-    Record<version, { support: Record<level, browser_map> }>
+    Record<version, { support: Record<support_level, browser_map> }>
   >
   print: (options?: Arg<Report["print"], 1>) => ReturnType<Report["print"]>
 }
@@ -810,9 +812,9 @@ type table_entry = {
   browser: browser
   version: string
   count: {
-    flat: Record<level | "total", number>
-    percentage: Record<level, number>
+    flat: Record<support_level | "total", number>
+    percentage: Record<support_level, number>
   }
-  features: Record<level, browser_map>
+  features: Record<support_level, browser_map>
   users: number
 }

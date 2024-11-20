@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-console
 /**
  * CLI utility to enhance code coverage reports with matcha theme and create SVG badges.
  *

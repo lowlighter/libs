@@ -8,9 +8,9 @@ const path = fromFileUrl(new URL("../testing/deno.jsonc", import.meta.url))
 test("deno")("`packaged()` parses `deno.jsonc` to `package.json` and other metadata", async () => {
   await expect(packaged(path)).resolves.toMatchObject({
     scope: "@libs",
-    name: "test",
+    name: "bundle-test",
     json: {
-      name: "@libs/test",
+      name: "@libs/bundle-test",
       version: "0.0.0",
       type: "module",
       scripts: {},
@@ -28,6 +28,6 @@ test("deno")("`packaged()` parses `deno.jsonc` to `package.json` and other metad
 test("deno")("`publish()` publishes `deno.jsonc` to npm", async () => {
   await expect(publish(path, { logger: new Logger({ level: "disabled" }), scope: "@testing", dryrun: true, provenance: true, registries: [{ url: "https://registry.npmjs.example.com", token: "npm_otp", access: "public" }] })).resolves.toMatchObject({
     scope: "@testing",
-    name: "test",
+    name: "bundle-test",
   })
 }, { permissions: "inherit" })
