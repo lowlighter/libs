@@ -88,7 +88,7 @@ test("deno")("`graphql()` returns an executable graphql schema", async () => {
   expect(resource.created).toBeType("number")
   expect(resource).toMatchObject({ foo: "bar", bar: false })
   await expect(gql(`mutation { updateTestResource(id: "${resource.id}", input: { bar: true }) { foo, bar } }`)).resolves.toMatchObject({ updateTestResource: { foo: "bar", bar: true } })
-  await expect(gql(`mutation { updateTestResource(id: "${resource.id}", input: { foo: "baz" }) { foo, bar } }`)).resolves.toMatchObject({ errors: [] })
+  await expect(gql(`mutation { updateTestResource(id: "${resource.id}", input: { foo: "baz" }) { foo, bar } }`)).resolves.toMatchObject({ errors: [{ message: `Field "foo" is not defined by type "${TestResource.name}UpdateInput".` }] })
   await expect(gql(`mutation { deleteTestResource(id: "${resource.id}") { id, created } }`)).resolves.toEqual({ deleteTestResource: { id: resource.id, created: null } })
   await expect(gql(`mutation { deleteTestResource(id: "${resource.id}") { id, created } }`)).resolves.toEqual({ deleteTestResource: null })
 })

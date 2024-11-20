@@ -33,7 +33,8 @@ test("deno")("`Store` calls `open()` upon construction and `close()` upon destru
 
 test("deno")("`Store.get()` gets key-values", async () => {
   let value = null as testing
-  const key = ["key"], version = "0"
+  const key = ["key"]
+  const version = "0"
   const TestStore = class extends (Store as testing) {
     _open() {}
     _get = fn(() => ({ value, version }))
@@ -46,7 +47,9 @@ test("deno")("`Store.get()` gets key-values", async () => {
 })
 
 test("deno")("`Store.set()` sets key-values", async () => {
-  const key = ["key"], value = { foo: true }, version = "0"
+  const key = ["key"]
+  const value = { foo: true }
+  const version = "0"
   let ok = true
   const TestStore = class extends (Store as testing) {
     _open() {}
@@ -64,8 +67,10 @@ test("deno")("`Store.set()` sets key-values", async () => {
 })
 
 test("deno")("`Store.delete()` deletes key-values", async () => {
-  const key = ["key"], version = "0"
-  let ok = true, value = { foo: true } as testing
+  const key = ["key"]
+  const version = "0"
+  let ok = true
+  let value = { foo: true } as testing
   const TestStore = class extends (Store as testing) {
     _open() {}
     _get() {
