@@ -1,5 +1,10 @@
 {
   "type": "module",
+  "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
+  "keywords": [
+    "testing",
+    "esm"
+  ],
   "dependencies": {
     "highlight.js": "^11.10.0"
   }

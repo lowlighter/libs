@@ -2,11 +2,6 @@
   "icon": "🧪",
   "name": "@libs/testing",
   "version": "3.0.2",
-  "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
-  "keywords": [
-    "testing",
-    "esm"
-  ],
   "exports": {
     ".": "./mod.ts",
     "./expect": "./expect.ts",
@@ -15,19 +10,17 @@
     "./highlight": "./highlight.ts",
     "./permissions": "./permissions.ts"
   },
-  "supported": [
-    "deno"
-  ],
   "test:permissions": {
-    "run": [
-      "deno",
-      "node",
-      "bun",
-      "npx"
-    ],
     "env": [
       "TEST_FOO",
       "TEST_BAR"
     ]
-  }
+  },
+  "supported": [
+    "deno",
+    "node",
+    "bun",
+    "cloudflare-workers",
+    "browsers"
+  ]
 }
