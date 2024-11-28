@@ -19,6 +19,7 @@ const dictionary = Object.fromEntries([..."abcdefghijklmnopqrstuvwxyz"].map((let
  */
 export default {
   remark(processor) {
-    return processor.use(remarkFlexibleMarkers, { dictionary, markerClassName: () => [], markerProperties: (letter) => (letter ? { [letter]: true } : {}) })
+    // deno-lint-ignore no-explicit-any
+    return processor.use(remarkFlexibleMarkers as any, { dictionary, markerClassName: () => [], markerProperties: (letter:string) => (letter ? { [letter]: true } : {}) } as any)
   },
 } as Plugin

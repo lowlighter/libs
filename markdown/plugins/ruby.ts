@@ -14,6 +14,7 @@ import remarkRuby from "remark-ruby"
  */
 export default {
   remark(processor) {
-    return processor.use(remarkRuby)
+    // deno-lint-ignore no-explicit-any
+    return processor.use(remarkRuby as any)
   },
 } as Plugin
