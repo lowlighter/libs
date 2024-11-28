@@ -2,26 +2,14 @@
   "icon": "🦊",
   "name": "@libs/dom",
   "version": "0.0.0",
-  "description": "Virtual DOM for unit testing and server side rendering.",
-  "npm": false,
   "playground": "https://libs.lecoq.io/dom",
-  "keywords": [
-    "dom",
-    "esm"
-  ],
-  "supported": [
-    "deno"
-  ],
   "exports": {
     ".": "./mod.ts"
   },
   "test:permissions": {
-    "net": true,
-    "run": [
-      "deno",
-      "node",
-      "bun",
-      "npx"
-    ]
-  }
+    "net": true
+  },
+  "supported": [
+    "deno"
+  ]
 }

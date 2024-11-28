@@ -2,69 +2,68 @@ import { expect, fn, test, type testing } from "@libs/testing"
 import { internal } from "./_.ts"
 import { Node, NodeList } from "./node.ts"
 import { Document } from "./document.ts"
-import { yellow } from "@std/fmt/colors"
 
-test()(`Node.constructor() is illegal`, () => {
+test(`Node.constructor() is illegal`, () => {
   expect(() => new Node()).toThrow(TypeError)
   new Node({ [internal]: true })
 })
 
-test()(`Node[Symbol.toStringTag] is supported`, () => {
+test(`Node[Symbol.toStringTag] is supported`, () => {
   expect(`${new Node({ [internal]: true })}`).toMatch(/Node/)
   expect(`${new (class Test extends Node {})({ [internal]: true })}`).toMatch(/Test/)
 })
 
-test()(`Node.ownerDocument is supported`, () => {
+test(`Node.ownerDocument is supported`, () => {
   const document = new Document({ [internal]: true })
   expect(new Node({ [internal]: true })).toHaveProperty("ownerDocument", null)
   expect(new Node({ [internal]: true, ownerDocument: document })).toHaveProperty("ownerDocument", document)
   expect(new Node({ [internal]: true, ownerDocument: document })).toHaveImmutableProperty("ownerDocument")
 })
 
-test()(yellow(`Node.isConnected is unimplemented`), () => {
+test.todo(`Node.isConnected is unimplemented`, () => {
   expect(() => new Node({ [internal]: true }).isConnected).toThrow(DOMException)
 })
 
-test()(yellow(`Node.baseURI is unimplemented`), () => {
+test.todo(`Node.baseURI is unimplemented`, () => {
   expect(() => new Node({ [internal]: true }).baseURI).toThrow(DOMException)
 })
 
-test()(`Node.nodeName is supported`, () => {
+test(`Node.nodeName is supported`, () => {
   expect(new Node({ [internal]: true })).toHaveProperty("nodeName", "")
   expect(new Node({ [internal]: true, nodeName: "DIV" })).toHaveProperty("nodeName", "DIV")
   expect(new Node({ [internal]: true, nodeName: "div" })).toHaveProperty("nodeName", "DIV")
   expect(new Node({ [internal]: true, nodeName: "div" })).toHaveImmutableProperty("nodeName")
 })
 
-test()(`Node.nodeValue is supported`, () => {
+test(`Node.nodeValue is supported`, () => {
   expect(new Node({ [internal]: true })).toHaveProperty("nodeValue", "")
   expect(new Node({ [internal]: true, nodeValue: "foo" })).toHaveProperty("nodeValue", "foo")
   expect(new Node({ [internal]: true, nodeValue: "foo" })).toHaveImmutableProperty("nodeValue")
 })
 
-test()(`Node.textContent is supported`, () => {
+test(`Node.textContent is supported`, () => {
   expect(new Node({ [internal]: true })).toHaveProperty("textContent", null)
   expect(new Node({ [internal]: true })).toHaveImmutableProperty("textContent")
 })
 
-test()(`Node.parentNode is supported`, () => {
+test(`Node.parentNode is supported`, () => {
   const parent = new Node({ [internal]: true }) as testing
   expect(new Node({ [internal]: true })).toHaveProperty("parentNode", null)
   expect(new Node({ [internal]: true, parentNode: parent })).toHaveProperty("parentNode", parent)
   expect(new Node({ [internal]: true, parentNode: parent })).toHaveImmutableProperty("parentNode")
 })
 
-test()(`Node.parentElement is supported`, () => {
+test(`Node.parentElement is supported`, () => {
   expect(new Node({ [internal]: true })).toHaveProperty("parentElement", null)
   expect(new Node({ [internal]: true })).toHaveImmutableProperty("parentElement")
 })
 
-test()(`Node.childNodes is supported`, () => {
+test(`Node.childNodes is supported`, () => {
   expect(new Node({ [internal]: true }).childNodes).toBeInstanceOf(NodeList)
   expect(new Node({ [internal]: true })).toHaveImmutableProperty("childNodes")
 })
 
-test()(`Node.firstChild() is supported`, () => {
+test(`Node.firstChild() is supported`, () => {
   const node = new Node({ [internal]: true })
   const [a, b] = [new Node({ [internal]: true }), new Node({ [internal]: true })]
   expect(node.firstChild).toBeNull()
@@ -75,7 +74,7 @@ test()(`Node.firstChild() is supported`, () => {
   expect(node).toHaveImmutableProperty("firstChild")
 })
 
-test()(`Node.lastChild() is supported`, () => {
+test(`Node.lastChild() is supported`, () => {
   const node = new Node({ [internal]: true })
   const [a, b] = [new Node({ [internal]: true }), new Node({ [internal]: true })]
   expect(node.lastChild).toBeNull()
@@ -86,17 +85,17 @@ test()(`Node.lastChild() is supported`, () => {
   expect(node).toHaveImmutableProperty("lastChild")
 })
 
-test()(yellow(`Node.previousSibling is unimplemented`), () => {
+test.todo(`Node.previousSibling is unimplemented`, () => {
   expect(new Node({ [internal]: true })).toHaveProperty("previousSibling", null)
   expect(new Node({ [internal]: true })).toHaveImmutableProperty("previousSibling")
 })
 
-test()(yellow(`Node.nextSibling is unimplemented`), () => {
+test.todo(`Node.nextSibling is unimplemented`, () => {
   expect(new Node({ [internal]: true })).toHaveProperty("nextSibling", null)
   expect(new Node({ [internal]: true })).toHaveImmutableProperty("nextSibling")
 })
 
-test()(`Node.appendChild() is supported`, () => {
+test(`Node.appendChild() is supported`, () => {
   const [a, b, c, d] = [new Node({ [internal]: true }), new Node({ [internal]: true }), new Node({ [internal]: true }), new Node({ [internal]: true })]
   expect(() => a.appendChild(a)).toThrow(DOMException)
   expect(Array.from(a.childNodes)).toEqual([])
@@ -114,66 +113,66 @@ test()(`Node.appendChild() is supported`, () => {
   expect(Array.from(b.childNodes)).toEqual([])*/
 })
 
-test.skip()(yellow(`Node.removeChild() is unimplemented`), () => {
+test.todo(`Node.removeChild() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).removeChild).toThrow(DOMException)
 })
 
-test()(yellow(`Node.replaceChild() is unimplemented`), () => {
+test.todo(`Node.replaceChild() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).replaceChild).toThrow(DOMException)
 })
 
-test()(yellow(`Node.insertBefore() is unimplemented`), () => {
+test.todo(`Node.insertBefore() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).insertBefore).toThrow(DOMException)
 })
 
-test()(yellow(`Node.cloneNode() is unimplemented`), () => {
+test.todo(`Node.cloneNode() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).cloneNode).toThrow(DOMException)
 })
 
-test()(`Node.hasChildNodes() is supported`, () => {
+test(`Node.hasChildNodes() is supported`, () => {
   const node = new Node({ [internal]: true })
   expect(node.hasChildNodes()).toBe(false)
   node.appendChild(new Node({ [internal]: true }))
   expect(node.hasChildNodes()).toBe(true)
 })
 
-test()(yellow(`Node.contains() is unimplemented`), () => {
+test.todo(`Node.contains() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).contains).toThrow(DOMException)
 })
 
-test()(yellow(`Node.isEqualNode() is unimplemented`), () => {
+test.todo(`Node.isEqualNode() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).isEqualNode).toThrow(DOMException)
 })
 
-test()(yellow(`Node.isSameNode() is unimplemented`), () => {
+test.todo(`Node.isSameNode() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).isSameNode).toThrow(DOMException)
 })
 
-test()(yellow(`Node.isDefaultNamespace() is unimplemented`), () => {
+test.todo(`Node.isDefaultNamespace() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).isDefaultNamespace).toThrow(DOMException)
 })
 
-test()(yellow(`Node.lookupPrefix() is unimplemented`), () => {
+test.todo(`Node.lookupPrefix() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).lookupPrefix).toThrow(DOMException)
 })
 
-test()(yellow(`Node.lookupNamespaceURI() is unimplemented`), () => {
+test.todo(`Node.lookupNamespaceURI() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).lookupNamespaceURI).toThrow(DOMException)
 })
 
-test()(yellow(`Node.compareDocumentPosition() is unimplemented`), () => {
+test.todo(`Node.compareDocumentPosition() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).compareDocumentPosition).toThrow(DOMException)
 })
 
-test()(yellow(`Node.getRootNode() is unimplemented`), () => {
+test.todo(`Node.getRootNode() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).getRootNode).toThrow(DOMException)
 })
 
-test()(yellow(`Node.normalize() is unimplemented`), () => {
+test.todo(`Node.normalize() is unimplemented`, () => {
   expect(new Node({ [internal]: true }).normalize).toThrow(DOMException)
 })
 
-test()(`Node.nodeType is supported`, () => {
+test(`Node.nodeType is supported`, () => {
   expect(new Node({ [internal]: true }).nodeType).toBeNaN()
   expect(new Node({ [internal]: true })).toHaveImmutableProperty("nodeType")
 })
@@ -200,7 +199,7 @@ for (
     ["DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC", 32],
   ] as const
 ) {
-  test()(`Document.${property} is supported`, () => {
+  test(`Document.${property} is supported`, () => {
     const node = new Node({ [internal]: true })
     expect(node).toHaveProperty(property, value)
     expect(node).toHaveImmutableProperty(property)
@@ -209,12 +208,12 @@ for (
   })
 }
 
-test()(`NodeList.constructor() is illegal`, () => {
+test(`NodeList.constructor() is illegal`, () => {
   expect(() => new NodeList()).toThrow(TypeError)
   new NodeList({ [internal]: true })
 })
 
-test()(`NodeList.item() is supported`, () => {
+test(`NodeList.item() is supported`, () => {
   const list = new NodeList({ [internal]: true })
   const node = new Node({ [internal]: true })
   expect(list.item(0)).toBeNull()
@@ -222,7 +221,7 @@ test()(`NodeList.item() is supported`, () => {
   expect(list.item(0)).toBe(node)
 })
 
-test()(`NodeList[] is supported`, () => {
+test(`NodeList[] is supported`, () => {
   const list = new NodeList({ [internal]: true })
   const node = new Node({ [internal]: true })
   expect(list[0]).toBeUndefined()
@@ -230,7 +229,7 @@ test()(`NodeList[] is supported`, () => {
   expect(list[0]).toBe(node)
 })
 
-test()(`NodeList.forEach() is supported`, () => {
+test(`NodeList.forEach() is supported`, () => {
   const callback = fn() as testing
   const list = new NodeList({ [internal]: true })
   const node = new Node({ [internal]: true })

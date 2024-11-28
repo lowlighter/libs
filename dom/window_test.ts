@@ -2,36 +2,35 @@ import { expect, fn, test, type testing } from "@libs/testing"
 import { internal } from "./_.ts"
 import { BarProp, Window } from "./window.ts"
 import { Navigator } from "./navigator.ts"
-import { yellow } from "@std/fmt/colors"
 import { delay } from "@std/async/delay"
 
-test()(`Window.constructor() is legal`, () => {
+test(`Window.constructor() is legal`, () => {
   new Window()
 })
 
-test()(`Window.navigator is instanceof Navigator`, () => {
+test(`Window.navigator is instanceof Navigator`, () => {
   expect(new Window().navigator).toBeInstanceOf(Navigator)
   expect(new Window()).toHaveImmutableProperty("navigator")
 })
 
-test()(`Window.clientInformation is alias for Window.navigator`, () => {
+test(`Window.clientInformation is alias for Window.navigator`, () => {
   const window = new Window()
   expect(window.clientInformation).toBe(window.navigator)
   expect(window).toHaveImmutableProperty("clientInformation")
 })
 
 for (const bar of ["locationbar", "menubar", "personalbar", "scrollbars", "statusbar", "toolbar"] as const) {
-  test()(`Window.${bar} is supported`, () => {
+  test(`Window.${bar} is supported`, () => {
     expect(new Window()[bar]).toBeInstanceOf(BarProp)
     expect(new Window()[bar]).not.toHaveImmutableProperty(bar)
   })
 }
 
-test()(yellow(`Window.onlanguagechange is unimplemented`), () => {
+test.todo(`Window.onlanguagechange is unimplemented`, () => {
   expect(new Window().onlanguagechange).toBeNull()
 })
 
-test()(`Window.name is supported`, () => {
+test(`Window.name is supported`, () => {
   const window = new Window()
   expect(window).toHaveProperty("name", "")
   window.name = "foo"
@@ -40,169 +39,169 @@ test()(`Window.name is supported`, () => {
   expect(window).toHaveProperty("name", "1")
 })
 
-test()(yellow("Window.document is unimplemented"), () => {
+test.todo("Window.document is unimplemented", () => {
   expect(() => new Window().document).toThrow(DOMException)
 })
 
-test()(`Window.frameElement is supported`, () => {
+test(`Window.frameElement is supported`, () => {
   expect(new Window()).toHaveProperty("frameElement", null)
   expect(new Window()).toHaveImmutableProperty("frameElement")
 })
 
-test()(`Window.window is supported`, () => {
+test(`Window.window is supported`, () => {
   const window = new Window()
   expect(window).toHaveProperty("window", window)
   expect(window).toHaveImmutableProperty("window")
 })
 
 for (const property of ["self", "frames"] as const) {
-  test()(`Window.${property} is alias for itself`, () => {
+  test(`Window.${property} is alias for itself`, () => {
     const window = new Window()
     expect(window[property]).toBe(window)
     expect(window).not.toHaveImmutableProperty(property)
   })
 }
 
-test()(`Window.opener is null`, () => {
+test(`Window.opener is null`, () => {
   expect(new Window().opener).toBeNull()
   expect(new Window()).not.toHaveImmutableProperty("opener")
 })
 
-test()(`Window.length is 0`, () => {
+test(`Window.length is 0`, () => {
   expect(new Window().length).toBe(0)
   expect(new Window()).not.toHaveImmutableProperty("length")
 })
 
 for (const property of ["top", "parent"] as const) {
-  test()(`Window.${property} is alias for itself`, () => {
+  test(`Window.${property} is alias for itself`, () => {
     const window = new Window()
     expect(window[property]).toBe(window)
     expect(window).toHaveImmutableProperty(property)
   })
 }
-test()(yellow("Window.customElements is unimplemented"), () => {
+test.todo("Window.customElements is unimplemented", () => {
   expect(() => new Window().customElements).toThrow(DOMException)
 })
 
-test()(`Window.focus() is supported`, () => {
+test(`Window.focus() is supported`, () => {
   expect(new Window().focus()).toBeUndefined()
 })
 
-test()(`Window.blur() is supported`, () => {
+test(`Window.blur() is supported`, () => {
   expect(new Window().blur()).toBeUndefined()
 })
 
-test()(`Window.alert() is supported`, () => {
+test(`Window.alert() is supported`, () => {
   expect(new Window().alert("foo")).toBeUndefined()
 })
 
 for (const property of ["onfocus", "onblur"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
 for (const property of ["innerHeight", "innerWidth", "outerHeight", "outerWidth"] as const) {
-  test()(`Window.${property} is supported`, () => {
+  test(`Window.${property} is supported`, () => {
     expect(new Window()).toHaveProperty(property, 0)
     expect(new Window()).not.toHaveImmutableProperty(property)
   })
 }
 for (const property of ["mozInnerScreenX", "mozInnerScreenY"] as const) {
-  test()(`Window.${property} is supported`, () => {
+  test(`Window.${property} is supported`, () => {
     expect(new Window()).toHaveProperty(property, 0)
     expect(new Window()).toHaveImmutableProperty(property)
   })
 }
 
-test()(`Window.setRezizable() is supported`, () => {
+test(`Window.setRezizable() is supported`, () => {
   expect(new Window().setRezizable()).toBeUndefined()
 })
 
-test()(`Window.resizeBy() is supported`, () => {
+test(`Window.resizeBy() is supported`, () => {
   const window = new Window()
   expect(() => (window as testing).resizeBy()).toThrow(TypeError)
   expect(window.resizeBy(0, 0)).toBeUndefined()
 })
 
-test()(`Window.resizeTo() is supported`, () => {
+test(`Window.resizeTo() is supported`, () => {
   const window = new Window()
   expect(() => (window as testing).resizeTo()).toThrow(TypeError)
   expect(window.resizeTo(0, 0)).toBeUndefined()
 })
 
-test()(yellow(`Window.onresize is unimplemented`), () => {
+test.todo(`Window.onresize is unimplemented`, () => {
   expect(new Window().onresize).toBeNull()
 })
 
-test()(yellow(`Window.screen is unimplemented`), () => {
+test.todo(`Window.screen is unimplemented`, () => {
   expect(() => new Window().screen).toThrow(DOMException)
 })
 
 for (const property of ["screenX", "screenY", "screenLeft", "screenTop"] as const) {
-  test()(`Window.${property} is supported`, () => {
+  test(`Window.${property} is supported`, () => {
     expect(new Window()).toHaveProperty(property, 0)
     expect(new Window()).not.toHaveImmutableProperty(property)
   })
 }
 
-test()(`Window.moveBy() is supported`, () => {
+test(`Window.moveBy() is supported`, () => {
   const window = new Window()
   expect(() => (window as testing).moveBy()).toThrow(TypeError)
   expect(window.moveBy(0, 0)).toBeUndefined()
 })
 
-test()(`Window.moveTo() is supported`, () => {
+test(`Window.moveTo() is supported`, () => {
   const window = new Window()
   expect(() => (window as testing).moveTo()).toThrow(TypeError)
   expect(window.moveTo(0, 0)).toBeUndefined()
 })
 
 for (const property of ["scrollX", "scrollY", "pageXOffset", "pageYOffset", "scrollMaxX", "scrollMaxY"] as const) {
-  test()(`Window.${property} is supported`, () => {
+  test(`Window.${property} is supported`, () => {
     expect(new Window()).toHaveProperty(property, 0)
     expect(new Window()).not.toHaveImmutableProperty(property)
   })
 }
 
-test()(yellow(`Window.scroll() is supported`), () => {
+test.todo(`Window.scroll() is supported`, () => {
   expect(new Window().scroll).toThrow(DOMException)
 })
 
-test()(yellow(`Window.scrollTo() is supported`), () => {
+test.todo(`Window.scrollTo() is supported`, () => {
   expect(new Window().scrollTo).toThrow(DOMException)
 })
 
-test()(yellow(`Window.scrollBy() is supported`), () => {
+test.todo(`Window.scrollBy() is supported`, () => {
   expect(new Window().scrollBy).toThrow(DOMException)
 })
 
-test()(yellow(`Window.scrollByLines() is supported`), () => {
+test.todo(`Window.scrollByLines() is supported`, () => {
   expect(new Window().scrollByLines).toThrow(DOMException)
 })
 
-test()(yellow(`Window.scrollByPages() is supported`), () => {
+test.todo(`Window.scrollByPages() is supported`, () => {
   expect(new Window().scrollByPages).toThrow(DOMException)
 })
 
 for (const property of ["onscroll", "onscrollend"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
-test()(`Window.orientation is supported`, () => {
+test(`Window.orientation is supported`, () => {
   expect(new Window()).toHaveProperty("orientation", 0)
   expect(new Window()).toHaveImmutableProperty("orientation")
 })
 
 for (const property of ["ondevicemotion", "ondeviceorientation", "onorientationchange", "ondeviceorientationabsolute"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
-test()(`Window.setTimeout() is supported`, async () => {
+test(`Window.setTimeout() is supported`, async () => {
   using win = new Window()
   const handler = fn()
   win.setTimeout("")
@@ -212,7 +211,7 @@ test()(`Window.setTimeout() is supported`, async () => {
   expect(handler).toBeCalledWith("foo")
 })
 
-test()(`Window.clearTimeout() is supported`, async () => {
+test(`Window.clearTimeout() is supported`, async () => {
   using win = new Window()
   const handler = fn()
   const id = win.setTimeout(handler, 15)
@@ -221,7 +220,7 @@ test()(`Window.clearTimeout() is supported`, async () => {
   expect(handler).not.toBeCalled()
 })
 
-test()(`Window.setInterval() is supported`, async () => {
+test(`Window.setInterval() is supported`, async () => {
   using win = new Window()
   const handler = fn()
   win.setInterval("")
@@ -231,7 +230,7 @@ test()(`Window.setInterval() is supported`, async () => {
   expect(handler).toBeCalledWith("foo")
 })
 
-test()(`Window.clearInterval() is supported`, async () => {
+test(`Window.clearInterval() is supported`, async () => {
   using win = new Window()
   const handler = fn()
   const id = win.setInterval(handler, 15)
@@ -240,50 +239,50 @@ test()(`Window.clearInterval() is supported`, async () => {
   expect(handler).not.toBeCalled()
 })
 
-test()(yellow(`Window.queueMicrotask() is unimplemented`), () => {
+test.todo(`Window.queueMicrotask() is unimplemented`, () => {
   expect(new Window().queueMicrotask).toThrow(DOMException)
 })
 
-test()(yellow(`Window.visualViewport is unimplemented`), () => {
+test.todo(`Window.visualViewport is unimplemented`, () => {
   expect(() => new Window().visualViewport).toThrow(DOMException)
 })
 
-test()(`Window.devicePixelRatio is 1`, () => {
+test(`Window.devicePixelRatio is 1`, () => {
   expect(new Window()).toHaveProperty("devicePixelRatio", 1)
   expect(new Window()).not.toHaveImmutableProperty("devicePixelRatio")
 })
 
-test()(`Window.fullScreen is false`, () => {
+test(`Window.fullScreen is false`, () => {
   const window = new Window()
   expect(window.fullScreen).toBe(false)
   expect(window).toHaveImmutableProperty("fullScreen")
 })
 
-test()(yellow(`Window.requestAnimationFrame() is unimplemented`), () => {
+test.todo(`Window.requestAnimationFrame() is unimplemented`, () => {
   expect(new Window().requestAnimationFrame).toThrow(DOMException)
 })
 
-test()(yellow(`Window.cancelAnimationFrame() is unimplemented`), () => {
+test.todo(`Window.cancelAnimationFrame() is unimplemented`, () => {
   expect(new Window().cancelAnimationFrame).toThrow(DOMException)
 })
 
-test()(yellow(`Window.requestIdleCallback() is unimplemented`), () => {
+test.todo(`Window.requestIdleCallback() is unimplemented`, () => {
   expect(new Window().requestIdleCallback).toThrow(DOMException)
 })
 
-test()(yellow(`Window.cancelIdleCallback() is unimplemented`), () => {
+test.todo(`Window.cancelIdleCallback() is unimplemented`, () => {
   expect(new Window().cancelIdleCallback).toThrow(DOMException)
 })
 
-test()(yellow(`Window.getComputedStyle() is unimplemented`), () => {
+test.todo(`Window.getComputedStyle() is unimplemented`, () => {
   expect(new Window().getComputedStyle).toThrow(DOMException)
 })
 
-test()(yellow(`Window.getDefaultComputedStyle() is unimplemented`), () => {
+test.todo(`Window.getDefaultComputedStyle() is unimplemented`, () => {
   expect(new Window().getDefaultComputedStyle).toThrow(DOMException)
 })
 
-test()(yellow(`Window.matchMedia() is unimplemented`), () => {
+test.todo(`Window.matchMedia() is unimplemented`, () => {
   expect(new Window().matchMedia).toThrow(DOMException)
 })
 
@@ -303,95 +302,95 @@ for (
     "onwebkittransitionend",
   ] as const
 ) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
-test()(`Window.strucuredClone() is supported`, () => {
+test(`Window.strucuredClone() is supported`, () => {
   const value = { foo: "bar" }
   expect(new Window().structuredClone(value)).toEqual(structuredClone(value))
 })
 
-test()(yellow(`Window.postMessage() is unimplemented`), () => {
+test.todo(`Window.postMessage() is unimplemented`, () => {
   expect(new Window().postMessage).toThrow(DOMException)
 })
 
 for (const property of ["onmessage", "onmessageerror"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
-test()(yellow(`Window.reportError() is unimplemented`), () => {
+test.todo(`Window.reportError() is unimplemented`, () => {
   expect(new Window().reportError).toThrow(DOMException)
 })
 
 for (const property of ["onerror", "onrejectionhandled", "onunhandledrejection"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
-test()(`Window.console is supported`, () => {
+test(`Window.console is supported`, () => {
   const window = new Window()
   expect(window.console).toBe(console)
   expect(window).not.toHaveImmutableProperty("console")
 })
 
-test()(`Window.print() is supported`, () => {
+test(`Window.print() is supported`, () => {
   expect(new Window().print()).toBeUndefined()
 })
 
-test()(yellow(`Window.dump() is unimplemented`), () => {
+test.todo(`Window.dump() is unimplemented`, () => {
   expect(new Window().dump).toThrow(DOMException)
 })
 
 for (const property of ["onbeforeprint", "onafterprint"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
-test()(`Window.isSecureContext is true`, () => {
+test(`Window.isSecureContext is true`, () => {
   expect(new Window().isSecureContext).toBe(true)
   expect(new Window()).toHaveImmutableProperty("isSecureContext")
 })
 
-test()(`Window.crypto is supported`, () => {
+test(`Window.crypto is supported`, () => {
   expect(new Window().crypto).toBe(crypto)
   expect(new Window()).toHaveImmutableProperty("crypto")
 })
 
-test()(`Window.atob() is supported`, () => {
+test(`Window.atob() is supported`, () => {
   expect(new Window().atob("Zm9v")).toBe(atob("Zm9v"))
 })
 
-test()(`Window.btoa() is supported`, () => {
+test(`Window.btoa() is supported`, () => {
   expect(new Window().btoa("foo")).toBe(btoa("foo"))
 })
 
-test()(yellow(`Window.location is unimplemented`), () => {
+test.todo(`Window.location is unimplemented`, () => {
   expect(() => new Window().location).toThrow(DOMException)
 })
 
-test()(yellow(`Window.origin is unimplemented`), () => {
+test.todo(`Window.origin is unimplemented`, () => {
   expect(() => new Window().origin).toThrow(DOMException)
 })
 
-test()(yellow(`Window.history is unimplemented`), () => {
+test.todo(`Window.history is unimplemented`, () => {
   expect(() => new Window().history).toThrow(DOMException)
 })
 
-test()(yellow(`Window.open() is unimplemented`), () => {
+test.todo(`Window.open() is unimplemented`, () => {
   expect(() => new Window().open()).toThrow(DOMException)
 })
 
-test()(`Window.close() is supported`, () => {
+test(`Window.close() is supported`, () => {
   expect(new Window().close()).toBeUndefined()
 })
 
-test()(`Window.closed is supported`, () => {
+test(`Window.closed is supported`, () => {
   const window = new Window()
   expect(window).toHaveProperty("closed", false)
   expect(window).toHaveImmutableProperty("closed")
@@ -399,98 +398,98 @@ test()(`Window.closed is supported`, () => {
   expect(window).toHaveProperty("closed", true)
 })
 
-test()(yellow(`Window.stop() is unimplemented`), () => {
+test.todo(`Window.stop() is unimplemented`, () => {
   expect(new Window().stop).toThrow(DOMException)
 })
 
-test()(`Window.crossOriginIsolated is supported`, () => {
+test(`Window.crossOriginIsolated is supported`, () => {
   expect(new Window()).toHaveProperty("crossOriginIsolated", false)
   expect(new Window()).toHaveImmutableProperty("crossOriginIsolated")
 })
 
 for (const property of ["onload", "onbeforeunload", "onunload", "onpageshow", "onpagehide", "onpopstate", "onhashchange", "onclose"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
-test()(yellow(`Window.caches is unimplemented`), () => {
+test.todo(`Window.caches is unimplemented`, () => {
   expect(() => new Window().caches).toThrow(DOMException)
 })
 
-test()(yellow(`Window.indexedDB is unimplemented`), () => {
+test.todo(`Window.indexedDB is unimplemented`, () => {
   expect(() => new Window().indexedDB).toThrow(DOMException)
 })
 
-test()(`Window.localStorage is supported`, () => {
+test(`Window.localStorage is supported`, () => {
   expect(new Window().localStorage).toBe(localStorage)
   expect(new Window()).toHaveImmutableProperty("localStorage")
 })
 
-test()(`Window.sessionStorage is supported`, () => {
+test(`Window.sessionStorage is supported`, () => {
   expect(new Window().sessionStorage).toBe(sessionStorage)
   expect(new Window()).toHaveImmutableProperty("sessionStorage")
 })
 
-test()(yellow(`Window.onstorage is unimplemented`), () => {
+test.todo(`Window.onstorage is unimplemented`, () => {
   expect(new Window().onstorage).toBeNull()
 })
 
-test()(`Window.alert() is supported`, () => {
+test(`Window.alert() is supported`, () => {
   expect(new Window().alert("foo")).toBeUndefined()
 })
 
-test()(`Window.confirm() is supported`, () => {
+test(`Window.confirm() is supported`, () => {
   expect(new Window().confirm("foo")).toBe(false)
 })
 
-test()(`Window.prompt() is supported`, () => {
+test(`Window.prompt() is supported`, () => {
   expect(new Window().prompt("foo")).toBeNull()
   expect(new Window().prompt("foo", "bar")).toBe("bar")
 })
 
-test()(yellow(`Window.getSelection() is unimplemented`), () => {
+test.todo(`Window.getSelection() is unimplemented`, () => {
   expect(new Window().getSelection).toThrow(DOMException)
 })
 
 for (const property of ["oncopy", "onpaste", "oncut", "onselect", "onselectionchange", "onselectstart"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
 for (const property of ["onmousedown", "onmouseup", "onmousemove", "onmouseenter", "onmouseleave", "onmouseover", "onmouseout"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
 for (const property of ["onpointerdown", "onpointerup", "onpointermove", "onpointerenter", "onpointerleave", "onpointerover", "onpointerout", "onpointercancel", "ongotpointercapture", "onlostpointercapture"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
 for (const property of ["onclick", "ondblclick", "onauxclick", "oncontextmenu", "onwheel"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
 for (const property of ["onkeydown", "onkeyup", "onkeypress"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
 for (const property of ["ondrag", "ondragstart", "ondragend", "ondragenter", "ondragleave", "ondragover", "ondrop"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
 for (const property of ["onbeforeinput", "oninput", "onchange", "oninvalid", "oncancel", "onreset", "onsubmit", "onformdata"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
@@ -518,24 +517,24 @@ for (
     "onended",
   ] as const
 ) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
 for (const property of ["onprogress", "onabort", "onbeforetoggle", "ontoggle", "onslotchange", "oncuechange", "onsecuritypolicyviolation"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
 for (const property of ["ongamepadconnected", "ongamepaddisconnected"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
 
-test()(`Window.status is supported`, () => {
+test(`Window.status is supported`, () => {
   const window = new Window()
   expect(window).toHaveProperty("status", "")
   window.status = "foo"
@@ -544,41 +543,41 @@ test()(`Window.status is supported`, () => {
   expect(window).toHaveProperty("status", "1")
 })
 
-test()(yellow(`Window.speechSynthesis is unimplemented`), () => {
+test.todo(`Window.speechSynthesis is unimplemented`, () => {
   expect(() => new Window().speechSynthesis).toThrow(DOMException)
 })
 
-test()(yellow(`Window.performance is supported`), () => {
+test.todo(`Window.performance is supported`, () => {
   expect(new Window().performance).toBe(performance)
 })
 
-test()(yellow(`Window.external is unimplemented`), () => {
+test.todo(`Window.external is unimplemented`, () => {
   expect(() => new Window().external).toThrow(DOMException)
 })
 
-test()(`Window.event is undefined`, () => {
+test(`Window.event is undefined`, () => {
   expect(new Window().event).toBeUndefined()
   expect(new Window()).not.toHaveImmutableProperty("event")
 })
 
-test()(`Window.captureEvents is supported`, () => {
+test(`Window.captureEvents is supported`, () => {
   expect(new Window().captureEvents()).toBeUndefined()
 })
 
-test()(yellow(`Window.releaseEvents is unimplemented`), () => {
+test.todo(`Window.releaseEvents is unimplemented`, () => {
   expect(new Window().releaseEvents).toThrow(DOMException)
 })
 
-test()(yellow(`Window.find is unimplemented`), () => {
+test.todo(`Window.find is unimplemented`, () => {
   expect(new Window().find).toThrow(DOMException)
 })
 
-test()(`Window.updateCommands is supported`, () => {
+test(`Window.updateCommands is supported`, () => {
   expect(new Window().updateCommands()).toBeUndefined()
 })
 
 for (const property of ["ononline", "onoffline"] as const) {
-  test()(yellow(`Window.${property} is unimplemented`), () => {
+  test.todo(`Window.${property} is unimplemented`, () => {
     expect(new Window()[property]).toBeNull()
   })
 }
@@ -592,18 +591,18 @@ for (
     ["Navigator", Navigator],
   ] as const
 ) {
-  test()(`Window.${key} is supported`, () => {
+  test(`Window.${key} is supported`, () => {
     expect(new Window()).toHaveProperty(key, value)
     expect(new Window()).not.toHaveImmutableProperty(key)
   })
 }
 
-test()(`BarProp.constructor() is illegal`, () => {
+test(`BarProp.constructor() is illegal`, () => {
   expect(() => new BarProp()).toThrow(TypeError)
   new BarProp({ [internal]: true })
 })
 
-test()(`BarProp.visible is supported`, () => {
+test(`BarProp.visible is supported`, () => {
   expect(new BarProp({ [internal]: true })).toHaveProperty("visible", false)
   expect(new BarProp({ [internal]: true })).toHaveImmutableProperty("visible")
 })

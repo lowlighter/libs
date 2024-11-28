@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "description": "Virtual DOM for unit testing and server side rendering.",
+  "keywords": [
+    "dom",
+    "esm"
+  ],
+  "dependencies": {
+    "@std/async": "npm:@jsr/std__async@^1.0.9"
+  }
+}
