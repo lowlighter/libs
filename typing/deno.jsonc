@@ -2,22 +2,16 @@
   "icon": "🧰",
   "name": "@libs/typing",
   "version": "3.1.1",
-  "description": "Utility types.",
-  "npm": true,
-  "keywords": [
-    "typing",
-    "esm"
-  ],
+  "exports": {
+    ".": "./mod.ts",
+    "./types": "./types.ts",
+    "./func": "./func.ts"
+  },
   "supported": [
     "deno",
     "node",
     "bun",
     "cloudflare-workers",
     "browsers"
-  ],
-  "exports": {
-    ".": "./mod.ts",
-    "./types": "./types.ts",
-    "./func": "./func.ts"
-  }
+  ]
 }
