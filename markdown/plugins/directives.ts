@@ -4,7 +4,7 @@ import type { Arg, Nullable, Optional } from "@libs/typing/types"
 import remarkDirective from "remark-directive"
 import { visit } from "unist-util-visit"
 export { h } from "hastscript"
-import type { Data, ElementContent, Properties } from "hast"
+import type { Data, ElementContent, Properties } from "rehype"
 
 /**
  * Add support for custom directives.

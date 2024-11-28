@@ -2,7 +2,7 @@ import { expect, test } from "@libs/testing"
 import { Renderer } from "../renderer.ts"
 import plugin from "./frontmatter.ts"
 
-test("deno")("`Plugin.frontmatter` removes frontmatter", async () => {
+test("`Plugin.frontmatter` removes frontmatter", async () => {
   const text = `
 ---
 foo: bar

@@ -2,21 +2,7 @@
   "icon": "🖨️",
   "name": "@libs/markdown",
   "version": "2.0.0",
-  "description": "Markdown renderer with optional plugins based on the unified ecosystem.",
-  "npm": true,
   "playground": "https://libs.lecoq.io/markdown",
-  "keywords": [
-    "markdown",
-    "plugins",
-    "gfm",
-    "github-flavored-markdown",
-    "unified",
-    "remark",
-    "rehype"
-  ],
-  "supported": [
-    "deno"
-  ],
   "exports": {
     ".": "./mod.ts",
     "./renderer": "./renderer.ts",
@@ -44,7 +30,12 @@
     "run": true
   },
   "tasks": {
-    // Setup dependencies
-    "build": "npx playwright-core install --with-deps chromium"
-  }
+    "build": {
+      "description": "Setup dependencies",
+      "command":"npx playwright-core install --with-deps chromium"
+    }
+  },
+    "supported": [
+    "deno"
+  ],
 }
