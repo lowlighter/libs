@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "description": "Pure TypeScript QRcode generator with no dependencies.",
+  "keywords": [
+      "qrcode",
+      "svg",
+      "esm"
+    ]
+}

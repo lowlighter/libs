@@ -2,22 +2,15 @@
   "icon": "🔳",
   "name": "@libs/qrcode",
   "version": "2.0.0",
-  "description": "Pure TypeScript QRcode generator with no dependencies.",
-  "npm": true,
   "playground": "https://libs.lecoq.io/qrcode",
-  "keywords": [
-    "qrcode",
-    "svg",
-    "esm"
-  ],
+  "exports": {
+    ".": "./mod.ts"
+  },
   "supported": [
     "deno",
     "node",
     "bun",
     "cloudflare-workers",
     "browsers"
-  ],
-  "exports": {
-    ".": "./mod.ts"
-  }
+  ]
 }

@@ -2,11 +2,8 @@
 coverage
 
 # NPM packages
-.npmrc
 *.mjs
 node_modules
-package.json
-package-lock.json
 bun.lockb
 
 # Vercel
