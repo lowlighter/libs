@@ -2,23 +2,16 @@
   "icon": "🎯",
   "name": "@libs/reactive",
   "version": "5.0.0",
-  "description": "Reactive utilities for observable objects.",
-  "npm": true,
   "playground": "https://libs.lecoq.io/reactive",
-  "keywords": [
-    "reactivity",
-    "observable",
-    "esm"
-  ],
+  "exports": {
+    ".": "./mod.ts",
+    "./context": "./context.ts"
+  },
   "supported": [
     "deno",
     "node",
     "bun",
     "cloudflare-workers",
     "browsers"
-  ],
-  "exports": {
-    ".": "./mod.ts",
-    "./context": "./context.ts"
-  }
+  ]
 }

@@ -58,6 +58,17 @@ import type { callback, Nullable, record } from "@libs/typing"
 import type { DeepMerge } from "@std/collections/deep-merge"
 export type { DeepMerge, record }
 
+// Polyfill for `CustomEvent`
+let _ContextEvent = globalThis.CustomEvent
+if (!_ContextEvent) {
+  _ContextEvent = class CustomEvent extends Event {
+    constructor(type: string, init: CustomEventInit) {
+      super(type)
+      Object.assign(this, { detail: init.detail })
+    }
+  } as typeof _ContextEvent
+}
+
 /**
  * Reactive context.
  *
@@ -450,7 +461,7 @@ export class Context<T extends record = record> extends EventTarget {
   }
 
   /** Context event. */
-  static readonly Event = class ContextEvent extends CustomEvent<detail> {} as typeof CustomEvent
+  static readonly Event = class ContextEvent extends _ContextEvent<detail> {} as typeof CustomEvent
 }
 
 /** Context target. */

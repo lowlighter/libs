@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "description": "Reactive utilities for observable objects.",
+  "keywords": [
+    "reactivity",
+    "observable",
+    "esm"
+  ],
+  "dependencies": {
+    "@std/collections": "npm:@jsr/std__collections@^1.0.9"
+  }
+}
