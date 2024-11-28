@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-external-import
 /**
  * This module contains a symmetric encryption (using AES-GCM 256 with a PBKDF2 derived key) function.
  *
@@ -28,6 +29,8 @@
  *
  * @module
  */
+// Imports
+import crypto from "node:crypto"
 
 /** Text encoder */
 const encoder = new TextEncoder()

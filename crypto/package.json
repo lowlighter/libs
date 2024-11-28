@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "description": "Features based upon Web Crypto APIs",
+  "keywords": [
+    "crypto",
+    "totp"
+  ],
+  "dependencies": {
+    "@std/encoding": "npm:@jsr/std__encoding@^1.0.5"
+  }
+}

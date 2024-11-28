@@ -2,23 +2,17 @@
   "icon": "🧮",
   "name": "@libs/crypto",
   "version": "2.0.0",
-  "description": "Features based upon Web Crypto APIs",
-  "npm": true,
   "playground": "https://libs.lecoq.io/crypto",
-  "keywords": [
-    "crypto",
-    "totp"
-  ],
+  "exports": {
+    ".": "./mod.ts",
+    "./encryption": "./encryption.ts",
+    "./totp": "./totp.ts"
+  },
   "supported": [
     "deno",
     "node",
     "bun",
     "cloudflare-workers",
     "browsers"
-  ],
-  "exports": {
-    ".": "./mod.ts",
-    "./encryption": "./encryption.ts",
-    "./totp": "./totp.ts"
-  }
+  ]
 }

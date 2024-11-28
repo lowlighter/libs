@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-external-import
 /**
  * Time-based One-Time Password (TOTP) library.
  *
@@ -38,6 +39,7 @@
 
 // Imports
 import { decodeBase32, encodeBase32 } from "@std/encoding/base32"
+import crypto from "node:crypto"
 
 /**
  * Returns a HMAC-based OTP.

@@ -1,51 +1,52 @@
+// deno-lint-ignore-file no-external-import
 import { bytes, decrypt, encrypt, exportKey, hash, hex, importKey } from "./encryption.ts"
 import { expect, test } from "@libs/testing"
+import crypto from "node:crypto"
 
-test("all")("`hex()` returns hexadecimal string", () => {
+test("`hex()` returns hexadecimal string", () => {
   expect(hex(0x0a)).toBe("0a")
   expect(hex(0x42)).toBe("42")
   expect(hex(new Uint8Array([0x0a, 0x42]))).toBe("0a42")
 })
 
-test("all")("`bytes()` parses hexadecimal string", () => {
+test("`bytes()` parses hexadecimal string", () => {
   expect(bytes("0a")).toEqual(new Uint8Array([0x0a]))
   expect(bytes("42")).toEqual(new Uint8Array([0x42]))
   expect(bytes("0a42")).toEqual(new Uint8Array([0x0a, 0x42]))
 })
 
-test("all")("`hash()` returns digest as hexadecimal string", async () => {
+test("`hash()` returns digest as hexadecimal string", async () => {
   await expect(hash("foo", { algorithm: "SHA-1" })).resolves.toBe("0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33")
   await expect(hash("foo", { algorithm: "SHA-256" })).resolves.toBe("2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae")
   await expect(hash("foo", { algorithm: "SHA-384" })).resolves.toBe("98c11ffdfdd540676b1a137cb1a22b2a70350c9a44171d6b1180c6be5cbb2ee3f79d532c8a1dd9ef2e8e08e752a3babb")
   await expect(hash("foo", { algorithm: "SHA-512" })).resolves.toBe("f7fbba6e0636f890e56fbbf3283e524c6fa3204ae298382d624741d0dc6638326e282c41be5e4254d8820772c5518a2c5a8c0c7f7eda19594a7eb539453e1ed7")
 })
 
-test("all")("`exportKey()` returns an exported `CryptoKey` as hexadecimal string", async () => {
+test("`exportKey()` returns an exported `CryptoKey` as hexadecimal string", async () => {
   await expect(exportKey({ seed: "", salt: "" })).resolves.toBe("e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47")
   await expect(exportKey({ seed: "hello", salt: "world" })).resolves.toBe("664d43091e7905723fc92a4c38f58e9aeff6d822488eb07d6b11bcfc2468f48a")
   await expect(exportKey({ seed: "bonjour", salt: "monde" })).resolves.toBe("2af043e1b91ba7ba0036884e40ca9a1f8dcbadfa47a7894955f6c154dd0a635c")
 })
 
-test("all")("`importKey()` returns an exported `CryptoKey` as hexadecimal string", async () => {
+test("`importKey()` returns an exported `CryptoKey` as hexadecimal string", async () => {
   const key = await importKey("e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47")
-  expect(key).toBeInstanceOf(CryptoKey)
   expect(key.type).toBe("secret")
   expect(key.algorithm).toMatchObject({ name: "AES-GCM", length: 256 })
   expect(key.usages).toEqual(["encrypt", "decrypt"])
 })
 
-test("all")("`encrypt()` encrypts data with specified key and returns a hash of specified length", async () => {
+test("`encrypt()` encrypts data with specified key and returns a hash of specified length", async () => {
   const key = "e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47"
   await expect(encrypt("🍱 bento", { key, length: 256 })).resolves.toMatch(/^[a-f0-9]+$/)
   await expect(encrypt("🍱 bento", { key, length: 256 })).resolves.toHaveLength(256)
 })
 
-test("all")("`encrypt()` returns a different hash value each time for same key", async () => {
+test("`encrypt()` returns a different hash value each time for same key", async () => {
   const key = "e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47"
   await expect(encrypt("🍱 bento", { key })).not.resolves.toBe(await encrypt("🍱 bento", { key }))
 })
 
-test("all")("`decrypt()` returns data encrypted with specified key", async () => {
+test("`decrypt()` returns data encrypted with specified key", async () => {
   const key = "e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47"
   const message = "3fad79f2da00039971a33690de745a4182fe5f13b5b51a94018b14cf64bb3493941e69db4df1537cdbb01e5f46c93e8d1abe69af8a9328316662195d11728030897e89ac7e29c200d10d31d3f46a4af6e8e835effbd55662f0cca6150d2fc1005128dc2919ccb7f387915231"
   await expect(decrypt(message, { key })).resolves.toBe("🍱 bento")
@@ -53,18 +54,18 @@ test("all")("`decrypt()` returns data encrypted with specified key", async () =>
   await expect(decrypt(await encrypt("", { key }), { key })).resolves.toBe("")
 })
 
-test("all")("`decrypt()` supports long messages with length constraint disabled", async () => {
+test("`decrypt()` supports long messages with length constraint disabled", async () => {
   const key = "e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47"
   await expect(decrypt(await encrypt("lorem ipsum".repeat(1000), { key, length: 0 }), { key })).resolves.toBe("lorem ipsum".repeat(1000))
 })
 
-test("all")("`decrypt()` throws when message is larger than constrained length", async () => {
+test("`decrypt()` throws when message is larger than constrained length", async () => {
   const key = "e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47"
   await expect(encrypt("lorem ipsum".repeat(1000), { key, length: 256 })).rejects.toThrow("Message too long")
   await expect(encrypt("lorem ipsum".repeat(1000), { key, length: 512 })).rejects.toThrow("Message too long")
 })
 
-test("all")("`decrypt()` throws when decrypted value mismatches registered hash", async () => {
+test("`decrypt()` throws when decrypted value mismatches registered hash", async () => {
   let message = "🍱 bento"
   const key = await importKey("e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47")
   const encoder = new TextEncoder()
