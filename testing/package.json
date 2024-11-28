@@ -6,6 +6,11 @@
     "esm"
   ],
   "dependencies": {
+    "@std/assert": "npm:@jsr/std__assert@^1.0.8",
+    "@std/expect": "npm:@jsr/std__expect@^1.0.8",
+    "@std/fmt": "npm:@jsr/std__fmt@^1.0.3",
+    "@std/html": "npm:@jsr/std__html@^1.0.3",
+    "@std/http": "npm:@jsr/std__http@^1.0.11",
     "highlight.js": "^11.10.0"
   }
 }
