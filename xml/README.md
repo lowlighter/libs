@@ -212,7 +212,7 @@ Please refer to the [documentation](https://jsr.io/@libs/xml/doc) for more infor
 
 The `parse()` function supports any `ReaderSync`, which means you can pass directly a file reader for example.
 
-```ts
+```ts ignore
 import { parse } from "./parse.ts"
 parse(await Deno.readTextFile("example.xml"))
 ```

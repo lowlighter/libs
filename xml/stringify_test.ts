@@ -8,7 +8,7 @@ const check = (xml: string, options?: parse_options & stringify_options) => {
   return parse(stringify(parse(xml, options), options), options)
 }
 
-test("all")("`stringify()` xml syntax xml prolog", () =>
+test("`stringify()` xml syntax xml prolog", () =>
   expect(
     check(
       `<?xml version="1.0" encoding="UTF-8"?>
@@ -22,7 +22,7 @@ test("all")("`stringify()` xml syntax xml prolog", () =>
     },
   ))
 
-test("all")("`stringify()` xml syntax xml stylesheet", () =>
+test("`stringify()` xml syntax xml stylesheet", () =>
   expect(
     check(
       `<?xml version="1.0" encoding="UTF-8"?>
@@ -43,7 +43,7 @@ test("all")("`stringify()` xml syntax xml stylesheet", () =>
     },
   ))
 
-test("all")("`stringify()` xml syntax doctype", () =>
+test("`stringify()` xml syntax doctype", () =>
   expect(
     check(
       `<!DOCTYPE type "quoted attribute" [
@@ -63,7 +63,7 @@ test("all")("`stringify()` xml syntax doctype", () =>
   ))
 
 for (const indent of ["  ", ""]) {
-  test("all")(`\`stringify()\` xml example w3schools.com#3 (indent = "${indent}")`, () =>
+  test(`\`stringify()\` xml example w3schools.com#3 (indent = "${indent}")`, () =>
     expect(
       check(
         `
@@ -167,7 +167,7 @@ for (const indent of ["  ", ""]) {
     ))
 }
 
-test("all")("`stringify()` xml types", () =>
+test("`stringify()` xml types", () =>
   expect(
     check(
       `<types>
@@ -187,7 +187,7 @@ test("all")("`stringify()` xml types", () =>
     },
   ))
 
-test("all")("`stringify()` xml entities", () =>
+test("`stringify()` xml entities", () =>
   expect(
     check(`<string>&quot; &lt; &gt; &amp; &apos;</string>`),
   ).toEqual(
@@ -196,7 +196,7 @@ test("all")("`stringify()` xml entities", () =>
     },
   ))
 
-test("all")(
+test(
   "`stringify()` xml entities are escaped only where needed",
   () =>
     expect(stringify({
@@ -214,7 +214,7 @@ test("all")(
     ),
 )
 
-test("all")(
+test(
   "`stringify()` xml entiries are always escaped when escapeAllEntities is true",
   () =>
     expect(stringify({
@@ -232,7 +232,7 @@ test("all")(
     ),
 )
 
-test("all")("`stringify()` xml space preserve", () =>
+test("`stringify()` xml space preserve", () =>
   expect(
     check(`<text xml:space="preserve"> hello world </text>`),
   ).toEqual(
@@ -244,12 +244,12 @@ test("all")("`stringify()` xml space preserve", () =>
     },
   ))
 
-test("all")("`stringify()` cdata is preserved on root nodes", () =>
+test("`stringify()` cdata is preserved on root nodes", () =>
   expect(
     stringify({ string: cdata(`hello <world>`) }),
   ).toBe("<string><![CDATA[hello <world>]]></string>"))
 
-test("all")("`stringify()` cdata is preserved on child nodes", () =>
+test("`stringify()` cdata is preserved on child nodes", () =>
   expect(
     stringify({ nested: { string: cdata(`hello <world>`) } }),
   ).toBe(`
@@ -257,12 +257,12 @@ test("all")("`stringify()` cdata is preserved on child nodes", () =>
   <string><![CDATA[hello <world>]]></string>
 </nested>`.trim()))
 
-test("all")("`stringify()` comments is preserved on root nodes", () =>
+test("`stringify()` comments is preserved on root nodes", () =>
   expect(
     stringify({ string: comment(`hello world`) }),
   ).toBe("<string><!--hello world--></string>"))
 
-test("all")("`stringify()` comments is preserved on child nodes", () =>
+test("`stringify()` comments is preserved on child nodes", () =>
   expect(
     stringify({ nested: { string: comment(`hello world`) } }),
   ).toBe(`
@@ -272,7 +272,7 @@ test("all")("`stringify()` comments is preserved on child nodes", () =>
 
 // Custom replacer
 
-test("all")("`stringify()` xml replacer", () =>
+test("`stringify()` xml replacer", () =>
   expect(
     stringify({ root: { not: true, yes: true, delete: true, attribute: { "@delete": true } } }, {
       replace: {
@@ -298,6 +298,6 @@ test("all")("`stringify()` xml replacer", () =>
 
 //Errors checks
 
-test("all")("`stringify()` xml syntax no root node", () => expect(() => stringify({})).toThrow(SyntaxError))
+test("`stringify()` xml syntax no root node", () => expect(() => stringify({})).toThrow(SyntaxError))
 
-test("all")("`stringify()` xml syntax multiple root nodes", () => expect(() => stringify({ root: null, garbage: null })).toThrow(SyntaxError))
+test("`stringify()` xml syntax multiple root nodes", () => expect(() => stringify({ root: null, garbage: null })).toThrow(SyntaxError))

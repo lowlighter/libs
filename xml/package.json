@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "description": "XML parser/stringifier with no dependencies.",
+  "keywords": [
+    "xml",
+    "parser",
+    "stringifier",
+    "esm"
+  ]
+}

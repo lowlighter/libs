@@ -2,23 +2,14 @@
   "icon": "📃",
   "name": "@libs/xml",
   "version": "6.0.1",
-  "description": "XML parser/stringifier with no dependencies.",
-  "npm": true,
   "deno.land/x": true,
   "playground": "https://libs.lecoq.io/xml",
-  "keywords": [
-    "xml",
-    "parser",
-    "stringifier",
-    "esm"
-  ],
-  "supported": [
-    "deno",
-    "node",
-    "bun",
-    "cloudflare-workers",
-    "browsers"
-  ],
+  "tasks": {
+    "build": {
+      "description": "Build WASM parser",
+      "command": "deno run --allow-read --allow-net --allow-env --allow-write --allow-run jsr:@libs/bundle/wasm/cli/build --auto-install --banner='https://github.com/lowlighter/libs' wasm_xml_parser"
+    }
+  },
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts",
@@ -26,21 +17,21 @@
   },
   "test:permissions": {
     "read": true,
+    "sys": [
+      "uid"
+    ],
     "env": [
       "CI"
     ],
     "write": [
       "bench"
-    ],
-    "run": [
-      "deno",
-      "node",
-      "bun",
-      "npx"
     ]
   },
-  "tasks": {
-    // Build WASM parser
-    "build": "deno run --allow-read --allow-net --allow-env --allow-write --allow-run jsr:@libs/bundle/wasm/cli/build --auto-install --banner='https://github.com/lowlighter/libs' wasm_xml_parser"
-  }
+  "supported": [
+    "deno",
+    "node",
+    "bun",
+    "cloudflare-workers",
+    "browsers"
+  ]
 }
