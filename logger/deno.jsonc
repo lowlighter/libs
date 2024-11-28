@@ -2,32 +2,20 @@
   "icon": "📰",
   "name": "@libs/logger",
   "version": "3.1.1",
-  "description": "Simple logger",
-  "npm": true,
   "playground": "https://libs.lecoq.io/logger",
-  "keywords": [
-    "logging",
-    "esm"
-  ],
-  "supported": [
-    "deno",
-    "node",
-    "bun",
-    "cloudflare-workers",
-    "browsers"
-  ],
   "exports": {
     ".": "./mod.ts"
   },
   "test:permissions": {
     "env": [
       "LOG_LEVEL"
-    ],
-    "run": [
-      "deno",
-      "node",
-      "bun",
-      "npx"
     ]
-  }
+  },
+  "supported": [
+    "deno",
+    "node",
+    "bun",
+    "cloudflare-workers",
+    "browsers"
+  ]
 }

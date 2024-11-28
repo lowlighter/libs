@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "description": "Simple logger",
+  "keywords": [
+    "logging",
+    "esm"
+  ]
+}

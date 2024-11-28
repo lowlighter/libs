@@ -37,7 +37,8 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
   /** Constructor. */
   constructor({ level, format, output, tags, censor, ...options } = {} as LoggerOptions<T>) {
     if (globalThis.Deno?.permissions.querySync?.({ name: "env", variable: "LOG_LEVEL" }).state === "granted") {
-      level ??= globalThis.Deno?.env.get("LOG_LEVEL") as LoggerOptions<T>["level"]
+      // deno-lint-ignore no-explicit-any
+      level ??= (globalThis as any).process?.env.LOG_LEVEL as LoggerOptions<T>["level"]
     }
     this.#output = output || (output === null) ? output : console
     this.#level = Logger.level.log as level
