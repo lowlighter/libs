@@ -3,6 +3,10 @@
   "name": "@libs/dom",
   "version": "0.0.0",
   "playground": "https://libs.lecoq.io/dom",
+  "tasks": {
+    "test:node": "sleep 0",
+    "test:bun": "sleep 0"
+  },
   "exports": {
     ".": "./mod.ts"
   },

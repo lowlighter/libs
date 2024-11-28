@@ -33,7 +33,9 @@ export default {
         visit(tree, (node) => {
           if (node.type === "yaml") {
             const id = (vfile as unknown as { id: string }).id
-            renderer.storage[id].frontmatter = YAML.parse((node as unknown as { value: string }).value)
+            if (renderer.storage[id]) {
+              renderer.storage[id].frontmatter = YAML.parse((node as unknown as { value: string }).value)
+            }
           }
         })
       }

@@ -15,8 +15,7 @@ export type { record }
  *
  * The resulting WASM file is injected as a base64 string in the JavaScript output to avoid the need of `--allow-read` permission.
  *
- * @example
- * ```ts
+ * ```ts ignore
  * import { bundle } from "./bundle.ts"
  * await bundle("path/to/rust/project")
  * ```

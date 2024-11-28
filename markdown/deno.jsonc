@@ -32,7 +32,7 @@
   "tasks": {
     "build": {
       "description": "Setup dependencies",
-      "command":"npx playwright-core install --with-deps chromium"
+      "command": "npx playwright-core install --with-deps chromium"
     }
   },
   "supported": {

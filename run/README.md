@@ -18,10 +18,10 @@ import { command } from "./command.ts"
 
 // Commands are run asynchronously, and support Deno.command options alongside additional options
 // For example, stdio can also be set to a Logger level too or you can automatically append an extension when running on Windows
-await command("deno", ["version"], { stdout: "debug", stderr: "piped", winext: ".exe" })
+await command("deno", ["--version"], { stdout: "debug", stderr: "piped", winext: ".exe" })
 
 // Commands can be run synchronously too, and can also throw an error automatically when the process exits with a non-zero code
-command("deno", ["version"], { sync: true, throw: true })
+command("deno", ["--version"], { sync: true, throw: true })
 ```
 
 ### Writing to stdin

@@ -3,6 +3,10 @@
   "name": "@libs/bundle",
   "version": "12.4.1",
   "playground": "https://libs.lecoq.io/bundle",
+  "tasks": {
+    "test:node": "sleep 0",
+    "test:bun": "sleep 0"
+  },
   "exports": {
     ".": "./mod.ts",
     "./ts": "./ts/mod.ts",

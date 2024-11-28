@@ -6,9 +6,8 @@
     },
     "test": {
       "description": "Test code and print detailed coverage",
-      "command": "cd $INIT_CWD && deno task --cwd=$INIT_CWD test:deno --doc --clean --coverage && deno coverage --detailed --include=$INIT_CWD --exclude='((\\.m?js)|(test\\.ts))$'"
+      "command": "cd $INIT_CWD && deno task --cwd=$INIT_CWD test:deno --doc --clean --coverage && deno task --cwd=$INIT_CWD test:node && deno task --cwd=$INIT_CWD test:bun && deno coverage --detailed --include=$INIT_CWD --exclude='((\\.m?js)|(test\\.ts))$'"
     },
-
     "test:deno": {
       "description": "Test code (deno)",
       "command": "cd $INIT_CWD && deno test $(deno task flags)"
@@ -53,7 +52,7 @@
   "unstable": [
     "kv"
   ],
-  "nodeModulesDir":"auto",
+  "nodeModulesDir": "auto",
   "fmt": {
     "semiColons": false,
     "lineWidth": 280,

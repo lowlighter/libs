@@ -88,7 +88,7 @@ const decoder = new TextDecoder()
  *
  * ```ts
  * import { command } from "./command.ts"
- * command("deno", ["version"], { sync: true })
+ * command("deno", ["--version"], { sync: true })
  * ```
  * ```
  * import { command } from "./command.ts"
@@ -148,10 +148,10 @@ export function command(bin: string, args: string[], options?: options & { sync:
  * ```ts
  * import { command } from "./command.ts"
  * import { Logger } from "jsr:@libs/logger"
- * await command("deno", ["version"], { env: { NO_COLOR: "true" }, cwd: "/tmp", raw: true })
- * await command("deno", ["version"], { stdout: "piped" })
- * await command("deno", ["version"], { logger: new Logger(), stdout: "debug" })
- * await command("deno", ["version"], { winext: ".exe" })
+ * await command("deno", ["--version"], { env: { NO_COLOR: "true" }, cwd: "/tmp", raw: true })
+ * await command("deno", ["--version"], { stdout: "piped" })
+ * await command("deno", ["--version"], { logger: new Logger(), stdout: "debug" })
+ * await command("deno", ["--version"], { winext: ".exe" })
  * ```
  *
  * ```ts

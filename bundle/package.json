@@ -12,6 +12,7 @@
     "esm"
   ],
   "dependencies": {
+    "@b-fuze/deno-dom": "npm:@jsr/b-fuze__deno-dom@^0.1.48",
     "@cliffy/table": "npm:@jsr/cliffy__table@^1.0.0-rc.7",
     "@luca/esbuild-deno-loader": "npm:@jsr/luca__esbuild-deno-loader@^0.11.0-rc.1",
     "@mdn/browser-compat-data": "^5.6.19",
@@ -25,6 +26,7 @@
     "css-tree": "^3.0.1",
     "csso": "^5.0.5",
     "esbuild": "^0.24.0",
+    "highlight.js": "^11.10.0",
     "octokit": "^4.0.2",
     "stylelint": "^16.10.0",
     "stylelint-config-idiomatic-order": "^10.0.0",

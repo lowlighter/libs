@@ -77,14 +77,12 @@ const vendors = /^(?:@|::|:)?(?<prefix>-(?:webkit|moz|o|ms|__debug)-)/
  *
  * This is a helper around {@link Report} which resolves css urls, instantiate a new report and return the printed result.
  *
- * @example
  * ```ts
  * import { compatibility } from "./compatibility.ts"
  *
  * // Print compatibility report in console
  * await compatibility(new URL("testing/test_bundle.css", import.meta.url), { query:"defaults", output:"console" })
  * ```
- * @example
  * ```ts
  * import { compatibility } from "./compatibility.ts"
  *
@@ -113,7 +111,6 @@ export async function compatibility(input: URL | string, { query = "defaults", l
  *
  * Select browsers to test using {@link https://github.com/browserslist/browserslist?tab=readme-ov-file#queries | browserslist queries}.
  *
- * @example
  * ```ts
  * import { Report } from "./compatibility.ts"
  *
@@ -121,7 +118,7 @@ export async function compatibility(input: URL | string, { query = "defaults", l
  * const report = new Report("> 1%")
  * const result = report.for("div { backdrop-filter: blur(5px); }")
  * result.features.list.includes("css-backdrop-filter")
- * console.log(result.browsers.ie["9"].support.unsupported)
+ * console.log(result.browsers.ie?.["9"].support.unsupported)
  *
  * // HTML table reports
  * console.log(report.print(result, { output: "html", verbose: false }))

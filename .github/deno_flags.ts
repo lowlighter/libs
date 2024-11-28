@@ -6,7 +6,7 @@ import { flags } from "@libs/testing/permissions"
 import * as JSONC from "@std/jsonc"
 
 // Parse arguments
-const { cwd, _: [keypath] } = parseArgs(Deno.args, { string: ["cwd"] })
+const { cwd } = parseArgs(Deno.args, { string: ["cwd"] })
 if (cwd) {
   Deno.chdir(cwd)
 }

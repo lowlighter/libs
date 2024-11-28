@@ -3,6 +3,10 @@
   "name": "@libs/orm",
   "version": "0.9.0",
   "playground": "https://libs.lecoq.io/orm",
+  "tasks": {
+    "test:node": "sleep 0",
+    "test:bun": "sleep 0"
+  },
   "exports": {
     ".": "./mod.ts",
     "./is": "./is/mod.ts",

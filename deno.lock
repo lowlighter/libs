@@ -1,9 +1,14 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@b-fuze/deno-dom@*": "0.1.48",
+    "jsr:@std/async@*": "1.0.8",
+    "jsr:@std/fs@*": "1.0.5",
+    "jsr:@std/path@^1.0.7": "1.0.8",
     "npm:@graphql-tools/merge@^9.0.11": "9.0.11_graphql@16.8.1",
     "npm:@graphql-tools/schema@^10.0.10": "10.0.10_graphql@16.8.1",
     "npm:@graphql-tools/utils@^10.6.1": "10.6.1_graphql@16.8.1",
+    "npm:@jsr/b-fuze__deno-dom@~0.1.48": "0.1.48",
     "npm:@jsr/cliffy__table@^1.0.0-rc.7": "1.0.0-rc.7",
     "npm:@jsr/deno-libs__gql@^3.0.1": "3.0.1_graphql@16.8.1",
     "npm:@jsr/luca__esbuild-deno-loader@~0.11.0-rc.1": "0.11.0-rc.1",
@@ -68,6 +73,23 @@
     "npm:zod-error@^1.5.0": "1.5.0",
     "npm:zod-to-json-schema@^3.23.5": "3.23.5_zod@3.23.8",
     "npm:zod@^3.23.8": "3.23.8"
+  },
+  "jsr": {
+    "@b-fuze/deno-dom@0.1.48": {
+      "integrity": "bf5b591aef2e9e9c59adfcbb93a9ecd45bab5b7c8263625beafa5c8f1662e7da"
+    },
+    "@std/async@1.0.8": {
+      "integrity": "c057c5211a0f1d12e7dcd111ab430091301b8d64b4250052a79d277383bc3ba7"
+    },
+    "@std/fs@1.0.5": {
+      "integrity": "41806ad6823d0b5f275f9849a2640d87e4ef67c51ee1b8fb02426f55e02fd44e",
+      "dependencies": [
+        "jsr:@std/path"
+      ]
+    },
+    "@std/path@1.0.8": {
+      "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
+    }
   },
   "npm": {
     "@antfu/install-pkg@0.4.1": {
@@ -312,6 +334,12 @@
         "@jridgewell/sourcemap-codec"
       ]
     },
+    "@jsr/b-fuze__deno-dom@0.1.48": {
+      "integrity": "sha512-06Hrd5lkx1FUa3Pz46saZcxwHYX4ssHzcBjSulkJ2HCTNrYS/jBE6XLbFmi9oiGNBaQRAfTo9TPnCKdyJNg5iQ==",
+      "dependencies": [
+        "@jsr/denosaurs__plug"
+      ]
+    },
     "@jsr/cliffy__table@1.0.0-rc.7": {
       "integrity": "sha512-EWM/Jfrit8W1qxo+0c/bRqaod8jxMotOiY08Nlx2/FVMK52hJoAtzC0RhpdyXzxVuBpqIdv6UeDDbTAIRiYGug==",
       "dependencies": [
@@ -327,6 +355,15 @@
         "xss"
       ]
     },
+    "@jsr/denosaurs__plug@1.0.3": {
+      "integrity": "sha512-L6QH5J5RL5RRAyHdoq5azKdnSXzHIN5ZA4nChF5Xqjgk+VdzmRiJ756C04Shuq3qNRbXjK/oQ63eOeSnSCnFTw==",
+      "dependencies": [
+        "@jsr/std__encoding@0.213.1",
+        "@jsr/std__fmt@0.213.1",
+        "@jsr/std__fs@0.213.1",
+        "@jsr/std__path@0.213.1"
+      ]
+    },
     "@jsr/luca__esbuild-deno-loader@0.11.0-rc.1": {
       "integrity": "sha512-xVNA1QWLbJSEX3nCk+PLrgJ0TdpaJ7ZjER9HWU8Iilq6IwkT8lmIZDOoXCUomzbEL/qJim4Y7es5HqbhveoJwg==",
       "dependencies": [
@@ -334,6 +371,12 @@
         "@jsr/std__encoding@1.0.5",
         "@jsr/std__jsonc",
         "@jsr/std__path@1.0.8"
+      ]
+    },
+    "@jsr/std__assert@0.213.1": {
+      "integrity": "sha512-mbq7QHPHeAJiJJlwmjNI0uoZlvIU2rG89df8ceeJB1pgE5b54DkiNhjQmmfBft0/fYO8/d933rBYwcNzuLxhXA==",
+      "dependencies": [
+        "@jsr/std__fmt@0.213.1"
       ]
     },
     "@jsr/std__assert@1.0.8": {
@@ -357,6 +400,9 @@
     "@jsr/std__collections@1.0.9": {
       "integrity": "sha512-cTxYdBY5oMVyU26MLLHsX1jXu9GUmiQKNnKrcEMo9/qei4lypvnds6I7cp5i7N1ex5DRetQaNa/YjMyJQEabzg=="
     },
+    "@jsr/std__encoding@0.213.1": {
+      "integrity": "sha512-VW5Kxmaaj0fLjH1DNkycEgZs8awr75mRePwrP651rTSheG1DSKZK7wtxHMXWeIpj4aFlNWXZg78MQ+yjIHFwWQ=="
+    },
     "@jsr/std__encoding@1.0.0-rc.2": {
       "integrity": "sha512-ISvxD+exWVg/aESN3G1Tr0oszHRgUEEK1JjiRcuyCtd1uqSGXXMAoswYlYvPwA6mxZ7FQbFSZEbP3tN2J+fIUQ=="
     },
@@ -366,15 +412,25 @@
     "@jsr/std__expect@1.0.8": {
       "integrity": "sha512-us+9KhoWLy8x09IfSQn006P/8InwP/+H4Qr3G3b7qR2e1Cmv07qt7MXrLHNSAOypFZhkLABHX/4u45VgODjrWA==",
       "dependencies": [
-        "@jsr/std__assert",
+        "@jsr/std__assert@1.0.8",
         "@jsr/std__internal"
       ]
+    },
+    "@jsr/std__fmt@0.213.1": {
+      "integrity": "sha512-dFNL7NZoEb3dH8SlV2Ze1ZBPotEyTu/g5f6oawG79oxuMCUWE2xCTE1X+W7ySmZOYyAQuptVEplPnLsYgkc9PQ=="
     },
     "@jsr/std__fmt@0.225.6": {
       "integrity": "sha512-5wll7CImyrJfen4fecziNSxZ5S6Fo3H1rQqKMQDewRGHAnFVqcHLe8wwCuDLK+HTbSPy6AkR3b136WpjVdOjTQ=="
     },
     "@jsr/std__fmt@1.0.3": {
       "integrity": "sha512-Nf8EywAPLhDV6k0Nbsqid3slskDji4xG2wHxyLM/ojG75NtxY3mdeFov2RVj9fsyBV+qQcoqlR/9RX5lkZJLMQ=="
+    },
+    "@jsr/std__fs@0.213.1": {
+      "integrity": "sha512-/JK8Qva6RovZ+r5rwYOfciu7Dcfe0keHkjhUVOQuF1lRiM556uAm8fM1SP89ByMjU7CV/p46CcE5KoNVJzCQew==",
+      "dependencies": [
+        "@jsr/std__assert@0.213.1",
+        "@jsr/std__path@0.213.1"
+      ]
     },
     "@jsr/std__fs@1.0.6": {
       "integrity": "sha512-5kdsSUZgJmF/IgJjDLxVFpxCTum9dIVd6Kk0+0mRCUiDatilr96igQiUS3VNuTI9bCvgcXIA6E+u4s+x5l7vyQ==",
@@ -440,6 +496,12 @@
     },
     "@jsr/std__net@1.0.4": {
       "integrity": "sha512-KJGU8ZpQ70sMW2Zk+wU3wFUkggS9lTLfRFBygnV9VaK8KI+1ggiqtB06rH4a14CNRGM9y46Mn/ZCbQUd4Q45Jg=="
+    },
+    "@jsr/std__path@0.213.1": {
+      "integrity": "sha512-9DWJ/tE+iGHtAKB3NDJ8/wg+KLjPRX0I6CmrDwpzntwO/m9Qrhe9eFZ7zYGWpsP4Vai96eNDtigK2MzDucbc4g==",
+      "dependencies": [
+        "@jsr/std__assert@0.213.1"
+      ]
     },
     "@jsr/std__path@1.0.0-rc.2": {
       "integrity": "sha512-qUHfVMqAtMGPFmdkOfmkCONqgpe4UFVAaD+wL6ZdlQxtvQiNxHQWsje+djri+0095s/kkoBOPH4CpYxBq+zh3A=="
@@ -3620,6 +3682,7 @@
       "bundle": {
         "packageJson": {
           "dependencies": [
+            "npm:@jsr/b-fuze__deno-dom@~0.1.48",
             "npm:@jsr/cliffy__table@^1.0.0-rc.7",
             "npm:@jsr/luca__esbuild-deno-loader@~0.11.0-rc.1",
             "npm:@jsr/std__assert@^1.0.8",
@@ -3633,6 +3696,7 @@
             "npm:css-tree@^3.0.1",
             "npm:csso@^5.0.5",
             "npm:esbuild@0.24",
+            "npm:highlight.js@^11.10.0",
             "npm:octokit@^4.0.2",
             "npm:stylelint-config-idiomatic-order@10",
             "npm:stylelint-config-recommended@^14.0.1",
@@ -3653,6 +3717,14 @@
         "packageJson": {
           "dependencies": [
             "npm:@jsr/std__async@^1.0.9"
+          ]
+        }
+      },
+      "logger": {
+        "packageJson": {
+          "dependencies": [
+            "npm:@jsr/std__fmt@^1.0.3",
+            "npm:@jsr/std__path@^1.0.8"
           ]
         }
       },
@@ -3730,6 +3802,13 @@
             "npm:@jsr/std__html@^1.0.3",
             "npm:@jsr/std__http@^1.0.11",
             "npm:highlight.js@^11.10.0"
+          ]
+        }
+      },
+      "xml": {
+        "packageJson": {
+          "dependencies": [
+            "npm:@jsr/std__path@^1.0.8"
           ]
         }
       }

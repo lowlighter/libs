@@ -6,5 +6,8 @@
     "parser",
     "stringifier",
     "esm"
-  ]
+  ],
+  "dependencies": {
+    "@std/path": "npm:@jsr/std__path@^1.0.8"
+  }
 }

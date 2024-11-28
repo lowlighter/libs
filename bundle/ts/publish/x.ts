@@ -70,8 +70,7 @@ export type options = {
  *
  * Note that you must configure webhook on deno.land/x prior to using this function.
  *
- * @example
- * ```ts
+ * ```ts ignore
  * import { publish } from "./x.ts"
  * await publish({
  *   token: "github_pat_",

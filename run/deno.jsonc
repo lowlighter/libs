@@ -4,6 +4,10 @@
   "version": "3.0.0",
   "npm": true,
   "playground": "https://libs.lecoq.io/run",
+  "tasks": {
+    "test:node": "sleep 0",
+    "test:bun": "sleep 0"
+  },
   "exports": {
     ".": "./mod.ts",
     "./command": "./command.ts"

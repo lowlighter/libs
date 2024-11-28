@@ -32,7 +32,7 @@ test("`importKey()` returns an exported `CryptoKey` as hexadecimal string", asyn
   const key = await importKey("e8bf6e323c23036402989c3e89fe8e6219c18edbfde74a461b5f27d806e51f47")
   expect(key.type).toBe("secret")
   expect(key.algorithm).toMatchObject({ name: "AES-GCM", length: 256 })
-  expect(key.usages).toEqual(["encrypt", "decrypt"])
+  expect(key.usages.sort()).toEqual(["encrypt", "decrypt"].sort())
 })
 
 test("`encrypt()` encrypts data with specified key and returns a hash of specified length", async () => {
