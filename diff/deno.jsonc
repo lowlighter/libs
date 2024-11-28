@@ -2,32 +2,19 @@
   "icon": "➕",
   "name": "@libs/diff",
   "version": "2.0.0",
-  "description": "Diff (patience algorithm)",
-  "npm": true,
   "playground": "https://libs.lecoq.io/diff",
-  "keywords": [
-    "diff",
-    "patch",
-    "esm"
-  ],
+  "exports": {
+    ".": "./mod.ts",
+    "./diff": "./diff.ts"
+  },
+  "test:permissions": {
+    "read": true
+  },
   "supported": [
     "deno",
     "node",
     "bun",
     "cloudflare-workers",
     "browsers"
-  ],
-  "exports": {
-    ".": "./mod.ts",
-    "./diff": "./diff.ts"
-  },
-  "test:permissions": {
-    "read": true,
-    "run": [
-      "deno",
-      "node",
-      "bun",
-      "npx"
-    ]
-  }
+  ]
 }

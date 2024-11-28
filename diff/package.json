@@ -1,0 +1,10 @@
+
+{
+  "type": "module",
+  "description": "Diff (patience algorithm)",
+  "keywords": [
+      "diff",
+      "patch",
+      "esm"
+    ]
+}
