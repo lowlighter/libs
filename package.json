@@ -1,0 +1,36 @@
+{
+  "description": "Collection of carefully crafted TypeScript standalone libraries. Minimal, unbloated, convenient.",
+  "license": "MIT",
+  "author": "lowlighter (Simon Lecoq)",
+  "funding": "https://github.com/sponsors/lowlighter",
+  "homepage": "https://github.com/lowlighter/libs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lowlighter/libs.git"
+  },
+  "type": "module",
+  "workspaces": [
+    "bundle",
+    "crypto",
+    "diff",
+    "dom",
+    "logger",
+    "markdown",
+    "orm",
+    "qrcode",
+    "reactive",
+    "run",
+    "testing",
+    "typing",
+    "xml"
+  ],
+  "dependencies": {
+    "@std/cli": "npm:@jsr/std__cli@^1.0.7",
+    "@std/fmt": "npm:@jsr/std__fmt@^1.0.3",
+    "@std/jsonc": "npm:@jsr/std__jsonc@^1.0.1",
+    "@std/path": "npm:@jsr/std__path@^1.0.8"
+  },
+  "devDependencies": {
+    "@types/highlight.js": "^10.1.0"
+  }
+}

@@ -1,137 +1,59 @@
 {
-  "description": "Collection of carefully crafted TypeScript standalone libraries. Minimal, unbloated, convenient.",
-  "license": "MIT",
-  "author": "lowlighter (Simon Lecoq)",
-  "funding": "https://github.com/sponsors/lowlighter",
-  "homepage": "https://github.com/lowlighter/libs",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lowlighter/libs.git"
-  },
   "tasks": {
-    // Lint code, documentation, package and formatting
-    // - `--check`: skip actual formatting (check only)
-    "lint": "cd $INIT_CWD && deno lint && deno doc --lint **/mod.ts && deno publish --quiet --dry-run --allow-dirty && deno fmt",
-    // Test code and print detailed coverage
-    "test": "cd $INIT_CWD && deno task --cwd=$INIT_CWD test:deno --doc --clean --coverage && deno coverage --detailed --include=$INIT_CWD --exclude='((\\.m?js)|(test\\.ts))$'",
-    // Test code (deno)
-    "test:deno": "cd $INIT_CWD && deno test --filter='/DENO/' $(deno task flags)",
-    // Test code (others)
-    "test:others": "cd $INIT_CWD && deno test --filter='/<<<NODE|BUN>>>/' --allow-all",
-    // Run benchmarks
-    "bench": "cd $INIT_CWD && deno bench --allow-read --allow-write=bench || true",
-    // Test and lint code
-    "qa": "deno task test && deno task lint",
-    // Bump package version
-    "make:bump": "deno run --allow-read --allow-write=. .github/deno_bump.ts",
-    // Generate README.md
-    "make:readme": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md",
-    // Generate html coverage
-    "make:coverage": "deno task test:deno --clean --coverage --fail-fast --reporter=dot && deno coverage --exclude=.js --html && sleep 1 && deno run --allow-read --allow-net=img.shields.io --allow-write=coverage jsr:@libs/bundle/ts/cli/coverage --root=coverage",
-    // Query in JSONC
-    "jq": "deno run --allow-read .github/deno_config_parser.ts --cwd=$INIT_CWD",
-    // Compute permissions flags
-    "flags": "deno run --allow-read .github/deno_flags.ts --cwd=$INIT_CWD"
+    "lint": {
+      "description": "Lint code, documentation, package and formatting\n- `--check`: skip actual formatting (check only)",
+      "command": "cd $INIT_CWD && deno lint && deno doc --lint **/mod.ts && deno publish --quiet --dry-run --allow-dirty && deno fmt"
+    },
+    "test": {
+      "description": "Test code and print detailed coverage",
+      "command": "cd $INIT_CWD && deno task --cwd=$INIT_CWD test:deno --doc --clean --coverage && deno coverage --detailed --include=$INIT_CWD --exclude='((\\.m?js)|(test\\.ts))$'"
+    },
+
+    "test:deno": {
+      "description": "Test code (deno)",
+      "command": "cd $INIT_CWD && deno test $(deno task flags)"
+    },
+    "test:node": {
+      "description": "Test code (node)",
+      "command": "cd $INIT_CWD && npx tsx --test *_test.ts"
+    },
+    "test:bun": {
+      "description": "Test code (bun)",
+      "command": "cd $INIT_CWD && bun test"
+    },
+    "bench": {
+      "description": "Run benchmarks",
+      "command": "cd $INIT_CWD && deno bench --allow-read --allow-write=bench || true"
+    },
+    "qa": {
+      "description": "Test and lint code",
+      "command": "deno task test && deno task lint"
+    },
+    "make:bump": {
+      "description": "Bump package version",
+      "command": "deno run --allow-read --allow-write=. .github/deno_bump.ts"
+    },
+    "make:readme": {
+      "description": "Generate README.md",
+      "command": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md"
+    },
+    "make:coverage": {
+      "description": "Generate html coverage",
+      "command": "deno task test:deno --clean --coverage --fail-fast --reporter=dot && deno coverage --exclude=.js --html && sleep 1 && deno run --allow-read --allow-net=img.shields.io --allow-write=coverage jsr:@libs/bundle/ts/cli/coverage --root=coverage"
+    },
+    "jq": {
+      "description": "Query in JSONC",
+      "command": "deno run --allow-read .github/deno_config_parser.ts --cwd=$INIT_CWD"
+    },
+    "flags": {
+      "description": "Compute permissions flags",
+      "command": "deno run --allow-read .github/deno_flags.ts --cwd=$INIT_CWD"
+    }
   },
-  "imports": {
-    // Standard library dependencies
-    "@std/assert": "jsr:@std/assert@1",
-    "@std/async": "jsr:@std/async@1",
-    "@std/cli": "jsr:@std/cli@1",
-    "@std/collections": "jsr:@std/collections@1",
-    "@std/encoding": "jsr:@std/encoding@1",
-    "@std/expect": "jsr:@std/expect@1",
-    "@std/fmt/colors": "jsr:@std/fmt@1/colors",
-    "@std/fs": "jsr:@std/fs@1",
-    "@std/html": "jsr:@std/html@1",
-    "@std/http": "jsr:@std/http@1",
-    "@std/jsonc": "jsr:@std/jsonc@1",
-    "@std/path": "jsr:@std/path@1",
-    "@std/semver": "jsr:@std/semver@1",
-    "@std/streams": "jsr:@std/streams@1",
-    "@std/tar": "jsr:@std/tar@^0.1.3",
-    "@std/text": "jsr:@std/text@1",
-    "@std/ulid": "jsr:@std/ulid@1",
-    "@std/yaml": "jsr:@std/yaml@1",
-    // External dependencies
-    "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@0.1.48",
-    "@cliffy/table": "jsr:@cliffy/table@1.0.0-rc.7",
-    "@deno/doc": "jsr:@deno/doc@0.160.0",
-    "@deno-libs/gql": "jsr:@deno-libs/gql@3.0.1",
-    "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@0.11.0",
-    // External npm dependencies
-    "@graphql-tools/schema": "npm:@graphql-tools/schema@10",
-    "@graphql-tools/utils": "npm:@graphql-tools/utils@10",
-    "@graphql-tools/merge": "npm:@graphql-tools/merge@9",
-    "@mdn/browser-compat-data": "npm:@mdn/browser-compat-data@5",
-    "browserslist": "npm:browserslist@4",
-    "css-tree": "npm:css-tree@3",
-    "csso": "npm:csso@5",
-    "esbuild": "npm:esbuild@0.24.0",
-    "graphql": "npm:graphql@16.8.1",
-    "graphql-tag": "npm:graphql-tag@2",
-    "hast": "npm:@types/hast@3",
-    "hastscript": "npm:hastscript@9",
-    "highlight.js": "npm:highlight.js@11",
-    "highlight.js/lib/core": "npm:highlight.js@11/lib/core",
-    "highlight.js/lib/languages/typescript": "npm:highlight.js@11/lib/languages/typescript",
-    "octokit": "npm:octokit@4",
-    "playwright": "npm:playwright@1",
-    "rehype-autolink-headings": "npm:rehype-autolink-headings@7",
-    "rehype-highlight": "npm:rehype-highlight@7",
-    "rehype-raw": "npm:rehype-raw@7",
-    "rehype-sanitize": "npm:rehype-sanitize@6",
-    "rehype-slug": "npm:rehype-slug@6",
-    "rehype-stringify": "npm:rehype-stringify@10",
-    "remark-breaks": "npm:remark-breaks@4",
-    "remark-directive": "npm:remark-directive@3",
-    "remark-emoji": "npm:remark-emoji@5",
-    "remark-flexible-markers": "npm:remark-flexible-markers@1",
-    "remark-frontmatter": "npm:remark-frontmatter@5",
-    "remark-gfm": "npm:remark-gfm@4",
-    "remark-math": "npm:remark-math@6",
-    "rehype-mathjax": "npm:rehype-mathjax@6",
-    "rehype-mermaid": "npm:rehype-mermaid@3",
-    "remark-parse": "npm:remark-parse@11",
-    "remark-rehype": "npm:remark-rehype@11",
-    "remark-remove-comments": "npm:remark-remove-comments@1",
-    "remark-ruby": "npm:remark-ruby@0.4.0",
-    "remark-wiki-link": "npm:remark-wiki-link@2",
-    "stylelint": "npm:stylelint@16",
-    "stylelint-config-idiomatic-order": "npm:stylelint-config-idiomatic-order@10",
-    "stylelint-config-recommended": "npm:stylelint-config-recommended@14",
-    "stylelint-order": "npm:stylelint-order@6",
-    "terser": "npm:terser@5",
-    "unified": "npm:unified@11",
-    "unist-util-visit": "npm:unist-util-visit@5",
-    "zod": "npm:zod@3",
-    "zod-error": "npm:zod-error@1",
-    "zod-to-json-schema": "npm:zod-to-json-schema@3",
-    // Stubs
-    "bun:test": "./testing/_stub.ts",
-    "node:test": "./testing/_stub.ts"
-  },
-  "nodeModulesDir": "auto",
-  "workspace": [
-    "bundle",
-    "crypto",
-    "diff",
-    "dom",
-    "logger",
-    "markdown",
-    "orm",
-    "qrcode",
-    "reactive",
-    "run",
-    "testing",
-    "typing",
-    "xml",
-    // Testing
-    "bundle/ts/testing"
-  ],
   "unstable": [
     "kv"
   ],
+  "nodeModulesDir":"auto",
   "fmt": {
     "semiColons": false,
     "lineWidth": 280,

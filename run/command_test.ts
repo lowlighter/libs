@@ -2,7 +2,6 @@ import { Logger } from "@libs/logger"
 import { command } from "./command.ts"
 import { expect, test, type testing, runtime } from "@libs/testing"
 
-if (runtime === "deno") {
 test("`command()` can spawn subprocesses asynchronously", async () => {
   let result = command("deno", ["--version"], { env: { NO_COLOR: "true" } }) as testing
   expect(result).toBeInstanceOf(Promise)
@@ -126,4 +125,3 @@ test("`command()` does nothing in dryrun", async () => {
 test("`command()` appends windows extension when os platform is windows", () => {
   expect(command("", ["--version"], { logger: new Logger({ level: "disabled" }), sync: true, winext: "deno", os: "windows" })).toMatchObject({ success: true, code: 0 })
 }, { permissions: { run: ["deno"] } })
-}

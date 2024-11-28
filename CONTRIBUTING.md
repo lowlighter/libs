@@ -48,7 +48,8 @@ The following tasks are available from `@libs/*` scopes:
 
 - `test`: Run `deno test` while collecting coverage, looking for leaks and checking documentation examples
 - `test:deno`: Perform tests on deno runtime
-- `test:others`: Perform tests on other runtimes (node, bun)
+- `test:node`: Perform tests on node
+- `test:bun`: Perform tests on bun
 - `coverage:html`: Generate coverage report (html)
 - `dev`: Run `deno fmt`, `deno test` (deno only), print detailed coverage, and `deno task lint`
 - `lint`: Run `deno fmt`, `deno lint`, `deno doc --lint`, `deno publish --dry-run`
@@ -62,14 +63,10 @@ The following tasks are available from `@libs` scope:
   - _This action is performed automatically by CI, do **NOT** submit changes resulting from this command in pull requests_
   - The following properties additonal properties to `*/deno.jsonc` are supported:
     - `icon:string`: Package icon
-    - `description:string`: Package description
-    - `versioning:"semver"|"date"`: Versioning scheme (should be `"semver"` in most cases)
-    - `keywords:Array<string>`: Package keywords (for npm)
-    - `supported:Array<"deno"|"node"|"bun"|"cloudflare-workers"|"browsers">`: List of supported runtimes
     - `playground?:string`: URL to playground
-    - `npm?:boolean`: Is this package published on npm?
     - `["deno.land/x"]?:boolean`: Is this package published on deno.land/x?
-    - `test:permissions?:Deno.TestDefinition["permissions"]`: Permissions required for tests _(these should be minimal, note that `--allow-run=deno,node,bun,npx` permissions is always appended as they're required for cross-runtime testing)_
+    - `test:permissions?:Deno.TestDefinition["permissions"]`: Permissions required for tests _(these should be minimal)_
+    - `supported:Record<"deno"|"node"|"bun"|"cloudflare-workers"|"browsers", boolean>`: List of supported runtimes
 - `make:config-upgrade`<sub>👨‍💻</sub>: Same as `make:config` but also upgrade dependencies of `*/deno.jsonc` with the ones from `deno.jsonc`
   - _This action is to be performed by a maintainer, each package should be separately commited to ensure that each package are correctly rebuild in the CI_
 - `make:tag`<sub>🤖</sub>: verify that new tag is semantically greater than previous one

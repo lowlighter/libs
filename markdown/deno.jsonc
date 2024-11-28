@@ -35,7 +35,11 @@
       "command":"npx playwright-core install --with-deps chromium"
     }
   },
-    "supported": [
-    "deno"
-  ],
+  "supported": {
+    "deno": true,
+    "node": true,
+    "bun": true,
+    "cloudflare-workers": true,
+    "browsers": true
+  }
 }

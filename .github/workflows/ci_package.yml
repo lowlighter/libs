@@ -111,6 +111,10 @@ jobs:
       has_build: ${{ steps.package.outputs.has_build }}
       has_npm: ${{ steps.package.outputs.has_npm }}
       has_x: ${{ steps.package.outputs.has_x }}
+      supports_deno: ${{ steps.package.outputs.supports_deno }}
+      supports_node: ${{ steps.package.outputs.supports_node }}
+      supports_bun: ${{ steps.package.outputs.supports_bun }}
+      supports_browsers: ${{ steps.package.outputs.supports_browsers }}
       tag: ${{ steps.tag.outputs.tag }}
       version: ${{ steps.tag.outputs.semver }}
     steps:
@@ -129,14 +133,22 @@ jobs:
         id: package
         run: |
           echo "has_build=$(deno task jq .tasks.build)" >> "$GITHUB_OUTPUT"
-          echo "has_npm=$(deno task jq .npm)" >> "$GITHUB_OUTPUT"
+          echo "has_npm=false" >> "$GITHUB_OUTPUT"
           echo "has_x=$(deno task jq .["deno.land/x"])" >> "$GITHUB_OUTPUT"
+          echo "supports_deno=$(deno task jq .tasks.test.deno)" >> "$GITHUB_OUTPUT"
+          echo "supports_node=$(deno task jq .tasks.test.node)" >> "$GITHUB_OUTPUT"
+          echo "supports_bun=$(deno task jq .tasks.test.bun)" >> "$GITHUB_OUTPUT"
+          echo "supports_browsers=$(deno task jq .tasks.test.browsers)" >> "$GITHUB_OUTPUT"
       # Build
       - run: deno task build
         if: ${{ steps.package.outputs.has_build }}
       # Tests
       - run: deno task test:deno
-      - run: deno task test:others
+        if: ${{ steps.package.outputs.supports_deno }}
+      - run: deno task test:node
+        if: ${{ steps.package.outputs.supports_node }}
+      - run: deno task test:bun
+        if: ${{ steps.package.outputs.supports_bun }}
       # Bench
       - run: deno task bench
       # Tag

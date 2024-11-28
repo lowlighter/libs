@@ -9,7 +9,7 @@
   "test:permissions": {
     "net": true
   },
-  "supported": [
-    "deno"
-  ]
+  "supported": {
+    "deno": true
+  }
 }

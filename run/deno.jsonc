@@ -13,7 +13,7 @@
       "deno"
     ]
   },
-  "supported": [
-    "deno"
-  ]
+  "supported": {
+    "deno": true
+  }
 }

@@ -29,7 +29,7 @@
     "write": true,
     "run": true
   },
-  "supported": [
-    "deno"
-  ],
+  "supported": {
+    "deno": true
+  }
 }

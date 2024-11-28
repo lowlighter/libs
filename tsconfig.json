@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@libs/testing": ["./testing/mod.ts"],
+      "@libs/logger": ["./logger/mod.ts"],
+    }
+  }
+}

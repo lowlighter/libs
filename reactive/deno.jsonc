@@ -7,11 +7,11 @@
     ".": "./mod.ts",
     "./context": "./context.ts"
   },
-  "supported": [
-    "deno",
-    "node",
-    "bun",
-    "cloudflare-workers",
-    "browsers"
-  ]
+  "supported": {
+    "deno": true,
+    "node": true,
+    "bun": true,
+    "cloudflare-workers": true,
+    "browsers": true
+  }
 }

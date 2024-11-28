@@ -14,7 +14,7 @@
       "localhost:8080"
     ]
   },
-  "supported": [
-    "deno"
-  ]
+  "supported": {
+    "deno": true
+  }
 }
