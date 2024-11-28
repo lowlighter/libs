@@ -1,0 +1,12 @@
+{
+  "name": "@testing/bundle-test",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "description": "A dummy package used for testing.",
+  "exports": {
+    ".": "./test_bundle.mjs"
+  }
+}

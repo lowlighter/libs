@@ -2,22 +2,7 @@
   "icon": "📦",
   "name": "@libs/bundle",
   "version": "12.4.1",
-  "description": "Code bundlers, formatters, minifiers and others tools.",
-  "npm": false,
   "playground": "https://libs.lecoq.io/bundle",
-  "keywords": [
-    "bundler",
-    "formatter",
-    "minifier",
-    "builder",
-    "css",
-    "ts",
-    "wasm",
-    "esm"
-  ],
-  "supported": [
-    "deno"
-  ],
   "exports": {
     ".": "./mod.ts",
     "./ts": "./ts/mod.ts",
@@ -43,5 +28,8 @@
     "net": true,
     "write": true,
     "run": true
-  }
+  },
+  "supported": [
+    "deno"
+  ],
 }

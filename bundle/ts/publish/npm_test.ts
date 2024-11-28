@@ -5,7 +5,7 @@ import { Logger } from "@libs/logger"
 
 const path = fromFileUrl(new URL("../testing/deno.jsonc", import.meta.url))
 
-test("deno")("`packaged()` parses `deno.jsonc` to `package.json` and other metadata", async () => {
+test("`packaged()` parses `deno.jsonc` to `package.json` and other metadata", async () => {
   await expect(packaged(path)).resolves.toMatchObject({
     scope: "@libs",
     name: "bundle-test",
@@ -25,7 +25,7 @@ test("deno")("`packaged()` parses `deno.jsonc` to `package.json` and other metad
   })
 }, { permissions: "inherit" })
 
-test("deno")("`publish()` publishes `deno.jsonc` to npm", async () => {
+test("`publish()` publishes `deno.jsonc` to npm", async () => {
   await expect(publish(path, { logger: new Logger({ level: "disabled" }), scope: "@testing", dryrun: true, provenance: true, registries: [{ url: "https://registry.npmjs.example.com", token: "npm_otp", access: "public" }] })).resolves.toMatchObject({
     scope: "@testing",
     name: "bundle-test",
