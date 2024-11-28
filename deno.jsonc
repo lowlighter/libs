@@ -15,7 +15,7 @@
     // Test code and print detailed coverage
     "test": "cd $INIT_CWD && deno task --cwd=$INIT_CWD test:deno --doc --clean --coverage && deno coverage --detailed --include=$INIT_CWD --exclude='((\\.m?js)|(test\\.ts))$'",
     // Test code (deno)
-    "test:deno": "cd $INIT_CWD && deno test --filter='/DENO/' --allow-all",
+    "test:deno": "cd $INIT_CWD && deno test --filter='/DENO/' $(deno task flags)",
     // Test code (others)
     "test:others": "cd $INIT_CWD && deno test --filter='/<<<NODE|BUN>>>/' --allow-all",
     // Run benchmarks
@@ -29,7 +29,9 @@
     // Generate html coverage
     "make:coverage": "deno task test:deno --clean --coverage --fail-fast --reporter=dot && deno coverage --exclude=.js --html && sleep 1 && deno run --allow-read --allow-net=img.shields.io --allow-write=coverage jsr:@libs/bundle/ts/cli/coverage --root=coverage",
     // Query in JSONC
-    "jq": "deno run --allow-read .github/deno_config_parser.ts --cwd=$INIT_CWD"
+    "jq": "deno run --allow-read .github/deno_config_parser.ts --cwd=$INIT_CWD",
+    // Compute permissions flags
+    "flags": "deno run --allow-read .github/deno_flags.ts --cwd=$INIT_CWD"
   },
   "imports": {
     // Standard library dependencies
