@@ -3,7 +3,7 @@ import { Store } from "./store.ts"
 import { Logger } from "@libs/logger"
 const log = new Logger({ level: "disabled" })
 
-test("deno")("`Store` calls `open()` upon construction and `close()` upon destruction", async () => {
+test("`Store` calls `open()` upon construction and `close()` upon destruction", async () => {
   const _open = fn()
   const _close = fn()
   const options = { log, foo: true }
@@ -31,7 +31,7 @@ test("deno")("`Store` calls `open()` upon construction and `close()` upon destru
   await expect(new ErrorStore().ready).rejects.toThrow("Expected")
 })
 
-test("deno")("`Store.get()` gets key-values", async () => {
+test("`Store.get()` gets key-values", async () => {
   let value = null as testing
   const key = ["key"]
   const version = "0"
@@ -46,7 +46,7 @@ test("deno")("`Store.get()` gets key-values", async () => {
   await expect(store.get(key)).resolves.toEqual({ value, version })
 })
 
-test("deno")("`Store.set()` sets key-values", async () => {
+test("`Store.set()` sets key-values", async () => {
   const key = ["key"]
   const value = { foo: true }
   const version = "0"
@@ -66,7 +66,7 @@ test("deno")("`Store.set()` sets key-values", async () => {
   }
 })
 
-test("deno")("`Store.delete()` deletes key-values", async () => {
+test("`Store.delete()` deletes key-values", async () => {
   const key = ["key"]
   const version = "0"
   let ok = true
@@ -89,7 +89,7 @@ test("deno")("`Store.delete()` deletes key-values", async () => {
   expect(store._delete).toHaveBeenLastCalledWith([key], version)
 })
 
-test("deno")("`Store.list()` lists key-values", async () => {
+test("`Store.list()` lists key-values", async () => {
   const key = [["key_a"], ["key_b"]]
   const TestStore = class extends (Store as testing) {
     _open() {}

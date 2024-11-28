@@ -2,19 +2,19 @@
   "icon": "💰",
   "name": "@libs/orm",
   "version": "0.9.0",
-  "description": "Object-relational mapping toolbox.",
-  "npm": true,
   "playground": "https://libs.lecoq.io/orm",
-  "keywords": [
-    "orm",
-    "esm"
-  ],
-  "supported": [
-    "deno"
-  ],
   "exports": {
     ".": "./mod.ts",
     "./is": "./is/mod.ts",
     "./api/graphql": "./api/graphql.ts"
-  }
+  },
+  "test:permissions": {
+    "net": [
+      "0.0.0.0:8080",
+      "localhost:8080"
+    ]
+  },
+  "supported": [
+    "deno"
+  ]
 }

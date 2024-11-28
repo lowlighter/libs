@@ -1,0 +1,20 @@
+{
+  "type": "module",
+  "description": "Object-relational mapping toolbox.",
+  "keywords": [
+    "orm",
+    "esm"
+  ],
+  "dependencies": {
+    "@deno-libs/gql": "npm:@jsr/deno-libs__gql@^3.0.1",
+    "@graphql-tools/merge": "^9.0.11",
+    "@graphql-tools/schema": "^10.0.10",
+    "@graphql-tools/utils": "^10.6.1",
+    "@std/async": "npm:@jsr/std__async@^1.0.9",
+    "@std/text": "npm:@jsr/std__text@^1.0.8",
+    "@std/ulid": "npm:@jsr/std__ulid@^1.0.0-rc.4",
+    "zod": "^3.23.8",
+    "zod-error": "^1.5.0",
+    "zod-to-json-schema": "^3.23.5"
+  }
+}

@@ -6,7 +6,7 @@ import { is, schema } from "../is/is.ts"
 import { graphql, toGraphQLDefinition } from "./graphql.ts"
 import { delay } from "@std/async/delay"
 
-test("deno")("`toGraphQLDefinition()` supports primitive types", () => {
+test("`toGraphQLDefinition()` supports primitive types", () => {
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.number().int() })))).toMatch(/foo: Float!\n/)
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.number().int().nullable() })))).toMatch(/foo: Float\n/)
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.number() })))).toMatch(/foo: Float!\n/)
@@ -17,49 +17,49 @@ test("deno")("`toGraphQLDefinition()` supports primitive types", () => {
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.string().nullable() })))).toMatch(/foo: String\n/)
 })
 
-test("deno")("`toGraphQLDefinition()` supports enum types", () => {
+test("`toGraphQLDefinition()` supports enum types", () => {
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.literal("foo") })))).toMatch(/foo: SchemaFoo!\n[\s\S]+enum SchemaFoo/)
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.literal("foo").nullable() })))).toMatch(/foo: SchemaFoo\n[\s\S]+enum SchemaFoo/)
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.enum(["foo", "bar", "baz"]) })))).toMatch(/foo: SchemaFoo!\n[\s\S]+enum SchemaFoo/)
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.enum(["foo", "bar", "baz"]).nullable() })))).toMatch(/foo: SchemaFoo\n[\s\S]+enum SchemaFoo/)
 })
 
-test("deno")("`toGraphQLDefinition()` supports array types", () => {
+test("`toGraphQLDefinition()` supports array types", () => {
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.array(is.boolean()) })))).toMatch(/foo: \[Boolean!\]!\n/)
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.array(is.boolean()).nullable() })))).toMatch(/foo: \[Boolean!\]\n/)
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.array(is.boolean().nullable()) })))).toMatch(/foo: \[Boolean\]!\n/)
 })
 
-test("deno")("`toGraphQLDefinition()` supports object types", () => {
+test("`toGraphQLDefinition()` supports object types", () => {
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.object({ bar: is.boolean() }) })))).toMatch(/foo: SchemaFoo!\n[\s\S]+bar: Boolean!/)
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.object({ bar: is.boolean() }).nullable() })))).toMatch(/foo: SchemaFoo\n[\s\S]+bar: Boolean!/)
 })
 
-test("deno")('`toGraphQLDefinition()` converts string named `"id"` to `ID` type', () => {
+test('`toGraphQLDefinition()` converts string named `"id"` to `ID` type', () => {
   expect(toGraphQLDefinition("Schema", schema(is.object({ id: is.string() })))).toMatch(/id: ID!\n/)
   expect(toGraphQLDefinition("Schema", schema(is.object({ id: is.string().nullable() })))).toMatch(/id: ID\n/)
 })
 
-test("deno")("`toGraphQLDefinition()` keeps descriptions", () => {
+test("`toGraphQLDefinition()` keeps descriptions", () => {
   expect(toGraphQLDefinition("Schema", schema(is.object({}).describe("foobar")))).toMatch(/"""\s*foobar\s*"""\s*type Schema/)
   expect(toGraphQLDefinition("Schema", schema(is.object({ foo: is.boolean().describe("foobar") })))).toMatch(/"""\s*foobar\s*"""\s*foo:/)
 })
 
-test("deno")("`toGraphQLDefinition()` throws on invalid types", () => {
+test("`toGraphQLDefinition()` throws on invalid types", () => {
   expect(() => toGraphQLDefinition("Schema", null as testing)).toThrow(TypeError)
   expect(() => toGraphQLDefinition("Schema", schema(is.number()))).toThrow(TypeError)
   expect(() => toGraphQLDefinition("Schema", schema(is.object({ foo: is.null() })))).toThrow(TypeError)
   expect(() => toGraphQLDefinition("Schema", schema(is.object({ foo: is.union([is.number(), is.string()]) })))).toThrow(TypeError)
 })
 
-test("deno")("`toGraphQLDefinition()` suppports `Resource` definition", () => {
+test("`toGraphQLDefinition()` suppports `Resource` definition", () => {
   class TestResource extends Resource.with({ model: is.object({ foo: is.string().describe("foobar") }) }) {}
   expect(toGraphQLDefinition(TestResource)).toMatch(/type TestResource/)
   expect(toGraphQLDefinition(TestResource)).toMatch(/"""\s*foobar\s*"""\s*foo:/)
   expect(toGraphQLDefinition(Resource)).toMatch(/This field has no effect/i)
 })
 
-test("deno")("`graphql()` returns an executable graphql schema", async () => {
+test("`graphql()` returns an executable graphql schema", async () => {
   await using store = await new Store({ path: ":memory:", log: new Logger({ level: "disabled" }) }).ready
   const TestResource = await Resource.with({
     name: "TestResource",

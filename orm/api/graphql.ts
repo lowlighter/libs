@@ -35,12 +35,12 @@ export function toGraphQLDefinition(name: string | Arrayable<typeof Resource>, s
  * import { Resource } from "./../resource.ts"
  * import { is } from "./../is/is.ts"
  *
- * const store = await new Store().ready
+ * await using store = await new Store().ready
  * const model = is.object({ foo: is.string() })
  * const MyResource = await Resource.with({ name: "MyResource", store, model }).ready
  * const { handler } = graphql([MyResource], {graphiql:true})
  *
- * Deno.serve({ port: 3000 }, async (request) => {
+ * await using _ = Deno.serve({ port: 8080 }, async (request) => {
  *   const { pathname } = new URL(request.url)
  *   return pathname === "/graphql" ? await handler(request) : new Response("Not Found", { status: 404 })
  * })
