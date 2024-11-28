@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "description": "Utilities to run subprocess.",
+  "keywords": [
+    "subprocess",
+    "esm"
+  ],
+  "dependencies": {
+    "@std/async": "npm:@jsr/std__async@^1.0.9",
+    "@std/streams": "npm:@jsr/std__streams@^1.0.8"
+  }
+}

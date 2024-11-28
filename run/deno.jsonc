@@ -2,26 +2,18 @@
   "icon": "⏯️",
   "name": "@libs/run",
   "version": "3.0.0",
-  "description": "Utilities to run subprocess.",
   "npm": true,
   "playground": "https://libs.lecoq.io/run",
-  "keywords": [
-    "subprocess",
-    "esm"
-  ],
-  "supported": [
-    "deno"
-  ],
   "exports": {
     ".": "./mod.ts",
     "./command": "./command.ts"
   },
   "test:permissions": {
     "run": [
-      "deno",
-      "node",
-      "bun",
-      "npx"
+      "deno"
     ]
-  }
+  },
+  "supported": [
+    "deno"
+  ]
 }
