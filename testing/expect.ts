@@ -6,7 +6,7 @@
 import { type Async, expect as _expect, type Expected, fn } from "@std/expect"
 import { assert, assertEquals, type AssertionError as _AssertionError, assertIsError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
 import type { Arg, Arrayable, callback, Nullable, record, TypeOf } from "@libs/typing"
-import type { testing } from "./_testing.ts"
+import type { testing } from "./test.ts"
 import { STATUS_CODE as Status } from "@std/http/status"
 
 /**

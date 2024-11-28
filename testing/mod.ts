@@ -1,3 +1,5 @@
 export * from "./test.ts"
 export * from "./expect.ts"
 export * from "./permissions.ts"
+export * from "./runtime.ts"
+export * from "./highlight.ts"

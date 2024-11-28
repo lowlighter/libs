@@ -3,21 +3,21 @@
   "name": "@libs/testing",
   "version": "3.0.2",
   "description": "Testing utilities for cross-platform testing on Deno, Node.js and Bun.",
-  "npm": true,
   "keywords": [
     "testing",
     "esm"
-  ],
-  "supported": [
-    "deno"
   ],
   "exports": {
     ".": "./mod.ts",
     "./expect": "./expect.ts",
     "./test": "./test.ts",
+    "./runtime": "./runtime.ts",
     "./highlight": "./highlight.ts",
     "./permissions": "./permissions.ts"
   },
+  "supported": [
+    "deno"
+  ],
   "test:permissions": {
     "run": [
       "deno",

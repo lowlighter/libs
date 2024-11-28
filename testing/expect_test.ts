@@ -1,7 +1,8 @@
-import { test } from "./_testing.ts"
+import { test } from "./test.ts"
 import { AssertionError, expect, Status } from "./expect.ts"
+import { runtime } from "./runtime.ts"
 
-test()("`expect` has typings", () => {
+test("`expect` has typings", () => {
   // Built-in properties
   expect.any(null)
   // Built-in matchers
@@ -12,7 +13,7 @@ test()("`expect` has typings", () => {
   expect(null).not.toSatisfy(() => false)
 })
 
-test()("`expect.toThrow()` asserts a function throws", () => {
+test("`expect.toThrow()` asserts a function throws", () => {
   class TestError extends Error {
     constructor() {
       super("Expected error")
@@ -60,14 +61,14 @@ test()("`expect.toThrow()` asserts a function throws", () => {
   expect(() => expect(null).toThrow("foo", "bar")).toThrow(TypeError, "First argument must be an Error class or instance when second argument is a string or RegExp")
 })
 
-test()("`expect.toSatisfy()` asserts predicate", () => {
+test("`expect.toSatisfy()` asserts predicate", () => {
   expect("foo").toSatisfy((value: string) => value.length > 0)
   expect("foo").not.toSatisfy((value: string) => value.length === 0)
   expect(() => expect("foo").not.toSatisfy((value: string) => value.length > 0)).toThrow(AssertionError, "to NOT satisfy")
   expect(() => expect("foo").toSatisfy((value: string) => value.length === 0)).toThrow(AssertionError, "to satisfy")
 })
 
-test()("`expect.toBeType()` asserts typeof", () => {
+test("`expect.toBeType()` asserts typeof", () => {
   expect("foo").toBeType("string")
   expect("foo").not.toBeType("number")
   expect(null).toBeType("object", { nullable: true })
@@ -78,7 +79,7 @@ test()("`expect.toBeType()` asserts typeof", () => {
   expect(() => expect(null).not.toBeType("object", { nullable: true })).toThrow(AssertionError, "to NOT be of type")
 })
 
-test()("`expect.toHaveDescribedProperty()` asserts `Object.getOwnPropertyDescriptor()`", () => {
+test("`expect.toHaveDescribedProperty()` asserts `Object.getOwnPropertyDescriptor()`", () => {
   const record = Object.defineProperties({}, { foo: { value: "bar", writable: false, enumerable: false } })
   expect(record).toHaveDescribedProperty("foo", { value: "bar" })
   expect(record).not.toHaveDescribedProperty("foo", { value: "baz" })
@@ -91,7 +92,7 @@ test()("`expect.toHaveDescribedProperty()` asserts `Object.getOwnPropertyDescrip
   expect(() => expect(record).toHaveDescribedProperty("bar", {})).toThrow(AssertionError, "does not exist")
 })
 
-test()("`expect.toHaveImmutableProperty()` asserts writable but not editable properties", () => {
+test("`expect.toHaveImmutableProperty()` asserts writable but not editable properties", () => {
   for (const target of [{}, function () {}]) {
     const record = Object.defineProperties(target, {
       foo: {
@@ -120,7 +121,7 @@ test()("`expect.toHaveImmutableProperty()` asserts writable but not editable pro
   expect(() => expect(1).toHaveImmutableProperty("foo")).toThrow(AssertionError, "value is not indexed")
 })
 
-test()("`expect.toBeIterable()` asserts value is iterable", () => {
+test("`expect.toBeIterable()` asserts value is iterable", () => {
   expect([]).toBeIterable()
   expect(new Set()).toBeIterable()
   expect(new Map()).toBeIterable()
@@ -131,7 +132,7 @@ test()("`expect.toBeIterable()` asserts value is iterable", () => {
   expect(() => expect(1).toBeIterable()).toThrow(AssertionError, "to be iterable")
 })
 
-test()("`expect.toBeSealed()` asserts value is sealed", () => {
+test("`expect.toBeSealed()` asserts value is sealed", () => {
   const sealed = Object.seal({})
   expect(sealed).toBeSealed()
   expect({}).not.toBeSealed()
@@ -139,7 +140,7 @@ test()("`expect.toBeSealed()` asserts value is sealed", () => {
   expect(() => expect({}).toBeSealed()).toThrow(AssertionError, "to be sealed")
 })
 
-test()("`expect.toBeFrozen()` asserts value is frozen", () => {
+test("`expect.toBeFrozen()` asserts value is frozen", () => {
   const frozen = Object.freeze({})
   expect(frozen).toBeFrozen()
   expect({}).not.toBeFrozen()
@@ -147,7 +148,7 @@ test()("`expect.toBeFrozen()` asserts value is frozen", () => {
   expect(() => expect({}).toBeFrozen()).toThrow(AssertionError, "to be frozen")
 })
 
-test()("`expect.toBeExtensible()` asserts value is extensible", () => {
+test("`expect.toBeExtensible()` asserts value is extensible", () => {
   const unextensible = Object.preventExtensions({})
   expect({}).toBeExtensible()
   expect(unextensible).not.toBeExtensible()
@@ -155,7 +156,7 @@ test()("`expect.toBeExtensible()` asserts value is extensible", () => {
   expect(() => expect(unextensible).toBeExtensible()).toThrow(AssertionError, "to be extensible")
 })
 
-test()("`expect.toBeShallowCopyOf()` asserts value is a shallow copy", () => {
+test("`expect.toBeShallowCopyOf()` asserts value is a shallow copy", () => {
   const object = { foo: "bar" }
   const array = [1, 2, 3]
   expect(object).toBeShallowCopyOf({ ...object })
@@ -168,7 +169,7 @@ test()("`expect.toBeShallowCopyOf()` asserts value is a shallow copy", () => {
   expect(() => expect(array).toBeShallowCopyOf(array)).toThrow(AssertionError, "to be a shallow copy")
 })
 
-test()("`expect.toBeEmpty()` asserts value is empty", () => {
+test("`expect.toBeEmpty()` asserts value is empty", () => {
   expect([]).toBeEmpty()
   expect(new Set()).toBeEmpty()
   expect(new Map()).toBeEmpty()
@@ -183,28 +184,28 @@ test()("`expect.toBeEmpty()` asserts value is empty", () => {
   expect(() => expect(new Map([[1, 1]])).toBeEmpty()).toThrow(AssertionError, "to be empty")
 })
 
-test()("`expect.toBeSorted()` asserts value is sorted", () => {
+test("`expect.toBeSorted()` asserts value is sorted", () => {
   expect([1, 2, 3]).toBeSorted()
   expect([3, 2, 1]).not.toBeSorted()
   expect(() => expect([3, 2, 1]).toBeSorted()).toThrow(AssertionError, "to be sorted")
   expect(() => expect([1, 2, 3]).not.toBeSorted()).toThrow(AssertionError, "to NOT be sorted")
 })
 
-test()("`expect.toBeReverseSorted()` asserts value is reverse sorted", () => {
+test("`expect.toBeReverseSorted()` asserts value is reverse sorted", () => {
   expect([3, 2, 1]).toBeReverseSorted()
   expect([1, 2, 3]).not.toBeReverseSorted()
   expect(() => expect([1, 2, 3]).toBeReverseSorted()).toThrow(AssertionError, "to be reverse sorted")
   expect(() => expect([3, 2, 1]).not.toBeReverseSorted()).toThrow(AssertionError, "to NOT be reverse sorted")
 })
 
-test()("`expect.toBeOneOf()` asserts value is one of", () => {
+test("`expect.toBeOneOf()` asserts value is one of", () => {
   expect("foo").toBeOneOf(["foo", "bar"])
   expect("baz").not.toBeOneOf(["foo", "bar"])
   expect(() => expect("baz").toBeOneOf(["foo", "bar"])).toThrow(AssertionError, "to be one of")
   expect(() => expect("foo").not.toBeOneOf(["foo", "bar"])).toThrow(AssertionError, "to NOT be one of")
 })
 
-test()("`expect.toBeWithin()` asserts value is within range", () => {
+test("`expect.toBeWithin()` asserts value is within range", () => {
   expect(0).toBeWithin([0, 1])
   expect(1).toBeWithin([0, 1])
   expect(2).not.toBeWithin([0, 1])
@@ -217,7 +218,7 @@ test()("`expect.toBeWithin()` asserts value is within range", () => {
   expect(() => expect(.5).not.toBeWithin([0, 1], true)).toThrow(AssertionError, "to NOT be within")
 })
 
-test()("`expect.toBeFinite()` asserts value is finite", () => {
+test("`expect.toBeFinite()` asserts value is finite", () => {
   expect(0).toBeFinite()
   expect(Infinity).not.toBeFinite()
   expect(NaN).not.toBeFinite()
@@ -226,14 +227,14 @@ test()("`expect.toBeFinite()` asserts value is finite", () => {
   expect(() => expect(NaN).toBeFinite()).toThrow(AssertionError, "to be finite")
 })
 
-test()("`expect.toBeParseableJSON()` asserts value is parseable JSON", () => {
+test("`expect.toBeParseableJSON()` asserts value is parseable JSON", () => {
   expect('{"foo":"bar"}').toBeParseableJSON()
   expect("<invalid>").not.toBeParseableJSON()
   expect(() => expect('{"foo":"bar"}').not.toBeParseableJSON()).toThrow(AssertionError, "to NOT be parseable JSON")
   expect(() => expect("<invalid>").toBeParseableJSON()).toThrow(AssertionError, "to be parseable JSON")
 })
 
-test()("`expect.toBeEmail()` asserts value is parseable email", () => {
+test("`expect.toBeEmail()` asserts value is parseable email", () => {
   expect("foo@example.com").toBeEmail()
   expect("foo+meta@example.com").toBeEmail()
   expect("<invalid>").not.toBeEmail()
@@ -242,7 +243,7 @@ test()("`expect.toBeEmail()` asserts value is parseable email", () => {
   expect(() => expect("<invalid>").toBeEmail()).toThrow(AssertionError, "to be a valid email")
 })
 
-test()("`expect.toBeUrl()` asserts value is parseable url", () => {
+test("`expect.toBeUrl()` asserts value is parseable url", () => {
   expect("https://example.com").toBeUrl()
   expect(new URL("https://example.com")).toBeUrl()
   expect("<invalid>").not.toBeUrl()
@@ -251,21 +252,23 @@ test()("`expect.toBeUrl()` asserts value is parseable url", () => {
   expect(() => expect("<invalid>").toBeUrl()).toThrow(AssertionError, "to be a valid URL")
 })
 
-test()("`expect.toBeBase64()` asserts value is a valid base64 string", () => {
+test("`expect.toBeBase64()` asserts value is a valid base64 string", () => {
   expect(btoa("foo")).toBeBase64()
   expect("<invalid>").not.toBeBase64()
   expect(() => expect(btoa("foo")).not.toBeBase64()).toThrow(AssertionError, "to NOT be a valid base64 string")
   expect(() => expect("<invalid>").toBeBase64()).toThrow(AssertionError, "to be a valid base64 string")
 })
 
-test()("`expect.toRespondWithStatus()` asserts response status", () => {
+test("`expect.toRespondWithStatus()` asserts response status", () => {
   expect(() => expect({}).toRespondWithStatus(Status.OK)).toThrow(AssertionError, "is not a Response")
   expect(new Response(null, { status: Status.OK })).toRespondWithStatus(Status.OK)
   expect(new Response(null, { status: Status.OK })).toRespondWithStatus([Status.OK])
   expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus(Status.NotFound)
   expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus([Status.NotFound])
-  expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("1XX")
-  expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("informational")
+  if (runtime !== "node") {
+    expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("1XX")
+    expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("informational")
+  }
   expect(new Response(null, { status: Status.OK })).toRespondWithStatus("2XX")
   expect(new Response(null, { status: Status.OK })).toRespondWithStatus("successful")
   expect(new Response(null, { status: Status.MovedPermanently })).toRespondWithStatus("3XX")
@@ -274,8 +277,10 @@ test()("`expect.toRespondWithStatus()` asserts response status", () => {
   expect(new Response(null, { status: Status.BadRequest })).toRespondWithStatus("client_error")
   expect(new Response(null, { status: Status.InternalServerError })).toRespondWithStatus("5XX")
   expect(new Response(null, { status: Status.InternalServerError })).toRespondWithStatus("server_error")
-  expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("2XX")
-  expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("successful")
+  if (runtime !== "node") {
+    expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("2XX")
+    expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("successful")
+  }
   expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus("1XX")
   expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus("informational")
   expect(new Response(null, { status: Status.MovedPermanently })).not.toRespondWithStatus("1XX")
@@ -288,8 +293,10 @@ test()("`expect.toRespondWithStatus()` asserts response status", () => {
   expect(() => expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus([Status.OK])).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.OK })).toRespondWithStatus(Status.NotFound)).toThrow(AssertionError, "status to be")
   expect(() => expect(new Response(null, { status: Status.OK })).toRespondWithStatus([Status.NotFound])).toThrow(AssertionError, "status to be")
-  expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("1XX")).toThrow(AssertionError, "status to NOT be")
-  expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("informational")).toThrow(AssertionError, "status to NOT be")
+  if (runtime !== "node") {
+    expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("1XX")).toThrow(AssertionError, "status to NOT be")
+    expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("informational")).toThrow(AssertionError, "status to NOT be")
+  }
   expect(() => expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus("2XX")).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus("successful")).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.MovedPermanently })).not.toRespondWithStatus("3XX")).toThrow(AssertionError, "status to NOT be")
@@ -298,8 +305,10 @@ test()("`expect.toRespondWithStatus()` asserts response status", () => {
   expect(() => expect(new Response(null, { status: Status.BadRequest })).not.toRespondWithStatus("client_error")).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.InternalServerError })).not.toRespondWithStatus("5XX")).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.InternalServerError })).not.toRespondWithStatus("server_error")).toThrow(AssertionError, "status to NOT be")
-  expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("2XX")).toThrow(AssertionError, "status to be")
-  expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("successful")).toThrow(AssertionError, "status to be")
+  if (runtime !== "node") {
+    expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("2XX")).toThrow(AssertionError, "status to be")
+    expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("successful")).toThrow(AssertionError, "status to be")
+  }
   expect(() => expect(new Response(null, { status: Status.OK })).toRespondWithStatus("1XX")).toThrow(AssertionError, "status to be")
   expect(() => expect(new Response(null, { status: Status.OK })).toRespondWithStatus("informational")).toThrow(AssertionError, "status to be")
   expect(() => expect(new Response(null, { status: Status.MovedPermanently })).toRespondWithStatus("1XX")).toThrow(AssertionError, "status to be")
@@ -311,7 +320,7 @@ test()("`expect.toRespondWithStatus()` asserts response status", () => {
   expect(new Response("Body is canceled", { status: Status.OK })).toRespondWithStatus(Status.OK)
 })
 
-test()("`expect.toBeHashed()` asserts value is likely to be hashed with specified algorithm", () => {
+test("`expect.toBeHashed()` asserts value is likely to be hashed with specified algorithm", () => {
   expect(() => expect(null).toBeHashed("md5")).toThrow(AssertionError, "is not of type")
   expect(() => expect("acbd18db4cc2f85cedef654fccc4a4d8").toBeHashed("<invalid>")).toThrow(AssertionError, "is unknown")
   expect(() => expect("same length as hash but not one!").toBeHashed("md5")).toThrow(AssertionError, "contains non-hexadecimal characters")
@@ -329,7 +338,7 @@ test()("`expect.toBeHashed()` asserts value is likely to be hashed with specifie
   expect(() => expect("foo").toBeHashed("md5")).toThrow(AssertionError, "to be hashed")
 })
 
-test()("`expect.toBeDate()` asserts value is a valid date", () => {
+test("`expect.toBeDate()` asserts value is a valid date", () => {
   expect(new Date()).toBeDate()
   expect(new Date().toISOString()).toBeDate()
   expect(Date.now()).toBeDate()
@@ -340,7 +349,7 @@ test()("`expect.toBeDate()` asserts value is a valid date", () => {
   expect(() => expect("<invalid>").toBeDate()).toThrow(AssertionError, "to be a date")
 })
 
-test()("`expect.toBePast()` asserts value is a past date", () => {
+test("`expect.toBePast()` asserts value is a past date", () => {
   expect(new Date(Date.now() - 5000)).toBePast()
   expect(new Date(Date.now() + 5000)).not.toBePast()
   expect(new Date(Date.now() - 5000)).toBePast(new Date(Date.now() + 10000))
@@ -351,7 +360,7 @@ test()("`expect.toBePast()` asserts value is a past date", () => {
   expect(() => expect(new Date(Date.now() - 5000)).not.toBePast(new Date(Date.now() + 10000))).toThrow(AssertionError, "to NOT be in the past")
 })
 
-test()("`expect.toBeFuture()` asserts value is a future date", () => {
+test("`expect.toBeFuture()` asserts value is a future date", () => {
   expect(new Date(Date.now() + 5000)).toBeFuture()
   expect(new Date(Date.now() - 5000)).not.toBeFuture()
   expect(new Date(Date.now() + 5000)).toBeFuture(new Date(Date.now() - 10000))
