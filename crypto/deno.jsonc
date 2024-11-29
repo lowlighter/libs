@@ -1,7 +1,7 @@
 {
   "icon": "🧮",
   "name": "@libs/crypto",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "playground": "https://libs.lecoq.io/crypto",
   "exports": {
     ".": "./mod.ts",
