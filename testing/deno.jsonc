@@ -1,7 +1,7 @@
 {
   "icon": "🧪",
   "name": "@libs/testing",
-  "version": "3.0.2",
+  "version": "4.0.0",
   "exports": {
     ".": "./mod.ts",
     "./expect": "./expect.ts",
