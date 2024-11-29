@@ -1,7 +1,7 @@
 {
   "icon": "📰",
   "name": "@libs/logger",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "playground": "https://libs.lecoq.io/logger",
   "exports": {
     ".": "./mod.ts"
