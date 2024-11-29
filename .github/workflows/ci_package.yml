@@ -133,12 +133,12 @@ jobs:
         id: package
         run: |
           echo "has_build=$(deno task jq --boolean .tasks.build)" >> "$GITHUB_OUTPUT"
-          echo "has_npm=false" >> "$GITHUB_OUTPUT"
-          echo "has_x=$(deno task jq .["deno.land/x"])" >> "$GITHUB_OUTPUT"
-          echo "supports_deno=$(deno task jq .tasks.test.deno)" >> "$GITHUB_OUTPUT"
-          echo "supports_node=$(deno task jq .tasks.test.node)" >> "$GITHUB_OUTPUT"
-          echo "supports_bun=$(deno task jq .tasks.test.bun)" >> "$GITHUB_OUTPUT"
-          echo "supports_browsers=$(deno task jq .tasks.test.browsers)" >> "$GITHUB_OUTPUT"
+          echo "has_npm=" >> "$GITHUB_OUTPUT"
+          echo "has_x=$(deno task jq --boolean .["deno.land/x"])" >> "$GITHUB_OUTPUT"
+          echo "supports_deno=$(deno task jq --boolean .tasks.test.deno)" >> "$GITHUB_OUTPUT"
+          echo "supports_node=$(deno task jq --boolean .tasks.test.node)" >> "$GITHUB_OUTPUT"
+          echo "supports_bun=$(deno task jq --boolean .tasks.test.bun)" >> "$GITHUB_OUTPUT"
+          echo "supports_browsers=$(deno task jq --boolean .tasks.test.browsers)" >> "$GITHUB_OUTPUT"
       # Build
       - run: deno task build
         if: ${{ steps.package.outputs.has_build }}
