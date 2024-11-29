@@ -8,6 +8,10 @@
     "test:node": "sleep 0",
     "test:bun": "sleep 0"
   },
+  "imports": {
+    "@std/async": "jsr:@std/async@1",
+    "@std/streams": "jsr:@std/streams@1"
+  },
   "exports": {
     ".": "./mod.ts",
     "./command": "./command.ts"
