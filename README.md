@@ -189,7 +189,7 @@ See table below for a list of available libraries and their features, compatibil
   <tr><td colspan="3"></td></tr>
   <tr>
     <th><a href="https://jsr.io/@libs/testing"><img src="https://jsr.io/badges/@libs/testing"></a></th>
-    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"></th>
     <td rowspan="4"><ul data-for="testing">
   <li>
     Cross-runtime testing framework
