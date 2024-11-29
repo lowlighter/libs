@@ -7,6 +7,9 @@
     "test:node": "sleep 0",
     "test:bun": "sleep 0"
   },
+  "imports": {
+    "@std/async": "jsr:@std/async@1"
+  },
   "exports": {
     ".": "./mod.ts"
   },
