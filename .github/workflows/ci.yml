@@ -104,7 +104,8 @@ jobs:
         run: |
           deno task make:readme
           if [ -n "$(git status --porcelain)" ]; then
-            git add **/README.md
+            git diff
+            git add README.md
             git commit -m 'doc: update `README.md`'
             git pull --rebase
             git push

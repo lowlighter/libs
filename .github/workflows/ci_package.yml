@@ -208,6 +208,7 @@ jobs:
         run: |
           deno task build
           if [ -n "$(git status --porcelain)" ]; then
+            git diff
             git add .
             git commit -m 'chore(${{ inputs.package }}): rebuild package'
             git pull --rebase
@@ -220,8 +221,9 @@ jobs:
           pushd "$(git rev-parse --show-toplevel)"
           deno task make:bump --version '${{ needs.test.outputs.version }}' ${{ inputs.package }}
           popd
-          deno fmt **/deno.jsonc
-          git add **/deno.jsonc
+          deno fmt deno.jsonc
+          git diff
+          git add deno.jsonc
           git commit -m 'chore(${{ inputs.package }}): bump version ${{ needs.test.outputs.tag }}'
           git pull --rebase
           git push
