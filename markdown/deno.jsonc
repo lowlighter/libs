@@ -3,6 +3,10 @@
   "name": "@libs/markdown",
   "version": "2.0.1",
   "playground": "https://libs.lecoq.io/markdown",
+  "imports": {
+    "@std/text": "jsr:@std/text@1",
+    "@std/yaml": "jsr:@std/yaml@1"
+  },
   "exports": {
     ".": "./mod.ts",
     "./renderer": "./renderer.ts",
