@@ -2,9 +2,12 @@
   "version": "4",
   "specifiers": {
     "jsr:@b-fuze/deno-dom@*": "0.1.48",
+    "jsr:@std/assert@*": "1.0.8",
     "jsr:@std/async@*": "1.0.8",
     "jsr:@std/fs@*": "1.0.5",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/path@^1.0.7": "1.0.8",
+    "jsr:@std/semver@*": "1.0.3",
     "npm:@graphql-tools/merge@^9.0.11": "9.0.11_graphql@16.8.1",
     "npm:@graphql-tools/schema@^10.0.10": "10.0.10_graphql@16.8.1",
     "npm:@graphql-tools/utils@^10.6.1": "10.6.1_graphql@16.8.1",
@@ -77,6 +80,12 @@
     "@b-fuze/deno-dom@0.1.48": {
       "integrity": "bf5b591aef2e9e9c59adfcbb93a9ecd45bab5b7c8263625beafa5c8f1662e7da"
     },
+    "@std/assert@1.0.8": {
+      "integrity": "ebe0bd7eb488ee39686f77003992f389a06c3da1bbd8022184804852b2fa641b",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
     "@std/async@1.0.8": {
       "integrity": "c057c5211a0f1d12e7dcd111ab430091301b8d64b4250052a79d277383bc3ba7"
     },
@@ -86,8 +95,14 @@
         "jsr:@std/path"
       ]
     },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
+    },
     "@std/path@1.0.8": {
       "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
+    },
+    "@std/semver@1.0.3": {
+      "integrity": "7c139c6076a080eeaa4252c78b95ca5302818d7eafab0470d34cafd9930c13c8"
     }
   },
   "npm": {

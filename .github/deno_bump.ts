@@ -1,11 +1,11 @@
-// deno-lint-ignore-file no-console
+// deno-lint-ignore-file no-console no-external-import
 // Imports
 import type { record } from "@libs/typing"
 import { fromFileUrl, resolve } from "@std/path"
 import { parseArgs } from "@std/cli"
-import { assert } from "@std/assert"
+import { assert } from "jsr:@std/assert"
 import * as JSONC from "@std/jsonc"
-import * as semver from "@std/semver"
+import * as semver from "jsr:@std/semver"
 
 // Parse arguments
 const { version, _: [name] } = parseArgs(Deno.args, { string: ["version"] })
