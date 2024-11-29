@@ -11,6 +11,9 @@
     },
     "test:bun": "sleep 0"
   },
+  "imports": {
+    "@std/path": "jsr:@std/path@1"
+  },
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts",
