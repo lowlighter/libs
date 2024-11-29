@@ -53,6 +53,12 @@
     "kv"
   ],
   "nodeModulesDir": "auto",
+  "imports": {
+    "@std/cli": "jsr:@std/cli@1",
+    "@std/fmt": "jsr:@std/fmt@1",
+    "@std/jsonc": "jsr:@std/jsonc@1",
+    "@std/path": "jsr:@std/path@1"
+  },
   "fmt": {
     "semiColons": false,
     "lineWidth": 280,
