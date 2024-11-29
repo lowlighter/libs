@@ -13,7 +13,6 @@
   "dependencies": {
     "@std/text": "npm:@jsr/std__text@^1.0.8",
     "@std/yaml": "npm:@jsr/std__yaml@^1.0.5",
-    "hast": "^1.0.0",
     "hastscript": "^9.0.0",
     "playwright": "^1.49.0",
     "rehype": "^13.0.2",
