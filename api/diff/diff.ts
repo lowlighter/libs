@@ -1,4 +1,4 @@
-#!/usr/bin/env DENO_DIR=/tmp deno run --version=v2.0.6
+#!/usr/bin/env DENO_DIR=/tmp deno run --version=v2.1.2
 import { diff } from "@libs/diff/diff"
 import { STATUS_CODE, STATUS_TEXT } from "@std/http/status"
 
