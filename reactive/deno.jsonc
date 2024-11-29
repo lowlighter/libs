@@ -3,6 +3,9 @@
   "name": "@libs/reactive",
   "version": "5.0.1",
   "playground": "https://libs.lecoq.io/reactive",
+  "imports": {
+    "@std/collections": "jsr:@std/collections@1"
+  },
   "exports": {
     ".": "./mod.ts",
     "./context": "./context.ts"
