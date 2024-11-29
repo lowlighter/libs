@@ -3,6 +3,9 @@
   "name": "@libs/crypto",
   "version": "2.0.1",
   "playground": "https://libs.lecoq.io/crypto",
+  "imports": {
+    "@std/encoding": "jsr:@std/encoding@1"
+  },
   "exports": {
     ".": "./mod.ts",
     "./encryption": "./encryption.ts",
