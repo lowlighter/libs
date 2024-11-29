@@ -7,6 +7,12 @@
     "test:node": "sleep 0",
     "test:bun": "sleep 0"
   },
+  "imports": {
+    "@deno-libs/gql": "jsr:@deno-libs/gql@3",
+    "@std/async": "jsr:@std/async@1",
+    "@std/text": "jsr:@std/text@1",
+    "@std/ulid": "jsr:@std/ulid@1"
+  },
   "exports": {
     ".": "./mod.ts",
     "./is": "./is/mod.ts",
