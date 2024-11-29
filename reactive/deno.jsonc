@@ -1,7 +1,7 @@
 {
   "icon": "🎯",
   "name": "@libs/reactive",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "playground": "https://libs.lecoq.io/reactive",
   "exports": {
     ".": "./mod.ts",
