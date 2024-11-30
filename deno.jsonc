@@ -59,6 +59,7 @@
     "@std/jsonc": "jsr:@std/jsonc@1",
     "@std/path": "jsr:@std/path@1"
   },
+  "test:permissions": true,
   "fmt": {
     "semiColons": false,
     "lineWidth": 280,
