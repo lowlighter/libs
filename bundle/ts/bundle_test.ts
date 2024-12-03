@@ -1,5 +1,6 @@
 import { bundle } from "./bundle.ts"
 import { expect, test } from "@libs/testing"
+import { fromFileUrl } from "@std/path"
 
 const base = new URL("testing/", import.meta.url)
 const config = new URL("deno.jsonc", base)
@@ -52,4 +53,16 @@ test("`bundle()` handles errors", async () => {
 test("`bundle()` handles specifiers", async () => {
   const url = new URL("test_specifiers.ts", base)
   await expect(bundle(url)).resolves.toContain("success")
+}, { permissions: { read: true, net: ["jsr.io"], env: true, write: true, run: true } })
+
+test("`bundle()` handles imports replacements (file scheme)", async () => {
+  const url = new URL("test_overrides_imports.ts", base)
+  const replaced = import.meta.resolve("./testing/test_overrides_imports_func_success.ts")
+  await expect(bundle(url, { overrides: { imports: { "./test_overrides_imports_func_failure.ts": replaced } } })).resolves.toContain("success")
+}, { permissions: { read: true, net: ["jsr.io"], env: true, write: true, run: true } })
+
+test("`bundle()` handles imports replacements (non-file scheme)", async () => {
+  const url = new URL("test_overrides_imports.ts", base)
+  const replaced = `data:text/typescript;base64,${btoa(await Deno.readTextFile(fromFileUrl(import.meta.resolve("./testing/test_overrides_imports_func_success.ts"))))}`
+  await expect(bundle(url, { overrides: { imports: { "./test_overrides_imports_func_failure.ts": replaced } } })).resolves.toContain("success")
 }, { permissions: { read: true, net: ["jsr.io"], env: true, write: true, run: true } })

@@ -5,7 +5,7 @@
 
 // Imports
 import * as esbuild from "esbuild"
-import { denoPlugins as plugins } from "@luca/esbuild-deno-loader"
+import { denoLoaderPlugin, denoResolverPlugin } from "@luca/esbuild-deno-loader"
 import { encodeBase64 } from "@std/encoding/base64"
 import { minify as terser } from "terser"
 import { fromFileUrl } from "@std/path/from-file-url"
@@ -38,12 +38,16 @@ import { delay } from "@std/async/delay"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */
-export async function bundle(input: URL | string, { minify = "terser", format = "esm", debug = false, banner = "", shadow = true, config, exports, raw } = {} as options): Promise<string> {
+export async function bundle(input: URL | string, { minify = "terser", format = "esm", debug = false, banner = "", shadow = true, config, exports, raw, overrides } = {} as options): Promise<string> {
   const url = input instanceof URL ? input : new URL(`data:application/typescript;base64,${encodeBase64(input)}`)
   let code = ""
   try {
     const { outputFiles: [{ text: output }] } = await esbuild.build({
-      plugins: [...plugins({ configPath: config ? fromFileUrl(config) : undefined })],
+      plugins: [
+        overrides?.imports ? overridesImports({ imports: overrides.imports }) : null,
+        denoResolverPlugin({ configPath: config ? fromFileUrl(config) : undefined }),
+        denoLoaderPlugin({ configPath: config ? fromFileUrl(config) : undefined }),
+      ].filter((plugin): plugin is esbuild.Plugin => Boolean(plugin)),
       entryPoints: [url.href],
       format,
       globalName: exports,
@@ -95,4 +99,28 @@ export type options = {
   banner?: string
   shadow?: boolean
   raw?: Record<PropertyKey, unknown>
+  overrides?: {
+    imports?: Record<string, string>
+  }
+}
+
+/** Override imports. */
+function overridesImports(options: { imports: NonNullable<NonNullable<options["overrides"]>["imports"]> }): esbuild.Plugin {
+  return ({
+    name: "libs-bundler-overrides-imports",
+    setup(build) {
+      build.onResolve({ filter: /.*/ }, (args) => {
+        if (!(args.path in options.imports)) {
+          return null
+        }
+        const url = new URL(options.imports[args.path])
+        if (url.protocol === "file:") {
+          return { path: fromFileUrl(url), namespace: "file" }
+        }
+        const namespace = url.protocol.slice(0, -1)
+        const path = url.href.slice(namespace.length + 1)
+        return { path, namespace }
+      })
+    },
+  }) as esbuild.Plugin
 }
