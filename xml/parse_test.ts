@@ -365,12 +365,12 @@ test("`parse()` xml syntax hexadecimal entity reference", () =>
   expect(
     parse(`
   <root>
-    &#x26;
+    &#x26; &#xA9; &#xa9;
   </root>
 `),
   ).toEqual(
     {
-      root: "&",
+      root: "& © ©",
     },
   ))
 

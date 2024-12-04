@@ -422,7 +422,7 @@ function revive(node: xml_node | xml_text, key: string, options: options) {
     value = value.trim()
   }
   if (options?.revive?.entities) {
-    value = value.replaceAll(/&#(?<hex>x?)(?<code>\d+);/g, (_, hex, code) => String.fromCharCode(Number.parseInt(code, hex ? 16 : 10)))
+    value = value.replaceAll(/&#(?<hex>x?)(?<code>[A-Fa-f\d]+);/g, (_, hex, code) => String.fromCharCode(Number.parseInt(code, hex ? 16 : 10)))
     for (const [entity, character] of Object.entries(entities)) {
       value = value.replaceAll(entity, character)
     }
