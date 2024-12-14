@@ -47,10 +47,10 @@ test("`diff()` handles moved lines", async () => {
   expect(diff(a, b)).toStrictEqual(c)
 }, { permissions: { read: true } })
 
-for (const {context, operation} of [{operation:"separate"}, {operation:"merged", context: 100}, {operation:"oneline", context: 0}, {operation:"twolines", context: 2}]) {
+for (const { context, operation } of [{ operation: "separate" }, { operation: "merged", context: 100 }, { operation: "oneline", context: 0 }, { operation: "twolines", context: 2 }]) {
   test(`\`diff()\` handles ${operation} hunks`, async () => {
     const { a, b, c } = await read(`hunks/${operation}`)
-    expect(diff(a, b, {context})).toStrictEqual(c)
+    expect(diff(a, b, { context })).toStrictEqual(c)
   }, { permissions: { read: true } })
 }
 
@@ -59,17 +59,16 @@ test("`diff()` handles complex texts", async () => {
   expect(diff(a, b)).toStrictEqual(c)
 }, { permissions: { read: true } })
 
-  test(`\`diff()\` supports colors options`, async () => {
-    for (const colors of [false, true]) {
-      const { a, b, c } = await read("colors")
-      expect(stripAnsiCode(diff(a, b, {colors}))).toStrictEqual(c)
-      if (colors) {
-        // deno-lint-ignore no-control-regex
-        expect(diff(a, b, {colors})).toMatch(/\x1b\[0m/)
-      }
-      else {
-        // deno-lint-ignore no-control-regex
-        expect(diff(a, b, {colors})).not.toMatch(/\x1b\[0m/)
-      }
+test(`\`diff()\` supports colors options`, async () => {
+  for (const colors of [false, true]) {
+    const { a, b, c } = await read("colors")
+    expect(stripAnsiCode(diff(a, b, { colors }))).toStrictEqual(c)
+    if (colors) {
+      // deno-lint-ignore no-control-regex
+      expect(diff(a, b, { colors })).toMatch(/\x1b\[0m/)
+    } else {
+      // deno-lint-ignore no-control-regex
+      expect(diff(a, b, { colors })).not.toMatch(/\x1b\[0m/)
     }
-  }, { permissions: { read: true } })
+  }
+}, { permissions: { read: true } })

@@ -50,8 +50,8 @@
 export function diff(a: string, b: string, { colors = false, context = 3 } = {}): string {
   const hunks = [] as string[]
   const { lines } = patience(tokenize(a), tokenize(b))
-  for (let after = -1; (after < lines.length)&&(!Number.isNaN(after));) {
-    const {next, patch} = _diff(lines, { after, colors, context })
+  for (let after = -1; (after < lines.length) && (!Number.isNaN(after));) {
+    const { next, patch } = _diff(lines, { after, colors, context })
     hunks.push(patch)
     after = next
   }
@@ -59,11 +59,11 @@ export function diff(a: string, b: string, { colors = false, context = 3 } = {})
   return patch ? `--- a\n+++ b\n${patch}` : ""
 }
 
-function _diff(lines:line[], {after = -1, colors = false, context = 0}:{after?:number, context?:number, colors?:boolean}):{next:number, patch:string} {
+function _diff(lines: line[], { after = -1, colors = false, context = 0 }: { after?: number; context?: number; colors?: boolean }): { next: number; patch: string } {
   // Search for the first edited line after the specified index
   const k = lines.findIndex(({ a, b, token }, i) => ((a < 0) || (b < 0)) && (!token) && (i > after))
   if (k < 0) {
-    return {next:NaN, patch:""}
+    return { next: NaN, patch: "" }
   }
   const patch = [lines[k]]
   // Compute context lines
@@ -97,7 +97,7 @@ function _diff(lines:line[], {after = -1, colors = false, context = 0}:{after?:n
       // If another edited line is found in the maximum context range, reset it to merge the current hunk with the next one
       if ((lines[i].a >= 0) && (lines[i].b >= 0)) {
         contextual--
-        if ((delta > 0) && (!lines.slice(i + 1, i + 1 + context + 1).every(({a, b}) => (a >= 0) && (b >= 0)))) {
+        if ((delta > 0) && (!lines.slice(i + 1, i + 1 + context + 1).every(({ a, b }) => (a >= 0) && (b >= 0)))) {
           contextual = context
         }
         if (contextual <= 0) {
@@ -107,14 +107,14 @@ function _diff(lines:line[], {after = -1, colors = false, context = 0}:{after?:n
     }
   }
   // Compute patch
-  let a = (patch.find(({a, token}) => (a >= 0) && (!token))?.a ?? -1 ) + 1
-  let b = (patch.find(({b, token}) => (b >= 0) && (!token))?.b ?? -1 ) + 1
-  const A = patch.filter(({a, token}) => (a >= 0) && (!token)).length;
-  const B = patch.filter(({b, token}) => (b >= 0) && (!token)).length;
+  let a = (patch.find(({ a, token }) => (a >= 0) && (!token))?.a ?? -1) + 1
+  let b = (patch.find(({ b, token }) => (b >= 0) && (!token))?.b ?? -1) + 1
+  const A = patch.filter(({ a, token }) => (a >= 0) && (!token)).length
+  const B = patch.filter(({ b, token }) => (b >= 0) && (!token)).length
   if (context <= 1) {
     switch (true) {
       case A > 0:
-        b = a-1
+        b = a - 1
         break
       case B > 0:
         a = b
@@ -122,11 +122,11 @@ function _diff(lines:line[], {after = -1, colors = false, context = 0}:{after?:n
     }
   }
   return {
-    next: lines.indexOf(patch.findLast(({a, b, token}) => ((a < 0) || (b < 0)) && (!token))!),
-    patch:[
-      {line:`@@ -${a}${(A !== 1)||(a === 0) ? `,${A}` : ""} +${b}${(B !== 1)||(b === 0) ? `,${B}` : ""} @@\n`, a:NaN, b:NaN},
+    next: lines.indexOf(patch.findLast(({ a, b, token }) => ((a < 0) || (b < 0)) && (!token))!),
+    patch: [
+      { line: `@@ -${a}${(A !== 1) || (a === 0) ? `,${A}` : ""} +${b}${(B !== 1) || (b === 0) ? `,${B}` : ""} @@\n`, a: NaN, b: NaN },
       ...patch,
-    ].map(({line, a, b, token}) => {
+    ].map(({ line, a, b, token }) => {
       switch (true) {
         case token === "!\n":
           return "\\ No newline at end of file\n"
@@ -139,7 +139,7 @@ function _diff(lines:line[], {after = -1, colors = false, context = 0}:{after?:n
         default:
           return line === "\n" ? line : ` ${line}`
       }
-    }).join("")
+    }).join(""),
   }
 }
 
@@ -260,22 +260,21 @@ function recurse(result: result, A: operand, B: operand, Ai: number, Aj: number,
 }
 
 /** Post-process result */
-function postprocess(result:result) {
-  const la = result.lines.findLast(({a}) => a >= 0)!
-  const lb = result.lines.findLast(({b}) => b >= 0)!
+function postprocess(result: result) {
+  const la = result.lines.findLast(({ a }) => a >= 0)!
+  const lb = result.lines.findLast(({ b }) => b >= 0)!
   if ((la.line !== "\n") && (lb.line !== "\n")) {
-    result.lines.push({line:"", a:la.a+1, b:lb.b+1, token:"!\n"})
-  }
-  else {
+    result.lines.push({ line: "", a: la.a + 1, b: lb.b + 1, token: "!\n" })
+  } else {
     if ((lb.line === "\n") && (lb.b >= 0) && (lb.a < 0)) {
-      result.lines.splice(result.lines.indexOf(la), 1, {...la, b:-1}, {line:"", a:la.a+1, b:-1, token:"!\n"}, ...( (la.a >= 0) && (la.b >= 0) ? [{...la, b:la.a, a:-1}] : []))
+      result.lines.splice(result.lines.indexOf(la), 1, { ...la, b: -1 }, { line: "", a: la.a + 1, b: -1, token: "!\n" }, ...((la.a >= 0) && (la.b >= 0) ? [{ ...la, b: la.a, a: -1 }] : []))
       result.lines.splice(result.lines.indexOf(lb), 1)
     }
     if ((la.line === "\n") && (la.a >= 0) && (la.b < 0)) {
-      result.lines.splice(result.lines.indexOf(lb), 1, ...( (lb.a >= 0) && (lb.b >= 0) ? [{...lb, a:lb.b, b:-1}] : []), {...lb, a:-1}, {line:"", a:-1, b:lb.b+1, token:"!\n"})
+      result.lines.splice(result.lines.indexOf(lb), 1, ...((lb.a >= 0) && (lb.b >= 0) ? [{ ...lb, a: lb.b, b: -1 }] : []), { ...lb, a: -1 }, { line: "", a: -1, b: lb.b + 1, token: "!\n" })
       result.lines.splice(result.lines.indexOf(la), 1)
     }
-    if ((la === lb)&&(la.line === "\n")) {
+    if ((la === lb) && (la.line === "\n")) {
       la.token = "\n"
     }
   }
@@ -299,7 +298,7 @@ type result = {
 }
 
 /** Line entry */
-type line = { line: string, token?:string } & position
+type line = { line: string; token?: string } & position
 
 /** Line position */
 type position = { a: number; b: number }
