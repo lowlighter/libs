@@ -16,5 +16,8 @@
     "bun": true,
     "cloudflare-workers": true,
     "browsers": true
+  },
+  "fmt": {
+    "exclude": ["**/testing/**"]
   }
 }
