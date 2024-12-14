@@ -1,6 +1,5 @@
 // Imports
 import { initSync, JsReader, source, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
-import type { record, rw } from "@libs/typing"
 import type { Nullable, ReaderSync, xml_document, xml_node, xml_text } from "./_types.ts"
 export type { Nullable, ReaderSync, xml_document, xml_node, xml_text }
 initSync(source())
@@ -241,7 +240,7 @@ export function parse(content: string | ReaderSync, options?: options): xml_docu
 
 /** Parse xml attributes. */
 function xml_attributes(raw: string) {
-  const attributes = {} as record<string>
+  const attributes = {} as Record<PropertyKey, string>
   for (const [_, name, __, value] of raw.matchAll(/(?<name>[A-Za-z_][-\w.:]*)=(["'])(?<value>(?:(?!\2).)*)(\2)/g)) {
     attributes[`@${name}`] = value
   }
@@ -326,17 +325,17 @@ function postprocess(node: xml_node, options: options) {
       delete node["#doctype"]
     }
     if (options?.clean?.instructions) {
-      ;(node as rw)["~children"] = node["~children"].filter((child) => !(child["~name"] in ((node as xml_document)["#instructions"] ?? {})))
+      ;(node as Record<PropertyKey, unknown>)["~children"] = node["~children"].filter((child) => !(child["~name"] in ((node as xml_document)["#instructions"] ?? {})))
       delete node["#instructions"]
     }
   }
   // Clean node and enable enumerable properties if required
   if (node["~children"]) {
     if (options?.clean?.comments) {
-      ;(node as rw)["~children"] = node["~children"].filter((child) => child["~name"] !== "~comment")
+      ;(node as Record<PropertyKey, unknown>)["~children"] = node["~children"].filter((child) => child["~name"] !== "~comment")
     }
     if (options?.revive?.trim) {
-      node["~children"].forEach((child) => /^~(?:text|cdata|comment)$/.test(child["~name"]) ? (child as rw)["#text"] = revive(child, "#text", { revive: { trim: node["@xml:space"] !== "preserve" } }) : null)
+      node["~children"].forEach((child) => /^~(?:text|cdata|comment)$/.test(child["~name"]) ? (child as Record<PropertyKey, unknown>)["#text"] = revive(child, "#text", { revive: { trim: node["@xml:space"] !== "preserve" } }) : null)
     }
     if (node["~children"].some((child) => (/^~(?:text|cdata)$/.test(child["~name"])) && (child["#text"].trim().length + (node["@xml:space"] === "preserve" ? 1 : 0) * child["#text"].length))) {
       Object.defineProperty(node, "#text", { enumerable: true, configurable: true })

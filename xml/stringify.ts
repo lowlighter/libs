@@ -1,6 +1,5 @@
 // Imports
-import type { Nullable, record, rw } from "@libs/typing"
-import type { stringifyable, xml_document, xml_node, xml_text } from "./_types.ts"
+import type { Nullable, stringifyable, xml_document, xml_node, xml_text } from "./_types.ts"
 export type { Nullable, stringifyable, xml_document, xml_node, xml_text }
 
 /** XML stringifier options. */
@@ -133,7 +132,7 @@ export function comment(text: string): Omit<xml_text, "~parent"> {
 
 /** Create XML prolog. */
 function xml_prolog(document: xml_document, options: _options): string {
-  ;(document as rw)["~name"] ??= "xml"
+  ;(document as Record<PropertyKey, unknown>)["~name"] ??= "xml"
   return xml_instruction(document, options)
 }
 
@@ -222,9 +221,9 @@ function xml_children(node: xml_node, options: options): Array<xml_node> {
           case value === null:
             return ({ ["~name"]: key, ["#text"]: "" })
           case typeof value === "object": {
-            const child = { ...value as record, ["~name"]: key } as record
-            if (((value as record)["~name"] as string)?.startsWith("~")) {
-              child[internal] = (value as record)["~name"]
+            const child = { ...value as Record<PropertyKey, unknown>, ["~name"]: key } as Record<PropertyKey, unknown>
+            if (((value as Record<PropertyKey, unknown>)["~name"] as string)?.startsWith("~")) {
+              child[internal] = (value as Record<PropertyKey, unknown>)["~name"]
             }
             return child
           }
