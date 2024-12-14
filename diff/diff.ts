@@ -55,7 +55,7 @@ export function diff(a: string, b: string, { colors = false, context = 3 } = {})
     hunks.push(patch)
     after = next
   }
-  const patch = hunks.join("").trimEnd()
+  const patch = hunks.join("").replace(/\n?\n$/, "")
   return patch ? `--- a\n+++ b\n${patch}` : ""
 }
 
@@ -137,7 +137,7 @@ function _diff(lines:line[], {after = -1, colors = false, context = 0}:{after?:n
         case Number.isNaN(a) && Number.isNaN(b):
           return colors ? `\x1b[36m${line}\x1b[0m` : line
         default:
-          return /^\r?\n$/.test(line) ? line : ` ${line}`
+          return line === "\n" ? line : ` ${line}`
       }
     }).join("")
   }
