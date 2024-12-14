@@ -1,0 +1,14 @@
+--- a
++++ b
+@@ -1,5 +1,4 @@
+ Lorem ipsum dolor sit amet
+-Consectetur adipiscing elit
+ Sed do eiusmod tempor incididunt
+ Ut labore et dolore magna aliqua
+
+@@ -11,4 +10,5 @@
+ In voluptate velit esse cillum dolore
+ Eu fugiat nulla pariatur
+ Excepteur sint occaecat cupidatat non proident
++Consectetur adipiscing elit
+ Sunt in culpa qui officia deserunt
