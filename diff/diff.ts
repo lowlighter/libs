@@ -263,17 +263,35 @@ function recurse(result: result, A: operand, B: operand, Ai: number, Aj: number,
 function postprocess(result: result) {
   const la = result.lines.findLast(({ a }) => a >= 0)!
   const lb = result.lines.findLast(({ b }) => b >= 0)!
+  // Handle new lines
   if ((la.line !== "\n") && (lb.line !== "\n")) {
-    result.lines.push({ line: "", a: la.a + 1, b: lb.b + 1, token: "!\n" })
+    // - diff
+    // \ No newline at end of file
+    // + diff
+    // \ No newline at end of file
+    if (la !== lb) {
+      result.lines.splice(result.lines.indexOf(la) + 1, 0, { line: "", a: la.a + 1, b: -1, token: "!\n" })
+      result.lines.splice(result.lines.indexOf(lb) + 1, 0, { line: "", a: -1, b: lb.b + 1, token: "!\n" })
+    } // \ No newline at end of file
+    else if (la === lb) {
+      result.lines.splice(result.lines.indexOf(la) + 1, 0, { line: "", a: la.a + 1, b: lb.b + 1, token: "!\n" })
+    }
   } else {
+    // - diff
+    // \ No newline at end of file
+    // + diff
     if ((lb.line === "\n") && (lb.b >= 0) && (lb.a < 0)) {
       result.lines.splice(result.lines.indexOf(la), 1, { ...la, b: -1 }, { line: "", a: la.a + 1, b: -1, token: "!\n" }, ...((la.a >= 0) && (la.b >= 0) ? [{ ...la, b: la.a, a: -1 }] : []))
       result.lines.splice(result.lines.indexOf(lb), 1)
     }
+    // - diff
+    // + diff
+    // \ No newline at end of file
     if ((la.line === "\n") && (la.a >= 0) && (la.b < 0)) {
       result.lines.splice(result.lines.indexOf(lb), 1, ...((lb.a >= 0) && (lb.b >= 0) ? [{ ...lb, a: lb.b, b: -1 }] : []), { ...lb, a: -1 }, { line: "", a: -1, b: lb.b + 1, token: "!\n" })
       result.lines.splice(result.lines.indexOf(la), 1)
     }
+    // Preserve final newline
     if ((la === lb) && (la.line === "\n")) {
       la.token = "\n"
     }

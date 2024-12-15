@@ -21,7 +21,7 @@ test("`diff()` handles identical texts", async () => {
   expect(diff(a, b)).toStrictEqual(c)
 }, { permissions: { read: true } })
 
-for (const newline of ["both", "none", "atob", "atob_diff", "btoa", "btoa_diff"]) {
+for (const newline of ["both", "none", "none_diff", "none_diff_alt", "atob", "atob_diff", "btoa", "btoa_diff"]) {
   test(`\`diff()\` handles final newline in texts (${newline})`, async () => {
     const { a, b, c } = await read(`newline/${newline}`)
     expect(diff(a, b)).toStrictEqual(c)
