@@ -5,7 +5,8 @@
   "playground": "https://libs.lecoq.io/diff",
   "exports": {
     ".": "./mod.ts",
-    "./diff": "./diff.ts"
+    "./diff": "./diff.ts",
+    "./apply": "./apply.ts"
   },
   "test:permissions": {
     "read": true
@@ -16,5 +17,8 @@
     "bun": true,
     "cloudflare-workers": true,
     "browsers": true
+  },
+  "fmt": {
+    "exclude": ["**/testing/**"]
   }
 }
