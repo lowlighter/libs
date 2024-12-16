@@ -4,7 +4,7 @@
  */
 
 // Imports
-import type * as esbuild from "esbuild"
+import type { Nullable } from "@libs/typing"
 import { denoLoaderPlugin, denoResolverPlugin } from "@luca/esbuild-deno-loader"
 import { encodeBase64 } from "@std/encoding/base64"
 import { minify as terser } from "terser"
@@ -48,7 +48,7 @@ export async function bundle(input: URL | string, { builder = "binary", minify =
         overrides?.imports ? overridesImports({ imports: overrides.imports }) : null,
         denoResolverPlugin({ configPath: config ? fromFileUrl(config) : undefined }),
         denoLoaderPlugin({ configPath: config ? fromFileUrl(config) : undefined }),
-      ].filter((plugin): plugin is esbuild.Plugin => Boolean(plugin)),
+      ].filter((plugin): plugin is Plugin => Boolean(plugin)),
       entryPoints: [url.href],
       format,
       globalName: exports,
@@ -150,8 +150,14 @@ export type options = {
   }
 }
 
+/** Esbuild plugin. */
+type Plugin = {
+  name: string
+  setup: (build: { onResolve: (options: { filter: RegExp }, callback: (args: { path: string }) => Nullable<{ path: string; namespace: string }>) => void }) => void
+}
+
 /** Override imports. */
-function overridesImports(options: { imports: NonNullable<NonNullable<options["overrides"]>["imports"]> }): esbuild.Plugin {
+function overridesImports(options: { imports: NonNullable<NonNullable<options["overrides"]>["imports"]> }): Plugin {
   return ({
     name: "libs-bundler-overrides-imports",
     setup(build) {
@@ -168,5 +174,5 @@ function overridesImports(options: { imports: NonNullable<NonNullable<options["o
         return { path, namespace }
       })
     },
-  }) as esbuild.Plugin
+  }) as Plugin
 }

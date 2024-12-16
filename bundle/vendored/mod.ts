@@ -4,9 +4,9 @@ import { fromFileUrl } from "@std/path"
 
 // Download vendored esbuild files
 const logger = new Logger()
-for (const file of ["wasm.js", "wasm.d.ts", "esbuild.wasm"]) {
+for (const file of ["wasm.js", "esbuild.wasm"]) {
   logger.with({file}).debug()
   const path = fromFileUrl(import.meta.resolve(`../vendored/esbuild/${file}`))
-  await fetch(`https://deno.land/x/esbuild/${file}`).then(async response => await Deno.writeTextFile(path, await response.text()))
+  await fetch(`https://deno.land/x/esbuild/${file}`).then(async response => await Deno.writeTextFile(path, (await response.text()).replace("/// <reference types=\"./wasm.d.ts\" />\n", "")))
   logger.with({file, path}).ok()
 }
