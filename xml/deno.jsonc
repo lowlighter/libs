@@ -28,7 +28,8 @@
       "CI"
     ],
     "write": [
-      "bench"
+      "bench",
+      "xml/bench"
     ]
   },
   "supported": {
