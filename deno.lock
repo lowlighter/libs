@@ -68,6 +68,7 @@
     "npm:browserslist@^4.24.2": "4.24.2",
     "npm:css-tree@^3.0.1": "3.0.1",
     "npm:csso@^5.0.5": "5.0.5",
+    "npm:esbuild-wasm@*": "0.24.0",
     "npm:esbuild@0.24": "0.24.0",
     "npm:graphql-http@1.22.0": "1.22.0_graphql@16.8.1",
     "npm:graphql@16.8.1": "16.8.1",
@@ -1670,6 +1671,9 @@
       "dependencies": [
         "is-arrayish"
       ]
+    },
+    "esbuild-wasm@0.24.0": {
+      "integrity": "sha512-xhNn5tL1AhkPg4ft59yXT6FkwKXiPSYyz1IeinJHUJpjvOHOIPvdmFQc0pGdjxlKSbzZc2mNmtVOWAR1EF/JAg=="
     },
     "esbuild@0.24.0": {
       "integrity": "sha512-FuLPevChGDshgSicjisSooU0cemp/sGXR841D5LHMB7mTVOmsEHcAxaH3irL53+8YDIeVNQEySh4DaYU/iuPqQ==",
@@ -3738,6 +3742,7 @@
     "https://esm.sh/jsr/@libs/markdown/plugins/gfm": "https://esm.sh/jsr/@libs/markdown@2.0.0/plugins/gfm"
   },
   "remote": {
+    "https://deno.land/x/esbuild@v0.24.0/wasm.js": "5cd1dd0c40214d06bd86177b4ffebfbb219a22114f78c14c23606f7ad216c174",
     "https://esm.sh/jsr/@libs/markdown@2.0.0/plugins/gfm": "84e2d388a9ac3b036ea917668d4301795d4b624d51292575fe87c702ae6f12a1",
     "https://esm.sh/v135/@jsr/libs__markdown@2.0.0/denonext/plugins/gfm.js": "e69ae1a30c25ff45ac58abd1195b83f51e673b6fb64e01bab88deb23c20867f8",
     "https://esm.sh/v135/ccount@2.0.1/denonext/ccount.mjs": "7b32092651a866fcc992c028982ce5e911356da7653baa3febb1a8ccb93e30f8",

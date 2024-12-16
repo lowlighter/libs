@@ -26,6 +26,11 @@ test("`bundle()` handles banner option", async () => {
   await expect(bundle(url, { config, banner: "license\ncopyright" })).resolves.toContain("/**\n * license\n * copyright\n */")
 }, { permissions: { read: true, net: ["jsr.io"], env: true, run: true } })
 
+test("`bundle()` handles builder version", async () => {
+  const url = new URL("test_bundle.ts", base)
+  await expect(bundle(url, { config, builder: "wasm" })).resolves.toContain("success")
+}, { permissions: { read: true, run: ["deno"] } })
+
 test("`bundle()` handles minify option", async () => {
   const url = new URL("test_minify.ts", base)
   await expect(bundle(url, { config, minify: false })).not.resolves.toBe(`console.log("hello world");`)

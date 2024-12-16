@@ -4,7 +4,7 @@
  */
 
 // Imports
-import * as esbuild from "esbuild"
+import type * as esbuild from "esbuild"
 import { denoLoaderPlugin, denoResolverPlugin } from "@luca/esbuild-deno-loader"
 import { encodeBase64 } from "@std/encoding/base64"
 import { minify as terser } from "terser"
@@ -38,7 +38,8 @@ import { delay } from "@std/async/delay"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */
-export async function bundle(input: URL | string, { minify = "terser", format = "esm", debug = false, banner = "", shadow = true, config, exports, raw, overrides } = {} as options): Promise<string> {
+export async function bundle(input: URL | string, { builder = "binary", minify = "terser", format = "esm", debug = false, banner = "", shadow = true, config, exports, raw, overrides } = {} as options): Promise<string> {
+  const esbuild = builder === "wasm" ? await import("../vendored/esbuild/wasm.js") : await import("esbuild")
   const url = input instanceof URL ? input : new URL(`data:application/typescript;base64,${encodeBase64(input)}`)
   let code = ""
   try {
@@ -91,15 +92,60 @@ export async function bundle(input: URL | string, { minify = "terser", format = 
 
 /** Bundle options. */
 export type options = {
+  /**
+   * The builder version to use.
+   *
+   * It can be either:
+   * - `binary` to use the binary runtime (faster but requires permissions to run)
+   * - `wasm` to use the WASM runtime (slower but more portable)
+   */
+  builder?: "binary" | "wasm"
+  /**
+   * Minify the output.
+   *
+   * It can be either:
+   * - `false` to disable minification
+   * - `basic` for basic minification using {@link https://esbuild.github.io | esbuild}
+   * - `terser` for advanced minification through {@link https://terser.org | Terser}
+   */
   minify?: false | "basic" | "terser"
+  /** Output format. */
   format?: "esm" | "iife"
+  /** Global exports. */
   exports?: string
+  /** Enable debug and source map. */
   debug?: boolean
+  /**
+   * Path to the config file.
+   *
+   * It is advised to leave this option empty as the deno plugin now resolves the configuration automatically.
+   */
   config?: URL
+  /**
+   * Banner to prepend to the output, useful for licensing information.
+   *
+   * It is automatically formatted as a comment.
+   */
   banner?: string
+  /** Replace local URLs with shadow URLs. */
   shadow?: boolean
+  /**
+   * Raw options to esbuild.
+   *
+   * These options can also be used to override the default behavior of the bundler.
+   * Note that these options are excluded from the breaking changes policy.
+   *
+   * @see {@link https://esbuild.github.io/api/#build-api | esbuild} for more information.
+   */
   raw?: Record<PropertyKey, unknown>
+  /** Overrides. */
   overrides?: {
+    /**
+     * Override imports.
+     *
+     * Can be used to replace imports with custom values before deno resolution.
+     * The key is the matching import path (as it appears in the source code) and the value is what it should be replaced with.
+     */
     imports?: Record<string, string>
   }
 }
