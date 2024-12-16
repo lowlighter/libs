@@ -1277,7 +1277,7 @@ if (runtime === "deno") {
   // Other inputs
 
   test("`parse()` using a reader", async () => {
-    using file = await Deno.open("bench/assets/small.xml")
+    using file = await Deno.open(fromFileUrl(import.meta.resolve("./bench/assets/small.xml")))
     expect(
       parse(file),
     ).toEqual(
@@ -1301,7 +1301,7 @@ if (runtime === "deno") {
     const ignore = false && (i > 2) && (!Deno.env.get("CI"))
     test(`\`parse()\` parse large files ~${(2 ** i)}Mb`, async () => {
       await write(i)
-      expect(parse(await Deno.readTextFile(`bench/assets/x-${i}x-large.xml`))).not.toThrow()
+      expect(parse(await Deno.readTextFile(fromFileUrl(import.meta.resolve(`./bench/assets/x-${i}x-large.xml`))))).not.toThrow()
     }, { permissions: { read: ["bench"], sys: ["uid"], write: ["bench"] }, ignore } as testing)
   }
 }

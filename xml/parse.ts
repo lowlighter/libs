@@ -104,8 +104,9 @@ export type options = {
  *
  * ```ts
  * import { parse } from "./parse.ts"
+ * import { fromFileUrl } from "@std/path"
  *
- * using file = await Deno.open("bench/assets/small.xml")
+ * using file = await Deno.open(fromFileUrl(import.meta.resolve("./bench/assets/small.xml")))
  * console.log(parse(file))
  * ```
  *
