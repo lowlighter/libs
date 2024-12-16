@@ -1302,6 +1302,6 @@ if (runtime === "deno") {
     test(`\`parse()\` parse large files ~${(2 ** i)}Mb`, async () => {
       await write(i)
       expect(parse(await Deno.readTextFile(fromFileUrl(import.meta.resolve(`./bench/assets/x-${i}x-large.xml`))))).not.toThrow()
-    }, { permissions: { read: true, sys: ["uid"], write: ["bench"] }, ignore } as testing)
+    }, { permissions: { read: true, sys: ["uid"], write: ["bench", "xml/bench"] }, ignore } as testing)
   }
 }
