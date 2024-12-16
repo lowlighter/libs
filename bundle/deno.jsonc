@@ -6,7 +6,7 @@
   "tasks": {
     "test:node": "sleep 0",
     "test:bun": "sleep 0",
-    "build": "deno run --allow-net=deno.land --allow-write=vendored vendored/mod.ts"
+    "vendor": "deno run --allow-net=deno.land --allow-write=vendored vendored/mod.ts"
   },
   "imports": {
     "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@^0.1.48",
