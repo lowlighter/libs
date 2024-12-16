@@ -1,5 +1,5 @@
 import { bundle } from "./bundle.ts"
-import { expect, test } from "@libs/testing"
+import { expect, test, type testing } from "@libs/testing"
 import { fromFileUrl } from "@std/path"
 
 const base = new URL("testing/", import.meta.url)
@@ -27,8 +27,16 @@ test("`bundle()` handles banner option", async () => {
 }, { permissions: { read: true, net: ["jsr.io"], env: true, run: true } })
 
 test("`bundle()` handles builder version", async () => {
-  const url = new URL("test_bundle.ts", base)
-  await expect(bundle(url, { config, builder: "wasm" })).resolves.toContain("success")
+  const { Worker } = globalThis
+  try {
+    delete (globalThis as testing).Worker
+    const url = new URL("test_bundle.ts", base)
+    for (let i = 0; i < 2; i++) {
+      await expect(bundle(url, { config, builder: "wasm" })).resolves.toContain("success")
+    }
+  } finally {
+    globalThis.Worker = Worker
+  }
 }, { permissions: { read: true, run: ["deno"] } })
 
 test("`bundle()` handles minify option", async () => {

@@ -40,6 +40,9 @@ import { delay } from "@std/async/delay"
  */
 export async function bundle(input: URL | string, { builder = "binary", minify = "terser", format = "esm", debug = false, banner = "", shadow = true, config, exports, raw, overrides } = {} as options): Promise<string> {
   const esbuild = builder === "wasm" ? await import("../vendored/esbuild/wasm.js") : await import("esbuild")
+  if (builder === "wasm") {
+    await esbuild.initialize({ worker: false })
+  }
   const url = input instanceof URL ? input : new URL(`data:application/typescript;base64,${encodeBase64(input)}`)
   let code = ""
   try {
