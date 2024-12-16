@@ -1293,7 +1293,7 @@ if (runtime === "deno") {
         },
       },
     )
-  }, { permissions: { read: ["bench"] } })
+  }, { permissions: { read: true } })
 
   // Size tests
 
@@ -1302,6 +1302,6 @@ if (runtime === "deno") {
     test(`\`parse()\` parse large files ~${(2 ** i)}Mb`, async () => {
       await write(i)
       expect(parse(await Deno.readTextFile(fromFileUrl(import.meta.resolve(`./bench/assets/x-${i}x-large.xml`))))).not.toThrow()
-    }, { permissions: { read: ["bench"], sys: ["uid"], write: ["bench"] }, ignore } as testing)
+    }, { permissions: { read: true, sys: ["uid"], write: ["bench"] }, ignore } as testing)
   }
 }
