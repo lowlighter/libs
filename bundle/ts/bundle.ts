@@ -38,7 +38,7 @@ import { delay } from "@std/async/delay"
  * console.log(await bundle(`console.log("Hello world")`))
  * ```
  */
-export async function bundle(input: URL | string, { builder = "binary", minify = "terser", format = "esm", debug = false, banner = "", shadow = true, config, exports, raw, overrides } = {} as options): Promise<string> {
+export async function bundle(input: URL | string, { builder = "binary", minify = "terser", format = "esm", debug = false, banner = "", shadow = true, config, lockfile, exports, raw, overrides } = {} as options): Promise<string> {
   const esbuild = builder === "wasm" ? await import("../vendored/esbuild/wasm.js") : await import("esbuild")
   if (builder === "wasm") {
     await esbuild.initialize({ worker: false })
@@ -50,7 +50,7 @@ export async function bundle(input: URL | string, { builder = "binary", minify =
       plugins: [
         overrides?.imports ? overridesImports({ imports: overrides.imports }) : null,
         denoResolverPlugin({ configPath: config ? fromFileUrl(config) : undefined }),
-        denoLoaderPlugin({ configPath: config ? fromFileUrl(config) : undefined }),
+        denoLoaderPlugin({ configPath: config ? fromFileUrl(config) : undefined, lockPath: lockfile ? fromFileUrl(lockfile) : undefined }),
       ].filter((plugin): plugin is Plugin => Boolean(plugin)),
       entryPoints: [url.href],
       format,
@@ -124,6 +124,8 @@ export type options = {
    * It is advised to leave this option empty as the deno plugin now resolves the configuration automatically.
    */
   config?: URL
+  /** Path to the lockfile. */
+  lockfile?: URL
   /**
    * Banner to prepend to the output, useful for licensing information.
    *
