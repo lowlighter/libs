@@ -3,7 +3,7 @@ import type { Arrayable, Nullable } from "@libs/typing"
 import { assert } from "@std/assert"
 import * as semver from "@std/semver"
 import * as git from "./mod.ts"
-export { Arrayable, Nullable }
+export type { Arrayable, Nullable }
 export type * from "@std/semver"
 
 /**
