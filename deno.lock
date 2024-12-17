@@ -3868,6 +3868,12 @@
           ]
         }
       },
+      "git": {
+        "dependencies": [
+          "jsr:@std/assert@1",
+          "jsr:@std/semver@1"
+        ]
+      },
       "logger": {
         "dependencies": [
           "jsr:@std/fmt@1",

@@ -1,0 +1,10 @@
+
+{
+  "type": "module",
+  "description": "Git parsing and manipulation",
+  "keywords": [
+      "git",
+      "patch",
+      "esm"
+    ]
+}
