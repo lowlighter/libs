@@ -1,0 +1,26 @@
+{
+  "icon": "🟰",
+  "name": "@libs/git",
+  "version": "0.1.0",
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1",
+    "@std/semver": "jsr:@std/semver@1"
+  },
+  "exports": {
+    ".": "./mod.ts",
+    "./blame": "./blame.ts",
+    "./log": "./log.ts",
+    "./changelog": "./changelog.ts"
+  },
+  "test:permissions": {
+    "env": [
+      "LOG_LEVEL"
+    ],
+    "run": [
+      "git"
+    ]
+  },
+  "supported": {
+    "deno": true
+  }
+}
