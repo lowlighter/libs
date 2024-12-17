@@ -1,5 +1,5 @@
 {
-  "icon": "📰",
+  "icon": "🟰",
   "name": "@libs/git",
   "version": "0.1.0",
   "imports": {

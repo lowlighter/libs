@@ -32,6 +32,11 @@ export function changelog(path: string, { scopes = [], minor = ["feat"], patch =
     result.version.next = semver.increment(version, result.version.bump)
   }
 
+  // Write the new version
+  if (options.write) {
+    Deno.writeTextFileSync(path, content.replace(/"version": "\d\.\d\.\d.*"/, `"version": "${semver.format(result.version.next)}"`))
+  }
+
   // Generate the changelog
   result.changelog = commits.map(({ summary }) => summary).join("\n")
   return result
@@ -45,6 +50,8 @@ export type ChangelogOptions = {
   patch?: Arrayable<string>
   /** The type of commits that increase the "minor" component of semver. */
   minor?: Arrayable<string>
+  /** Whether to update the version in the file. */
+  write?: boolean
 }
 
 /** Changelog. */
