@@ -80,7 +80,20 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th></th></tr>
   <tr><th><a href="https://libs.lecoq.io/dom"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/dom"><img src="https://libs-coverage.lecoq.io/dom/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/logger"><code>📰 @libs/logger</code></a></h2>undefined</th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/dom"><img src="https://libs-coverage.lecoq.io/dom/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/git"><code>🟰 @libs/git</code></a></h2>undefined</th></tr>
+  <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
+  <tr><td colspan="3"></td></tr>
+  <tr>
+    <th><a href="https://jsr.io/@libs/git"><img src="https://jsr.io/badges/@libs/git"></a></th>
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
+    <td rowspan="4"><ul data-for="git">
+  <li>Perform <code>git</code> operation and manipulate outputs</li>
+  <li>Helper to generate changelog and auto-bump your version file</li>
+</ul></td>
+  </tr>
+  <tr><th></th></tr>
+  <tr><th></th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/git"><img src="https://libs-coverage.lecoq.io/git/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/logger"><code>📰 @libs/logger</code></a></h2>undefined</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
