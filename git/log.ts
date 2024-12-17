@@ -1,6 +1,7 @@
 // Imports
 import type { Arrayable, Nullable } from "@libs/typing"
 import { command } from "@libs/run/command"
+export type { Arrayable, Nullable }
 
 /**
  * Parse the output of `git log --pretty=<<%H>> <<%at>> <<%an>> %s`.

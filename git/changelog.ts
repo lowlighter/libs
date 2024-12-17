@@ -3,6 +3,8 @@ import type { Arrayable, Nullable } from "@libs/typing"
 import { assert } from "@std/assert"
 import * as semver from "@std/semver"
 import * as git from "./mod.ts"
+export { Arrayable, Nullable }
+export type * from "@std/semver"
 
 /**
  * Generate a changelog based on the commits since the last version bump.
@@ -10,7 +12,7 @@ import * as git from "./mod.ts"
  * It is automatically determined by the list of commits since the last edit of the "version" key.
  * Commits must follow the conventional commits syntax (non-conventional commits are ignored).
  */
-export function changelog(path: string, { scopes = [], minor = ["feat"], patch = ["fix", "docs", "perf", "refactor", "chore"] } = {} as ChangelogOptions): Changelog {
+export function changelog(path: string, { scopes = [], minor = ["feat"], patch = ["fix", "docs", "perf", "refactor", "chore"], ...options } = {} as ChangelogOptions): Changelog {
   // Find the base commit (last version bump)
   const base = git.blame(path).find(({ content }) => /"version": "\d\.\d\.\d.*"/.test(content))
   assert(base, `Could not find "version" key in ${path}`)
@@ -34,6 +36,7 @@ export function changelog(path: string, { scopes = [], minor = ["feat"], patch =
 
   // Write the new version
   if (options.write) {
+    const content = Deno.readTextFileSync(path)
     Deno.writeTextFileSync(path, content.replace(/"version": "\d\.\d\.\d.*"/, `"version": "${semver.format(result.version.next)}"`))
   }
 

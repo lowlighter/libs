@@ -1,6 +1,7 @@
 // Imports
 import type { Nullable } from "@libs/typing"
 import { command } from "@libs/run/command"
+export type { Nullable }
 
 /**
  * Parse the output of `git blame --line-porcelain`.
