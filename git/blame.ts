@@ -28,6 +28,7 @@ export function blame(path: string, { stdout = "" } = {} as BlameOptions): Blame
         tz: Number(porcelain.shift()!.substring("committer-tz ".length)),
       },
       summary: porcelain.shift()!.substring("summary ".length),
+      boundary: porcelain[0].startsWith("boundary") ? (porcelain.shift(), true) : false,
       previous: porcelain[0].startsWith("previous ") ? porcelain.shift()!.substring("previous ".length) : null,
       filename: porcelain.shift()!.substring("filename ".length),
       content: porcelain.shift()!.substring(1),
@@ -62,6 +63,7 @@ export type BlameEntry = {
     tz: number
   }
   summary: string
+  boundary: boolean
   previous: Nullable<string>
   filename: string
   content: string
