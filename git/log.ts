@@ -12,7 +12,7 @@ export function log(sha: string, { stdout = "", ...options } = {} as LogOptions)
   }
   // Parse entries
   let entries = []
-  for (const line of stdout.trim().split("\n")) {
+  for (const line of stdout.trim().split("\n").filter(Boolean)) {
     try {
       const { sha, author, time, summary } = line.match(/^<<(?<sha>.{40})>> <<(?<time>\d+)>> <<(?<author>.*)>> (?<summary>.*)$/)!.groups!
       const match = summary.match(/^(?<type>[^\(\):]+)(?:\((?<scopes>[^\(\):]+)\))?(?<breaking>!?):\s+(?<subject>[\s\S]*)/)?.groups
