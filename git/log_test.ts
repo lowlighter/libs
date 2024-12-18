@@ -55,3 +55,7 @@ function format(entries: LogEntry[]) {
 test("`log()` parses `git log --pretty=<<%H>> <<%at>> <<%an>> %s`", () => {
   expect(log("", { stdout: format(expected) })).toEqual(expected)
 })
+
+test("`log()` throws on parsing error", () => {
+  expect(() => log("", { stdout: "<garbage>" })).toThrow(TypeError, /Failed to parse git log entry/)
+})

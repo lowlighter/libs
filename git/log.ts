@@ -13,19 +13,23 @@ export function log(sha: string, { stdout = "", ...options } = {} as LogOptions)
   // Parse entries
   let entries = []
   for (const line of stdout.trim().split("\n")) {
-    const { sha, author, time, summary } = line.match(/^<<(?<sha>.{40})>> <<(?<time>\d+)>> <<(?<author>.*)>> (?<summary>.*)$/)!.groups!
-    const match = summary.match(/^(?<type>[^\(\):]+)(?:\((?<scopes>[^\(\):]+)\))?(?<breaking>!?):\s+(?<subject>[\s\S]*)/)?.groups
-    entries.push({
-      sha,
-      author,
-      time: Number(time),
-      conventional: !!match,
-      type: match?.type ?? null,
-      scopes: match?.scopes?.split(",").map((scope) => scope.trim()) ?? [],
-      breaking: match ? !!match?.breaking : null,
-      subject: match?.subject ?? summary,
-      summary,
-    })
+    try {
+      const { sha, author, time, summary } = line.match(/^<<(?<sha>.{40})>> <<(?<time>\d+)>> <<(?<author>.*)>> (?<summary>.*)$/)!.groups!
+      const match = summary.match(/^(?<type>[^\(\):]+)(?:\((?<scopes>[^\(\):]+)\))?(?<breaking>!?):\s+(?<subject>[\s\S]*)/)?.groups
+      entries.push({
+        sha,
+        author,
+        time: Number(time),
+        conventional: !!match,
+        type: match?.type ?? null,
+        scopes: match?.scopes?.split(",").map((scope) => scope.trim()) ?? [],
+        breaking: match ? !!match?.breaking : null,
+        subject: match?.subject ?? summary,
+        summary,
+      })
+    } catch (error) {
+      throw new TypeError(`Failed to parse git log entry: "${line}" (${error})`)
+    }
   }
   // Filter entries
   if (options?.filter?.conventional) {
