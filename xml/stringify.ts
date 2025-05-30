@@ -70,6 +70,7 @@ export function stringify(document: stringifyable, options?: options): string {
   options.format.breakline ??= 128
   const _options = options as _options
   let text = ""
+  document = clone(document)
   // Add prolog
   text += xml_prolog(document as xml_document, _options)
   // Add processing instructions
@@ -96,6 +97,24 @@ export function stringify(document: stringifyable, options?: options): string {
   text += xml_node(root, { ..._options, depth: 0 })
 
   return text.trim()
+}
+
+/**
+ * Clone the provided user document so it {@linkcode stringify} can edit it in-place without affecting user.
+ *
+ * It copies all enumerable properties along non-enumerable one supported by `parse`
+ */
+function clone(document: Record<PropertyKey, unknown>) {
+  const cloned = (Array.isArray(document) ? [] : {}) as typeof document
+  for (const property in document) {
+    cloned[property] = ((document[property] !== null) && (["object", "function"].includes(typeof document[property]))) ? clone(document[property] as Record<PropertyKey, unknown>) : document[property]
+  }
+  ;["~name", "~parent", "#text", "~children", "#comments", "#text", "#doctype", "#instruction", internal].forEach((property) => {
+    if (property in document) {
+      Object.defineProperty(cloned, property, Object.getOwnPropertyDescriptor(document, property)!)
+    }
+  })
+  return cloned
 }
 
 /**

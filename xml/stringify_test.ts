@@ -270,6 +270,11 @@ test("`stringify()` comments is preserved on child nodes", () =>
   <string><!--hello world--></string>
 </nested>`.trim()))
 
+test("`stringify()` does not edit argument", () => {
+  const document = Object.freeze({ foo: Object.freeze({ bar: "baz" }) })
+  expect(stringify(document, { format: { indent: "" } })).toEqual("<foo><bar>baz</bar></foo>")
+})
+
 // Custom replacer
 
 test("`stringify()` xml replacer", () =>
