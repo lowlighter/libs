@@ -256,6 +256,40 @@ test("`parse()` xml syntax xml stylesheet", () =>
     },
   ))
 
+test("`parse()` xml syntax xml stylesheet (sitemap.xml example)", () => {
+  expect(
+    parse(`
+      <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+      <?xml-stylesheet type="text/xsl" href="sitemap-style.xml" ?>
+      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+         <url>
+          <loc>https://example.com</loc>
+          <lastmod>2025-05-30T03:50:28-04:00</lastmod>
+        </url>
+      </urlset>`),
+  ).toEqual(
+    {
+      "#instructions": {
+        "xml-stylesheet": {
+          "@href": "sitemap-style.xml",
+          "@type": "text/xsl",
+        },
+      },
+      "@encoding": "utf-8",
+      "@standalone": "yes",
+      "@version": "1.0",
+      urlset: {
+        "@xmlns": "http://www.sitemaps.org/schemas/sitemap/0.9",
+        "@xmlns:xhtml": "http://www.w3.org/1999/xhtml",
+        url: {
+          lastmod: "2025-05-30T03:50:28-04:00",
+          loc: "https://example.com",
+        },
+      },
+    },
+  )
+})
+
 test("`parse()` xml syntax doctype", () =>
   expect(
     parse(
