@@ -78,8 +78,11 @@ export function stringify(document: stringifyable, options?: options): string {
   text += xml_prolog(document as xml_document, _options)
   // Add processing instructions
   if (document["#instructions"]) {
-    for (const nodes of Object.values(document["#instructions"])) {
+    for (const [name, nodes] of Object.entries(document["#instructions"])) {
       for (const node of [nodes].flat()) {
+        if (!("~name" in node)) {
+          Object.defineProperties(node, { ["~name"]: { enumerable: false, writable: false, value: name } })
+        }
         text += xml_instruction(node, _options)
       }
     }

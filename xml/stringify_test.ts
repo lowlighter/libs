@@ -62,6 +62,75 @@ test("`stringify()` xml syntax doctype", () =>
     },
   ))
 
+test("`stringify()` lume example issue #96", () => {
+  expect(stringify({
+    "@version": "1.0",
+    "@encoding": "UTF-8",
+    urlset: {
+      "@xmlns": "http://www.sitemaps.org/schemas/sitemap/0.9",
+      "@xmlns:xhtml": "http://www.w3.org/1999/xhtml",
+      url: [
+        {
+          loc: "https://example.com/overrided-page2/",
+          lastmod: "2020-06-21T00:00:00.000Z",
+        },
+        {
+          loc: "https://example.com/page5/",
+          lastmod: "1979-06-21T23:45:00.000Z",
+        },
+        {
+          loc: "https://example.com/page_3/",
+          lastmod: "2020-01-01T00:00:00.000Z",
+        },
+        {
+          loc: "https://example.com/pages/new-name/page7/",
+          lastmod: "2022-01-02T00:00:00.000Z",
+        },
+        {
+          loc: "https://example.com/pages/page4/",
+          lastmod: "2021-01-02T18:32:00.000Z",
+        },
+        {
+          loc: "https://example.com/pages/page6/",
+          lastmod: "2022-01-01T00:00:00.000Z",
+        },
+      ],
+    },
+    "#instructions": {
+      "xml-stylesheet": { "@href": "/sitemap-style.xml", "@type": "text/xsl" },
+    },
+  })).toEqual(
+    `<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/sitemap-style.xml" type="text/xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://example.com/overrided-page2/</loc>
+    <lastmod>2020-06-21T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/page5/</loc>
+    <lastmod>1979-06-21T23:45:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/page_3/</loc>
+    <lastmod>2020-01-01T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/pages/new-name/page7/</loc>
+    <lastmod>2022-01-02T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/pages/page4/</loc>
+    <lastmod>2021-01-02T18:32:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/pages/page6/</loc>
+    <lastmod>2022-01-01T00:00:00.000Z</lastmod>
+  </url>
+</urlset>`,
+  )
+})
+
 for (const indent of ["  ", ""]) {
   test(`\`stringify()\` xml example w3schools.com#3 (indent = "${indent}")`, () =>
     expect(
