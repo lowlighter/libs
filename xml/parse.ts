@@ -82,7 +82,7 @@ export type options = {
  *   - `readonly ["#text"]?: string`: concatenated children text content, this property becomes enumerable if at least one non-empty text node is present
  * - XML document properties
  *  - `["#doctype"]?: xml_node`: XML doctype
- *  - `["#instruction"]?: { [key:string]: xml_node| Array<xml_node> }`: XML processing instructions
+ *  - `["#instructions"]?: { [key:string]: xml_node| Array<xml_node> }`: XML processing instructions
  *
  * Attributes are prefixed with an arobase (`@`).
  *
