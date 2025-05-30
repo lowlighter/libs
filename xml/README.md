@@ -64,6 +64,22 @@ console.log(stringify({
   - Support for custom `reviver` and `replacer` functions
 - Support for metadata stored into non-enumerable properties (advanced usage).
 
+## 🕊️ Migrating from `6.x.x` to `7.x.x`
+
+For both `stringify` and `parse`, the type `options` has been renamed and prefixed by their scope for more clarity.
+
+```diff ts
+- import type { options } from "jsr:@libs/xml@6/stringify"
++ import type { stringify_options } from "jsr:@libs/xml@7/stringify"
+```
+
+```diff ts
+- import type { options } from "jsr:@libs/xml@6/parse"
++ import type { parse_options } from "jsr:@libs/xml@7/parse"
+```
+
+If you didn't use these typings, no further changes are required.
+
 ## 🕊️ Migrating from `5.x.x` to `6.x.x`
 
 Version `6.x.x` and onwards require Deno `2.x.x` or later.
