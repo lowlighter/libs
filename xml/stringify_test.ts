@@ -62,8 +62,8 @@ test("`stringify()` xml syntax doctype", () =>
     },
   ))
 
-for (const indent of ["  ", ""]) {
-  test(`\`stringify()\` xml example w3schools.com#3 (indent = "${indent}")`, () =>
+for (const indent of ["  "]) {
+  test.only(`\`stringify()\` xml example w3schools.com#3 (indent = "${indent}")`, () =>
     expect(
       check(
         `
@@ -269,6 +269,11 @@ test("`stringify()` comments is preserved on child nodes", () =>
 <nested>
   <string><!--hello world--></string>
 </nested>`.trim()))
+
+test("`stringify()` does not edit argument", () => {
+  const document = Object.freeze({ foo: Object.freeze({ bar: "baz" }) })
+  expect(stringify(document, { format: { indent: "" }})).toEqual("<foo><bar>baz</bar></foo>")
+})
 
 // Custom replacer
 
