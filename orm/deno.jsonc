@@ -22,6 +22,9 @@
     "net": [
       "0.0.0.0:8080",
       "localhost:8080"
+    ],
+    "env": [
+      "NODE_ENV"
     ]
   },
   "supported": {
