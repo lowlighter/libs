@@ -1,7 +1,7 @@
 {
   "icon": "🖨️",
   "name": "@libs/markdown",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "playground": "https://libs.lecoq.io/markdown",
   "imports": {
     "@std/text": "jsr:@std/text@1",
