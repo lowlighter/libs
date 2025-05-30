@@ -1,9 +1,11 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@b-fuze/deno-dom@*": "0.1.49",
     "jsr:@cliffy/table@1.0.0-rc.7": "1.0.0-rc.7",
     "jsr:@deno-libs/gql@4": "4.0.0",
     "jsr:@luca/esbuild-deno-loader@~0.11.0-rc.1": "0.11.1",
+    "jsr:@std/assert@*": "1.0.13",
     "jsr:@std/assert@1": "1.0.13",
     "jsr:@std/assert@^1.0.13": "1.0.13",
     "jsr:@std/async@1": "1.0.13",
@@ -16,6 +18,7 @@
     "jsr:@std/expect@1": "1.0.16",
     "jsr:@std/fmt@1": "1.0.8",
     "jsr:@std/fmt@~1.0.2": "1.0.8",
+    "jsr:@std/fs@*": "1.0.17",
     "jsr:@std/fs@1": "1.0.17",
     "jsr:@std/html@1": "1.0.4",
     "jsr:@std/http@0.224.5": "0.224.5",
@@ -27,6 +30,7 @@
     "jsr:@std/path@1": "1.1.0",
     "jsr:@std/path@^1.0.6": "1.1.0",
     "jsr:@std/path@^1.0.9": "1.1.0",
+    "jsr:@std/semver@*": "1.0.5",
     "jsr:@std/semver@1": "1.0.5",
     "jsr:@std/streams@1": "1.0.9",
     "jsr:@std/streams@^1.0.9": "1.0.9",
@@ -105,6 +109,9 @@
     "npm:zod@^3.23.8": "3.25.41"
   },
   "jsr": {
+    "@b-fuze/deno-dom@0.1.49": {
+      "integrity": "45c40175fdd1e74ab2d4b54c4fdaabbad6e5b76ee28df12a48e076b3fa7901a9"
+    },
     "@cliffy/table@1.0.0-rc.7": {
       "integrity": "9fdd9776eda28a0b397981c400eeb1aa36da2371b43eefe12e6ff555290e3180",
       "dependencies": [
