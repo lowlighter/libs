@@ -5,39 +5,45 @@
 
 // Imports
 import type { Nullable, stringifyable, xml_document, xml_node, xml_text } from "./_types.ts"
-export type { Nullable, stringifyable, xml_document, xml_node, xml_text }
+export type * from "./_types.ts"
 
 /** XML stringifier options. */
-export type options = {
+export type stringify_options = {
   /** Format options. */
-  format?: {
-    /**
-     * Indent string (defaults to `"  "`).
-     * Set to empty string to disable indentation and enable minification.
-     */
-    indent?: string
-    /** Break text node if its length is greater than this value (defaults to `128`). */
-    breakline?: number
-  }
+  format?: format_options
   /** Replace options. */
-  replace?: {
-    /**
-     * Force escape all XML entities.
-     * By default, only the ones that would break the XML structure are escaped.
-     */
-    entities?: boolean
-    /**
-     * Custom replacer (this is applied after other revivals).
-     * When it is applied on an attribute, `key` and `value` will be given.
-     * When it is applied on a node, both `key` and `value` will be `null`.
-     * Return `undefined` to delete either the attribute or the tag.
-     */
-    custom?: (args: { name: string; key: Nullable<string>; value: Nullable<string>; node: Readonly<xml_node> }) => unknown
-  }
+  replace?: replace_options
+}
+
+/** XML stringifier {@linkcode stringify_options}`.format` */
+export type format_options = {
+  /**
+   * Indent string (defaults to `"  "`).
+   * Set to empty string to disable indentation and enable minification.
+   */
+  indent?: string
+  /** Break text node if its length is greater than this value (defaults to `128`). */
+  breakline?: number
+}
+
+/** XML stringifier {@linkcode stringify_options}`.replace` */
+export type replace_options = {
+  /**
+   * Force escape all XML entities.
+   * By default, only the ones that would break the XML structure are escaped.
+   */
+  entities?: boolean
+  /**
+   * Custom replacer (this is applied after other revivals).
+   * When it is applied on an attribute, `key` and `value` will be given.
+   * When it is applied on a node, both `key` and `value` will be `null`.
+   * Return `undefined` to delete either the attribute or the tag.
+   */
+  custom?: (args: { name: string; key: Nullable<string>; value: Nullable<string>; node: Readonly<xml_node> }) => unknown
 }
 
 /** XML stringifier options (with non-nullable format options). */
-type _options = options & { format: NonNullable<options["format"]> }
+type _options = stringify_options & { format: NonNullable<stringify_options["format"]> }
 
 /** Internal symbol to store properties without erasing user-provided ones. */
 const internal = Symbol("internal")
@@ -66,7 +72,7 @@ const internal = Symbol("internal")
  * }))
  * ```
  */
-export function stringify(document: stringifyable, options?: options): string {
+export function stringify(document: stringifyable, options?: stringify_options): string {
   options ??= {}
   options.format ??= {}
   options.format.indent ??= "  "
@@ -237,7 +243,7 @@ function xml_node(node: xml_node, { format: { breakline = 0, indent = "" }, repl
 }
 
 /** Extract children from node. */
-function xml_children(node: xml_node, options: options): Array<xml_node> {
+function xml_children(node: xml_node, options: stringify_options): Array<xml_node> {
   const children = Object.keys(node)
     .filter((key) => /^[A-Za-z_]/.test(key))
     .flatMap((key) =>
@@ -274,7 +280,7 @@ function xml_children(node: xml_node, options: options): Array<xml_node> {
 }
 
 /** Extract attributes from node. */
-function xml_attributes(node: xml_node, options: options): Array<[string, string]> {
+function xml_attributes(node: xml_node, options: stringify_options): Array<[string, string]> {
   return Object.entries(node!)
     .filter(([key]) => key.startsWith("@"))
     .map(([key]) => [key.slice(1), replace(node!, key, { ...options, escape: ["&", '"', "'"] })])
@@ -291,7 +297,7 @@ const entities = {
 } as const
 
 /** Replace value. */
-function replace(node: xml_node | xml_text, key: string, options: options & { escape?: Array<keyof typeof entities> }) {
+function replace(node: xml_node | xml_text, key: string, options: stringify_options & { escape?: Array<keyof typeof entities> }) {
   let value = `${(node as xml_node)[key]}` as string
   if (options?.escape) {
     if (options?.replace?.entities) {

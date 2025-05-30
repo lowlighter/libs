@@ -1,5 +1,5 @@
-import { type options as parse_options, parse } from "./parse.ts"
-import { cdata, comment, type options as stringify_options, stringify } from "./stringify.ts"
+import { parse, type parse_options } from "./parse.ts"
+import { cdata, comment, stringify, type stringify_options } from "./stringify.ts"
 import { expect, test } from "@libs/testing"
 
 // This operation ensure that reforming a parsed XML will still yield same data
