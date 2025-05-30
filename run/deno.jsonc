@@ -1,7 +1,7 @@
 {
   "icon": "⏯️",
   "name": "@libs/run",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "npm": true,
   "playground": "https://libs.lecoq.io/run",
   "tasks": {
