@@ -412,6 +412,7 @@ export class Element extends Node implements _Element {
   ariaChecked = null as Nullable<string>
   ariaColCount = null as Nullable<string>
   ariaColIndex = null as Nullable<string>
+  ariaColIndexText = null as Nullable<string>
   ariaColSpan = null as Nullable<string>
   ariaCurrent = null as Nullable<string>
   ariaDescription = null as Nullable<string>
@@ -436,6 +437,7 @@ export class Element extends Node implements _Element {
   ariaRoleDescription = null as Nullable<string>
   ariaRowCount = null as Nullable<string>
   ariaRowIndex = null as Nullable<string>
+  ariaRowIndexText = null as Nullable<string>
   ariaRowSpan = null as Nullable<string>
   ariaSelected = null as Nullable<string>
   ariaSetSize = null as Nullable<string>

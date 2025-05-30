@@ -27,6 +27,8 @@ export class Document extends Node implements _Document {
     return
   }
 
+  readonly fragmentDirective = null as unknown as FragmentDirective // unimplemented
+
   // https://developer.mozilla.org/en-US/docs/Web/API/Document/title
   // Note: string-only
   get title(): string {

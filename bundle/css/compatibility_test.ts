@@ -6,24 +6,29 @@ import { encodeBase64 } from "@std/encoding/base64"
 ;(Report as testing).testing()
 
 const base = new URL("testing/", import.meta.url)
+const rules = {
+  "at-rule-no-deprecated": false,
+  "declaration-property-value-no-unknown": false,
+  "declaration-property-value-keyword-no-deprecated": false,
+}
 
 test("`report.for()` detects features", async () => {
-  const css = await bundle(new URL("test_compatibility.css", base))
+  const css = await bundle(new URL("test_compatibility.css", base), { rules })
   const result = new Report("defaults, ie > 8", { loglevel: -1 }).for(css)
   expect(result.features.list).toContain("properties/backdrop-filter")
   expect(result.browsers.ie["9"].support.unsupported).toHaveProperty("properties/backdrop-filter")
-}, { permissions: { read: true } })
+}, { permissions: { read: true, env: true } })
 
 test("`report.for()` supports advanced usecases", async () => {
-  const css = await bundle(new URL("test_compatibility_complex.css", base))
+  const css = await bundle(new URL("test_compatibility_complex.css", base), { rules })
   expect(() => new Report("> 0%", { loglevel: -1 }).for(css)).not.toThrow()
-}, { permissions: { read: true } })
+}, { permissions: { read: true, env: true } })
 
 test("`report.print()` formats and outputs results", async () => {
   const report = new Report("> 0%", { loglevel: -1 })
   const _ = console.log
   try {
-    const css = await bundle(new URL("test_compatibility.css", base))
+    const css = await bundle(new URL("test_compatibility.css", base), { rules })
     let text = ""
     const log = fn((message: string) => text = message)
     Object.assign(console, { log })
@@ -51,7 +56,9 @@ test("`report.print()` formats and outputs results", async () => {
     }
     // Force coverage of colors
     for (const pass of [7, 8, 9, 10, NaN]) {
-      const css = Number.isNaN(pass) ? await bundle(new URL("test_compatibility_print.css", base)) : `:root { ${new Array(pass).fill(null).map((_, i) => `-debug-pass-${i}: 1px`).join(";")}; ${new Array(10 - pass).fill(null).map((_, i) => `-debug-fail-${i}: 1px`).join(";")} }`
+      const css = Number.isNaN(pass)
+        ? await bundle(new URL("test_compatibility_print.css", base), { rules })
+        : `:root { ${new Array(pass).fill(null).map((_, i) => `-debug-pass-${i}: 1px`).join(";")}; ${new Array(10 - pass).fill(null).map((_, i) => `-debug-fail-${i}: 1px`).join(";")} }`
       for (const output of ["console", "html"] as const) {
         const report = new Report(Number.isNaN(pass) ? "> 0%" : "last 2 chrome versions", { loglevel: -1 })
         report.for(css).print({ output, view: "browsers", verbose: true })
@@ -60,7 +67,7 @@ test("`report.print()` formats and outputs results", async () => {
   } finally {
     Object.assign(console, { log: _ })
   }
-}, { permissions: { read: true } })
+}, { permissions: { read: true, env: true } })
 
 test("`compatibility()` supports printing reports", async () => {
   const input = "body { color: salmon; }"
@@ -75,4 +82,4 @@ test("`compatibility()` supports printing reports", async () => {
   } finally {
     Object.assign(console, { log: _ })
   }
-}, { permissions: { read: true } })
+}, { permissions: { read: true, env: true } })
