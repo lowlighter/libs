@@ -112,7 +112,7 @@ function clone(document: Record<PropertyKey, unknown>) {
   for (const property in document) {
     cloned[property] = ((document[property] !== null) && (["object", "function"].includes(typeof document[property]))) ? clone(document[property] as Record<PropertyKey, unknown>) : document[property]
   }
-  ;["~name", "~parent", "#text", "~children", "#comments", "#text", "#doctype", "#instruction", internal].forEach((property) => {
+  ;["~name", "~parent", "#text", "~children", "#comments", "#text", "#doctype", "#instructions", internal].forEach((property) => {
     if (property in document) {
       Object.defineProperty(cloned, property, Object.getOwnPropertyDescriptor(document, property)!)
     }
