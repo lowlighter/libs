@@ -40,7 +40,10 @@ export type xml_document = xml_node & {
 }
 
 /** Synchronous reader. */
-export type ReaderSync = { readSync(buffer: Uint8Array): Nullable<number> }
+export type ReaderSync = {
+  /** Read synchronously some data into a buffer and returns the number of bytes read. */
+  readSync(buffer: Uint8Array): Nullable<number>
+}
 
 /** A laxer type for what can be stringified. We won’t ever create this, but we’ll accept it. */
 export type stringifyable = Partial<Omit<xml_document, "@version" | "@standalone"> & { "@version": string; "@standalone": string }>

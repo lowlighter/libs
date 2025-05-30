@@ -6,58 +6,17 @@
 // Imports
 import { initSync, JsReader, source, Token, tokenize } from "./wasm_xml_parser/wasm_xml_parser.js"
 import type { Nullable, ReaderSync, xml_document, xml_node, xml_text } from "./_types.ts"
-export type { Nullable, ReaderSync, xml_document, xml_node, xml_text }
+export type * from "./_types.ts"
 initSync(source())
 
 /** XML parser options. */
-export type options = {
+export type parse_options = {
   /** Remove elements from result. */
-  clean?: {
-    /** Remove attributes from result. */
-    attributes?: boolean
-    /** Remove comments from result. */
-    comments?: boolean
-    /** Remove XML doctype from result. */
-    doctype?: boolean
-    /** Remove XML processing instructions from result. */
-    instructions?: boolean
-  }
+  clean?: clean_options
   /** Flatten result depending on node content. */
-  flatten?: {
-    /** If node only contains attributes values (i.e. with key starting with `@`), it'll be flattened as a regular object without `@` prefixes. */
-    attributes?: boolean
-    /** If node only contains a `#text` value, it'll be flattened as a string (defaults to `true`). */
-    text?: boolean
-    /** If node does not contains any attribute or text, it'll be flattened to `null` (defaults to `true`). */
-    empty?: boolean
-  }
+  flatten?: flatten_options
   /** Revive result. */
-  revive?: {
-    /**
-     * Trim texts (this is applied before other revivals, defaults to `true`).
-     * It honors `xml:space="preserve"` attribute.
-     */
-    trim?: boolean
-    /**
-     * Revive XML entities (defaults to `true`).
-     * Automatically unescape XML entities and replace common entities with their respective characters.
-     */
-    entities?: boolean
-    /** Revive booleans (matching `/^(?:[Tt]rue|[Ff]alse)$/`).*/
-    booleans?: boolean
-    /**
-     * Revive finite numbers.
-     * Note that the version of the XML prolog is always treated as a string to avoid breaking documents.
-     */
-    numbers?: boolean
-    /**
-     * Custom reviver (this is applied after other revivals).
-     * When it is applied on an attribute, `key` and `value` will be given.
-     * When it is applied on a node, both `key` and `value` will be `null`.
-     * Return `undefined` to delete either the attribute or the tag.
-     */
-    custom?: (args: { name: string; key: Nullable<string>; value: Nullable<string>; node: Readonly<xml_node> }) => unknown
-  }
+  revive?: revive_options
   /**
    * Parsing mode.
    * Using `html` is more permissive and will not throw on some invalid XML syntax.
@@ -65,6 +24,62 @@ export type options = {
    */
   mode?: "xml" | "html"
 }
+
+/** XML parser {@linkcode parse_options}`.clean` */
+export type clean_options = {
+  /** Remove attributes from result. */
+  attributes?: boolean
+  /** Remove comments from result. */
+  comments?: boolean
+  /** Remove XML doctype from result. */
+  doctype?: boolean
+  /** Remove XML processing instructions from result. */
+  instructions?: boolean
+}
+
+/** XML parser {@linkcode parse_options}`.flatten` */
+export type flatten_options = {
+  /** If node only contains attributes values (i.e. with key starting with `@`), it'll be flattened as a regular object without `@` prefixes. */
+  attributes?: boolean
+  /** If node only contains a `#text` value, it'll be flattened as a string (defaults to `true`). */
+  text?: boolean
+  /** If node does not contains any attribute or text, it'll be flattened to `null` (defaults to `true`). */
+  empty?: boolean
+}
+
+/** XML parser {@linkcode parse_options}`.revive` */
+export type revive_options = {
+  /**
+   * Trim texts (this is applied before other revivals, defaults to `true`).
+   * It honors `xml:space="preserve"` attribute.
+   */
+  trim?: boolean
+  /**
+   * Revive XML entities (defaults to `true`).
+   * Automatically unescape XML entities and replace common entities with their respective characters.
+   */
+  entities?: boolean
+  /** Revive booleans (matching `/^(?:[Tt]rue|[Ff]alse)$/`).*/
+  booleans?: boolean
+  /**
+   * Revive finite numbers.
+   * Note that the version of the XML prolog is always treated as a string to avoid breaking documents.
+   */
+  numbers?: boolean
+  /**
+   * Custom reviver (this is applied after other revivals).
+   * When it is applied on an attribute, `key` and `value` will be given.
+   * When it is applied on a node, both `key` and `value` will be `null`.
+   * Return `undefined` to delete either the attribute or the tag.
+   */
+  custom?: reviver
+}
+
+/**
+ * Custom XML parser reviver.
+ * It can be used to change the way some nodes are parsed.
+ */
+export type reviver = (args: { name: string; key: Nullable<string>; value: Nullable<string>; node: Readonly<xml_node> }) => unknown
 
 /**
  * Parse a XML string into an object.
@@ -115,7 +130,7 @@ export type options = {
  * console.log(parse(file))
  * ```
  */
-export function parse(content: string | ReaderSync, options?: options): xml_document {
+export function parse(content: string | ReaderSync, options?: parse_options): xml_document {
   const xml = xml_node("~xml") as xml_document
   const stack = [xml] as Array<xml_node>
   const tokens = [] as Array<[number, string, string?]>
@@ -322,7 +337,7 @@ function xml_node(name: string, { parent = null as Nullable<xml_node> } = {}): x
 }
 
 /** Post-process xml node. */
-function postprocess(node: xml_node, options: options) {
+function postprocess(node: xml_node, options: parse_options) {
   // Clean XML document if required
   if (node["~name"] === "~xml") {
     if (options?.clean?.doctype) {
@@ -419,7 +434,7 @@ const entities = {
 } as const
 
 /** Revive value. */
-function revive(node: xml_node | xml_text, key: string, options: options) {
+function revive(node: xml_node | xml_text, key: string, options: parse_options) {
   let value = (node as xml_node)[key] as string
   if (options?.revive?.trim) {
     value = value.trim()
