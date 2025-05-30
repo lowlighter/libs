@@ -62,7 +62,7 @@ test("`stringify()` xml syntax doctype", () =>
     },
   ))
 
-for (const indent of ["  "]) {
+for (const indent of ["  ", ""]) {
   test.only(`\`stringify()\` xml example w3schools.com#3 (indent = "${indent}")`, () =>
     expect(
       check(
