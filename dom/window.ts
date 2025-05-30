@@ -693,6 +693,9 @@ export class Window extends EventTarget implements _Window {
 
   // Events =============================================================================================================
 
+  onpagereveal = null as _Window["onpagereveal"] // unimplemented
+  onpageswap = null as _Window["onpageswap"] // unimplemented
+
   onmousedown = null as _Window["onmousedown"] // unimplemented
   onmouseup = null as _Window["onmouseup"] // unimplemented
   onmousemove = null as _Window["onmousemove"] // unimplemented
