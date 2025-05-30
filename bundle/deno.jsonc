@@ -1,7 +1,7 @@
 {
   "icon": "📦",
   "name": "@libs/bundle",
-  "version": "12.6.4",
+  "version": "12.6.5",
   "playground": "https://libs.lecoq.io/bundle",
   "tasks": {
     "test:node": "sleep 0",
