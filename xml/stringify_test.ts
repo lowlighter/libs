@@ -272,7 +272,7 @@ test("`stringify()` comments is preserved on child nodes", () =>
 
 test("`stringify()` does not edit argument", () => {
   const document = Object.freeze({ foo: Object.freeze({ bar: "baz" }) })
-  expect(stringify(document, { format: { indent: "" }})).toEqual("<foo><bar>baz</bar></foo>")
+  expect(stringify(document, { format: { indent: "" } })).toEqual("<foo><bar>baz</bar></foo>")
 })
 
 // Custom replacer
