@@ -168,7 +168,7 @@ class QrCode {
    * The smallest possible QR Code version is automatically chosen for the output.
    * The ECC level of the result may be higher than the ecl argument if it can be done without increasing the version.
    */
-  static from(content: string | URL | Uint8Array, { output = "array", border = 4, light = "white", dark = "black", ecl = "MEDIUM" }: { output?: string } & options = {}) {
+  static from(content: string | URL | Uint8Array, { output = "array", border = 2, light = "white", dark = "black", ecl = "MEDIUM" }: { output?: string } & options = {}) {
     border = Math.max(0, border)
     const qr = QrCode.#encode(Segment.from(content instanceof URL ? content.href : content), { ecl })
     const size = qr.size + border * 2
@@ -178,18 +178,18 @@ class QrCode {
         for (let y = 0; y < qr.size; y++) {
           for (let x = 0; x < qr.size; x++) {
             if (qr.get({ x, y })) {
-              paths.push(`M${x + border},${y + border}h1v1h-1z`)
+              paths.push(`M${x + border * 2},${y + border * 2}h1v1h-1z`)
             }
           }
         }
         return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 ${size} ${size}" stroke="none"><rect width="100%" height="100%" fill="${light}"/><path d="${paths.join(" ")}" fill="${dark}"/></svg>`
       }
       case "console": {
-        for (let y = 0; y < qr.size; y++) {
-          const line = "%c\u2588\u2588".repeat(qr.size)
+        for (let y = 0; y < size; y++) {
+          const line = "%c\u2588\u2588".repeat(size)
           const colors = [] as string[]
-          for (let x = 0; x < qr.size; x++) {
-            colors.push(`color: ${qr.get({ x, y }) ? dark : light}`)
+          for (let x = 0; x < size; x++) {
+            colors.push(`color: ${qr.get({ x: x - border, y: y - border }) ? dark : light}`)
           }
           console.log(line, ...colors)
         }
@@ -197,10 +197,10 @@ class QrCode {
       }
       default: {
         const data = [] as boolean[][]
-        for (let y = 0; y < qr.size; y++) {
-          data[y] = new Array(qr.size).fill(false)
-          for (let x = 0; x < qr.size; x++) {
-            data[y][x] = qr.get({ x, y })
+        for (let y = 0; y < size; y++) {
+          data[y] = new Array(size).fill(false)
+          for (let x = 0; x < size; x++) {
+            data[y][x] = qr.get({ x: x - border, y: y - border })
           }
         }
         return data
