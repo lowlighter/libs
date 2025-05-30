@@ -1,3 +1,8 @@
+/**
+ * Stringify an XML document object into a XML string.
+ * @module
+ */
+
 // Imports
 import type { Nullable, stringifyable, xml_document, xml_node, xml_text } from "./_types.ts"
 export type { Nullable, stringifyable, xml_document, xml_node, xml_text }
@@ -60,8 +65,6 @@ const internal = Symbol("internal")
  *   }
  * }))
  * ```
- *
- * @module
  */
 export function stringify(document: stringifyable, options?: options): string {
   options ??= {}
