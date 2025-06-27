@@ -4,6 +4,8 @@
     "jsr:@b-fuze/deno-dom@*": "0.1.49",
     "jsr:@cliffy/table@1.0.0-rc.7": "1.0.0-rc.7",
     "jsr:@deno-libs/gql@4": "4.0.0",
+    "jsr:@libs/typing@2": "2.9.0",
+    "jsr:@libs/xml@5.0.2": "5.0.2",
     "jsr:@luca/esbuild-deno-loader@~0.11.0-rc.1": "0.11.1",
     "jsr:@std/assert@*": "1.0.13",
     "jsr:@std/assert@1": "1.0.13",
@@ -125,6 +127,15 @@
         "npm:graphql",
         "npm:graphql-http",
         "npm:xss"
+      ]
+    },
+    "@libs/typing@2.9.0": {
+      "integrity": "ddf35ea652b807cd9b19b4f3f163fb5d76d57299053753fbd01ba8b02d9306ad"
+    },
+    "@libs/xml@5.0.2": {
+      "integrity": "f17bb52752acb83eda027245695508de566ddad816a935a08c3d75df5aed0ff8",
+      "dependencies": [
+        "jsr:@libs/typing"
       ]
     },
     "@luca/esbuild-deno-loader@0.11.1": {
@@ -3685,6 +3696,18 @@
     "zwitch@2.0.4": {
       "integrity": "sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A=="
     }
+  },
+  "remote": {
+    "https://deno.land/x/xml@3.0.2/parse.ts": "057782a8fbee64ebcc608896010016f4579b6799cdd4fe8da9cb1a134b83e92f",
+    "https://deno.land/x/xml@3.0.2/utils/parser.ts": "f900943e40bf79f75b7a6effb965ed10a868e3b3134dbddfbf559c7c5e8cd25e",
+    "https://deno.land/x/xml@3.0.2/utils/stream.ts": "daa6443695261c1190da38090822d85353e20af3ebaa145e0314b0cf1d6a018e",
+    "https://deno.land/x/xml@3.0.2/utils/streamable.ts": "1603a5f10c859b95d4e9502365a0fba0b19d5d068356e20d5a6813cd37fee780",
+    "https://deno.land/x/xml@3.0.2/utils/types.ts": "9cd1ee34e70f8ef13815d269b5316f3a3ecc90edf09d4a50e03065986d584ad3",
+    "https://deno.land/x/xml@4.0.0/parse.ts": "057782a8fbee64ebcc608896010016f4579b6799cdd4fe8da9cb1a134b83e92f",
+    "https://deno.land/x/xml@4.0.0/utils/parser.ts": "1c0701421fd342da5f57dbf3d2ad82956517cb88f15027c3b6628ee1870e59b1",
+    "https://deno.land/x/xml@4.0.0/utils/stream.ts": "4cfd7e4daf11cdae80ba636ba0d10ca79cc8812365d66cb9d7b1d777af419e19",
+    "https://deno.land/x/xml@4.0.0/utils/streamable.ts": "1603a5f10c859b95d4e9502365a0fba0b19d5d068356e20d5a6813cd37fee780",
+    "https://deno.land/x/xml@4.0.0/utils/types.ts": "f5dd32c96f85813a93d155bf8eb2aba88e11c7805c87e97aff12cbaa48db627b"
   },
   "workspace": {
     "dependencies": [
