@@ -339,7 +339,7 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
    */
   #inspect(value: unknown) {
     value = this.#censor(value)
-    return globalThis.Deno?.inspect(value, { colors: true, depth: Infinity, strAbbreviateSize: Infinity }) ?? value
+    return typeof value === "string" ? value : globalThis.Deno?.inspect(value, { colors: true, depth: Infinity, strAbbreviateSize: Infinity }) ?? value
   }
 
   /** Logger formatter. */
