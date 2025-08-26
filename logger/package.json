@@ -6,7 +6,7 @@
     "esm"
   ],
   "dependencies": {
-    "@std/fmt": "npm:@jsr/std__fmt@^1.0.3",
-    "@std/path": "npm:@jsr/std__path@^1.0.8"
+    "@std/fmt": "npm:@jsr/std__fmt@^1.0.8",
+    "@std/path": "npm:@jsr/std__path@^1.1.2"
   }
 }
