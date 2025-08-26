@@ -2,6 +2,7 @@
   "version": "5",
   "specifiers": {
     "jsr:@cliffy/table@1.0.0-rc.8": "1.0.0-rc.8",
+    "jsr:@deno-libs/gql@4": "4.0.0",
     "jsr:@libs/typing@2": "2.9.0",
     "jsr:@libs/xml@5.0.2": "5.0.2",
     "jsr:@luca/esbuild-deno-loader@~0.11.1": "0.11.1",
@@ -19,6 +20,7 @@
     "jsr:@std/fmt@~1.0.2": "1.0.8",
     "jsr:@std/fs@1": "1.0.19",
     "jsr:@std/html@1": "1.0.4",
+    "jsr:@std/http@0.224.5": "0.224.5",
     "jsr:@std/http@1": "1.0.20",
     "jsr:@std/internal@^1.0.10": "1.0.10",
     "jsr:@std/internal@^1.0.9": "1.0.10",
@@ -68,6 +70,8 @@
     "npm:css-tree@^3.1.0": "3.1.0",
     "npm:csso@^5.0.5": "5.0.5",
     "npm:esbuild@~0.25.9": "0.25.9",
+    "npm:graphql-http@1.22.4": "1.22.4_graphql@16.10.0",
+    "npm:graphql@16.10.0": "16.10.0",
     "npm:hastscript@^9.0.1": "9.0.1",
     "npm:highlight.js@^11.11.1": "11.11.1",
     "npm:octokit@^5.0.3": "5.0.3_@octokit+core@7.0.2",
@@ -99,6 +103,7 @@
     "npm:terser@^5.43.1": "5.43.1",
     "npm:unified@^11.0.5": "11.0.5",
     "npm:unist-util-visit@5": "5.0.0",
+    "npm:xss@1.0.15": "1.0.15",
     "npm:zod-error@^1.5.0": "1.5.0",
     "npm:zod-to-json-schema@^3.24.6": "3.24.6_zod@3.25.76",
     "npm:zod@^3.25.76": "3.25.76"
@@ -108,6 +113,15 @@
       "integrity": "8bbcdc2ba5e0061b4b13810a24e6f5c6ab19c09f0cce9eb691ccd76c7c6c9db5",
       "dependencies": [
         "jsr:@std/fmt@~1.0.2"
+      ]
+    },
+    "@deno-libs/gql@4.0.0": {
+      "integrity": "87bdf5b2249fcad99ad5df57978667f0bfb3424f4505dbe54b9ac01b50f70d24",
+      "dependencies": [
+        "jsr:@std/http@0.224.5",
+        "npm:graphql",
+        "npm:graphql-http",
+        "npm:xss"
       ]
     },
     "@libs/typing@2.9.0": {
@@ -167,6 +181,9 @@
     },
     "@std/html@1.0.4": {
       "integrity": "eff3497c08164e6ada49b7f81a28b5108087033823153d065e3f89467dd3d50e"
+    },
+    "@std/http@0.224.5": {
+      "integrity": "b03b5d1529f6c423badfb82f6640f9f2557b4034cd7c30655ba5bb447ff750a4"
     },
     "@std/http@1.0.20": {
       "integrity": "b5cc33fc001bccce65ed4c51815668c9891c69ccd908295997e983d8f56070a1"
