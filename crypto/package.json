@@ -6,6 +6,6 @@
     "totp"
   ],
   "dependencies": {
-    "@std/encoding": "npm:@jsr/std__encoding@^1.0.5"
+    "@std/encoding": "npm:@jsr/std__encoding@^1.0.10"
   }
 }
