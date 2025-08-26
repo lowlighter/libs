@@ -1,7 +1,7 @@
 {
   "icon": "🧪",
   "name": "@libs/testing",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
     "@std/expect": "jsr:@std/expect@1",
