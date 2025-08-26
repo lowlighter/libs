@@ -10,6 +10,7 @@ const rules = {
   "at-rule-no-deprecated": false,
   "declaration-property-value-no-unknown": false,
   "declaration-property-value-keyword-no-deprecated": false,
+  "property-no-deprecated": false,
 }
 
 test("`report.for()` detects features", async () => {
