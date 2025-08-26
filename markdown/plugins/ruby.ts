@@ -1,6 +1,6 @@
 // Imports
 import type { Plugin } from "../renderer.ts"
-import remarkRuby from "remark-ruby"
+import remarkRuby from "@lowlighter/remark-ruby"
 
 /**
  * Add support for {@link https://developer.mozilla.org/docs/Web/HTML/Element/ruby | ruby} text.
