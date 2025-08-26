@@ -1,7 +1,7 @@
 {
   "icon": "📰",
   "name": "@libs/logger",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "playground": "https://libs.lecoq.io/logger",
   "imports": {
     "@std/fmt": "jsr:@std/fmt@1",
