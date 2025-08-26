@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-external-import
 import { parse } from "./parse.ts"
 import { expect, runtime, test, type testing } from "@libs/testing"
-import { fromFileUrl } from "@std/path"
+import { fromFileUrl } from "jsr:@std/path@1"
 import { createWriteStream, promises } from "node:fs"
 
 //Huge xml file generator
