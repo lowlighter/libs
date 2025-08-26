@@ -6,7 +6,7 @@
     "esm"
   ],
   "dependencies": {
-    "@std/async": "npm:@jsr/std__async@^1.0.9",
-    "@std/streams": "npm:@jsr/std__streams@^1.0.8"
+    "@std/async": "npm:@jsr/std__async@^1.0.14",
+    "@std/streams": "npm:@jsr/std__streams@^1.0.11"
   }
 }
