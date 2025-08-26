@@ -3,9 +3,9 @@
 import type { record } from "@libs/typing"
 import { fromFileUrl, resolve } from "@std/path"
 import { parseArgs } from "@std/cli"
-import { assert } from "jsr:@std/assert"
+import { assert } from "jsr:@std/assert@^1.0.14"
 import * as JSONC from "@std/jsonc"
-import * as semver from "jsr:@std/semver"
+import * as semver from "jsr:@std/semver@^1.0.5"
 
 // Parse arguments
 const { version, _: [name] } = parseArgs(Deno.args, { string: ["version"] })
