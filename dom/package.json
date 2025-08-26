@@ -6,6 +6,6 @@
     "esm"
   ],
   "dependencies": {
-    "@std/async": "npm:@jsr/std__async@^1.0.9"
+    "@std/async": "npm:@jsr/std__async@^1.0.14"
   }
 }
