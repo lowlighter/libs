@@ -7,6 +7,6 @@
     "esm"
   ],
   "dependencies": {
-    "@std/collections": "npm:@jsr/std__collections@^1.0.9"
+    "@std/collections": "npm:@jsr/std__collections@^1.1.3"
   }
 }
