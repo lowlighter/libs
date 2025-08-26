@@ -32,6 +32,8 @@
  * @author Simon Lecoq (lowlighter)
  * @license MIT
  */
+import { red } from "@std/fmt/colors"
+
 // deno-lint-ignore ban-types
 export class Logger<T extends Record<PropertyKey, unknown> = {}> {
   /** Constructor. */
@@ -337,9 +339,16 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
    * Inspect a value.
    * When running on Deno, this method will use the `Deno.inspect` method.
    */
-  #inspect(value: unknown) {
+  #inspect(value: unknown, { tag = false } = {}) {
     value = this.#censor(value)
-    return typeof value === "string" ? value : globalThis.Deno?.inspect(value, { colors: true, depth: Infinity, strAbbreviateSize: Infinity }) ?? value
+    switch (true) {
+      case !tag && typeof value === "string":
+        return value
+      case value && value instanceof Error:
+        return red(value.stack || value.message)
+      default:
+        return globalThis.Deno?.inspect(value, { colors: true, depth: Infinity, strAbbreviateSize: Infinity }) ?? value
+    }
   }
 
   /** Logger formatter. */
@@ -406,7 +415,7 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
       }
       const tags = []
       for (const [key, value] of Object.entries(logger.tags)) {
-        tags.push(`${key}:${logger.#inspect(value)}`)
+        tags.push(`${key}:${logger.#inspect(value, { tag: true })}`)
       }
       text.push(`%c ${tags.join(" ").trim()} %c`)
       styles.push(`background-color: black`, "")

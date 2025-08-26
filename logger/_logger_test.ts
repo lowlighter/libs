@@ -222,7 +222,7 @@ if (runtime === "deno") {
       .censor({ values: [/(api_)\w+/], replace: "$1****" })
       .censor({ keys: ["password", /^secret_/], replace: "****" })
       .log("my key is <api_foobar>", { user: "foo", password: "bar", secret_a: "a", secret_b: "b", friend: "bar", meta: { created: 123, deleted: null, secret_c: "c", api: "<api_foobar>", fn() {} } })
-    expect(text(output.log, { call: 0 }).header).toContain("token:api_****")
+    expect(text(output.log, { call: 0 }).header).toContain('token:"api_****"')
     expect(text(output.log, { call: 0 }).content[0]).toContain("my key is <api_****>")
     expect(text(output.log, { call: 0 }).content[1]).toContain('user: "foo"')
     expect(text(output.log, { call: 0 }).content[1]).toContain('password: "****"')
