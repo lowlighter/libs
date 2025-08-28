@@ -1,3 +1,5 @@
+import { red } from "@std/fmt/colors"
+
 /**
  * Logger class.
  *
@@ -32,8 +34,6 @@
  * @author Simon Lecoq (lowlighter)
  * @license MIT
  */
-import { red } from "@std/fmt/colors"
-
 // deno-lint-ignore ban-types
 export class Logger<T extends Record<PropertyKey, unknown> = {}> {
   /** Constructor. */
