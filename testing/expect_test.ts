@@ -1,5 +1,5 @@
 import { test } from "./test.ts"
-import { AssertionError, expect, Status } from "./expect.ts"
+import { AssertionError, expect, fn, reset, Status } from "./expect.ts"
 import { runtime } from "./runtime.ts"
 
 test("`expect` has typings", () => {
@@ -77,6 +77,62 @@ test("`expect.toBeType()` asserts typeof", () => {
   expect(() => expect("foo").not.toBeType("string")).toThrow(AssertionError, "to NOT be of type")
   expect(() => expect(null).toBeType("object", { nullable: false })).toThrow(AssertionError, "to be of type")
   expect(() => expect(null).not.toBeType("object", { nullable: true })).toThrow(AssertionError, "to NOT be of type")
+})
+
+test("`expect.toHaveSize()` asserts size", () => {
+  expect(new Set()).toHaveSize(0)
+  expect(new Set()).not.toHaveSize(1)
+  expect(new Map()).toHaveSize(0)
+  expect(new Map()).not.toHaveSize(1)
+  expect(() => expect(new Set()).toHaveSize(1)).toThrow(AssertionError, "to have size")
+  expect(() => expect(new Set()).not.toHaveSize(0)).toThrow(AssertionError, "to NOT have size")
+  expect(() => expect(new Map()).toHaveSize(1)).toThrow(AssertionError, "to have size")
+  expect(() => expect(new Map()).not.toHaveSize(0)).toThrow(AssertionError, "to NOT have size")
+  expect(new Set(["foo"])).not.toHaveSize(0)
+  expect(new Set(["foo"])).toHaveSize(1)
+  expect(new Map([["foo", "bar"]])).not.toHaveSize(0)
+  expect(new Map([["foo", "bar"]])).toHaveSize(1)
+  expect(() => expect(new Set(["foo"])).not.toHaveSize(1)).toThrow(AssertionError, "to NOT have size")
+  expect(() => expect(new Set(["foo"])).toHaveSize(0)).toThrow(AssertionError, "to have size")
+  expect(() => expect(new Map([["foo", "bar"]])).not.toHaveSize(1)).toThrow(AssertionError, "to NOT have size")
+  expect(() => expect(new Map([["foo", "bar"]])).toHaveSize(0)).toThrow(AssertionError, "to have size")
+})
+
+if (Promise.withResolvers) {
+  test("`expect.toBeResolvedPromise()` asserts promise to be resolved", async () => {
+    await expect(Promise.resolve()).toBeResolvedPromise()
+    const { promise, resolve } = Promise.withResolvers<void>()
+    await expect(promise).not.toBeResolvedPromise()
+    await expect(expect(promise).toBeResolvedPromise()).rejects.toThrow(AssertionError, "to be resolved")
+    resolve()
+    await expect(promise).toBeResolvedPromise()
+    await expect(expect(promise).not.toBeResolvedPromise()).rejects.toThrow(AssertionError, "to NOT be resolved")
+    await expect(expect(null).toBeResolvedPromise()).rejects.toThrow(TypeError, "Expected value to be a promise")
+  })
+} else {
+  test.skip("`expect.toBeResolvedPromise()` asserts promise to be resolved", () => null)
+}
+
+test("`expect.toHaveBeenCalledOnceWith()` asserts mock function has been called once with passed arguments", () => {
+  const mock = fn()
+  expect(mock).not.toBeCalled()
+  mock("foo", 42)
+  expect(mock).toHaveBeenCalledTimes(1)
+  expect(mock).toHaveBeenLastCalledWith("foo", 42)
+  expect(mock).toHaveBeenCalledOnceWith("foo", 42)
+  expect(() => expect(mock).toHaveBeenCalledOnceWith("foo", 43)).toThrow(AssertionError, "to be called with")
+  mock("bar", 43)
+  expect(mock).toHaveBeenCalledTimes(2)
+  expect(mock).toHaveBeenLastCalledWith("bar", 43)
+  expect(() => expect(mock).toHaveBeenCalledOnceWith("bar", 43)).toThrow(AssertionError, "it was called 2 time(s)")
+  expect(() => expect(mock).not.toHaveBeenCalledOnceWith()).toThrow(TypeError, "not supported for this matcher")
+})
+
+test("`expect.toBeStructuredClonable()` asserts value can be structured cloned", () => {
+  expect({ foo: "bar" }).toBeStructuredClonable()
+  expect({ foo: () => {} }).not.toBeStructuredClonable()
+  expect(() => expect({ foo: () => {} }).toBeStructuredClonable()).toThrow(AssertionError, "to be structured clonable")
+  expect(() => expect({ foo: "bar" }).not.toBeStructuredClonable()).toThrow(AssertionError, "to NOT be structured clonable")
 })
 
 test("`expect.toHaveDescribedProperty()` asserts `Object.getOwnPropertyDescriptor()`", () => {
@@ -369,4 +425,14 @@ test("`expect.toBeFuture()` asserts value is a future date", () => {
   expect(() => expect(new Date(Date.now() + 5000)).not.toBeFuture()).toThrow(AssertionError, "to NOT be in the future")
   expect(() => expect(new Date(Date.now() - 5000)).toBeFuture(new Date(Date.now() + 10000))).toThrow(AssertionError, "to be in the future")
   expect(() => expect(new Date(Date.now() + 5000)).not.toBeFuture(new Date(Date.now() - 10000))).toThrow(AssertionError, "to NOT be in the future")
+})
+
+test("`reset()` resets the history of a stub function", () => {
+  const mock = fn()
+  expect(mock).not.toBeCalled()
+  mock()
+  expect(mock).toBeCalled()
+  reset(mock)
+  expect(mock).not.toBeCalled()
+  expect(() => reset(null)).toThrow("Received function must be a mock or spy function")
 })

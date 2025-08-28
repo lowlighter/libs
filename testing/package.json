@@ -7,7 +7,7 @@
   ],
   "dependencies": {
     "@std/assert": "npm:@jsr/std__assert@^1.0.14",
-    "@std/expect": "npm:@jsr/std__expect@^1.0.17",
+    "@std/expect": "npm:@jsr/lowlighter__std-expect@^1.0.18-rc.1",
     "@std/fmt": "npm:@jsr/std__fmt@^1.0.8",
     "@std/html": "npm:@jsr/std__html@^1.0.4",
     "@std/http": "npm:@jsr/std__http@^1.0.20",

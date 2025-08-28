@@ -54,6 +54,54 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    */
   toBeType: (type: string, options?: { nullable?: boolean }) => unknown
   /**
+   * Asserts that the value has the specified size (variant of `.toHaveLength()` for Maps and Sets).
+   *
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect(new Set()).toHaveSize(0)
+   * expect(new Map([["foo", 1]])).toHaveSize(1)
+   * ```
+   */
+  toHaveSize: (size: number) => unknown
+  /**
+   * Asserts a promise is resolved.
+   *
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * const { promise, resolve } = Promise.withResolvers<void>()
+   * await expect(promise).not.toBeResolvedPromise()
+   *
+   * ```
+   */
+  toBeResolvedPromise: () => Promise<unknown>
+  /**
+   * Asserts that the function was called with the specified arguments, and exactly once.
+   *
+   * This is a shorthand for `.toHaveBeenCalledTimes(1)` and `.toHaveBeenCalledWith()`.
+   *
+   * Note that this matcher does not support the `.not` modifier.
+   * If you expect one of the assertions to fail, you should use the adequate matchers instead.
+   *
+   * ```ts
+   * import { expect, fn } from "./expect.ts"
+   * const mock = fn()
+   * mock("foo", 42)
+   * expect(mock).toHaveBeenCalledOnceWith("foo", 42)
+   * ```
+   * @param expected The expected arguments.
+   */
+  toHaveBeenCalledOnceWith(...expected: unknown[]): unknown
+  /**
+   * Asserts a value is structured clonable (using `structuredClone`).
+   *
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect({ foo: "bar" }).toBeStructuredClonable()
+   * expect({ foo: () => {} }).not.toBeStructuredClonable()
+   * ```
+   */
+  toBeStructuredClonable: () => unknown
+  /**
    * Asserts a property matches a given descriptor (using `Object.getOwnPropertyDescriptor`).
    *
    * ```ts
@@ -393,6 +441,47 @@ _expect.extend({
       }
     }, `Expected value to {!NOT} be of type "${type}"${!nullable ? " and not null but " : ""}`)
   },
+  toHaveSize(context, size) {
+    const actual = (context.value as { size: number })?.size
+    return process(context.isNot, () => {
+      assert(actual === size)
+    }, `Expected value to {!NOT} have size ${size}${size !== actual ? `: the value has size ${actual}` : ""}`)
+  },
+  async toBeResolvedPromise(context) {
+    if (!(context.value instanceof Promise)) {
+      throw new TypeError("Expected value to be a promise")
+    }
+    const test = new Promise<void>((resolve) => setTimeout(resolve, 0))
+    const status = await Promise.race([
+      context.value.then(() => "resolved"),
+      test.then(() => "pending"),
+    ])
+    await test
+    return process(context.isNot, () => {
+      assert(status === "resolved")
+    }, "Expected value to {!NOT} be resolved")
+  },
+  toHaveBeenCalledOnceWith(context, ...args) {
+    if (context.isNot) {
+      throw new TypeError("`.not` modifier is not supported for this matcher")
+    }
+    try {
+      _expect(context.value).toHaveBeenCalledTimes(1)
+      _expect(context.value).toHaveBeenCalledWith(...args)
+      return { message: () => "", pass: true }
+    } catch (error) {
+      return { message: () => error.message, pass: false }
+    }
+  },
+  toBeStructuredClonable(context) {
+    return process(context.isNot, () => {
+      try {
+        structuredClone(context.value)
+      } catch (error) {
+        throw new AssertionError(error.message)
+      }
+    }, "Expected value to {!NOT} be structured clonable")
+  },
   toHaveDescribedProperty(context, key, expected) {
     return process(context.isNot, () => {
       isType(context.value, "object", { nullable: false })
@@ -625,6 +714,16 @@ _expect.extend({
     }, `Expected value to {!NOT} be in the future, `)
   },
 })
+
+/** Reset call history of a mock or spy function. */
+// deno-lint-ignore no-explicit-any
+export function reset(fn: any) {
+  const info = fn?.[Symbol.for("@MOCK")]
+  if (!info) {
+    throw new Error("Received function must be a mock or spy function")
+  }
+  info.calls.length = 0
+}
 
 /** https://jsr.io/@std/expect/doc/~/expect. */
 const expect = _expect as unknown as ((...args: Parameters<typeof _expect>) => ExtendedExpected) & { [K in keyof typeof _expect]: typeof _expect[K] }
