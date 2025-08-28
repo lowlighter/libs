@@ -3,41 +3,23 @@
   "specifiers": {
     "jsr:@b-fuze/deno-dom@~0.1.56": "0.1.56",
     "jsr:@cliffy/table@1.0.0-rc.8": "1.0.0-rc.8",
-    "jsr:@deno-libs/gql@4": "4.0.0",
     "jsr:@libs/typing@2": "2.9.0",
     "jsr:@libs/xml@5.0.2": "5.0.2",
-    "jsr:@luca/esbuild-deno-loader@~0.11.1": "0.11.1",
+    "jsr:@lowlighter/std-expect@1.0.18-rc.1": "1.0.18-rc.1",
     "jsr:@std/assert@1": "1.0.14",
     "jsr:@std/assert@^1.0.14": "1.0.14",
     "jsr:@std/async@1": "1.0.14",
-    "jsr:@std/bytes@^1.0.2": "1.0.6",
-    "jsr:@std/bytes@^1.0.6": "1.0.6",
     "jsr:@std/cli@^1.0.21": "1.0.21",
     "jsr:@std/collections@1": "1.1.3",
-    "jsr:@std/encoding@1": "1.0.10",
-    "jsr:@std/encoding@^1.0.5": "1.0.10",
-    "jsr:@std/expect@1": "1.0.17",
     "jsr:@std/fmt@1": "1.0.8",
     "jsr:@std/fmt@~1.0.2": "1.0.8",
-    "jsr:@std/fs@*": "1.0.19",
-    "jsr:@std/fs@1": "1.0.19",
-    "jsr:@std/fs@^1.0.19": "1.0.19",
     "jsr:@std/html@1": "1.0.4",
-    "jsr:@std/http@0.224.5": "0.224.5",
     "jsr:@std/http@1": "1.0.20",
     "jsr:@std/internal@^1.0.10": "1.0.10",
-    "jsr:@std/internal@^1.0.9": "1.0.10",
     "jsr:@std/json@^1.0.2": "1.0.2",
     "jsr:@std/jsonc@1": "1.0.2",
-    "jsr:@std/path@1": "1.1.2",
-    "jsr:@std/path@^1.0.6": "1.1.2",
-    "jsr:@std/path@^1.1.1": "1.1.2",
-    "jsr:@std/path@^1.1.2": "1.1.2",
     "jsr:@std/semver@1": "1.0.5",
     "jsr:@std/semver@^1.0.5": "1.0.5",
-    "jsr:@std/streams@1": "1.0.11",
-    "jsr:@std/streams@^1.0.10": "1.0.11",
-    "jsr:@std/tar@~0.1.7": "0.1.7",
     "jsr:@std/text@1": "1.0.16",
     "jsr:@std/ulid@1": "1.0.0",
     "jsr:@std/yaml@1": "1.0.9",
@@ -47,13 +29,13 @@
     "npm:@jsr/b-fuze__deno-dom@~0.1.56": "0.1.56",
     "npm:@jsr/cliffy__table@^1.0.0-rc.8": "1.0.0-rc.8",
     "npm:@jsr/deno-libs__gql@4": "4.0.0_graphql@16.10.0",
+    "npm:@jsr/lowlighter__std-expect@^1.0.18-rc.1": "1.0.18-rc.1",
     "npm:@jsr/luca__esbuild-deno-loader@~0.11.1": "0.11.1",
     "npm:@jsr/std__assert@^1.0.14": "1.0.14",
     "npm:@jsr/std__async@^1.0.14": "1.0.14",
     "npm:@jsr/std__cli@^1.0.21": "1.0.21",
     "npm:@jsr/std__collections@^1.1.3": "1.1.3",
     "npm:@jsr/std__encoding@^1.0.10": "1.0.10",
-    "npm:@jsr/std__expect@^1.0.17": "1.0.17",
     "npm:@jsr/std__fmt@^1.0.8": "1.0.8",
     "npm:@jsr/std__fs@^1.0.19": "1.0.19",
     "npm:@jsr/std__html@^1.0.4": "1.0.4",
@@ -74,8 +56,6 @@
     "npm:css-tree@^3.1.0": "3.1.0",
     "npm:csso@^5.0.5": "5.0.5",
     "npm:esbuild@~0.25.9": "0.25.9",
-    "npm:graphql-http@1.22.4": "1.22.4_graphql@16.10.0",
-    "npm:graphql@16.10.0": "16.10.0",
     "npm:hastscript@^9.0.1": "9.0.1",
     "npm:highlight.js@^11.11.1": "11.11.1",
     "npm:octokit@^5.0.3": "5.0.3_@octokit+core@7.0.3",
@@ -107,7 +87,6 @@
     "npm:terser@^5.43.1": "5.43.1",
     "npm:unified@^11.0.5": "11.0.5",
     "npm:unist-util-visit@5": "5.0.0",
-    "npm:xss@1.0.15": "1.0.15",
     "npm:zod-error@^1.5.0": "1.5.0",
     "npm:zod-to-json-schema@^3.24.6": "3.24.6_zod@3.25.76",
     "npm:zod@^3.25.76": "3.25.76"
@@ -122,15 +101,6 @@
         "jsr:@std/fmt@~1.0.2"
       ]
     },
-    "@deno-libs/gql@4.0.0": {
-      "integrity": "87bdf5b2249fcad99ad5df57978667f0bfb3424f4505dbe54b9ac01b50f70d24",
-      "dependencies": [
-        "jsr:@std/http@0.224.5",
-        "npm:graphql",
-        "npm:graphql-http",
-        "npm:xss"
-      ]
-    },
     "@libs/typing@2.9.0": {
       "integrity": "ddf35ea652b807cd9b19b4f3f163fb5d76d57299053753fbd01ba8b02d9306ad"
     },
@@ -140,25 +110,21 @@
         "jsr:@libs/typing"
       ]
     },
-    "@luca/esbuild-deno-loader@0.11.1": {
-      "integrity": "dc020d16d75b591f679f6b9288b10f38bdb4f24345edb2f5732affa1d9885267",
+    "@lowlighter/std-expect@1.0.18-rc.1": {
+      "integrity": "f978e4787d95c9b98e6dabb1448c770be83d15cfa1ea31c1b87174b6ba6bbfab",
       "dependencies": [
-        "jsr:@std/bytes@^1.0.2",
-        "jsr:@std/encoding@^1.0.5",
-        "jsr:@std/path@^1.0.6"
+        "jsr:@std/assert@^1.0.14",
+        "jsr:@std/internal"
       ]
     },
     "@std/assert@1.0.14": {
       "integrity": "68d0d4a43b365abc927f45a9b85c639ea18a9fab96ad92281e493e4ed84abaa4",
       "dependencies": [
-        "jsr:@std/internal@^1.0.10"
+        "jsr:@std/internal"
       ]
     },
     "@std/async@1.0.14": {
       "integrity": "62e954a418652c704d37563a3e54a37d4cf0268a9dcaeac1660cc652880b5326"
-    },
-    "@std/bytes@1.0.6": {
-      "integrity": "f6ac6adbd8ccd99314045f5703e23af0a68d7f7e58364b47d2c7f408aeb5820a"
     },
     "@std/cli@1.0.21": {
       "integrity": "cd25b050bdf6282e321854e3822bee624f07aca7636a3a76d95f77a3a919ca2a"
@@ -166,31 +132,11 @@
     "@std/collections@1.1.3": {
       "integrity": "bf8b0818886df6a32b64c7d3b037a425111f28278d69fd0995aeb62777c986b0"
     },
-    "@std/encoding@1.0.10": {
-      "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"
-    },
-    "@std/expect@1.0.17": {
-      "integrity": "316b47dd65c33e3151344eb3267bf42efba17d1415425f07ed96185d67fc04d9",
-      "dependencies": [
-        "jsr:@std/assert@^1.0.14",
-        "jsr:@std/internal@^1.0.10"
-      ]
-    },
     "@std/fmt@1.0.8": {
       "integrity": "71e1fc498787e4434d213647a6e43e794af4fd393ef8f52062246e06f7e372b7"
     },
-    "@std/fs@1.0.19": {
-      "integrity": "051968c2b1eae4d2ea9f79a08a3845740ef6af10356aff43d3e2ef11ed09fb06",
-      "dependencies": [
-        "jsr:@std/internal@^1.0.9",
-        "jsr:@std/path@^1.1.1"
-      ]
-    },
     "@std/html@1.0.4": {
       "integrity": "eff3497c08164e6ada49b7f81a28b5108087033823153d065e3f89467dd3d50e"
-    },
-    "@std/http@0.224.5": {
-      "integrity": "b03b5d1529f6c423badfb82f6640f9f2557b4034cd7c30655ba5bb447ff750a4"
     },
     "@std/http@1.0.20": {
       "integrity": "b5cc33fc001bccce65ed4c51815668c9891c69ccd908295997e983d8f56070a1"
@@ -207,26 +153,8 @@
         "jsr:@std/json"
       ]
     },
-    "@std/path@1.1.2": {
-      "integrity": "c0b13b97dfe06546d5e16bf3966b1cadf92e1cc83e56ba5476ad8b498d9e3038",
-      "dependencies": [
-        "jsr:@std/internal@^1.0.10"
-      ]
-    },
     "@std/semver@1.0.5": {
       "integrity": "529f79e83705714c105ad0ba55bec0f9da0f24d2f726b6cc1c15e505cc2c0624"
-    },
-    "@std/streams@1.0.11": {
-      "integrity": "db583d27e28d133f389f1eec318cffdf4998305e5134c1d4b1c56b361cee6018",
-      "dependencies": [
-        "jsr:@std/bytes@^1.0.6"
-      ]
-    },
-    "@std/tar@0.1.7": {
-      "integrity": "767ed89376a9665cee6d33144d2a06619e35411ad08b363568582bbaff5b40d2",
-      "dependencies": [
-        "jsr:@std/streams@^1.0.10"
-      ]
     },
     "@std/text@1.0.16": {
       "integrity": "ddb9853b75119a2473857d691cf1ec02ad90793a2e8b4a4ac49d7354281a0cf8"
@@ -559,6 +487,14 @@
       ],
       "tarball": "https://npm.jsr.io/~/11/@jsr/denosaurs__plug/1.1.0.tgz"
     },
+    "@jsr/lowlighter__std-expect@1.0.18-rc.1": {
+      "integrity": "sha512-9QVB1a2i0DCRsYYU7T/QacAipkuxWLEy12zr7NvdkY3Bw9kndw2URIedXDv3iMUYKnz9bPD96/TQCufAoZHAsw==",
+      "dependencies": [
+        "@jsr/std__assert",
+        "@jsr/std__internal"
+      ],
+      "tarball": "https://npm.jsr.io/~/11/@jsr/lowlighter__std-expect/1.0.18-rc.1.tgz"
+    },
     "@jsr/luca__esbuild-deno-loader@0.11.1": {
       "integrity": "sha512-+eHVFb8RUSLnQmn2hqUXPrYm/fzrD8bMIOpQaJpOzk0VwnTyN6rLw/nVyGGvcAf/ktouk9Rq9CabvBau4/AwSQ==",
       "dependencies": [
@@ -602,14 +538,6 @@
     "@jsr/std__encoding@1.0.10": {
       "integrity": "sha512-WK2njnDTyKefroRNk2Ooq7GStp6Y0ccAvr4To+Z/zecRAGe7+OSvH9DbiaHpAKwEi2KQbmpWMOYsdNt+TsdmSw==",
       "tarball": "https://npm.jsr.io/~/11/@jsr/std__encoding/1.0.10.tgz"
-    },
-    "@jsr/std__expect@1.0.17": {
-      "integrity": "sha512-+1wHqnotlmsLVrD9nAPTN0ITanwLCYmd9likMB7vn3/4vkTmotv/qUnzwtvegj7utgHrckR4Ksl1NDR8iaW3RQ==",
-      "dependencies": [
-        "@jsr/std__assert",
-        "@jsr/std__internal"
-      ],
-      "tarball": "https://npm.jsr.io/~/11/@jsr/std__expect/1.0.17.tgz"
     },
     "@jsr/std__fmt@0.225.6": {
       "integrity": "sha512-5wll7CImyrJfen4fecziNSxZ5S6Fo3H1rQqKMQDewRGHAnFVqcHLe8wwCuDLK+HTbSPy6AkR3b136WpjVdOjTQ==",
@@ -3858,16 +3786,16 @@
       },
       "testing": {
         "dependencies": [
+          "jsr:@lowlighter/std-expect@1.0.18-rc.1",
           "jsr:@std/assert@1",
-          "jsr:@std/expect@1",
           "jsr:@std/fmt@1",
           "jsr:@std/html@1",
           "jsr:@std/http@1"
         ],
         "packageJson": {
           "dependencies": [
+            "npm:@jsr/lowlighter__std-expect@^1.0.18-rc.1",
             "npm:@jsr/std__assert@^1.0.14",
-            "npm:@jsr/std__expect@^1.0.17",
             "npm:@jsr/std__fmt@^1.0.8",
             "npm:@jsr/std__html@^1.0.4",
             "npm:@jsr/std__http@^1.0.20",
