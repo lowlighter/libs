@@ -340,12 +340,13 @@ export class Logger<T extends Record<PropertyKey, unknown> = {}> {
    * When running on Deno, this method will use the `Deno.inspect` method.
    */
   #inspect(value: unknown, { tag = false } = {}) {
+    const error = value && (value instanceof Error) ? value : null
     value = this.#censor(value)
     switch (true) {
       case !tag && typeof value === "string":
         return value
-      case value && value instanceof Error:
-        return red(value.stack || value.message)
+      case error !== null:
+        return red(this.#censor_string(error.stack ?? error.message))
       default:
         return globalThis.Deno?.inspect(value, { colors: true, depth: Infinity, strAbbreviateSize: Infinity }) ?? value
     }
