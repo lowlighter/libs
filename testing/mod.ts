@@ -1,4 +1,5 @@
 export * from "./test.ts"
+export * from "./assert.ts"
 export * from "./expect.ts"
 export * from "./permissions.ts"
 export * from "./runtime.ts"

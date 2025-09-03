@@ -4,7 +4,7 @@
  */
 // Imports
 import { type Async, expect as _expect, type Expected, fn } from "@std/expect"
-import { assert, assertEquals, type AssertionError as _AssertionError, assertIsError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
+import { assert, assertEquals, AssertionError, assertIsError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
 import type { Arg, Arrayable, callback, Nullable, record, TypeOf } from "@libs/typing"
 import type { testing } from "./test.ts"
 import { STATUS_CODE as Status } from "@std/http/status"
@@ -335,16 +335,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
   resolves: Async<ExtendedExpected<true>>
   /** The object that allows chaining assertions with async functions that are expected to throw an error. */
   rejects: Async<ExtendedExpected<true>>
-}
-
-/** Error thrown when an assertion fails. */
-let AssertionError: typeof _AssertionError
-
-// AssertionError is not exported by `@std/expect` (and it differs from `@std/assert`) which is why we retrieve it this way
-try {
-  _expect(null).toBe(true)
-} catch (error) {
-  AssertionError = error.constructor
 }
 
 /** Process callback and format result to match {@link Expected} result interface. */
@@ -728,5 +718,5 @@ export function reset(fn: any) {
 /** https://jsr.io/@std/expect/doc/~/expect. */
 const expect = _expect as unknown as ((...args: Parameters<typeof _expect>) => ExtendedExpected) & { [K in keyof typeof _expect]: typeof _expect[K] }
 
-export { AssertionError, expect, fn, Status }
-export type { _AssertionError, _expect, Arg, Arrayable, Async, callback, Expected, Nullable, record, TypeOf }
+export { expect, AssertionError, fn, Status }
+export type { _expect, Arg, Arrayable, Async, callback, Expected, Nullable, record, TypeOf }
