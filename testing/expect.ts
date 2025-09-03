@@ -718,5 +718,5 @@ export function reset(fn: any) {
 /** https://jsr.io/@std/expect/doc/~/expect. */
 const expect = _expect as unknown as ((...args: Parameters<typeof _expect>) => ExtendedExpected) & { [K in keyof typeof _expect]: typeof _expect[K] }
 
-export { expect, AssertionError, fn, Status }
+export { AssertionError, expect, fn, Status }
 export type { _expect, Arg, Arrayable, Async, callback, Expected, Nullable, record, TypeOf }
