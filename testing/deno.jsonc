@@ -11,6 +11,7 @@
   },
   "exports": {
     ".": "./mod.ts",
+    "./assert": "./assert.ts",
     "./expect": "./expect.ts",
     "./test": "./test.ts",
     "./runtime": "./runtime.ts",
