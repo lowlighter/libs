@@ -1,5 +1,5 @@
 import { test } from "./test.ts"
-import { AssertionError, expect, fn, reset, Status } from "./expect.ts"
+import { AssertionError, calls, expect, fn, reset, Status } from "./expect.ts"
 import { runtime } from "./runtime.ts"
 
 test("`expect` has typings", () => {
@@ -435,4 +435,16 @@ test("`reset()` resets the history of a stub function", () => {
   reset(mock)
   expect(mock).not.toBeCalled()
   expect(() => reset(null)).toThrow("Received function must be a mock or spy function")
+})
+
+test("`calls()` returns the history call of a stub function", () => {
+  const mock = fn()
+  expect(mock).not.toBeCalled()
+  mock()
+  expect(mock).toBeCalled()
+  expect(calls(mock)).toHaveLength(1)
+  mock()
+  expect(calls(mock)).toHaveLength(2)
+  mock()
+  expect(() => calls(null)).toThrow("Received function must be a mock or spy function")
 })

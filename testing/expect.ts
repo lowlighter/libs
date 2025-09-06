@@ -715,6 +715,31 @@ export function reset(fn: any) {
   info.calls.length = 0
 }
 
+/** Information about a single call to a mock or spy function. */
+export type MockCall = {
+  // deno-lint-ignore no-explicit-any
+  args: any[]
+  // deno-lint-ignore no-explicit-any
+  context?: any
+  // deno-lint-ignore no-explicit-any
+  returned?: any
+  // deno-lint-ignore no-explicit-any
+  thrown?: any
+  timestamp: number
+  returns: boolean
+  throws: boolean
+}
+
+/** Get call history of a mock or spy function. */
+// deno-lint-ignore no-explicit-any
+export function calls(fn: any): MockCall[] {
+  const info = fn?.[Symbol.for("@MOCK")]
+  if (!info) {
+    throw new Error("Received function must be a mock or spy function")
+  }
+  return info.calls
+}
+
 /** https://jsr.io/@std/expect/doc/~/expect. */
 const expect = _expect as unknown as ((...args: Parameters<typeof _expect>) => ExtendedExpected) & { [K in keyof typeof _expect]: typeof _expect[K] }
 
