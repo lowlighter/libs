@@ -177,6 +177,15 @@ test("`expect.toHaveImmutableProperty()` asserts writable but not editable prope
   expect(() => expect(1).toHaveImmutableProperty("foo")).toThrow(AssertionError, "value is not indexed")
 })
 
+test("`expect.toHaveEnumerableProperty()` asserts enumerable properties", () => {
+  const foo = Object.defineProperties({}, { bar: { value: true, enumerable: true }, baz: { value: true, enumerable: false } })
+  expect(foo).toHaveEnumerableProperty("bar")
+  expect(foo).not.toHaveEnumerableProperty("baz")
+  expect(() => expect(foo).not.toHaveEnumerableProperty("bar")).toThrow(AssertionError, "to NOT be enumerable")
+  expect(() => expect(foo).toHaveEnumerableProperty("baz")).toThrow(AssertionError, "to be enumerable")
+  expect(() => expect(foo).toHaveEnumerableProperty("qux")).toThrow(AssertionError, "does not exist on object")
+})
+
 test("`expect.toBeIterable()` asserts value is iterable", () => {
   expect([]).toBeIterable()
   expect(new Set()).toBeIterable()

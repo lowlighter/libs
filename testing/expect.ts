@@ -132,6 +132,20 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    */
   toHaveImmutableProperty: (key: PropertyKey, testValue?: unknown) => unknown
   /**
+   * Assert a property is enumerable.
+   *
+   * The property must be present for this assertion to pass.
+   *
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * const foo = Object.defineProperties({}, { bar: { value: true, enumerable: true }, baz: { value: true, enumerable: false } })
+   * expect(foo).toHaveEnumerableProperty("bar")
+   * expect(foo).not.toHaveEnumerableProperty("baz")
+   * expect(() => expect(foo).toHaveEnumerableProperty("qux")).toThrow('Property "qux" does not exist on object')
+   * ```
+   */
+  toHaveEnumerableProperty: (key: PropertyKey) => unknown
+  /**
    * Assert an object is iterable (checking `Symbol.iterator` presence).
    *
    * ```ts
@@ -496,6 +510,16 @@ _expect.extend({
         value[key] = current
       }
     }, `Expected property "${String(key)}" to {!NOT} be immutable, previous and current `)
+  },
+  toHaveEnumerableProperty(context, key) {
+    return process(context.isNot, () => {
+      isType(context.value, "object", { nullable: false })
+      const descriptor = Object.getOwnPropertyDescriptor(context.value, key)
+      if (!descriptor) {
+        throw new ReferenceError(`Property "${String(key)}" does not exist on object`)
+      }
+      assert(descriptor.enumerable, `Property "${String(key)}" is not enumerable`)
+    }, `Expected property "${String(key)}" to {!NOT} be enumerable, `)
   },
   toBeIterable(context) {
     return process(context.isNot, () => {
