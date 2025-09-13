@@ -19,7 +19,7 @@ export type MapKey<T> = T extends Map<infer U, unknown> ? U : never
 export type MapValue<T> = T extends Map<unknown, infer U> ? U : never
 
 /** Extract value type from {@link https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array | Array}. */
-export type ArrayValue<T> = T extends Array<infer U> ? U : never;
+export type ArrayValue<T> = T extends Array<infer U> ? U : never
 
 /** Extract value type from {@link https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set | Set}. */
 export type SetValue<T> = T extends Set<infer U> ? U : never
