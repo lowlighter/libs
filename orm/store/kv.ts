@@ -1,5 +1,5 @@
 // Imports
-import type { callback, Nullable, Promisable, record, rw } from "@libs/typing"
+import type { Callback, Nullable, Promisable, rw } from "@libs/typing"
 import { Store as _Store } from "./store.ts"
 import type { key, version } from "./store.ts"
 
@@ -54,9 +54,9 @@ export class Store extends _Store {
   }
 
   /** List entries from {@link Store}. */
-  protected _list<T extends record>(key: key | [key, key], { limit, reverse }: { limit?: number; reverse?: boolean }, array: boolean): Promisable<Array<{ key: key; value: T; version: version }> | AsyncGenerator<{ key: key; value: T; version: version }>> {
+  protected _list<T extends Record<PropertyKey, unknown>>(key: key | [key, key], { limit, reverse }: { limit?: number; reverse?: boolean }, array: boolean): Promisable<Array<{ key: key; value: T; version: version }> | AsyncGenerator<{ key: key; value: T; version: version }>> {
     let list: Deno.KvListIterator<T>
-    let last = null as Nullable<callback>
+    let last = null as Nullable<Callback>
     if ((Array.isArray(key[0])) && (Array.isArray(key[1]))) {
       const [start, end] = key
       list = this.#kv.list<T>({ start, end }, { limit, reverse })

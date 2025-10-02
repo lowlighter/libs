@@ -5,19 +5,19 @@
 
 // Imports
 import * as JSONC from "@std/jsonc"
-import type { Arg, Optional, record } from "@libs/typing"
+import type { Arg, Optional } from "@libs/typing"
 import { assertMatch } from "@std/assert"
 import { Logger } from "@libs/logger"
 import { bundle } from "../bundle.ts"
 import { dirname, resolve, toFileUrl } from "@std/path"
 import { command } from "@libs/run/command"
-export type { Arg, Logger, record }
+export type { Arg, Logger }
 
 /** Transform a `deno.jsonc` file into a `package.json` and bundle exported entrypoints to make package publishable on json. */
 export async function packaged(path = "deno.jsonc", { logger: log = new Logger(), scope = undefined as Optional<string>, name = undefined as Optional<string> } = {}): Promise<package_output> {
   path = resolve(path)
   log.debug(`processing: ${path}`)
-  const mod = JSONC.parse(await Deno.readTextFile(path)) as record<string> & { exports?: record<string> }
+  const mod = JSONC.parse(await Deno.readTextFile(path)) as Record<PropertyKey, string> & { exports?: Record<PropertyKey, string> }
   // Validate package name
   assertMatch(mod.name, /^@[a-z0-9-]+\/[a-z0-9-]+$/)
   const [_scope, _name] = mod.name.split("/")
@@ -47,7 +47,7 @@ export async function packaged(path = "deno.jsonc", { logger: log = new Logger()
   }
 
   // Copy exports
-  const exports = {} as record<string>
+  const exports = {} as Record<PropertyKey, string>
   if (mod.exports) {
     json.exports = {}
     for (const [key, value] of Object.entries(mod.exports) as [string, string][]) {
@@ -114,8 +114,8 @@ export type package_output = {
     name: string
     version: string
     type: "module"
-    scripts: record<string>
-    exports?: record<string>
+    scripts: Record<PropertyKey, string>
+    exports?: Record<PropertyKey, string>
     description?: string
     keywords?: string | string[]
     license?: string
@@ -123,11 +123,11 @@ export type package_output = {
     homepage?: string
     repository?: string
     funding?: string
-    dependencies: record<string>
-    devDependencies?: record<string>
+    dependencies: Record<PropertyKey, string>
+    devDependencies?: Record<PropertyKey, string>
   }
   /** Exported entrypoints. */
-  exports: record<string>
+  exports: Record<PropertyKey, string>
 }
 
 /** Registry configuration. */

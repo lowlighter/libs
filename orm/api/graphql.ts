@@ -1,7 +1,7 @@
 // Imports
 import { toCamelCase } from "@std/text/to-camel-case"
 import { toPascalCase as titleCase } from "@std/text/to-pascal-case"
-import type { Arg, Arrayable, record, rw } from "@libs/typing"
+import type { Arg, Arrayable, rw } from "@libs/typing"
 import type { Resource } from "../resource.ts"
 import { makeExecutableSchema } from "@graphql-tools/schema"
 import { printWithComments } from "@graphql-tools/utils"
@@ -48,18 +48,18 @@ export function toGraphQLDefinition(name: string | Arrayable<typeof Resource>, s
  */
 export function graphql(
   resources: Arrayable<typeof Resource>,
-  { graphiql = true, ...options } = {} as { graphiql?: boolean; typedefs?: string; resolvers?: record },
+  { graphiql = true, ...options } = {} as { graphiql?: boolean; typedefs?: string; resolvers?: Record<PropertyKey, unknown> },
 ): { schema: ReturnType<typeof makeExecutableSchema>; handler: ReturnType<typeof GraphQLHTTP> } {
   const schema = makeExecutableSchema(toGraphQLSchema([resources].flat(), { raw: true, ...options }))
   return { schema, handler: GraphQLHTTP({ schema, graphiql }) }
 }
 
 /** Convert a {@link Resource} to a GraphQL schema. */
-function toGraphQLSchema(resources: Array<typeof Resource>, options?: { raw?: false; typedefs?: string; resolvers?: record }): string
+function toGraphQLSchema(resources: Array<typeof Resource>, options?: { raw?: false; typedefs?: string; resolvers?: Record<PropertyKey, unknown> }): string
 /** Convert a {@link Resource} to a GraphQL schema components. */
-function toGraphQLSchema(resources: Array<typeof Resource>, options: { raw: true; typedefs?: string; resolvers?: record }): { typeDefs: ast; resolvers: resolvers }
+function toGraphQLSchema(resources: Array<typeof Resource>, options: { raw: true; typedefs?: string; resolvers?: Record<PropertyKey, unknown> }): { typeDefs: ast; resolvers: resolvers }
 /** Convert a {@link Resource} to a GraphQL schema or schema components. */
-function toGraphQLSchema(resources: Array<typeof Resource>, { raw = false, typedefs: _typedefs = "", resolvers: _resolvers = {} } = {} as { raw?: boolean; typedefs?: string; resolvers?: record }): string | { typeDefs: ast; resolvers: resolvers } {
+function toGraphQLSchema(resources: Array<typeof Resource>, { raw = false, typedefs: _typedefs = "", resolvers: _resolvers = {} } = {} as { raw?: boolean; typedefs?: string; resolvers?: Record<PropertyKey, unknown> }): string | { typeDefs: ast; resolvers: resolvers } {
   const definitions = new Map<string, string>()
   const resolvers = new Map<string, resolvers>()
   for (const resource of resources) {

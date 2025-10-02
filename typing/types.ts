@@ -4,10 +4,7 @@ export type rw = any
 
 /** Callback function. */
 // deno-lint-ignore ban-types
-export type callback = Function
-
-/** Record. */
-export type record<T = unknown> = Record<PropertyKey, T>
+export type Callback = Function
 
 /** Extract value type from Record. */
 export type RecordValue<T> = T extends Record<PropertyKey, infer U> ? U : never
@@ -72,7 +69,7 @@ export type DeepNonNullable<T> = { [P in keyof T]: T[P] extends object ? DeepNon
 export type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float16Array | Float32Array | Float64Array | BigInt64Array | BigUint64Array
 
 /** Possible values to `typeof` operator. */
-export type TypeOf = "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function"
+export type TypeOfEnum = "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function"
 
 /** Check if a type is `any`. */
 export type IsAny<T> = boolean extends (T extends never ? true : false) ? true : false

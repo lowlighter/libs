@@ -2,7 +2,7 @@
 import type { key, Store, version } from "./store/store.ts"
 import type { Logger } from "@libs/logger"
 import { ulid } from "@std/ulid"
-import type { Arg, Arrayable, callback, DeepPartial, Nullable, record, rw } from "@libs/typing"
+import type { Arg, Arrayable, Callback, DeepPartial, Nullable, rw } from "@libs/typing"
 import { is, schema } from "./is/mod.ts"
 export type { _model, DeepPartial, Logger, Nullable, ulid }
 
@@ -144,15 +144,15 @@ export class Resource<T extends model> {
   }
 
   /** Readonly fields (these are computed looking at `@readonly` presence in model descriptions). */
-  protected static readonly readonly = {} as record<true>
+  protected static readonly readonly = {} as Record<PropertyKey, true>
 
   /** Readonly fields (these are computed looking at `@readonly` presence in model descriptions). */
-  protected get readonly(): record<true> {
+  protected get readonly(): Record<PropertyKey, true> {
     return (this.constructor as typeof Resource).readonly
   }
 
   /** Listeners. */
-  protected static readonly listeners = {} as record<Array<callback>>
+  protected static readonly listeners = {} as Record<PropertyKey, Array<Callback>>
 
   /** Listeners. */
   get #listeners() {
@@ -170,7 +170,7 @@ export class Resource<T extends model> {
   }
 
   /** Fetch back resource from {@link Store}. */
-  async #fetch(resolve: callback, reject: callback, id?: Nullable<id> | DeepPartial<T>) {
+  async #fetch(resolve: Callback, reject: Callback, id?: Nullable<id> | DeepPartial<T>) {
     try {
       if (typeof id === "string") {
         this.#data = { ...this.#data, id } as T
@@ -362,13 +362,13 @@ export class Resource<T extends model> {
   }
 
   /** Instantiate a new {@link Resource} constructor with specified {@link Store}, {@link Logger}, listeners and initialization function. */
-  static with<U extends shape, V extends record, W extends record, T extends typeof Resource<model_extended<U>>, Z extends typeof Resource<rw>, X = T & Z & { ready: Promise<T & Z & { bound: V & W }>; bound: V & W }>(
+  static with<U extends shape, V extends Record<PropertyKey, unknown>, W extends Record<PropertyKey, unknown>, T extends typeof Resource<model_extended<U>>, Z extends typeof Resource<rw>, X = T & Z & { ready: Promise<T & Z & { bound: V & W }>; bound: V & W }>(
     this: Z,
     { store = this.store, name = this.name, log = this.log, listeners = {}, init = () => Promise.resolve(), model: _model = is.object({} as U), bind }: {
       store?: Store
       name?: string
       log?: Nullable<Logger>
-      listeners?: record<Arrayable<callback>>
+      listeners?: Record<PropertyKey, Arrayable<Callback>>
       init?: (_: T) => Promise<unknown>
       model?: is.ZodObject<U>
       bind?: V

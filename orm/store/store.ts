@@ -1,7 +1,7 @@
 // Imports
 import { Logger } from "@libs/logger"
-import type { Nullable, Promisable, record } from "@libs/typing"
-export type { Promisable, record }
+import type { Nullable, Promisable } from "@libs/typing"
+export type { Promisable }
 
 /**
  * Key-Value store.
@@ -13,7 +13,7 @@ export abstract class Store {
   constructor({ log = new Logger(), ...options }: { log?: Logger } = {}) {
     const { promise, resolve, reject } = Promise.withResolvers<this>()
     this.ready = promise
-    this.options = options as record
+    this.options = options as Record<PropertyKey, unknown>
     this.#log = log
     this.#init(resolve, reject)
   }
@@ -22,7 +22,7 @@ export abstract class Store {
   readonly ready: Promise<this>
 
   /** Options. */
-  protected readonly options: record
+  protected readonly options: Record<PropertyKey, unknown>
 
   /** {@link Logger}. */
   readonly #log
@@ -112,11 +112,14 @@ export abstract class Store {
   protected abstract _delete(keys: key[], versionstamp: Nullable<version>): Promisable<{ ok: boolean }>
 
   /** List entries from {@link Store}. */
-  async list<T extends record>(key: key | [key, key], options?: { limit?: number; reverse?: boolean; array: true }): Promise<Array<{ key: key; value: T; version: version }>>
+  async list<T extends Record<PropertyKey, unknown>>(key: key | [key, key], options?: { limit?: number; reverse?: boolean; array: true }): Promise<Array<{ key: key; value: T; version: version }>>
   /** List entries from {@link Store}. */
-  async list<T extends record>(key: key | [key, key], options?: { limit?: number; reverse?: boolean; array?: false }): Promise<AsyncGenerator<{ key: key; value: T; version: version }>>
+  async list<T extends Record<PropertyKey, unknown>>(key: key | [key, key], options?: { limit?: number; reverse?: boolean; array?: false }): Promise<AsyncGenerator<{ key: key; value: T; version: version }>>
   /** List entries from {@link Store}. */
-  async list<T extends record>(key: key | [key, key], { limit, reverse, array = true }: { limit?: number; reverse?: boolean; array?: boolean } = {}): Promise<Array<{ key: key; value: T; version: version }> | AsyncGenerator<{ key: key; value: T; version: version }>> {
+  async list<T extends Record<PropertyKey, unknown>>(
+    key: key | [key, key],
+    { limit, reverse, array = true }: { limit?: number; reverse?: boolean; array?: boolean } = {},
+  ): Promise<Array<{ key: key; value: T; version: version }> | AsyncGenerator<{ key: key; value: T; version: version }>> {
     await this.ready
     const list = this._list<T>(key, { limit, reverse }, array)
     this.#log.with({ op: "list", key: f(key), limit, reverse, array }).trace()
@@ -124,7 +127,11 @@ export abstract class Store {
   }
 
   /** List entries from {@link Store}. This method is intended to be implemented by child classes. */
-  protected abstract _list<T extends record>(key: key | [key, key], { limit, reverse }: { limit?: number; reverse?: boolean }, array: boolean): Promisable<Array<{ key: key; value: T; version: version }> | AsyncGenerator<{ key: key; value: T; version: version }>>
+  protected abstract _list<T extends Record<PropertyKey, unknown>>(
+    key: key | [key, key],
+    { limit, reverse }: { limit?: number; reverse?: boolean },
+    array: boolean,
+  ): Promisable<Array<{ key: key; value: T; version: version }> | AsyncGenerator<{ key: key; value: T; version: version }>>
 }
 
 /** {@link Store} entry's key. */

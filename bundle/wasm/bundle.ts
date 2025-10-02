@@ -6,9 +6,7 @@ import { UntarStream } from "@std/tar/untar-stream"
 import { ensureFile } from "@std/fs"
 import { basename, dirname, resolve, toFileUrl } from "@std/path"
 import { Logger } from "@libs/logger"
-import type { record } from "@libs/typing"
 import { command } from "@libs/run/command"
-export type { record }
 
 /**
  * Build WASM, bundle and minify JavaScript.
@@ -22,7 +20,7 @@ export type { record }
  *
  * @module
  */
-export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner, logger: log = new Logger(), env = {} } = {} as { bin?: string; autoinstall?: boolean; banner?: string; logger?: Logger; env?: record<string> }): Promise<void> {
+export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner, logger: log = new Logger(), env = {} } = {} as { bin?: string; autoinstall?: boolean; banner?: string; logger?: Logger; env?: Record<PropertyKey, string> }): Promise<void> {
   log = log.with({ project })
 
   // Check that cargo is installed

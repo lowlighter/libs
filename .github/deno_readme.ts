@@ -1,4 +1,4 @@
-// deno-lint-ignore-file no-external-import
+// deno-lint-ignore-file no-external-import no-import-prefix
 // Imports
 import { expandGlob } from "jsr:@std/fs@^1.0.19"
 import { basename, dirname, fromFileUrl, resolve } from "@std/path"

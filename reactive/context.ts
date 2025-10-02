@@ -54,9 +54,9 @@
  */
 
 // Imports
-import type { callback, Nullable, record } from "@libs/typing"
+import type { Callback, Nullable } from "@libs/typing"
 import type { DeepMerge } from "@std/collections/deep-merge"
-export type { DeepMerge, record }
+export type { Callback, DeepMerge }
 
 // Polyfill for `CustomEvent`
 let _ContextEvent = globalThis.CustomEvent
@@ -152,9 +152,9 @@ if (!_ContextEvent) {
  * @author Simon Lecoq (lowlighter)
  * @license MIT
  */
-export class Context<T extends record = record> extends EventTarget {
+export class Context<T extends Record<PropertyKey, unknown> = Record<PropertyKey, unknown>> extends EventTarget {
   /** Constructor. */
-  constructor(target = {} as T, { parent = null as Nullable<Context<record>> } = {}) {
+  constructor(target = {} as T, { parent = null as Nullable<Context<Record<PropertyKey, unknown>>> } = {}) {
     super()
     this.#parent = parent
     this.#target = target
@@ -166,13 +166,13 @@ export class Context<T extends record = record> extends EventTarget {
    * Parent {@link Context}.
    * Properties not found in the current context will be searched in the parent context.
    */
-  readonly #parent: Nullable<Context<record>>
+  readonly #parent: Nullable<Context<Record<PropertyKey, unknown>>>
 
   /**
    * Children {@link Context | Contexts}.
    * Any property change in the parent context will be dispatched to the children contexts.
    */
-  readonly #children = new Set<Context<record>>()
+  readonly #children = new Set<Context<Record<PropertyKey, unknown>>>()
 
   /**
    * Properties owned by the current {@link Context}.
@@ -205,14 +205,14 @@ export class Context<T extends record = record> extends EventTarget {
    * console.assert(child.target.bar)
    * ```
    */
-  with<U extends record>(target: U): Context<DeepMerge<T, U>> {
+  with<U extends Record<PropertyKey, unknown>>(target: U): Context<DeepMerge<T, U>> {
     const context = new Context(target, { parent: this })
     this.#children.add(context)
     return context as Context<DeepMerge<T, U>>
   }
 
   /** Access target value from a property path. */
-  #access(path = [] as PropertyKey[], target: record = this.#target) {
+  #access(path = [] as PropertyKey[], target: Record<PropertyKey, unknown> = this.#target) {
     return path.reduce((value, property) => (value as target)?.[property], target)
   }
 
@@ -417,14 +417,14 @@ export class Context<T extends record = record> extends EventTarget {
     globalThis.ReadableStream,
     globalThis.WritableStream,
     globalThis.TransformStream,
-    (globalThis as unknown as record<callback>).Worker,
-    (globalThis as unknown as record<callback>).SharedWorker,
-    (globalThis as unknown as record<callback>).MessageChannel,
-    (globalThis as unknown as record<callback>).MessagePort,
-    (globalThis as unknown as record<callback>).ImageBitmap,
-    (globalThis as unknown as record<callback>).OffscreenCanvas,
-    (globalThis as unknown as record<callback>).AudioData,
-    (globalThis as unknown as record<callback>).VideoFrame,
+    (globalThis as unknown as Record<PropertyKey, Callback>).Worker,
+    (globalThis as unknown as Record<PropertyKey, Callback>).SharedWorker,
+    (globalThis as unknown as Record<PropertyKey, Callback>).MessageChannel,
+    (globalThis as unknown as Record<PropertyKey, Callback>).MessagePort,
+    (globalThis as unknown as Record<PropertyKey, Callback>).ImageBitmap,
+    (globalThis as unknown as Record<PropertyKey, Callback>).OffscreenCanvas,
+    (globalThis as unknown as Record<PropertyKey, Callback>).AudioData,
+    (globalThis as unknown as Record<PropertyKey, Callback>).VideoFrame,
     globalThis.Intl?.Collator,
     globalThis.Intl?.DisplayNames,
     globalThis.Intl?.DateTimeFormat,
@@ -434,7 +434,7 @@ export class Context<T extends record = record> extends EventTarget {
     globalThis.Intl?.PluralRules,
     globalThis.Intl?.RelativeTimeFormat,
     globalThis.Intl?.Segmenter,
-  ] as Array<callback | undefined>
+  ] as Array<Callback | undefined>
 
   /**
    * Test if a property mutates the object.

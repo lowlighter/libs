@@ -1,6 +1,5 @@
-// deno-lint-ignore-file no-console no-external-import
+// deno-lint-ignore-file no-console no-external-import no-import-prefix
 // Imports
-import type { record } from "@libs/typing"
 import { fromFileUrl, resolve } from "@std/path"
 import { parseArgs } from "@std/cli"
 import { assert } from "jsr:@std/assert@^1.0.14"
@@ -18,7 +17,7 @@ console.log(`patching: ${path}`)
 
 // Patch config version
 const raw = await Deno.readTextFile(path)
-const config = JSONC.parse(raw) as record<string>
+const config = JSONC.parse(raw) as Record<PropertyKey, string>
 const { version: previous } = config
 console.log(`version: ${previous} → ${version}`)
 assert(semver.greaterThan(semver.parse(version), semver.parse(previous)), "expected new version to be greater than previous one")
