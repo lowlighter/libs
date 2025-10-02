@@ -149,4 +149,4 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
       # Publish
       - name: Run deno.land/x publish
-        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --x.repository '${{ github.repository }}' --x.token '${{ secrets.GH_TOKEN }}' --x.version "$(date '+%Y.%m.%d')" --x.map deno.jsonc --x.reactive --x.remove
+        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --x.name libs --x.repository '${{ github.repository }}' --x.token '${{ secrets.GH_TOKEN }}' --x.version "$(date '+%Y.%m.%d')" --x.map deno.jsonc --x.reactive --x.remove
