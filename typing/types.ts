@@ -36,6 +36,9 @@ export type WeakSetValue<T> = T extends WeakSet<infer U> ? U : never
 /** Optional type. */
 export type Optional<T> = T | undefined
 
+/** Voidable type. */
+export type Voidable<T> = T | void
+
 /** Nullable type. */
 export type Nullable<T> = T | null
 
