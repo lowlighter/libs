@@ -13,7 +13,6 @@
     "bundle",
     "crypto",
     "diff",
-    "dom",
     "git",
     "logger",
     "markdown",
