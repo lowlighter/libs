@@ -59,28 +59,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th></th></tr>
   <tr><th><a href="https://libs.lecoq.io/diff"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/diff"><img src="https://libs-coverage.lecoq.io/diff/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/dom"><code>🦊 @libs/dom</code></a></h2>undefined</th></tr>
-  <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
-  <tr><td colspan="3"></td></tr>
-  <tr>
-    <th><a href="https://jsr.io/@libs/dom"><img src="https://jsr.io/badges/@libs/dom"></a></th>
-    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
-    <td rowspan="4"><ul data-for="dom">
-  <li>Implements typings from `lib.dom.d.ts` while following web standards</li>
-  <li>Reuse built-ins whenever possible</li>
-  <li>
-    Ideal for:
-    <ul>
-      <li>Server-Side Rendering</li>
-      <li>Unit testing for browser support</li>
-      <li>HTML parsing and scraping</li>
-    </ul>
-  </li>
-</ul></td>
-  </tr>
-  <tr><th></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/dom"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/dom"><img src="https://libs-coverage.lecoq.io/dom/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/git"><code>🟰 @libs/git</code></a></h2>undefined</th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/diff"><img src="https://libs-coverage.lecoq.io/diff/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/git"><code>🟰 @libs/git</code></a></h2>undefined</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
@@ -132,19 +111,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th></th></tr>
   <tr><th><a href="https://libs.lecoq.io/markdown"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/markdown"><img src="https://libs-coverage.lecoq.io/markdown/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/orm"><code>💰 @libs/orm</code></a></h2>undefined</th></tr>
-  <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
-  <tr><td colspan="3"></td></tr>
-  <tr>
-    <th><a href="https://jsr.io/@libs/orm"><img src="https://jsr.io/badges/@libs/orm"></a></th>
-    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
-    <td rowspan="4"><ul data-for="orm">
-  <li>Manage resources using an agnostic storage inteface</li>
-</ul></td>
-  </tr>
-  <tr><th></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/orm"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/orm"><img src="https://libs-coverage.lecoq.io/orm/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/qrcode"><code>🔳 @libs/qrcode</code></a></h2>undefined</th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/markdown"><img src="https://libs-coverage.lecoq.io/markdown/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/qrcode"><code>🔳 @libs/qrcode</code></a></h2>undefined</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
