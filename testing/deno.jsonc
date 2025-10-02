@@ -1,7 +1,7 @@
 {
   "icon": "🧪",
   "name": "@libs/testing",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
     "@std/expect": "jsr:@lowlighter/std-expect@1.0.18-rc.1",
