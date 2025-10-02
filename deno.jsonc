@@ -54,9 +54,9 @@
   ],
   "nodeModulesDir": "auto",
   "imports": {
-    "@std/cli": "jsr:@std/cli@^1.0.21",
-    "@std/fmt": "jsr:@std/fmt@1",
-    "@std/jsonc": "jsr:@std/jsonc@1",
+    "@std/cli": "jsr:@std/cli@^1.0.22",
+    "@std/fmt": "jsr:@std/fmt@^1.0.8",
+    "@std/jsonc": "jsr:@std/jsonc@^1.0.2",
     "@std/path": "jsr:@std/path@^1.1.2"
   },
   "test:permissions": true,

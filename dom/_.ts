@@ -1,7 +1,7 @@
 // deno-lint-ignore triple-slash-reference
 /// <reference lib="dom" />
 // Imports
-import type { record, rw } from "@libs/typing"
+import type { rw } from "@libs/typing"
 
 /** Implementation version */
 export const version = "0.0"
@@ -65,7 +65,7 @@ new Set(Object.getOwnPropertyNames(Array)).difference(
     "name",
     "length",
   ]),
-).forEach((property) => (Indexable as unknown as record)[property] = undefined)
+).forEach((property) => (Indexable as unknown as Record<PropertyKey, unknown>)[property] = undefined)
 new Set(Object.getOwnPropertyNames(Array.prototype)).difference(
   new Set([
     "constructor",
@@ -77,7 +77,7 @@ new Set(Object.getOwnPropertyNames(Array.prototype)).difference(
     "length",
     "toString",
   ]),
-).forEach((property) => (Indexable.prototype as unknown as record)[property] = undefined)
+).forEach((property) => (Indexable.prototype as unknown as Record<PropertyKey, unknown>)[property] = undefined)
 
 // DOM re-exports
 

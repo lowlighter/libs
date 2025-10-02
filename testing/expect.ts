@@ -5,7 +5,7 @@
 // Imports
 import { type Async, expect as _expect, type Expected, fn } from "@std/expect"
 import { assert, assertEquals, AssertionError, assertIsError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
-import type { Arg, Arrayable, callback, Nullable, record, TypeOf } from "@libs/typing"
+import type { Arg, Arrayable, Callback, Nullable, TypeOfEnum } from "@libs/typing"
 import type { testing } from "./test.ts"
 import { STATUS_CODE as Status } from "@std/http/status"
 
@@ -39,7 +39,7 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * expect("foo").toSatisfy((value:string) => value.length > 1)
    * ```
    */
-  toSatisfy: (evaluate: callback) => unknown
+  toSatisfy: (evaluate: Callback) => unknown
   /**
    * Asserts a value is of a given type (using `typeof` operator).
    * Note that `null` is not considered of type `"object"` unless `nullable` option is set to `true`.
@@ -192,7 +192,7 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * expect({...foo}).toBeShallowCopyOf(foo)
    * ```
    */
-  toBeShallowCopyOf: (expected?: Iterable<unknown> | record) => unknown
+  toBeShallowCopyOf: (expected?: Iterable<unknown> | Record<PropertyKey, unknown>) => unknown
   /**
    * Asserts an iterable is empty.
    *
@@ -352,7 +352,7 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
 }
 
 /** Process callback and format result to match {@link Expected} result interface. */
-function process(not: boolean, evaluate: callback, message = ""): { message: () => string; pass: boolean } {
+function process(not: boolean, evaluate: Callback, message = ""): { message: () => string; pass: boolean } {
   let pass = true
   try {
     evaluate()
@@ -387,10 +387,10 @@ function isType(value: testing, type: "bigint"): asserts value is bigint
 function isType(value: testing, type: "boolean"): asserts value is boolean
 function isType(value: testing, type: "symbol"): asserts value is symbol
 function isType(value: testing, type: "undefined"): asserts value is undefined
-function isType(value: testing, type: "object", options?: { nullable: true }): asserts value is Nullable<record>
-function isType(value: testing, type: "object", options: { nullable: false }): asserts value is record
-function isType(value: testing, type: "function"): asserts value is callback
-function isType(value: testing, type: TypeOf, { nullable = false } = {}) {
+function isType(value: testing, type: "object", options?: { nullable: true }): asserts value is Nullable<Record<PropertyKey, unknown>>
+function isType(value: testing, type: "object", options: { nullable: false }): asserts value is Record<PropertyKey, unknown>
+function isType(value: testing, type: "function"): asserts value is Callback
+function isType(value: testing, type: TypeOfEnum, { nullable = false } = {}) {
   if ((typeof value) !== type) {
     throw new TypeError(`Value is not of type "${type}"`)
   }
@@ -498,7 +498,7 @@ _expect.extend({
   },
   toHaveImmutableProperty(context, key, testValue = Symbol()) {
     return process(context.isNot, () => {
-      const value = context.value as Nullable<record>
+      const value = context.value as Nullable<Record<PropertyKey, unknown>>
       if ((value === null) || ((typeof value !== "function") && (typeof value !== "object"))) {
         throw new TypeError("Cannot be processed as value is not indexed")
       }
@@ -691,7 +691,7 @@ _expect.extend({
         "sha512": 128,
         "sha512/224": 56,
         "sha512/256": 64,
-      } as record<number>
+      } as Record<PropertyKey, number>
       if (algorithms[algorithm]) {
         assertStrictEquals(context.value.length, algorithms[algorithm])
         if (!/^[a-z0-9]+$/i.test(context.value)) {
@@ -768,4 +768,4 @@ export function calls(fn: any): MockCall[] {
 const expect = _expect as unknown as ((...args: Parameters<typeof _expect>) => ExtendedExpected) & { [K in keyof typeof _expect]: typeof _expect[K] }
 
 export { AssertionError, expect, fn, Status }
-export type { _expect, Arg, Arrayable, Async, callback, Expected, Nullable, record, TypeOf }
+export type { _expect, Arg, Arrayable, Async, Callback, Expected, Nullable, TypeOfEnum }

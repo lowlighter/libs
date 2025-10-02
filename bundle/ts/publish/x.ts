@@ -12,7 +12,6 @@ import { retry } from "@std/async/retry"
 import * as JSONC from "@std/jsonc"
 import { expandGlob } from "@std/fs"
 import { resolve } from "@std/path"
-import type { record } from "@libs/typing"
 import { unmap as _unmap } from "../unmap.ts"
 export type { Logger }
 
@@ -234,7 +233,7 @@ export async function publish({ logger: log = new Logger(), token, repository, d
 /** Resolve import map. */
 async function unmap({ log: logger, map, exclude = [], dryrun }: { log: Logger; map: string; directory?: string; exclude?: string[]; dryrun?: boolean }) {
   const root = resolve(".").replaceAll("\\", "/")
-  const { imports } = JSONC.parse(await Deno.readTextFile(resolve(root, map))) as record<record<string>>
+  const { imports } = JSONC.parse(await Deno.readTextFile(resolve(root, map))) as Record<PropertyKey, Record<PropertyKey, string>>
   exclude.push("node_modules")
   logger.log(`processing files in ${root}`)
   for await (const { path } of expandGlob("**/*.ts", { root, exclude })) {
