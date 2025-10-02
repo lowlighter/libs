@@ -17,7 +17,6 @@
     "git",
     "logger",
     "markdown",
-    "orm",
     "qrcode",
     "reactive",
     "run",
