@@ -11,6 +11,13 @@ test("`command()` can spawn subprocesses asynchronously", async () => {
   expect(result.stdout).toMatch(/deno/)
 }, { permissions: { run: ["deno"] } })
 
+test("`command()` can spawn subprocesses asynchronously in background", async () => {
+  const process = command("deno", ["repl"], { env: { NO_COLOR: "true" }, background: true }) as testing
+  expect(process).toHaveProperty("pid")
+  await process.kill()
+  await expect(process.result).resolves.toMatchObject({ success: false, stdin: "", stderr: "" })
+}, { permissions: { run: ["deno"] } })
+
 test("`command()` can spawn subprocesses synchronously", () => {
   const result = command("deno", ["--version"], { env: { NO_COLOR: "true" }, sync: true })
   expect(result).not.toBeInstanceOf(Promise)

@@ -40,6 +40,11 @@ export type options = {
    * Note that stdin is not usable in sync mode.
    */
   sync?: boolean
+  /**
+   * Run process in background.
+   * This implies `sync: false`.
+   */
+  background?: boolean
   /** Process extension on Windows. */
   winext?: string
   /** Operating system. */
@@ -73,7 +78,7 @@ export type result = {
 }
 
 /** Stdin interaction callback. */
-export type callback = (options: { stdio: Pick<result, "stdin" | "stdout" | "stderr">; i: number; write: (content: string) => Promise<void>; close: () => Promise<void>; wait: (dt: number) => Promise<void> }) => Promisable<void>
+export type callback = (options: { stdio: Pick<result, "stdin" | "stdout" | "stderr">; i: number; write: (content: string, newline?: boolean) => Promise<void>; close: () => Promise<void>; wait: (dt: number) => Promise<void> }) => Promisable<void>
 
 /** Text encoder */
 const encoder = new TextEncoder()
@@ -82,7 +87,31 @@ const encoder = new TextEncoder()
 const decoder = new TextDecoder()
 
 /**
+ * Asynchronous version of {@link command} running in background.
+ *
+ * ```
+ * import { command } from "./command.ts"
+ * const process = command("deno", ["eval", "Deno.exit(0)"])
+ * await process.kill()
+ * ```
+ */
+export function command(bin: string, args: string[], options?: options & { sync?: false; background: true }): { kill: (signal: Deno.Signal) => Promise<void>; pid: number; result: result }
+/**
  * Asynchronous version of {@link command}.
+ *
+ * ```
+ * import { command } from "./command.ts"
+ * try {
+ *   await command("deno", ["eval", "Deno.exit(1)"], { throw: true })
+ * }
+ * catch (error) {
+ *   console.log(error)
+ * }
+ * ```
+ */
+export function command(bin: string, args: string[], options?: options & { sync?: false; background?: false }): Promise<result>
+/**
+ * Synchronous version of {@link command}.
  *
  * Note that stdin is not usable in sync mode and will always be empty.
  *
@@ -94,20 +123,6 @@ const decoder = new TextDecoder()
  * import { command } from "./command.ts"
  * try {
  *   command("deno", ["eval", "Deno.exit(1)"], { sync: true, throw: true })
- * }
- * catch (error) {
- *   console.log(error)
- * }
- * ```
- */
-export function command(bin: string, args: string[], options?: options & { sync?: false }): Promise<result>
-/**
- * Synchronous version of {@link command}.
- *
- * ```
- * import { command } from "./command.ts"
- * try {
- *   await command("deno", ["eval", "Deno.exit(1)"], { throw: true })
  * }
  * catch (error) {
  *   console.log(error)
@@ -176,7 +191,11 @@ export function command(bin: string, args: string[], options?: options & { sync:
  * @license MIT
  * @module
  */
-export function command(bin: string, args: string[], { logger: log = new Logger(), stdin = null, stdout = "debug", stderr = "error", env, cwd, raw, callback, buffering, sync, throw: _throw, dryrun, winext = "", os = Deno.build.os } = {} as options): Promisable<result> {
+export function command(
+  bin: string,
+  args: string[],
+  { logger: log = new Logger(), stdin = null, stdout = "debug", stderr = "error", env, cwd, raw, callback, buffering, sync, background, throw: _throw, dryrun, winext = "", os = Deno.build.os } = {} as options,
+): Promisable<result> | { kill: (signal: Deno.Signal) => Promise<void>; pid: number; result: result } {
   if (os === "windows") {
     bin = `${bin}${winext}`
   }
@@ -193,7 +212,7 @@ export function command(bin: string, args: string[], { logger: log = new Logger(
   if (sync) {
     return exec(command, { bin, log, throw: _throw, stdout, stderr })
   }
-  return spawn(command, { bin, log, callback, buffering, throw: _throw, stdin: handle(stdin) === "piped" ? stdin as loglevel : null, stdout: handle(stdout) === "piped" ? stdout as loglevel : null, stderr: handle(stderr) === "piped" ? stderr as loglevel : null })
+  return spawn(command, { bin, log, callback, buffering, throw: _throw, background, stdin: handle(stdin) === "piped" ? stdin as loglevel : null, stdout: handle(stdout) === "piped" ? stdout as loglevel : null, stderr: handle(stderr) === "piped" ? stderr as loglevel : null })
 }
 
 /** Returns the handle type for a given mode. */
@@ -226,10 +245,27 @@ function exec(command: Deno.Command, { bin, log, throw: _throw, stdout, stderr }
   return { success, code, ...stdio }
 }
 
-/** Spawn a command asynchronously. */
-async function spawn(
+/** Spawn a command asynchronously in background. */
+function spawn(
   command: Deno.Command,
-  { bin, log, callback = ({ close }) => close?.(), buffering = 250, throw: _throw, ...channels }: { bin: string; log: Logger; callback?: callback; buffering?: number; throw?: boolean; stdin: Nullable<loglevel>; stdout: Nullable<loglevel>; stderr: Nullable<loglevel> },
+  options: { bin: string; log: Logger; callback?: callback; buffering?: number; throw?: boolean; background: true; stdin: Nullable<loglevel>; stdout: Nullable<loglevel>; stderr: Nullable<loglevel> },
+): { kill: (signal: Deno.Signal) => Promise<void>; pid: number; result: Promise<result> }
+/** Spawn a command asynchronously. */
+function spawn(command: Deno.Command, options: { bin: string; log: Logger; callback?: callback; buffering?: number; throw?: boolean; background?: boolean; stdin: Nullable<loglevel>; stdout: Nullable<loglevel>; stderr: Nullable<loglevel> }): Promise<result>
+/** Spawn a command. */
+function spawn(
+  command: Deno.Command,
+  { bin, log, callback = ({ close }) => close?.(), buffering = 250, throw: _throw, background, ...channels }: {
+    bin: string
+    log: Logger
+    callback?: callback
+    buffering?: number
+    throw?: boolean
+    background?: boolean
+    stdin: Nullable<loglevel>
+    stdout: Nullable<loglevel>
+    stderr: Nullable<loglevel>
+  },
 ) {
   const process = command.spawn()
   const start = Date.now()
@@ -288,7 +324,7 @@ async function spawn(
     debounced(Date.now() - start)
   }
   // Buffer output and debounce interaction callback
-  await Promise.all(
+  const result = Promise.all(
     (["stdout", "stderr"] as const).filter((channel) => handle(channels[channel]) === "piped").map(async (channel) => {
       for await (const line of process[channel].pipeThrough(new TextDecoderStream()).pipeThrough(new TextLineStream())) {
         const t = Date.now() - start
@@ -308,12 +344,23 @@ async function spawn(
         debounced(t)
       }
     }),
-  )
-  debounced.flush()
-  // Result
-  const { success, code } = await process.status
-  if ((!success) && _throw) {
-    throw new EvalError(`${bin} exited with non-zero code ${code}:\n${stdio.stdout}\n${stdio.stderr}`)
-  }
-  return { success, code, ...stdio }
+  ).then(async () => {
+    debounced.flush()
+    // Result
+    const { success, code } = await process.status
+    if ((!success) && _throw) {
+      throw new EvalError(`${bin} exited with non-zero code ${code}:\n${stdio.stdout}\n${stdio.stderr}`)
+    }
+    return { success, code, ...stdio }
+  })
+  return background
+    ? {
+      kill: async (signal: Deno.Signal) => {
+        process.kill(signal)
+        await process.status
+      },
+      pid: process.pid,
+      result,
+    }
+    : result
 }
