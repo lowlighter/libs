@@ -35,6 +35,8 @@ export type options = {
    * Buffering is skipped when a different channel is used in-between.
    */
   buffering?: number
+  /** Abort signal. */
+  signal?: Deno.CommandOptions["signal"]
   /**
    * Execute process synchronously.
    * Note that stdin is not usable in sync mode.
@@ -194,7 +196,7 @@ export function command(bin: string, args: string[], options?: options & { sync:
 export function command(
   bin: string,
   args: string[],
-  { logger: log = new Logger(), stdin = null, stdout = "debug", stderr = "error", env, cwd, raw, callback, buffering, sync, background, throw: _throw, dryrun, winext = "", os = Deno.build.os } = {} as options,
+  { logger: log = new Logger(), stdin = null, stdout = "debug", stderr = "error", env, cwd, raw, callback, buffering, signal, sync, background, throw: _throw, dryrun, winext = "", os = Deno.build.os } = {} as options,
 ): Promisable<result> | { kill: (signal: Deno.Signal) => Promise<void>; unref: () => void; pid: number; result: result } {
   if (os === "windows") {
     bin = `${bin}${winext}`
@@ -203,7 +205,7 @@ export function command(
   if (callback && (handle(stdin) !== "piped")) {
     stdin = "piped"
   }
-  const command = new Deno.Command(bin, { args, stdin: !sync ? handle(stdin) : "null", stdout: handle(stdout), stderr: handle(stderr), env, cwd, windowsRawArguments: raw })
+  const command = new Deno.Command(bin, { args, stdin: !sync ? handle(stdin) : "null", stdout: handle(stdout), stderr: handle(stderr), clearEnv: true, env, cwd, windowsRawArguments: raw, signal, detached: background })
   if (dryrun) {
     log.wdebug(`dryrun: ${bin} not executed`)
     const result = { success: true, code: 0, stdio: [], stdin: "", stdout: "", stderr: "" }
