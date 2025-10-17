@@ -95,7 +95,7 @@ const decoder = new TextDecoder()
  * await process.kill()
  * ```
  */
-export function command(bin: string, args: string[], options?: options & { sync?: false; background: true }): { kill: (signal: Deno.Signal) => Promise<void>; pid: number; result: result }
+export function command(bin: string, args: string[], options?: options & { sync?: false; background: true }): { kill: (signal: Deno.Signal) => Promise<void>; unref: () => void; pid: number; result: result }
 /**
  * Asynchronous version of {@link command}.
  *
@@ -195,7 +195,7 @@ export function command(
   bin: string,
   args: string[],
   { logger: log = new Logger(), stdin = null, stdout = "debug", stderr = "error", env, cwd, raw, callback, buffering, sync, background, throw: _throw, dryrun, winext = "", os = Deno.build.os } = {} as options,
-): Promisable<result> | { kill: (signal: Deno.Signal) => Promise<void>; pid: number; result: result } {
+): Promisable<result> | { kill: (signal: Deno.Signal) => Promise<void>; unref: () => void; pid: number; result: result } {
   if (os === "windows") {
     bin = `${bin}${winext}`
   }
@@ -249,7 +249,7 @@ function exec(command: Deno.Command, { bin, log, throw: _throw, stdout, stderr }
 function spawn(
   command: Deno.Command,
   options: { bin: string; log: Logger; callback?: callback; buffering?: number; throw?: boolean; background: true; stdin: Nullable<loglevel>; stdout: Nullable<loglevel>; stderr: Nullable<loglevel> },
-): { kill: (signal: Deno.Signal) => Promise<void>; pid: number; result: Promise<result> }
+): { kill: (signal: Deno.Signal) => Promise<void>; unref: () => void; pid: number; result: Promise<result> }
 /** Spawn a command asynchronously. */
 function spawn(command: Deno.Command, options: { bin: string; log: Logger; callback?: callback; buffering?: number; throw?: boolean; background?: boolean; stdin: Nullable<loglevel>; stdout: Nullable<loglevel>; stderr: Nullable<loglevel> }): Promise<result>
 /** Spawn a command. */
@@ -359,6 +359,7 @@ function spawn(
         process.kill(signal)
         await process.status
       },
+      unref: () => process.unref(),
       pid: process.pid,
       result,
     }

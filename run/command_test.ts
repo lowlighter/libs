@@ -15,6 +15,7 @@ test("`command()` can spawn subprocesses asynchronously in background", async ()
   const process = command("deno", ["repl"], { env: { NO_COLOR: "true" }, background: true }) as testing
   expect(process).toHaveProperty("pid")
   await process.kill()
+  process.unref()
   await expect(process.result).resolves.toMatchObject({ success: false, stdin: "", stderr: "" })
 }, { permissions: { run: ["deno"] } })
 
