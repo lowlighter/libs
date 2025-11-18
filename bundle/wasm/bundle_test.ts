@@ -18,5 +18,5 @@ test("`bundle()` compiles rust projects to wasm", async () => {
 }, { permissions: { read: true, write: [root], run: true, env: true, net: ["api.github.com", "github.com", "objects.githubusercontent.com", "release-assets.githubusercontent.com"] } })
 
 test("`bundle()` throws when wasm-pack is not installed", async () => {
-  await expect(bundle(project, { bin: resolve(root, "wasm-pack-not-found"), autoinstall: false, logger: new Logger({ level: "disabled" }) })).rejects.toThrow(Deno.errors.NotFound)
+  await expect(bundle(project, { bin: resolve(root, "wasm-pack-not-found"), autoinstall: false, logger: new Logger({ level: "disabled" }) })).rejects.toThrow(Deno.errors.NotCapable)
 }, { permissions: { read: true, run: true } })
