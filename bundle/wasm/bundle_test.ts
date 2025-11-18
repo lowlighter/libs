@@ -10,7 +10,7 @@ const project = resolve(root, "wasm_test")
 test("`bundle()` compiles rust projects to wasm", async () => {
   for (const _ of [1, 2]) {
     try {
-      await expect(bundle(project, { bin: resolve(root, "wasm-pack", "wasm-pack"), autoinstall: true, logger: new Logger({ level: "disabled" }) })).not.resolves.toThrow()
+      await expect(bundle(project, { bin: resolve(root, "wasm-pack", "wasm-pack"), autoinstall: true, logger: new Logger({ level: "disabled" }), env: Deno.env.toObject() })).not.resolves.toThrow()
     } finally {
       await Deno.remove(resolve(root, "wasm-pack"), { recursive: true }).catch(() => null)
     }

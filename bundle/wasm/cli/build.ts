@@ -35,4 +35,4 @@ if (help) {
 if ((Deno.permissions.querySync({ name: "env", variable: "CI" }).state === "granted") && (Deno.env.get("CI"))) {
   autoinstall ??= true
 }
-await bundle(`${project || Deno.cwd()}`, { bin, banner, autoinstall, logger: new Logger({ level: loglevel as loglevel }) })
+await bundle(`${project || Deno.cwd()}`, { bin, banner, autoinstall, env: Deno.env.toObject(), logger: new Logger({ level: loglevel as loglevel }) })
