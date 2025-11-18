@@ -16,7 +16,8 @@
     "./test": "./test.ts",
     "./runtime": "./runtime.ts",
     "./highlight": "./highlight.ts",
-    "./permissions": "./permissions.ts"
+    "./permissions": "./permissions.ts",
+    "./imports": "./imports/mod.ts"
   },
   "test:permissions": {
     "env": [
