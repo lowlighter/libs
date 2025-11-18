@@ -22,6 +22,7 @@ import { command } from "@libs/run/command"
  */
 export async function bundle(project: string, { bin = "wasm-pack", autoinstall = false, banner, logger: log = new Logger(), env = {} } = {} as { bin?: string; autoinstall?: boolean; banner?: string; logger?: Logger; env?: Record<PropertyKey, string> }): Promise<void> {
   log = log.with({ project })
+  env = { ...Deno.env.toObject(), ...env }
 
   // Check that cargo is installed
   try {

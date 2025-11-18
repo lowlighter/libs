@@ -77,11 +77,12 @@ export async function publish(
     await Deno.writeTextFile(resolve(directory, key), value)
   }
   const cwd = Deno.cwd()
+  const env = Deno.env.toObject()
   try {
     for (const { url, token, access } of registries) {
       Deno.chdir(directory)
-      await command("npm", ["set", "--location", "project", "registry", url], { logger: log, winext: ".cmd", throw: true })
-      await command("npm", ["set", "--location", "project", `//${new URL(url).host}/:_authToken`, token], { logger: log, winext: ".cmd", throw: true })
+      await command("npm", ["set", "--location", "project", "registry", url], { logger: log, env, winext: ".cmd", throw: true })
+      await command("npm", ["set", "--location", "project", `//${new URL(url).host}/:_authToken`, token], { logger: log, env, winext: ".cmd", throw: true })
       const args = ["publish", "--access", { public: "public", private: "restricted" }[access]]
       if (dryrun) {
         args.push("--dry-run")
@@ -90,7 +91,7 @@ export async function publish(
         args.push("--provenance")
       }
       log.debug(`publishing to: ${url} (${access})`)
-      const { success, stdout, stderr } = await command("npm", args, { logger: log, env: { NPM_TOKEN: token }, winext: ".cmd" })
+      const { success, stdout, stderr } = await command("npm", args, { logger: log, env: { ...env, NPM_TOKEN: token }, winext: ".cmd" })
       if ((!success) && (!`${stdout}\n${stderr}`.includes("You cannot publish over the previously published versions"))) {
         throw new Error(`npm publish failed: ${stdout}\n${stderr}`)
       }
