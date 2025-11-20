@@ -2,9 +2,9 @@
 // Imports
 import { fromFileUrl, resolve } from "@std/path"
 import { parseArgs } from "@std/cli"
-import { assert } from "jsr:@std/assert@^1.0.14"
+import { assert } from "jsr:@std/assert@^1.0.16"
 import * as JSONC from "@std/jsonc"
-import * as semver from "jsr:@std/semver@^1.0.5"
+import * as semver from "jsr:@std/semver@^1.0.7"
 
 // Parse arguments
 const { version, _: [name] } = parseArgs(Deno.args, { string: ["version"] })

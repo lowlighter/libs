@@ -24,9 +24,9 @@
     "xml"
   ],
   "dependencies": {
-    "@std/cli": "npm:@jsr/std__cli@^1.0.22",
+    "@std/cli": "npm:@jsr/std__cli@^1.0.24",
     "@std/fmt": "npm:@jsr/std__fmt@^1.0.8",
     "@std/jsonc": "npm:@jsr/std__jsonc@^1.0.2",
-    "@std/path": "npm:@jsr/std__path@^1.1.2"
+    "@std/path": "npm:@jsr/std__path@^1.1.3"
   }
 }
