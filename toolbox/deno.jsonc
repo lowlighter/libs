@@ -1,6 +1,6 @@
 {
   "icon": "🧰",
-  "name": "@libs/toolboox",
+  "name": "@libs/toolbox",
   "version": "0.1.1",
   "imports": {
     "@std/fs": "jsr:@std/fs@1",
