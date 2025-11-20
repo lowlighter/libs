@@ -1,8 +1,11 @@
 // Imports
+// deno-lint-ignore-file no-external-import
+import type { Buffer } from "node:buffer"
+// deno-lint-ignore-file no-external-import
+import { brotliDecompressSync } from "node:zlib"
 import { exists } from "@std/fs"
 import { basename } from "@std/path"
 import { UntarStream } from "@std/tar"
-import { brotliDecompressSync } from "zlib"
 import { toArrayBuffer } from "@std/streams"
 
 /** Locks. */
@@ -38,7 +41,7 @@ export function chromium({ version = "141.0.0", path = "/tmp/chromium", permissi
                 entry.readable?.cancel()
                 continue
               }
-              let buffer = await toArrayBuffer(entry.readable)
+              let buffer = await toArrayBuffer(entry.readable) as ArrayBuffer | Buffer<ArrayBufferLike>
               if (entry.path.endsWith(".br")) {
                 buffer = brotliDecompressSync(buffer)
               }
