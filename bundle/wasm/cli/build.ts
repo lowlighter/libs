@@ -7,7 +7,7 @@
 
 // Imports
 import { bundle } from "../bundle.ts"
-import { parseArgs } from "@std/cli"
+import { parseArgs } from "jsr:@std/cli@^1.0.22"
 import { type levellike as loglevel, Logger } from "@libs/logger"
 
 let { help, ["auto-install"]: autoinstall, bin, banner, loglevel, _: [project] } = parseArgs(Deno.args, {

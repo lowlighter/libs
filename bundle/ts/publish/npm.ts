@@ -4,12 +4,12 @@
  */
 
 // Imports
-import * as JSONC from "@std/jsonc"
+import * as JSONC from "jsr:@std/jsonc@^1.0.2"
 import type { Arg, Optional } from "@libs/typing"
 import { assertMatch } from "@std/assert"
 import { Logger } from "@libs/logger"
 import { bundle } from "../bundle.ts"
-import { dirname, resolve, toFileUrl } from "@std/path"
+import { dirname, resolve, toFileUrl } from "jsr:@std/path@^1.1.2"
 import { command } from "@libs/run/command"
 export type { Arg, Logger }
 

@@ -9,9 +9,9 @@ import { Logger } from "@libs/logger"
 import { assert } from "@std/assert"
 import { command } from "@libs/run/command"
 import { retry } from "@std/async/retry"
-import * as JSONC from "@std/jsonc"
+import * as JSONC from "jsr:@std/jsonc@^1.0.2"
 import { expandGlob } from "@std/fs"
-import { resolve } from "@std/path"
+import { resolve } from "jsr:@std/path@^1.1.2"
 import { unmap as _unmap } from "../unmap.ts"
 export type { Logger }
 

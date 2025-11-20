@@ -1,8 +1,8 @@
 // deno-lint-ignore-file no-console
 // Imports
-import { parseArgs } from "@std/cli"
+import { parseArgs } from "jsr:@std/cli@^1.0.22"
 import { flags } from "@libs/testing/permissions"
-import * as JSONC from "@std/jsonc"
+import * as JSONC from "jsr:@std/jsonc@^1.0.2"
 
 // Parse arguments
 const { cwd } = parseArgs(Deno.args, { string: ["cwd"] })

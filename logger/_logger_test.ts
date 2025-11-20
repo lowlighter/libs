@@ -1,6 +1,6 @@
 import { Logger, type loglevel } from "./_logger.ts"
 import { stripAnsiCode } from "@std/fmt/colors"
-import { basename, fromFileUrl } from "@std/path"
+import { basename, fromFileUrl } from "jsr:@std/path@^1.1.2"
 import { expect, fn, runtime, test, type testing } from "@libs/testing"
 
 function args(f: ReturnType<typeof fn>, { call = 0 } = {}) {

@@ -1,6 +1,6 @@
 import { bundle } from "./bundle.ts"
 import { expect, test, type testing } from "@libs/testing"
-import { fromFileUrl } from "@std/path"
+import { fromFileUrl } from "jsr:@std/path@^1.1.2"
 
 const base = new URL("testing/", import.meta.url)
 const config = new URL("deno.jsonc", base)

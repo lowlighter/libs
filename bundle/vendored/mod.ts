@@ -1,6 +1,6 @@
 // Imports
 import { Logger } from "@libs/logger"
-import { fromFileUrl } from "@std/path"
+import { fromFileUrl } from "jsr:@std/path@^1.1.2"
 
 // Download vendored esbuild files
 const logger = new Logger()

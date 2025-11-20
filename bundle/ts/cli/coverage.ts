@@ -7,11 +7,11 @@
 
 // Imports
 import { expandGlob } from "@std/fs"
-import { dirname, resolve } from "@std/path"
+import { dirname, resolve } from "jsr:@std/path@^1.1.2"
 import { default as syntax } from "highlight.js"
 import { DOMParser } from "@b-fuze/deno-dom"
-import { basename } from "@std/path"
-import { parseArgs } from "@std/cli"
+import { basename } from "jsr:@std/path@^1.1.2"
+import { parseArgs } from "jsr:@std/cli@^1.0.22"
 import { type levellike as loglevel, Logger } from "@libs/logger"
 
 const { help, loglevel, root = "coverage", exclude, _: globs, ...flags } = parseArgs(Deno.args, {

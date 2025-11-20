@@ -6,11 +6,11 @@
  */
 
 // Imports
-import { parseArgs } from "@std/cli"
+import { parseArgs } from "jsr:@std/cli@^1.0.22"
 import { type levellike as loglevel, Logger } from "@libs/logger"
 import { assert } from "@std/assert"
 import type { Arg } from "@libs/typing"
-import * as JSONC from "@std/jsonc"
+import * as JSONC from "jsr:@std/jsonc@^1.0.2"
 
 const { help, loglevel, npm, x, _: [project] } = parseArgs(Deno.args, {
   boolean: ["help", "npm.dryrun", "npm.provenance", "x.reactive", "x.remove"],

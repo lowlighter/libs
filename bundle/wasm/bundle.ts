@@ -4,7 +4,7 @@ import { bundle as bundle_ts } from "../ts/bundle.ts"
 import { assert } from "@std/assert"
 import { UntarStream } from "@std/tar/untar-stream"
 import { ensureFile } from "@std/fs"
-import { basename, dirname, resolve, toFileUrl } from "@std/path"
+import { basename, dirname, resolve, toFileUrl } from "jsr:@std/path@^1.1.2"
 import { Logger } from "@libs/logger"
 import { command } from "@libs/run/command"
 

@@ -11,7 +11,7 @@
 import { expandGlob } from "@std/fs"
 import { assertEquals } from "@std/assert"
 import { green, red } from "@std/fmt/colors"
-import { parseArgs } from "@std/cli"
+import { parseArgs } from "jsr:@std/cli@^1.0.22"
 
 const { help, check, root = ".", exclude, _: globs } = parseArgs(Deno.args, {
   boolean: ["help", "check"],

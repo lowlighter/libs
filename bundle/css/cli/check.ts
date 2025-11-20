@@ -7,7 +7,7 @@
 
 // Imports
 import { compatibility } from "../compatibility.ts"
-import { parseArgs } from "@std/cli"
+import { parseArgs } from "jsr:@std/cli@^1.0.22"
 
 const { help, query, html, ["no-style"]: nostyle, details, _: [url] } = parseArgs(Deno.args, {
   boolean: ["help", "html", "no-style", "details"],

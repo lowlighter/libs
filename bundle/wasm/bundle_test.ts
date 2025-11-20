@@ -1,7 +1,7 @@
 import { bundle } from "./bundle.ts"
 import { expect, test } from "@libs/testing"
 import { fromFileUrl } from "@std/path/from-file-url"
-import { resolve } from "@std/path"
+import { resolve } from "jsr:@std/path@^1.1.2"
 import { Logger } from "@libs/logger"
 
 const root = fromFileUrl(new URL("testing/", import.meta.url))

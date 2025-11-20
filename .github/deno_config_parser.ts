@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-console no-explicit-any
 // Imports
-import { parseArgs } from "@std/cli"
-import * as JSONC from "@std/jsonc"
+import { parseArgs } from "jsr:@std/cli@^1.0.22"
+import * as JSONC from "jsr:@std/jsonc@^1.0.2"
 
 // Parse arguments
 const { cwd, boolean, _: [keypath] } = parseArgs(Deno.args, { boolean: ["boolean"], string: ["cwd"] })

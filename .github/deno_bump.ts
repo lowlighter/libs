@@ -1,9 +1,9 @@
 // deno-lint-ignore-file no-console no-external-import no-import-prefix
 // Imports
-import { fromFileUrl, resolve } from "@std/path"
-import { parseArgs } from "@std/cli"
+import { fromFileUrl, resolve } from "jsr:@std/path@^1.1.2"
+import { parseArgs } from "jsr:@std/cli@^1.0.22"
 import { assert } from "jsr:@std/assert@^1.0.16"
-import * as JSONC from "@std/jsonc"
+import * as JSONC from "jsr:@std/jsonc@^1.0.2"
 import * as semver from "jsr:@std/semver@^1.0.7"
 
 // Parse arguments

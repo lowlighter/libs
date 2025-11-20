@@ -1,8 +1,8 @@
 // deno-lint-ignore-file no-external-import no-import-prefix
 // Imports
 import { expandGlob } from "jsr:@std/fs@^1.0.20"
-import { basename, dirname, fromFileUrl, resolve } from "@std/path"
-import * as JSONC from "@std/jsonc"
+import { basename, dirname, fromFileUrl, resolve } from "jsr:@std/path@^1.1.2"
+import * as JSONC from "jsr:@std/jsonc@^1.0.2"
 import { DOMParser } from "jsr:@b-fuze/deno-dom@^0.1.56"
 import { Logger } from "@libs/logger"
 
