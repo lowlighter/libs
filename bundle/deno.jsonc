@@ -17,7 +17,7 @@
     "@std/encoding": "jsr:@std/encoding@1",
     "@std/fs": "jsr:@std/fs@1",
     "@std/semver": "jsr:@std/semver@1",
-    "@std/tar": "jsr:@std/tar@^0.1.7"
+    "@std/tar": "jsr:@std/tar@^0.1.9"
   },
   "exports": {
     ".": "./mod.ts",
