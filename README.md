@@ -189,7 +189,17 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th></th></tr>
   <tr><th></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/testing"><img src="https://libs-coverage.lecoq.io/testing/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/typing"><code>🧰 @libs/typing</code></a></h2>undefined</th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/testing"><img src="https://libs-coverage.lecoq.io/testing/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/toolbox"><code>🧰 @libs/toolbox</code></a></h2>undefined</th></tr>
+  <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
+  <tr><td colspan="3"></td></tr>
+  <tr>
+    <th><a href="https://jsr.io/@libs/toolbox"><img src="https://jsr.io/badges/@libs/toolbox"></a></th>
+    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"></th>
+    <td rowspan="4"></td>
+  </tr>
+  <tr><th></th></tr>
+  <tr><th></th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/toolbox"><img src="https://libs-coverage.lecoq.io/toolbox/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/typing"><code>🗃️ @libs/typing</code></a></h2>undefined</th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
