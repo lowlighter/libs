@@ -1,0 +1,21 @@
+{
+  "icon": "🧰",
+  "name": "@libs/toolboox",
+  "version": "0.1.0",
+  "imports": {
+    "@std/fs": "jsr:@std/fs@1",
+    "@std/path": "jsr:@std/path@1",
+    "@std/tar": "jsr:@std/tar@0.1.9",
+    "@std/streams": "jsr:@std/streams@1",
+    "zlib": "node:zlib"
+  },
+  "exports": {
+    "./download-lambda-chromium": "./download_lambda_chromium.ts"
+  },
+  "test:permissions": {
+    "net": true
+  },
+  "supported": {
+    "deno": true
+  }
+}
