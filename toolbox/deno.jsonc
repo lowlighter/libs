@@ -6,7 +6,8 @@
     "@std/fs": "jsr:@std/fs@1",
     "@std/path": "jsr:@std/path@1",
     "@std/tar": "jsr:@std/tar@0.1.9",
-    "@std/streams": "jsr:@std/streams@1"
+    "@std/streams": "jsr:@std/streams@1",
+    "@std/cli": "jsr:@std/cli@1"
   },
   "exports": {
     "./download-lambda-chromium": "./download_lambda_chromium.ts"

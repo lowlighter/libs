@@ -10,11 +10,14 @@
     "jsr:@std/assert@^1.0.14": "1.0.16",
     "jsr:@std/assert@^1.0.16": "1.0.16",
     "jsr:@std/async@1": "1.0.14",
+    "jsr:@std/bytes@^1.0.6": "1.0.6",
+    "jsr:@std/cli@1": "1.0.22",
     "jsr:@std/cli@^1.0.22": "1.0.22",
     "jsr:@std/collections@1": "1.1.3",
     "jsr:@std/fmt@1": "1.0.8",
     "jsr:@std/fmt@^1.0.8": "1.0.8",
     "jsr:@std/fmt@~1.0.2": "1.0.8",
+    "jsr:@std/fs@1": "1.0.20",
     "jsr:@std/fs@^1.0.20": "1.0.20",
     "jsr:@std/html@1": "1.0.4",
     "jsr:@std/http@1": "1.0.20",
@@ -28,6 +31,9 @@
     "jsr:@std/semver@1": "1.0.5",
     "jsr:@std/semver@^1.0.5": "1.0.5",
     "jsr:@std/semver@^1.0.7": "1.0.7",
+    "jsr:@std/streams@1": "1.0.14",
+    "jsr:@std/streams@^1.0.13": "1.0.14",
+    "jsr:@std/tar@0.1.9": "0.1.9",
     "jsr:@std/text@1": "1.0.16",
     "jsr:@std/yaml@1": "1.0.9",
     "npm:@jsr/b-fuze__deno-dom@~0.1.56": "0.1.56",
@@ -124,6 +130,9 @@
     "@std/async@1.0.14": {
       "integrity": "62e954a418652c704d37563a3e54a37d4cf0268a9dcaeac1660cc652880b5326"
     },
+    "@std/bytes@1.0.6": {
+      "integrity": "f6ac6adbd8ccd99314045f5703e23af0a68d7f7e58364b47d2c7f408aeb5820a"
+    },
     "@std/cli@1.0.22": {
       "integrity": "50d1e4f87887cb8a8afa29b88505ab5081188f5cad3985460c3b471fa49ff21a"
     },
@@ -169,6 +178,18 @@
     },
     "@std/semver@1.0.7": {
       "integrity": "7d5f65391762dc4358abde80fc3354086ddb40101f140295e60f290c138887d0"
+    },
+    "@std/streams@1.0.14": {
+      "integrity": "c0df6cdd73bd4bbcbe4baa89e323b88418c90ceb2d926f95aa99bdcdbfca2411",
+      "dependencies": [
+        "jsr:@std/bytes"
+      ]
+    },
+    "@std/tar@0.1.9": {
+      "integrity": "9d684ddfbe66db61ade4b717e3b2519e3b09c7697f28edef2bef798d8d9083ba",
+      "dependencies": [
+        "jsr:@std/streams@^1.0.13"
+      ]
     },
     "@std/text@1.0.16": {
       "integrity": "ddb9853b75119a2473857d691cf1ec02ad90793a2e8b4a4ac49d7354281a0cf8"
@@ -3668,6 +3689,7 @@
       },
       "toolbox": {
         "dependencies": [
+          "jsr:@std/cli@1",
           "jsr:@std/fs@1",
           "jsr:@std/path@1",
           "jsr:@std/streams@1",
@@ -3675,6 +3697,7 @@
         ],
         "packageJson": {
           "dependencies": [
+            "npm:@jsr/std__cli@^1.0.24",
             "npm:@jsr/std__fs@^1.0.20",
             "npm:@jsr/std__path@^1.1.3",
             "npm:@jsr/std__streams@^1.0.14",

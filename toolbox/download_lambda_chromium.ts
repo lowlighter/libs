@@ -7,6 +7,7 @@ import { exists } from "@std/fs"
 import { basename } from "@std/path"
 import { UntarStream } from "@std/tar"
 import { toArrayBuffer } from "@std/streams"
+import { parseArgs } from "@std/cli"
 
 /** Locks. */
 const locks = new Map<string, Promise<string>>()
@@ -57,4 +58,27 @@ export function chromium({ version = "141.0.0", path = "/tmp/chromium", permissi
     )
   }
   return locks.get(path)!
+}
+
+if (import.meta.main) {
+  const args = parseArgs(Deno.args, { string: ["version", "path", "permissions", "arch"], boolean: ["help"], alias: { v: "version", p: "path", h: "help" } })
+  if (args.help) {
+    // deno-lint-ignore no-console
+    console.log(`Downloads Chromium binary for AWS Lambda environment.
+
+Usage:
+  deno run jsr:@libs/toolbox/download-lambda-chromium [options]
+
+Options:
+  -v, --version       Chromium version. Default is 141.0.0
+  -p, --path          Path to save Chromium binary. Default is /tmp/chromium
+      --permissions   File permissions. Default is 0o755
+      --arch          System architecture. Default is current architecture
+      --help          Show this help message
+`)
+    Deno.exit(0)
+  }
+  const path = await chromium({ version: args.version, path: args.path, arch: args.arch as typeof Deno.build.arch, permissions: args.permissions ? Number.parseInt(args.permissions, 8) : undefined })
+  // deno-lint-ignore no-console
+  console.log(path)
 }
