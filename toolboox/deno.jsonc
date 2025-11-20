@@ -10,7 +10,7 @@
     "zlib": "node:zlib"
   },
   "exports": {
-    "./download_lambda_chromium": "./download_lambda_chromium.ts"
+    "./download-lambda-chromium": "./download_lambda_chromium.ts"
   },
   "test:permissions": {
     "net": true
