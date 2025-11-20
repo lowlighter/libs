@@ -3666,6 +3666,22 @@
           ]
         }
       },
+      "toolbox": {
+        "dependencies": [
+          "jsr:@std/fs@1",
+          "jsr:@std/path@1",
+          "jsr:@std/streams@1",
+          "jsr:@std/tar@0.1.9"
+        ],
+        "packageJson": {
+          "dependencies": [
+            "npm:@jsr/std__fs@^1.0.20",
+            "npm:@jsr/std__path@^1.1.3",
+            "npm:@jsr/std__streams@^1.0.14",
+            "npm:@jsr/std__tar@~0.1.9"
+          ]
+        }
+      },
       "xml": {
         "dependencies": [
           "jsr:@std/path@1"
