@@ -3,8 +3,8 @@
 import type { Buffer } from "node:buffer"
 // deno-lint-ignore-file no-external-import
 import { brotliDecompressSync } from "node:zlib"
-import { exists } from "@std/fs"
-import { basename } from "@std/path"
+import { ensureDir, exists } from "@std/fs"
+import { basename, dirname, join, resolve } from "@std/path"
 import { UntarStream } from "@std/tar"
 import { toArrayBuffer } from "@std/streams"
 import { parseArgs } from "@std/cli"
@@ -18,37 +18,29 @@ export type ChromiumOptions = {
   version?: string
   /** Path to save Chromium binary. Default is `/tmp/chromium`. */
   path?: string
-  /** File permissions. Default is `0o755`. */
-  permissions?: number
   /** System architecture. Default is current architecture. */
   arch?: typeof Deno.build.arch
   /** Download URL. */
   url?: string
+  /** Force download even if file exists. */
+  force?: boolean
+  /** Set environment variables for `FONTCONFIG_PATH` and `LD_LIBRARY_PATH` (requires --allow-env). Default is `true`. */
+  env?: boolean
 }
 
 /** Download Chromium binary for AWS Lambda environment. */
-export function chromium({ version = "141.0.0", path = "/tmp/chromium", permissions = 0o755, arch = Deno.build.arch }: ChromiumOptions = {}): Promise<string> {
-  // Prevent multiple downloads
+export function chromium({ version = "141.0.0", path = "/tmp/chromium", arch = Deno.build.arch, force = false, env = true }: ChromiumOptions = {}): Promise<string> {
+  // Install browseer
+  path = resolve(path)
   if (!locks.has(path)) {
     locks.set(
       path,
       // deno-lint-ignore no-async-promise-executor
       new Promise<string>(async (resolve, reject) => {
         try {
-          if (!await exists(path)) {
+          if ((!await exists(path)) || force) {
             const url = `https://github.com/Sparticuz/chromium/releases/download/v${version}/chromium-v${version}-pack.${{ x86_64: "x64", aarch64: "arm64" }[arch] ?? "unknown"}.tar`
-            for await (const entry of await fetch(url).then((response) => response.body!.pipeThrough(new UntarStream()))) {
-              if ((!entry.readable) || (!/^chromium(?:\.br)$/.test(basename(entry.path)))) {
-                entry.readable?.cancel()
-                continue
-              }
-              let buffer = await toArrayBuffer(entry.readable) as ArrayBuffer | Buffer<ArrayBufferLike>
-              if (entry.path.endsWith(".br")) {
-                buffer = brotliDecompressSync(buffer)
-              }
-              await Deno.writeFile(path, new Uint8Array(buffer))
-              await Deno.chmod(path, permissions)
-            }
+            await extract(await fetch(url).then((response) => response.body!), { path: dirname(path) })
           }
           resolve(path)
         } catch (error) {
@@ -57,11 +49,45 @@ export function chromium({ version = "141.0.0", path = "/tmp/chromium", permissi
       }),
     )
   }
+  // Set environment variables
+  if (env) {
+    if (!Deno.env.get("FONTCONFIG_PATH")) {
+      Deno.env.set("FONTCONFIG_PATH", join(dirname(path), "fonts"))
+    }
+    if (Deno.env.get("LD_LIBRARY_PATH")?.includes(join(dirname(path), "al2023"))) {
+      Deno.env.set("LD_LIBRARY_PATH", [join(dirname(path), "al2023"), Deno.env.get("LD_LIBRARY_PATH")].join(":"))
+    }
+  }
+
   return locks.get(path)!
 }
 
+/** Extract tar stream. */
+async function extract(stream: ReadableStream<Uint8Array<ArrayBuffer>>, { path }: { path: string }) {
+  for await (const entry of stream.pipeThrough(new UntarStream())) {
+    if (!entry.readable) {
+      continue
+    }
+    let name = basename(entry.path)
+    let buffer = await toArrayBuffer(entry.readable) as ArrayBuffer | Buffer<ArrayBufferLike>
+    if (name.endsWith(".br")) {
+      name = basename(name, ".br")
+      buffer = brotliDecompressSync(buffer, { chunkSize: 2 ** 21 })
+    }
+    if (name.endsWith(".tar")) {
+      name = basename(name, ".tar")
+      await extract(ReadableStream.from([new Uint8Array(buffer)]), { path: name === "swiftshader" ? path : join(path, name) })
+      continue
+    }
+    name = join(path, name)
+    await ensureDir(dirname(name))
+    await Deno.writeFile(name, new Uint8Array(buffer))
+    await Deno.chmod(name, 0o700)
+  }
+}
+
 if (import.meta.main) {
-  const args = parseArgs(Deno.args, { string: ["version", "path", "permissions", "arch"], boolean: ["help"], alias: { v: "version", p: "path", h: "help" } })
+  const args = parseArgs(Deno.args, { string: ["version", "path", "arch"], boolean: ["env", "force", "help"], alias: { v: "version", p: "path", a: "arch", e: "env", f: "force", h: "help" } })
   if (args.help) {
     // deno-lint-ignore no-console
     console.log(`Downloads Chromium binary for AWS Lambda environment.
@@ -72,13 +98,14 @@ Usage:
 Options:
   -v, --version       Chromium version. Default is 141.0.0
   -p, --path          Path to save Chromium binary. Default is /tmp/chromium
-      --permissions   File permissions. Default is 0o755
-      --arch          System architecture. Default is current architecture
-      --help          Show this help message
+  -a, --arch          System architecture. Default is current architecture
+  -e, --env           Set environment variables for FONTCONFIG_PATH and LD_LIBRARY_PATH (requires --allow-env). Default is true
+  -f, --force         Force download even if file exists
+  -h, --help          Show this help message
 `)
     Deno.exit(0)
   }
-  const path = await chromium({ version: args.version, path: args.path, arch: args.arch as typeof Deno.build.arch, permissions: args.permissions ? Number.parseInt(args.permissions, 8) : undefined })
+  const path = await chromium({ version: args.version, path: args.path, arch: args.arch as typeof Deno.build.arch, env: args.env, force: args.force })
   // deno-lint-ignore no-console
   console.log(path)
 }
