@@ -119,6 +119,5 @@ Options:
     Deno.exit(0)
   }
   const path = await chromium({ version: args.version, path: args.path, arch: args.arch as typeof Deno.build.arch, env: args.env, force: args.force, debug: args.debug })
-  // deno-lint-ignore no-console
   console.log(path)
 }
