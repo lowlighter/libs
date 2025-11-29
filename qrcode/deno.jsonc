@@ -1,7 +1,7 @@
 {
   "icon": "🔳",
   "name": "@libs/qrcode",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "playground": "https://libs.lecoq.io/qrcode",
   "exports": {
     ".": "./mod.ts"
