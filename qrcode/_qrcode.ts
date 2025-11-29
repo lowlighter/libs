@@ -178,7 +178,7 @@ class QrCode {
         for (let y = 0; y < qr.size; y++) {
           for (let x = 0; x < qr.size; x++) {
             if (qr.get({ x, y })) {
-              paths.push(`M${x + border * 2},${y + border * 2}h1v1h-1z`)
+              paths.push(`M${x + border},${y + border}h1v1h-1z`)
             }
           }
         }
