@@ -24,7 +24,11 @@
     "./plugins/ruby": "./plugins/ruby.ts",
     "./plugins/sanitize": "./plugins/sanitize.ts",
     "./plugins/uncomments": "./plugins/uncomments.ts",
-    "./plugins/wikilinks": "./plugins/wikilinks.ts"
+    "./plugins/wikilinks": "./plugins/wikilinks.ts",
+    "./presets/default": "./presets/default.ts",
+    "./presets/svg": "./presets/svg.ts",
+    "./presets/text": "./presets/text.ts",
+    "./presets/web": "./presets/web.ts"
   },
   "test:permissions": {
     "read": true,
