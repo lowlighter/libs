@@ -3,6 +3,7 @@ import hljs from "highlight.js/lib/core"
 import typescript from "highlight.js/lib/languages/typescript"
 import { bgBlack, bgWhite, bgYellow, black, blue, cyan, gray, green, stripAnsiCode, underline, yellow } from "@std/fmt/colors"
 import { unescape } from "@std/html/entities"
+import { runtime } from "./runtime.ts"
 hljs.registerLanguage("typescript", typescript)
 
 /**
@@ -41,6 +42,9 @@ export function highlight(text: string, { underline: underlined = false, header 
 export function inspect(value: unknown): string {
   if (typeof value === "function") {
     return "fn"
+  }
+  if (runtime !== "deno") {
+    return `${value}`
   }
   return Deno.inspect(value, { colors: true, compact: true }).replace(/\n\s+/g, " ")
 }
