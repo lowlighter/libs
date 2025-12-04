@@ -1,7 +1,8 @@
 import { test } from "./test.ts"
 import { expect } from "./expect.ts"
-import { highlight } from "./highlight.ts"
-import { bgWhite, black, gray, green, underline, yellow } from "@std/fmt/colors"
+import { highlight, inspect } from "./highlight.ts"
+import { bgWhite, black, gray, green, stripAnsiCode, underline, yellow } from "@std/fmt/colors"
+import { runtime } from "./runtime.ts"
 
 test("`highlight()` colors code string with ansi", () => {
   expect(highlight("`// foo`")).toBe(gray("// foo"))
@@ -20,3 +21,16 @@ test("`highlight()` supports type option", () => {
   expect(highlight("`'foo'`", { type: "warn" })).toBe(yellow("'foo'"))
   expect(highlight("`'foo'`", { type: "debug" })).toBe(gray("'foo'"))
 })
+
+if (runtime === "deno") {
+  for (
+    const { inspected, expected } of [
+      { inspected: { foo: "bar" }, expected: '{ foo: "bar" }' },
+      { inspected: function () {}, expected: "fn" },
+    ] as const
+  ) {
+    test(`\`inspect(${Deno.inspect(inspected)})\` returns \`${expected}\``, () => {
+      expect(stripAnsiCode(inspect(inspected))).toBe(expected)
+    })
+  }
+}

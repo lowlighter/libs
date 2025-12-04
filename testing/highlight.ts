@@ -37,6 +37,14 @@ export function highlight(text: string, { underline: underlined = false, header 
   return text
 }
 
+/** Inspects the given value and returns a string representation. */
+export function inspect(value: unknown): string {
+  if (typeof value === "function") {
+    return "fn"
+  }
+  return Deno.inspect(value, { colors: true, compact: true }).replace(/\n\s+/g, " ")
+}
+
 /** Process rendered highlight.js html back to cli formatted highlighing. */
 function process(html: string) {
   const stack = []
