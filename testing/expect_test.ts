@@ -1,6 +1,8 @@
 import { test } from "./test.ts"
 import { AssertionError, calls, expect, fn, reset, Status } from "./expect.ts"
 import { runtime } from "./runtime.ts"
+import { emptyDir } from "@std/fs"
+import { fromFileUrl } from "@std/path/from-file-url"
 
 test("`expect` has typings", () => {
   // Built-in properties
@@ -111,6 +113,27 @@ if (Promise.withResolvers) {
   })
 } else {
   test.skip("`expect.toBeResolvedPromise()` asserts promise to be resolved", () => null)
+}
+
+if (runtime === "deno") {
+  const snapshots = fromFileUrl(import.meta.resolve("./fixtures/snapshots"))
+  test("`expect.toMatchConsoleSnapshot()` asserts function output match console snapshot", async () => {
+    for (const channel of ["log", "error"] as const) {
+      await emptyDir(snapshots)
+      // deno-lint-ignore no-console
+      await expect(expect(() => console[channel](`testing-${channel}`)).toMatchConsoleSnapshot(import.meta, { capture: false })).rejects.toThrow(new RegExp(`-\\s+testing-${channel}`))
+      // deno-lint-ignore no-console
+      await expect(() => console[channel](`testing-${channel}`)).toMatchConsoleSnapshot(import.meta, { capture: true })
+      // deno-lint-ignore no-console
+      await expect(() => console[channel](`testing-${channel}`)).toMatchConsoleSnapshot(import.meta, { capture: false })
+      await expect(expect(() => null).toMatchConsoleSnapshot(import.meta, { capture: false })).rejects.toThrow(new RegExp(`\\+\\s+testing-${channel}`))
+      await expect(() => null).toMatchConsoleSnapshot(import.meta, { capture: true })
+      await expect(() => null).toMatchConsoleSnapshot(import.meta, { capture: false })
+    }
+  }, { permissions: { read: true, write: [snapshots] } })
+}
+else {
+  test.skip("`expect.toMatchConsoleSnapshot()` asserts function output match console snapshot", () => null)
 }
 
 test("`expect.toHaveBeenCalledOnceWith()` asserts mock function has been called once with passed arguments", () => {
