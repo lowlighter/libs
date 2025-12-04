@@ -1,3 +1,8 @@
+/**
+ * Apply back an unified patch to a string.
+ * @module
+ */
+
 // Imports
 import { tokenize } from "./diff.ts"
 
