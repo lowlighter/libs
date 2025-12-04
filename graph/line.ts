@@ -1,5 +1,6 @@
 // Imports
-import { graph, datalist, options } from "./_graph.ts"
+import { type data, type datalist, graph, type options } from "./_graph.ts"
+export type { data, datalist, options }
 
 /**
  * Renders a line graph.

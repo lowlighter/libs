@@ -24,10 +24,12 @@ export function graph(type: string, datalist: datalist, options: options = {}): 
   const x = ((type === "time" ? d3.scaleTime().domain([new Date(start), new Date(end)]) : d3.scaleLinear().domain([start, end])) as ReturnType<typeof d3.scaleLinear<number, number>>)
     .range([margin.top, width - margin.left - margin.right])
   let ticks = d3.axisBottom(x)
-  if (options.ticks)
+  if (options.ticks) {
     ticks = ticks.ticks(options.ticks)
-  if (options.labels)
+  }
+  if (options.labels) {
     ticks = ticks.tickFormat((_: unknown, i: number) => `${options.labels?.[i] ?? ""}`)
+  }
   svg.append("g")
     .attr("transform", `translate(${margin.left},${height - margin.bottom})`)
     .call(ticks)
@@ -171,8 +173,9 @@ export function graph(type: string, datalist: datalist, options: options = {}): 
 /** Generates a random color based on the provided seed. */
 export function mkcolor(seed: string): string {
   let hex = 9
-  for (let i = 0; i < seed.length;)
+  for (let i = 0; i < seed.length;) {
     hex = Math.imul(hex ^ seed.charCodeAt(i++), 9 ** 9)
+  }
   hex = hex ^ hex >>> 9
   const r = (hex & 0xff0000) >> 8 * 2
   const g = (hex & 0x00ff00) >> 8 * 1

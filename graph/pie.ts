@@ -1,6 +1,7 @@
 // Imports
-import { d3, mksvg, mkconfig, mkcolor, options, type d3arg, type d3data } from "./_graph.ts"
+import { d3, type d3arg, type d3data, mkcolor, mkconfig, mksvg, type options } from "./_graph.ts"
 import { pick } from "@std/collections"
+export type { options }
 
 /**
  * Renders a pie chart.

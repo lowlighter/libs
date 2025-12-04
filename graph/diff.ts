@@ -1,6 +1,7 @@
 // Imports
-import { d3, mksvg, mkconfig, options, type d3arg } from "./_graph.ts"
+import { d3, type d3arg, mkconfig, mksvg, type options } from "./_graph.ts"
 import { pick } from "@std/collections"
+export type { options }
 
 /**
  * Generates a diff graph.
