@@ -2,7 +2,6 @@
 import type { Promisable } from "@libs/typing"
 import { expect } from "./expect.ts"
 import { basename, dirname, fromFileUrl } from "@std/path"
-import { ensureDir } from "@std/fs"
 import { yellow } from "@std/fmt/colors"
 export type { Promisable }
 export * from "@std/assert"
@@ -27,6 +26,7 @@ export async function assertConsoleSnapshot(meta: ImportMeta, fn: () => Promisab
     console.error = (message: unknown) => captured.stderr += `${message}\n`
     await fn()
     if (capture) {
+      const { ensureDir } = await import("@std/fs")
       await ensureDir(dirname(path))
       for (const channel of ["stdout", "stderr"] as const) {
         if (snapshot[channel] !== captured[channel]) {

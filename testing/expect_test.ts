@@ -1,7 +1,6 @@
 import { test } from "./test.ts"
 import { AssertionError, calls, expect, fn, reset, Status } from "./expect.ts"
 import { runtime } from "./runtime.ts"
-import { emptyDir } from "@std/fs"
 import { fromFileUrl } from "@std/path/from-file-url"
 
 test("`expect` has typings", () => {
@@ -116,6 +115,7 @@ if (Promise.withResolvers) {
 }
 
 if (runtime === "deno") {
+  const { emptyDir } = await import("@std/fs")
   const snapshots = fromFileUrl(import.meta.resolve("./fixtures/snapshots"))
   test("`expect.toMatchConsoleSnapshot()` asserts function output match console snapshot", async () => {
     for (const channel of ["log", "error"] as const) {

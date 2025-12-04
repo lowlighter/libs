@@ -3,12 +3,11 @@ import "./assert.ts"
 import { expect, test } from "@libs/testing"
 import { assertConsoleSnapshot } from "./assert.ts"
 import { runtime } from "./runtime.ts"
-import { emptyDir } from "@std/fs"
 import { fromFileUrl } from "@std/path/from-file-url"
 
-const snapshots = fromFileUrl(import.meta.resolve("./fixtures/snapshots"))
-
-if (runtime === "node") {
+if (runtime === "deno") {
+  const { emptyDir } = await import("@std/fs")
+  const snapshots = fromFileUrl(import.meta.resolve("./fixtures/snapshots"))
   test(`\`assertConsoleSnapshot()\` captures and matches console output`, async () => {
     for (const channel of ["log", "error"] as const) {
       await emptyDir(snapshots)

@@ -9,7 +9,6 @@
     "@std/assert": "npm:@jsr/std__assert@^1.0.16",
     "@std/expect": "npm:@jsr/lowlighter__std-expect@^1.0.18-rc.1",
     "@std/fmt": "npm:@jsr/std__fmt@^1.0.8",
-    "@std/fs": "npm:@jsr/std__fs@^1.0.20",
     "@std/html": "npm:@jsr/std__html@^1.0.5",
     "@std/http": "npm:@jsr/std__http@^1.0.22",
     "highlight.js": "^11.11.1"
