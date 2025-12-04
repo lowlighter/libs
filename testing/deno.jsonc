@@ -7,19 +7,27 @@
     "@std/expect": "jsr:@lowlighter/std-expect@1.0.18-rc.1",
     "@std/fmt": "jsr:@std/fmt@1",
     "@std/html": "jsr:@std/html@1",
-    "@std/http": "jsr:@std/http@1"
+    "@std/http": "jsr:@std/http@1",
+    "@std/fs": "jsr:@std/fs@1",
+    "@faker-js/faker": "npm:@faker-js/faker@^10.0.0"
   },
   "exports": {
     ".": "./mod.ts",
+    "./imports": "./imports/mod.ts",
     "./assert": "./assert.ts",
+    "./colors": "./colors.ts",
     "./expect": "./expect.ts",
-    "./test": "./test.ts",
-    "./runtime": "./runtime.ts",
+    "./faker": "./faker.ts",
     "./highlight": "./highlight.ts",
     "./permissions": "./permissions.ts",
-    "./imports": "./imports/mod.ts"
+    "./runtime": "./runtime.ts",
+    "./test": "./test.ts"
   },
   "test:permissions": {
+    "read": true,
+    "write": [
+      "fixtures"
+    ],
     "env": [
       "TEST_FOO",
       "TEST_BAR"
