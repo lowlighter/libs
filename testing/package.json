@@ -12,7 +12,7 @@
     "@std/fs": "npm:@jsr/std__fs@^1.0.20",
     "@std/html": "npm:@jsr/std__html@^1.0.5",
     "@std/http": "npm:@jsr/std__http@^1.0.22",
-    "@faker-js/faker": "^10.0.0",
+    "@faker-js/faker": "^10.1.0",
     "highlight.js": "^11.11.1"
   }
 }
