@@ -80,7 +80,7 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    *
    * ```ts
    * import { expect } from "./expect.ts"
-   * await expect(() => { console.log("testing") }).toMatchConsoleSnapshot({ meta: import.meta, capture: false })
+   * await expect(() => { }).toMatchConsoleSnapshot(import.meta, { capture: false })
    * ```
    */
   toMatchConsoleSnapshot: (meta: ImportMeta, options: { capture?: boolean }) => Promise<unknown>
