@@ -131,8 +131,7 @@ if (runtime === "deno") {
       await expect(() => null).toMatchConsoleSnapshot(import.meta, { capture: false })
     }
   }, { permissions: { read: true, write: [snapshots] } })
-}
-else {
+} else {
   test.skip("`expect.toMatchConsoleSnapshot()` asserts function output match console snapshot", () => null)
 }
 
