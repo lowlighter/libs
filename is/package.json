@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "description": "Wrapper around Zod with a collection additional type validators and transformers.",
+  "keywords": [
+    "is",
+    "zod",
+    "esm"
+  ],
+  "dependencies": {
+    "@std/collections": "npm:@jsr/std__collections@^1.1.3",
+    "@zod/zod": "npm:@jsr/zod__zod@^4.1.11"
+  }
+}
