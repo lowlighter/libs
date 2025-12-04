@@ -1,5 +1,5 @@
 // Imports
-import { Renderer } from "@libs/markdown"
+import { Renderer } from "../renderer.ts"
 import gfm from "../plugins/gfm.ts"
 import highlighting from "../plugins/highlighting.ts"
 

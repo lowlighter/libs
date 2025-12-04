@@ -1,5 +1,5 @@
 // Imports
-import { Renderer } from "@libs/markdown"
+import { Renderer } from "../renderer.ts"
 
 /** Renderer instance. */
 const renderer = new Renderer()

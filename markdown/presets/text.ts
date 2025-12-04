@@ -1,6 +1,6 @@
 // Copyright (c) - 2025+ the lowlighter/esquie authors. AGPL-3.0-or-later
-import { Renderer } from "@libs/markdown"
-import { create as sanitize } from "@libs/markdown/plugins/sanitize"
+import { Renderer } from "../renderer.ts"
+import { create as sanitize } from "../plugins/sanitize.ts"
 
 /** Renderer instances. */
 const renderer = new Renderer({ plugins: [sanitize({ tagNames: [] })] })
