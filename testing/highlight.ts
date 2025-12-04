@@ -42,11 +42,7 @@ export function inspect(value: unknown): string {
   if (typeof value === "function") {
     return "fn"
   }
-  try {
-    return Deno.inspect(value, { colors: true, compact: true }).replace(/\n\s+/g, " ")
-  } catch {
-    return JSON.stringify(value)
-  }
+  return Deno.inspect(value, { colors: true, compact: true }).replace(/\n\s+/g, " ")
 }
 
 /** Process rendered highlight.js html back to cli formatted highlighing. */
