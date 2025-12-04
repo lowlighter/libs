@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "description": "Wrapper around D3 to generate various types of graphs as SVG.",
+  "keywords": [
+    "graph",
+    "d3",
+    "esm"
+  ],
+  "dependencies": {
+    "@std/collections": "npm:@jsr/std__collections@^1.1.3",
+    "d3": "^7.9.0",
+    "linkedom": "0.18.12"
+  }
+}
