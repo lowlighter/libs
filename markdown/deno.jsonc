@@ -4,8 +4,8 @@
   "version": "2.0.5",
   "playground": "https://libs.lecoq.io/markdown",
   "imports": {
-    "@std/text": "jsr:@std/text@1",
-    "@std/yaml": "jsr:@std/yaml@1"
+    "@std/text": "jsr:@std/text@^1.0.16",
+    "@std/yaml": "jsr:@std/yaml@^1.0.10"
   },
   "exports": {
     ".": "./mod.ts",
