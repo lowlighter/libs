@@ -3897,6 +3897,18 @@
           ]
         }
       },
+      "is": {
+        "dependencies": [
+          "jsr:@std/collections@1",
+          "jsr:@zod/zod@^4.1.11"
+        ],
+        "packageJson": {
+          "dependencies": [
+            "npm:@jsr/std__collections@^1.1.3",
+            "npm:@jsr/zod__zod@^4.1.11"
+          ]
+        }
+      },
       "logger": {
         "dependencies": [
           "jsr:@std/fmt@^1.0.8",
