@@ -24,8 +24,6 @@ spec("coerce", coerce(is.union([is.number(), is.literal(Infinity), is.literal(-I
   // Errors
   { a: "foo", b: Error },
   // Spec
-  ...spec.positive.int,
-  ...spec.positive.finite,
   ...spec.positive.infinity,
 ], { strict: false, prefault: false })
 

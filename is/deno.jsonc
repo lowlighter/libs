@@ -10,6 +10,12 @@
     ".": "./mod.ts",
     "./testing": "./testing/mod.ts"
   },
+  "tasks": {
+    "lint": {
+      "description": "Lint code, documentation, package and formatting\n- `--check`: skip actual formatting (check only)",
+      "command": "cd $INIT_CWD && deno lint && deno publish --quiet --dry-run --allow-dirty && deno fmt"
+    }
+  },
   "test:permissions": {
     "env": true
   },
