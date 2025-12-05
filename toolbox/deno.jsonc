@@ -17,6 +17,7 @@
     "./timezone": "./timezone.ts"
   },
   "test:permissions": {
+    "read": true,
     "net": true,
     "env": true
   },
