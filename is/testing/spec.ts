@@ -216,7 +216,7 @@ export const spec = Object.assign(
   boolean: Array<testcase>
   string: {
     arrayable: Array<testcase>
-  }
+  } & Array<testcase>
   positive: {
     int: Array<testcase>
     finite: Array<testcase>
