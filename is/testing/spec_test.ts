@@ -41,7 +41,8 @@ for (
     { name: "spec.array.unique", schema: is.array(is.string()).transform((value) => [...new Set(value)]), testcases: spec.array.unique },
     // Extras
     { name: "spec.ulid", schema: is.ulid(), testcases: spec.ulid },
-    { name: "spec.url", schema: url, testcases: spec.url },
+    { name: "spec.url", schema: url, testcases: [...spec.url, { a: "custom://example.com", b: Error }] },
+    { name: "spec.url", schema: url.with(["custom"]), testcases: [...spec.url, { a: "custom://example.com" }] },
     { name: "spec.date", schema: is.date().or(is.object({ foo: is.date() })), testcases: { "*": [...spec.date], foo: [...spec.date] } },
     { name: "spec.expression", schema: expression, testcases: spec.expression },
     { name: "spec.callable", schema: callable, testcases: spec.callable },

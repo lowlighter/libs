@@ -157,7 +157,14 @@ export const primitive = is.union([is.string(), is.number(), is.bigint(), is.boo
 >
 
 /** Type alias for URLs with supported protocols. */
-export const url = is.url({ protocol: /^wasm|file|https?|data|blob|jsr|npm$/, hostname: /.*/ }) as is.ZodURL
+export const url = Object.assign(is.url({ protocol: /^https?|file|wasm|data|blob|jsr|npm$/, hostname: /.*/ }), {
+  with(protocols: string[], { hostname = /.*/, ...options }: Exclude<is.z.core.$ZodURLParams, "protocol"> = {}) {
+    return is.url({ protocol: new RegExp(`^https?|file|wasm|data|blob|jsr|npm|${protocols.join("|")}$`), hostname, ...options })
+  },
+}) as is.ZodURL & {
+  /** Create a new type alias for URLs with additional custom supported protocols. */
+  with(protocols: string[], params?: Exclude<is.z.core.$ZodURLParams, "protocol">): is.ZodURL
+}
 
 /** Type alias for expression strings. */
 export const expression = is.string().regex(/\$\{.*\}/) as is.ZodString
