@@ -14,6 +14,7 @@
     "./env": "./env.ts",
     "./filesystem": "./filesystem.ts",
     "./noop": "./noop.ts",
+    "./promises": "./promises.ts",
     "./timezone": "./timezone.ts"
   },
   "test:permissions": {
