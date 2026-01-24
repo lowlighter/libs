@@ -223,11 +223,11 @@ export type ParseOptions = {
   zodError?: boolean
 }
 
-/** Parse a schema asynchronously. */
-export function parse<T extends is.ZodType>(schema: T, values: unknown, options?: Exclude<ParseOptions, "async"> & { async?: true }): Promise<is.infer<T>>
 /** Parse a schema synchronously. */
 export function parse<T extends is.ZodType>(schema: T, values: unknown, options?: Exclude<ParseOptions, "async"> & { async?: false }): is.infer<T>
-export function parse<T extends is.ZodType>(schema: T, values: unknown, { async, zodError }: ParseOptions = {}) {
+/** Parse a schema asynchronously. */
+export function parse<T extends is.ZodType>(schema: T, values: unknown, options?: Exclude<ParseOptions, "async"> & { async?: true }): Promise<is.infer<T>>
+export function parse<T extends is.ZodType>(schema: T, values: unknown, { async = false, zodError }: ParseOptions = {}) {
   try {
     return async
       ? schema.parseAsync(values).catch((error) => {
