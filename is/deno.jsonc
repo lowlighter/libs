@@ -1,7 +1,7 @@
 {
   "icon": "🪪",
   "name": "@libs/is",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "imports": {
     "@std/collections": "jsr:@std/collections@1",
     "@zod/zod": "jsr:@zod/zod@^4.1.11"
