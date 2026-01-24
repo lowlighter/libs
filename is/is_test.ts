@@ -1,7 +1,6 @@
 import { spec } from "./testing/mod.ts"
 import { arrayable, callable, cliable, clonable, coalesce, coerce, date, duration, expression, is, nullable, parse, parser, primitive, regex, url } from "./is.ts"
-import test from "node:test"
-import { expect } from "@libs/testing/expect"
+import { expect, test } from "@libs/testing"
 
 spec("coalesce", coalesce(is.unknown()), [
   // Coalesce
