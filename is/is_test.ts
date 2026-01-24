@@ -1,5 +1,6 @@
 import { spec } from "./testing/mod.ts"
-import { arrayable, callable, cliable, clonable, coalesce, coerce, date, duration, expression, is, nullable, parser, primitive, regex, url } from "./is.ts"
+import { arrayable, callable, cliable, clonable, coalesce, coerce, date, duration, expression, is, nullable, parse, parser, primitive, regex, url } from "./is.ts"
+import { expect, test } from "@libs/testing"
 
 spec("coalesce", coalesce(is.unknown()), [
   // Coalesce
@@ -211,3 +212,15 @@ spec("parser", parser, [
   // Spec
   ...spec.parser,
 ], { strict: false, prefault: false })
+
+test("parse() parses values", () => {
+  parse(is.string(), "foo")
+  expect(() => parse(is.string(), true)).toThrow(TypeError, "Validation failed: \n✘ Invalid input: expected string, received boolean")
+  expect(() => parse(is.string(), true, { zodError: true })).toThrow(is.ZodError)
+})
+
+test("parse() parses values asynchronously", async () => {
+  await parse(is.string(), "foo")
+  await expect(parse(is.string(), true, { async: true })).rejects.toThrow(TypeError, "Validation failed: \n✘ Invalid input: expected string, received boolean")
+  await expect(parse(is.string(), true, { async: true, zodError: true })).rejects.toThrow(is.ZodError)
+})

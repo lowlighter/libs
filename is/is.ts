@@ -174,3 +174,73 @@ export const callable = is.unknown().refine((value) => typeof value === "functio
 
 /** Type alias for Zod schemas. */
 export const parser = is.custom((value) => (value instanceof is.ZodType) || (value && (typeof value === "object") && (typeof (value as Record<PropertyKey, unknown>).parse === "function")), { message: "Invalid input: Value must be a Zod schema" }) as is.ZodCustom<unknown, unknown>
+
+/** Object that ressemble a ZodError. */
+type ZodErrorLike = { path?: PropertyKey[]; message: string; errors?: ZodErrorLike[][] }
+
+/** Convert a property key path to a string. */
+function toPath(path: PropertyKey[] = []): string {
+  const segments = []
+  for (const segment of path) {
+    if (typeof segment === "number") {
+      segments.push(`[${segment}]`)
+    } else if (typeof segment === "symbol" || /[^\w$]/.test(String(segment))) {
+      segments.push(`[${JSON.stringify(String(segment))}]`)
+    } else {
+      segments.push(`.${segment}`)
+    }
+  }
+  return segments.join("")
+}
+
+/** Prettify validation issues in a more detailed way. */
+function prettifyIssue(errors: ZodErrorLike | ZodErrorLike[], { indent = "" } = {}): string {
+  const lines = []
+  if (!Array.isArray(errors)) {
+    errors = [errors]
+  }
+  errors.sort((a, b) => (a.path ?? []).length - (b.path ?? []).length)
+  for (const error of errors) {
+    lines.push(`${indent}✘ ${error.message}`)
+    if (error.path?.length) {
+      lines.push(`${indent}  → at ${toPath(error.path)}`)
+    }
+    if (error.errors?.length) {
+      lines.push(`${indent}  → tried to fit into one of the allowed types:`)
+      for (const suberror of error.errors) {
+        lines.push(prettifyIssue(suberror, { indent: `${indent}      ` }).replace("  ✘", "- ✘"))
+      }
+    }
+  }
+  return lines.join("\n")
+}
+
+/** Options for {@linkcode parse()}. */
+export type ParseOptions = {
+  /** Whether to parse asynchronously. */
+  async?: boolean
+  /** Whether to throw a `ZodError` rather than a `TypeError` in case of failure */
+  zodError?: boolean
+}
+
+/** Parse a schema asynchronously. */
+export function parse<T extends is.ZodType>(schema: T, values: unknown, options?: Exclude<ParseOptions, "async"> & { async?: true }): Promise<is.infer<T>>
+/** Parse a schema synchronously. */
+export function parse<T extends is.ZodType>(schema: T, values: unknown, options?: Exclude<ParseOptions, "async"> & { async?: false }): is.infer<T>
+export function parse<T extends is.ZodType>(schema: T, values: unknown, { async, zodError }: ParseOptions = {}) {
+  try {
+    return async
+      ? schema.parseAsync(values).catch((error) => {
+        if ((!(error instanceof is.ZodError)) || zodError) {
+          throw error
+        }
+        throw new TypeError(`Validation failed: \n${prettifyIssue(error.issues)}`)
+      })
+      : schema.parse(values)
+  } catch (error) {
+    if ((!(error instanceof is.ZodError)) || zodError) {
+      throw error
+    }
+    throw new TypeError(`Validation failed: \n${prettifyIssue(error.issues)}`)
+  }
+}
