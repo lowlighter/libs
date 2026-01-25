@@ -170,10 +170,13 @@ export const url = Object.assign(is.url({ protocol: /^https?|file|wasm|data|blob
 export const expression = is.string().regex(/\$\{.*\}/) as is.ZodString
 
 /** Type alias for callable values. */
-export const callable = is.unknown().refine((value) => typeof value === "function", { message: "Invalid input: Value must be callable" }) as is.ZodUnknown
+export const callable = is.unknown().refine((value) => typeof value === "function", { message: "Invalid input: Value must be callable" }) as unknown as is.ZodCustom<Function, unknown>
 
 /** Type alias for Zod schemas. */
-export const parser = is.custom((value) => (value instanceof is.ZodType) || (value && (typeof value === "object") && (typeof (value as Record<PropertyKey, unknown>).parse === "function")), { message: "Invalid input: Value must be a Zod schema" }) as is.ZodCustom<unknown, unknown>
+export const parser = is.custom((value) => (value instanceof is.ZodType) || (value && (typeof value === "object") && (typeof (value as Record<PropertyKey, unknown>).parse === "function")), { message: "Invalid input: Value must be a Zod schema" }) as is.ZodCustom<
+  Function,
+  unknown
+>
 
 /** Object that ressemble a ZodError. */
 type ZodErrorLike = { path?: PropertyKey[]; message: string; errors?: ZodErrorLike[][] }
