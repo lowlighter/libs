@@ -174,7 +174,7 @@ export const callable = is.unknown().refine((value) => typeof value === "functio
 
 /** Type alias for Zod schemas. */
 export const parser = is.custom((value) => (value instanceof is.ZodType) || (value && (typeof value === "object") && (typeof (value as Record<PropertyKey, unknown>).parse === "function")), { message: "Invalid input: Value must be a Zod schema" }) as is.ZodCustom<
-  Function,
+  is.ZodType,
   unknown
 >
 
