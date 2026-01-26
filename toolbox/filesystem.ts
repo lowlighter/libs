@@ -8,6 +8,12 @@ export function cwd(): string {
   return Deno.cwd().replaceAll("\\", "/")
 }
 
+/** Changes the current working directory. */
+export function chdir(path: string | URL): string {
+  Deno.chdir(path)
+  return cwd()
+}
+
 /** Gets the file type of a file path. */
 export function filetype(path: string): Nullable<"file" | "directory"> {
   try {

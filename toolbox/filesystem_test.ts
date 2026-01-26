@@ -1,12 +1,17 @@
 import { expect, inspect, test } from "@libs/testing"
 import { fromFileUrl, join } from "@std/path"
-import { cwd, filetype, list } from "./filesystem.ts"
+import { chdir, cwd, filetype, list } from "./filesystem.ts"
 
 const root = fromFileUrl(import.meta.resolve("./fixtures/filesystem"))
 
 test("`cwd()` gets the current working directory", () => {
   expect(cwd()).toBe(Deno.cwd())
 })
+
+test("`chdir()` changes the current working directory and returns its value", () => {
+  expect(chdir(cwd())).toBe(cwd())
+}, { permissions: { read: true } })
+
 for (
   const { path, type } of [
     { path: import.meta.filename!, type: "file" },
