@@ -46,7 +46,14 @@ export function inspect(value: unknown): string {
   if (runtime !== "deno") {
     return `${value}`
   }
-  return Deno.inspect(value, { colors: true, compact: true }).replace(/\n\s+/g, " ")
+  return Deno.inspect(value, { colors: true, compact: true, depth: Infinity })
+    .replace(/\n\s+/g, " ")
+    .replace(/AbortSignal \{[^}]+?\}/g, "AbortSignal")
+    .replace(/\[Function: ([A-Z]\w*)\]/g, "$1")
+    .replace(/\[Function: (\w*)\]/g, "Function")
+    .replace(/\[Function \(anonymous\)]/g, "Function")
+    .replace(/\{ \[class (\w+)\] [^}]+?\}/g, "$1")
+    .replace(/\[Object: null prototype\] \{ url: [^,]+?, main: [^}]+?, filename: [^,]+?, dirname: [^,]+?\}/g, "import.meta")
 }
 
 /** Process rendered highlight.js html back to cli formatted highlighing. */

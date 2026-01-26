@@ -27,6 +27,20 @@ if (runtime === "deno") {
     const { inspected, expected } of [
       { inspected: { foo: "bar" }, expected: '{ foo: "bar" }' },
       { inspected: function () {}, expected: "fn" },
+      { inspected: AbortSignal.timeout(0), expected: "AbortSignal" },
+      { inspected: [function foo() {}], expected: "[ Function ]" },
+      { inspected: [function () {}], expected: "[ Function ]" },
+      { inspected: [ReferenceError], expected: "[ ReferenceError ]" },
+      {
+        inspected: [
+          class Foo {
+            static bar = 1
+          },
+        ],
+        expected: "[ Foo ]",
+      },
+      { inspected: [DOMException], expected: "[ DOMException ]" },
+      { inspected: import.meta, expected: "import.meta" },
     ] as const
   ) {
     test(`\`inspect(${Deno.inspect(inspected)})\` returns \`${expected}\``, () => {
