@@ -1,7 +1,7 @@
 {
   "icon": "🧰",
   "name": "@libs/toolbox",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "imports": {
     "@std/fs": "jsr:@std/fs@^1.0.20",
     "@std/path": "jsr:@std/path@^1.1.3",
