@@ -13,6 +13,8 @@ for (
     { a: "../script.ts", b: toFileUrl(join(dirname(cwd()), "script.ts")).href },
     { a: "./script.ts", b: "file:///path/to/script.ts", options: { base: "/path/to" } },
     { a: "../script.ts", b: "file:///path/script.ts", options: { base: "/path/to" } },
+    { a: "./script.ts", b: import.meta.resolve("./script.ts"), options: { base: import.meta } },
+    { a: "../script.ts", b: import.meta.resolve("../script.ts"), options: { base: import.meta } },
     { a: "/script.ts", b: "file:///script.ts" },
     // URLs
     { a: "file://path/to/script.ts", b: "file://path/to/script.ts" },
