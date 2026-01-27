@@ -12,7 +12,7 @@ export type ResolveOptions = {
 }
 
 /** Resolve a module specifier in a similar way to `import.meta.resolve`. */
-export function resolve(specifier: string, { base, entrypoint = "mod.ts" }: ResolveOptions = {}) {
+export function resolve(specifier: string, { base, entrypoint = "mod.ts" }: ResolveOptions = {}): string {
   if (["./", "../", "/"].some((prefix) => specifier.startsWith(prefix))) {
     if (specifier.endsWith("/")) {
       specifier += entrypoint
