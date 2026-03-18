@@ -189,7 +189,7 @@ function lcs(ab: ReturnType<typeof common>) {
       i++
     }
     subsequences[i] ??= []
-    subsequences[i].push({ ...v, previous: (i > 0 ? subsequences.at(i - 1)?.at(-1) : undefined) })
+    subsequences[i].push({ ...v, previous: i > 0 ? subsequences.at(i - 1)?.at(-1) : undefined })
   }
   if (subsequences.length) {
     lcs.push(subsequences.at(-1)!.at(-1)!)

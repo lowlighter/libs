@@ -266,7 +266,6 @@ export function permissions<T extends keyof Deno.PermissionOptionsObject>({ set 
     run: permission({ expand, urls: true }),
     ffi: permission({ expand, urls: true }),
     import: permission({ expand }),
-    // deno-lint-ignore no-explicit-any
   }).pick<any>(Object.fromEntries(set.map((key) => [key, true]))).strict()
 
   // Return either the compact or expanded version
