@@ -4,7 +4,7 @@
   "version": "5.0.4",
   "playground": "https://libs.lecoq.io/reactive",
   "imports": {
-    "@std/collections": "jsr:@std/collections@1"
+    "@std/collections": "jsr:@std/collections@^1.1.6"
   },
   "exports": {
     ".": "./mod.ts",
