@@ -156,6 +156,37 @@ export const primitive = is.union([is.string(), is.number(), is.bigint(), is.boo
   readonly [is.ZodString, is.ZodNumber, is.ZodBigInt, is.ZodBoolean, is.ZodUndefined, is.ZodNull, is.ZodDate, is.ZodCustom<Error, Error>]
 >
 
+/** Type alias for typed arrays. */
+export const typedArray = is.union([
+  is.instanceof(Int8Array),
+  is.instanceof(Uint8Array),
+  is.instanceof(Uint8ClampedArray),
+  is.instanceof(Int16Array),
+  is.instanceof(Uint16Array),
+  is.instanceof(Int32Array),
+  is.instanceof(Uint32Array),
+  is.instanceof(Float16Array),
+  is.instanceof(Float32Array),
+  is.instanceof(Float64Array),
+  is.instanceof(BigInt64Array),
+  is.instanceof(BigUint64Array),
+]) as is.ZodUnion<
+  readonly [
+    is.ZodCustom<Int8Array, Int8Array>,
+    is.ZodCustom<Uint8Array, Uint8Array>,
+    is.ZodCustom<Uint8ClampedArray, Uint8ClampedArray>,
+    is.ZodCustom<Int16Array, Int16Array>,
+    is.ZodCustom<Uint16Array, Uint16Array>,
+    is.ZodCustom<Int32Array, Int32Array>,
+    is.ZodCustom<Uint32Array, Uint32Array>,
+    is.ZodCustom<Float16Array, Float16Array>,
+    is.ZodCustom<Float32Array, Float32Array>,
+    is.ZodCustom<Float64Array, Float64Array>,
+    is.ZodCustom<BigInt64Array, BigInt64Array>,
+    is.ZodCustom<BigUint64Array, BigUint64Array>,
+  ]
+>
+
 /** Type alias for URLs with supported protocols. */
 export const url = Object.assign(is.url({ protocol: /^https?|file|wasm|data|blob|jsr|npm$/, hostname: /.*/ }), {
   with(protocols: string[], { hostname = /.*/, ...options }: Exclude<is.z.core.$ZodURLParams, "protocol"> = {}) {
@@ -164,6 +195,95 @@ export const url = Object.assign(is.url({ protocol: /^https?|file|wasm|data|blob
 }) as is.ZodURL & {
   /** Create a new type alias for URLs with additional custom supported protocols. */
   with(protocols: string[], params?: Exclude<is.z.core.$ZodURLParams, "protocol">): is.ZodURL
+}
+
+/** Type alias for body init. */
+export const bodyInit = is.union([
+  is.string(),
+  is.instanceof(String),
+  is.instanceof(Blob),
+  is.instanceof(ArrayBuffer),
+  is.instanceof(DataView),
+  is.instanceof(FormData),
+  is.instanceof(ReadableStream),
+  is.instanceof(URLSearchParams),
+  typedArray,
+]).nullable() as is.ZodNullable<
+  is.ZodUnion<
+    readonly [
+      is.ZodString,
+      is.ZodCustom<String, String>,
+      is.ZodCustom<Blob, Blob>,
+      is.ZodCustom<ArrayBuffer, ArrayBuffer>,
+      is.ZodCustom<DataView, DataView>,
+      is.ZodCustom<FormData, FormData>,
+      is.ZodCustom<ReadableStream, ReadableStream>,
+      is.ZodCustom<URLSearchParams, URLSearchParams>,
+      typeof typedArray,
+    ]
+  >
+>
+
+/**
+ * System permissions flags.
+ *
+ * See {@link https://docs.deno.com/runtime/fundamentals/security/#system-information}.
+ */
+const sysflags = ["hostname", "osRelease", "osUptime", "loadavg", "networkInterfaces", "systemMemoryInfo", "uid", "gid"] as const
+
+/** Type alias factory for permission descriptors. */
+function permission({ expand = false, urls = false, sys = false } = {}) {
+  return is.preprocess((value) => {
+    if (value === "inherit") {
+      return value
+    }
+    if (typeof value === "string") {
+      value = [value]
+    }
+    if (expand) {
+      if ((value === undefined) || (value === false)) {
+        value = []
+      }
+    }
+    if (urls && Array.isArray(value)) {
+      value = value.map((value) => value instanceof URL ? value.href : value)
+    }
+    return value
+  }, is.union([is.literal("inherit"), is.boolean(), is.array(sys ? is.enum(sysflags) : is.string())]))
+}
+
+/** Type alias factory for permissions object. */
+export function permissions<T extends keyof Deno.PermissionOptionsObject>(options?: { set?: T[]; expand?: false }): is.ZodObject<Record<T, is.ZodOptional<is.ZodUnion<[is.ZodLiteral<"inherit">, is.ZodBoolean, is.ZodArray<is.ZodString>]>>>>
+/** Type alias factory for permissions object. */
+export function permissions<T extends keyof Deno.PermissionOptionsObject>(options: { set?: T[]; expand: true }): is.ZodObject<Record<T, is.ZodUnion<[is.ZodLiteral<"inherit">, is.ZodLiteral<true>, is.ZodArray<is.ZodString>]>>>
+export function permissions<T extends keyof Deno.PermissionOptionsObject>({ set = ["read", "write", "net", "env", "run", "sys", "ffi", "import"] as T[], expand = false }: { set?: T[]; expand?: boolean } = {}) {
+  const validator = is.object({
+    read: permission({ expand, urls: true }),
+    write: permission({ expand, urls: true }),
+    net: permission({ expand }),
+    env: permission({ expand }),
+    sys: permission({ expand, sys: true }),
+    run: permission({ expand, urls: true }),
+    ffi: permission({ expand, urls: true }),
+    import: permission({ expand }),
+  }).pick(Object.fromEntries(set.map((key) => [key, true]))).strict()
+
+  // Return either the compact or expanded version
+  if (!expand) {
+    return validator.partial().or(is.union([is.literal("inherit"), is.literal("none")]))
+  }
+  return is.preprocess((value) => {
+    if ((value === "inherit") || (value === "none")) {
+      return Object.fromEntries(set.map((key) => [key, value === "none" ? [] : value]))
+    }
+    if (typeof value === "string") {
+      value = [value]
+    }
+    if (Array.isArray(value)) {
+      return { ...Object.fromEntries(set.map((permission) => [permission, false])), ...Object.fromEntries(value.map((permission) => [permission, "inherit"])) }
+    }
+    return value
+  }, validator) as unknown
 }
 
 /** Type alias for expression strings. */

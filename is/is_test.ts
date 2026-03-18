@@ -1,5 +1,5 @@
 import { spec } from "./testing/mod.ts"
-import { arrayable, callable, cliable, clonable, coalesce, coerce, date, duration, expression, is, nullable, parse, parser, primitive, regex, url } from "./is.ts"
+import { arrayable, bodyInit, callable, cliable, clonable, coalesce, coerce, date, duration, expression, is, nullable, parse, parser, permissions, primitive, regex, typedArray, url } from "./is.ts"
 import { expect, test } from "@libs/testing"
 
 spec("coalesce", coalesce(is.unknown()), [
@@ -158,6 +158,111 @@ spec("primitive", primitive, [
   { a: () => {}, b: Error },
   // Spec
   ...spec.primitive,
+], { strict: false, prefault: false })
+
+spec("typedArray", typedArray, [
+  // Valid typed arrays
+  { a: new Int8Array() },
+  { a: new Uint8Array() },
+  { a: new Uint8ClampedArray() },
+  { a: new Int16Array() },
+  { a: new Uint16Array() },
+  { a: new Int32Array() },
+  { a: new Uint32Array() },
+  { a: new Float16Array() },
+  { a: new Float32Array() },
+  { a: new Float64Array() },
+  { a: new BigInt64Array() },
+  { a: new BigUint64Array() },
+  // Errors
+  // deno-lint-ignore no-array-constructor
+  { a: new Array(), b: Error },
+  { a: [], b: Error },
+  { a: {}, b: Error },
+  { a: () => {}, b: Error },
+  // Spec
+  ...spec.array.typed,
+], { strict: false, prefault: false })
+
+spec("bodyInit", bodyInit, [
+  // Valid body init types
+  { a: null },
+  { a: "foo" },
+  { a: new Blob() },
+  { a: new ArrayBuffer(8) },
+  { a: new DataView(new ArrayBuffer(8)) },
+  { a: new FormData() },
+  { a: new ReadableStream() },
+  { a: new URLSearchParams() },
+  { a: new Int8Array() },
+  // Errors
+  { a: {}, b: Error },
+  { a: [], b: Error },
+  { a: () => {}, b: Error },
+  // Spec
+  ...spec.response.body.init,
+], { strict: false, prefault: false })
+
+spec("permissions()", permissions(), [
+  // Valid permissions
+  { a: "inherit" },
+  { a: "none" },
+  { a: {} },
+  { a: { read: true } },
+  { a: { read: "inherit" } },
+  { a: { read: "none" }, b: { read: ["none"] } },
+  { a: { read: "/file/path" }, b: { read: ["/file/path"] } },
+  { a: { read: ["/file/path"] } },
+  { a: { read: ["file:///file/path"] } },
+  { a: { read: [new URL("file:///file/path")] }, b: { read: ["file:///file/path"] } },
+  // Errors
+  { a: true, b: Error },
+  { a: false, b: Error },
+  { a: 123, b: Error },
+  { a: { invalid: true }, b: Error },
+  { a: { env: [new URL("file:///file/path")] }, b: Error },
+  { a: { sys: ["invalid"] }, b: Error },
+], { strict: false, prefault: false })
+
+spec("permissions({ set: ['read'] })", permissions({ set: ["read"] }), [
+  // Valid permissions
+  { a: "inherit" },
+  { a: "none" },
+  { a: {} },
+  { a: { read: true } },
+  // Errors
+  { a: { write: true }, b: Error },
+], { strict: false, prefault: false })
+
+spec("permissions({ expand: true })", permissions({ expand: true }), [
+  // Valid permissions
+  { a: "inherit", b: { read: "inherit", write: "inherit", net: "inherit", env: "inherit", sys: "inherit", run: "inherit", ffi: "inherit", import: "inherit" } },
+  { a: "none", b: { read: [], write: [], net: [], env: [], sys: [], run: [], ffi: [], import: [] } },
+  { a: { read: true }, b: { read: true, write: [], net: [], env: [], sys: [], run: [], ffi: [], import: [] } },
+  { a: "read", b: { read: "inherit", write: [], net: [], env: [], sys: [], run: [], ffi: [], import: [] } },
+  { a: ["read"], b: { read: "inherit", write: [], net: [], env: [], sys: [], run: [], ffi: [], import: [] } },
+  // Errors
+  { a: true, b: Error },
+  { a: false, b: Error },
+  { a: ["invalid"], b: Error },
+  { a: 123, b: Error },
+  { a: { invalid: true }, b: Error },
+], { strict: false, prefault: false })
+
+spec("permissions({ set: ['read'], expand: true })", permissions({ set: ["read"], expand: true }), [
+  // Valid permissions
+  { a: "inherit", b: { read: "inherit" } },
+  { a: "none", b: { read: [] } },
+  { a: {}, b: { read: [] } },
+  { a: { read: true }, b: { read: true } },
+  { a: { read: "inherit" } },
+  { a: { read: true } },
+  { a: { read: false }, b: { read: [] } },
+  { a: { read: "none" }, b: { read: ["none"] } },
+  { a: { read: "/file/path" }, b: { read: ["/file/path"] } },
+  { a: { read: ["/file/path"] } },
+  // Errors
+  { a: { write: true }, b: Error },
 ], { strict: false, prefault: false })
 
 spec("url", url, [
