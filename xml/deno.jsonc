@@ -1,7 +1,7 @@
 {
   "icon": "📃",
   "name": "@libs/xml",
-  "version": "7.0.3",
+  "version": "7.0.4",
   "deno.land/x": true,
   "playground": "https://libs.lecoq.io/xml",
   "tasks": {
