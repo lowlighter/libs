@@ -146,6 +146,35 @@ export const spec = Object.assign(
       unique: [
         { a: ["a", "b", "b", "a", "c"], b: ["a", "b", "c"] },
       ],
+      typed: [
+        { a: new Int8Array() },
+        { a: new Uint8Array() },
+        { a: new Uint8ClampedArray() },
+        { a: new Int16Array() },
+        { a: new Uint16Array() },
+        { a: new Int32Array() },
+        { a: new Uint32Array() },
+        { a: new Float16Array() },
+        { a: new Float32Array() },
+        { a: new Float64Array() },
+        { a: new BigInt64Array() },
+        { a: new BigUint64Array() },
+      ],
+    },
+    response: {
+      body: {
+        init: [
+          { a: null },
+          { a: "foo" },
+          { a: new Blob() },
+          { a: new ArrayBuffer(8) },
+          { a: new DataView(new ArrayBuffer(8)) },
+          { a: new FormData() },
+          { a: new ReadableStream() },
+          { a: new URLSearchParams() },
+          { a: new Int8Array() },
+        ],
+      },
     },
     ulid: [
       { a: "0".repeat(26) },
@@ -227,6 +256,12 @@ export const spec = Object.assign(
   } & Array<testcase>
   array: {
     unique: Array<testcase>
+    typed: Array<testcase>
+  }
+  response: {
+    body: {
+      init: Array<testcase>
+    }
   }
   ulid: Array<testcase>
   url: Array<testcase>
