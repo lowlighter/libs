@@ -9,8 +9,8 @@
     "test:bun": "sleep 0"
   },
   "imports": {
-    "@std/async": "jsr:@std/async@1",
-    "@std/streams": "jsr:@std/streams@1"
+    "@std/async": "jsr:@std/async@^1.2.0",
+    "@std/streams": "jsr:@std/streams@^1.0.17"
   },
   "exports": {
     ".": "./mod.ts",
