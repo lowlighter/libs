@@ -12,7 +12,7 @@
     "test:bun": "sleep 0"
   },
   "imports": {
-    "@std/path": "jsr:@std/path@1"
+    "@std/path": "jsr:@std/path@^1.1.4"
   },
   "exports": {
     ".": "./mod.ts",
