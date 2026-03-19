@@ -25,7 +25,7 @@ export function pie(datalist: Record<PropertyKey, { color?: string; data: number
   const K = Object.keys(datalist)
   const V = Object.values(datalist)
   const I = d3.range(K.length).filter((i: number) => !Number.isNaN(V[i].data))
-  const D = d3.pie().padAngle(1 / radius).sort(null).value((i: number) => V[+i].data)(I)
+  const D = d3.pie().padAngle(1 / radius).sort(null).value((i: number | { valueOf(): number }) => V[+i].data)(I)
   const labels = d3.arc().innerRadius(radius / 2).outerRadius(radius / 2)
 
   // Render graph areas
