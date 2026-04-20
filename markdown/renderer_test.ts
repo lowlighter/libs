@@ -8,6 +8,12 @@ test("`Renderer.render()` renders markdown", async () => {
   await expect(Renderer.render("# foo")).resolves.toBe("<h1>foo</h1>")
 })
 
+test("`Renderer.renderSync()` renders markdown", () => {
+  const markdown = new Renderer()
+  expect(markdown.renderSync("# foo")).toBe("<h1>foo</h1>")
+  expect(Renderer.renderSync("# foo")).toBe("<h1>foo</h1>")
+})
+
 test("`Renderer.with()` instantiates a new customized renderer", async () => {
   const markdown = await Renderer.with({ plugins: ["./plugins/gfm.ts", new URL("./plugins/gfm.ts", import.meta.url), pluginGfm] })
   await expect(markdown.render("# foo")).resolves.toBe("<h1>foo</h1>")

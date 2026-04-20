@@ -75,6 +75,55 @@ export class Renderer {
     }
   }
 
+  /**
+   * Render markdown content into an HTML string.
+   *
+   * ```ts
+   * import { Renderer } from "./renderer.ts"
+   * await Renderer.render("# Hello, world!")
+   * ```
+   * ```ts
+   * import { Renderer } from "./renderer.ts"
+   * import { gfm, highlighting, math, markers, wikilinks, sanitize  } from "./plugins/mod.ts"
+   * const renderer = new Renderer({ plugins: [ gfm, highlighting, math, markers, wikilinks, sanitize ] })
+   * await renderer.render("# Hello, world!")
+   * ```
+   */
+  renderSync(content: string, options?: { metadata?: false }): string
+  /**
+   * Render markdown content into an HTML string with parsed metadata.
+   *
+   * ```ts
+   * import { Renderer } from "./renderer.ts"
+   * import pluginGfm from "./plugins/gfm.ts"
+   * import pluginFrontmatter from "./plugins/frontmatter.ts"
+   *
+   * const renderer = new Renderer({ plugins: [ pluginGfm, pluginFrontmatter ] })
+   * await renderer.render(`
+   * ---
+   * title: Hello, world!
+   * ---
+   * Lorem ipsum dolor sit amet.
+   * `.trim())
+   * ```
+   */
+  renderSync(content: string, options?: { metadata: true }): { value: string; metadata: Record<PropertyKey, unknown> }
+  /**
+   * Render markdown content.
+   */
+  renderSync(content: string, { metadata = false } = {} as { metadata?: boolean }): string | { value: string; metadata: Record<PropertyKey, unknown> } {
+    const id = (this.#id++) % Number.MAX_SAFE_INTEGER
+    try {
+      if (metadata) {
+        this.storage[id] ??= {}
+      }
+      const value = `${this.#processor.processSync({ id, value: content, cwd: "" })}`
+      return metadata ? { value, metadata: { ...this.storage[id] } } : value
+    } finally {
+      delete this.storage[id]
+    }
+  }
+
   /** Render request id counter. */
   #id = 0
 
@@ -83,6 +132,9 @@ export class Renderer {
 
   /** See {@link Renderer.render}. */
   static render = this.default.render.bind(this.default) as typeof Renderer.prototype.render
+
+  /** See {@link Renderer.renderSync}. */
+  static renderSync = this.default.renderSync.bind(this.default) as typeof Renderer.prototype.renderSync
 
   /**
    * Instantiate a new renderer with specified plugins.
