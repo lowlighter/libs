@@ -7,12 +7,15 @@
     "@std/path": "jsr:@std/path@^1.1.4",
     "@std/tar": "jsr:@std/tar@0.1.10",
     "@std/streams": "jsr:@std/streams@^1.0.17",
-    "@std/cli": "jsr:@std/cli@^1.0.28"
+    "@std/cli": "jsr:@std/cli@^1.0.28",
+    "@std/encoding": "jsr:@std/encoding@^1.0.10"
   },
   "exports": {
     "./download-lambda-chromium": "./download_lambda_chromium.ts",
     "./env": "./env.ts",
     "./filesystem": "./filesystem.ts",
+    "./format": "./format.ts",
+    "./imgb64": "./imgb64.ts",
     "./noop": "./noop.ts",
     "./promises": "./promises.ts",
     "./resolve": "./resolve.ts",

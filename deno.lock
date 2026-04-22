@@ -1116,7 +1116,8 @@
       ]
     },
     "@xmldom/xmldom@0.9.8": {
-      "integrity": "sha512-p96FSY54r+WJ50FIOsCOjyj/wavs8921hG5+kVMmZgKcvIKxMXHTrjNJvRgWa/zuX3B6t2lijLNFaOyuxUH+2A=="
+      "integrity": "sha512-p96FSY54r+WJ50FIOsCOjyj/wavs8921hG5+kVMmZgKcvIKxMXHTrjNJvRgWa/zuX3B6t2lijLNFaOyuxUH+2A==",
+      "deprecated": true
     },
     "acorn@8.16.0": {
       "integrity": "sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==",
@@ -3474,7 +3475,8 @@
       "dependencies": [
         "@types/unist@3.0.3",
         "unist-util-is"
-      ]
+      ],
+      "deprecated": true
     },
     "unist-util-is@6.0.1": {
       "integrity": "sha512-LsiILbtBETkDz8I9p1dQ0uyRUWuaQzd/cuEeS1hoRSyW5E5XGmTzlwY1OrNzzakGowI9Dr/I8HVaw4hTtnxy8g==",
@@ -3805,6 +3807,7 @@
       "toolbox": {
         "dependencies": [
           "jsr:@std/cli@^1.0.28",
+          "jsr:@std/encoding@^1.0.10",
           "jsr:@std/fs@^1.0.23",
           "jsr:@std/path@^1.1.4",
           "jsr:@std/streams@^1.0.17",
