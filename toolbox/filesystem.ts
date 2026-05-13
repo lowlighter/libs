@@ -40,14 +40,20 @@ export type ListOptions = {
   files?: boolean
   /** Whether to include directories in the results. */
   directories?: boolean
+  /** List of glob patterns to be excluded from the expansion. */
+  exclude?: string[]
+  /** Whether globstar should be case-insensitive. */
+  caseInsensitive?: boolean
+  /** Whether to follow symbolic links. */
+  followSymlinks?: boolean
 }
 
 /** Lists all files matching the given glob pattern in the specified root directory. */
-export async function list(glob: string, { root = cwd(), relative = true, files = false, directories = false }: ListOptions = {}): Promise<string[]> {
+export async function list(glob: string, { root = cwd(), relative = true, files = false, directories = false, exclude, caseInsensitive, followSymlinks }: ListOptions = {}): Promise<string[]> {
   if (!root.endsWith("/")) {
     root += "/"
   }
-  const entries = await Array.fromAsync(expandGlob(glob, { root, canonicalize: true, includeDirs: directories }))
+  const entries = await Array.fromAsync(expandGlob(glob, { root, canonicalize: true, includeDirs: directories, exclude, caseInsensitive, followSymlinks }))
   return entries
     .filter(({ path }) => [files ? "file" : "", directories ? "directory" : ""].filter(Boolean).includes(filetype(path) as string))
     .map(({ path }) => path.replaceAll("\\", "/").replace(root, relative ? "" : root))
