@@ -1,7 +1,7 @@
 {
   "icon": "➕",
   "name": "@libs/diff",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "playground": "https://libs.lecoq.io/diff",
   "exports": {
     ".": "./mod.ts",
