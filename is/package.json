@@ -8,6 +8,6 @@
   ],
   "dependencies": {
     "@std/collections": "npm:@jsr/std__collections@^1.1.6",
-    "@zod/zod": "npm:@jsr/zod__zod@^4.3.6"
+    "@zod/zod": "npm:@jsr/zod__zod@^4.4.3"
   }
 }

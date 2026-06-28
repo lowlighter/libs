@@ -7,14 +7,14 @@ export * as is from "@zod/zod"
 export type * from "@zod/zod"
 
 /** Coalesces a parsed value to `undefined` so schema defaults can be applied. */
-export function coalesce<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTransform<{} | undefined, unknown>, T> {
+export function coalesce<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   return is.preprocess((value) => {
     return value ?? undefined
   }, schema)
 }
 
 /** Coerces a parsed value into `number` type when possible. */
-export function coerce<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTransform<unknown, unknown>, T> {
+export function coerce<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   return is.preprocess((value) => {
     if (typeof value === "string") {
       const coerced = Number(value)
@@ -32,7 +32,7 @@ export function nullable<T extends is.ZodType>(schema: T): is.ZodDefault<is.ZodN
 }
 
 /** Ensures a parsed value is compatible with `structuredClone` algorithm. */
-export function clonable<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTransform<any, unknown>, T> {
+export function clonable<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   return is.preprocess((value, context) => {
     try {
       structuredClone(value)
@@ -44,7 +44,7 @@ export function clonable<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTran
 }
 
 /** Transforms a parsed value into an array if it is not already one. */
-export function arrayable<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTransform<any[], unknown>, T> {
+export function arrayable<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   return is.preprocess((value) => {
     if (!Array.isArray(value)) {
       return [value]
@@ -54,7 +54,7 @@ export function arrayable<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTra
 }
 
 /** Transforms a CLI arguments string into an object or array. */
-export function cliable<T extends is.ZodType>(schema: T, options?: ParseArgsOptions): is.ZodPipe<is.ZodTransform<any, unknown>, T> {
+export function cliable<T extends is.ZodType>(schema: T, options?: ParseArgsOptions): is.ZodPreprocess<T> {
   return is.preprocess((value, context) => {
     if (typeof value === "string") {
       const args = []
@@ -102,7 +102,7 @@ export function cliable<T extends is.ZodType>(schema: T, options?: ParseArgsOpti
 }
 
 /** Parses a regular expression back into a `RegExp`. */
-export function regex<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTransform<unknown, unknown>, T> {
+export function regex<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   const definition = /^\/(?<pattern>.*?)\/(?<flags>[dgimsuvy]*)$/
   return is.preprocess((value) => {
     if ((typeof value === "string") && (definition.test(value))) {
@@ -121,7 +121,7 @@ export function regex<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTransfo
 }
 
 /** Parses a date string back into a `Date`. */
-export function date<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTransform<unknown, unknown>, T> {
+export function date<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   return is.preprocess((value) => {
     if (typeof value === "string") {
       const date = new Date(value)
@@ -134,7 +134,7 @@ export function date<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTransfor
 }
 
 /** Parses a duration string into milliseconds. */
-export function duration<T extends is.ZodType>(schema: T): is.ZodPipe<is.ZodTransform<any, unknown>, T> {
+export function duration<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   return is.preprocess((value) => {
     if (typeof value === "string") {
       const groups = value.match(/^\s*(?:(?<days>\d+)d(?:ays?)?)?\s*(?:(?<hours>\d+)h(?:(?:ou)?rs?)?)?\s*(?:(?<minutes>\d+)m(?:in(?:ute)?s?)?)?\s*(?:(?<seconds>\d+)s(?:ec(?:ond)?s?)?)?\s*(?:(?<milliseconds>\d+)(?:m(?:illi)?s(?:ec(?:ond)?s?)?)?)?\s*$/)?.groups
