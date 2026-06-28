@@ -12,6 +12,7 @@
   },
   "exports": {
     "./download-lambda-chromium": "./download_lambda_chromium.ts",
+    "./code-quality": "./code_quality.ts",
     "./env": "./env.ts",
     "./filesystem": "./filesystem.ts",
     "./format": "./format.ts",
