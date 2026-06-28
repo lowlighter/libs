@@ -15,8 +15,10 @@
     "./env": "./env.ts",
     "./filesystem": "./filesystem.ts",
     "./format": "./format.ts",
+    "./identicon": "./identicon.ts",
     "./imgb64": "./imgb64.ts",
     "./noop": "./noop.ts",
+    "./pluralize": "./pluralize.ts",
     "./promises": "./promises.ts",
     "./resolve": "./resolve.ts",
     "./timezone": "./timezone.ts"
