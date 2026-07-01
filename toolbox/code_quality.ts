@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-console
 import { parseArgs } from "@std/cli"
 import { cyan, gray, green, red, stripAnsiCode, yellow } from "@std/fmt/colors"
-import { join } from "@std/path"
+import { basename, join } from "@std/path"
 import { exists } from "@std/fs"
 
 const decoder = new TextDecoder()
@@ -94,7 +94,7 @@ for (const mod_path of args._) {
   if (args.doc) {
     console.error(gray("┄".repeat(80)))
     // deno doc
-    if (!mod.endsWith("_test.ts")) {
+    if (basename(mod) === "mod.ts") {
       const doc = await new Deno.Command("deno", { args: ["doc", "--quiet", "--lint", mod], stdout: "inherit", stderr: "inherit" }).output()
       success &&= doc.success
       console.error((doc.success ? green : red)(`${doc.success ? "✓" : "✗"} deno doc --lint`))
