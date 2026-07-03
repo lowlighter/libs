@@ -1,3 +1,0 @@
-wasm-pack*
-wasm_test/target
-wasm_test/*.js
