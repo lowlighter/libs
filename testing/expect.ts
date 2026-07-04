@@ -78,6 +78,20 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    */
   toBeResolvedPromise: () => Promise<unknown>
   /**
+   * Asserts a promise is rejected.
+   *
+   * Unlike `.rejects`, this matcher does not await nor unwrap the rejection reason, making it possible to distinguish rejected promises from pending ones.
+   *
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * const { promise, reject } = Promise.withResolvers<void>()
+   * await expect(promise).not.toBeRejectedPromise()
+   * reject(new Error("Expected error"))
+   * await expect(promise).toBeRejectedPromise()
+   * ```
+   */
+  toBeRejectedPromise: () => Promise<unknown>
+  /**
    * Asserts that the function was called with the specified arguments, and exactly once.
    *
    * This is a shorthand for `.toHaveBeenCalledTimes(1)` and `.toHaveBeenCalledWith()`.
@@ -104,6 +118,17 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * ```
    */
   toBeStructuredClonable: () => unknown
+  /**
+   * Asserts a value can be serialized to JSON losslessly.
+   *
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect({ foo: "bar" }).toBeJsonSerializable()
+   * expect({ foo: () => {} }).not.toBeJsonSerializable()
+   * expect(new Date()).not.toBeJsonSerializable()
+   * ```
+   */
+  toBeJsonSerializable: () => unknown
   /**
    * Asserts a property matches a given descriptor (using `Object.getOwnPropertyDescriptor`).
    *
@@ -148,6 +173,22 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * ```
    */
   toHaveEnumerableProperty: (key: PropertyKey) => unknown
+  /**
+   * Asserts an object has the specified properties.
+   *
+   * Properties may be specified as an array of keys, in which case only their existence is checked, or as a record, in which case their values are also deeply compared.
+   * Keys are resolved like `.toHaveProperty()` does, meaning that nested properties can be reached using dot notation.
+   *
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * const foo = { bar: true, baz: { qux: 42 } }
+   * expect(foo).toHaveProperties(["bar", "baz"])
+   * expect(foo).toHaveProperties(["baz.qux"])
+   * expect(foo).toHaveProperties({ bar: true, "baz.qux": 42 })
+   * expect(foo).not.toHaveProperties(["bar", "quux"])
+   * ```
+   */
+  toHaveProperties: (properties: Array<string | number> | Record<string, unknown>) => unknown
   /**
    * Assert an object is iterable (checking `Symbol.iterator` presence).
    *
@@ -226,6 +267,16 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    */
   toBeReverseSorted: (compare?: Arg<Array<unknown>["sort"]>) => unknown
   /**
+   * Asserts an iterable contains no duplicate items.
+   *
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect([1, 2, 3]).toHaveUniqueItems()
+   * expect([1, 2, 1]).not.toHaveUniqueItems()
+   * ```
+   */
+  toHaveUniqueItems: () => unknown
+  /**
    * Asserts a value is one of expected value.
    *
    * ```ts
@@ -271,7 +322,7 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * expect("foo+bar@example.com").toBeEmail()
    * ```
    */
-  toBeEmail(): () => unknown
+  toBeEmail: () => unknown
   /**
    * Asserts a string is a valid url (using `URL`).
    *
@@ -280,7 +331,7 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * expect("https://example.com").toBeUrl()
    * ```
    */
-  toBeUrl(): () => unknown
+  toBeUrl: () => unknown
   /**
    * Asserts a string is a valid base64 string.
    *
@@ -346,6 +397,18 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * ```
    */
   toBeFuture: (date?: number | string | Date) => unknown
+  /**
+   * Asserts a date is close to the current date (defaulting to 3 seconds).
+   *
+   * ```ts
+   * import { expect } from "./expect.ts"
+   * expect(new Date()).toBeNow()
+   * expect(Date.now()).toBeNow()
+   * expect(new Date(0)).not.toBeNow()
+   * expect(new Date(Date.now() + 500)).not.toBeNow(100)
+   * ```
+   */
+  toBeNow: (delta?: number) => unknown
   /** The negation object that allows chaining negated assertions. */
   not: IsAsync extends true ? Async<ExtendedExpected<true>> : ExtendedExpected<false>
   /** The object that allows chaining assertions with async functions that are expected to resolve to a value. */
@@ -370,7 +433,7 @@ function process(not: boolean, evaluate: Callback, message = ""): { message: () 
   }
   message = message
     .replaceAll("{!NOT} ", not ? "NOT " : "")
-    .replaceAll("{NOT} ", not ? "" : "NOT")
+    .replaceAll("{NOT} ", not ? "" : "NOT ")
     .replace(/,\s*$/, "").trim()
   return { message: () => message, pass }
 }
@@ -378,9 +441,8 @@ function process(not: boolean, evaluate: Callback, message = ""): { message: () 
 /** Asserts a value is iterable. */
 function isIterable(value: testing): asserts value is Iterable<unknown> {
   assertNotEquals(value, null)
-  if (typeof value[Symbol.iterator] !== "function") {
+  if (typeof value[Symbol.iterator] !== "function")
     throw new TypeError("Value is not iterable")
-  }
 }
 
 /** Asserts a value is of a given type. */
@@ -394,12 +456,10 @@ function isType(value: testing, type: "object", options?: { nullable: true }): a
 function isType(value: testing, type: "object", options: { nullable: false }): asserts value is Record<PropertyKey, unknown>
 function isType(value: testing, type: "function"): asserts value is Callback
 function isType(value: testing, type: TypeOfEnum, { nullable = false } = {}) {
-  if ((typeof value) !== type) {
+  if ((typeof value) !== type)
     throw new TypeError(`Value is not of type "${type}"`)
-  }
-  if ((!nullable) && (type === "object") && (value === null)) {
+  if ((!nullable) && (type === "object") && (value === null))
     throw new TypeError(`Value is null`)
-  }
 }
 
 _expect.extend({
@@ -413,24 +473,20 @@ _expect.extend({
         context.value = error
       }
     }
-    if ((message !== undefined) && ((typeof error === "string") || (error instanceof RegExp))) {
+    if ((message !== undefined) && ((typeof error === "string") || (error instanceof RegExp)))
       throw new TypeError("First argument must be an Error class or instance when second argument is a string or RegExp")
-    }
     return process(context.isNot, () => {
       const expect = { class: undefined as ErrorConstructor | undefined, message: undefined as string | RegExp | undefined }
       if (error instanceof Error) {
         expect.class = error.constructor as ErrorConstructor
         expect.message = error.message
       }
-      if (error instanceof Function) {
+      if (error instanceof Function)
         expect.class = error as ErrorConstructor
-      }
-      if ((typeof error === "string") || (error instanceof RegExp)) {
+      if ((typeof error === "string") || (error instanceof RegExp))
         expect.message = error
-      }
-      if (message) {
+      if (message)
         expect.message = message
-      }
       assertIsError(context.value, expect.class, expect.message)
     }, context.isNot ? `Expected to NOT throw ${error}` : "")
   },
@@ -455,12 +511,11 @@ _expect.extend({
     }, `Expected value to {!NOT} have size ${size}${size !== actual ? `: the value has size ${actual}` : ""}`)
   },
   async toBeResolvedPromise(context) {
-    if (!(context.value instanceof Promise)) {
+    if (!(context.value instanceof Promise))
       throw new TypeError("Expected value to be a promise")
-    }
     const test = new Promise<void>((resolve) => setTimeout(resolve, 0))
     const status = await Promise.race([
-      context.value.then(() => "resolved"),
+      context.value.then(() => "resolved", () => "rejected"),
       test.then(() => "pending"),
     ])
     await test
@@ -468,10 +523,22 @@ _expect.extend({
       assert(status === "resolved")
     }, "Expected value to {!NOT} be resolved")
   },
+  async toBeRejectedPromise(context) {
+    if (!(context.value instanceof Promise))
+      throw new TypeError("Expected value to be a promise")
+    const test = new Promise<void>((resolve) => setTimeout(resolve, 0))
+    const status = await Promise.race([
+      context.value.then(() => "resolved", () => "rejected"),
+      test.then(() => "pending"),
+    ])
+    await test
+    return process(context.isNot, () => {
+      assert(status === "rejected")
+    }, "Expected value to {!NOT} be rejected")
+  },
   toHaveBeenCalledOnceWith(context, ...args) {
-    if (context.isNot) {
+    if (context.isNot)
       throw new TypeError("`.not` modifier is not supported for this matcher")
-    }
     try {
       _expect(context.value).toHaveBeenCalledTimes(1)
       _expect(context.value).toHaveBeenCalledWith(...args)
@@ -489,22 +556,28 @@ _expect.extend({
       }
     }, "Expected value to {!NOT} be structured clonable")
   },
+  toBeJsonSerializable(context) {
+    return process(context.isNot, () => {
+      try {
+        assertEquals(JSON.parse(JSON.stringify(context.value)), context.value)
+      } catch (error) {
+        throw new AssertionError(error.message)
+      }
+    }, "Expected value to {!NOT} be JSON serializable, ")
+  },
   toHaveDescribedProperty(context, key, expected) {
     return process(context.isNot, () => {
       isType(context.value, "object", { nullable: false })
       const descriptor = Object.getOwnPropertyDescriptor(context.value, key)
-      if (!descriptor) {
         throw new ReferenceError(`Property "${String(key)}" does not exist on object`)
-      }
       assertObjectMatch(descriptor, expected)
     }, `Property "${String(key)}" does {!NOT} match provided descriptor, `)
   },
   toHaveImmutableProperty(context, key, testValue = Symbol()) {
     return process(context.isNot, () => {
       const value = context.value as Nullable<Record<PropertyKey, unknown>>
-      if ((value === null) || ((typeof value !== "function") && (typeof value !== "object"))) {
+      if ((value === null) || ((typeof value !== "function") && (typeof value !== "object")))
         throw new TypeError("Cannot be processed as value is not indexed")
-      }
       const current = value[key]
       try {
         value[key] = testValue
@@ -518,11 +591,21 @@ _expect.extend({
     return process(context.isNot, () => {
       isType(context.value, "object", { nullable: false })
       const descriptor = Object.getOwnPropertyDescriptor(context.value, key)
-      if (!descriptor) {
+      if (!descriptor)
         throw new ReferenceError(`Property "${String(key)}" does not exist on object`)
-      }
       assert(descriptor.enumerable, `Property "${String(key)}" is not enumerable`)
     }, `Expected property "${String(key)}" to {!NOT} be enumerable, `)
+  },
+  toHaveProperties(context, properties) {
+    return process(context.isNot, () => {
+      if (Array.isArray(properties)) {
+        for (const key of properties)
+          _expect(context.value).toHaveProperty(typeof key === "number" ? [key] : key)
+        return
+      }
+      for (const [key, expected] of Object.entries(properties as Record<string, unknown>))
+        _expect(context.value).toHaveProperty(key, expected)
+    }, `Expected value to {!NOT} have properties, `)
   },
   toBeIterable(context) {
     return process(context.isNot, () => {
@@ -572,6 +655,13 @@ _expect.extend({
       isIterable(context.value)
       assertEquals([...context.value], [...context.value].sort(compare).reverse())
     }, `Expected value to {!NOT} be reverse sorted, `)
+  },
+  toHaveUniqueItems(context) {
+    return process(context.isNot, () => {
+      isIterable(context.value)
+      const items = [...context.value]
+      assertEquals(items, [...new Set(items)])
+    }, `Expected value to {!NOT} have unique items, `)
   },
   toBeOneOf(context, values) {
     return process(context.isNot, () => {
@@ -629,9 +719,8 @@ _expect.extend({
   },
   toRespondWithStatus(context, code) {
     return process(context.isNot, () => {
-      if (!(context.value instanceof Response)) {
+      if (!(context.value instanceof Response))
         throw new TypeError("Value is not a Response object")
-      }
       let ok = false
       let message = ""
       const status = context.value.status
@@ -668,12 +757,10 @@ _expect.extend({
         }
       }
       try {
-        if ((context.isNot) && (ok === context.isNot)) {
+        if ((context.isNot) && (ok === context.isNot))
           throw new TypeError(`Expected response status to {!NOT} be ${message}`)
-        }
-        if ((context.isNot) || (ok === context.isNot)) {
+        if ((context.isNot) || (ok === context.isNot))
           throw new AssertionError(`Expected response status to {!NOT} be ${message}`)
-        }
       } finally {
         context.value.body?.cancel()
       }
@@ -682,9 +769,8 @@ _expect.extend({
   toBeHashed(context, algorithm) {
     return process(context.isNot, () => {
       isType(context.value, "string")
-      algorithm = algorithm.toLocaleLowerCase().replace("-", "")
+      algorithm = algorithm.toLocaleLowerCase().replaceAll("-", "")
       const algorithms = {
-        "bcrypt": 0,
         "md5": 32,
         "sha0": 40,
         "sha1": 40,
@@ -697,9 +783,8 @@ _expect.extend({
       } as Record<PropertyKey, number>
       if (algorithms[algorithm]) {
         assertStrictEquals(context.value.length, algorithms[algorithm])
-        if (!/^[a-z0-9]+$/i.test(context.value)) {
+        if (!/^[a-f0-9]+$/i.test(context.value))
           throw new TypeError("Value contains non-hexadecimal characters")
-        }
         return
       }
       if (algorithm === "bcrypt") {
@@ -717,18 +802,37 @@ _expect.extend({
   toBePast(context, ref = new Date()) {
     return process(context.isNot, () => {
       const date = new Date(context.value as number | string | Date)
-      if (date > ref) {
-        throw new AssertionError(`${date.toISOString()} is after ${ref.toISOString()}`)
-      }
+      const reference = new Date(ref as number | string | Date)
+      if (Number.isNaN(date.getTime()))
+        throw new TypeError("Value is not a valid date")
+      if (Number.isNaN(reference.getTime()))
+        throw new TypeError("Reference is not a valid date")
+      if (date > reference)
+        throw new AssertionError(`${date.toISOString()} is after ${reference.toISOString()}`)
     }, `Expected value to {!NOT} be in the past, `)
   },
   toBeFuture(context, ref = new Date()) {
     return process(context.isNot, () => {
       const date = new Date(context.value as number | string | Date)
-      if (date < ref) {
-        throw new AssertionError(`${date.toISOString()} is before ${ref.toISOString()}`)
-      }
+      const reference = new Date(ref as number | string | Date)
+      if (Number.isNaN(date.getTime()))
+        throw new TypeError("Value is not a valid date")
+      if (Number.isNaN(reference.getTime()))
+        throw new TypeError("Reference is not a valid date")
+      if (date < reference)
+        throw new AssertionError(`${date.toISOString()} is before ${reference.toISOString()}`)
     }, `Expected value to {!NOT} be in the future, `)
+  },
+  toBeNow(context, delta = 3000) {
+    return process(context.isNot, () => {
+      const date = new Date(context.value as number | string | Date)
+      if (Number.isNaN(date.getTime()))
+        throw new TypeError("Value is not a valid date")
+      isType(delta, "number")
+      const difference = Math.abs(date.getTime() - Date.now())
+      if (difference > delta)
+        throw new AssertionError(`${date.toISOString()} is ${difference}ms away from now`)
+    }, `Expected value to {!NOT} be now, `)
   },
 })
 
@@ -736,9 +840,8 @@ _expect.extend({
 // deno-lint-ignore no-explicit-any
 export function reset(fn: any) {
   const info = fn?.[Symbol.for("@MOCK")]
-  if (!info) {
+  if (!info)
     throw new Error("Received function must be a mock or spy function")
-  }
   info.calls.length = 0
 }
 
@@ -761,9 +864,8 @@ export type MockCall = {
 // deno-lint-ignore no-explicit-any
 export function calls(fn: any): MockCall[] {
   const info = fn?.[Symbol.for("@MOCK")]
-  if (!info) {
+  if (!info)
     throw new Error("Received function must be a mock or spy function")
-  }
   return info.calls
 }
 

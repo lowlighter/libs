@@ -105,6 +105,24 @@ Deno.test("`expect.toBeResolvedPromise()` asserts promise to be resolved", async
   await expect(promise).toBeResolvedPromise()
   await expect(expect(promise).not.toBeResolvedPromise()).rejects.toThrow(AssertionError, "to NOT be resolved")
   await expect(expect(null).toBeResolvedPromise()).rejects.toThrow(TypeError, "Expected value to be a promise")
+  const rejected = Promise.reject(new Error("Expected error"))
+  await expect(rejected).not.toBeResolvedPromise()
+  await expect(expect(rejected).toBeResolvedPromise()).rejects.toThrow(AssertionError, "to be resolved")
+  await rejected.catch(() => null)
+})
+
+Deno.test("`expect.toBeRejectedPromise()` asserts promise to be rejected", async () => {
+  const rejected = Promise.reject(new Error("Expected error"))
+  await expect(rejected).toBeRejectedPromise()
+  await expect(Promise.resolve()).not.toBeRejectedPromise()
+  const { promise, resolve } = Promise.withResolvers<void>()
+  await expect(promise).not.toBeRejectedPromise()
+  await expect(expect(promise).toBeRejectedPromise()).rejects.toThrow(AssertionError, "to be rejected")
+  resolve()
+  await expect(promise).not.toBeRejectedPromise()
+  await expect(expect(rejected).not.toBeRejectedPromise()).rejects.toThrow(AssertionError, "to NOT be rejected")
+  await expect(expect(null).toBeRejectedPromise()).rejects.toThrow(TypeError, "Expected value to be a promise")
+  await rejected.catch(() => null)
 })
 
 Deno.test("`expect.toHaveBeenCalledOnceWith()` asserts mock function has been called once with passed arguments", () => {
@@ -127,6 +145,23 @@ Deno.test("`expect.toBeStructuredClonable()` asserts value can be structured clo
   expect({ foo: () => {} }).not.toBeStructuredClonable()
   expect(() => expect({ foo: () => {} }).toBeStructuredClonable()).toThrow(AssertionError, "to be structured clonable")
   expect(() => expect({ foo: "bar" }).not.toBeStructuredClonable()).toThrow(AssertionError, "to NOT be structured clonable")
+})
+
+Deno.test("`expect.toBeJsonSerializable()` asserts value can be serialized to JSON losslessly", () => {
+  expect({ foo: "bar", baz: [1, 2, 3] }).toBeJsonSerializable()
+  expect("foo").toBeJsonSerializable()
+  expect(null).toBeJsonSerializable()
+  expect({ foo: () => {} }).not.toBeJsonSerializable()
+  expect(new Date()).not.toBeJsonSerializable()
+  expect(new Map([["foo", "bar"]])).not.toBeJsonSerializable()
+  expect(NaN).not.toBeJsonSerializable()
+  expect(undefined).not.toBeJsonSerializable()
+  expect(10n).not.toBeJsonSerializable()
+  const circular = { self: {} }
+  circular.self = circular
+  expect(circular).not.toBeJsonSerializable()
+  expect(() => expect({ foo: () => {} }).toBeJsonSerializable()).toThrow(AssertionError, "to be JSON serializable")
+  expect(() => expect({ foo: "bar" }).not.toBeJsonSerializable()).toThrow(AssertionError, "to NOT be JSON serializable")
 })
 
 Deno.test("`expect.toHaveDescribedProperty()` asserts `Object.getOwnPropertyDescriptor()`", () => {
@@ -178,6 +213,22 @@ Deno.test("`expect.toHaveEnumerableProperty()` asserts enumerable properties", (
   expect(() => expect(foo).not.toHaveEnumerableProperty("bar")).toThrow(AssertionError, "to NOT be enumerable")
   expect(() => expect(foo).toHaveEnumerableProperty("baz")).toThrow(AssertionError, "to be enumerable")
   expect(() => expect(foo).toHaveEnumerableProperty("qux")).toThrow(AssertionError, "does not exist on object")
+})
+
+Deno.test("`expect.toHaveProperties()` asserts value has specified properties", () => {
+  const record = { foo: "bar", baz: { qux: 42 }, quux: [1, 2, 3] }
+  expect(record).toHaveProperties(["foo", "baz"])
+  expect(record).toHaveProperties(["baz.qux"])
+  expect([1, 2]).toHaveProperties([0, 1])
+  expect(record).not.toHaveProperties(["foo", "unknown"])
+  expect(record).toHaveProperties({ foo: "bar", "baz.qux": 42 })
+  expect(record).toHaveProperties({ baz: { qux: 42 }, quux: [1, 2, 3] })
+  expect(record).not.toHaveProperties({ foo: "unknown" })
+  expect(record).not.toHaveProperties({ unknown: true })
+  expect(() => expect(record).toHaveProperties(["unknown"])).toThrow(AssertionError, "to have properties")
+  expect(() => expect(record).toHaveProperties({ foo: "unknown" })).toThrow(AssertionError, "to have properties")
+  expect(() => expect(record).not.toHaveProperties(["foo"])).toThrow(AssertionError, "to NOT have properties")
+  expect(() => expect(record).not.toHaveProperties({ foo: "bar" })).toThrow(AssertionError, "to NOT have properties")
 })
 
 Deno.test("`expect.toBeIterable()` asserts value is iterable", () => {
@@ -255,6 +306,19 @@ Deno.test("`expect.toBeReverseSorted()` asserts value is reverse sorted", () => 
   expect([1, 2, 3]).not.toBeReverseSorted()
   expect(() => expect([1, 2, 3]).toBeReverseSorted()).toThrow(AssertionError, "to be reverse sorted")
   expect(() => expect([3, 2, 1]).not.toBeReverseSorted()).toThrow(AssertionError, "to NOT be reverse sorted")
+})
+
+Deno.test("`expect.toHaveUniqueItems()` asserts iterable has unique items", () => {
+  expect([1, 2, 3]).toHaveUniqueItems()
+  expect(new Set([1, 2, 3])).toHaveUniqueItems()
+  expect("abc").toHaveUniqueItems()
+  const item = { foo: "bar" }
+  expect([item, { foo: "baz" }]).toHaveUniqueItems()
+  expect([1, 2, 1]).not.toHaveUniqueItems()
+  expect("aba").not.toHaveUniqueItems()
+  expect([item, item]).not.toHaveUniqueItems()
+  expect(() => expect([1, 2, 1]).toHaveUniqueItems()).toThrow(AssertionError, "to have unique items")
+  expect(() => expect([1, 2, 3]).not.toHaveUniqueItems()).toThrow(AssertionError, "to NOT have unique items")
 })
 
 Deno.test("`expect.toBeOneOf()` asserts value is one of", () => {
@@ -375,6 +439,7 @@ Deno.test("`expect.toBeHashed()` asserts value is likely to be hashed with speci
   expect(() => expect(null).toBeHashed("md5")).toThrow(AssertionError, "is not of type")
   expect(() => expect("acbd18db4cc2f85cedef654fccc4a4d8").toBeHashed("<invalid>")).toThrow(AssertionError, "is unknown")
   expect(() => expect("same length as hash but not one!").toBeHashed("md5")).toThrow(AssertionError, "contains non-hexadecimal characters")
+  expect(() => expect("z".repeat(32)).toBeHashed("md5")).toThrow(AssertionError, "contains non-hexadecimal characters")
   expect("acbd18db4cc2f85cedef654fccc4a4d8").toBeHashed("md5")
   expect("0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33").toBeHashed("sha1")
   expect("0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33").toBeHashed("SHA1")
@@ -409,6 +474,9 @@ Deno.test("`expect.toBePast()` asserts value is a past date", () => {
   expect(() => expect(new Date(Date.now() - 5000)).not.toBePast()).toThrow(AssertionError, "to NOT be in the past")
   expect(() => expect(new Date(Date.now() + 5000)).toBePast(new Date(Date.now() - 10000))).toThrow(AssertionError, "to be in the past")
   expect(() => expect(new Date(Date.now() - 5000)).not.toBePast(new Date(Date.now() + 10000))).toThrow(AssertionError, "to NOT be in the past")
+  expect(() => expect("<invalid>").toBePast()).toThrow(AssertionError, "Value is not a valid date")
+  expect(() => expect("<invalid>").not.toBePast()).toThrow(AssertionError, "Value is not a valid date")
+  expect(() => expect(new Date()).toBePast("<invalid>")).toThrow(AssertionError, "Reference is not a valid date")
 })
 
 Deno.test("`expect.toBeFuture()` asserts value is a future date", () => {
@@ -420,6 +488,22 @@ Deno.test("`expect.toBeFuture()` asserts value is a future date", () => {
   expect(() => expect(new Date(Date.now() + 5000)).not.toBeFuture()).toThrow(AssertionError, "to NOT be in the future")
   expect(() => expect(new Date(Date.now() - 5000)).toBeFuture(new Date(Date.now() + 10000))).toThrow(AssertionError, "to be in the future")
   expect(() => expect(new Date(Date.now() + 5000)).not.toBeFuture(new Date(Date.now() - 10000))).toThrow(AssertionError, "to NOT be in the future")
+  expect(() => expect("<invalid>").toBeFuture()).toThrow(AssertionError, "Value is not a valid date")
+  expect(() => expect("<invalid>").not.toBeFuture()).toThrow(AssertionError, "Value is not a valid date")
+  expect(() => expect(new Date()).toBeFuture("<invalid>")).toThrow(AssertionError, "Reference is not a valid date")
+})
+
+Deno.test("`expect.toBeNow()` asserts value is close to current date", () => {
+  expect(new Date()).toBeNow()
+  expect(Date.now()).toBeNow()
+  expect(new Date(Date.now() - 1000)).toBeNow()
+  expect(new Date(Date.now() + 1000)).toBeNow()
+  expect(new Date(0)).not.toBeNow()
+  expect(new Date(Date.now() - 1000)).not.toBeNow(100)
+  expect(new Date(Date.now() + 1000)).not.toBeNow(100)
+  expect(() => expect(new Date(0)).toBeNow()).toThrow(AssertionError, "away from now")
+  expect(() => expect(new Date()).not.toBeNow()).toThrow(AssertionError, "to NOT be now")
+  expect(() => expect("<invalid>").toBeNow()).toThrow(AssertionError, "Value is not a valid date")
 })
 
 Deno.test("`reset()` resets the history of a stub function", () => {
