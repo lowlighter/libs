@@ -21,6 +21,7 @@ for (
     { value: new Set([["foo", "bar"]]) },
     { value: new Proxy({ foo: "bar" }, {}), cloned: { foo: "bar" } },
     { value: { foo: "bar", symbol: Symbol("foo"), fn: () => "foo" }, cloned: { foo: "bar" }, structuredCloneable: true },
+    { value: [{ foo: "bar", symbol: Symbol("foo"), fn: () => "foo" }], cloned: [{ foo: "bar" }], structuredCloneable: true },
   ]
 ) {
   Deno.test(`\`clone(${inspect(value)})\` returns a cloned value`, () => {
@@ -30,3 +31,14 @@ for (
       structuredClone(result)
   })
 }
+
+Deno.test("`clone()` preserves circular references", () => {
+  const object = { foo: "bar" } as { foo: string; self?: unknown; array?: unknown[] }
+  object.self = object
+  object.array = [object]
+  const result = clone(object)
+  expect(result).not.toBe(object)
+  expect(result.foo).toBe("bar")
+  expect(result.self).toBe(result)
+  expect(result.array![0]).toBe(result)
+})
