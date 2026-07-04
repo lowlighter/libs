@@ -1,7 +1,7 @@
 {
   "icon": "🧮",
   "name": "@libs/crypto",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "imports": {
     "@std/encoding": "jsr:@std/encoding@^1.0.10"
   },
