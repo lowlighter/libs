@@ -157,6 +157,10 @@ Deno.test("`apply()` validates context lines", { permissions: { read: true } }, 
   expect(() => throws(error.errors[0])).toThrow(SyntaxError, `Patch 1: line 0 mismatch (expected "Consectetur adipiscing elit", actual "Lorem ipsum dolor sit amet")`)
 })
 
+Deno.test("`apply()` accepts empty context lines rendered as a bare newline", () => {
+  expect(apply("a\n\nb\n", "--- a\n+++ b\n@@ -1,3 +1,3 @@\n a\n\n-b\n+c\n")).toStrictEqual("a\n\nc\n")
+})
+
 Deno.test("`apply()` validates empty context lines", () => {
   let error: AggregateError | undefined
   try {
