@@ -46,12 +46,20 @@ export type ListOptions = {
   followSymlinks?: boolean
 }
 
-/** Lists all files matching the given glob pattern in the specified root directory. */
+/**
+ * Lists all entries matching the given glob pattern in the specified root directory.
+ *
+ * Note that `files` and `directories` both default to `false`, at least one of them must be enabled to get any result.
+ */
 export async function list(glob: string, { root = cwd(), relative = true, files = false, directories = false, exclude, caseInsensitive, followSymlinks }: ListOptions = {}): Promise<string[]> {
+  root = root.replaceAll("\\", "/")
   if (!root.endsWith("/"))
     root += "/"
   const entries = await Array.fromAsync(expandGlob(glob, { root, canonicalize: true, includeDirs: directories, exclude, caseInsensitive, followSymlinks }))
   return entries
-    .filter(({ path }) => [files ? "file" : "", directories ? "directory" : ""].filter(Boolean).includes(filetype(path) as string))
-    .map(({ path }) => path.replaceAll("\\", "/").replace(root, relative ? "" : root))
+    .filter((entry) => (files && entry.isFile) || (directories && entry.isDirectory))
+    .map(({ path }) => {
+      path = path.replaceAll("\\", "/")
+      return (relative && path.startsWith(root)) ? path.slice(root.length) : path
+    })
 }
