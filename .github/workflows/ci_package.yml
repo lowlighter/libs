@@ -140,7 +140,7 @@ jobs:
           INCREMENT="$(deno eval --quiet '
             import { log } from "./@libs/git/log.ts"
             const commits = log(Deno.env.get("LAST"), { filter: { conventional: true, scopes: [Deno.env.get("NAME")] } })
-            console.error("conventional commits since last release:", commits)
+            console.error("conventional commits since last release:", commits.map(({summary, author}) => `  - ${summary} (${author})`).join("\n"))
             if (commits.some(({ breaking }) => breaking)) console.log("major")
             else if (commits.some(({ type }) => type === "feat")) console.log("minor")
             else if (commits.length) console.log("patch")
@@ -151,7 +151,9 @@ jobs:
             exit 0
           fi
           echo "increment: $INCREMENT"
+          pushd ./@libs/$PACKAGE
           deno bump-version --quiet --start "$LAST" "$INCREMENT"
+          popd
           git checkout --quiet -- . ":(exclude)$PACKAGE/deno.jsonc"
           git clean --force --quiet -- Releases.md
           if git diff --quiet -- "$PACKAGE/deno.jsonc"; then
@@ -172,6 +174,8 @@ jobs:
           NAME: ${{ steps.bump.outputs.name }}
           TAG: ${{ steps.bump.outputs.tag }}
         run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           deno eval --quiet '
             import { commit, pull, push, tag } from "./@libs/git/mod.ts"
             const [pkg, name, tagname] = [Deno.env.get("PACKAGE"), Deno.env.get("NAME"), Deno.env.get("TAG")]
