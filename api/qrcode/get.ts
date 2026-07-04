@@ -1,17 +1,22 @@
-#!/usr/bin/env DENO_DIR=/tmp deno run --version=v2.1.2
 import { qrcode } from "@libs/qrcode"
-import { STATUS_CODE, STATUS_TEXT } from "@std/http/status"
 
-/** Generate QR code */
-export default function (request: Request) {
-  if (request.method !== "GET") {
-    return new Response(STATUS_TEXT[STATUS_CODE.MethodNotAllowed], { status: STATUS_CODE.MethodNotAllowed })
-  }
+/** Generate QR Code (SVG or PNG) */
+export default function (request: Request): Response {
+  if (request.method !== "GET")
+    return new Response("Method Not Allowed", { status: 405 })
   try {
     const url = new URL(request.url)
     const content = url.searchParams.get("content") ?? ""
-    return new Response(qrcode(content, { output: "svg", border: 2 }), { headers: { "content-type": "image/svg+xml" } })
+    const format = url.searchParams.get("format") ?? "svg"
+    switch (format) {
+      case "svg":
+        return new Response(qrcode(content, { output: "svg", border: 2 }), { headers: { "content-type": "image/svg+xml" } })
+      case "png":
+        return new Response(new Uint8Array(qrcode(content, { output: "png", border: 2, scale: 8 })), { headers: { "content-type": "image/png" } })
+      default:
+        return new Response(`Unsupported format: ${format}`, { status: 400 })
+    }
   } catch (error) {
-    return new Response(error.message, { status: STATUS_CODE.InternalServerError })
+    return new Response(error.message, { status: 500 })
   }
 }

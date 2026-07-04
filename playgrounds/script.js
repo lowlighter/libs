@@ -2,19 +2,16 @@ globalThis.llibs = {
   forms: {
     /** Setup forms */
     async setup({ menu = false, deno = false, editor = false } = {}) {
-      if (deno) {
+      if (deno)
         await llibs.deno.setup(deno)
-      }
-      if (editor || deno) {
+      if (editor || deno)
         await llibs.editor(editor)
-      }
       document.querySelectorAll("form").forEach((element) => {
         element.addEventListener("submit", (event) => event.preventDefault())
         element.querySelectorAll("button[type=submit]").forEach((button) => button.removeAttribute("disabled"))
       })
-      if (menu) {
+      if (menu)
         await llibs.menu.setup(menu)
-      }
     },
   },
   menu: {
@@ -45,9 +42,8 @@ globalThis.llibs = {
       const html = await fetch("/.partial/deno.html").then((response) => response.text())
       const div = document.createElement("div")
       div.innerHTML = html
-      for (const element of Array.from(div.children)) {
+      for (const element of Array.from(div.children))
         document.querySelector("main").appendChild(element)
-      }
       document.querySelector("form").addEventListener("submit", async function () {
         const body = document.querySelector("[name=content]").value
         const result = await fetch("/api/deno/run", { method: "POST", body }).then((response) => response.json())
@@ -92,9 +88,8 @@ globalThis.llibs = {
         highlight.scrollLeft = this.scrollLeft
       })
       function coloration(value, escape = false) {
-        if (escape) {
+        if (escape)
           value = value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
-        }
         highlight.innerHTML = hljs.highlight(value, { language: highlight.dataset.lang || "typescript" }).value
       }
       coloration(textarea.value)

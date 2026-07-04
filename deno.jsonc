@@ -47,7 +47,7 @@
     "exclude": [
       ".devcontainer/**",
       ".github/**",
-      ".playground/**",
+      "playgrounds/**",
       "api/**",
       "coverage/**",
       "**/*_test.ts",

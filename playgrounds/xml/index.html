@@ -36,12 +36,20 @@
           JSON document
           <small>Transform JSON to XML.</small>
           <div class="editor">
-            <textarea required rows="8" spellcheck="false"></textarea>
+            <textarea required rows="8" spellcheck="false">{
+  "root": {
+    "text": "hello",
+    "array": ["world", "monde", "世界", "🌏"],
+    "number": 42,
+    "boolean": true,
+    "complex": { "@attribute": "value", "#text": "content" }
+  }
+}</textarea>
             <div class="highlight" data-lang="json"></div>
           </div>
         </label>
         <footer>
-          <button type="submit" disabled>Parse document</button>
+          <button type="submit" disabled>Process document</button>
         </footer>
       </form>
       <form>

@@ -9,7 +9,7 @@
     <main>
       <menu>
         <li data-for="diff">Diff</li>
-        <li data-for="patch" class="disabled">Patch</li>
+        <li data-for="patch">Patch</li>
       </menu>
       <form>
         <label>
@@ -19,13 +19,13 @@
         </label>
         <label class="diff">
           After
-          <small>Enter second operand.</small>
+          <small>Enter second operand, a unified patch from first operand will be computed.</small>
           <textarea required name="b" rows="8">foo&#10;bar&#10;qux&#10;quux</textarea>
         </label>
         <label class="patch">
           Patch
-          <small>Enter second operand.</small>
-          <textarea required name="c" rows="8">foo&#10;bar&#10;qux&#10;quux</textarea>
+          <small>Enter unified patch to apply to first operand.</small>
+          <textarea required name="c" rows="12">--- a&#10;+++ b&#10;@@ -1,4 +1,4 @@&#10; foo&#10; bar&#10;-baz&#10;-qux&#10;\ No newline at end of file&#10;+qux&#10;+quux&#10;\ No newline at end of file</textarea>
         </label>
         <footer>
           <button type="submit">Compute result</button>

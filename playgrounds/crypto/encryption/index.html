@@ -7,10 +7,61 @@
   </head>
   <body class="layout-simple">
     <main>
-      <p class="flash danger">
-        No playground available yet.
-      </p>
+      <form>
+        <label>
+          Seed:
+          <small>Master password used to derive the encryption key.</small>
+          <input required name="seed" value="hello" type="text">
+        </label>
+        <label>
+          Salt:
+          <small>Non-secret value used to derive distinct keys from a same seed.</small>
+          <input required name="salt" value="world" type="text">
+        </label>
+        <footer>
+          <button type="submit" name="derive">Derive key</button>
+        </footer>
+        <hr>
+        <label>
+          Key:
+          <small>256-bits AES-GCM key derived with PBKDF2 (hex-encoded).</small>
+          <output name="key" class="block"></output>
+        </label>
+      </form>
+      <form>
+        <label>
+          Message:
+          <small>Message to encrypt with the key above.</small>
+          <textarea required name="message" rows="4">🍱 bento</textarea>
+        </label>
+        <footer>
+          <button type="submit" name="encrypt">Encrypt message</button>
+        </footer>
+        <hr>
+        <label>
+          Encrypted message:
+          <small>Hex-encoded result (a random initial vector is used, so encrypting twice yields different outputs).</small>
+          <output name="encrypted" class="block"></output>
+        </label>
+      </form>
+      <form>
+        <label>
+          Encrypted message:
+          <small>Encrypted message to decrypt with the key above.</small>
+          <textarea required name="decrypt_message" rows="4"></textarea>
+        </label>
+        <footer>
+          <button type="submit" name="decrypt">Decrypt message</button>
+        </footer>
+        <hr>
+        <label>
+          Decrypted message:
+          <small>Decrypted plaintext.</small>
+          <output name="decrypted" class="block"></output>
+        </label>
+      </form>
       <script src="/script.js"></script>
+      <script data-src="/crypto/encryption/script.js"></script>
     </main>
   </body>
 </html>

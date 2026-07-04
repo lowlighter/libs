@@ -13,9 +13,17 @@
           <small>Enter some text to generate a new QR Code.</small>
           <input required name="content" value="bonjour" type="text">
         </label>
+        <label>
+          Format:
+          <small>Output image format (SVG string or PNG bytes).</small>
+          <select name="format">
+            <option value="svg" selected>SVG</option>
+            <option value="png">PNG</option>
+          </select>
+        </label>
       </form>
       <p style="text-align: center">
-        <img style="max-width: 512px" src="/qrcode?content=bonjour">
+        <img style="max-width: 512px" src="/api/qrcode/get?content=bonjour&format=svg">
       </p>
       <script src="/script.js"></script>
       <script data-src="/qrcode/script.js"></script>

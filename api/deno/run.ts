@@ -1,6 +1,4 @@
-#!/usr/bin/env DENO_DIR=/tmp deno run --version=v2.1.2
-import { STATUS_CODE, STATUS_TEXT } from "@std/http/status"
-
+#!/usr/bin/env -S deno run --allow-run=deno
 /** Maximum runtime execution */
 const TIMEOUT = 5 * 1000
 
@@ -11,10 +9,9 @@ const encoder = new TextEncoder()
 const decoder = new TextDecoder()
 
 /** Execute deno script */
-export default async function (request: Request) {
-  if (request.method !== "POST") {
-    return new Response(STATUS_TEXT[STATUS_CODE.MethodNotAllowed], { status: STATUS_CODE.MethodNotAllowed })
-  }
+export default async function (request: Request): Promise<Response> {
+  if (request.method !== "POST")
+    return new Response("Method Not Allowed", { status: 405 })
   try {
     // Spawn deno process
     const script = await request.text()
@@ -48,6 +45,6 @@ export default async function (request: Request) {
       { headers: { "content-type": "application/json" } },
     )
   } catch (error) {
-    return new Response(error.message, { status: STATUS_CODE.InternalServerError })
+    return new Response(error.message, { status: 500 })
   }
 }

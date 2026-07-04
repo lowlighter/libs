@@ -1,15 +1,12 @@
-#!/usr/bin/env DENO_DIR=/tmp deno run --version=v2.1.2
 import { otpsecret } from "@libs/crypto/totp"
-import { STATUS_CODE, STATUS_TEXT } from "@std/http/status"
 
 /** Generate OTP secret */
-export default function (request: Request) {
-  if (request.method !== "GET") {
-    return new Response(STATUS_TEXT[STATUS_CODE.MethodNotAllowed], { status: STATUS_CODE.MethodNotAllowed })
-  }
+export default function (request: Request): Response {
+  if (request.method !== "GET")
+    return new Response("Method Not Allowed", { status: 405 })
   try {
     return new Response(JSON.stringify(otpsecret()), { headers: { "content-type": "application/json" } })
   } catch (error) {
-    return new Response(error.message, { status: STATUS_CODE.InternalServerError })
+    return new Response(error.message, { status: 500 })
   }
 }
