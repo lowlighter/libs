@@ -5,7 +5,8 @@ import { join } from "@std/path/join"
 import { sandboxedFetch } from "./fetch.ts"
 import { GitHub } from "./github.ts"
 
-const gh = new GitHub({ meta: { resolve: (path: string) => import.meta.resolve(join("./testing/fixtures/github", path)) } as testing, fetch: sandboxedFetch([{ hostname: "api.github.com", redirect: `mock://` }], { paths: [join("./testing/fixtures/github", ".test")] }) }, {
+const fixtures = import.meta.resolve("./testing/fixtures/github")
+const gh = new GitHub({ meta: { resolve: (path: string) => join(fixtures, path) } as testing, fetch: sandboxedFetch([{ hostname: "api.github.com", redirect: `mock://` }], { paths: [join(fixtures, ".test")] }) }, {
   url: "https://api.github.com",
 })
 

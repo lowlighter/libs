@@ -67,8 +67,8 @@ for (
     { expression: "${1}", sync: true, return: EvaluationReturn.Boolean, expected: true },
     { expression: "${1}", sync: true, return: EvaluationReturn.String, expected: "1" },
     // Sync mode does not await promises and ignores abort signals
-    { expression: "${Promise.resolve(1)}", return: EvaluationReturn.String, expected: "1" },
-    { expression: "${Promise.resolve(1)}", sync: true, return: EvaluationReturn.String, expected: "[object Promise]" },
+    { expression: "Promise.resolve(1)", syntax: EvaluationSyntax.Block, return: EvaluationReturn.String, expected: "1" },
+    { expression: "Promise.resolve(1)", sync: true, syntax: EvaluationSyntax.Block, return: EvaluationReturn.String, expected: "[object Promise]" },
     { expression: "${await a}", context: { a: Promise.resolve(1) }, sync: true, error: [SyntaxError, "await is only valid in async functions"] },
     { expression: "${1}", sync: true, signal: () => AbortSignal.abort(), expected: 1 },
     // Errors

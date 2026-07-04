@@ -4,6 +4,8 @@ import { inspect } from "@libs/testing/highlight"
 import { join } from "@std/path/join"
 import { sandboxedFetch } from "./fetch.ts"
 
+const fixtures = import.meta.resolve("./testing/fixtures/fetch")
+
 for (
   const { rules: _rules, match } of [
     // Protocol
@@ -97,12 +99,12 @@ for (
   Deno.test(`\`sandboxedFetch(url)\` ${name}`, { permissions: { read: true, net: ["0.0.0.0"] } }, async () => {
     await using server = Deno.serve({ port: 0, onListen: () => null }, () => new Response(null, { status: Status.Teapot }))
     const request = url ?? new Request(`http://0.0.0.0:${server.addr.port}`)
-    const response = sandboxedFetch(rules, { paths: [join("./testing/fixtures/fetch", ".test", "mod/mod.ts"), join("./testing/fixtures/fetch", ".test")] })(request)
+    const response = sandboxedFetch(rules, { paths: [join(fixtures, ".test", "mod/mod.ts"), join(fixtures, ".test")] })(request)
     await expect(response).resolves.toRespondWithStatus(status)
   })
 }
 
 Deno.test(`\`sandboxedFetch(url, ${inspect({ browser: true })})\` returns ${inspect(null)} on non-intercepted requests`, { permissions: { read: true, net: ["0.0.0.0"] } }, async () => {
-  await expect(sandboxedFetch([{ hostname: "*", redirect: `mock://` }], { paths: [join("./testing/fixtures/fetch", ".test")], browser: true })(new Request("https://test.example.app"))).resolves.toRespondWithStatus(Status.OK)
-  await expect(sandboxedFetch([], { paths: [join("./testing/fixtures/fetch", ".test")], browser: true })(new Request("https://test.example.app"))).resolves.toBeNull()
+  await expect(sandboxedFetch([{ hostname: "*", redirect: `mock://` }], { paths: [join(fixtures, ".test")], browser: true })(new Request("https://test.example.app"))).resolves.toRespondWithStatus(Status.OK)
+  await expect(sandboxedFetch([], { paths: [join(fixtures, ".test")], browser: true })(new Request("https://test.example.app"))).resolves.toBeNull()
 })

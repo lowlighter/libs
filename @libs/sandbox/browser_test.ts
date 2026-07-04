@@ -5,6 +5,7 @@ import { join } from "@std/path/join"
 import { sandboxedFetch } from "./fetch.ts"
 import { Browser } from "./browser.ts"
 
+const fixtures = import.meta.resolve("./testing/fixtures/browser")
 const cache = await Deno.makeTempDir({ prefix: "example-test-astral-cache-" })
 
 Deno.test("`Browser.constructor()` instantiates a new instance", async () => {
@@ -20,7 +21,7 @@ for (
   ]
 ) {
   Deno.test(`\`Browser.page(${inspect(url)})\` is ${blocked ? "blocked" : "intercepted"}`, { permissions: { read: true, env: true, net: ["0.0.0.0", "127.0.0.1"], write: [cache], run: [Deno.env.get("ASTRAL_BIN_PATH")!] } }, async () => {
-    await using browser = new Browser({ fetch: sandboxedFetch([{ hostname: "test.example.app", redirect: `mock://` }], { paths: [join("./testing/fixtures/browser", ".test")], browser: true }) }, { cache })
+    await using browser = new Browser({ fetch: sandboxedFetch([{ hostname: "test.example.app", redirect: `mock://` }], { paths: [join(fixtures, ".test")], browser: true }) }, { cache })
     await using page = await browser.page(url)
     if (title)
       await expect(page.evaluate("document.title")).resolves.toMatch(title)

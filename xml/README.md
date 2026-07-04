@@ -102,8 +102,7 @@ The `mode: "html"` option of `parse` has been temporarily removed, as `@std/xml`
   const document = parse(text, { mode: "html" })
 ```
 
-Passing a `ReaderSync` to `parse` is no longer supported.
-You can still pass a `Reader` to `parse` but the result is now asynchronous.
+Passing a `ReaderSync` to `parse` is no longer supported. You can still pass a `Reader` to `parse` but the result is now asynchronous.
 
 ```diff
   using file = await Deno.open("bench/assets/small.xml")
