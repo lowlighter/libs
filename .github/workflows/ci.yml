@@ -20,7 +20,7 @@ jobs:
     outputs:
       packages: ${{ steps.packages.outputs.packages }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: denoland/setup-deno@v2
       - name: List packages
         id: packages
@@ -74,10 +74,10 @@ jobs:
       id-token: write
       pages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       - uses: denoland/setup-deno@v2
       - name: Run deno test --coverage
         run: |
@@ -85,9 +85,9 @@ jobs:
           deno coverage --html
           deno run --allow-read --allow-write=coverage @libs/toolbox/scripts/highlight_coverage.ts --root=coverage/html
           mv coverage/html _site
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
       - id: pages
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
   publish:
     name: Publish
@@ -97,7 +97,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v2

@@ -60,7 +60,7 @@ jobs:
     outputs:
       edited: ${{ steps.files.outputs.edited }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v2
@@ -86,7 +86,7 @@ jobs:
       run:
         working-directory: ${{ inputs.package }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: denoland/setup-deno@v2
       - run: deno fmt --check
       - run: deno lint
@@ -100,7 +100,7 @@ jobs:
       run:
         working-directory: ${{ inputs.package }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: denoland/setup-deno@v2
       - run: deno test --allow-all
 
@@ -116,9 +116,10 @@ jobs:
       contents: write
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+      - uses: actions/setup-node@v6
       - uses: denoland/setup-deno@v2
       - name: Run deno bump-version
         id: bump
@@ -150,7 +151,7 @@ jobs:
             exit 0
           fi
           echo "increment: $INCREMENT"
-          deno bump-version --start "$LAST" "$INCREMENT"
+          deno bump-version --quiet --start "$LAST" "$INCREMENT"
           git checkout --quiet -- . ":(exclude)$PACKAGE/deno.jsonc"
           git clean --force --quiet -- Releases.md
           if git diff --quiet -- "$PACKAGE/deno.jsonc"; then
@@ -163,7 +164,6 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=$NAME-$VERSION" >> "$GITHUB_OUTPUT"
           echo "$NAME: $VERSION"
-          exit 1
       # Commit bump and tag release
       - name: Run git commit, push and tag
         if: steps.bump.outputs.tag
