@@ -22,6 +22,8 @@ Deno.test("`pull()` fetches and integrates remote changes", () => {
     // Pull it from the second clone
     pull({ remote: "origin", branch: "main", cwd: `${path}/b` })
     expect(Deno.readTextFileSync(`${path}/b/hello.txt`)).toBe("hello\n")
+    // Pulling a branch without specifying a remote implies the `origin` remote
+    pull({ branch: "main", cwd: `${path}/b` })
     git(`${path}/b`)("branch", "--set-upstream-to=origin/main", "main")
     // Push a new commit from the first clone and create a local commit in the second clone
     Deno.writeTextFileSync(`${path}/a/remote.txt`, "remote\n")
