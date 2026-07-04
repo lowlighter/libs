@@ -27,10 +27,9 @@ Deno.test("`expect()` supports additional matchers", () => {
 - Re-exports [`@faker-js/faker`](https://fakerjs.dev) through [`@libs/testing/faker`](https://jsr.io/@libs/testing/doc/faker/~).
 - Provides CLI syntax highlighting utilities through [`@libs/testing/highlight`](https://jsr.io/@libs/testing/doc/highlight/~) (supports `typescript`, `css`, `markdown`, `html`, `diff`, `yaml` and `json`).
 
-## 🕊️ Migrating from `4.x.x` to `5.x.x`
+## 🕊️ Migrating from `5.x.x` to `6.x.x`
 
-Dropped support of `test()` cross-runtime helper.
-This package now only provide testing utilities.
+Dropped support of `test()` cross-runtime helper. This package now only provide testing utilities.
 
 ## 🕊️ Migrating from `3.x.x` to `4.x.x`
 
@@ -63,8 +62,7 @@ Version `3.x.x` and onwards require Deno `2.x.x` or later.
 
 ### `toBeType("object")` and `null`
 
-The `toBeType("object")` matcher now excludes `null` by default.
-The second argument has been replaced by an object with a `nullable` property for better readability.
+The `toBeType("object")` matcher now excludes `null` by default. The second argument has been replaced by an object with a `nullable` property for better readability.
 
 ```diff
 - expect(null).toBeType("object", !null)
@@ -73,8 +71,7 @@ The second argument has been replaced by an object with a `nullable` property fo
 
 ### Updated headers and syntax highlighting
 
-The prefix for runtime in test names has been changed to be displayed in uppercase over a colored background.
-If you were using the `deno test --filter` option, you will need to update your filter accordingly.
+The prefix for runtime in test names has been changed to be displayed in uppercase over a colored background. If you were using the `deno test --filter` option, you will need to update your filter accordingly.
 
 ```diff
 - [deno]

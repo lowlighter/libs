@@ -17,6 +17,7 @@
     "./faker": "./faker/mod.ts",
     "./assert": "./assert.ts",
     "./expect": "./expect.ts",
+    "./misc": "./misc.ts",
     "./highlight": "./highlight/mod.ts"
   }
 }

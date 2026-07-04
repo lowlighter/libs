@@ -46,22 +46,19 @@ export type HighlightOptions = {
 export function highlight(text: string, { underline: underlined = false, raw = false, language = "typescript" }: HighlightOptions = {}): string {
   const colorize = (content: string) => {
     let highlighted = process(unescape(hljs.highlight(content, { language }).value))
-    if (underlined) {
+    if (underlined)
       highlighted = underline(highlighted)
-    }
     return highlighted
   }
-  if (raw) {
+  if (raw)
     return colorize(text)
-  }
   return text.replace(/`([^`]*?)`/g, (_, content) => colorize(content))
 }
 
 /** Inspects the given value and returns a string representation. */
 export function inspect(value: unknown): string {
-  if (typeof value === "function") {
+  if (typeof value === "function")
     return "fn"
-  }
   return Deno.inspect(value, { colors: true, compact: true, depth: Infinity })
     .replace(/\n\s+/g, " ")
     .replace(/AbortSignal \{[^}]+?\}/g, "AbortSignal")
@@ -80,9 +77,8 @@ function process(html: string) {
   while ((match = regex.exec(html)) !== null) {
     const [captured] = match
     const { open, close, classname } = match.groups!
-    if (open) {
+    if (open)
       stack.push({ classname, a: match.index, b: match.index + captured.length })
-    }
     if (close) {
       const { a, b, classname } = stack.pop()!
       return process(`${html.substring(0, a)}${color(html.substring(b, match.index), classname)}${html.substring(match.index + close.length)}`)
