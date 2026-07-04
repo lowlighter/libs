@@ -1,4 +1,5 @@
-import { expect, inspect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
+import { inspect } from "@libs/testing/highlight"
 import { dirname, join, toFileUrl } from "@std/path"
 import { cwd } from "./filesystem.ts"
 import { resolve } from "./resolve.ts"
@@ -31,7 +32,7 @@ for (
     { a: "node:test", b: "node:test" },
   ]
 ) {
-  test(`\`resolve(${inspect(a)}, ${options})\` is ${inspect(b)}`, () => {
+  Deno.test(`\`resolve(${inspect(a)}, ${options})\` is ${inspect(b)}`, () => {
     expect(resolve(a, options)).toBe(b)
   })
 }

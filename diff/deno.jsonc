@@ -8,6 +8,9 @@
     "./apply": "./apply.ts",
     "./json": "./json.ts"
   },
+  "imports": {
+    "@std/fmt": "jsr:@std/fmt@^1.0.9"
+  },
   "fmt": {
     "exclude": ["**/testing/**"]
   }

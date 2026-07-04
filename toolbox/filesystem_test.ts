@@ -1,16 +1,17 @@
-import { expect, inspect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
+import { inspect } from "@libs/testing/highlight"
 import { fromFileUrl, join } from "@std/path"
 import { chdir, cwd, filetype, list } from "./filesystem.ts"
 
 const root = fromFileUrl(import.meta.resolve("./fixtures/filesystem"))
 
-test("`cwd()` gets the current working directory", () => {
+Deno.test("`cwd()` gets the current working directory", () => {
   expect(cwd()).toBe(Deno.cwd())
 })
 
-test("`chdir()` changes the current working directory and returns its value", () => {
+Deno.test("`chdir()` changes the current working directory and returns its value", { permissions: { read: true } }, () => {
   expect(chdir(cwd())).toBe(cwd())
-}, { permissions: { read: true } })
+})
 
 for (
   const { path, type } of [
@@ -19,9 +20,9 @@ for (
     { path: "-esquie-test-non-existent-file-", type: null },
   ]
 ) {
-  test(`\`filetype(${inspect(path)})\` returns ${inspect(type)}`, () => {
+  Deno.test(`\`filetype(${inspect(path)})\` returns ${inspect(type)}`, { permissions: { read: true } }, () => {
     expect(filetype(path)).toBe(type)
-  }, { permissions: { read: true } })
+  })
 }
 
 for (
@@ -42,9 +43,9 @@ for (
     { glob: "**/*", options: { files: true, directories: true, relative: true }, has: ["a", "a/b", "a/c", "a/d", "a/b/foo.txt", "a/c/bar.txt", "a/c/baz.txt", "a/d/qux.ts"], hasnt: [] },
   ]
 ) {
-  test(`\`list(${inspect(glob)}, ${inspect(options)})\` has ${inspect(has)}`, async () => {
+  Deno.test(`\`list(${inspect(glob)}, ${inspect(options)})\` has ${inspect(has)}`, { permissions: { read: true } }, async () => {
     const listed = await list(glob, { root, ...options })
     has.forEach((path) => expect(listed).toContain(path))
     hasnt.forEach((path) => expect(listed).not.toContain(path))
-  }, { permissions: { read: true } })
+  })
 }

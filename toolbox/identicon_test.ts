@@ -1,4 +1,4 @@
-import { expect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
 import { identicon } from "./identicon.ts"
 
 /** Decodes the SVG payload of an identicon data URL. */
@@ -15,22 +15,22 @@ function cells(svg: string): Set<string> {
   return set
 }
 
-test("`identicon()` returns a base64-encoded svg data URL", () => {
+Deno.test("`identicon()` returns a base64-encoded svg data URL", () => {
   const url = identicon("alice")
   expect(url).toMatch(/^data:image\/svg\+xml;base64,/)
   expect(decode(url)).toContain('<svg xmlns="http://www.w3.org/2000/svg"')
 })
 
-test("`identicon()` is deterministic for a given seed", () => {
+Deno.test("`identicon()` is deterministic for a given seed", () => {
   expect(identicon("alice")).toBe(identicon("alice"))
   expect(identicon("alice", { size: 8 })).toBe(identicon("alice", { size: 8 }))
 })
 
-test("`identicon()` produces different output for different seeds", () => {
+Deno.test("`identicon()` produces different output for different seeds", () => {
   expect(identicon("alice")).not.toBe(identicon("bob"))
 })
 
-test("`identicon()` defaults to a 5x5 grid and respects the `size` option", () => {
+Deno.test("`identicon()` defaults to a 5x5 grid and respects the `size` option", () => {
   expect(decode(identicon("alice"))).toContain('viewBox="0 0 5 5"')
   const svg = decode(identicon("alice", { size: 7 }))
   expect(svg).toContain('viewBox="0 0 7 7"')
@@ -41,7 +41,7 @@ test("`identicon()` defaults to a 5x5 grid and respects the `size` option", () =
   }
 })
 
-test("`identicon()` is horizontally mirror-symmetric", () => {
+Deno.test("`identicon()` is horizontally mirror-symmetric", () => {
   const size = 5
   const lit = cells(decode(identicon("symmetry", { size })))
   expect(lit.size).toBeGreaterThan(0)
@@ -51,7 +51,7 @@ test("`identicon()` is horizontally mirror-symmetric", () => {
   }
 })
 
-test("`identicon()` derives a deterministic foreground and background colour", () => {
+Deno.test("`identicon()` derives a deterministic foreground and background colour", () => {
   const svg = decode(identicon("alice"))
   const hues = [...svg.matchAll(/hsl\((\d+) /g)].map(([, h]) => Number(h))
   expect(hues.length).toBe(2)
@@ -62,7 +62,7 @@ test("`identicon()` derives a deterministic foreground and background colour", (
   expect(svg).toContain("26% 18%") // background
 })
 
-test("`identicon()` handles an empty seed deterministically", () => {
+Deno.test("`identicon()` handles an empty seed deterministically", () => {
   expect(identicon("")).toBe(identicon(""))
   expect(decode(identicon(""))).toContain('viewBox="0 0 5 5"')
 })

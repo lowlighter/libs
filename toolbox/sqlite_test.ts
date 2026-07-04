@@ -1,9 +1,9 @@
 // deno-lint-ignore-file no-external-import
 import { DatabaseSync } from "node:sqlite"
-import { expect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
 import { deserialize, serialize } from "./sqlite.ts"
 
-test("`serialize()` and `deserialize()` round-trip mixed records", () => {
+Deno.test("`serialize()` and `deserialize()` round-trip mixed records", () => {
   const data = {
     id: 1,
     string: "text",

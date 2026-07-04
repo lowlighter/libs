@@ -1,8 +1,8 @@
-import { expect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
 import { Renderer } from "../renderer.ts"
 import plugin from "./frontmatter.ts"
 
-test("`Plugin.frontmatter` removes frontmatter", async () => {
+Deno.test("`Plugin.frontmatter` removes frontmatter", async () => {
   const text = `
 ---
 foo: bar

@@ -81,119 +81,79 @@ export type DiffOptions = {
  */
 export function diff(a: string, b: string, options: DiffOptions = {}): string {
   const { colors = false, context = 3, a: nameA = "a", b: nameB = "b", header = "" } = options
-  const hunks = [] as string[]
   const { lines } = patience(tokenize(a), tokenize(b))
-  for (let after = -1; (after < lines.length) && (!Number.isNaN(after));) {
-    const { next, patch } = _diff(lines, { after, colors, context })
-    hunks.push(patch)
-    after = next
-  }
-  const patch = hunks.join("").replace(/\n?\n$/, "")
+  const patch = render(lines, context, colors)
   return patch ? `${header ? `${header}\n` : ""}--- ${nameA}\n+++ ${nameB}\n${patch}` : ""
 }
 
-function _diff(lines: line[], { after = -1, colors = false, context = 0 }: { after?: number; context?: number; colors?: boolean }): { next: number; patch: string } {
-  // Search for the first edited line after the specified index
-  let k = -1
-  for (let i = after + 1; i < lines.length; i++) {
-    const { a, b, token } = lines[i]
-    if (((a < 0) || (b < 0)) && (!token)) {
-      k = i
-      break
+/** Render an edit script into a unified patch (hunk headers, context grouping and "no newline" markers). */
+function render(lines: line[], context: number, colors: boolean): string {
+  // Collect edited lines
+  const n = lines.length
+  const changed = [] as number[]
+  for (let i = 0; i < n; i++) {
+    if ((lines[i].a < 0) || (lines[i].b < 0))
+      changed.push(i)
+  }
+  if (!changed.length)
+    return ""
+  // Compute prefix counts of a-side and b-side lines to derive hunk header positions
+  const a = { before: new Array(n + 1).fill(0), count: 0, start: 0 }
+  const b = { before: new Array(n + 1).fill(0), count: 0, start: 0 }
+  for (let i = 0; i < n; i++) {
+    a.before[i + 1] = a.before[i] + (lines[i].a >= 0 ? 1 : 0)
+    b.before[i + 1] = b.before[i] + (lines[i].b >= 0 ? 1 : 0)
+  }
+  let patch = ""
+  for (let ci = 0; ci < changed.length;) {
+    // Merge subsequent changes into the same hunk when separated by at most twice the context of unchanged lines
+    let end = changed[ci]
+    let cj = ci + 1
+    while ((cj < changed.length) && ((changed[cj] - end - 1) <= 2 * context)) {
+      end = changed[cj]
+      cj++
     }
+    const start = Math.max(0, changed[ci] - context)
+    const stop = Math.min(n - 1, end + context)
+    // Compute hunk header
+    a.count = a.before[stop + 1] - a.before[start]
+    b.count = b.before[stop + 1] - b.before[start]
+    a.start = a.count > 0 ? a.before[start] + 1 : a.before[start]
+    b.start = b.count > 0 ? b.before[start] + 1 : b.before[start]
+    const head = `@@ -${a.count === 1 ? a.start : `${a.start},${a.count}`} +${b.count === 1 ? b.start : `${b.start},${b.count}`} @@\n`
+    patch += colors ? `\x1b[36m${head}\x1b[0m` : head
+    for (let i = start; i <= stop; i++)
+      patch += emit(lines[i], colors)
+    ci = cj
   }
-  if (k < 0) {
-    return { next: NaN, patch: "" }
-  }
-  const patch = [lines[k]]
-  // Compute context lines
-  for (const delta of [-1, 1]) {
-    let contextual = context
-    for (let i = k; (i >= 0) && (i < lines.length); i += delta) {
-      // Skip current line
-      if (i === k) {
-        continue
-      }
-      // Prevent lines from the other file to be registered when going backward
-      if ((delta < 0) && (lines[i].token === "!\n")) {
-        break
-      }
-      // Register lines that are edited or within the context range
-      if ((lines[i].a < 0) || (lines[i].b < 0) || ((contextual > 0) && (lines[i].a >= 0) && (lines[i].b >= 0))) {
-        switch (true) {
-          case delta < 0:
-            patch.unshift(lines[i])
-            break
-          case delta > 0:
-            patch.push(lines[i])
-            break
-        }
-      }
-      // Reset context on edited lines
-      if ((lines[i].a < 0) || (lines[i].b < 0)) {
-        contextual = context
-      }
-      // Decrease context range on common lines
-      // If another edited line is found in the maximum context range, reset it to merge the current hunk with the next one
-      if ((lines[i].a >= 0) && (lines[i].b >= 0)) {
-        contextual--
-        if ((delta > 0) && (!lines.slice(i + 1, i + 1 + context + 1).every(({ a, b }) => (a >= 0) && (b >= 0)))) {
-          contextual = context
-        }
-        if (contextual <= 0) {
-          break
-        }
-      }
-    }
-  }
-  // Compute patch
-  let a = (patch.find(({ a, token }) => (a >= 0) && (!token))?.a ?? -1) + 1
-  let b = (patch.find(({ b, token }) => (b >= 0) && (!token))?.b ?? -1) + 1
-  const A = patch.filter(({ a, token }) => (a >= 0) && (!token)).length
-  const B = patch.filter(({ b, token }) => (b >= 0) && (!token)).length
-  if (context <= 1) {
-    switch (true) {
-      case A > 0:
-        b = a - 1
-        break
-      case B > 0:
-        a = b
-        break
-    }
-  }
-  return {
-    next: lines.indexOf(patch.findLast(({ a, b, token }) => ((a < 0) || (b < 0)) && (!token))!),
-    patch: [
-      { line: `@@ -${a}${(A !== 1) || (a === 0) ? `,${A}` : ""} +${b}${(B !== 1) || (b === 0) ? `,${B}` : ""} @@\n`, a: NaN, b: NaN },
-      ...patch,
-    ].map(({ line, a, b, token }) => {
-      switch (true) {
-        case token === "!\n":
-          return "\\ No newline at end of file\n"
-        case a < 0:
-          return colors ? `\x1b[32m+${line}\x1b[0m` : `+${line}`
-        case b < 0:
-          return colors ? `\x1b[31m-${line}\x1b[0m` : `-${line}`
-        case Number.isNaN(a) && Number.isNaN(b):
-          return colors ? `\x1b[36m${line}\x1b[0m` : line
-        default:
-          return line === "\n" ? line : ` ${line}`
-      }
-    }).join(""),
-  }
+  return patch
+}
+
+/** Render a single edit script line, appending a "no newline at end of file" marker when the line lacks a trailing newline. */
+function emit({ line, a, b }: line, colors: boolean): string {
+  const type = (a >= 0) && (b >= 0) ? " " : (a >= 0 ? "-" : "+")
+  const newline = line.endsWith("\n")
+  let text = (type === " ") ? (line === "\n" ? "\n" : ` ${line}`) : `${type}${line}`
+  if (!newline)
+    text += "\n"
+  const color = type === "+" ? "\x1b[32m" : type === "-" ? "\x1b[31m" : ""
+  const body = (colors && color) ? `${color}${text}\x1b[0m` : text
+  return newline ? body : `${body}\\ No newline at end of file\n`
 }
 
 /**
- * Tokenize text into text lines
+ * Tokenize text into text lines.
+ *
+ * Each returned line keeps its trailing newline, except the last one when the input does not end with a newline.
+ * An empty string yields no lines.
  *
  * ```ts
  * import { tokenize } from "./diff.ts"
- * tokenize("foo\nbar") // Returns ["foo\n", "bar\n"]
+ * tokenize("foo\nbar") // Returns ["foo\n", "bar"]
  * ```
  */
 export function tokenize(text: string): string[] {
-  text += "\n"
-  return [...text.matchAll(/.*(?:\r?\n)/g)].map(([token]) => token.replace(/\r\n$/, "\n")).filter((token) => token)
+  return text.replace(/\r\n/g, "\n").match(/[^\n]*\n|[^\n]+$/g) ?? []
 }
 
 /** Find unique lines between `i` and `j` */
@@ -228,20 +188,18 @@ function lcs(ab: ReturnType<typeof common>) {
     let hi = subsequences.length
     while (i < hi) {
       const mid = (i + hi) >> 1
-      if (subsequences[mid].at(-1)!.b < v.b) {
+      if (subsequences[mid].at(-1)!.b < v.b)
         i = mid + 1
-      } else {
+      else
         hi = mid
-      }
     }
     subsequences[i] ??= []
     subsequences[i].push({ ...v, previous: i > 0 ? subsequences[i - 1].at(-1) : undefined })
   }
   if (subsequences.length) {
     lcs.push(subsequences.at(-1)!.at(-1)!)
-    while (lcs.at(-1)!.previous) {
+    while (lcs.at(-1)!.previous)
       lcs.push(lcs.at(-1)!.previous!)
-    }
   }
   return lcs.reverse()
 }
@@ -262,28 +220,77 @@ function register(result: result, A: operand, B: operand, a: number, b: number) 
 
 /** Register submatches and recurse over common lines */
 function submatch(result: result, A: operand, B: operand, Ai: number, Aj: number, Bi: number, Bj: number) {
-  while ((Ai <= Aj) && (Bi <= Bj) && (A.lines[Ai] === B.lines[Bi])) {
+  while ((Ai <= Aj) && (Bi <= Bj) && (A.lines[Ai] === B.lines[Bi]))
     register(result, A, B, Ai++, Bi++)
-  }
   const Tj = Aj
   while ((Ai <= Aj) && (Bi <= Bj) && (A.lines[Aj] === B.lines[Bj])) {
     Aj--
     Bj--
   }
   const ab = common(A, B, Ai, Aj, Bi, Bj)
-  if (ab.size) {
+  if (ab.size)
     recurse(result, A, B, Ai, Aj, Bi, Bj, ab)
-  } else {
-    while (Ai <= Aj) {
-      register(result, A, B, Ai++, -1)
-    }
-    while (Bi <= Bj) {
-      register(result, A, B, -1, Bi++)
-    }
-  }
-  while (Aj < Tj) {
+  else
+    myers(result, A, B, Ai, Aj, Bi, Bj)
+  while (Aj < Tj)
     register(result, A, B, ++Aj, ++Bj)
+}
+
+/**
+ * Register a minimal edit script between `A[Ai...Aj]` and `B[Bi...Bj]` using Eugene Myers' O(ND) algorithm.
+ *
+ * Used as a fallback when the patience algorithm cannot find any unique common line to anchor on,
+ * so that regions of duplicate lines are diffed minimally rather than fully deleted then re-added.
+ */
+function myers(result: result, A: operand, B: operand, Ai: number, Aj: number, Bi: number, Bj: number) {
+  const a = A.lines
+  const b = B.lines
+  const n = Aj - Ai + 1
+  const m = Bj - Bi + 1
+  const max = n + m
+  const offset = max
+  const v = new Array(2 * max + 1).fill(0)
+  const trace = [] as number[][]
+  // Record the furthest-reaching path for each edit distance `d` until the end is reached
+  outer: for (let d = 0; d <= max; d++) {
+    trace.push(v.slice())
+    for (let k = -d; k <= d; k += 2) {
+      let x = (k === -d) || ((k !== d) && (v[offset + k - 1] < v[offset + k + 1])) ? v[offset + k + 1] : v[offset + k - 1] + 1
+      let y = x - k
+      while ((x < n) && (y < m) && (a[Ai + x] === b[Bi + y])) {
+        x++
+        y++
+      }
+      v[offset + k] = x
+      if ((x >= n) && (y >= m))
+        break outer
+    }
   }
+  // Backtrack the recorded trace into an ordered edit script
+  const ops = [] as line[]
+  let x = n
+  let y = m
+  for (let d = trace.length - 1; d > 0; d--) {
+    const w = trace[d]
+    const k = x - y
+    const previous = (k === -d) || ((k !== d) && (w[offset + k - 1] < w[offset + k + 1])) ? k + 1 : k - 1
+    const px = w[offset + previous]
+    const py = px - previous
+    while ((x > px) && (y > py)) {
+      ops.push({ line: a[Ai + x - 1], a: Ai + x - 1, b: Bi + y - 1 })
+      x--
+      y--
+    }
+    if (x > px) {
+      ops.push({ line: a[Ai + x - 1], a: Ai + x - 1, b: -1 })
+      x--
+    } else {
+      ops.push({ line: b[Bi + y - 1], a: -1, b: Bi + y - 1 })
+      y--
+    }
+  }
+  for (let i = ops.length - 1; i >= 0; i--)
+    register(result, A, B, ops[i].a, ops[i].b)
 }
 
 /** Recurses on each LCS subsequences until there are none available */
@@ -293,55 +300,13 @@ function recurse(result: result, A: operand, B: operand, Ai: number, Aj: number,
     submatch(result, A, B, Ai, Aj, Bi, Bj)
     return
   }
-  if ((Ai < x[0].a) || (Bi < x[0].b)) {
+  if ((Ai < x[0].a) || (Bi < x[0].b))
     submatch(result, A, B, Ai, x[0].a - 1, Bi, x[0].b - 1)
-  }
   let i = 0
-  for (; i < x.length - 1; i++) {
+  for (; i < x.length - 1; i++)
     submatch(result, A, B, x[i].a, x[i + 1].a - 1, x[i].b, x[i + 1].b - 1)
-  }
-  if (+(x[i].a <= Aj) | +(x[i].b <= Bj)) {
+  if (+(x[i].a <= Aj) | +(x[i].b <= Bj))
     submatch(result, A, B, x[i].a, Aj, x[i].b, Bj)
-  }
-}
-
-/** Post-process result */
-function postprocess(result: result) {
-  const la = result.lines.findLast(({ a }) => a >= 0)!
-  const lb = result.lines.findLast(({ b }) => b >= 0)!
-  // Handle new lines
-  if ((la.line !== "\n") && (lb.line !== "\n")) {
-    // - diff
-    // \ No newline at end of file
-    // + diff
-    // \ No newline at end of file
-    if (la !== lb) {
-      result.lines.splice(result.lines.indexOf(la) + 1, 0, { line: "", a: la.a + 1, b: -1, token: "!\n" })
-      result.lines.splice(result.lines.indexOf(lb) + 1, 0, { line: "", a: -1, b: lb.b + 1, token: "!\n" })
-    } // \ No newline at end of file
-    else if (la === lb) {
-      result.lines.splice(result.lines.indexOf(la) + 1, 0, { line: "", a: la.a + 1, b: lb.b + 1, token: "!\n" })
-    }
-  } else {
-    // - diff
-    // \ No newline at end of file
-    // + diff
-    if ((lb.line === "\n") && (lb.b >= 0) && (lb.a < 0)) {
-      result.lines.splice(result.lines.indexOf(la), 1, { ...la, b: -1 }, { line: "", a: la.a + 1, b: -1, token: "!\n" }, ...((la.a >= 0) && (la.b >= 0) ? [{ ...la, b: la.a, a: -1 }] : []))
-      result.lines.splice(result.lines.indexOf(lb), 1)
-    }
-    // - diff
-    // + diff
-    // \ No newline at end of file
-    if ((la.line === "\n") && (la.a >= 0) && (la.b < 0)) {
-      result.lines.splice(result.lines.indexOf(lb), 1, ...((lb.a >= 0) && (lb.b >= 0) ? [{ ...lb, a: lb.b, b: -1 }] : []), { ...lb, a: -1 }, { line: "", a: -1, b: lb.b + 1, token: "!\n" })
-      result.lines.splice(result.lines.indexOf(la), 1)
-    }
-    // Preserve final newline
-    if ((la === lb) && (la.line === "\n")) {
-      la.token = "\n"
-    }
-  }
 }
 
 /** Bram Cohen's patience diff algorithm */
@@ -350,7 +315,6 @@ function patience(a: string[], b: string[]) {
   const B = { lines: b } as operand
   const result = { lines: [], added: 0, deleted: 0 } as result
   recurse(result, A, B, 0, A.lines.length - 1, 0, B.lines.length - 1)
-  postprocess(result)
   return result
 }
 
@@ -362,7 +326,7 @@ type result = {
 }
 
 /** Line entry */
-type line = { line: string; token?: string } & position
+type line = { line: string } & position
 
 /** Line position */
 type position = { a: number; b: number }

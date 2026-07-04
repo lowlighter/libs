@@ -3,6 +3,7 @@
   "name": "@libs/toolbox",
   "version": "0.11.1",
   "imports": {
+    "@std/fmt": "jsr:@std/fmt@^1.0.10",
     "@std/fs": "jsr:@std/fs@^1.0.23",
     "@std/path": "jsr:@std/path@^1.1.4",
     "@std/tar": "jsr:@std/tar@0.1.10",

@@ -59,10 +59,16 @@ Deno.test("`diff()` handles complex texts", { permissions: { read: true } }, asy
   expect(diff(a, b)).toStrictEqual(c)
 })
 
+Deno.test("`diff()` minimally diffs regions of duplicate lines (matching the `diff` command line tool)", () => {
+  // No unique line to anchor on: the Myers fallback keeps common lines as context instead of deleting then re-adding them
+  expect(diff("a\na\na", "b\na\na")).toStrictEqual("--- a\n+++ b\n@@ -1,3 +1,3 @@\n-a\n+b\n a\n a\n\\ No newline at end of file\n")
+  // Common lines kept in the interior of the region (Myers snake) as well as at its boundaries
+  expect(diff("a\na\na\na\n", "a\nb\na\nb\n")).toStrictEqual("--- a\n+++ b\n@@ -1,4 +1,4 @@\n a\n+b\n a\n-a\n-a\n+b\n")
+  expect(diff("x\na\na\nx", "x\nb\na\nx")).toStrictEqual("--- a\n+++ b\n@@ -1,4 +1,4 @@\n x\n-a\n+b\n a\n x\n\\ No newline at end of file\n")
+})
+
 Deno.test("`diff()` handles edits whose context crosses a missing final newline", () => {
-  expect(diff("a\na\na\nb", "a\na\nb\na", { context: 0 })).toStrictEqual(
-    "--- a\n+++ b\n@@ -3 +2,0 @@\n-a\n@@ -4,0 +4 @@\n+a\n\\ No newline at end of file",
-  )
+  expect(diff("a\na\na\nb", "a\na\nb\na", { context: 0 })).toStrictEqual("--- a\n+++ b\n@@ -3,2 +3,2 @@\n-a\n-b\n\\ No newline at end of file\n+b\n+a\n\\ No newline at end of file\n")
 })
 
 Deno.test(`\`diff()\` supports colors options`, { permissions: { read: true } }, async () => {

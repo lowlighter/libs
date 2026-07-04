@@ -103,6 +103,7 @@ Deno.test("`apply()` validates hunk header for text a lines", { permissions: { r
 +++ b
 @@ -1,999 +0,0 @@
 -Lorem ipsum dolor sit amet
+\\ No newline at end of file
 `.trim(),
       ) as unknown as AggregateError)
     } catch (error) {
@@ -153,5 +154,45 @@ Deno.test("`apply()` validates context lines", { permissions: { read: true } }, 
   }).catch((error) => error)
   expect(error).toBeInstanceOf(AggregateError)
   expect(error.errors).toHaveLength(1)
-  expect(() => throws(error.errors[0])).toThrow(SyntaxError, `Patch 1: line -1 mismatch (expected "Consectetur adipiscing elit", actual "")`)
+  expect(() => throws(error.errors[0])).toThrow(SyntaxError, `Patch 1: line 0 mismatch (expected "Consectetur adipiscing elit", actual "Lorem ipsum dolor sit amet")`)
+})
+
+Deno.test("`apply()` validates empty context lines", () => {
+  let error: AggregateError | undefined
+  try {
+    apply("hello\n", "--- a\n+++ b\n@@ -1 +1 @@\n\n")
+  } catch (caught) {
+    error = caught as AggregateError
+  }
+  expect(error).toBeInstanceOf(AggregateError)
+  expect(error!.errors).toHaveLength(1)
+  expect(() => throws(error!.errors[0])).toThrow(SyntaxError, `Patch 1: line 0 mismatch (expected "", actual "hello")`)
+})
+
+Deno.test("`apply()` inserts into an empty file without reversing lines", () => {
+  expect(apply("", diff("", "a\nb\nc"))).toStrictEqual("a\nb\nc")
+})
+
+Deno.test("`apply()` keeps the trailing newline when a deletion at EOF drops a no-newline line", () => {
+  expect(apply("a\nb\nc", diff("a\nb\nc", "a\nb\n"))).toStrictEqual("a\nb\n")
+  expect(apply("a\na\na", diff("a\na\na", "a\na\n"))).toStrictEqual("a\na\n")
+})
+
+Deno.test("`diff()`/`apply()` round-trip previously broken edge cases", () => {
+  const cases: Array<[string, string]> = [
+    // append to a file without a final newline
+    ["a\nb", "a\nb\nc"],
+    // insert into an empty file, starting with a blank line
+    ["", "\na\n"],
+    // change preceding a trailing empty context line
+    ["a\nb\n\n", "a\nc\n\n"],
+    // duplicate lines with a leading change and no final newline
+    ["a\na\na", "b\na\na"],
+    // blank line kept as context between changes
+    ["a\n\nb\n", "a\n\nc\n"],
+  ]
+  for (const [a, b] of cases) {
+    for (const context of [0, 1, 3])
+      expect(apply(a, diff(a, b, { context }))).toStrictEqual(b)
+  }
 })

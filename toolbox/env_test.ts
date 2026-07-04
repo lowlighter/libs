@@ -1,5 +1,5 @@
 import type { testing } from "@libs/testing"
-import { expect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
 import { env } from "./env.ts"
 
 for (
@@ -47,7 +47,7 @@ for (
     { name: "LIBS_TEST_ENV_FORBIDDEN", options: { boolean: true, default: "y" }, value: true },
   ]
 ) {
-  test(`\`env(${name}, ${JSON.stringify(options)})\` with \`LIBS_TEST_ENV=${set}\` is ${value}`, () => {
+  Deno.test(`\`env(${name}, ${JSON.stringify(options)})\` with \`LIBS_TEST_ENV=${set}\` is ${value}`, { permissions: { env: ["LIBS_TEST_ENV", "LIBS_TEST_ENV_UNDEFINED"] } }, () => {
     const Deno = globalThis.Deno
     try {
       Deno.env.set("LIBS_TEST_ENV", set)
@@ -55,10 +55,10 @@ for (
     } finally {
       Deno.env.delete("LIBS_TEST_ENV")
     }
-  }, { permissions: { env: ["LIBS_TEST_ENV", "LIBS_TEST_ENV_UNDEFINED"] } })
+  })
 }
 
-test("`get()` handles errors gracefully", () => {
+Deno.test("`get()` handles errors gracefully", { permissions: { env: ["LIBS_TEST_ENV_UNDEFINED"] } }, () => {
   const Deno = globalThis.Deno
   try {
     delete (globalThis as testing).Deno
@@ -66,4 +66,4 @@ test("`get()` handles errors gracefully", () => {
   } finally {
     Object.assign(globalThis, { Deno })
   }
-}, { permissions: { env: ["LIBS_TEST_ENV_UNDEFINED"] } })
+})

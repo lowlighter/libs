@@ -1,4 +1,5 @@
-import { expect, inspect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
+import { inspect } from "@libs/testing/highlight"
 import { clone } from "./clone.ts"
 
 for (
@@ -22,7 +23,7 @@ for (
     { value: { foo: "bar", symbol: Symbol("foo"), fn: () => "foo" }, cloned: { foo: "bar" }, structuredCloneable: true },
   ]
 ) {
-  test(`\`clone(${inspect(value)})\` returns a cloned value`, () => {
+  Deno.test(`\`clone(${inspect(value)})\` returns a cloned value`, () => {
     const result = clone(value, { structuredCloneable })
     expect(result).toEqual(cloned)
     if (cloneable) {

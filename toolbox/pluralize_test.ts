@@ -1,7 +1,7 @@
-import { expect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
 import { pluralize } from "./pluralize.ts"
 
-test("`pluralize()` adds `s` by default", () => {
+Deno.test("`pluralize()` adds `s` by default", () => {
   expect(pluralize("user")).toBe("users")
   expect(pluralize("post")).toBe("posts")
   expect(pluralize("tag")).toBe("tags")
@@ -10,7 +10,7 @@ test("`pluralize()` adds `s` by default", () => {
   expect(pluralize("boy")).toBe("boys")
 })
 
-test("`pluralize()` adds `es` after a sibilant ending", () => {
+Deno.test("`pluralize()` adds `es` after a sibilant ending", () => {
   expect(pluralize("box")).toBe("boxes")
   expect(pluralize("class")).toBe("classes")
   expect(pluralize("address")).toBe("addresses")
@@ -21,21 +21,21 @@ test("`pluralize()` adds `es` after a sibilant ending", () => {
   expect(pluralize("quiz")).toBe("quizes")
 })
 
-test("`pluralize()` turns a consonant + `y` into `ies`", () => {
+Deno.test("`pluralize()` turns a consonant + `y` into `ies`", () => {
   expect(pluralize("category")).toBe("categories")
   expect(pluralize("company")).toBe("companies")
   expect(pluralize("country")).toBe("countries")
   expect(pluralize("city")).toBe("cities")
 })
 
-test("`pluralize()` handles common irregular nouns", () => {
+Deno.test("`pluralize()` handles common irregular nouns", () => {
   expect(pluralize("person")).toBe("people")
   expect(pluralize("child")).toBe("children")
   expect(pluralize("man")).toBe("men")
   expect(pluralize("woman")).toBe("women")
 })
 
-test("`pluralize()` preserves the original casing", () => {
+Deno.test("`pluralize()` preserves the original casing", () => {
   expect(pluralize("User")).toBe("Users")
   expect(pluralize("BlogPost")).toBe("BlogPosts")
   expect(pluralize("USER")).toBe("USERS")
@@ -45,6 +45,6 @@ test("`pluralize()` preserves the original casing", () => {
   expect(pluralize("Woman")).toBe("Women")
 })
 
-test("`pluralize()` returns an empty string unchanged", () => {
+Deno.test("`pluralize()` returns an empty string unchanged", () => {
   expect(pluralize("")).toBe("")
 })
