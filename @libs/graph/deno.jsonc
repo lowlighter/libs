@@ -13,11 +13,5 @@
     "./line": "./line.ts",
     "./pie": "./pie.ts",
     "./time": "./time.ts"
-  },
-  "test:permissions": {
-    "env": true
-  },
-  "supported": {
-    "deno": true
   }
 }
