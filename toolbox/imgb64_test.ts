@@ -11,3 +11,13 @@ Deno.test("`imgb64()` fallbacks on an empty image when ", async () => {
   const url = "data:image/png;base64"
   await expect(imgb64(url)).resolves.toMatch(/^data:image\/png;base64,/)
 })
+
+Deno.test("`imgb64()` fallbacks on an empty image when the response is not ok", async () => {
+  const server = Deno.serve({ port: 0, onListen: () => {} }, () => new Response("not found", { status: 404 }))
+  try {
+    const url = `http://localhost:${server.addr.port}/image.png`
+    await expect(imgb64(url)).resolves.toBe("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==")
+  } finally {
+    await server.shutdown()
+  }
+})
