@@ -1,0 +1,3 @@
+sayhello: hello ${name}
+saygoodbye: bye
+1: one
