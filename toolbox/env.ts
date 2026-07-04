@@ -25,15 +25,13 @@ export function env(key: string, options: { boolean: true; default?: string }): 
 export function env(key: string, { boolean = false, default: _default = "" } = {}) {
   if (boolean) {
     const value = env(key, { boolean: false, default: _default })
-    if (+value === 0) {
+    if (+value === 0)
       return false
-    }
     return !/^([Nn]o?|NO|[Oo]ff|OFF|[Ff]alse|FALSE)$/.test(value)
   }
   try {
-    if (Deno.permissions.querySync({ name: "env", variable: key }).state !== "granted") {
+    if (Deno.permissions.querySync({ name: "env", variable: key }).state !== "granted")
       return _default
-    }
     return Deno.env.get(key) || _default
   } catch {
     return _default

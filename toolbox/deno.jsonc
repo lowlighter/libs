@@ -24,13 +24,5 @@
     "./promises": "./promises.ts",
     "./resolve": "./resolve.ts",
     "./timezone": "./timezone.ts"
-  },
-  "test:permissions": {
-    "read": true,
-    "net": true,
-    "env": true
-  },
-  "supported": {
-    "deno": true
   }
 }

@@ -1,9 +1,8 @@
 /** Compute deno permissions flag from a `Deno.PermissionOptions`-like object. */
 export function flags(permissions: Deno.PermissionOptions | boolean | null): string {
   const flags = []
-  if ((permissions === true) || (permissions === "inherit")) {
+  if ((permissions === true) || (permissions === "inherit"))
     flags.push("--allow-all")
-  }
   if ((typeof permissions === "object") && permissions) {
     for (const type of ["env", "ffi", "import", "net", "read", "run", "sys", "write"] as const) {
       if ((permissions[type] === true) || (permissions[type] === "inherit")) {

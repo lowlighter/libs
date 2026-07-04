@@ -16,9 +16,11 @@ const rules: [RegExp, string][] = [
  * handles the regular cases and a handful of everyday irregulars.
  */
 export function pluralize(noun: string): string {
-  if (!noun) return noun
+  if (!noun)
+    return noun
   for (const [regex, replacement] of rules) {
-    if (!regex.test(noun)) continue
+    if (!regex.test(noun))
+      continue
     const plural = noun.replace(regex, replacement)
     return noun === noun.toUpperCase() ? plural.toUpperCase() : plural
   }

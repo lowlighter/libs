@@ -6,18 +6,15 @@
  * - Incompatible types are ignored
  */
 export function clone<T>(value: T, options?: { structuredCloneable?: boolean }): T {
-  if (Array.isArray(value)) {
+  if (Array.isArray(value))
     return value.map((item) => clone(item)) as T
-  }
-  if ([Date, Error, Map, Set, RegExp].some((type) => value instanceof type)) {
+  if ([Date, Error, Map, Set, RegExp].some((type) => value instanceof type))
     return structuredClone(value) as T
-  }
   if ((typeof value === "object") && (value !== null)) {
     const cloned = {} as Record<PropertyKey, unknown>
     for (const [k, v] of Object.entries(value)) {
-      if ((options?.structuredCloneable) && (typeof v === "symbol" || typeof v === "function")) {
+      if ((options?.structuredCloneable) && (typeof v === "symbol" || typeof v === "function"))
         continue
-      }
       cloned[k] = clone(v, options)
     }
     return cloned as T

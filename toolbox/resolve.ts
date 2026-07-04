@@ -14,12 +14,10 @@ export type ResolveOptions = {
 /** Resolve a module specifier in a similar way to `import.meta.resolve`. */
 export function resolve(specifier: string, { base, entrypoint = "mod.ts" }: ResolveOptions = {}): string {
   if (["./", "../", "/"].some((prefix) => specifier.startsWith(prefix))) {
-    if (specifier.endsWith("/")) {
+    if (specifier.endsWith("/"))
       specifier += entrypoint
-    }
-    if (typeof base === "object") {
+    if (typeof base === "object")
       base = (new URL(base.url).protocol === "file:") ? dirname(fromFileUrl(base.url)) : undefined
-    }
     base ??= cwd()
     return toFileUrl(normalize(isAbsolute(specifier) ? specifier : join(base, specifier))).href
   }

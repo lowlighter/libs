@@ -26,8 +26,7 @@ for (
   Deno.test(`\`clone(${inspect(value)})\` returns a cloned value`, () => {
     const result = clone(value, { structuredCloneable })
     expect(result).toEqual(cloned)
-    if (cloneable) {
+    if (cloneable)
       structuredClone(result)
-    }
   })
 }

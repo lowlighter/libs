@@ -1,15 +1,10 @@
 /** Format a country code as a flag emoji. */
 export function countryFlag(code: string): string {
   const cc = code.trim().toUpperCase()
-  if (!/^[A-Z]{2}$/.test(cc)) {
+  if (!/^[A-Z]{2}$/.test(cc))
     return code
-  }
-
   const A = 0x1f1e6
-  return String.fromCodePoint(
-    A + (cc.charCodeAt(0) - 65),
-    A + (cc.charCodeAt(1) - 65),
-  )
+  return String.fromCodePoint(A + (cc.charCodeAt(0) - 65), A + (cc.charCodeAt(1) - 65))
 }
 
 /** Normalize string to uppercase and remove diacritics. */

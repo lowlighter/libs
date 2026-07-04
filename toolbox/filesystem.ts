@@ -18,12 +18,10 @@ export function chdir(path: string | URL): string {
 export function filetype(path: string): Nullable<"file" | "directory"> {
   try {
     const lstat = Deno.lstatSync(path)
-    if (lstat.isFile) {
+    if (lstat.isFile)
       return "file"
-    }
-    if (lstat.isDirectory) {
+    if (lstat.isDirectory)
       return "directory"
-    }
   } catch {
     // Ignore errors
   }
@@ -50,9 +48,8 @@ export type ListOptions = {
 
 /** Lists all files matching the given glob pattern in the specified root directory. */
 export async function list(glob: string, { root = cwd(), relative = true, files = false, directories = false, exclude, caseInsensitive, followSymlinks }: ListOptions = {}): Promise<string[]> {
-  if (!root.endsWith("/")) {
+  if (!root.endsWith("/"))
     root += "/"
-  }
   const entries = await Array.fromAsync(expandGlob(glob, { root, canonicalize: true, includeDirs: directories, exclude, caseInsensitive, followSymlinks }))
   return entries
     .filter(({ path }) => [files ? "file" : "", directories ? "directory" : ""].filter(Boolean).includes(filetype(path) as string))

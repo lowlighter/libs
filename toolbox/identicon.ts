@@ -4,7 +4,7 @@
  * A mirror-symmetric pixel grid with a seeded hue to generate  a simple recognisable default avatar.
  */
 export function identicon(seed: string, { size = 5 } = { size: 5 }): string {
-  // FNV-1a 32-bit hash of the seed → drives both the colour + the cell bits.
+  // FNV-1a 32-bit hash of the seed
   let h = 0x811c9dc5
   for (let i = 0; i < seed.length; i++) {
     h ^= seed.charCodeAt(i)
@@ -14,7 +14,7 @@ export function identicon(seed: string, { size = 5 } = { size: 5 }): string {
   const hue = h % 360
   const fg = `hsl(${hue} 58% 62%)`
   const bg = `hsl(${hue} 26% 18%)`
-  // Seed an LCG from the hash; light up cells in the left half and mirror.
+  // Seed an LCG from the hash
   let r = h || 1
   const next = () => (r = (Math.imul(r, 1103515245) + 12345) >>> 0)
   const cells: string[] = []
@@ -22,9 +22,8 @@ export function identicon(seed: string, { size = 5 } = { size: 5 }): string {
     for (let x = 0; x < Math.ceil(size / 2); x++) {
       if (next() & 0x10000) {
         cells.push(`<rect x="${x}" y="${y}" width="1" height="1"/>`)
-        if (x < Math.floor(size / 2)) {
+        if (x < Math.floor(size / 2))
           cells.push(`<rect x="${size - 1 - x}" y="${y}" width="1" height="1"/>`)
-        }
       }
     }
   }

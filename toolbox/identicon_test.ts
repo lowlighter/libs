@@ -9,9 +9,8 @@ function decode(url: string): string {
 /** Extracts the set of lit cells (`"x,y"`) from an identicon SVG. */
 function cells(svg: string): Set<string> {
   const set = new Set<string>()
-  for (const [, x, y] of svg.matchAll(/<rect x="(\d+)" y="(\d+)" width="1"/g)) {
+  for (const [, x, y] of svg.matchAll(/<rect x="(\d+)" y="(\d+)" width="1"/g))
     set.add(`${x},${y}`)
-  }
   return set
 }
 

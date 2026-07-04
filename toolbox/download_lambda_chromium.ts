@@ -41,9 +41,8 @@ export function chromium({ version = "141.0.0", path = "/tmp/chromium", arch = D
         try {
           if ((!await exists(path)) || force) {
             const url = `https://github.com/Sparticuz/chromium/releases/download/v${version}/chromium-v${version}-pack.${{ x86_64: "x64", aarch64: "arm64" }[arch] ?? "unknown"}.tar`
-            if (debug) {
+            if (debug)
               console.debug(`Downloading Chromium v${version} from ${url}`)
-            }
             await extract(await fetch(url).then((response) => response.body!), { path: dirname(path), debug })
           }
           resolve(path)
@@ -57,15 +56,13 @@ export function chromium({ version = "141.0.0", path = "/tmp/chromium", arch = D
   if (env) {
     if (!Deno.env.get("FONTCONFIG_PATH")) {
       Deno.env.set("FONTCONFIG_PATH", join(dirname(path), "fonts"))
-      if (debug) {
+      if (debug)
         console.debug(`Set FONTCONFIG_PATH to ${Deno.env.get("FONTCONFIG_PATH")}`)
-      }
     }
     if (!Deno.env.get("LD_LIBRARY_PATH")?.includes(join(dirname(path), "al2023"))) {
       Deno.env.set("LD_LIBRARY_PATH", [join(dirname(path), "al2023"), Deno.env.get("LD_LIBRARY_PATH")].join(":"))
-      if (debug) {
+      if (debug)
         console.debug(`Set LD_LIBRARY_PATH to ${Deno.env.get("LD_LIBRARY_PATH")}`)
-      }
     }
   }
 
@@ -75,9 +72,8 @@ export function chromium({ version = "141.0.0", path = "/tmp/chromium", arch = D
 /** Extract tar stream. */
 async function extract(stream: ReadableStream<Uint8Array<ArrayBuffer>>, { path, debug }: { path: string; debug?: boolean }) {
   for await (const entry of stream.pipeThrough(new UntarStream())) {
-    if (!entry.readable) {
+    if (!entry.readable)
       continue
-    }
     let name = basename(entry.path)
     let buffer = await toArrayBuffer(entry.readable) as ArrayBuffer | Buffer<ArrayBufferLike>
     if (name.endsWith(".br")) {
@@ -93,9 +89,8 @@ async function extract(stream: ReadableStream<Uint8Array<ArrayBuffer>>, { path, 
     await ensureDir(dirname(name))
     await Deno.writeFile(name, new Uint8Array(buffer))
     await Deno.chmod(name, 0o700)
-    if (debug) {
+    if (debug)
       console.debug(`Extracted ${name}`)
-    }
   }
 }
 
