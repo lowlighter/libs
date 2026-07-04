@@ -1,6 +1,6 @@
 import { spec } from "./testing/mod.ts"
 import { arrayable, bodyInit, callable, cliable, clonable, coalesce, coerce, date, duration, expression, is, nullable, parse, parser, permissions, primitive, regex, typedArray, url } from "./is.ts"
-import { expect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
 
 spec("coalesce", coalesce(is.unknown()), [
   // Coalesce
@@ -332,25 +332,25 @@ spec("parser", parser, [
   ...spec.parser,
 ], { strict: false, prefault: false })
 
-test("parse() parses values", () => {
+Deno.test("parse() parses values", () => {
   parse(is.string(), "foo")
   expect(() => parse(is.string(), true)).toThrow(TypeError, "Validation failed: \n✘ Invalid input: expected string, received boolean")
   expect(() => parse(is.string(), true, { zodError: true })).toThrow(is.ZodError)
 })
 
-test("parse() parses values asynchronously", async () => {
-  await parse(is.string(), "foo")
+Deno.test("parse() parses values asynchronously", async () => {
+  parse(is.string(), "foo")
   await expect(parse(is.string(), true, { async: true })).rejects.toThrow(TypeError, "Validation failed: \n✘ Invalid input: expected string, received boolean")
   await expect(parse(is.string(), true, { async: true, zodError: true })).rejects.toThrow(is.ZodError)
 })
 
-test("parse() prettifies issue paths", () => {
+Deno.test("parse() prettifies issue paths", () => {
   // Property and index segments
   expect(() => parse(is.object({ foo: is.object({ bar: is.array(is.string()) }) }), { foo: { bar: [1] } })).toThrow(TypeError, "→ at .foo.bar[0]")
   // Segments with special characters
   expect(() => parse(is.object({ "foo-bar": is.string() }), { "foo-bar": 1 })).toThrow(TypeError, '→ at ["foo-bar"]')
 })
 
-test("parse() prettifies union issues", () => {
+Deno.test("parse() prettifies union issues", () => {
   expect(() => parse(is.object({ foo: is.union([is.string(), is.number()]) }), { foo: true })).toThrow(TypeError, "→ tried to fit into one of the allowed types:")
 })
