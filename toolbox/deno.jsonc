@@ -9,19 +9,23 @@
     "@std/tar": "jsr:@std/tar@0.1.10",
     "@std/streams": "jsr:@std/streams@^1.0.17",
     "@std/cli": "jsr:@std/cli@^1.0.28",
-    "@std/encoding": "jsr:@std/encoding@^1.0.10"
+    "@std/encoding": "jsr:@std/encoding@^1.0.10",
+    "@std/jsonc": "jsr:@std/jsonc@^1.0.2"
   },
   "exports": {
-    "./download-lambda-chromium": "./download_lambda_chromium.ts",
-    "./code-quality": "./code_quality.ts",
+    "./clone": "./clone.ts",
+    "./scripts/download-lambda-chromium": "./scripts/download_lambda_chromium.ts",
+    "./scripts/code-quality": "./scripts/code_quality.ts",
     "./env": "./env.ts",
     "./filesystem": "./filesystem.ts",
     "./format": "./format.ts",
     "./identicon": "./identicon.ts",
     "./imgb64": "./imgb64.ts",
     "./noop": "./noop.ts",
+    "./permissions": "./permissions.ts",
     "./pluralize": "./pluralize.ts",
     "./promises": "./promises.ts",
+    "./publish-x": "./publish_x.ts",
     "./resolve": "./resolve.ts",
     "./timezone": "./timezone.ts"
   }
