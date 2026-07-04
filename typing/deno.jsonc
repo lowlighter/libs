@@ -2,10 +2,6 @@
   "icon": "🗃️",
   "name": "@libs/typing",
   "version": "4.0.1",
-  "tasks": {
-    "test:node": "sleep 0",
-    "test:bun": "sleep 0"
-  },
   "imports": {
     "@std/expect": "jsr:@std/expect@^1.0.16"
   },
@@ -13,12 +9,5 @@
     ".": "./mod.ts",
     "./types": "./types.ts",
     "./func": "./func.ts"
-  },
-  "supported": {
-    "deno": true,
-    "node": true,
-    "bun": true,
-    "cloudflare-workers": true,
-    "browsers": true
   }
 }
