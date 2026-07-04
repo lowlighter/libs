@@ -6,6 +6,7 @@
     "esm"
   ],
   "dependencies": {
+    "@logtape/logtape": "npm:@logtape/logtape@^2.2.0",
     "@std/async": "npm:@jsr/std__async@^1.2.0",
     "@std/streams": "npm:@jsr/std__streams@^1.0.17"
   }
