@@ -9,6 +9,7 @@
   "exports": {
     ".": "./mod.ts",
     "./parse": "./parse.ts",
-    "./stringify": "./stringify.ts"
+    "./stringify": "./stringify.ts",
+    "./wasm/parse": "./wasm/parse.ts"
   }
 }

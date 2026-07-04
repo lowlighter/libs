@@ -1,8 +1,9 @@
 // deno-lint-ignore-file no-external-import
-import { parse } from "./parse.ts"
 import { expect, type testing } from "@libs/testing"
 import { fromFileUrl } from "@std/path"
 import { createWriteStream, promises } from "node:fs"
+const imported = new URL(import.meta.url).hash.slice(1) || "parse"
+const { parse } = await import(`./${imported === "wasm" ? "wasm/parse" : "parse"}.ts`)
 
 //Huge xml file generator
 export async function write(size: number) {
@@ -1224,10 +1225,8 @@ Deno.test("`parse()` xml parser option mode 'xml'", () =>
   `,
       { mode: "xml" },
     )
-  ).toThrow(SyntaxError))
-
-// Tracking issue: https://github.com/denoland/std/issues/7212
-Deno.test.ignore("`parse()` xml parser option mode 'html'", () =>
+  ).toThrow(SyntaxError)) // Tracking issue: https://github.com/denoland/std/issues/7212
+;(imported === "wasm" ? Deno.test : Deno.test.ignore)("`parse()` xml parser option mode 'html'", () =>
   expect(
     parse(
       `
