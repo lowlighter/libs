@@ -62,7 +62,7 @@ export function hex(bytes: Uint8Array | number): string {
  * ```
  */
 export function bytes(hex: string): Uint8Array {
-  return new Uint8Array(hex.match(/.{1,2}/g)!.map((byte) => Number.parseInt(byte, 16)))
+  return new Uint8Array(hex.match(/.{1,2}/g)?.map((byte) => Number.parseInt(byte, 16)) ?? [])
 }
 
 /**
@@ -173,6 +173,11 @@ export async function importKey(key: string): Promise<CryptoKey> {
 
 /**
  * Generate encryption key from seed and salt.
+ *
+ * The `seed` acts as the master password while the `salt` is a non-secret value used to derive distinct keys
+ * from a same seed. It should be unique per user/context (ideally random and stored alongside the ciphertext):
+ * reusing an empty or shared salt lets a same seed always derive the same key, which enables precomputation
+ * attacks (e.g. rainbow tables). The empty values below are for illustration only and should not be used as-is.
  *
  * ```ts
  * import { exportKey } from "./encryption.ts"

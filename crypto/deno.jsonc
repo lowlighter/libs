@@ -2,7 +2,6 @@
   "icon": "🧮",
   "name": "@libs/crypto",
   "version": "2.0.5",
-  "playground": "https://libs.lecoq.io/crypto",
   "imports": {
     "@std/encoding": "jsr:@std/encoding@^1.0.10"
   },
@@ -10,12 +9,5 @@
     ".": "./mod.ts",
     "./encryption": "./encryption.ts",
     "./totp": "./totp.ts"
-  },
-  "supported": {
-    "deno": true,
-    "node": true,
-    "bun": true,
-    "cloudflare-workers": true,
-    "browsers": true
   }
 }
