@@ -21,4 +21,11 @@ Deno.test("`lnfd()` normalizes string to lowercase and removes diacritics", () =
 Deno.test("`stripEmojis()` removes emojis from a string", () => {
   expect(stripEmojis("Hello, world! 👋🌍")).toBe("Hello, world! ")
   expect(stripEmojis("No emojis here.")).toBe("No emojis here.")
+  expect(stripEmojis("Sequences 👨‍👩‍👧 and modifiers 👋🏽")).toBe("Sequences  and modifiers ")
+  expect(stripEmojis("Room 101, #1 and 2 * 3 are kept")).toBe("Room 101, #1 and 2 * 3 are kept")
+})
+
+Deno.test("`stripEmojis()` converts keycaps and flags back to characters", () => {
+  expect(stripEmojis("Press 1️⃣ then #️⃣")).toBe("Press 1 then #")
+  expect(stripEmojis("From 🇫🇷 to 🇯🇵")).toBe("From FR to JP")
 })
