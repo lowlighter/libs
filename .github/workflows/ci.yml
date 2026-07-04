@@ -83,6 +83,7 @@ jobs:
         run: |
           deno test --allow-all --coverage
           deno coverage --html
+          deno run --allow-read --allow-write=coverage @libs/toolbox/scripts/highlight_coverage.ts --root=coverage/html
           mv coverage/html _site
       - uses: actions/upload-pages-artifact@v3
       - id: pages
