@@ -569,6 +569,7 @@ _expect.extend({
     return process(context.isNot, () => {
       isType(context.value, "object", { nullable: false })
       const descriptor = Object.getOwnPropertyDescriptor(context.value, key)
+      if (!descriptor)
         throw new ReferenceError(`Property "${String(key)}" does not exist on object`)
       assertObjectMatch(descriptor, expected)
     }, `Property "${String(key)}" does {!NOT} match provided descriptor, `)
