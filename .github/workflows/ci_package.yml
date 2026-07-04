@@ -151,7 +151,7 @@ jobs:
             exit 0
           fi
           echo "increment: $INCREMENT"
-          pushd ./@libs/$PACKAGE
+          pushd ./$PACKAGE
           deno bump-version --quiet --start "$LAST" "$INCREMENT"
           popd
           git checkout --quiet -- . ":(exclude)$PACKAGE/deno.jsonc"
