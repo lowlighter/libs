@@ -1,0 +1,9 @@
+[package]
+name = "add"
+version = "0.1.0"
+authors = []
+edition = "2024"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]

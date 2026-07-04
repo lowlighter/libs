@@ -1,0 +1,13 @@
+query TestingPaginate($owner: String!, $repo: String!, $cursor: String) {
+  repository(owner: $owner, name: $repo) {
+    issues(first: 1, after: $cursor) {
+      nodes {
+      	title
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
