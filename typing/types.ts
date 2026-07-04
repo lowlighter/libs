@@ -1,10 +1,14 @@
 /** Read-write accessor. */
-//deno-lint-ignore no-explicit-any
+// deno-lint-ignore no-explicit-any
 export type rw = any
 
 /** Callback function. */
 // deno-lint-ignore ban-types
 export type Callback = Function
+
+/** Class constructor. */
+// deno-lint-ignore no-explicit-any
+export type Constructor<T = unknown> = new (...args: any[]) => T
 
 /** Extract value type from Record. */
 export type RecordValue<T> = T extends Record<PropertyKey, infer U> ? U : never
@@ -45,6 +49,13 @@ export type Promisable<T> = T | Promise<T>
 /** Arrayable type. */
 export type Arrayable<T> = T | Array<T>
 
+/** Non-empty {@link https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array | Array} type. */
+export type NonEmptyArray<T> = [T, ...T[]]
+
+/** Flatten intersections into a single mapped type for improved readability. */
+// deno-lint-ignore ban-types
+export type Prettify<T> = { [P in keyof T]: T[P] } & {}
+
 /** Non `void` type. */
 export type NonVoid<T> = T extends void ? never : T
 
@@ -54,16 +65,16 @@ export type Arg<T extends ((...args: any[]) => any), index extends number = 0, r
 
 /** Omit first argument from a function. */
 // deno-lint-ignore no-explicit-any
-export type OmitFirstArg<F> = F extends (_0: any, ...args: infer T) => infer ReturnType ? (...args: T) => ReturnType : never
+export type OmitFirstArg<F> = F extends (_0: any, ...args: infer T) => infer ReturnedType ? (...args: T) => ReturnedType : never
 
 /** Deep partial type. */
-export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T
+export type DeepPartial<T> = T extends Callback ? T : T extends Array<infer U> ? (number extends T["length"] ? Array<DeepPartial<U>> : { [P in keyof T]?: DeepPartial<T[P]> }) : T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T
 
 /** Deep readonly type. */
-export type DeepReadonly<T> = T extends object ? { readonly [P in keyof T]: DeepReadonly<T[P]> } : T
+export type DeepReadonly<T> = T extends Callback ? T : T extends object ? { readonly [P in keyof T]: DeepReadonly<T[P]> } : T
 
 /** Deep non nullable type. */
-export type DeepNonNullable<T> = { [P in keyof T]: T[P] extends object ? DeepNonNullable<NonNullable<T[P]>> : NonNullable<T[P]> }
+export type DeepNonNullable<T> = T extends Callback ? T : T extends object ? { [P in keyof T]: DeepNonNullable<NonNullable<T[P]>> } : T
 
 /** Typed array type. */
 export type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float16Array | Float32Array | Float64Array | BigInt64Array | BigUint64Array
@@ -76,3 +87,6 @@ export type IsAny<T> = boolean extends (T extends never ? true : false) ? true :
 
 /** Check if a type is not `any`. */
 export type IsNotAny<T> = IsAny<T> extends true ? false : true
+
+/** Check if a type is `never`. */
+export type IsNever<T> = [T] extends [never] ? true : false

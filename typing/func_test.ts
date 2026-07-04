@@ -1,7 +1,7 @@
 import { AsyncFunction, AsyncGeneratorFunction, GeneratorFunction } from "./func.ts"
-import { expect, test } from "@libs/testing"
+import { expect } from "@std/expect"
 
-test("`new AsyncFunction()` returns an async function", async () => {
+Deno.test("`new AsyncFunction()` returns an async function", async () => {
   const func = new AsyncFunction("return 1")
   const ret = func()
   expect(func).toBeInstanceOf(Function)
@@ -9,7 +9,7 @@ test("`new AsyncFunction()` returns an async function", async () => {
   await expect(ret).resolves.toBe(1)
 })
 
-test("`new GeneratorFunction()` returns a generator function", () => {
+Deno.test("`new GeneratorFunction()` returns a generator function", () => {
   const func = new GeneratorFunction("yield 1")
   const gen = func()
   expect(func).toBeInstanceOf(Function)
@@ -20,7 +20,7 @@ test("`new GeneratorFunction()` returns a generator function", () => {
   expect(ret).toEqual({ value: 1, done: false })
 })
 
-test("`new AsyncGeneratorFunction()` returns an async generator function", async () => {
+Deno.test("`new AsyncGeneratorFunction()` returns an async generator function", async () => {
   const func = new AsyncGeneratorFunction("yield 1")
   const gen = func()
   expect(func).toBeInstanceOf(Function)

@@ -28,7 +28,7 @@ export interface GeneratorFunctionConstructor {
   readonly prototype: <T = unknown, TReturn = any, TNext = unknown>(...args: unknown[]) => Generator<T, TReturn, TNext>
 }
 
-/** Async genreator function constructor. */
+/** Async generator function constructor. */
 export const AsyncGeneratorFunction = Object.getPrototypeOf(functions.asyncGenerator).constructor as AsyncGeneratorFunctionConstructor
 
 /** Async generator function constructor interface. */

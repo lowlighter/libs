@@ -21,7 +21,7 @@ type args = Arg<typeof foo, 1>
 ## ✨ Features
 
 - `AsyncFunction`, `GeneratorFunction` and `AsyncGeneratorFunction` constructors.
-- Addtional useful type utilites.
+- Additional useful type utilities.
 
 ## 📜 License
 
