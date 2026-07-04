@@ -25,7 +25,19 @@ jobs:
       - name: List packages
         id: packages
         run: |
-          echo "packages=$(deno eval 'console.log(JSON.stringify([...Deno.readDirSync(`.`)].filter(({name}) => { try { return Deno.openSync(`${name}/deno.jsonc`) } catch { return false } }).map(({name}) => name)))')" >> $GITHUB_OUTPUT
+          echo "packages=$(deno eval --quiet '
+            import { parse } from "jsr:@std/jsonc"
+            import { expandGlob } from "jsr:@std/fs"
+            import { dirname, relative } from "jsr:@std/path"
+            const { workspace = [] } = parse(Deno.readTextFileSync("deno.jsonc"))
+            const packages = []
+            for (const member of workspace) {
+              for await (const { path } of expandGlob(`${member}/deno.json?(c)`, { includeDirs: false })) {
+                packages.push(relative(Deno.cwd(), dirname(path)))
+              }
+            }
+            console.log(JSON.stringify(packages))
+          ')" >> "$GITHUB_OUTPUT"
 
   package:
     name: Package
@@ -38,7 +50,6 @@ jobs:
       id-token: write
       contents: write
       packages: write
-      security-events: write
     uses: lowlighter/libs/.github/workflows/ci_package.yml@main
     with:
       ref: ${{ github.ref }}
@@ -68,85 +79,26 @@ jobs:
           ref: main
       - uses: actions/configure-pages@v5
       - uses: denoland/setup-deno@v2
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
-      - name: Run deno task make:coverage
+      - name: Run deno test --coverage
         run: |
-          deno task make:coverage
+          deno test --allow-all --coverage
+          deno coverage --html
           mv coverage/html _site
       - uses: actions/upload-pages-artifact@v3
       - id: pages
         uses: actions/deploy-pages@v4
 
-  autogen:
-    name: Auto-generate files
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    needs:
-      - setup
-      - package
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-      - uses: denoland/setup-deno@v2
-      - name: Configure git
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-      - name: Run deno task make:readme
-        run: |
-          deno task make:readme
-          if [ -n "$(git status --porcelain)" ]; then
-            git diff
-            git add README.md
-            git commit -m 'doc: update `README.md`'
-            git pull --rebase
-            git push
-          fi
-
-  codeql:
-    name: Code quality (global)
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    needs: package
-    permissions:
-      security-events: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-      - uses: github/codeql-action/init@v3
-        with:
-          languages: typescript
-      - uses: github/codeql-action/analyze@v3
-
   publish:
     name: Publish
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
-    needs:
-      - autogen
-      - codeql
+    needs: package
     permissions:
-      id-token: write
       contents: write
     steps:
-      # Setup
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v2
-      - name: Configure git
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-      # Publish
       - name: Run deno.land/x publish
-        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --x.name libs --x.repository '${{ github.repository }}' --x.token '${{ secrets.GH_TOKEN }}' --x.version "$(date '+%Y.%m.%d')" --x.map deno.jsonc --x.reactive --x.remove
+        run: deno run --allow-all @libs/toolbox/scripts/publish/x.ts --repository '${{ github.repository }}' --token '${{ secrets.GH_TOKEN }}' --name libs --version "$(date '+%Y.%m.%d')" --map deno.jsonc --reactive --remove

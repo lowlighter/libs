@@ -58,15 +58,22 @@ jobs:
     name: Setup
     runs-on: ubuntu-latest
     outputs:
-      edited: ${{ steps.files.outputs.any_changed }}
+      edited: ${{ steps.files.outputs.edited }}
     steps:
       - uses: actions/checkout@v4
-      - id: files
-        uses: tj-actions/changed-files@v44
         with:
-          files: |
-            ${{ inputs.package }}/**
-            .github/workflows/ci_package.yml
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v2
+      - name: List changed files
+        id: files
+        env:
+          PACKAGE: ${{ inputs.package }}
+          BASE: ${{ github.base_ref && format('origin/{0}', github.base_ref) || github.event.before }}
+        run: |
+          echo "edited=$(deno eval --quiet '
+            import { changed } from "./@libs/git/utils.ts"
+            console.log(changed([`${Deno.env.get("PACKAGE")}/**`, ".github/workflows/ci_package.yml"], { base: Deno.env.get("BASE") }).length > 0)
+          ')" >> "$GITHUB_OUTPUT"
 
   lint:
     name: Lint
@@ -79,166 +86,103 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v2
-      - run: deno task lint --check
-
-  codeql:
-    name: Code quality
-    if: (inputs.ref == 'refs/heads/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
-    runs-on: ubuntu-latest
-    needs: setup
-    permissions:
-      security-events: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
-        with:
-          languages: typescript
-          config: |
-            paths:
-              - ${{ inputs.package }}
-      - uses: github/codeql-action/analyze@v3
+      - run: deno fmt --check
+      - run: deno lint
 
   test:
-    name: Build, test and bench
+    name: Test
     if: (inputs.ref == 'refs/heads/main' && inputs.event == 'push') || (needs.setup.outputs.edited == 'true')
     runs-on: ubuntu-latest
     needs: setup
     defaults:
       run:
         working-directory: ${{ inputs.package }}
-    outputs:
-      releasable: ${{ steps.releasable.outputs.releasable }}
-      has_build: ${{ steps.package.outputs.has_build }}
-      has_npm: ${{ steps.package.outputs.has_npm }}
-      has_x: ${{ steps.package.outputs.has_x }}
-      supports_deno: ${{ steps.package.outputs.supports_deno }}
-      supports_node: ${{ steps.package.outputs.supports_node }}
-      supports_bun: ${{ steps.package.outputs.supports_bun }}
-      supports_browsers: ${{ steps.package.outputs.supports_browsers }}
-      tag: ${{ steps.tag.outputs.tag }}
-      version: ${{ steps.tag.outputs.semver }}
     steps:
-      # Setup
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: denoland/setup-deno@v2
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
-      - name: Check package requirements
-        id: package
-        run: |
-          echo "has_build=$(deno task jq --boolean .tasks.build)" >> "$GITHUB_OUTPUT"
-          echo "has_npm=" >> "$GITHUB_OUTPUT"
-          echo "has_x=$(deno task jq --boolean .["deno.land/x"])" >> "$GITHUB_OUTPUT"
-          echo "supports_deno=$(deno task jq --boolean .supported.deno)" >> "$GITHUB_OUTPUT"
-          echo "supports_node=$(deno task jq --boolean .supported.node)" >> "$GITHUB_OUTPUT"
-          echo "supports_bun=$(deno task jq --boolean .supported.bun)" >> "$GITHUB_OUTPUT"
-          echo "supports_browsers=$(deno task jq --boolean .supported.browsers)" >> "$GITHUB_OUTPUT"
-      # Build
-      - run: deno task build
-        if: ${{ steps.package.outputs.has_build }}
-      # Tests
-      - run: deno task test:deno
-        if: ${{ steps.package.outputs.supports_deno }}
-      - run: deno task test:node
-        if: ${{ steps.package.outputs.supports_node }}
-      - run: deno task test:bun
-        if: ${{ steps.package.outputs.supports_bun }}
-      # Bench
-      - run: deno task bench
-      # Tag
-      - name: Run git tag --list '${{ inputs.package }}-*'
-        id: releasable
-        run: |
-          echo "releasable=$(git tag --list '${{ inputs.package }}-*' | tail -1)" >> "$GITHUB_OUTPUT"
-      - id: tag-next
-        if: inputs.ref == 'refs/heads/main' && inputs.event == 'push' && steps.releasable.outputs.releasable
-        uses: ldelarue/git-next-tag@v0.4
-        with:
-          tag-prefix: ${{ inputs.package }}-
-          scope: ${{ inputs.package }}
-      - name: Compute tag and semantic version
-        id: tag
-        run: |
-          CURRENT_SEMVER="$(deno task jq .version)"
-          CURRENT_TAG="$(git tag --list '${{ inputs.package }}-*' | tail -1)"
-          TAG="${{ steps.tag-next.outputs.tag }}"
-          SEMVER="${{ steps.tag-next.outputs.semver }}"
-          echo   "┌──────────────┬──────────────────────┬──────────────────────┐"
-          printf "│ %-12s │ %-20s │ %-20s │\n" "" "CURRENT" "NEXT"
-          printf "│ %-12s │ %-20s │ %-20s │\n" "TAG" "$CURRENT_TAG" "$TAG"
-          printf "│ %-12s │ %-20s │ %-20s │\n" "SEMVER" "$CURRENT_SEMVER" "$SEMVER"
-          echo   "└──────────────┴──────────────────────┴──────────────────────┘"
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "semver=$SEMVER" >> "$GITHUB_OUTPUT"
+      - run: deno test --allow-all
 
   publish:
     name: Publish
-    if: inputs.ref == 'refs/heads/main' && inputs.event == 'push' && inputs.publish && needs.test.outputs.releasable
+    if: inputs.ref == 'refs/heads/main' && inputs.event == 'push' && inputs.publish
     runs-on: ubuntu-latest
     needs:
       - lint
-      - codeql
       - test
-    defaults:
-      run:
-        working-directory: ${{ inputs.package }}
     permissions:
       id-token: write
       contents: write
       packages: write
     steps:
-      # Setup
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: denoland/setup-deno@v2
-      - name: Configure git
+      - name: Run deno bump-version
+        id: bump
+        env:
+          PACKAGE: ${{ inputs.package }}
         run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-      # Build
-      - name: Run deno task build
-        if: ${{ needs.test.outputs.has_build }}
-        run: |
-          deno task build
-          if [ -n "$(git status --porcelain)" ]; then
-            git diff
-            git add .
-            git commit -m 'chore(${{ inputs.package }}): rebuild package'
-            git pull --rebase
-            git push
+          NAME="$(deno eval --quiet 'import { parse } from "jsr:@std/jsonc"; console.log(parse(Deno.readTextFileSync(`${Deno.env.get("PACKAGE")}/deno.jsonc`)).name.split("/").at(-1))')"
+          export NAME
+          LAST="$(deno eval --quiet 'import { tags } from "./@libs/git/tag.ts"; console.log(tags({ glob: `${Deno.env.get("NAME")}-*` }).at(-1) ?? "")')"
+          if [ -z "$LAST" ]; then
+            echo "Package has never been released, skipping"
+            echo "tag=" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
-      # Tag
-      - name: Run deno task make:bump
-        if: ${{ needs.test.outputs.tag }}
+          INCREMENT=
+          deno bump-version --start "$LAST" "$INCREMENT"
+          git checkout --quiet -- . ":(exclude)$PACKAGE/deno.jsonc"
+          git clean --force --quiet -- Releases.md
+          if git diff --quiet -- "$PACKAGE/deno.jsonc"; then
+            echo "No release to be done, skipping"
+            echo "tag=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          VERSION="$(deno eval --quiet 'import { parse } from "jsr:@std/jsonc"; console.log(parse(Deno.readTextFileSync(`${Deno.env.get("PACKAGE")}/deno.jsonc`)).version)')"
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$NAME-$VERSION" >> "$GITHUB_OUTPUT"
+      # Commit bump and tag release
+      - name: Run git commit, push and tag
+        if: steps.bump.outputs.tag
+        env:
+          PACKAGE: ${{ inputs.package }}
+          NAME: ${{ steps.bump.outputs.name }}
+          TAG: ${{ steps.bump.outputs.tag }}
         run: |
-          pushd "$(git rev-parse --show-toplevel)"
-          deno task make:bump --version '${{ needs.test.outputs.version }}' ${{ inputs.package }}
-          popd
-          deno fmt deno.jsonc
-          git diff
-          git add deno.jsonc
-          git commit -m 'chore(${{ inputs.package }}): bump version ${{ needs.test.outputs.tag }}'
-          git pull --rebase
-          git push
-      - name: Run git tag
-        if: ${{ needs.test.outputs.tag }}
+          deno eval --quiet '
+            import { commit, pull, push, tag } from "./@libs/git/mod.ts"
+            const [pkg, name, tagname] = [Deno.env.get("PACKAGE"), Deno.env.get("NAME"), Deno.env.get("TAG")]
+            commit(`chore(${name}): bump version ${tagname}`, { paths: [`${pkg}/deno.jsonc`] })
+            pull({ rebase: true })
+            push()
+            tag(tagname)
+            push(tagname)
+          '
+      # Publish to jsr.io
+      - name: Run deno publish
+        if: steps.bump.outputs.tag
+        working-directory: ${{ inputs.package }}
+        run: deno publish
+      # Publish to npm
+      - name: Run deno pack and npm publish
+        if: steps.bump.outputs.tag
+        working-directory: ${{ inputs.package }}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          git tag '${{ needs.test.outputs.tag }}'
-          git show-ref --tags '${{ needs.test.outputs.tag }}'
-          git pull --rebase
-          git push origin '${{ needs.test.outputs.tag }}'
-      # Publish
-      - run: deno publish
-      - name: Run npm publish
-        if: ${{ needs.test.outputs.has_npm }}
-        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --npm.registry 'https://registry.npmjs.org' --npm.token '${{ secrets.NPM_TOKEN }}' --npm.scope '@lowlighter' --npm.access public
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > "$HOME/.npmrc"
+          deno run --allow-all "$(git rev-parse --show-toplevel)/@libs/toolbox/scripts/publish/npm.ts" --scope '@lowlighter'
+      # Publish to deno.land/x
+      - name: Check deno.land/x registration
+        id: x
+        if: steps.bump.outputs.tag
+        working-directory: ${{ inputs.package }}
+        run: |
+          echo "registered=$(deno eval --quiet 'import { parse } from "jsr:@std/jsonc"; console.log(parse(Deno.readTextFileSync("deno.jsonc"))["deno.land/x"] ? "true" : "")')" >> "$GITHUB_OUTPUT"
       - name: Run deno.land/x publish
-        if: ${{ needs.test.outputs.has_x }}
-        run: deno run --allow-all jsr:@libs/bundle/ts/cli/publish deno.jsonc --loglevel debug --x.repository '${{ github.repository }}' --x.token '${{ secrets.GH_TOKEN }}' --x.directory="$(git rev-parse --show-prefix)" --x.map deno.jsonc --x.reactive --x.remove
+        if: steps.bump.outputs.tag && steps.x.outputs.registered
+        working-directory: ${{ inputs.package }}
+        run: deno run --allow-all "$(git rev-parse --show-toplevel)/@libs/toolbox/scripts/publish/x.ts" --repository '${{ github.repository }}' --token '${{ secrets.GH_TOKEN }}' --directory "$(git rev-parse --show-prefix)" --map deno.jsonc --reactive --remove
