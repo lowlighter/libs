@@ -3,76 +3,34 @@
 [![JSR](https://jsr.io/badges/@libs/testing)](https://jsr.io/@libs/testing) [![JSR Score](https://jsr.io/badges/@libs/testing/score)](https://jsr.io/@libs/testing)
 [![NPM](https://img.shields.io/npm/v/@lowlighter%2Ftesting?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/testing) [![Coverage](https://libs-coverage.lecoq.io/testing/badge.svg)](https://libs-coverage.lecoq.io/testing)
 
-Isomorphic test runner to perform cross-platform testing on the [Deno](https://deno.com), [Node.js](https://nodejs.org) and [Bun](https://bun.sh) runtimes.
+Testing utilities built upon [`@std/expect`](https://jsr.io/@std/expect) and [`@std/assert`](https://jsr.io/@std/assert).
 
 - [`📚 Documentation`](https://jsr.io/@libs/testing/doc)
 
 ## 📑 Examples
 
 ```ts
-import { expect, runtime, Status, test, throws } from "./mod.ts"
+import { expect, Status } from "./mod.ts"
 
-// Test is performed on all available runtimes by default
-test("test on all available runtimes", () => {
+Deno.test("`expect()` supports additional matchers", () => {
   expect("https://example.com").toBeUrl()
+  expect("foo").toBeOneOf(["foo", "bar"])
+  expect(new Response(null, { status: Status.OK })).toRespondWithStatus("2XX")
 })
-
-// Test can be restricted to specific runtimes by gating them with `runtime`
-if (runtime === "node") {
-  test("test only on node runtime", () => {
-    expect("foo").toBeOneOf(["foo", "bar"])
-  })
-}
-
-// Test on deno are performed without any additional permissions by default
-// to satisfy the principle of least privilege, but can be overridden (this is ignored on other runtimes)
-test("test `Deno.serve({ port: 8080 })` with additional `{ permissions: { net: 'inherit' } }`", async () => {
-  await using server = Deno.serve({ port: 8080, onListen: () => null }, () => new Response(null, { status: Status.OK }))
-  await expect(fetch(`http://${server.addr.hostname}:${server.addr.port}`)).resolves.toRespondWithStatus("2XX")
-}, { permissions: { net: "inherit" } })
-
-// You can use
-test.todo("todo test", () => null)
-test.skip("broken test", () => throws("broken test"))
 ```
-
-![](https://raw.githubusercontent.com/lowlighter/libs/main/testing/example.png)
 
 ## ✨ Features
 
-- Isomorphic test runner that can be used multiple different runtimes.
-- Extends [`@std/expect`](https://jsr.io/@std/expect) with additional matchers (`toMatchDescriptor`, `toBeImmutable`, `toBeIterable`, `toRespondWithStatus`, `toBeEmail`, etc.)
+- Extends [`@std/expect`](https://jsr.io/@std/expect) with additional matchers (`toBeIterable`, `toRespondWithStatus`, `toBeEmail`, etc.)
   - See [`@libs/testing/expect`](https://jsr.io/@libs/testing/doc/expect/~) for more information about available matchers.
-- The permissions for deno test are defaulted to `"none"` rather than `"inherit"`.
-- Syntax highlighting in test names for better readability.
+- Re-exports [`@std/assert`](https://jsr.io/@std/assert) through [`@libs/testing/assert`](https://jsr.io/@libs/testing/doc/assert/~).
+- Re-exports [`@faker-js/faker`](https://fakerjs.dev) through [`@libs/testing/faker`](https://jsr.io/@libs/testing/doc/faker/~).
+- Provides CLI syntax highlighting utilities through [`@libs/testing/highlight`](https://jsr.io/@libs/testing/doc/highlight/~) (supports `typescript`, `css`, `markdown`, `html`, `diff`, `yaml` and `json`).
 
-## 🤖 Workflow usage
+## 🕊️ Migrating from `4.x.x` to `5.x.x`
 
-Below is an example on how it could be used within a [GitHub Actions](https://github.com/features/actions) workflow:
-
-```yaml
-on:
-  push:
-  pull_request:
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v2
-        with:
-          deno-version: 2.x
-      - run: deno test
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: 1.x
-      - run: bun test
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-      - run: npx tsx --test
-```
+Dropped support of `test()` cross-runtime helper.
+This package now only provide testing utilities.
 
 ## 🕊️ Migrating from `3.x.x` to `4.x.x`
 

@@ -1,9 +1,6 @@
-import { test } from "./test.ts"
 import { AssertionError, calls, expect, fn, reset, Status } from "./expect.ts"
-import { runtime } from "./runtime.ts"
-import { fromFileUrl } from "@std/path/from-file-url"
 
-test("`expect` has typings", () => {
+Deno.test("`expect` has typings", () => {
   // Built-in properties
   expect.any(null)
   // Built-in matchers
@@ -14,7 +11,7 @@ test("`expect` has typings", () => {
   expect(null).not.toSatisfy(() => false)
 })
 
-test("`expect.toThrow()` asserts a function throws", () => {
+Deno.test("`expect.toThrow()` asserts a function throws", () => {
   class TestError extends Error {
     constructor() {
       super("Expected error")
@@ -62,14 +59,14 @@ test("`expect.toThrow()` asserts a function throws", () => {
   expect(() => expect(null).toThrow("foo", "bar")).toThrow(TypeError, "First argument must be an Error class or instance when second argument is a string or RegExp")
 })
 
-test("`expect.toSatisfy()` asserts predicate", () => {
+Deno.test("`expect.toSatisfy()` asserts predicate", () => {
   expect("foo").toSatisfy((value: string) => value.length > 0)
   expect("foo").not.toSatisfy((value: string) => value.length === 0)
   expect(() => expect("foo").not.toSatisfy((value: string) => value.length > 0)).toThrow(AssertionError, "to NOT satisfy")
   expect(() => expect("foo").toSatisfy((value: string) => value.length === 0)).toThrow(AssertionError, "to satisfy")
 })
 
-test("`expect.toBeType()` asserts typeof", () => {
+Deno.test("`expect.toBeType()` asserts typeof", () => {
   expect("foo").toBeType("string")
   expect("foo").not.toBeType("number")
   expect(null).toBeType("object", { nullable: true })
@@ -80,7 +77,7 @@ test("`expect.toBeType()` asserts typeof", () => {
   expect(() => expect(null).not.toBeType("object", { nullable: true })).toThrow(AssertionError, "to NOT be of type")
 })
 
-test("`expect.toHaveSize()` asserts size", () => {
+Deno.test("`expect.toHaveSize()` asserts size", () => {
   expect(new Set()).toHaveSize(0)
   expect(new Set()).not.toHaveSize(1)
   expect(new Map()).toHaveSize(0)
@@ -99,43 +96,18 @@ test("`expect.toHaveSize()` asserts size", () => {
   expect(() => expect(new Map([["foo", "bar"]])).toHaveSize(0)).toThrow(AssertionError, "to have size")
 })
 
-if (Promise.withResolvers) {
-  test("`expect.toBeResolvedPromise()` asserts promise to be resolved", async () => {
-    await expect(Promise.resolve()).toBeResolvedPromise()
-    const { promise, resolve } = Promise.withResolvers<void>()
-    await expect(promise).not.toBeResolvedPromise()
-    await expect(expect(promise).toBeResolvedPromise()).rejects.toThrow(AssertionError, "to be resolved")
-    resolve()
-    await expect(promise).toBeResolvedPromise()
-    await expect(expect(promise).not.toBeResolvedPromise()).rejects.toThrow(AssertionError, "to NOT be resolved")
-    await expect(expect(null).toBeResolvedPromise()).rejects.toThrow(TypeError, "Expected value to be a promise")
-  })
-} else {
-  test.skip("`expect.toBeResolvedPromise()` asserts promise to be resolved", () => null)
-}
+Deno.test("`expect.toBeResolvedPromise()` asserts promise to be resolved", async () => {
+  await expect(Promise.resolve()).toBeResolvedPromise()
+  const { promise, resolve } = Promise.withResolvers<void>()
+  await expect(promise).not.toBeResolvedPromise()
+  await expect(expect(promise).toBeResolvedPromise()).rejects.toThrow(AssertionError, "to be resolved")
+  resolve()
+  await expect(promise).toBeResolvedPromise()
+  await expect(expect(promise).not.toBeResolvedPromise()).rejects.toThrow(AssertionError, "to NOT be resolved")
+  await expect(expect(null).toBeResolvedPromise()).rejects.toThrow(TypeError, "Expected value to be a promise")
+})
 
-if (runtime === "deno") {
-  const { emptyDir } = await import("@std/fs")
-  const snapshots = fromFileUrl(import.meta.resolve("./fixtures/snapshots"))
-  test("`expect.toMatchConsoleSnapshot()` asserts function output match console snapshot", async () => {
-    for (const channel of ["log", "error"] as const) {
-      await emptyDir(snapshots)
-      // deno-lint-ignore no-console
-      await expect(expect(() => console[channel](`testing-${channel}`)).toMatchConsoleSnapshot(import.meta, { capture: false })).rejects.toThrow(new RegExp(`-\\s+testing-${channel}`))
-      // deno-lint-ignore no-console
-      await expect(() => console[channel](`testing-${channel}`)).toMatchConsoleSnapshot(import.meta, { capture: true })
-      // deno-lint-ignore no-console
-      await expect(() => console[channel](`testing-${channel}`)).toMatchConsoleSnapshot(import.meta, { capture: false })
-      await expect(expect(() => null).toMatchConsoleSnapshot(import.meta, { capture: false })).rejects.toThrow(new RegExp(`\\+\\s+testing-${channel}`))
-      await expect(() => null).toMatchConsoleSnapshot(import.meta, { capture: true })
-      await expect(() => null).toMatchConsoleSnapshot(import.meta, { capture: false })
-    }
-  }, { permissions: { read: true, write: [snapshots] } })
-} else {
-  test.skip("`expect.toMatchConsoleSnapshot()` asserts function output match console snapshot", () => null)
-}
-
-test("`expect.toHaveBeenCalledOnceWith()` asserts mock function has been called once with passed arguments", () => {
+Deno.test("`expect.toHaveBeenCalledOnceWith()` asserts mock function has been called once with passed arguments", () => {
   const mock = fn()
   expect(mock).not.toBeCalled()
   mock("foo", 42)
@@ -150,14 +122,14 @@ test("`expect.toHaveBeenCalledOnceWith()` asserts mock function has been called 
   expect(() => expect(mock).not.toHaveBeenCalledOnceWith()).toThrow(TypeError, "not supported for this matcher")
 })
 
-test("`expect.toBeStructuredClonable()` asserts value can be structured cloned", () => {
+Deno.test("`expect.toBeStructuredClonable()` asserts value can be structured cloned", () => {
   expect({ foo: "bar" }).toBeStructuredClonable()
   expect({ foo: () => {} }).not.toBeStructuredClonable()
   expect(() => expect({ foo: () => {} }).toBeStructuredClonable()).toThrow(AssertionError, "to be structured clonable")
   expect(() => expect({ foo: "bar" }).not.toBeStructuredClonable()).toThrow(AssertionError, "to NOT be structured clonable")
 })
 
-test("`expect.toHaveDescribedProperty()` asserts `Object.getOwnPropertyDescriptor()`", () => {
+Deno.test("`expect.toHaveDescribedProperty()` asserts `Object.getOwnPropertyDescriptor()`", () => {
   const record = Object.defineProperties({}, { foo: { value: "bar", writable: false, enumerable: false } })
   expect(record).toHaveDescribedProperty("foo", { value: "bar" })
   expect(record).not.toHaveDescribedProperty("foo", { value: "baz" })
@@ -170,7 +142,7 @@ test("`expect.toHaveDescribedProperty()` asserts `Object.getOwnPropertyDescripto
   expect(() => expect(record).toHaveDescribedProperty("bar", {})).toThrow(AssertionError, "does not exist")
 })
 
-test("`expect.toHaveImmutableProperty()` asserts writable but not editable properties", () => {
+Deno.test("`expect.toHaveImmutableProperty()` asserts writable but not editable properties", () => {
   for (const target of [{}, function () {}]) {
     const record = Object.defineProperties(target, {
       foo: {
@@ -199,7 +171,7 @@ test("`expect.toHaveImmutableProperty()` asserts writable but not editable prope
   expect(() => expect(1).toHaveImmutableProperty("foo")).toThrow(AssertionError, "value is not indexed")
 })
 
-test("`expect.toHaveEnumerableProperty()` asserts enumerable properties", () => {
+Deno.test("`expect.toHaveEnumerableProperty()` asserts enumerable properties", () => {
   const foo = Object.defineProperties({}, { bar: { value: true, enumerable: true }, baz: { value: true, enumerable: false } })
   expect(foo).toHaveEnumerableProperty("bar")
   expect(foo).not.toHaveEnumerableProperty("baz")
@@ -208,7 +180,7 @@ test("`expect.toHaveEnumerableProperty()` asserts enumerable properties", () => 
   expect(() => expect(foo).toHaveEnumerableProperty("qux")).toThrow(AssertionError, "does not exist on object")
 })
 
-test("`expect.toBeIterable()` asserts value is iterable", () => {
+Deno.test("`expect.toBeIterable()` asserts value is iterable", () => {
   expect([]).toBeIterable()
   expect(new Set()).toBeIterable()
   expect(new Map()).toBeIterable()
@@ -219,7 +191,7 @@ test("`expect.toBeIterable()` asserts value is iterable", () => {
   expect(() => expect(1).toBeIterable()).toThrow(AssertionError, "to be iterable")
 })
 
-test("`expect.toBeSealed()` asserts value is sealed", () => {
+Deno.test("`expect.toBeSealed()` asserts value is sealed", () => {
   const sealed = Object.seal({})
   expect(sealed).toBeSealed()
   expect({}).not.toBeSealed()
@@ -227,7 +199,7 @@ test("`expect.toBeSealed()` asserts value is sealed", () => {
   expect(() => expect({}).toBeSealed()).toThrow(AssertionError, "to be sealed")
 })
 
-test("`expect.toBeFrozen()` asserts value is frozen", () => {
+Deno.test("`expect.toBeFrozen()` asserts value is frozen", () => {
   const frozen = Object.freeze({})
   expect(frozen).toBeFrozen()
   expect({}).not.toBeFrozen()
@@ -235,7 +207,7 @@ test("`expect.toBeFrozen()` asserts value is frozen", () => {
   expect(() => expect({}).toBeFrozen()).toThrow(AssertionError, "to be frozen")
 })
 
-test("`expect.toBeExtensible()` asserts value is extensible", () => {
+Deno.test("`expect.toBeExtensible()` asserts value is extensible", () => {
   const unextensible = Object.preventExtensions({})
   expect({}).toBeExtensible()
   expect(unextensible).not.toBeExtensible()
@@ -243,7 +215,7 @@ test("`expect.toBeExtensible()` asserts value is extensible", () => {
   expect(() => expect(unextensible).toBeExtensible()).toThrow(AssertionError, "to be extensible")
 })
 
-test("`expect.toBeShallowCopyOf()` asserts value is a shallow copy", () => {
+Deno.test("`expect.toBeShallowCopyOf()` asserts value is a shallow copy", () => {
   const object = { foo: "bar" }
   const array = [1, 2, 3]
   expect(object).toBeShallowCopyOf({ ...object })
@@ -256,7 +228,7 @@ test("`expect.toBeShallowCopyOf()` asserts value is a shallow copy", () => {
   expect(() => expect(array).toBeShallowCopyOf(array)).toThrow(AssertionError, "to be a shallow copy")
 })
 
-test("`expect.toBeEmpty()` asserts value is empty", () => {
+Deno.test("`expect.toBeEmpty()` asserts value is empty", () => {
   expect([]).toBeEmpty()
   expect(new Set()).toBeEmpty()
   expect(new Map()).toBeEmpty()
@@ -271,28 +243,28 @@ test("`expect.toBeEmpty()` asserts value is empty", () => {
   expect(() => expect(new Map([[1, 1]])).toBeEmpty()).toThrow(AssertionError, "to be empty")
 })
 
-test("`expect.toBeSorted()` asserts value is sorted", () => {
+Deno.test("`expect.toBeSorted()` asserts value is sorted", () => {
   expect([1, 2, 3]).toBeSorted()
   expect([3, 2, 1]).not.toBeSorted()
   expect(() => expect([3, 2, 1]).toBeSorted()).toThrow(AssertionError, "to be sorted")
   expect(() => expect([1, 2, 3]).not.toBeSorted()).toThrow(AssertionError, "to NOT be sorted")
 })
 
-test("`expect.toBeReverseSorted()` asserts value is reverse sorted", () => {
+Deno.test("`expect.toBeReverseSorted()` asserts value is reverse sorted", () => {
   expect([3, 2, 1]).toBeReverseSorted()
   expect([1, 2, 3]).not.toBeReverseSorted()
   expect(() => expect([1, 2, 3]).toBeReverseSorted()).toThrow(AssertionError, "to be reverse sorted")
   expect(() => expect([3, 2, 1]).not.toBeReverseSorted()).toThrow(AssertionError, "to NOT be reverse sorted")
 })
 
-test("`expect.toBeOneOf()` asserts value is one of", () => {
+Deno.test("`expect.toBeOneOf()` asserts value is one of", () => {
   expect("foo").toBeOneOf(["foo", "bar"])
   expect("baz").not.toBeOneOf(["foo", "bar"])
   expect(() => expect("baz").toBeOneOf(["foo", "bar"])).toThrow(AssertionError, "to be one of")
   expect(() => expect("foo").not.toBeOneOf(["foo", "bar"])).toThrow(AssertionError, "to NOT be one of")
 })
 
-test("`expect.toBeWithin()` asserts value is within range", () => {
+Deno.test("`expect.toBeWithin()` asserts value is within range", () => {
   expect(0).toBeWithin([0, 1])
   expect(1).toBeWithin([0, 1])
   expect(2).not.toBeWithin([0, 1])
@@ -305,7 +277,7 @@ test("`expect.toBeWithin()` asserts value is within range", () => {
   expect(() => expect(.5).not.toBeWithin([0, 1], true)).toThrow(AssertionError, "to NOT be within")
 })
 
-test("`expect.toBeFinite()` asserts value is finite", () => {
+Deno.test("`expect.toBeFinite()` asserts value is finite", () => {
   expect(0).toBeFinite()
   expect(Infinity).not.toBeFinite()
   expect(NaN).not.toBeFinite()
@@ -314,14 +286,14 @@ test("`expect.toBeFinite()` asserts value is finite", () => {
   expect(() => expect(NaN).toBeFinite()).toThrow(AssertionError, "to be finite")
 })
 
-test("`expect.toBeParseableJSON()` asserts value is parseable JSON", () => {
+Deno.test("`expect.toBeParseableJSON()` asserts value is parseable JSON", () => {
   expect('{"foo":"bar"}').toBeParseableJSON()
   expect("<invalid>").not.toBeParseableJSON()
   expect(() => expect('{"foo":"bar"}').not.toBeParseableJSON()).toThrow(AssertionError, "to NOT be parseable JSON")
   expect(() => expect("<invalid>").toBeParseableJSON()).toThrow(AssertionError, "to be parseable JSON")
 })
 
-test("`expect.toBeEmail()` asserts value is parseable email", () => {
+Deno.test("`expect.toBeEmail()` asserts value is parseable email", () => {
   expect("foo@example.com").toBeEmail()
   expect("foo+meta@example.com").toBeEmail()
   expect("<invalid>").not.toBeEmail()
@@ -330,7 +302,7 @@ test("`expect.toBeEmail()` asserts value is parseable email", () => {
   expect(() => expect("<invalid>").toBeEmail()).toThrow(AssertionError, "to be a valid email")
 })
 
-test("`expect.toBeUrl()` asserts value is parseable url", () => {
+Deno.test("`expect.toBeUrl()` asserts value is parseable url", () => {
   expect("https://example.com").toBeUrl()
   expect(new URL("https://example.com")).toBeUrl()
   expect("<invalid>").not.toBeUrl()
@@ -339,23 +311,21 @@ test("`expect.toBeUrl()` asserts value is parseable url", () => {
   expect(() => expect("<invalid>").toBeUrl()).toThrow(AssertionError, "to be a valid URL")
 })
 
-test("`expect.toBeBase64()` asserts value is a valid base64 string", () => {
+Deno.test("`expect.toBeBase64()` asserts value is a valid base64 string", () => {
   expect(btoa("foo")).toBeBase64()
   expect("<invalid>").not.toBeBase64()
   expect(() => expect(btoa("foo")).not.toBeBase64()).toThrow(AssertionError, "to NOT be a valid base64 string")
   expect(() => expect("<invalid>").toBeBase64()).toThrow(AssertionError, "to be a valid base64 string")
 })
 
-test("`expect.toRespondWithStatus()` asserts response status", () => {
+Deno.test("`expect.toRespondWithStatus()` asserts response status", () => {
   expect(() => expect({}).toRespondWithStatus(Status.OK)).toThrow(AssertionError, "is not a Response")
   expect(new Response(null, { status: Status.OK })).toRespondWithStatus(Status.OK)
   expect(new Response(null, { status: Status.OK })).toRespondWithStatus([Status.OK])
   expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus(Status.NotFound)
   expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus([Status.NotFound])
-  if (runtime !== "node") {
-    expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("1XX")
-    expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("informational")
-  }
+  expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("1XX")
+  expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("informational")
   expect(new Response(null, { status: Status.OK })).toRespondWithStatus("2XX")
   expect(new Response(null, { status: Status.OK })).toRespondWithStatus("successful")
   expect(new Response(null, { status: Status.MovedPermanently })).toRespondWithStatus("3XX")
@@ -364,10 +334,8 @@ test("`expect.toRespondWithStatus()` asserts response status", () => {
   expect(new Response(null, { status: Status.BadRequest })).toRespondWithStatus("client_error")
   expect(new Response(null, { status: Status.InternalServerError })).toRespondWithStatus("5XX")
   expect(new Response(null, { status: Status.InternalServerError })).toRespondWithStatus("server_error")
-  if (runtime !== "node") {
-    expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("2XX")
-    expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("successful")
-  }
+  expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("2XX")
+  expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("successful")
   expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus("1XX")
   expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus("informational")
   expect(new Response(null, { status: Status.MovedPermanently })).not.toRespondWithStatus("1XX")
@@ -380,10 +348,8 @@ test("`expect.toRespondWithStatus()` asserts response status", () => {
   expect(() => expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus([Status.OK])).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.OK })).toRespondWithStatus(Status.NotFound)).toThrow(AssertionError, "status to be")
   expect(() => expect(new Response(null, { status: Status.OK })).toRespondWithStatus([Status.NotFound])).toThrow(AssertionError, "status to be")
-  if (runtime !== "node") {
-    expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("1XX")).toThrow(AssertionError, "status to NOT be")
-    expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("informational")).toThrow(AssertionError, "status to NOT be")
-  }
+  expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("1XX")).toThrow(AssertionError, "status to NOT be")
+  expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).not.toRespondWithStatus("informational")).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus("2XX")).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.OK })).not.toRespondWithStatus("successful")).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.MovedPermanently })).not.toRespondWithStatus("3XX")).toThrow(AssertionError, "status to NOT be")
@@ -392,10 +358,8 @@ test("`expect.toRespondWithStatus()` asserts response status", () => {
   expect(() => expect(new Response(null, { status: Status.BadRequest })).not.toRespondWithStatus("client_error")).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.InternalServerError })).not.toRespondWithStatus("5XX")).toThrow(AssertionError, "status to NOT be")
   expect(() => expect(new Response(null, { status: Status.InternalServerError })).not.toRespondWithStatus("server_error")).toThrow(AssertionError, "status to NOT be")
-  if (runtime !== "node") {
-    expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("2XX")).toThrow(AssertionError, "status to be")
-    expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("successful")).toThrow(AssertionError, "status to be")
-  }
+  expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("2XX")).toThrow(AssertionError, "status to be")
+  expect(() => expect(new Response(null, { status: Status.SwitchingProtocols })).toRespondWithStatus("successful")).toThrow(AssertionError, "status to be")
   expect(() => expect(new Response(null, { status: Status.OK })).toRespondWithStatus("1XX")).toThrow(AssertionError, "status to be")
   expect(() => expect(new Response(null, { status: Status.OK })).toRespondWithStatus("informational")).toThrow(AssertionError, "status to be")
   expect(() => expect(new Response(null, { status: Status.MovedPermanently })).toRespondWithStatus("1XX")).toThrow(AssertionError, "status to be")
@@ -407,7 +371,7 @@ test("`expect.toRespondWithStatus()` asserts response status", () => {
   expect(new Response("Body is canceled", { status: Status.OK })).toRespondWithStatus(Status.OK)
 })
 
-test("`expect.toBeHashed()` asserts value is likely to be hashed with specified algorithm", () => {
+Deno.test("`expect.toBeHashed()` asserts value is likely to be hashed with specified algorithm", () => {
   expect(() => expect(null).toBeHashed("md5")).toThrow(AssertionError, "is not of type")
   expect(() => expect("acbd18db4cc2f85cedef654fccc4a4d8").toBeHashed("<invalid>")).toThrow(AssertionError, "is unknown")
   expect(() => expect("same length as hash but not one!").toBeHashed("md5")).toThrow(AssertionError, "contains non-hexadecimal characters")
@@ -425,7 +389,7 @@ test("`expect.toBeHashed()` asserts value is likely to be hashed with specified 
   expect(() => expect("foo").toBeHashed("md5")).toThrow(AssertionError, "to be hashed")
 })
 
-test("`expect.toBeDate()` asserts value is a valid date", () => {
+Deno.test("`expect.toBeDate()` asserts value is a valid date", () => {
   expect(new Date()).toBeDate()
   expect(new Date().toISOString()).toBeDate()
   expect(Date.now()).toBeDate()
@@ -436,7 +400,7 @@ test("`expect.toBeDate()` asserts value is a valid date", () => {
   expect(() => expect("<invalid>").toBeDate()).toThrow(AssertionError, "to be a date")
 })
 
-test("`expect.toBePast()` asserts value is a past date", () => {
+Deno.test("`expect.toBePast()` asserts value is a past date", () => {
   expect(new Date(Date.now() - 5000)).toBePast()
   expect(new Date(Date.now() + 5000)).not.toBePast()
   expect(new Date(Date.now() - 5000)).toBePast(new Date(Date.now() + 10000))
@@ -447,7 +411,7 @@ test("`expect.toBePast()` asserts value is a past date", () => {
   expect(() => expect(new Date(Date.now() - 5000)).not.toBePast(new Date(Date.now() + 10000))).toThrow(AssertionError, "to NOT be in the past")
 })
 
-test("`expect.toBeFuture()` asserts value is a future date", () => {
+Deno.test("`expect.toBeFuture()` asserts value is a future date", () => {
   expect(new Date(Date.now() + 5000)).toBeFuture()
   expect(new Date(Date.now() - 5000)).not.toBeFuture()
   expect(new Date(Date.now() + 5000)).toBeFuture(new Date(Date.now() - 10000))
@@ -458,7 +422,7 @@ test("`expect.toBeFuture()` asserts value is a future date", () => {
   expect(() => expect(new Date(Date.now() + 5000)).not.toBeFuture(new Date(Date.now() - 10000))).toThrow(AssertionError, "to NOT be in the future")
 })
 
-test("`reset()` resets the history of a stub function", () => {
+Deno.test("`reset()` resets the history of a stub function", () => {
   const mock = fn()
   expect(mock).not.toBeCalled()
   mock()
@@ -468,7 +432,7 @@ test("`reset()` resets the history of a stub function", () => {
   expect(() => reset(null)).toThrow("Received function must be a mock or spy function")
 })
 
-test("`calls()` returns the history call of a stub function", () => {
+Deno.test("`calls()` returns the history call of a stub function", () => {
   const mock = fn()
   expect(mock).not.toBeCalled()
   mock()

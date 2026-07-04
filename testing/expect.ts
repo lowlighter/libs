@@ -5,10 +5,12 @@
 // Imports
 import { type Async, expect as _expect, type Expected, fn } from "@std/expect"
 import { assert, assertEquals, AssertionError, assertIsError, assertMatch, assertNotEquals, assertNotStrictEquals, assertObjectMatch, assertStrictEquals } from "@std/assert"
-import { assertConsoleSnapshot } from "./assert.ts"
-import type { Arg, Arrayable, Callback, Nullable, Promisable, TypeOfEnum } from "@libs/typing"
-import type { testing } from "./test.ts"
+import type { Arg, Arrayable, Callback, Nullable, TypeOfEnum } from "@libs/typing"
 import { STATUS_CODE as Status } from "@std/http/status"
+
+/** Alias for `any` that can be used for testing. */
+// deno-lint-ignore no-explicit-any
+export type testing = any
 
 /**
  * The ExtendedExpected interface defines the available assertion methods.
@@ -75,15 +77,6 @@ export interface ExtendedExpected<IsAsync = false> extends Expected<IsAsync> {
    * ```
    */
   toBeResolvedPromise: () => Promise<unknown>
-  /**
-   * Asserts console output matches stored snapshot.
-   *
-   * ```ts
-   * import { expect } from "./expect.ts"
-   * await expect(() => { }).toMatchConsoleSnapshot(import.meta, { capture: false })
-   * ```
-   */
-  toMatchConsoleSnapshot: (meta: ImportMeta, options: { capture?: boolean }) => Promise<unknown>
   /**
    * Asserts that the function was called with the specified arguments, and exactly once.
    *
@@ -474,22 +467,6 @@ _expect.extend({
     return process(context.isNot, () => {
       assert(status === "resolved")
     }, "Expected value to {!NOT} be resolved")
-  },
-  async toMatchConsoleSnapshot(context, meta, options) {
-    if (typeof context.value !== "function") {
-      throw new TypeError("Expected value to be a function")
-    }
-    let error = null
-    try {
-      await assertConsoleSnapshot(meta, context.value as () => Promisable<unknown>, options)
-    } catch (_) {
-      error = _
-    }
-    return process(context.isNot, () => {
-      if (error) {
-        throw error
-      }
-    }, "Expected console output to {!NOT} match snapshot")
   },
   toHaveBeenCalledOnceWith(context, ...args) {
     if (context.isNot) {

@@ -5,38 +5,18 @@
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.19",
     "@std/expect": "jsr:@lowlighter/std-expect@1.0.18-rc.1",
-    "@std/fs": "jsr:@std/fs@^1.0.23",
     "@std/fmt": "jsr:@std/fmt@^1.0.9",
     "@std/html": "jsr:@std/html@^1.0.5",
     "@std/http": "jsr:@std/http@^1.0.25",
-    "@std/fs": "jsr:@std/fs@1",
-    "@faker-js/faker": "npm:@faker-js/faker@^10.3.0"
+    "@faker-js/faker": "npm:@faker-js/faker@^10.3.0",
+    "highlight.js/": "npm:/highlight.js@^11.11.1/"
   },
   "exports": {
     ".": "./mod.ts",
     "./imports": "./imports/mod.ts",
+    "./faker": "./faker/mod.ts",
     "./assert": "./assert.ts",
-    "./colors": "./colors.ts",
     "./expect": "./expect.ts",
-    "./faker": "./faker.ts",
-    "./highlight": "./highlight.ts",
-    "./permissions": "./permissions.ts",
-    "./runtime": "./runtime.ts",
-    "./test": "./test.ts"
-  },
-  "test:permissions": {
-    "read": true,
-    "write": [
-      "fixtures"
-    ],
-    "env": [
-      "TEST_FOO",
-      "TEST_BAR"
-    ]
-  },
-  "supported": {
-    "deno": true,
-    "node": true,
-    "bun": true
+    "./highlight": "./highlight/mod.ts"
   }
 }
