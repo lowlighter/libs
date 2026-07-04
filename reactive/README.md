@@ -32,6 +32,24 @@ context.target.bar() // Triggers the "call" and "change" events
 - Support `change` event for convenience.
 - Applies recursively!
 - Supports inherited context.
+- Child contexts can be released with `Context.detach()`.
+
+## 🕊️ Migrating from `5.x.x` to `6.x.x`
+
+### `DeepMerge` type export removed
+
+`Context.with()` never deep-merged properties at runtime: properties specified in `Context.with()` are overridden at the property level and isolated from the parent context.
+Its return type is now `Context<Merge<T, U>>` (a shallow merge where properties of `U` supersede properties of `T`) to accurately reflect this behavior, and the `DeepMerge` type is no longer exported.
+
+```diff
+- import type { DeepMerge } from "@libs/reactive"
++ import type { Merge } from "@libs/reactive"
+```
+
+### Newly created properties on child contexts are now registered as isolated
+
+Setting a new property on a child context now correctly registers it as owned by that context, making it visible to `in`, `Object.keys()`, `JSON.stringify()`, and `Object.getOwnPropertyDescriptor()`.
+Like properties defined through `Context.with()`, these properties are isolated from ancestor and sibling contexts.
 
 ## 🕊️ Migrating from `4.x.x` to `5.x.x`
 

@@ -320,6 +320,34 @@ test("`Context.target` manages delete operations cleanly with correct property d
   expect(Object.keys(c.target).sort()).toEqual(["b", "d"])
 })
 
+test("`Context.target` keeps new properties created on child contexts visible to reflection operations", () => {
+  const a = new Context({ foo: 1 } as Record<PropertyKey, unknown>)
+  const b = a.with({ bar: 2 } as Record<PropertyKey, unknown>)
+
+  b.target.baz = 3
+  expect(b.target.baz).toBe(3)
+  expect("baz" in b.target).toBe(true)
+  expect(Object.keys(b.target).sort()).toEqual(["bar", "baz", "foo"])
+  expect(JSON.parse(JSON.stringify(b.target))).toEqual({ foo: 1, bar: 2, baz: 3 })
+  expect(b.target).toHaveDescribedProperty("baz", { value: 3, writable: true, enumerable: true, configurable: true })
+  expect("baz" in a.target).toBe(false)
+  expect(Object.keys(a.target).sort()).toEqual(["foo"])
+
+  // New properties remain isolated after deletion, like properties defined through `Context.with()`
+  delete b.target.baz
+  expect("baz" in b.target).toBe(false)
+  expect(Object.keys(b.target).sort()).toEqual(["bar", "foo"])
+  expect(Object.getOwnPropertyDescriptor(b.target, "baz")).toBeUndefined()
+
+  // Symbol properties are supported too
+  const symbol = Symbol.for("context_test")
+  b.target[symbol] = true
+  expect(b.target[symbol]).toBe(true)
+  expect(symbol in b.target).toBe(true)
+  expect(symbol in a.target).toBe(false)
+  expect(b.target).toHaveDescribedProperty(symbol, { value: true, writable: true, enumerable: true, configurable: true })
+})
+
 test("`Context.target` manages delete operations cleanly with correct property descriptors and presence (nested)", () => {
   const a = new Context({ nested: { a: "a", b: "a" } })
   const b = a.with({})
@@ -486,6 +514,14 @@ test("`Context.with()` returns a new context that inherits parent context", () =
   expect(Object.keys(c.target).sort()).toEqual(["a", "b", "c", "d"])
 })
 
+test("`Context.with()` overrides properties at the property level (without deep merging)", () => {
+  const a = new Context({ nested: { a: 1 }, foo: "" })
+  const b = a.with({ nested: { b: 2 } })
+  expect(b.target.nested).toEqual({ b: 2 })
+  expect((b.target.nested as testing).a).toBeUndefined()
+  expect(b.target.foo).toBe("")
+})
+
 test("`Context.with()` contexts support nullish values", () => {
   const a = new Context({ a: undefined, b: null })
   const b = a.with({ c: undefined, d: null })
@@ -596,6 +632,21 @@ test('`Context.with()` is able to track mutable functions of collections-like ob
   expect(target.foo).toEqual(new Set(["b", "c"]))
   expect(listeners.set).toHaveBeenCalledTimes(2)
   expect(listeners.set.event).toMatchObject({ path: [], target: target.foo, property: "foo", value: null })
+})
+
+test("`Context.Event` polyfills `CustomEvent` on runtimes where it is unavailable", async () => {
+  const CustomEvent = globalThis.CustomEvent
+  try {
+    delete (globalThis as testing).CustomEvent
+    // Force a module re-evaluation without `CustomEvent` support using a cache-busting query string
+    const { Context: Polyfilled } = await import("./context.ts?polyfill")
+    const event = new Polyfilled.Event("change", { detail: { foo: true } })
+    expect(event).toBeInstanceOf(Event)
+    expect(event.type).toBe("change")
+    expect(event.detail).toEqual({ foo: true })
+  } finally {
+    globalThis.CustomEvent = CustomEvent
+  }
 })
 
 test("`Context.mutable()` returns `true` for methods that changes target inplace", () => {

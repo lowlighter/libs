@@ -2,19 +2,8 @@
   "icon": "🎯",
   "name": "@libs/reactive",
   "version": "5.0.5",
-  "playground": "https://libs.lecoq.io/reactive",
-  "imports": {
-    "@std/collections": "jsr:@std/collections@^1.1.6"
-  },
   "exports": {
     ".": "./mod.ts",
     "./context": "./context.ts"
-  },
-  "supported": {
-    "deno": true,
-    "node": true,
-    "bun": true,
-    "cloudflare-workers": true,
-    "browsers": true
   }
 }

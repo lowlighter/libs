@@ -55,8 +55,7 @@
 
 // Imports
 import type { Callback, Nullable } from "@libs/typing"
-import type { DeepMerge } from "@std/collections/deep-merge"
-export type { Callback, DeepMerge }
+export type { Callback }
 
 // Polyfill for `CustomEvent`
 let _ContextEvent = globalThis.CustomEvent
@@ -205,10 +204,10 @@ export class Context<T extends Record<PropertyKey, unknown> = Record<PropertyKey
    * console.assert(child.target.bar)
    * ```
    */
-  with<U extends Record<PropertyKey, unknown>>(target: U): Context<DeepMerge<T, U>> {
+  with<U extends Record<PropertyKey, unknown>>(target: U): Context<Merge<T, U>> {
     const context = new Context(target, { parent: this })
     this.#children.add(context)
-    return context as Context<DeepMerge<T, U>>
+    return context as Context<Merge<T, U>>
   }
 
   /** Access target value from a property path. */
@@ -309,9 +308,13 @@ export class Context<T extends Record<PropertyKey, unknown> = Record<PropertyKey
 
     // Reflect on target property
     const old = Reflect.get(target, property)
+    const created = (this.#parent) && (!path.length) && (!Reflect.has(target, property))
     try {
       return Reflect.set(target, property, value)
     } finally {
+      if (created) {
+        this.#own.add(property)
+      }
       this.#dispatch("set", { path, target, property, value: { old, new: value } })
     }
   }
@@ -463,6 +466,9 @@ export class Context<T extends Record<PropertyKey, unknown> = Record<PropertyKey
   /** Context event. */
   static readonly Event = class ContextEvent extends _ContextEvent<detail> {} as typeof CustomEvent
 }
+
+/** Shallow merge of two objects, where properties of `U` supersede properties of `T`. */
+export type Merge<T, U> = Omit<T, keyof U> & U
 
 /** Context target. */
 // deno-lint-ignore no-explicit-any
