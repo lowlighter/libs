@@ -44,6 +44,8 @@
  * @module
  */
 
+import { png } from "./_png.ts"
+
 /** Text encoder */
 const encoder = new TextEncoder()
 
@@ -59,6 +61,22 @@ const encoder = new TextEncoder()
  * ```
  */
 export function qrcode(content: string | URL | Uint8Array, options: { output: "svg" } & Pick<options, "border" | "light" | "dark" | "ecl">): string
+/**
+ * Generate a QR Code from specified content and output it as a PNG image.
+ *
+ * The result is a `Uint8Array` containing the raw bytes of a PNG file, which can be written to disk, served over HTTP, or turned into a data URL.
+ * Border, colors, ECL and pixel {@link options.scale | scale} can be customized using {@link options}.
+ *
+ * Colors must be hexadecimal values (e.g. `"#000000"`, `"#0af"`, `"#00000080"`) or one of the supported named colors.
+ * Note that unlike the SVG output, arbitrary CSS colors cannot be resolved without a rendering engine.
+ *
+ * ```ts
+ * import { qrcode } from "jsr:@libs/qrcode"
+ * const png = qrcode("https://example.com", { output: "png" })
+ * console.assert(png.subarray(1, 4).reduce((s, b) => s + String.fromCharCode(b), "") === "PNG")
+ * ```
+ */
+export function qrcode(content: string | URL | Uint8Array, options: { output: "png" } & Pick<options, "border" | "light" | "dark" | "ecl" | "scale">): Uint8Array
 /**
  * Generate a QR Code from specified content and output it to the console.
  *
@@ -106,7 +124,7 @@ export function qrcode(content: string | URL | Uint8Array, options?: { output?: 
  * - A `string` (not necessarily a URL-like, any text can be used)
  * - A `URL` object (in which case {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/href | URL.href} will be used as content)
  *
- * Output can be set to either `"svg"`, `"console"` or `"array"` and can be customized using supported {@link options}.
+ * Output can be set to either `"svg"`, `"png"`, `"console"` or `"array"` and can be customized using supported {@link options}.
  *
  * ```ts
  * import { qrcode } from "jsr:@libs/qrcode"
@@ -125,21 +143,29 @@ export function qrcode(content: string | URL | Uint8Array, options?: { output?: 
 /** QR code options. */
 export type options = {
   /**
-   * Border size (applies for `svg` outputs).
+   * Border size (applies for `svg` and `png` outputs).
    */
   border?: number
   /**
-   * Color for light squares (applies for `svg` and `console` outputs).
+   * Number of pixels per module (applies for `png` outputs).
    *
-   * Can be any valid CSS color value.
+   * The generated image is `(size + border * 2) * scale` pixels wide and high.
+   */
+  scale?: number
+  /**
+   * Color for light squares (applies for `svg`, `png` and `console` outputs).
+   *
+   * Can be any valid CSS color value for `svg` and `console` outputs.
    * If `output` is set to `"console"`, the color must be supported by the terminal.
+   * If `output` is set to `"png"`, the color must be a hexadecimal value (e.g. `"#000000"`, `"#0af"`, `"#00000080"`) or a supported named color.
    */
   light?: string
   /**
-   * Color for dark squares (applies for `svg` and `console` outputs).
+   * Color for dark squares (applies for `svg`, `png` and `console` outputs).
    *
-   * Can be any valid CSS color value.
+   * Can be any valid CSS color value for `svg` and `console` outputs.
    * If `output` is set to `"console"`, the color must be supported by the terminal.
+   * If `output` is set to `"png"`, the color must be a hexadecimal value (e.g. `"#000000"`, `"#0af"`, `"#00000080"`) or a supported named color.
    */
   dark?: string
   /**
@@ -170,8 +196,9 @@ class QrCode {
    * The smallest possible QR Code version is automatically chosen for the output.
    * The ECC level of the result may be higher than the ecl argument if it can be done without increasing the version.
    */
-  static from(content: string | URL | Uint8Array, { output = "array", border = 2, light = "white", dark = "black", ecl = "MEDIUM" }: { output?: string } & options = {}) {
+  static from(content: string | URL | Uint8Array, { output = "array", border = 2, scale = 8, light = "white", dark = "black", ecl = "MEDIUM" }: { output?: string } & options = {}) {
     border = Number.isFinite(border) ? Math.max(0, Math.floor(border)) : 0
+    scale = Number.isFinite(scale) ? Math.max(1, Math.floor(scale)) : 1
     const qr = QrCode.#encode(Segment.from(content instanceof URL ? content.href : content), { ecl })
     const size = qr.size + border * 2
     switch (output) {
@@ -185,6 +212,9 @@ class QrCode {
           }
         }
         return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 ${size} ${size}" stroke="none"><rect width="100%" height="100%" fill="${escape(light)}"/><path d="${paths.join(" ")}" fill="${escape(dark)}"/></svg>`
+      }
+      case "png": {
+        return png({ get: (x, y) => qr.get({ x: x - border, y: y - border }), size, light, dark, scale })
       }
       case "console": {
         for (let y = 0; y < size; y++) {

@@ -1,4 +1,5 @@
 // deno-lint-ignore-file no-console
+import * as PNG from "./_png.ts"
 import { qrcode } from "./_qrcode.ts"
 import { expect, fn } from "@libs/testing"
 
@@ -174,13 +175,6 @@ Deno.test("`qrcode()` svg output honors the `border` option", () => {
   expect(border(qrcode("foo", { output: "svg", border: 4 }))).toBe("29")
 })
 
-Deno.test("`qrcode()` svg output sanitizes invalid `border` values", () => {
-  const border = (svg: string) => svg.match(/viewBox="0 0 (\d+) \d+"/)![1]
-  expect(border(qrcode("foo", { output: "svg", border: -5 }))).toBe("21") // negative is clamped to 0
-  expect(border(qrcode("foo", { output: "svg", border: NaN }))).toBe("21") // non-finite falls back to 0
-  expect(border(qrcode("foo", { output: "svg", border: 2.9 }))).toBe("25") // fractional is floored to 2
-})
-
 Deno.test("`qrcode()` svg output honors custom `light` and `dark` colors", () => {
   const svg = qrcode("foo", { output: "svg", light: "#eee", dark: "#123" })
   expect(svg).toContain(`fill="#eee"`)
@@ -205,4 +199,85 @@ Deno.test("`qrcode()` honors the `ecl` option", () => {
     expect(qrcode(content, { ecl })).toBeInstanceOf(Array)
   }
   expect(qrcode(content, { ecl: "HIGH" }).length).toBeGreaterThan(qrcode(content, { ecl: "LOW" }).length)
+})
+
+Deno.test("`qrcode()` with png output", async () => {
+  const png = qrcode("foo", { output: "png" })
+  const size = (21 + 2 * 2) * 8 // (size + 2 * default border) * default scale
+  expect(png).toBeInstanceOf(Uint8Array)
+  expect([...png.subarray(0, 8)]).toEqual(PNG.signature)
+  await expect(PNG.decode(png)).resolves.toMatchObject({ width: size, height: size, colorType: 6, bitDepth: 8 })
+})
+
+Deno.test("`qrcode()` png output honors the `border` and `scale` options", async () => {
+  await expect(PNG.decode(qrcode("foo", { output: "png", border: 0, scale: 1 }))).resolves.toHaveProperty("width", 21)
+  await expect(PNG.decode(qrcode("foo", { output: "png", border: 3, scale: 4 }))).resolves.toHaveProperty("width", (21 + 6) * 4)
+})
+
+Deno.test("`qrcode()` png output accepts `Uint8Array` content", () => {
+  expect(qrcode(new TextEncoder().encode("foo"), { output: "png" })).toEqual(qrcode("foo", { output: "png" }))
+})
+
+Deno.test("`qrcode()` png output pixels match the module matrix", async () => {
+  const matrix = qrcode("https://example.com", { output: "array" })
+  const { width, pixel } = await PNG.decode(qrcode("https://example.com", { output: "png", border: 2, scale: 1 }))
+  expect(width).toBe(matrix.length)
+  for (let y = 0; y < matrix.length; y++) {
+    for (let x = 0; x < matrix.length; x++) {
+      expect(pixel(x, y)).toEqual(matrix[y][x] ? [0, 0, 0, 255] : [255, 255, 255, 255])
+    }
+  }
+})
+
+Deno.test("`qrcode()` png output honors custom `light` and `dark` colors", async () => {
+  {
+    const { pixel } = await PNG.decode(qrcode("foo", { output: "png", light: "#ffcc00", dark: "navy", scale: 1, border: 0 }))
+    expect(pixel(0, 0)).toEqual([0, 0, 128, 255])
+    expect(pixel(7, 7)).toEqual([255, 204, 0, 255])
+  }
+  {
+    const { pixel } = await PNG.decode(qrcode("foo", { output: "png", light: "transparent", dark: "#00000080", scale: 1, border: 0 }))
+    expect(pixel(0, 0)).toEqual([0, 0, 0, 128])
+    expect(pixel(7, 7)).toEqual([0, 0, 0, 0])
+  }
+})
+
+Deno.test("`qrcode()` png output throws on unsupported colors", () => {
+  expect(() => qrcode("foo", { output: "png", dark: "rebeccapurple" })).toThrow("Unsupported color for png output")
+  expect(() => qrcode("foo", { output: "png", light: "rgb(0,0,0)" })).toThrow("Unsupported color for png output")
+})
+
+Deno.test("`qrcode()` sanitizes options", async () => {
+  {
+    const side = (svg: string) => Number(svg.match(/viewBox="0 0 (\d+) \d+"/)![1])
+    const cases = [
+      [0, 0], // zero is kept
+      [4, 4], // finite integer is kept
+      [2.9, 2], // fractional is floored
+      [-5, 0], // negative is clamped to 0
+      [-0.5, 0], // negative fractional is clamped to 0
+      [NaN, 0], // non-finite falls back to 0
+      [Infinity, 0], // non-finite falls back to 0
+      [-Infinity, 0], // non-finite falls back to 0
+    ] as const
+    for (const [border, sanitized] of cases) {
+      expect(side(qrcode("foo", { output: "svg", border }))).toBe(21 + sanitized * 2)
+    }
+  }
+  {
+    const cases = [
+      [1, 1], // minimum is kept
+      [8, 8], // finite integer is kept
+      [3.9, 3], // fractional is floored
+      [0, 1], // zero is raised to 1
+      [0.5, 1], // fractional below 1 is raised to 1
+      [-3, 1], // negative is raised to 1
+      [NaN, 1], // non-finite falls back to 1
+      [Infinity, 1], // non-finite falls back to 1
+      [-Infinity, 1], // non-finite falls back to 1
+    ] as const
+    for (const [scale, sanitized] of cases) {
+      await expect(PNG.decode(qrcode("foo", { output: "png", border: 0, scale }))).resolves.toHaveProperty("width", 21 * sanitized)
+    }
+  }
 })

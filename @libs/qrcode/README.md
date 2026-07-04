@@ -16,6 +16,15 @@ const svg = qrcode("https://example.com", { output: "svg" })
 console.assert(svg.includes("</svg>"))
 ```
 
+### PNG output
+
+```ts
+import { qrcode } from "./mod.ts"
+const png = qrcode("https://example.com", { output: "png", scale: 8 })
+console.assert(png instanceof Uint8Array)
+// await Deno.writeFile("qrcode.png", png)
+```
+
 ### Console output
 
 ```ts
@@ -33,7 +42,7 @@ console.assert(Array.isArray(array))
 
 ## ✨ Features
 
-- Support for `array`, `console` and `svg` outputs out-of-the-box.
+- Support for `array`, `console`, `svg` and `png` outputs out-of-the-box.
 - Support for custom colors and error correction level (ECL).
 - Has a modern implementation using TypeScript and EcmaScript modules.
 - Has no external dependencies _(not even the DOM's [`<canvas>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas) element)_!
