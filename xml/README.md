@@ -72,6 +72,8 @@ The parser is now backed by [`@std/xml`](https://jsr.io/@std/xml) instead of a W
 
 This change reduces the maintenance burden of the library while relying on a standardized parser.
 
+The WASM parser from `7.x.x` is still available in the `@libs/xml/wasm/parse` export. While the TypeScript layer will continue being updated, the underlying WASM module that serves quick-xml tokenization won't.
+
 ### Exported types are now PascalCase
 
 ```diff ts
@@ -79,9 +81,11 @@ This change reduces the maintenance burden of the library while relying on a sta
 + import type { StringifyOptions, Stringifyable, XmlDocument, XmlNode, XmlText } from "jsr:@libs/xml@8/stringify"
 ```
 
-### Unsupported options
+### Unsupported options in the default export
 
- The `revive.entities` option of `parse` has been removed, XML entities are now always decoded. If you need values in their escaped form, re-escape them with `escape` from [`@std/html/entities`](https://jsr.io/@std/html):
+> Note: described options are still available in the legacy WASM backend from `@libs/xml/wasm/parse` export.
+
+The `revive.entities` option of `parse` has been removed, XML entities are now always decoded. If you need values in their escaped form, re-escape them with `escape` from [`@std/html/entities`](https://jsr.io/@std/html):
 
 ```diff ts
 - const document = parse(text, { revive: { entities: false } })
@@ -90,10 +94,15 @@ This change reduces the maintenance burden of the library while relying on a sta
 + // Apply `escape()` on values where the escaped form is needed
 ```
 
-The `mode: "html"` option of `parse` has been  temporarily removed, as `@std/xml` only supports strict XML. If you rely on lenient parsing, stay on version `7.x.x`.
+The `mode: "html"` option of `parse` has been temporarily removed, as `@std/xml` only supports strict XML.
 
-Passing a `ReaderSync` to `parse` is no longer supported. If you rely on this feature, stay on version `7.x.x`.
+```diff ts
+- import { parse } from "jsr:@libs/xml@8/parse"
++ import { parse } from "jsr:@libs/xml@8/wasm/parse"
+  const document = parse(text, { mode: "html" })
+```
 
+Passing a `ReaderSync` to `parse` is no longer supported.
 You can still pass a `Reader` to `parse` but the result is now asynchronous.
 
 ```diff
@@ -101,7 +110,6 @@ You can still pass a `Reader` to `parse` but the result is now asynchronous.
 - console.log(parse(file))
 + console.log(await parse(file.readable))
 ```
-
 
 ## 🕊️ Migrating from `6.x.x` to `7.x.x`
 

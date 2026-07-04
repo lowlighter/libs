@@ -2,6 +2,7 @@ import { parse } from "./parse.ts"
 import { parse as std_parse } from "../parse.ts"
 import { expect, type testing } from "@libs/testing"
 import { fromFileUrl } from "@std/path"
+import "../parse_test.ts#wasm"
 
 Deno.test("`parse()` wasm crashed", () => {
   expect(() => parse(Symbol("Expected error") as testing)).toThrow(EvalError)
@@ -90,5 +91,3 @@ Deno.test("`parse()` using a reader", { permissions: { read: true } }, async () 
     },
   )
 })
-
-import "../parse_test.ts#wasm"

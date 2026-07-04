@@ -3,7 +3,7 @@ import { expect, type testing } from "@libs/testing"
 import { fromFileUrl } from "@std/path"
 import { createWriteStream, promises } from "node:fs"
 const imported = new URL(import.meta.url).hash.slice(1) || "parse"
-const { parse } = await import(`./${imported === "wasm" ? "wasm/parse" : "parse"}.ts`)
+const { parse } = await import(`./${imported === "wasm" ? "wasm/parse" : "parse"}.ts`) as typeof import("./parse.ts")
 
 //Huge xml file generator
 export async function write(size: number) {
@@ -1292,10 +1292,10 @@ Deno.test("`parse()` using a stream", { permissions: { read: true } }, async () 
 // Size tests
 
 for (let i = 0; i <= 5; i++) {
-  const ignore = false && (i > 2) && (!Deno.env.get("CI"))
-  Deno.test(`\`parse()\` parse large files ~${(2 ** i)}Mb`, { permissions: { read: true, sys: ["uid"], write: ["bench", "xml/bench"] }, ignore } as testing, async () => {
+  const ignore = (i > 1) && (!Deno.env.get("CI"))
+  Deno.test(`\`parse()\` parse large files ~${(2 ** i)}Mb`, { permissions: { read: true, sys: ["uid"], write: [fromFileUrl(import.meta.resolve("./bench"))] }, ignore } as testing, async () => {
     await write(i)
-    const file = await Deno.open(fromFileUrl(import.meta.resolve(`./bench/assets/x-${i}x-large.xml`)))
+    const file = await Deno.open(fromFileUrl(import.meta.resolve(`${fromFileUrl(import.meta.resolve("./bench"))}/assets/x-${i}x-large.xml`)))
     expect(await parse(file.readable)).not.toThrow()
   })
 }

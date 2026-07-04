@@ -10,7 +10,7 @@ import { parse as parse_v3 } from "https://deno.land/x/xml@3.0.2/parse.ts"
 
 for await (const { name, path } of expandGlob("**/!(x-)*.xml", { globstar: true })) {
   const { size } = await (await Deno.open(path)).stat()
-  for (const [func, f] of Object.entries({ parse, parseWasm, parse_v7, parse_v6, parse_v5, parse_v4, parse_v3 })) {
+  for (const [func, f] of Object.entries<(content: string) => unknown>({ parse, parseWasm, parse_v7, parse_v6, parse_v5, parse_v4, parse_v3 })) {
     Deno.bench(`${func}(): ${name}, ${size}b)`, async function (t) {
       const content = await Deno.readTextFile(path)
       t.start()
