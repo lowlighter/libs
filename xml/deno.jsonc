@@ -3,7 +3,8 @@
   "name": "@libs/xml",
   "version": "7.0.4",
   "imports": {
-    "@std/path": "jsr:@std/path@^1.1.4"
+    "@std/path": "jsr:@std/path@^1.1.4",
+    "@std/xml": "jsr:@std/xml@^0.1.3"
   },
   "exports": {
     ".": "./mod.ts",

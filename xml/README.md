@@ -308,22 +308,22 @@ Supporting `~children` might be added in the future ([#57](https://github.com/lo
 Setting `~name` manually might lead to unexpected behaviors, especially if it differs from the parent key.
 
 > [!TIP]
-> For more type-safety, write `satisfies Partial<xml_document>` after whatever you pass into `stringify`, like so:
+> For more type-safety, write `satisfies Partial<XmlDocument>` after whatever you pass into `stringify`, like so:
 >
 > <!-- TODO(lishaduck): Add ts highlighting once denoland/deno#24164 is resolved -->
 >
 > ```
-> import { stringify, type xml_document } from "./stringify.ts"
+> import { stringify, type XmlDocument } from "./stringify.ts"
 >
 > const ast = {
 >   "@version": "1.0",
 >   "@encoding": "UTF-8",
 >   "root": {},
-> } satisfies Partial<xml_document>
+> } satisfies Partial<XmlDocument>
 > const result = stringify(ast)
 > ```
 >
-> We expose lax typing, but `Partial<xml_document>` uses the stricter typing we use internally.
+> We expose lax typing, but `Partial<XmlDocument>` uses the stricter typing we use internally.
 
 ## 📜 License and credits
 

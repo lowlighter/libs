@@ -4,19 +4,19 @@
  */
 
 // Imports
-import type { Nullable, stringifyable, xml_document, xml_node, xml_text } from "./_types.ts"
+import type { Nullable, Stringifyable, XmlDocument, XmlNode, XmlText } from "./_types.ts"
 export type * from "./_types.ts"
 
 /** XML stringifier options. */
-export type stringify_options = {
+export type StringifyOptions = {
   /** Format options. */
-  format?: format_options
+  format?: FormatOptions
   /** Replace options. */
-  replace?: replace_options
+  replace?: ReplaceOptions
 }
 
-/** XML stringifier {@linkcode stringify_options}`.format` */
-export type format_options = {
+/** XML stringifier {@linkcode StringifyOptions}`.format` */
+export type FormatOptions = {
   /**
    * Indent string (defaults to `"  "`).
    * Set to empty string to disable indentation and enable minification.
@@ -26,8 +26,8 @@ export type format_options = {
   breakline?: number
 }
 
-/** XML stringifier {@linkcode stringify_options}`.replace` */
-export type replace_options = {
+/** XML stringifier {@linkcode StringifyOptions}`.replace` */
+export type ReplaceOptions = {
   /**
    * Force escape all XML entities.
    * By default, only the ones that would break the XML structure are escaped.
@@ -39,17 +39,23 @@ export type replace_options = {
    * When it is applied on a node, both `key` and `value` will be `null`.
    * Return `undefined` to delete either the attribute or the tag.
    */
-  custom?: (args: { name: string; key: Nullable<string>; value: Nullable<string>; node: Readonly<xml_node> }) => unknown
+  custom?: Replacer
 }
 
+/**
+ * Custom XML stringifier replacer.
+ * It can be used to change the way some nodes are stringified.
+ */
+export type Replacer = (args: { name: string; key: Nullable<string>; value: Nullable<string>; node: Readonly<XmlNode> }) => unknown
+
 /** XML stringifier options (with non-nullable format options). */
-type _options = stringify_options & { format: NonNullable<stringify_options["format"]> }
+type _Options = StringifyOptions & { format: NonNullable<StringifyOptions["format"]> }
 
 /** Internal symbol to store properties without erasing user-provided ones. */
 const internal = Symbol("internal")
 
 /**
- * Stringify an {@link xml_document} object into a XML string.
+ * Stringify an {@link XmlDocument} object into a XML string.
  *
  * Output can be customized using the {@link options} parameter.
  *
@@ -72,40 +78,36 @@ const internal = Symbol("internal")
  * }))
  * ```
  */
-export function stringify(document: stringifyable, options?: stringify_options): string {
+export function stringify(document: Stringifyable, options?: StringifyOptions): string {
   options ??= {}
   options.format ??= {}
   options.format.indent ??= "  "
   options.format.breakline ??= 128
-  const _options = options as _options
+  const _options = options as _Options
   let text = ""
   document = clone(document)
   // Add prolog
-  text += xml_prolog(document as xml_document, _options)
+  text += xml_prolog(document as XmlDocument, _options)
   // Add processing instructions
   if (document["#instructions"]) {
     for (const [name, nodes] of Object.entries(document["#instructions"])) {
       for (const node of [nodes].flat()) {
-        if (!("~name" in node)) {
+        if (!("~name" in node))
           Object.defineProperties(node, { ["~name"]: { enumerable: false, writable: false, value: name } })
-        }
         text += xml_instruction(node, _options)
       }
     }
   }
   // Add doctype
-  if (document["#doctype"]) {
-    text += xml_doctype(document["#doctype"] as xml_node, _options)
-  }
+  if (document["#doctype"])
+    text += xml_doctype(document["#doctype"] as XmlNode, _options)
 
   // Add root node
-  const [root, ...garbage] = xml_children(document as xml_document, _options)
-  if (!root) {
+  const [root, ...garbage] = xml_children(document as XmlDocument, _options)
+  if (!root)
     throw new SyntaxError("No root node detected")
-  }
-  if (garbage.length) {
+  if (garbage.length)
     throw new SyntaxError("Multiple root node detected")
-  }
   text += xml_node(root, { ..._options, depth: 0 })
 
   return text.trim()
@@ -118,13 +120,11 @@ export function stringify(document: stringifyable, options?: stringify_options):
  */
 function clone(document: Record<PropertyKey, unknown>) {
   const cloned = (Array.isArray(document) ? [] : {}) as typeof document
-  for (const property in document) {
+  for (const property in document)
     cloned[property] = ((document[property] !== null) && (["object", "function"].includes(typeof document[property]))) ? clone(document[property] as Record<PropertyKey, unknown>) : document[property]
-  }
   ;["~name", "~parent", "#text", "~children", "#comments", "#text", "#doctype", "#instructions", internal].forEach((property) => {
-    if (property in document) {
+    if (property in document)
       Object.defineProperty(cloned, property, Object.getOwnPropertyDescriptor(document, property)!)
-    }
   })
   return cloned
 }
@@ -138,7 +138,7 @@ function clone(document: Record<PropertyKey, unknown>) {
  * // <string><![CDATA[hello <world>]]></string>
  * ```
  */
-export function cdata(text: string): Omit<xml_text, "~parent"> {
+export function cdata(text: string): Omit<XmlText, "~parent"> {
   return {
     "~name": "~cdata",
     "#text": text,
@@ -154,7 +154,7 @@ export function cdata(text: string): Omit<xml_text, "~parent"> {
  * // <string><!--hello world--></string>
  * ```
  */
-export function comment(text: string): Omit<xml_text, "~parent"> {
+export function comment(text: string): Omit<XmlText, "~parent"> {
   return {
     "~name": "~comment",
     "#text": text,
@@ -162,40 +162,37 @@ export function comment(text: string): Omit<xml_text, "~parent"> {
 }
 
 /** Create XML prolog. */
-function xml_prolog(document: xml_document, options: _options): string {
+function xml_prolog(document: XmlDocument, options: _Options): string {
   ;(document as Record<PropertyKey, unknown>)["~name"] ??= "xml"
   return xml_instruction(document, options)
 }
 
 /** Create XML instruction. */
-function xml_instruction(node: xml_node, { format: { indent } }: _options): string {
+function xml_instruction(node: XmlNode, { format: { indent } }: _Options): string {
   let text = ""
-  const attributes = xml_attributes(node as xml_node, arguments[1])
+  const attributes = xml_attributes(node as XmlNode, arguments[1])
   if (attributes.length) {
     text += `<?${node["~name"].replace(/^~/, "")}`
-    for (const [name, value] of attributes) {
+    for (const [name, value] of attributes)
       text += ` ${name}="${value}"`
-    }
     text += `?>${indent ? "\n" : ""}`
   }
   return text
 }
 
 /** Create XML doctype. */
-function xml_doctype(node: xml_node, { format: { indent } }: _options): string {
+function xml_doctype(node: XmlNode, { format: { indent } }: _Options): string {
   let text = ""
   const attributes = xml_attributes(node, arguments[1])
   const elements = xml_children(node, arguments[1])
   if (attributes.length + elements.length) {
     text += `<!DOCTYPE`
-    for (const [name] of attributes) {
+    for (const [name] of attributes)
       text += ` ${!/^[A-Za-z0-9_]+$/.test(name) ? `"${name}"` : name}`
-    }
     if (elements.length) {
       text += `${indent ? `\n${indent}` : " "}[${indent ? "\n" : ""}`
-      for (const element of elements) {
+      for (const element of elements)
         text += `${indent}<!ELEMENT ${element["~name"]} (${element["#text"]})>${indent ? "\n" : ""}`
-      }
       text += `${indent ? indent : ""}]${indent ? "\n" : ""}`
     }
     text += `>${indent ? "\n" : ""}`
@@ -204,37 +201,31 @@ function xml_doctype(node: xml_node, { format: { indent } }: _options): string {
 }
 
 /** Create XML node. */
-function xml_node(node: xml_node, { format: { breakline = 0, indent = "" }, replace, depth = 0 }: _options & { depth?: number }): string {
+function xml_node(node: XmlNode, { format: { breakline = 0, indent = "" }, replace, depth = 0 }: _Options & { depth?: number }): string {
   if (replace?.custom) {
-    if (replace.custom({ name: node["~name"], key: null, value: null, node }) === undefined) {
+    if (replace.custom({ name: node["~name"], key: null, value: null, node }) === undefined)
       return ""
-    }
   }
   let text = `${indent.repeat(depth)}<${node["~name"]}`
   const attributes = xml_attributes(node, arguments[1])
   const children = xml_children(node, arguments[1])
   const preserve = node["@xml:space"] === "preserve"
-  for (const [name, value] of attributes) {
+  for (const [name, value] of attributes)
     text += ` ${name}="${value}"`
-  }
   if ((children.length) || (("#text" in node) && (node["#text"].length))) {
     const inline = indent && (!preserve) && ((children.length) || (node["#text"].length > breakline - indent.length * depth))
     text += `>${indent && (!preserve) && (children.length) ? "\n" : ""}`
     if ("#text" in node) {
-      if (inline) {
+      if (inline)
         text += `\n${indent.repeat(depth + 1)}`
-      }
       text += node["#text"]
-      if (inline) {
+      if (inline)
         text += "\n"
-      }
     }
-    for (const child of children) {
+    for (const child of children)
       text += xml_node(child, { ...arguments[1], depth: depth + 1 })
-    }
-    if (inline) {
+    if (inline)
       text += indent.repeat(depth)
-    }
     text += `</${node["~name"]}>${indent ? "\n" : ""}`
   } else {
     text += `/>${indent ? "\n" : ""}`
@@ -243,7 +234,7 @@ function xml_node(node: xml_node, { format: { breakline = 0, indent = "" }, repl
 }
 
 /** Extract children from node. */
-function xml_children(node: xml_node, options: stringify_options): Array<xml_node> {
+function xml_children(node: XmlNode, options: StringifyOptions): Array<XmlNode> {
   const children = Object.keys(node)
     .filter((key) => /^[A-Za-z_]/.test(key))
     .flatMap((key) =>
@@ -253,9 +244,8 @@ function xml_children(node: xml_node, options: stringify_options): Array<xml_nod
             return ({ ["~name"]: key, ["#text"]: "" })
           case typeof value === "object": {
             const child = { ...value as Record<PropertyKey, unknown>, ["~name"]: key } as Record<PropertyKey, unknown>
-            if (((value as Record<PropertyKey, unknown>)["~name"] as string)?.startsWith("~")) {
+            if (((value as Record<PropertyKey, unknown>)["~name"] as string)?.startsWith("~"))
               child[internal] = (value as Record<PropertyKey, unknown>)["~name"]
-            }
             return child
           }
           default:
@@ -267,12 +257,11 @@ function xml_children(node: xml_node, options: stringify_options): Array<xml_nod
       if ("#text" in node) {
         const cdata = node[internal] === "~cdata"
         const comment = node[internal] === "~comment"
-        node["#text"] = replace(node as xml_node, "#text", { ...options, escape: cdata ? [] : ["&", "<", ">"] }) as string
-        if (node["#text"] === undefined) {
+        node["#text"] = replace(node as XmlNode, "#text", { ...options, escape: cdata ? [] : ["&", "<", ">"] }) as string
+        if (node["#text"] === undefined)
           delete node["#text"]
-        } else {
+        else
           node["#text"] = cdata ? `<![CDATA[${node["#text"]}]]>` : comment ? `<!--${node["#text"]}-->` : `${node["#text"]}`
-        }
       }
       return node
     }) as ReturnType<typeof xml_children>
@@ -280,7 +269,7 @@ function xml_children(node: xml_node, options: stringify_options): Array<xml_nod
 }
 
 /** Extract attributes from node. */
-function xml_attributes(node: xml_node, options: stringify_options): Array<[string, string]> {
+function xml_attributes(node: XmlNode, options: StringifyOptions): Array<[string, string]> {
   return Object.entries(node!)
     .filter(([key]) => key.startsWith("@"))
     .map(([key]) => [key.slice(1), replace(node!, key, { ...options, escape: ["&", '"', "'"] })])
@@ -297,18 +286,15 @@ const entities = {
 } as const
 
 /** Replace value. */
-function replace(node: xml_node | xml_text, key: string, options: stringify_options & { escape?: Array<keyof typeof entities> }) {
-  let value = `${(node as xml_node)[key]}` as string
+function replace(node: XmlNode | XmlText, key: string, options: StringifyOptions & { escape?: Array<keyof typeof entities> }) {
+  let value = `${(node as XmlNode)[key]}` as string
   if (options?.escape) {
-    if (options?.replace?.entities) {
+    if (options?.replace?.entities)
       options.escape = Object.keys(entities) as Array<keyof typeof entities>
-    }
-    for (const char of options?.escape) {
+    for (const char of options?.escape)
       value = `${value}`.replaceAll(char, entities[char])
-    }
   }
-  if (options?.replace?.custom) {
-    return options.replace.custom({ name: node["~name"], key, value, node: node as xml_node })
-  }
+  if (options?.replace?.custom)
+    return options.replace.custom({ name: node["~name"], key, value, node: node as XmlNode })
   return value
 }

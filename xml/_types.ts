@@ -2,9 +2,9 @@
 export type Nullable<T> = T | null
 
 /** XML text node. */
-export type xml_text = {
+export type XmlText = {
   /** Parent node. */
-  readonly ["~parent"]: xml_node
+  readonly ["~parent"]: XmlNode
   /** Tag name (`~text` for text nodes, `~cdata` for CDATA nodes and `~comment` for comment nodes). */
   readonly ["~name"]: string
   /** Text content. */
@@ -12,11 +12,11 @@ export type xml_text = {
 }
 
 /** XML node. */
-export type xml_node = {
+export type XmlNode = {
   /** Tag name (`~xml` for XML prolog, other nodes will be given their respective tag name). */
   readonly ["~name"]: string
   /** Child nodes. */
-  readonly ["~children"]: Array<xml_node | xml_text>
+  readonly ["~children"]: Array<XmlNode | XmlText>
   /** Comments. */
   readonly ["#comments"]?: Array<string>
   /** Text content. */
@@ -26,7 +26,7 @@ export type xml_node = {
 }
 
 /** XML document. */
-export type xml_document = xml_node & {
+export type XmlDocument = XmlNode & {
   /** XML version. */
   ["@version"]?: `1.${number}`
   /** XML character encoding. */
@@ -34,9 +34,9 @@ export type xml_document = xml_node & {
   /** XML standalone. */
   ["@standalone"]?: "yes" | "no"
   /** XML doctype. */
-  ["#doctype"]?: xml_node
+  ["#doctype"]?: XmlNode
   /** XML instructions. */
-  ["#instructions"]?: { [key: string]: xml_node | Array<xml_node> }
+  ["#instructions"]?: { [key: string]: XmlNode | Array<XmlNode> }
 }
 
 /** Synchronous reader. */
@@ -46,4 +46,4 @@ export type ReaderSync = {
 }
 
 /** A laxer type for what can be stringified. We won’t ever create this, but we’ll accept it. */
-export type stringifyable = Partial<Omit<xml_document, "@version" | "@standalone"> & { "@version": string; "@standalone": string }>
+export type Stringifyable = Partial<Omit<XmlDocument, "@version" | "@standalone"> & { "@version": string; "@standalone": string }>
