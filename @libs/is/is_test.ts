@@ -343,3 +343,14 @@ test("parse() parses values asynchronously", async () => {
   await expect(parse(is.string(), true, { async: true })).rejects.toThrow(TypeError, "Validation failed: \n✘ Invalid input: expected string, received boolean")
   await expect(parse(is.string(), true, { async: true, zodError: true })).rejects.toThrow(is.ZodError)
 })
+
+test("parse() prettifies issue paths", () => {
+  // Property and index segments
+  expect(() => parse(is.object({ foo: is.object({ bar: is.array(is.string()) }) }), { foo: { bar: [1] } })).toThrow(TypeError, "→ at .foo.bar[0]")
+  // Segments with special characters
+  expect(() => parse(is.object({ "foo-bar": is.string() }), { "foo-bar": 1 })).toThrow(TypeError, '→ at ["foo-bar"]')
+})
+
+test("parse() prettifies union issues", () => {
+  expect(() => parse(is.object({ foo: is.union([is.string(), is.number()]) }), { foo: true })).toThrow(TypeError, "→ tried to fit into one of the allowed types:")
+})

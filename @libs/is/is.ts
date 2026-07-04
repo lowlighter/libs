@@ -328,11 +328,8 @@ function toPath(path: PropertyKey[] = []): string {
 }
 
 /** Prettify validation issues in a more detailed way. */
-function prettifyIssue(errors: ZodErrorLike | ZodErrorLike[], { indent = "" } = {}): string {
+function prettifyIssue(errors: ZodErrorLike[], { indent = "" } = {}): string {
   const lines = []
-  if (!Array.isArray(errors)) {
-    errors = [errors]
-  }
   errors = [...errors].sort((a, b) => (a.path ?? []).length - (b.path ?? []).length)
   for (const error of errors) {
     lines.push(`${indent}✘ ${error.message}`)
