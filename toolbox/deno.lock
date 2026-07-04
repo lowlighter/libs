@@ -1,0 +1,53 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@std/cli@^1.0.28": "1.0.31",
+    "jsr:@std/fs@^1.0.23": "1.0.24",
+    "jsr:@std/internal@^1.0.14": "1.0.14",
+    "jsr:@std/path@^1.1.4": "1.1.6",
+    "jsr:@std/path@^1.1.5": "1.1.6"
+  },
+  "jsr": {
+    "@std/cli@1.0.31": {
+      "integrity": "190bb61f809378267c06be3bcd689fcc540f0cfaa5892171144cae787d02e2fd",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/fs@1.0.24": {
+      "integrity": "f3061b45b81673a2bece689da041df32d174be064c89eb6397fb5718d3fb7877",
+      "dependencies": [
+        "jsr:@std/internal",
+        "jsr:@std/path@^1.1.5"
+      ]
+    },
+    "@std/internal@1.0.14": {
+      "integrity": "291516b3d4c35024d6ffbc0a9df5bf4c64116e05b50012cf846710152d2ffdf7"
+    },
+    "@std/path@1.1.6": {
+      "integrity": "c68485c2a4dfbb5ae3cc74fae4e8c4e5d874cf8a8ed12927917235c758b46cbe",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/cli@^1.0.28",
+      "jsr:@std/encoding@^1.0.10",
+      "jsr:@std/fs@^1.0.23",
+      "jsr:@std/path@^1.1.4",
+      "jsr:@std/streams@^1.0.17",
+      "jsr:@std/tar@0.1.10"
+    ],
+    "packageJson": {
+      "dependencies": [
+        "npm:@jsr/std__cli@^1.0.28",
+        "npm:@jsr/std__fs@^1.0.23",
+        "npm:@jsr/std__path@^1.1.4",
+        "npm:@jsr/std__streams@^1.0.17",
+        "npm:@jsr/std__tar@~0.1.10"
+      ]
+    }
+  }
+}
