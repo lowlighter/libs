@@ -10,12 +10,14 @@
     "@std/streams": "jsr:@std/streams@^1.0.17",
     "@std/cli": "jsr:@std/cli@^1.0.28",
     "@std/encoding": "jsr:@std/encoding@^1.0.10",
-    "@std/jsonc": "jsr:@std/jsonc@^1.0.2"
+    "@std/jsonc": "jsr:@std/jsonc@^1.0.2",
+    "highlight.js": "npm:highlight.js@^11.11.1"
   },
   "exports": {
     "./clone": "./clone.ts",
     "./scripts/download-lambda-chromium": "./scripts/download_lambda_chromium.ts",
     "./scripts/code-quality": "./scripts/code_quality.ts",
+    "./scripts/highlight-coverage": "./scripts/highlight_coverage.ts",
     "./env": "./env.ts",
     "./evaluate": "./evaluate.ts",
     "./events": "./events.ts",
