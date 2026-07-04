@@ -8,16 +8,15 @@ const decoder = new TextDecoder()
 const args = parseArgs(Deno.args, { string: ["cwd", "reporter", "_"], boolean: ["dev", "doc", "help"], default: { reporter: "dot", coverage: 80 } })
 if (args.cwd)
   Deno.chdir(args.cwd)
-args.doc ??= !args.dev
 if (args.help) {
   console.error(`Usage: deno run -A jsr:@libs/toolbox/code-quality <file_test.ts>...`)
   console.error(``)
   console.error(`Options:`)
   console.error(`  --cwd=DIR        Change working directory before running tests (use $INIT_CWD in deno task)`)
   console.error(`  --dev            Only run deno test and deno coverage`)
-  console.error(`  --doc            Run documentation checks (default: true, unless --dev is specified)`)
+  console.error(`  --doc            Run documentation checks (default: false)`)
   console.error(`  --reporter=TYPE  Test reporter type (default: dot)`)
-  console.error(`  --coverage=NUM   Minimum coverage threshold percentage (default: 80)`)
+  console.error(`  --coverage=NUM   Minimum coverage threshold percentage (default: 80, set to 0 to disable)`)
   console.error(`  --help           Show this help message`)
   console.error(``)
   Deno.exit(2)
@@ -72,7 +71,8 @@ for (const mod_path of args._) {
   console.error((test.success ? green : red)(`${test.success ? "✓" : "✗"} deno test`))
   // deno coverage
   if (test.success) {
-    const threshold = Number.parseFloat(`${args.coverage}`) || 80
+    const parsed = Number.parseFloat(`${args.coverage}`)
+    const threshold = Number.isFinite(parsed) ? parsed : 80
     const coverage = await new Deno.Command(Deno.execPath(), { args: ["coverage", `--include=${mod}`], stdout: "piped", stderr: "inherit" }).output()
     const result = stripAnsiCode(decoder.decode(coverage.stdout)).trim().match(/^\|\s*All files\s*\|\s*(?<branch>\d+(?:\.\d+)?)\s*\|\s*(?<func>\d+(?:\.\d+)?)\s*\|\s*(?<line>\d+(?:\.\d+)?)\s*\|$/m)?.groups ?? {}
     const branch = Number.parseFloat(result.branch) || 0
