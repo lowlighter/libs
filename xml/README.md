@@ -28,7 +28,7 @@ console.log(parse(`
 
 // Parse a file
 using file = await Deno.open("bench/assets/small.xml")
-console.log(parse(file))
+console.log(await parse(file.readable))
 ```
 
 ### Stringifying objects to XML
@@ -51,7 +51,7 @@ console.log(stringify({
 
 ## ✨ Features
 
-- Based on the [quick-xml](https://github.com/tafia/quick-xml) Rust package (compiled to WASM).
+- Based on [`@std/xml`](https://jsr.io/@std/xml).
 - Support for `XML.parse` and `XML.stringify` in the style of the `JSON` global.
 - Support for `<!-- -->` comments.
 - Support for XML entities (`&amp;`, `&#38;`, `&#x26;`, …).
@@ -63,6 +63,45 @@ console.log(stringify({
   - Format (indentation, break lines, etc.)
   - Support for custom `reviver` and `replacer` functions
 - Support for metadata stored into non-enumerable properties (advanced usage).
+
+## 🕊️ Migrating from `7.x.x` to `8.x.x`
+
+### Using `@std/xml` instead of `quick-xml` as parser
+
+The parser is now backed by [`@std/xml`](https://jsr.io/@std/xml) instead of a WASM-compiled binding of the [quick-xml](https://github.com/tafia/quick-xml) Rust package.
+
+This change reduces the maintenance burden of the library while relying on a standardized parser.
+
+### Exported types are now PascalCase
+
+```diff ts
+- import type { stringify_options, stringifyable, xml_document, xml_node, xml_text } from "jsr:@libs/xml@7/stringify"
++ import type { StringifyOptions, Stringifyable, XmlDocument, XmlNode, XmlText } from "jsr:@libs/xml@8/stringify"
+```
+
+### Unsupported options
+
+ The `revive.entities` option of `parse` has been removed, XML entities are now always decoded. If you need values in their escaped form, re-escape them with `escape` from [`@std/html/entities`](https://jsr.io/@std/html):
+
+```diff ts
+- const document = parse(text, { revive: { entities: false } })
++ import { escape } from "jsr:@std/html/entities"
++ const document = parse(text)
++ // Apply `escape()` on values where the escaped form is needed
+```
+
+The `mode: "html"` option of `parse` has been  temporarily removed, as `@std/xml` only supports strict XML. If you rely on lenient parsing, stay on version `7.x.x`.
+
+Passing a `ReaderSync` to `parse` is no longer supported. If you rely on this feature, stay on version `7.x.x`.
+
+You can still pass a `Reader` to `parse` but the result is now asynchronous.
+
+```diff
+  using file = await Deno.open("bench/assets/small.xml")
+- console.log(parse(file))
++ console.log(await parse(file.readable))
+```
+
 
 ## 🕊️ Migrating from `6.x.x` to `7.x.x`
 
@@ -86,8 +125,7 @@ Version `6.x.x` and onwards require Deno `2.x.x` or later.
 
 ## 🕊️ Migrating from `4.x.x` to `5.x.x`
 
-Prior to version version `5.0.0`, this library was fully written in TypeScript.
-It now uses a WASM-compiled binding of the [quick-xml](https://github.com/tafia/quick-xml) Rust package, which provides better performance while allowing us to support more features.
+Prior to version version `5.0.0`, this library was fully written in TypeScript. It now uses a WASM-compiled binding of the [quick-xml](https://github.com/tafia/quick-xml) Rust package, which provides better performance while allowing us to support more features.
 
 ### Internal API changes
 
@@ -154,8 +192,7 @@ Processing instructions (like XML stylesheets) are now parsed the same way as re
 
 ### Mixed content support
 
-This breaks any existing code that was expecting mixed content to always be a string.
-Now, mixed content nodes will be parsed as usual, and the `#text` property will contain the "inner text" of the node.
+This breaks any existing code that was expecting mixed content to always be a string. Now, mixed content nodes will be parsed as usual, and the `#text` property will contain the "inner text" of the node.
 
 Note that `#text` is actually a getter that recursively gets the `#text` of children nodes (ignoring comment nodes), so it'll also handle nested mixed content correctly.
 
@@ -175,11 +212,9 @@ Note that `#text` is actually a getter that recursively gets the `#text` of chil
 
 ### Comments
 
-Comments have been moved into `"#comments"` property.
-Note that this property is now always an array, even if there is only one comment.
+Comments have been moved into `"#comments"` property. Note that this property is now always an array, even if there is only one comment.
 
-Additionally, you can find comments into the `~children` property by searching for nodes with `"~name": "~comment"`.
-If you call the `#text` getter on a parent node containing comments, it will return the inner text without comments.
+Additionally, you can find comments into the `~children` property by searching for nodes with `"~name": "~comment"`. If you call the `#text` getter on a parent node containing comments, it will return the inner text without comments.
 
 ```xml
 <root><!--some comment--></root>
@@ -205,8 +240,7 @@ Parsing options are categorized into 4 groups:
 - `revive`, which can `trim` content (unless `xml:space="preserve"`), unescape xml `entities`, revive `booleans` and `numbers`
   - You can also provide a `custom` reviver function (applied after other revivals) that will be called on each attribute and node
   - _Note that signature of the reviver function has changed_
-- `mode`, which can be either `xml` or `html`.
-  Choosing the latter will be more permissive than the former.
+- `mode`, which can be either `xml` or `html`. Choosing the latter will be more permissive than the former.
 
 ```diff js
   const options = {
@@ -264,8 +298,7 @@ Please refer to the [documentation](https://jsr.io/@libs/xml/doc) for more infor
 
 ### Stringifying content
 
-Please refer to the above section about API changes.
-If you were handling XML document properties, using the `$XML` symbol or `#comment` property, or dealing with mixed nodes content, you'll most likely need to update your code.
+Please refer to the above section about API changes. If you were handling XML document properties, using the `$XML` symbol or `#comment` property, or dealing with mixed nodes content, you'll most likely need to update your code.
 
 Additionally, the library now provides `comment()` and `cdata()` helpers to respectively create comment and CDATA nodes:
 
@@ -303,9 +336,8 @@ stringify({
 </root>
 ```
 
-Note that while you can _theoretically_ use internal API properties, currently, we strongly advise against doing so.
-Supporting `~children` might be added in the future ([#57](https://github.com/lowlighter/libs/issues/57)) for mixed content, but its behavior is not yet well defined.
-Setting `~name` manually might lead to unexpected behaviors, especially if it differs from the parent key.
+Note that while you can _theoretically_ use internal API properties, currently, we strongly advise against doing so. Supporting `~children` might be added in the future ([#57](https://github.com/lowlighter/libs/issues/57)) for mixed content, but its behavior is not yet well
+defined. Setting `~name` manually might lead to unexpected behaviors, especially if it differs from the parent key.
 
 > [!TIP]
 > For more type-safety, write `satisfies Partial<XmlDocument>` after whatever you pass into `stringify`, like so:

@@ -7,15 +7,13 @@ import { createWriteStream, promises } from "node:fs"
 //Huge xml file generator
 export async function write(size: number) {
   const path = fromFileUrl(import.meta.resolve(`./bench/assets/x-${size}x-large.xml`))
-  if (await promises.access(path).catch(() => false)) {
+  if (await promises.access(path).catch(() => false))
     return
-  }
   const file = createWriteStream(path, { flags: "w" })
   const encoder = new TextEncoder()
   await new Promise((solve) => file.write(encoder.encode("<root>"), solve))
-  for (let i = 0; i < (2 ** size) * 15500; i++) {
+  for (let i = 0; i < (2 ** size) * 15500; i++)
     await new Promise((solve) => file.write(encoder.encode(`<child>${Math.random()}</child>`), solve))
-  }
   await new Promise((solve) => file.write(encoder.encode("</root>"), solve))
   await new Promise((solve) => file.end(solve))
 }
@@ -1049,15 +1047,12 @@ Deno.test("`parse()` xml parser reviver", () =>
       {
         revive: {
           custom({ name, key, value }) {
-            if (name === "not") {
+            if (name === "not")
               return !value
-            }
-            if (name === "delete") {
+            if (name === "delete")
               return undefined
-            }
-            if ((name === "attribute") && (key === "@delete")) {
+            if ((name === "attribute") && (key === "@delete"))
               return undefined
-            }
             return value
           },
         },
@@ -1231,14 +1226,14 @@ Deno.test("`parse()` xml parser option mode 'xml'", () =>
     )
   ).toThrow(SyntaxError))
 
-  // Tracking issue: https://github.com/denoland/std/issues/7212
+// Tracking issue: https://github.com/denoland/std/issues/7212
 Deno.test.ignore("`parse()` xml parser option mode 'html'", () =>
   expect(
     parse(
       `
       <root foo=bar></root>
     `,
-    // deno-lint-ignore no-explicit-any
+      // deno-lint-ignore no-explicit-any
       { mode: "html" as any },
     ),
   ).toEqual({
@@ -1276,12 +1271,32 @@ Deno.test("`parse()` xml parser option metadata", () => {
   expect(xml.root?.sibling?.["~name"]).toBe("sibling")
 })
 
+// Other inputs
+
+Deno.test("`parse()` using a stream", { permissions: { read: true } }, async () => {
+  const file = await Deno.open(fromFileUrl(import.meta.resolve("./bench/assets/small.xml")))
+  expect(await parse(file.readable)).toEqual(
+    {
+      "#comments": [
+        "From https://www.w3schools.com/xml/note.xml",
+      ],
+      note: {
+        body: "Don't forget me this weekend!",
+        from: "Jani",
+        heading: "Reminder",
+        to: "Tove",
+      },
+    },
+  )
+})
+
 // Size tests
 
 for (let i = 0; i <= 5; i++) {
   const ignore = false && (i > 2) && (!Deno.env.get("CI"))
   Deno.test(`\`parse()\` parse large files ~${(2 ** i)}Mb`, { permissions: { read: true, sys: ["uid"], write: ["bench", "xml/bench"] }, ignore } as testing, async () => {
     await write(i)
-    expect(parse(await Deno.readTextFile(fromFileUrl(import.meta.resolve(`./bench/assets/x-${i}x-large.xml`))))).not.toThrow()
+    const file = await Deno.open(fromFileUrl(import.meta.resolve(`./bench/assets/x-${i}x-large.xml`)))
+    expect(await parse(file.readable)).not.toThrow()
   })
 }

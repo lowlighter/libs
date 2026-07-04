@@ -5,6 +5,7 @@
 
 // Imports
 import { parse as std_parse } from "@std/xml/parse"
+import { parseXmlStreamFromBytes } from "@std/xml/parse-stream"
 import type { XmlDocument as StdDocument, XmlElement as StdElement, XmlNode as StdNode } from "@std/xml/types"
 import type { Nullable, XmlDocument, XmlNode, XmlText } from "./_types.ts"
 export type * from "./_types.ts"
@@ -87,7 +88,7 @@ export type Reviver = (args: { name: string; key: Nullable<string>; value: Nulla
 /**
  * Parse a XML string into an object.
  *
- * Output (cleaning, flattening, reviving, etc.) can be customized using the {@link options} parameter.
+ * Output (cleaning, flattening, reviving, etc.) can be customized using the {@link ParseOptions} parameter.
  *
  * Unless flattened, output nodes will contain the following non-enumerable properties (which mean they're not "visible" when iterating over, but are still explicitely accessible):
  * - General properties
@@ -121,7 +122,39 @@ export type Reviver = (args: { name: string; key: Nullable<string>; value: Nulla
  * `))
  * ```
  */
-export function parse(content: string, options?: ParseOptions): XmlDocument {
+export function parse(content: string, options?: ParseOptions): XmlDocument
+
+/**
+ * Parse a XML string into an object.
+ *
+ * Output (cleaning, flattening, reviving, etc.) can be customized using the {@link ParseOptions} parameter.
+ *
+ * Unless flattened, output nodes will contain the following non-enumerable properties (which mean they're not "visible" when iterating over, but are still explicitely accessible):
+ * - General properties
+ *   - `readonly ["~name"]: string`: tag name
+ *   - `readonly ["~parent"]: Nullable<XmlNode>`: parent node
+ *   - `["#text"]?: string`: text content
+ * - Node properties
+ *   - `readonly ["~children"]: Array<XmlNode|XmlText>`: node children
+ *   - `readonly ["#comments"]?: Array<string>`: node comments
+ *   - `readonly ["#text"]?: string`: concatenated children text content, this property becomes enumerable if at least one non-empty text node is present
+ * - XML document properties
+ *  - `["#doctype"]?: XmlNode`: XML doctype
+ *  - `["#instructions"]?: { [key:string]: Arrayable<XmlNode> }`: XML processing instructions
+ *
+ * Attributes are prefixed with an arobase (`@`).
+ *
+ * ```ts
+ * import { fromFileUrl } from "@std/path"
+ *
+ * const file = await Deno.open(fromFileUrl(import.meta.resolve("./bench/assets/small.xml")))
+ * console.log(await parse(file.readable))
+ * ```
+ */
+export function parse(content: ReadableStream<Uint8Array>, options?: ParseOptions): Promise<XmlDocument>
+export function parse(content: string | ReadableStream<Uint8Array>, options?: ParseOptions): XmlDocument | Promise<XmlDocument> {
+  if (typeof content !== "string")
+    return parse_stream(content, options)
   const xml = xml_node("~xml") as XmlDocument
   content = content.replace(/^\s+/, "")
   // @std sync parser only exposes a DOM tree of {declaration, root}
@@ -142,6 +175,83 @@ export function parse(content: string, options?: ParseOptions): XmlDocument {
 
   build(doc.root, xml)
 
+  return finalize(xml, options)
+}
+
+/**
+ * Parse a XML stream into an object.
+ * @std streaming parser events are mapped to the same document structure as the string version,
+ * and unlike the sync DOM they natively expose the doctype and processing instructions.
+ */
+async function parse_stream(content: ReadableStream<Uint8Array>, options?: ParseOptions): Promise<XmlDocument> {
+  const xml = xml_node("~xml") as XmlDocument
+  const stack = [xml] as Array<XmlNode>
+  await parseXmlStreamFromBytes(content, {
+    // XML declaration
+    onDeclaration(version, encoding, standalone) {
+      if (version)
+        xml["@version"] = version as XmlDocument["@version"]
+      if (encoding)
+        xml["@encoding"] = encoding
+      if (standalone)
+        xml["@standalone"] = standalone
+    },
+    // XML doctype (only the name and public/system identifiers are exposed by @std events)
+    onDoctype(name, publicId, systemId) {
+      const doctype = xml_node("~doctype", { parent: xml })
+      ;[name, publicId, systemId].filter((value) => value !== undefined).forEach((value) => doctype[`@${value}`] = "")
+      xml["#doctype"] = doctype
+    },
+    // XML processing instruction
+    onProcessingInstruction(target, instruction) {
+      xml_instruction(xml, target, instruction.trim())
+    },
+    // XML tag opened
+    onStartElement(name, _colon, _uri, attributes, selfClosing) {
+      const parent = stack.at(-1)!
+      const node = xml_node(name, { parent })
+      switch (true) {
+        case Array.isArray(parent[node["~name"]]):
+          ;(parent[node["~name"]] as Array<XmlNode>).push(node)
+          break
+        case node["~name"] in parent:
+          parent[node["~name"]] = [parent[node["~name"]], node]
+          break
+        default:
+          parent[node["~name"]] = node
+      }
+      for (let i = 0; i < attributes.count; i++)
+        node[`@${attributes.getName(i)}`] = attributes.getValue(i)
+      if (!selfClosing)
+        stack.push(node)
+    },
+    // XML tag closed
+    onEndElement() {
+      stack.pop()
+    },
+    // Text (consecutive events are merged back together as a single text node may be split on chunk boundaries)
+    onText(text) {
+      const parent = stack.at(-1)!
+      const last = parent["~children"].at(-1) as XmlText | undefined
+      if (last?.["~name"] === "~text")
+        last["#text"] += text
+      else
+        xml_text(text, { type: "~text", parent })
+    },
+    // CDATA
+    onCData(text) {
+      xml_text(text, { type: "~cdata", parent: stack.at(-1)! })
+    },
+    // Comment
+    onComment(text) {
+      xml_text(text, { type: "~comment", parent: stack.at(-1)! })
+    },
+  }, { disallowDoctype: false })
+  return finalize(xml, options)
+}
+
+/** Apply parser option defaults and post-process the parsed document. */
+function finalize(xml: XmlDocument, options?: ParseOptions): XmlDocument {
   options ??= {}
   options.revive ??= {}
   options.revive.trim ??= true
