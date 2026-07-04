@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-external-import
 import { diff } from "./diff.ts"
-import { expect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
 import { readFile } from "node:fs/promises"
 import { stripAnsiCode } from "@std/fmt/colors"
 
@@ -11,55 +11,55 @@ async function read(test: string) {
   return { a: a.replaceAll("\r\n", "\n"), b: b.replaceAll("\r\n", "\n"), c: c.replaceAll("\r\n", "\n") }
 }
 
-test("`diff()` handles empty texts", async () => {
+Deno.test("`diff()` handles empty texts", { permissions: { read: true } }, async () => {
   const { a, b, c } = await read("empty")
   expect(diff(a, b)).toStrictEqual(c)
-}, { permissions: { read: true } })
+})
 
-test("`diff()` handles identical texts", async () => {
+Deno.test("`diff()` handles identical texts", { permissions: { read: true } }, async () => {
   const { a, b, c } = await read("identical")
   expect(diff(a, b)).toStrictEqual(c)
-}, { permissions: { read: true } })
+})
 
 for (const newline of ["both", "none", "none_diff", "none_diff_alt", "atob", "atob_diff", "btoa", "btoa_diff"]) {
-  test(`\`diff()\` handles final newline in texts (${newline})`, async () => {
+  Deno.test(`\`diff()\` handles final newline in texts (${newline})`, { permissions: { read: true } }, async () => {
     const { a, b, c } = await read(`newline/${newline}`)
     expect(diff(a, b)).toStrictEqual(c)
-  }, { permissions: { read: true } })
+  })
 }
 
 for (const operation of ["addition", "deletion", "edition"]) {
-  test(`\`diff()\` handles single ${operation}`, async () => {
+  Deno.test(`\`diff()\` handles single ${operation}`, { permissions: { read: true } }, async () => {
     const { a, b, c } = await read(`single/${operation}`)
     expect(diff(a, b)).toStrictEqual(c)
-  }, { permissions: { read: true } })
+  })
 }
 
 for (const operation of ["addition", "deletion", "edition"]) {
-  test(`\`diff()\` handles ${operation}s`, async () => {
+  Deno.test(`\`diff()\` handles ${operation}s`, { permissions: { read: true } }, async () => {
     const { a, b, c } = await read(`${operation}`)
     expect(diff(a, b)).toStrictEqual(c)
-  }, { permissions: { read: true } })
+  })
 }
 
-test("`diff()` handles moved lines", async () => {
+Deno.test("`diff()` handles moved lines", { permissions: { read: true } }, async () => {
   const { a, b, c } = await read("moved")
   expect(diff(a, b)).toStrictEqual(c)
-}, { permissions: { read: true } })
+})
 
 for (const { context, operation } of [{ operation: "separate" }, { operation: "merged", context: 100 }, { operation: "oneline", context: 0 }, { operation: "twolines", context: 2 }]) {
-  test(`\`diff()\` handles ${operation} hunks`, async () => {
+  Deno.test(`\`diff()\` handles ${operation} hunks`, { permissions: { read: true } }, async () => {
     const { a, b, c } = await read(`hunks/${operation}`)
     expect(diff(a, b, { context })).toStrictEqual(c)
-  }, { permissions: { read: true } })
+  })
 }
 
-test("`diff()` handles complex texts", async () => {
+Deno.test("`diff()` handles complex texts", { permissions: { read: true } }, async () => {
   const { a, b, c } = await read("lorem")
   expect(diff(a, b)).toStrictEqual(c)
-}, { permissions: { read: true } })
+})
 
-test(`\`diff()\` supports colors options`, async () => {
+Deno.test(`\`diff()\` supports colors options`, { permissions: { read: true } }, async () => {
   for (const colors of [false, true]) {
     const { a, b, c } = await read("colors")
     expect(stripAnsiCode(diff(a, b, { colors }))).toStrictEqual(c)
@@ -71,4 +71,4 @@ test(`\`diff()\` supports colors options`, async () => {
       expect(diff(a, b, { colors })).not.toMatch(/\x1b\[0m/)
     }
   }
-}, { permissions: { read: true } })
+})
