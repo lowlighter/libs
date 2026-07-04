@@ -22,6 +22,20 @@
  * @module
  */
 
+/** Options for {@link diff}. */
+export type DiffOptions = {
+  /** Colorize the output using ANSI escape codes. */
+  colors?: boolean
+  /** Number of unchanged context lines to display around each change (defaults to `3`). */
+  context?: number
+  /** Name of the first file, displayed after `--- ` in the patch header (defaults to `"a"`, e.g. `--- a/.github/deno_readme.html`). */
+  a?: string
+  /** Name of the second file, displayed after `+++ ` in the patch header (defaults to `"b"`, e.g. `+++ b/.github/deno_readme.html`). */
+  b?: string
+  /** Extra content prepended before the `---`/`+++` header lines (this is purely informative and is ignored by {@link apply}). */
+  header?: string
+}
+
 /**
  * Compute unified patch from diff between two strings.
  *
@@ -41,12 +55,32 @@
  * \ No newline at end of file
  * ```
  *
+ * File names and an optional extended header may be customized through the {@link DiffOptions}.
+ * ```ts
+ * import { diff } from "./diff.ts"
+ * diff("foo\n", "bar\n", {
+ *   a: "a/file.txt",
+ *   b: "b/file.txt",
+ *   header: "diff --git a/file.txt b/file.txt\nindex 9f209e3..4651806 100644",
+ * }) // Returns the following unified patch:
+ * ```
+ * ```diff
+ * diff --git a/file.txt b/file.txt
+ * index 9f209e3..4651806 100644
+ * --- a/file.txt
+ * +++ b/file.txt
+ * \@@ -1 +1 \@@
+ * -foo
+ * +bar
+ * ```
+ *
  * @author Simon Lecoq (lowlighter)
  * @author Jonathan Trent
  * @author Bram Cohen
  * @license MIT
  */
-export function diff(a: string, b: string, { colors = false, context = 3 } = {}): string {
+export function diff(a: string, b: string, options: DiffOptions = {}): string {
+  const { colors = false, context = 3, a: nameA = "a", b: nameB = "b", header = "" } = options
   const hunks = [] as string[]
   const { lines } = patience(tokenize(a), tokenize(b))
   for (let after = -1; (after < lines.length) && (!Number.isNaN(after));) {
@@ -55,7 +89,7 @@ export function diff(a: string, b: string, { colors = false, context = 3 } = {})
     after = next
   }
   const patch = hunks.join("").replace(/\n?\n$/, "")
-  return patch ? `--- a\n+++ b\n${patch}` : ""
+  return patch ? `${header ? `${header}\n` : ""}--- ${nameA}\n+++ ${nameB}\n${patch}` : ""
 }
 
 function _diff(lines: line[], { after = -1, colors = false, context = 0 }: { after?: number; context?: number; colors?: boolean }): { next: number; patch: string } {

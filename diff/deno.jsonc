@@ -10,7 +10,8 @@
   "exports": {
     ".": "./mod.ts",
     "./diff": "./diff.ts",
-    "./apply": "./apply.ts"
+    "./apply": "./apply.ts",
+    "./json": "./json.ts"
   },
   "test:permissions": {
     "read": true
