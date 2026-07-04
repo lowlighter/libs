@@ -191,11 +191,17 @@ function lcs(ab: ReturnType<typeof common>) {
   const subsequences = [] as Array<typeof lcs>
   for (const [_, v] of ab) {
     let i = 0
-    while (subsequences.at(i)?.at(-1)?.b! < v.b) {
-      i++
+    let hi = subsequences.length
+    while (i < hi) {
+      const mid = (i + hi) >> 1
+      if (subsequences[mid].at(-1)!.b < v.b) {
+        i = mid + 1
+      } else {
+        hi = mid
+      }
     }
     subsequences[i] ??= []
-    subsequences[i].push({ ...v, previous: i > 0 ? subsequences.at(i - 1)?.at(-1) : undefined })
+    subsequences[i].push({ ...v, previous: i > 0 ? subsequences[i - 1].at(-1) : undefined })
   }
   if (subsequences.length) {
     lcs.push(subsequences.at(-1)!.at(-1)!)
