@@ -5,9 +5,15 @@ import { AsyncFunction } from "@libs/typing/func"
 const reserved = "__evaluate__"
 
 /** Evaluate an expression and return a string. */
-export async function evaluate(expression: string, context: Readonly<Record<PropertyKey, unknown>>, options: EvaluateOptions & { return: typeof EvaluationReturn.String }): Promise<string>
+export function evaluate(expression: string, context: Readonly<Record<PropertyKey, unknown>>, options: EvaluateOptions & { sync: true; return: typeof EvaluationReturn.String }): string
 /** Evaluate an expression and return a boolean. */
-export async function evaluate(expression: string, context: Readonly<Record<PropertyKey, unknown>>, options: EvaluateOptions & { return: typeof EvaluationReturn.Boolean }): Promise<boolean>
+export function evaluate(expression: string, context: Readonly<Record<PropertyKey, unknown>>, options: EvaluateOptions & { sync: true; return: typeof EvaluationReturn.Boolean }): boolean
+/** Evaluate an expression against a context. */
+export function evaluate(expression: string, context?: Readonly<Record<PropertyKey, unknown>>, options?: EvaluateOptions & { sync: true }): unknown
+/** Evaluate an expression and return a string. */
+export async function evaluate(expression: string, context: Readonly<Record<PropertyKey, unknown>>, options: EvaluateOptions & { sync?: false; return: typeof EvaluationReturn.String }): Promise<string>
+/** Evaluate an expression and return a boolean. */
+export async function evaluate(expression: string, context: Readonly<Record<PropertyKey, unknown>>, options: EvaluateOptions & { sync?: false; return: typeof EvaluationReturn.Boolean }): Promise<boolean>
 /**
  * Evaluate an expression against a context.
  *
@@ -19,8 +25,8 @@ export async function evaluate(expression: string, context: Readonly<Record<Prop
  * console.assert(await evaluate("foo${a}", { a: "bar" }) === "foobar")
  * ```
  */
-export async function evaluate(expression: string, context?: Readonly<Record<PropertyKey, unknown>>, options?: EvaluateOptions): Promise<unknown>
-export async function evaluate(expression: string, context: Readonly<Record<PropertyKey, unknown>> = {}, { preload, syntax = EvaluationSyntax.Template, return: coerce, signal }: EvaluateOptions = {}): Promise<unknown> {
+export function evaluate(expression: string, context?: Readonly<Record<PropertyKey, unknown>>, options?: EvaluateOptions & { sync?: false }): Promise<unknown>
+export function evaluate(expression: string, context: Readonly<Record<PropertyKey, unknown>> = {}, { sync = false, preload, syntax = EvaluationSyntax.Template, return: coerce, signal }: EvaluateOptions = {}) {
   // Check whether the expression needs to be executed
   let execute = syntax !== EvaluationSyntax.Template
   if (syntax === EvaluationSyntax.Template) {
@@ -42,24 +48,41 @@ export async function evaluate(expression: string, context: Readonly<Record<Prop
     }
   }
   if (!execute)
-    return expression
+    return sync ? expression : Promise.resolve(expression)
 
   // Prevent internal state corruption from namespace collisions
-  if (reserved in context)
-    throw new ReferenceError(`"${reserved}" is a reserved variable name`)
+  if (reserved in context) {
+    const error = new ReferenceError(`"${reserved}" is a reserved variable name`)
+    if (sync)
+      throw error
+    return Promise.reject(error)
+  }
 
   // Evaluate the expression
+  if (sync) {
+    try {
+      if (syntax === EvaluationSyntax.Function)
+        expression = `(()=>{${expression}})()`
+      const fn = new Function(reserved, `${preload};with(${reserved}.context){${reserved}.result=${expression}}return ${reserved}.result`)
+      const result = fn({ context, result: undefined })
+      return coerce === EvaluationReturn.String ? `${result}` : coerce === EvaluationReturn.Boolean ? !!result : result
+    } catch (error) {
+      if (error instanceof Error)
+        delete error.stack
+      throw error
+    }
+  }
   if (syntax === EvaluationSyntax.Function)
     expression = `await(async()=>{${expression}})()`
-  const fn = new AsyncFunction(reserved, `${preload};with(${reserved}.context){${reserved}.result=${expression}}return ${reserved}.result`)
-  try {
+  return (async () => {
+    const fn = new AsyncFunction(reserved, `${preload};with(${reserved}.context){${reserved}.result=${expression}}return ${reserved}.result`)
     const result = await abortable(fn({ context, result: undefined }), signal)
     return coerce === EvaluationReturn.String ? `${result}` : coerce === EvaluationReturn.Boolean ? !!result : result
-  } catch (error) {
+  })().catch((error) => {
     if (error instanceof Error)
       delete error.stack
     throw error
-  }
+  })
 }
 
 /** Race a promise against an abort signal, rejecting with the signal reason upon abortion. */
@@ -107,6 +130,8 @@ export type EvaluateOptions = {
   syntax?: EvaluationSyntax
   /** Coercion applied to the result (defaults to {@linkcode EvaluationReturn.Unknown}). */
   return?: EvaluationReturn
-  /** Abort signal. */
+  /** Abort signal (ignored if running in sync mode). */
   signal?: AbortSignal
+  /** Whether to evaluate in a synchronous manner. */
+  sync?: boolean
 }
