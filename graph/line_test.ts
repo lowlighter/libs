@@ -1,9 +1,9 @@
-import { expect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
 import { line } from "./line.ts"
 
 const svg = /^<svg.*?>[\s\S]+<\/svg>$/
 
-test("`line()` generates a line graph", () => {
+Deno.test("`line()` generates a line graph", () => {
   expect(line({
     A: {
       data: [{ x: 0, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 1 }, { x: 3, y: 4 }],

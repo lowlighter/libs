@@ -12,7 +12,7 @@ export type { options }
  *   B: { data: 0.2 },
  *   C: { data: 0.1 },
  * }, { legend: true })
- * ```ts
+ * ```
  */
 export function pie(datalist: Record<PropertyKey, { color?: string; data: number }>, options: Pick<options, "width" | "height" | "legend"> = {}): string {
   // Create SVG
@@ -49,7 +49,7 @@ export function pie(datalist: Record<PropertyKey, { color?: string; data: number
     .attr("font-size", `${config.texts.fontsize}px`)
     .attr("text-anchor", "middle")
     .attr("fill", "white")
-    .attr("stroke", "rbga(0,0,0,.9)")
+    .attr("stroke", "rgba(0,0,0,.9)")
     .attr("paint-order", "stroke fill")
     .selectAll("text")
     .data(D)
@@ -72,7 +72,7 @@ export function pie(datalist: Record<PropertyKey, { color?: string; data: number
       .attr("class", "legend")
       .attr("transform", `translate(${width - margin.right - config.legend.width},${margin.top})`)
       .selectAll("g")
-      .data(Object.keys(datalist).map(([name]) => ({ name, value: datalist[name].data, color: datalist[name].color ?? mkcolor(name) })))
+      .data(Object.keys(datalist).map((name) => ({ name, value: datalist[name].data, color: datalist[name].color ?? mkcolor(name) })))
       .enter()
       .each(function (this: d3arg, d: d3data, i: number) {
         d3.select(this)
