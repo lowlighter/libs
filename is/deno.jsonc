@@ -3,6 +3,7 @@
   "name": "@libs/is",
   "version": "1.3.2",
   "imports": {
+    "@std/cli": "jsr:@std/cli@^1.0.28",
     "@std/collections": "jsr:@std/collections@^1.1.6",
     "@zod/zod": "jsr:@zod/zod@^4.4.3"
   },

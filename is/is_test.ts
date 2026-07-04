@@ -76,6 +76,8 @@ spec("cliable.parse", cliable(is.object({}).loose(), {}), [
 spec("cliable.split", cliable(is.array(is.string())), [
   // Basic
   { a: "/usr/bin/foo --foo='bar' --foobar=\"foobar\" qux quux", b: ["/usr/bin/foo", "--foo=bar", "--foobar=foobar", "qux", "quux"] },
+  // Empty arguments
+  { a: "foo '' bar \"\"", b: ["foo", "", "bar", ""] },
 ], { strict: false, prefault: false })
 
 spec("regex", regex(is.instanceof(RegExp)), [
@@ -278,8 +280,20 @@ spec("url", url, [
   { a: "npm:package" },
   // Errors
   { a: "invalid-url", b: Error },
+  { a: "profile://example.com", b: Error },
+  { a: "xnpm:package", b: Error },
+  { a: "datafoo:bar", b: Error },
   // Spec
   ...spec.url,
+], { strict: false, prefault: false })
+
+spec("url.with", url.with(["ssh"]), [
+  // Valid URLs
+  { a: "ssh://example.com" },
+  { a: "https://example.com" },
+  // Errors
+  { a: "sshx://example.com", b: Error },
+  { a: "profile://example.com", b: Error },
 ], { strict: false, prefault: false })
 
 spec("expression", expression, [

@@ -61,6 +61,7 @@ export function cliable<T extends is.ZodType>(schema: T, options?: ParseArgsOpti
       let current = ""
       let quoted = ""
       let escape = false
+      let quotes = false
       for (const char of value) {
         if (escape) {
           current += char
@@ -73,6 +74,7 @@ export function cliable<T extends is.ZodType>(schema: T, options?: ParseArgsOpti
         }
         if ((!quoted) && ((char === '"') || (char === "'"))) {
           quoted = char
+          quotes = true
           continue
         }
         if (quoted === char) {
@@ -80,9 +82,10 @@ export function cliable<T extends is.ZodType>(schema: T, options?: ParseArgsOpti
           continue
         }
         if ((!quoted) && (char === " ")) {
-          if (current) {
+          if (current || quotes) {
             args.push(current)
             current = ""
+            quotes = false
           }
           continue
         }
@@ -92,7 +95,7 @@ export function cliable<T extends is.ZodType>(schema: T, options?: ParseArgsOpti
         context.addIssue(`Unclosed quote: ${quoted}${current}`)
         return value
       }
-      if (current) {
+      if (current || quotes) {
         args.push(current)
       }
       return options ? parseArgs(args, options) : args
@@ -103,9 +106,9 @@ export function cliable<T extends is.ZodType>(schema: T, options?: ParseArgsOpti
 
 /** Parses a regular expression back into a `RegExp`. */
 export function regex<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
-  const definition = /^\/(?<pattern>.*?)\/(?<flags>[dgimsuvy]*)$/
+  const definition = /^\/(?<pattern>.*?)\/(?<flags>[dgimsuvy]*)$/s
   return is.preprocess((value) => {
-    if ((typeof value === "string") && (definition.test(value))) {
+    if (typeof value === "string") {
       const groups = value.match(definition)?.groups
       if (groups) {
         const { pattern, flags } = groups
@@ -187,14 +190,18 @@ export const typedArray = is.union([
   ]
 >
 
+/** Supported protocols for {@linkcode url} type alias. */
+const protocols = ["https?", "file", "wasm", "data", "blob", "jsr", "npm"]
+
 /** Type alias for URLs with supported protocols. */
-export const url = Object.assign(is.url({ protocol: /^https?|file|wasm|data|blob|jsr|npm$/, hostname: /.*/ }), {
-  with(protocols: string[], { hostname = /.*/, ...options }: Exclude<is.z.core.$ZodURLParams, "protocol"> = {}) {
-    return is.url({ protocol: new RegExp(`^https?|file|wasm|data|blob|jsr|npm|${protocols.join("|")}$`), hostname, ...options })
+export const url = Object.assign(is.url({ protocol: new RegExp(`^(?:${protocols.join("|")})$`), hostname: /.*/ }), {
+  with(additional: string[], { hostname = /.*/, ...options }: Omit<is.z.core.$ZodURLParams, "protocol"> = {}) {
+    const escaped = additional.map((protocol) => protocol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    return is.url({ ...options, protocol: new RegExp(`^(?:${[...protocols, ...escaped].join("|")})$`), hostname })
   },
 }) as is.ZodURL & {
   /** Create a new type alias for URLs with additional custom supported protocols. */
-  with(protocols: string[], params?: Exclude<is.z.core.$ZodURLParams, "protocol">): is.ZodURL
+  with(additional: string[], params?: Omit<is.z.core.$ZodURLParams, "protocol">): is.ZodURL
 }
 
 /** Type alias for body init. */
@@ -253,9 +260,13 @@ function permission({ expand = false, urls = false, sys = false } = {}) {
 }
 
 /** Type alias factory for permissions object. */
-export function permissions<T extends keyof Deno.PermissionOptionsObject>(options?: { set?: T[]; expand?: false }): is.ZodObject<Record<T, is.ZodOptional<is.ZodUnion<[is.ZodLiteral<"inherit">, is.ZodBoolean, is.ZodArray<is.ZodString>]>>>>
+export function permissions<T extends keyof Deno.PermissionOptionsObject>(
+  options?: { set?: T[]; expand?: false },
+): is.ZodUnion<readonly [is.ZodObject<Record<T, is.ZodOptional<is.ZodPreprocess<is.ZodUnion<[is.ZodLiteral<"inherit">, is.ZodBoolean, is.ZodArray<is.ZodString>]>>>>>, is.ZodUnion<readonly [is.ZodLiteral<"inherit">, is.ZodLiteral<"none">]>]>
 /** Type alias factory for permissions object. */
-export function permissions<T extends keyof Deno.PermissionOptionsObject>(options: { set?: T[]; expand: true }): is.ZodObject<Record<T, is.ZodUnion<[is.ZodLiteral<"inherit">, is.ZodLiteral<true>, is.ZodArray<is.ZodString>]>>>
+export function permissions<T extends keyof Deno.PermissionOptionsObject>(
+  options: { set?: T[]; expand: true },
+): is.ZodPreprocess<is.ZodObject<Record<T, is.ZodPreprocess<is.ZodUnion<[is.ZodLiteral<"inherit">, is.ZodLiteral<true>, is.ZodArray<is.ZodString>]>>>>>
 export function permissions<T extends keyof Deno.PermissionOptionsObject>({ set = ["read", "write", "net", "env", "run", "sys", "ffi", "import"] as T[], expand = false }: { set?: T[]; expand?: boolean } = {}) {
   const validator = is.object({
     read: permission({ expand, urls: true }),
@@ -322,7 +333,7 @@ function prettifyIssue(errors: ZodErrorLike | ZodErrorLike[], { indent = "" } = 
   if (!Array.isArray(errors)) {
     errors = [errors]
   }
-  errors.sort((a, b) => (a.path ?? []).length - (b.path ?? []).length)
+  errors = [...errors].sort((a, b) => (a.path ?? []).length - (b.path ?? []).length)
   for (const error of errors) {
     lines.push(`${indent}✘ ${error.message}`)
     if (error.path?.length) {
@@ -347,9 +358,9 @@ export type ParseOptions = {
 }
 
 /** Parse a schema synchronously. */
-export function parse<T extends is.ZodType>(schema: T, values: unknown, options?: Exclude<ParseOptions, "async"> & { async?: false }): is.infer<T>
+export function parse<T extends is.ZodType>(schema: T, values: unknown, options?: Omit<ParseOptions, "async"> & { async?: false }): is.infer<T>
 /** Parse a schema asynchronously. */
-export function parse<T extends is.ZodType>(schema: T, values: unknown, options?: Exclude<ParseOptions, "async"> & { async?: true }): Promise<is.infer<T>>
+export function parse<T extends is.ZodType>(schema: T, values: unknown, options: Omit<ParseOptions, "async"> & { async: true }): Promise<is.infer<T>>
 export function parse<T extends is.ZodType>(schema: T, values: unknown, { async = false, zodError }: ParseOptions = {}) {
   try {
     return async
