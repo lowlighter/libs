@@ -1,5 +1,5 @@
 import { functions } from "./_func.ts"
-import { expect } from "@std/expect"
+import { expect } from "@libs/testing/expect"
 
 Deno.test("`functions` is a dictionary of functions", () => {
   expect(functions.async).toBeInstanceOf(Function)

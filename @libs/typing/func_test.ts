@@ -1,5 +1,5 @@
 import { AsyncFunction, AsyncGeneratorFunction, GeneratorFunction } from "./func.ts"
-import { expect } from "@std/expect"
+import { expect } from "@libs/testing/expect"
 
 Deno.test("`new AsyncFunction()` returns an async function", async () => {
   const func = new AsyncFunction("return 1")

@@ -2,9 +2,6 @@
   "icon": "🗃️",
   "name": "@libs/typing",
   "version": "4.0.1",
-  "imports": {
-    "@std/expect": "jsr:@std/expect@^1.0.16"
-  },
   "exports": {
     ".": "./mod.ts",
     "./types": "./types.ts",
