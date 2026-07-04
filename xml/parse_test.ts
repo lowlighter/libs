@@ -1289,6 +1289,70 @@ Deno.test("`parse()` using a stream", { permissions: { read: true } }, async () 
   )
 })
 
+Deno.test("`parse()` using a stream with declaration, doctype, instructions and cdata", async () =>
+  expect(
+    await parse(
+      new Response(`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet href="style.xsl" type="text/xsl"?>
+<!DOCTYPE root SYSTEM "root.dtd">
+<root lang="en"><![CDATA[<hello>]]></root>`).body!,
+    ),
+  ).toEqual(
+    {
+      "@version": "1.0",
+      "@encoding": "UTF-8",
+      "@standalone": "yes",
+      "#instructions": {
+        "xml-stylesheet": { "@href": "style.xsl", "@type": "text/xsl" },
+      },
+      // The wasm backend buffers streams and parses them as strings, so unlike @std streaming events it also exposes the doctype keywords
+      "#doctype": imported === "wasm" ? { "@root": "", "@SYSTEM": "", "@root.dtd": "" } : { "@root": "", "@root.dtd": "" },
+      root: { "@lang": "en", "#text": "<hello>" },
+    },
+  ))
+
+Deno.test("`parse()` using a stream with text nodes split across chunks", async () => {
+  const encoder = new TextEncoder()
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(encoder.encode("<root>hello "))
+      controller.enqueue(encoder.encode("world</root>"))
+      controller.close()
+    },
+  })
+  expect(await parse(stream)).toEqual({ root: "hello world" })
+})
+
+Deno.test("`parse()` xml syntax comments around root node", () =>
+  expect(
+    parse(`<!-- prolog --><root></root><!-- epilog -->`, { clean: { comments: true } }),
+  ).toEqual(
+    {
+      root: null,
+    },
+  ))
+
+Deno.test("`parse()` xml syntax instructions after root node", () =>
+  expect(
+    parse(`<root></root><?pi value="after"?>`),
+  ).toEqual(
+    {
+      "#instructions": {
+        pi: { "@value": "after" },
+      },
+      root: null,
+    },
+  ))
+
+Deno.test("`parse()` xml syntax unterminated prolog and epilog constructs", { ignore: imported === "wasm" } as testing, () => {
+  expect(() => parse(`<!-- unterminated`)).toThrow(SyntaxError)
+  expect(() => parse(`<?pi unterminated`)).toThrow(SyntaxError)
+  expect(() => parse(`<!DOCTYPE root "unterminated`)).toThrow(SyntaxError)
+  expect(() => parse(`<!DOCTYPE root [<!ELEMENT root (#PCDATA)>`)).toThrow(SyntaxError)
+  expect(() => parse(`<root/>-->`)).toThrow(SyntaxError)
+  expect(() => parse(`<root/>?>`)).toThrow(SyntaxError)
+})
+
 // Size tests
 
 for (let i = 0; i <= 5; i++) {

@@ -8,7 +8,7 @@ import { parse as std_parse } from "@std/xml/parse"
 import { parseXmlStreamFromBytes } from "@std/xml/parse-stream"
 import type { XmlDocument as StdDocument, XmlElement as StdElement, XmlNode as StdNode } from "@std/xml/types"
 import { type CleanOptions, finalize, type FlattenOptions, type ReviveOptions, xml_doctype, xml_element, xml_instruction, xml_node, xml_text } from "./_parser.ts"
-import type { XmlDocument, XmlNode, XmlText } from "./_types.ts"
+import type { XmlDocument, XmlNode } from "./_types.ts"
 export type * from "./_types.ts"
 export type { CleanOptions, FlattenOptions, ReviveOptions, Reviver } from "./_parser.ts"
 
@@ -164,14 +164,9 @@ async function parse_stream(content: ReadableStream<Uint8Array>, options?: Parse
     onEndElement() {
       stack.pop()
     },
-    // Text (consecutive events are merged back together as a single text node may be split on chunk boundaries)
+    // Text
     onText(text) {
-      const parent = stack.at(-1)!
-      const last = parent["~children"].at(-1) as XmlText | undefined
-      if (last?.["~name"] === "~text")
-        last["#text"] += text
-      else
-        xml_text(text, { type: "~text", parent })
+      xml_text(text, { type: "~text", parent: stack.at(-1)! })
     },
     // CDATA
     onCData(text) {
