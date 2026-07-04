@@ -126,12 +126,24 @@ jobs:
           NAME="$(deno eval --quiet 'import { parse } from "jsr:@std/jsonc"; console.log(parse(Deno.readTextFileSync(`${Deno.env.get("PACKAGE")}/deno.jsonc`)).name.split("/").at(-1))')"
           export NAME
           LAST="$(deno eval --quiet 'import { tags } from "./@libs/git/tag.ts"; console.log(tags({ glob: `${Deno.env.get("NAME")}-*` }).at(-1) ?? "")')"
+          export LAST
           if [ -z "$LAST" ]; then
             echo "Package has never been released, skipping"
             echo "tag=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          INCREMENT=
+          INCREMENT="$(deno eval --quiet '
+            import { log } from "./@libs/git/log.ts"
+            const commits = log(Deno.env.get("LAST"), { filter: { conventional: true, scopes: [Deno.env.get("NAME")] } })
+            if (commits.some(({ breaking }) => breaking)) console.log("major")
+            else if (commits.some(({ type }) => type === "feat")) console.log("minor")
+            else if (commits.length) console.log("patch")
+          ')"
+          if [ -z "$INCREMENT" ]; then
+            echo "No conventional commits scoped to $NAME since $LAST, skipping"
+            echo "tag=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           deno bump-version --start "$LAST" "$INCREMENT"
           git checkout --quiet -- . ":(exclude)$PACKAGE/deno.jsonc"
           git clean --force --quiet -- Releases.md
