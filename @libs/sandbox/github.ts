@@ -1,4 +1,4 @@
-// Copyright (c) - 2025+ the lowlighter/esquie authors. AGPL-3.0-or-later
+// Copyright (c) - 2025+ the lowlighter/libs authors. AGPL-3.0-or-later
 import type { Arg } from "@libs/typing/types"
 import type { RequestInterface } from "@octokit/types"
 import { globToRegExp } from "@std/path/posix/glob-to-regexp"
@@ -10,11 +10,7 @@ export type { Arg, Logger }
 
 /** GitHub options. */
 export type GithubOptions = {
-  /**
-   * Logger categories forwarded to {@link https://logtape.org | LogTape}'s `getLogger()`.
-   *
-   * As recommended for libraries, the actual output is left to the host application (through {@link https://logtape.org/manual/config | LogTape configuration}).
-   */
+  /** Logger categories forwarded to {@link https://logtape.org | LogTape}'s `getLogger()`. */
   logger?: string[]
   /** Fetch function. */
   fetch?: typeof globalThis.fetch
@@ -39,14 +35,14 @@ export class GitHub {
   /** Constructor. */
   constructor({ logger: category = ["github"], fetch = globalThis.fetch, meta = import.meta }: GithubOptions = {}, { token, ua, timezone, url }: GitHubConfiguration = {}) {
     this.#meta = meta
-    const log = this.#log = getLogger(category)
-    log.debug("octokit version: {version}", { version: Octokit.VERSION })
+    this.#log = getLogger(category)
+    this.#log.info(`octokit version: ${Octokit.VERSION}`)
     this.#octokit = new (Octokit.plugin(paginateGraphQL, paginateRest))({
       userAgent: ua,
       auth: token,
       timeZone: timezone,
       baseUrl: url,
-      log: { error: log.error.bind(log), warn: log.warn.bind(log), info: log.debug.bind(log), debug: log.trace.bind(log) },
+      log: { error: this.#log.error.bind(this.#log), warn: this.#log.warn.bind(this.#log), info: this.#log.info.bind(this.#log), debug: this.#log.debug.bind(this.#log) },
       request: { fetch },
     })
   }
@@ -83,7 +79,7 @@ export class GitHub {
   /** Returns GitHub API current rate limit. */
   async ratelimit(): Promise<{ core: number; graphql: number; search: number }> {
     const { data: { resources: { core, search, graphql = { remaining: 0, limit: 0 } } } } = await this.rest(this.api.rateLimit.get)
-    this.#log.info("current rate limit: {quota}", {
+    this.#log.debug("current rate limit: {quota}", {
       quota: {
         core: `${core.remaining}/${core.limit}`,
         graphql: `${graphql.remaining}/${graphql.limit}`,
@@ -99,16 +95,16 @@ export class GitHub {
   rest<T extends RequestInterface>(endpoint: T, vars: Arg<T>, _: { paginate: true }): Promise<Awaited<ReturnType<T>>["data"]>
   rest<T extends RequestInterface>(endpoint: T, vars = {} as Arg<T>, { paginate = false } = {}) {
     const { endpoint: { DEFAULTS: { method, url } } } = endpoint
-    this.#log.info("REST {method} {url}", { method, url })
+    this.#log.info(`REST ${method} ${url}`)
     return paginate ? this.#octokit.paginate(endpoint, vars) : endpoint(vars)
   }
 
   /** Performs a GitHub GraphQL query. */
   // deno-lint-ignore no-explicit-any
   async graphql<T = any>(query: string, vars = {} as Record<PropertyKey, unknown>, { paginate = false } = {}): Promise<T> {
-    this.#log.info("GraphQL {query}", { query })
+    this.#log.info(`GraphQL ${query}`)
     const path = this.#meta.resolve(`./.github/${query}.graphql`)
-    this.#log.trace("loaded query: {path} → {query}", { path, query })
+    this.#log.trace(`loaded query: ${path}\n${query}`)
     query = await fetch(path).then((response) => response.text())
     return paginate ? this.#octokit.graphql.paginate(query, vars) as T : this.#octokit.graphql(query, vars)
   }

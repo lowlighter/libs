@@ -17,7 +17,7 @@ for (
   const { path, type } of [
     { path: import.meta.filename!, type: "file" },
     { path: import.meta.dirname!, type: "directory" },
-    { path: "-esquie-test-non-existent-file-", type: null },
+    { path: "-example-test-non-existent-file-", type: null },
   ]
 ) {
   Deno.test(`\`filetype(${inspect(path)})\` returns ${inspect(type)}`, { permissions: { read: true } }, () => {

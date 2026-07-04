@@ -1,4 +1,4 @@
-// Copyright (c) - 2025+ the lowlighter/esquie authors. AGPL-3.0-or-later
+// Copyright (c) - 2025+ the lowlighter/libs authors. AGPL-3.0-or-later
 import { basename } from "@std/path/basename"
 import { dirname } from "@std/path/dirname"
 import { join } from "@std/path/join"

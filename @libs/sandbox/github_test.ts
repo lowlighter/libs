@@ -1,12 +1,11 @@
-// Copyright (c) - 2025+ the lowlighter/esquie authors. AGPL-3.0-or-later
+// Copyright (c) - 2025+ the lowlighter/libs authors. AGPL-3.0-or-later
 import { expect, type testing } from "@libs/testing"
 import { inspect } from "@libs/testing/highlight"
 import { join } from "@std/path/join"
 import { sandboxedFetch } from "./fetch.ts"
 import { GitHub } from "./github.ts"
-import { mocks } from "./constants.ts"
 
-const gh = new GitHub({ meta: { resolve: (path: string) => import.meta.resolve(join(mocks.fixtures.github, path)) } as testing, fetch: sandboxedFetch([{ hostname: "api.github.com", redirect: `${mocks.protocol}://` }], { paths: [join(mocks.fixtures.github, mocks.tld)] }) }, {
+const gh = new GitHub({ meta: { resolve: (path: string) => import.meta.resolve(join("./testing/fixtures/github", path)) } as testing, fetch: sandboxedFetch([{ hostname: "api.github.com", redirect: `mock://` }], { paths: [join("./testing/fixtures/github", ".test")] }) }, {
   url: "https://api.github.com",
 })
 

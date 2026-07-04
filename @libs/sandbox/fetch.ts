@@ -1,4 +1,4 @@
-// Copyright (c) - 2025+ the lowlighter/esquie authors. AGPL-3.0-or-later
+// Copyright (c) - 2025+ the lowlighter/libs authors. AGPL-3.0-or-later
 import type { Arg, Optional } from "@libs/typing/types"
 import type { Handler } from "./testing/mock.ts"
 import { pick } from "@std/collections/pick"
@@ -9,11 +9,10 @@ import { normalize } from "@std/path/posix/normalize"
 import { fromFileUrl } from "@std/path/from-file-url"
 import { getLogger, type Logger } from "@logtape/logtape"
 import { filetype, list } from "@libs/toolbox/filesystem"
-import { mocks } from "./constants.ts"
 export type { Arg, Logger, Optional }
 
 /** URL pattern to intercept mock requests. */
-const testpattern = new URLPattern({ protocol: mocks.protocol })
+const testpattern = new URLPattern({ protocol: "mock" })
 
 /** Symbol to access the original fetch implementation. */
 export const $$fetch = Symbol("[[fetch]]")
@@ -42,11 +41,7 @@ export type StaticMockedResponse = {
 
 /** Fetch options. */
 export type FetchOptions = {
-  /**
-   * Logger categories forwarded to {@link https://logtape.org | LogTape}'s `getLogger()`.
-   *
-   * As recommended for libraries, the actual output is left to the host application (through {@link https://logtape.org/manual/config | LogTape configuration}).
-   */
+  /** Logger categories forwarded to {@link https://logtape.org | LogTape}'s `getLogger()`. */
   logger?: string[]
   /** Paths to search for mock files and directories. */
   paths?: Array<Optional<string>>
@@ -57,15 +52,14 @@ export type FetchOptions = {
 /** Provides a fetch function with support for interceptors and mocks. */
 export function sandboxedFetch(rules: FetchRules, { logger: category = ["fetch"], paths: _paths = [], browser = false }: FetchOptions = {}): typeof globalThis.fetch {
   const $fetch = (globalThis.fetch as unknown as { [$$fetch]?: typeof globalThis.fetch })?.[$$fetch] ?? globalThis.fetch
-  const _log = getLogger(category)
+  const log = getLogger(category)
   const paths = _paths.filter((path): path is string => Boolean(path))
     .filter((path) => ["file:", "http:", "https:"].includes(`${URL.parse(path)?.protocol}`))
-    .map((path) => fromFileUrl(new URL(mocks.tld, path)))
+    .map((path) => fromFileUrl(new URL(".test", path)))
   return Object.assign(async function fetch(input: RequestInfo | URL, init?: RequestInit) {
     let request = input instanceof Request ? input : new Request(input, init)
     let respond = undefined as Arg<typeof mock, 1>["respond"]
-    const log = _log.with({ method: request.method, url: request.url })
-    log.info("{method} {url}")
+    log.info(`${request.method} ${request.url}`)
     // Apply interceptors
     if (rules.length) {
       const interceptors = rules.map(({ redirect, respond, ignoreCase = false, ...pattern }) => ({ pattern: new URLPattern(pattern, { ignoreCase }), redirect, respond }))
@@ -74,16 +68,16 @@ export function sandboxedFetch(rules: FetchRules, { logger: category = ["fetch"]
         const captured = interceptor.pattern.exec(url.href)
         if (!captured)
           continue
-        log.trace("matched: {url} → {pattern}", format(interceptor.pattern, request.url))
+        log.debug(`${request.method} ${request.url} matched {pattern}`, format(interceptor.pattern, request.url))
         let redirect = url
         // Use static mocked response
         if (interceptor.respond) {
           respond = interceptor.respond
-          redirect = new URL(`${mocks.protocol}://${url.href.replace(url.protocol, "")}`)
+          redirect = new URL(`mock://${url.href.replace(url.protocol, "")}`)
         } // Compute redirection
         else if (interceptor.redirect) {
           redirect = URL.canParse(interceptor.redirect) ? new URL(interceptor.redirect) : interceptor.redirect.startsWith("/") ? new URL(`${url.protocol}//${url.host}${interceptor.redirect}`) : new URL(`${url.protocol}//${interceptor.redirect}`)
-          if ((redirect.protocol === `${mocks.protocol}:`) && (!redirect.host))
+          if ((redirect.protocol === `mock:`) && (!redirect.host))
             redirect = new URL(`${redirect.protocol}//${url.host}`)
           redirect.pathname = join(redirect.pathname, captured.pathname.groups._ ?? url.pathname)
           redirect.username ||= captured.username.groups._ ?? ""
@@ -92,11 +86,11 @@ export function sandboxedFetch(rules: FetchRules, { logger: category = ["fetch"]
           new URLSearchParams(captured.search.groups._).forEach((value, key) => redirect.searchParams.set(key, value))
         }
         request = new Request(redirect, request)
-        log.debug("redirected: {url} → {redirect}", { redirect: redirect.href })
+        log.info(`${request.method} ${request.url} redirected → {redirect}`, { redirect: redirect.href })
       }
       // Use mock server for mock scheme
       if (testpattern.test(request.url)) {
-        log.trace("matched: {url} → {pattern}", format(testpattern, request.url))
+        log.trace(`${request.method} ${request.url} matched {pattern}`, format(testpattern, request.url))
         return await mock(request, { log, paths, respond })
       }
     }
@@ -123,7 +117,7 @@ async function mock(request: Request, options: Arg<Handler, 2> & { respond?: Sta
 
   // Return static mocked response if configured
   if (options.respond) {
-    log.trace("using: static response")
+    log.trace(`${request.method} ${request.url} using: static response`)
     response = new Response(options.respond.body, { status: options.respond.status, headers: options.respond.headers })
   } // Find all mock candidates
   else {
@@ -133,32 +127,32 @@ async function mock(request: Request, options: Arg<Handler, 2> & { respond?: Sta
       .flat()
       .filter((mock) => basename(mock) === url.host && filetype(mock) === "directory")
     if (!candidates.length)
-      log.warn("no mocks found: {paths}", { paths: options.paths })
+      log.warn(`${request.method} ${request.url} no mocks found: ${options.paths}`)
     for (const candidate of candidates) {
       // Check if a better response can be obtained
       if (response.status >= Status.OK && response.status <= Status.OK + 99)
         break
       if (response.status !== Status.BadGateway) {
-        log.trace("current status: http {status}", { status: response.status })
-        log.trace("trying next candidate: {candidate}", { candidate })
+        log.trace(`${request.method} ${request.url} current status: http ${response.status}`)
+        log.trace(`${request.method} ${request.url} trying next candidate: ${candidate}`)
       }
       // Try executing mock file
       const module = join(candidate, `${url.pathname}/.${request.method.toLowerCase()}.ts`)
       if (filetype(module) === "file") {
-        log.trace("using: handler {module}", { module })
+        log.trace(`${request.method} ${request.url} using: handler ${module}`)
         const { default: mock } = await import(module)
         response = await mock(request, options)
         continue
       }
       // Try serving static directory
       if (filetype(candidate) === "directory") {
-        log.trace("using: directory {candidate}", { candidate })
+        log.trace(`${request.method} ${request.url} using: directory ${candidate}`)
         const path = join(candidate, normalize(decodeURIComponent(url.pathname)))
         response = new Response(StatusText[Status.NotFound], { status: Status.NotFound })
         for (const filepath of [path, `${path}.html`, join(path, "index.html")]) {
-          log.trace("trying next file: {filepath}", { filepath })
+          log.trace(`${request.method} ${request.url} trying next file: ${filepath}`)
           if (filetype(filepath) === "file") {
-            log.trace("using: file {filepath}", { filepath })
+            log.trace(`${request.method} ${request.url} using: file ${filepath}`)
             response = new Response(await Deno.readFile(filepath), { status: Status.OK })
             break
           }
@@ -167,7 +161,7 @@ async function mock(request: Request, options: Arg<Handler, 2> & { respond?: Sta
       }
     }
   }
-  log.debug("sent: http {status}", { status: response.status })
+  log.debug(`${request.method} ${request.url} sent: http ${response.status}`)
   return response
 }
 

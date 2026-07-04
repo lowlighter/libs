@@ -11,11 +11,7 @@ export type Permissions = NonNullable<Exclude<Required<SandboxOptions["sandbox"]
 
 /** Browser options. */
 export type BrowserOptions = {
-  /**
-   * Logger categories forwarded to {@link https://logtape.org | LogTape}'s `getLogger()`.
-   *
-   * As recommended for libraries, the actual output is left to the host application (through {@link https://logtape.org/manual/config | LogTape configuration}).
-   */
+  /** Logger categories forwarded to {@link https://logtape.org | LogTape}'s `getLogger()`. */
   logger?: string[]
   /** Fetch function. */
   fetch?: typeof globalThis.fetch
@@ -82,7 +78,7 @@ export class Browser {
       })
       const useragent = await this.#browser.userAgent()
       const version = await this.#browser.version()
-      this.#log.info("opened browser: {version} {useragent}", { version, useragent })
+      this.#log.info(`opened browser: ${version} ${useragent}`)
     }
     const page = await this.#browser.newPage(url, {
       coverage: env("DENO_COVERAGE", { boolean: true }),
@@ -92,9 +88,9 @@ export class Browser {
     const close = page.close.bind(page)
     page.close = async () => {
       await close()
-      this.#log.debug("closed page: {url}", { url })
+      this.#log.debug(`closed page: ${url}`)
     }
-    this.#log.info("opened page: {url}", { url })
+    this.#log.info(`opened page: ${url}`)
     return page
   }
 

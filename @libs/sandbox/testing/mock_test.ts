@@ -1,4 +1,4 @@
-// Copyright (c) - 2025+ the lowlighter/esquie authors. AGPL-3.0-or-later
+// Copyright (c) - 2025+ the lowlighter/libs authors. AGPL-3.0-or-later
 import { expect, Status, type testing } from "@libs/testing"
 import { inspect } from "@libs/testing/highlight"
 import { is } from "@libs/is"
