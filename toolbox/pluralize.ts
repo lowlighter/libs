@@ -3,8 +3,9 @@
 const rules: [RegExp, string][] = [
   [/(pe)(?:rson|ople)$/i, "$1ople"], // person → people
   [/(child)(?:ren)?$/i, "$1ren"], // child → children
-  [/(m)[ae]n$/i, "$1en"], // man, woman → men, women
+  [/(?<!hu)(m)[ae]n$/i, "$1en"], // man, woman → men, women (but human → humans)
   [/([^aeiouy])y$/i, "$1ies"], // category → categories
+  [/([aeiou]z)$/i, "$1zes"], // quiz → quizzes
   [/(s|x|z|ch|sh)$/i, "$1es"], // box, class, status → boxes, classes, statuses
   [/$/i, "s"], // default: user → users
 ]

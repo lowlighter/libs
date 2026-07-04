@@ -18,7 +18,8 @@ Deno.test("`pluralize()` adds `es` after a sibilant ending", () => {
   expect(pluralize("bus")).toBe("buses")
   expect(pluralize("match")).toBe("matches")
   expect(pluralize("dish")).toBe("dishes")
-  expect(pluralize("quiz")).toBe("quizes")
+  expect(pluralize("quiz")).toBe("quizzes")
+  expect(pluralize("buzz")).toBe("buzzes")
 })
 
 Deno.test("`pluralize()` turns a consonant + `y` into `ies`", () => {
@@ -33,6 +34,8 @@ Deno.test("`pluralize()` handles common irregular nouns", () => {
   expect(pluralize("child")).toBe("children")
   expect(pluralize("man")).toBe("men")
   expect(pluralize("woman")).toBe("women")
+  expect(pluralize("human")).toBe("humans")
+  expect(pluralize("HUMAN")).toBe("HUMANS")
 })
 
 Deno.test("`pluralize()` preserves the original casing", () => {
