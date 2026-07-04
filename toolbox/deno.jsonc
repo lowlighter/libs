@@ -25,7 +25,8 @@
     "./permissions": "./permissions.ts",
     "./pluralize": "./pluralize.ts",
     "./promises": "./promises.ts",
-    "./publish-x": "./publish_x.ts",
+    "./scripts/publish/npm": "./scripts/publish/npm.ts",
+    "./scripts/publish/x": "./scripts/publish/x.ts",
     "./resolve": "./resolve.ts",
     "./timezone": "./timezone.ts"
   }
