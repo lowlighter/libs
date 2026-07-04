@@ -1,13 +1,24 @@
 /**
- * Bram Cohen's patience diff algorithm TypeScript implementation
+ * Unified patch computation between two strings.
  *
- * The following code has been ported and rewritten by Simon Lecoq from Jonathan Trent's original work at:
+ * This tool is designed to produce the same unified patches as the unix `diff` command line tool,
+ * and its output is supposed to be directly consumable by the unix `patch` and `git apply` tools
+ * (as well as this library's own `apply()`).
+ *
+ * Patches are computed with the patience algorithm,
+ * falling back on Eugene Myers' O(ND) algorithm on regions without unique common lines/
+ *
+ * Note that hunks may occasionally differ from the `diff` command line output when the patience algorithm anchors on different lines,
+ * but the resulting patch stays valid and applies to the same result.
+ *
+ * The original code was ported and rewritten by Simon Lecoq from Jonathan Trent's original work at:
  * https://github.com/jonTrent/PatienceDiff/blob/dev/PatienceDiff.js
  *
  * Significant changes includes:
  * - Edited to be usable as a proper EcmaScript module (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
  * - A single exported `diff()` function which generate a unified patch instead of a list of operations
- *   - This output is supposed to match the output of the `diff` command line tool
+ *   - This output matches the output of the `diff` command line tool
+ * - A Myers diff fallback for regions where the patience algorithm has no unique common line to anchor on
  * - Lot of code has moved or has been rewritten to match lowlighter's coding style
  * ________________________________________________________________________________
  *
@@ -39,8 +50,16 @@ export type DiffOptions = {
 /**
  * Compute unified patch from diff between two strings.
  *
- * Based on {@link https://bramcohen.livejournal.com/73318.html | Bram Cohen's patience diff algorithm}.
- * This function was ported and modified by {@link https://github.com/lowlighter | Simon Lecoq} based on the previous work of {@link https://github.com/jonTrent | Jonathan Trent}.
+ * The output matches the unified format of the `diff` command line tool,
+ * and can be applied with the unix `patch` and `git apply` tools
+ * (or this library's own {@link https://jsr.io/@libs/diff/doc/apply | apply}).
+ *
+ * It is computed using {@link https://bramcohen.livejournal.com/73318.html | Bram Cohen's patience diff algorithm},
+ * falling back on {@link https://neil.fraser.name/writing/diff/myers.pdf | Eugene Myers' algorithm}
+ * on regions without unique common lines.
+ *
+ * This function was originally ported and modified by {@link https://github.com/lowlighter | Simon Lecoq} based
+ * on the previous work of {@link https://github.com/jonTrent | Jonathan Trent}.
  *
  * ```ts
  * import { diff } from "./diff.ts"
@@ -133,7 +152,7 @@ function render(lines: line[], context: number, colors: boolean): string {
 function emit({ line, a, b }: line, colors: boolean): string {
   const type = (a >= 0) && (b >= 0) ? " " : (a >= 0 ? "-" : "+")
   const newline = line.endsWith("\n")
-  let text = (type === " ") ? (line === "\n" ? "\n" : ` ${line}`) : `${type}${line}`
+  let text = `${type}${line}`
   if (!newline)
     text += "\n"
   const color = type === "+" ? "\x1b[32m" : type === "-" ? "\x1b[31m" : ""

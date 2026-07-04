@@ -3,7 +3,7 @@
 [![JSR](https://jsr.io/badges/@libs/diff)](https://jsr.io/@libs/diff) [![JSR Score](https://jsr.io/badges/@libs/diff/score)](https://jsr.io/@libs/diff)
 [![NPM](https://img.shields.io/npm/v/@lowlighter%2Fdiff?logo=npm&labelColor=cb0000&color=183e4e)](https://www.npmjs.com/package/@lowlighter/diff) [![Coverage](https://libs-coverage.lecoq.io/diff/badge.svg)](https://libs-coverage.lecoq.io/diff)
 
-Use the patience algorithm for practical purposes.
+Compute and apply unified patches, matching the unix `diff`/`patch` command line tools output.
 
 - [`🦕 Playground`](https://libs.lecoq.io/diff)
 - [`📚 Documentation`](https://jsr.io/@libs/diff/doc)
@@ -27,7 +27,9 @@ diff("foo\n", "foo")
 ## ✨ Features
 
 - Support for computing the [unified patch](https://opensource.com/article/18/8/diffs-patches) between two strings.
-- Support for matching the [`diff`](https://www.man7.org/linux/man-pages/man1/diff.1.html) command line output.
+- Support for matching the [`diff`](https://www.man7.org/linux/man-pages/man1/diff.1.html) command line output
+  - Compatible with the [`patch`](https://www.man7.org/linux/man-pages/man1/patch.1.html) and `git apply` tools.
+- Support for applying back unified patches to strings.
 - Has no external dependencies.
 - Is lightweight.
 
