@@ -6,6 +6,7 @@
     ".": "./mod.ts",
     "./diff": "./diff.ts",
     "./apply": "./apply.ts",
+    "./blame": "./blame.ts",
     "./json": "./json.ts"
   },
   "imports": {
