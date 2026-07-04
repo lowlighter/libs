@@ -26,12 +26,11 @@
  * Compute unified patch from diff between two strings.
  *
  * Based on {@link https://bramcohen.livejournal.com/73318.html | Bram Cohen's patience diff algorithm}.
- * This function was ported and modified by {@link https://gihub.com/lowlighter | Simon Lecoq} based on the previous work of {@link https://gihub.com/jonTrent | Jonathan Trent}.
+ * This function was ported and modified by {@link https://github.com/lowlighter | Simon Lecoq} based on the previous work of {@link https://github.com/jonTrent | Jonathan Trent}.
  *
  * ```ts
  * import { diff } from "./diff.ts"
- * diff("foo\n", "foo")
- * // Returns
+ * diff("foo\n", "foo") // Returns the following unified patch:
  * ```
  * ```diff
  * --- a
@@ -61,7 +60,14 @@ export function diff(a: string, b: string, { colors = false, context = 3 } = {})
 
 function _diff(lines: line[], { after = -1, colors = false, context = 0 }: { after?: number; context?: number; colors?: boolean }): { next: number; patch: string } {
   // Search for the first edited line after the specified index
-  const k = lines.findIndex(({ a, b, token }, i) => ((a < 0) || (b < 0)) && (!token) && (i > after))
+  let k = -1
+  for (let i = after + 1; i < lines.length; i++) {
+    const { a, b, token } = lines[i]
+    if (((a < 0) || (b < 0)) && (!token)) {
+      k = i
+      break
+    }
+  }
   if (k < 0) {
     return { next: NaN, patch: "" }
   }
@@ -148,8 +154,8 @@ function _diff(lines: line[], { after = -1, colors = false, context = 0 }: { aft
  *
  * ```ts
  * import { tokenize } from "./diff.ts"
- * tokenize("foo\nbar")
- * ``
+ * tokenize("foo\nbar") // Returns ["foo\n", "bar\n"]
+ * ```
  */
 export function tokenize(text: string): string[] {
   text += "\n"
