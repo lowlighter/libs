@@ -1,7 +1,7 @@
 {
   "icon": "⏯️",
   "name": "@libs/run",
-  "version": "4.0.0",
+  "version": "3.3.2",
   "imports": {
     "@logtape/logtape": "jsr:@logtape/logtape@^2.2.0",
     "@std/async": "jsr:@std/async@^1.2.0",

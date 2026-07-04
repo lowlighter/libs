@@ -1,16 +1,26 @@
 // Imports
-import type { Plugin } from "../renderer.ts"
+// @ts-types="@types/markdown-it"
+import type MarkdownIt from "markdown-it"
 import { slugify as slug } from "@std/text/unstable-slugify"
-import remarkWikilinks from "remark-wiki-link"
+
+/** Wiki links options. */
+export type WikilinksOptions = {
+  /** Indicate which possible slugs are possible for a given reference. */
+  slugify?: (name: string) => string[]
+  /** Indicate how to resolve a link to a URL. */
+  resolve?: (link: string) => string
+  /** List of existing permalinks (any link not present in the list will possess the `new` class). */
+  existing?: string[]
+}
 
 /**
  * Add support for wiki links.
  *
  * Use the `existing` option to provide a list of existing permalinks.
- * Any link not present in the list will posses the `new` class.
+ * Any link not present in the list will possess the `new` class.
  *
  * Use the `slugify` option to indicate which possible slugs are possible for a given reference.
- * All generated slugs are automatically added to the list of existing permalinks if at least one them is present.
+ * The first slug present in the list of existing permalinks is used, defaulting to the first generated slug.
  *
  * Use the `resolve` option to indicate how to resolve a link to a URL.
  *
@@ -20,20 +30,31 @@ import remarkWikilinks from "remark-wiki-link"
  * [[foo]]
  * ```
  * ```html
- * <a href="/pages/foo" class="wikilink">foo</a>
+ * <a class="wikilink" href="/pages/foo">foo</a>
  * ```
  */
-export default create() as Plugin
-
-/** Create a new wiki links plugin. */
-export function create({
-  slugify = (name) => [slug(name)],
-  resolve = (link) => `/pages/${link}`,
-  existing,
-} = {} as { slugify?: (name: string) => string[]; resolve?: (link: string) => string; existing?: string[] }): Plugin {
-  return {
-    rehype(processor) {
-      return processor.use(remarkWikilinks, { pageResolver: slugify, hrefTemplate: resolve, permalinks: existing, wikiLinkClassName: "wikilink" })
-    },
-  } as Plugin
+export default function wikilinks(engine: MarkdownIt, { slugify = (name) => [slug(name)], resolve = (link) => `/pages/${link}`, existing }: WikilinksOptions = {}): void {
+  engine.inline.ruler.before("link", "wikilinks", (state, silent) => {
+    if (state.src.slice(state.pos, state.pos + 2) !== "[[") {
+      return false
+    }
+    const match = /^\[\[([^\]|\n]+)(?:\|([^\]\n]+))?\]\]/.exec(state.src.slice(state.pos, state.posMax))
+    if (!match) {
+      return false
+    }
+    if (!silent) {
+      const name = match[1].trim()
+      const label = match[2]?.trim() || name
+      const slugs = slugify(name)
+      const target = slugs.find((slugged) => existing?.includes(slugged)) ?? slugs[0] ?? name
+      const created = Array.isArray(existing) && (!existing.includes(target))
+      const open = state.push("link_open", "a", 1)
+      open.attrSet("class", `wikilink${created ? " new" : ""}`)
+      open.attrSet("href", resolve(target))
+      state.push("text", "", 0).content = label
+      state.push("link_close", "a", -1)
+    }
+    state.pos += match[0].length
+    return true
+  })
 }

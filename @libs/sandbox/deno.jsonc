@@ -1,7 +1,7 @@
 {
   "icon": "🏜️",
   "name": "@libs/sandbox",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "license": "AGPL-3.0-only",
   "imports": {
     "@astral/astral": "jsr:@astral/astral@^0.5.6",
