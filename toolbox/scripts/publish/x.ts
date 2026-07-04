@@ -30,8 +30,19 @@ export async function publish({ token, repository, name, version, directory = ""
   directory = directory.trim().replace(/\/$/, "")
   const hooked = `https://api.deno.land/webhook/gh/${name}${directory ? `?subdir=${encodeURIComponent(`/${directory}/`)}` : ""}`
   const url = `https://deno.land/x/${name}@${version}`
-  const github = (path: string, init = {} as RequestInit) => fetcher(`https://api.github.com/repos/${repository}${path}`, { ...init, headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${token}` } }).then((response) => response.json())
-  const published = () => fetcher(url, { headers: { Accept: "text/html" } }).then((response) => response.text()).then((text) => !text.includes("404 - Not Found"))
+  const github = (path: string, init = {} as RequestInit) =>
+    fetcher(`https://api.github.com/repos/${repository}${path}`, { ...init, headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${token}` } }).then(async (response) => {
+      if (!response.ok) {
+        await response.body?.cancel()
+        throw new Error(`GitHub API request failed with status ${response.status}: ${path}`)
+      }
+      return response.json()
+    })
+  const published = () =>
+    fetcher(url, { headers: { Accept: "text/html" } }).then(async (response) => {
+      await response.body?.cancel()
+      return response.ok
+    })
   const sleep = () => new Promise((resolve) => setTimeout(resolve, delay))
 
   // Check if package is already published
@@ -42,108 +53,110 @@ export async function publish({ token, repository, name, version, directory = ""
 
   // Resolve imports on a temporary branch if needed
   const branch = { current: "", temporary: "" }
-  if (map) {
-    branch.current = command("git", ["rev-parse", "--abbrev-ref", "HEAD"], { sync: true, throw: true }).stdout.trim()
-    branch.temporary = `x-${name}-${version}`
-    console.error(`switching from ${branch.current} to temporary branch ${branch.temporary}`)
-    if (!dryrun) {
-      command("git", ["switch", "--create", branch.temporary], { sync: true, throw: true })
-      push(branch.temporary)
-      command("git", ["branch", "--set-upstream-to", `origin/${branch.temporary}`], { sync: true, throw: true })
-    }
-    const cwd = resolve(Deno.cwd())
-    const workspace = await workspaceImports(cwd)
-    const mapped = manifest(dirname(resolve(cwd, map)))?.imports ?? {}
-    const exclude = [...new Set([...(manifest(cwd)?.publish?.exclude ?? []), "node_modules", ".git", "coverage", ".github"])]
-    for await (const { path } of expandGlob("**/*.ts", { root: cwd, includeDirs: false, exclude })) {
-      // Resolve against workspace members, the nearest manifest imports and the specified map
-      let local = {} as Record<string, string>
-      for (let base = dirname(path); base.startsWith(cwd); base = dirname(base)) {
-        const parsed = manifest(base)
-        if (parsed) {
-          local = parsed.imports ?? {}
-          break
+  try {
+    if (map) {
+      branch.current = command("git", ["rev-parse", "--abbrev-ref", "HEAD"], { sync: true, throw: true }).stdout.trim()
+      branch.temporary = `x-${name}-${version}`
+      console.error(`switching from ${branch.current} to temporary branch ${branch.temporary}`)
+      if (!dryrun) {
+        command("git", ["switch", "--create", branch.temporary], { sync: true, throw: true })
+        push(branch.temporary)
+        command("git", ["branch", "--set-upstream-to", `origin/${branch.temporary}`], { sync: true, throw: true })
+      }
+      const cwd = resolve(Deno.cwd())
+      const workspace = await workspaceImports(cwd)
+      const mapped = manifest(dirname(resolve(cwd, map)))?.imports ?? {}
+      const exclude = [...new Set([...(manifest(cwd)?.publish?.exclude ?? []), "node_modules", ".git", "coverage", ".github"])]
+      for await (const { path } of expandGlob("**/*.ts", { root: cwd, includeDirs: false, exclude })) {
+        // Resolve against workspace members, the nearest manifest imports and the specified map
+        let local = {} as Record<string, string>
+        for (let base = dirname(path); base.startsWith(cwd); base = dirname(base)) {
+          const parsed = manifest(base)
+          if (parsed) {
+            local = parsed.imports ?? {}
+            break
+          }
+        }
+        const { result, resolved } = unmap(await Deno.readTextFile(path), { ...workspace, ...local, ...mapped })
+        if (resolved) {
+          console.error(gray(`resolved ${resolved} imports in ${path}`))
+          if (!dryrun)
+            await Deno.writeTextFile(path, result)
         }
       }
-      const { result, resolved } = unmap(await Deno.readTextFile(path), { ...workspace, ...local, ...mapped })
-      if (resolved) {
-        console.error(gray(`resolved ${resolved} imports in ${path}`))
-        if (!dryrun)
-          await Deno.writeTextFile(path, result)
+      console.error(gray(`committing resolved imports on ${branch.temporary}`))
+      if (!dryrun) {
+        commit(`build(${name}): deno.land/x@${version}`, { all: true })
+        push(branch.temporary)
       }
     }
-    console.error(gray(`committing resolved imports on ${branch.temporary}`))
-    if (!dryrun) {
-      commit(`build(${name}): deno.land/x@${version}`, { all: true })
-      push(branch.temporary)
-    }
-  }
 
-  // Search webhook and activate it if needed
-  const webhooks = await github("/hooks") as Array<{ id: number; active: boolean; config: { url?: string } }>
-  const hook = webhooks.find(({ config }) => config.url === hooked)
-  if (!hook)
-    throw new Error(`Could not find a hook with expected url: ${hooked}`)
-  console.error(`found hook ${hook.id} (active: ${hook.active})`)
-  if (reactive && (!hook.active)) {
-    console.error(yellow("hook is inactive prior publishing, activating"))
-    if (!dryrun)
-      await github(`/hooks/${hook.id}`, { method: "PATCH", body: JSON.stringify({ active: true }) })
-  }
-
-  try {
-    // Create and push tag to trigger webhook
-    console.error(`creating and pushing tag ${version}`)
-    if (!dryrun) {
-      tag(version, { force: true })
-      pull({ rebase: true })
-      push(version)
-    }
-
-    // Wait for webhook payload delivery and deno.land/x publishing
-    if (!dryrun) {
-      for (let attempt = 0;; attempt++) {
-        const deliveries = await github(`/hooks/${hook.id}/deliveries`) as Array<{ event: string }>
-        if (deliveries.some(({ event }) => event === "create"))
-          break
-        if (attempt >= attempts)
-          throw new Error("Webhook payload has not been delivered in the expected time frame")
-        console.error(gray("webhook payload has not been delivered yet"))
-        await sleep()
-      }
-      console.error(cyan("webhook payload has been delivered"))
-      for (let attempt = 0;; attempt++) {
-        if (await published())
-          break
-        if (attempt >= attempts)
-          throw new Error("Package has not been published in the expected time frame")
-        console.error(gray("package has not been published yet"))
-        await sleep()
-      }
-    }
-    console.error(green(`published on ${url}`))
-  } finally {
-    // Restore hook state if needed
+    // Search webhook and activate it if needed
+    const webhooks = await github("/hooks") as Array<{ id: number; active: boolean; config: { url?: string } }>
+    const hook = webhooks.find(({ config }) => config.url === hooked)
+    if (!hook)
+      throw new Error(`Could not find a hook with expected url: ${hooked}`)
+    console.error(`found hook ${hook.id} (active: ${hook.active})`)
     if (reactive && (!hook.active)) {
-      console.error(yellow("hook was inactive prior publishing, restoring state"))
+      console.error(yellow("hook is inactive prior publishing, activating"))
       if (!dryrun)
-        await github(`/hooks/${hook.id}`, { method: "PATCH", body: JSON.stringify({ active: false }) })
+        await github(`/hooks/${hook.id}`, { method: "PATCH", body: JSON.stringify({ active: true }) })
     }
 
-    // Remove tag if needed
-    if (remove && (!dryrun)) {
-      console.error(gray(`removing tag ${version} locally and from origin`))
-      command("git", ["tag", "--delete", version], { sync: true })
-      push(version, { args: ["--delete"] })
-    }
+    try {
+      // Create and push tag to trigger webhook
+      console.error(`creating and pushing tag ${version}`)
+      const pushed = Date.now()
+      if (!dryrun) {
+        tag(version, { force: true })
+        pull({ rebase: true })
+        push(version)
+      }
 
+      // Wait for webhook payload delivery and deno.land/x publishing
+      if (!dryrun) {
+        for (let attempt = 0;; attempt++) {
+          const deliveries = await github(`/hooks/${hook.id}/deliveries`) as Array<{ event: string; delivered_at: string }>
+          if (deliveries.some(({ event, delivered_at }) => (event === "create") && (Date.parse(delivered_at) >= pushed - delay)))
+            break
+          if (attempt >= attempts)
+            throw new Error("Webhook payload has not been delivered in the expected time frame")
+          console.error(gray("webhook payload has not been delivered yet"))
+          await sleep()
+        }
+        console.error(cyan("webhook payload has been delivered"))
+        for (let attempt = 0;; attempt++) {
+          if (await published())
+            break
+          if (attempt >= attempts)
+            throw new Error("Package has not been published in the expected time frame")
+          console.error(gray("package has not been published yet"))
+          await sleep()
+        }
+      }
+      console.error(green(`published on ${url}`))
+    } finally {
+      // Restore hook state if needed
+      if (reactive && (!hook.active)) {
+        console.error(yellow("hook was inactive prior publishing, restoring state"))
+        if (!dryrun)
+          await github(`/hooks/${hook.id}`, { method: "PATCH", body: JSON.stringify({ active: false }) })
+      }
+
+      // Remove tag if needed
+      if (remove && (!dryrun)) {
+        console.error(gray(`removing tag ${version} locally and from origin`))
+        command("git", ["tag", "--delete", version], { sync: true })
+        push(version, { args: ["--delete"] })
+      }
+    }
+  } finally {
     // Remove temporary branch if needed
-    if (map && (!dryrun)) {
+    if (map && (!dryrun) && branch.temporary) {
       console.error(`switching back to ${branch.current} and deleting temporary branch ${branch.temporary}`)
-      command("git", ["switch", branch.current], { sync: true, throw: true })
-      command("git", ["branch", "--delete", "--force", branch.temporary], { sync: true, throw: true })
+      command("git", ["switch", branch.current], { sync: true })
+      command("git", ["branch", "--delete", "--force", branch.temporary], { sync: true })
       push(branch.temporary, { args: ["--delete"] })
-      console.error(green(`published ${name}@${version} on deno.land/x${directory ? ` (subdirectory: ${directory})` : ""}`))
     }
   }
 
@@ -185,7 +198,7 @@ if (import.meta.main) {
     boolean: ["reactive", "remove", "dryrun", "help"],
   })
   if (args.help) {
-    console.error("Usage: deno run --allow-all toolbox/scripts/publish_x.ts --token <token> --repository <owner/repo> [options]")
+    console.error("Usage: deno run --allow-all jsr:@libs/toolbox/scripts/publish/x --token <token> --repository <owner/repo> [options]")
     console.error("")
     console.error("Options:")
     console.error("  --token <token>            GitHub API token")
@@ -207,5 +220,5 @@ if (import.meta.main) {
     args.version ||= version
   }
   const { token = "", repository = "", name = "", version = "", directory, map, reactive, remove, dryrun } = args
-  await publish({ token, repository, name, version, directory, map, reactive, remove, dryrun, attempts: args.attempts ? Number(args.attempts) : undefined, delay: args.delay ? Number(args.delay) : undefined })
+  await publish({ token, repository, name, version, directory, map, reactive, remove, dryrun, attempts: Number(args.attempts) || undefined, delay: Number(args.delay) || undefined })
 }

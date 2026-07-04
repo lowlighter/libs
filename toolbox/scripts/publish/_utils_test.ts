@@ -25,6 +25,10 @@ Deno.test("`unmap()` resolves imports against an import map", () => {
   expect(unmap('import "@std/fmt"', imports).resolved).toBe(1)
   expect(unmap('export * from "@std/fmt"', imports).resolved).toBe(1)
   expect(unmap('import {\n  command,\n} from "@libs/run/command"', imports).resolved).toBe(1)
+  // Indented imports and statically analyzable dynamic imports
+  expect(unmap('  import { command } from "@libs/run/command"', imports).resolved).toBe(1)
+  expect(unmap('const { command } = await import("@libs/run/command")', imports)).toEqual({ result: 'const { command } = await import("jsr:@libs/run@^3.0.0/command")', resolved: 1 })
+  expect(unmap("await import(`@libs/run/${dynamic}`)", imports).resolved).toBe(0)
   // Unmapped imports are left untouched
   expect(unmap('import { unrelated } from "./unrelated.ts"', imports)).toEqual({ result: 'import { unrelated } from "./unrelated.ts"', resolved: 0 })
   expect(unmap('const string = "@std/fmt"', imports).resolved).toBe(0)

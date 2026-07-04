@@ -10,7 +10,7 @@ import * as JSONC from "@std/jsonc/parse"
  * An empty `to` removes the scope entirely.
  *
  * ```ts
- * import { rescope } from "./publish_npm.ts"
+ * import { rescope } from "./_utils.ts"
  * rescope('import { command } from "@libs/run/command"', { from: "@libs", to: "@lowlighter" })
  * ```
  */
@@ -24,15 +24,17 @@ export function rescope(content: string, { from, to }: { from: string; to: strin
  * Bare specifiers matching an import map entry are replaced by their mapped value,
  * and specifiers matching a trailing-slash entry have their prefix substituted.
  *
+ * Both static imports and statically analyzable dynamic imports (i.e. `import()` calls with a string literal) are resolved.
+ *
  * ```ts
- * import { unmap } from "./publish_x.ts"
+ * import { unmap } from "./_utils.ts"
  * unmap('import { command } from "@libs/run/command"', { "@libs/run/": "jsr:@libs/run@^3.0.0/" })
  * ```
  */
 export function unmap(content: string, imports: Record<string, string>): { result: string; resolved: number } {
   let resolved = 0
   const directories = Object.keys(imports).filter((module) => module.endsWith("/"))
-  const result = content.replace(/^(?<statement>(?:import|export)\s*(?:(?:\s+type)?\s+(?:[^\n]+?|(?:\{[\s\S]*?\}))\s+from\s+)?(?<quote>["']))(?<module>[^\n]+?)\k<quote>/gm, (match, statement, quote, module) => {
+  const remap = (module: string) => {
     let mapped = null as Nullable<string>
     if (module in imports)
       mapped = imports[module]
@@ -40,12 +42,19 @@ export function unmap(content: string, imports: Record<string, string>): { resul
       const [directory] = directories.filter((directory) => module.startsWith(directory)).sort((a, b) => b.length - a.length)
       mapped = module.replace(directory, imports[directory])
     }
+    return mapped
+  }
+  const substitute = (match: string, statement: string, quote: string, module: string) => {
+    const mapped = remap(module)
     if (typeof mapped === "string") {
       resolved++
       return `${statement}${mapped}${quote}`
     }
     return match
-  })
+  }
+  const result = content
+    .replace(/^(?<statement>\s*(?:import|export)\s*(?:(?:\s+type)?\s+(?:[^\n]+?|(?:\{[\s\S]*?\}))\s+from\s+)?(?<quote>["']))(?<module>[^\n]+?)\k<quote>/gm, substitute)
+    .replace(/(?<statement>\bimport\s*\(\s*(?<quote>["']))(?<module>[^"'\n]+?)\k<quote>/g, substitute)
   return { result, resolved }
 }
 
