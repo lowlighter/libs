@@ -8,45 +8,65 @@
 /** Red, green, blue and alpha channels of a color. */
 export type rgba = [number, number, number, number]
 
-/** Named colors supported for PNG output (arbitrary CSS colors cannot be resolved without a rendering engine). */
+/** Named colors resolvable for PNG output without a DOM (in browsers, any CSS color is additionally resolved through the CSSOM). */
 const COLORS = {
   transparent: "#00000000",
   black: "#000000",
-  silver: "#c0c0c0",
+  white: "#FFFFFF",
   gray: "#808080",
   grey: "#808080",
-  white: "#ffffff",
-  maroon: "#800000",
-  red: "#ff0000",
-  purple: "#800080",
-  fuchsia: "#ff00ff",
-  magenta: "#ff00ff",
+  brown: "#A52A2A",
+  red: "#FF0000",
+  orange: "#FFA500",
+  yellow: "#FFFF00",
   green: "#008000",
-  lime: "#00ff00",
-  olive: "#808000",
-  yellow: "#ffff00",
-  navy: "#000080",
-  blue: "#0000ff",
-  teal: "#008080",
-  aqua: "#00ffff",
-  cyan: "#00ffff",
-  orange: "#ffa500",
+  cyan: "#00FFFF",
+  blue: "#0000FF",
+  indigo: "#4B0082",
+  violet: "#EE82EE",
+  pink: "#FFC0CB",
+  magenta: "#FF00FF",
+  purple: "#800080",
+  rebeccapurple: "#663399",
 } as Record<string, string>
 
 /**
  * Parses a color into its red, green, blue and alpha channels for PNG output.
- * Supports hexadecimal notations (`#rgb`, `#rgba`, `#rrggbb`, `#rrggbbaa`) and a set of named colors.
+ *
+ * Supports hexadecimal notations (`#rgb`, `#rgba`, `#rrggbb`, `#rrggbbaa`) and a set of named colors everywhere.
+ *
+ * When a DOM is available (e.g. browsers), it additionally resolves any CSS color through the CSSOM.
  */
 export function color(value: string): rgba {
-  let hex = (COLORS[value.toLowerCase()] ?? value).replace(/^#/, "")
-  if (!/^(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(hex)) {
-    throw new TypeError(`Unsupported color for png output: "${value}" (use a hexadecimal value such as "#000000" or a supported named color)`)
+  const hex = (COLORS[value.toLowerCase()] ?? value).replace(/^#/, "")
+  if (/^(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(hex)) {
+    const expanded = hex.length <= 4 ? [...hex].map((char) => char + char).join("") : hex
+    const channels = expanded.match(/../g)!.map((byte) => parseInt(byte, 16))
+    return [channels[0], channels[1], channels[2], channels[3] ?? 0xFF]
   }
-  if (hex.length <= 4) {
-    hex = [...hex].map((char) => char + char).join("")
+  const { document, getComputedStyle } = globalThis as unknown as {
+    document?: { createElement(tag: string): { style: { color: string }; remove(): void }; documentElement: { appendChild(child: unknown): void } }
+    getComputedStyle?: (element: unknown) => { color: string }
   }
-  const channels = hex.match(/../g)!.map((byte) => parseInt(byte, 16))
-  return [channels[0], channels[1], channels[2], channels[3] ?? 0xFF]
+  // Attach to the document root so `var(--)` custom properties can be resolved
+  if (document && getComputedStyle) {
+    const element = document.createElement("span")
+    element.style.color = ""
+    element.style.color = value
+    if (element.style.color) {
+      document.documentElement.appendChild(element)
+      const computed = getComputedStyle(element).color
+      element.remove()
+      const channels = computed.match(/[\d.]+/g)?.map((value, channel) => channel === 3 ? Math.round(Number(value) * 0xFF) : Math.round(Number(value)))
+      if (channels) {
+        if (channels.length === 3) {
+          channels.push(0xFF)
+        }
+        return channels as rgba
+      }
+    }
+  }
+  throw new TypeError(`Unsupported color for png output: "${value}" (use a hexadecimal value such as "#000000", a supported named color, or —in browsers— any CSS color or custom property)`)
 }
 
 /** Precomputed CRC-32 lookup table (IEEE 802.3 polynomial), used for PNG chunk checksums. */

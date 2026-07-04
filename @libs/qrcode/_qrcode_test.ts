@@ -231,8 +231,8 @@ Deno.test("`qrcode()` png output pixels match the module matrix", async () => {
 
 Deno.test("`qrcode()` png output honors custom `light` and `dark` colors", async () => {
   {
-    const { pixel } = await PNG.decode(qrcode("foo", { output: "png", light: "#ffcc00", dark: "navy", scale: 1, border: 0 }))
-    expect(pixel(0, 0)).toEqual([0, 0, 128, 255])
+    const { pixel } = await PNG.decode(qrcode("foo", { output: "png", light: "#ffcc00", dark: "blue", scale: 1, border: 0 }))
+    expect(pixel(0, 0)).toEqual([0, 0, 255, 255])
     expect(pixel(7, 7)).toEqual([255, 204, 0, 255])
   }
   {
@@ -243,7 +243,7 @@ Deno.test("`qrcode()` png output honors custom `light` and `dark` colors", async
 })
 
 Deno.test("`qrcode()` png output throws on unsupported colors", () => {
-  expect(() => qrcode("foo", { output: "png", dark: "rebeccapurple" })).toThrow("Unsupported color for png output")
+  expect(() => qrcode("foo", { output: "png", dark: "cornflowerblue" })).toThrow("Unsupported color for png output")
   expect(() => qrcode("foo", { output: "png", light: "rgb(0,0,0)" })).toThrow("Unsupported color for png output")
 })
 

@@ -5,7 +5,8 @@ Deno.test("`color()` parses named colors", () => {
   expect(color("white")).toEqual([0xFF, 0xFF, 0xFF, 0xFF])
   expect(color("WHITE")).toEqual([0xFF, 0xFF, 0xFF, 0xFF])
   expect(color("black")).toEqual([0x00, 0x00, 0x00, 0xFF])
-  expect(color("navy")).toEqual([0x00, 0x00, 0x80, 0xFF])
+  expect(color("blue")).toEqual([0x00, 0x00, 0xFF, 0xFF])
+  expect(color("rebeccapurple")).toEqual([0x66, 0x33, 0x99, 0xFF])
   expect(color("transparent")).toEqual([0x00, 0x00, 0x00, 0x00])
 })
 
@@ -17,9 +18,49 @@ Deno.test("`color()` parses hexadecimal notations", () => {
   expect(color("#ABCDEF")).toEqual([0xAB, 0xCD, 0xEF, 0xFF])
 })
 
-Deno.test("`color()` throws on unsupported values", () => {
-  for (const value of ["rebeccapurple", "rgb(0,0,0)", "", "#", "#12", "#12345", "#1234567", "#123456789", "#xyzxyz"]) {
+Deno.test("`color()` throws on unsupported values without a DOM", () => {
+  for (const value of ["cornflowerblue", "rgb(0,0,0)", "", "#", "#12", "#12345", "#1234567", "#123456789", "#xyzxyz"]) {
     expect(() => color(value)).toThrow(`Unsupported color for png output: "${value}"`)
+  }
+})
+
+Deno.test("`color()` resolves CSS colors and custom properties in a browser environment", () => {
+  const computed = {
+    cornflowerblue: "rgb(100, 149, 237)",
+    "var(--brand)": "rgb(102, 51, 153)",
+    "hsl(0 100% 50% / 0.5)": "rgba(255, 0, 0, 0.5)",
+    unparseable: "none",
+  } as Record<string, string>
+  const view = globalThis as unknown as Record<string, unknown>
+  const document = {
+    createElement: () => {
+      let stored = ""
+      return {
+        style: {
+          get color() {
+            return stored
+          },
+          set color(value: string) {
+            stored = (value === "") || (value in computed) ? value : ""
+          },
+        },
+        remove() {},
+      }
+    },
+    documentElement: { appendChild() {} },
+  }
+  try {
+    Object.assign(globalThis, { document, getComputedStyle: (element: { style: { color: string } }) => ({ color: computed[element.style.color] }) })
+    expect(color("cornflowerblue")).toEqual([100, 149, 237, 0xFF])
+    expect(color("var(--brand)")).toEqual([102, 51, 153, 0xFF])
+    expect(color("hsl(0 100% 50% / 0.5)")).toEqual([255, 0, 0, 128])
+    expect(() => color("chartreuse")).toThrow("Unsupported color for png output")
+    expect(() => color("unparseable")).toThrow("Unsupported color for png output")
+    delete view.getComputedStyle
+    expect(() => color("cornflowerblue")).toThrow("Unsupported color for png output")
+  } finally {
+    delete view.document
+    delete view.getComputedStyle
   }
 })
 
@@ -52,7 +93,7 @@ Deno.test("`png()` applies custom `light` and `dark` colors with alpha", async (
 })
 
 Deno.test("`png()` throws on unsupported colors", () => {
-  expect(() => png({ get: () => true, size: 1, light: "white", dark: "rebeccapurple", scale: 1 })).toThrow("Unsupported color for png output")
+  expect(() => png({ get: () => true, size: 1, light: "white", dark: "cornflowerblue", scale: 1 })).toThrow("Unsupported color for png output")
 })
 
 Deno.test("`png()` splits large images across multiple zlib blocks", async () => {
