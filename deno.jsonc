@@ -7,7 +7,6 @@
   },
   "workspace": [
     "@libs/*",
-    "diff",
     "git",
     "testing",
     "toolbox",
