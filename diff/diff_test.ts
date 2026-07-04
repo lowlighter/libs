@@ -59,6 +59,12 @@ Deno.test("`diff()` handles complex texts", { permissions: { read: true } }, asy
   expect(diff(a, b)).toStrictEqual(c)
 })
 
+Deno.test("`diff()` handles edits whose context crosses a missing final newline", () => {
+  expect(diff("a\na\na\nb", "a\na\nb\na", { context: 0 })).toStrictEqual(
+    "--- a\n+++ b\n@@ -3 +2,0 @@\n-a\n@@ -4,0 +4 @@\n+a\n\\ No newline at end of file",
+  )
+})
+
 Deno.test(`\`diff()\` supports colors options`, { permissions: { read: true } }, async () => {
   for (const colors of [false, true]) {
     const { a, b, c } = await read("colors")

@@ -115,8 +115,6 @@ export function apply(a: string, patch: string): string {
   let result = b.join("")
   if ((result.endsWith("\n")) && (!newline)) {
     result = result.slice(0, -1)
-  } else if (!result.endsWith("\n") && newline) {
-    result += "\n"
   }
   if (errors.length) {
     throw new AggregateError(errors, result)

@@ -1,5 +1,6 @@
 // deno-lint-ignore-file no-external-import
 import { apply } from "./apply.ts"
+import { diff } from "./diff.ts"
 import { expect, throws } from "@libs/testing"
 import { readFile } from "node:fs/promises"
 
@@ -63,6 +64,12 @@ for (
 Deno.test("`apply()` handles complex texts", { permissions: { read: true } }, async () => {
   const { a, b, c } = await read("lorem")
   expect(apply(a, c)).toStrictEqual(b)
+})
+
+Deno.test("`apply()` handles edits whose context crosses a missing final newline", () => {
+  const a = "a\na\na\nb"
+  const b = "a\na\nb\na"
+  expect(apply(a, diff(a, b, { context: 0 }))).toStrictEqual(b)
 })
 
 Deno.test("`apply()` validates hunk header for text b lines", { permissions: { read: true } }, async () => {

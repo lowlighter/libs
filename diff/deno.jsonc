@@ -2,26 +2,11 @@
   "icon": "➕",
   "name": "@libs/diff",
   "version": "3.0.3",
-  "playground": "https://libs.lecoq.io/diff",
-  "tasks": {
-    "test:node": "sleep 0",
-    "test:bun": "sleep 0"
-  },
   "exports": {
     ".": "./mod.ts",
     "./diff": "./diff.ts",
     "./apply": "./apply.ts",
     "./json": "./json.ts"
-  },
-  "test:permissions": {
-    "read": true
-  },
-  "supported": {
-    "deno": true,
-    "node": true,
-    "bun": true,
-    "cloudflare-workers": true,
-    "browsers": true
   },
   "fmt": {
     "exclude": ["**/testing/**"]
