@@ -83,26 +83,7 @@ See table below for a list of available libraries and their features, compatibil
   </tr>
   <tr><th></th></tr>
   <tr><th></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/is"><img src="https://libs-coverage.lecoq.io/is/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/logger"><code>📰 @libs/logger</code></a></h2></th></tr>
-  <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
-  <tr><td colspan="3"></td></tr>
-  <tr>
-    <th><a href="https://jsr.io/@libs/logger"><img src="https://jsr.io/badges/@libs/logger"></a></th>
-    <th rowspan="4"><img height="18px" src="https://jsr.io/logos/deno.svg"><img height="18px" src="https://jsr.io/logos/node.svg"><img height="18px" src="https://jsr.io/logos/bun.svg"><img height="18px" src="https://jsr.io/logos/cloudflare-workers.svg"><img height="18px" src="https://jsr.io/logos/browsers.svg"></th>
-    <td rowspan="4"><ul data-for="logger">
-  <li>
-    Simple logger library with configurable log level and tags
-    <ul>
-      <li>Support date, time and delta stamps</li>
-      <li>Support caller info (file, name, line) using internal V8's <code>Error.prepareStackTrace</code> API</li>
-    </ul>
-  </li>
-  <li>Automatically reads <code>LOG_LEVEL</code> environment variable (if available)</li>
-</ul></td>
-  </tr>
-  <tr><th></th></tr>
-  <tr><th><a href="https://libs.lecoq.io/logger"><img src="https://img.shields.io/badge/Playground--black?style=flat&logo=windowsterminal&labelColor=black"></a></th></tr>
-  <tr><th><a href="https://libs-coverage.lecoq.io/logger"><img src="https://libs-coverage.lecoq.io/logger/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/markdown"><code>🖨️ @libs/markdown</code></a></h2></th></tr>
+  <tr><th><a href="https://libs-coverage.lecoq.io/is"><img src="https://libs-coverage.lecoq.io/is/badge.svg"></a></th></tr><tr><th colspan="3"><h2><a href="https://jsr.io/@libs/markdown"><code>🖨️ @libs/markdown</code></a></h2></th></tr>
   <tr><th colspan="2">Metadata and compatibility</th><th>Features</th></tr>
   <tr><td colspan="3"></td></tr>
   <tr>
