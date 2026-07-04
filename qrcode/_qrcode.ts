@@ -58,10 +58,11 @@ const encoder = new TextEncoder()
  * console.assert(svg.includes("</svg>"))
  * ```
  */
-export function qrcode(content: string | URL, options: { output: "svg" } & Pick<options, "border" | "light" | "dark" | "ecl">): string
+export function qrcode(content: string | URL | Uint8Array, options: { output: "svg" } & Pick<options, "border" | "light" | "dark" | "ecl">): string
 /**
  * Generate a QR Code from specified content and output it to the console.
  *
+ * A fixed 2-module quiet zone (border) is always included around the symbol.
  * Colors and ECL can be customized using {@link options}.
  * Note that custom colors must be supported by terminal ({@link https://developer.mozilla.org/en-US/docs/Web/API/console#styling_console_output | %c} directive is used to style the output).
  *
@@ -87,6 +88,7 @@ export function qrcode(content: string | URL | Uint8Array, options: { output: "c
 /**
  * Generate a QR Code from specified content and output it as an array of booleans.
  *
+ * A fixed 2-module quiet zone (border) of light squares is always included around the symbol.
  * Returned array is indexed by using `[y][x]` and the boolean `true` is used to represent a dark square.
  *
  * ```ts
@@ -169,7 +171,7 @@ class QrCode {
    * The ECC level of the result may be higher than the ecl argument if it can be done without increasing the version.
    */
   static from(content: string | URL | Uint8Array, { output = "array", border = 2, light = "white", dark = "black", ecl = "MEDIUM" }: { output?: string } & options = {}) {
-    border = Math.max(0, border)
+    border = Number.isFinite(border) ? Math.max(0, Math.floor(border)) : 0
     const qr = QrCode.#encode(Segment.from(content instanceof URL ? content.href : content), { ecl })
     const size = qr.size + border * 2
     switch (output) {
@@ -182,7 +184,7 @@ class QrCode {
             }
           }
         }
-        return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 ${size} ${size}" stroke="none"><rect width="100%" height="100%" fill="${light}"/><path d="${paths.join(" ")}" fill="${dark}"/></svg>`
+        return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 ${size} ${size}" stroke="none"><rect width="100%" height="100%" fill="${escape(light)}"/><path d="${paths.join(" ")}" fill="${escape(dark)}"/></svg>`
       }
       case "console": {
         for (let y = 0; y < size; y++) {
@@ -672,9 +674,6 @@ class QrCode {
     history.unshift(xy)
   }
 
-  /** The minimum version number supported in the QR Code Model 2 standard. */
-  static readonly #VERSION_MIN = 1
-
   /** The maximum version number supported in the QR Code Model 2 standard. */
   static readonly #VERSION_MAX = 40
 
@@ -967,6 +966,11 @@ function productReedSolomon(a: number, b: number) {
  */
 function bit(x: number, i: number): boolean {
   return ((x >>> i) & 1) > 0
+}
+
+/** Escapes a value so it can be safely interpolated into a double-quoted XML attribute. */
+function escape(value: string): string {
+  return value.replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char]!))
 }
 
 /**
