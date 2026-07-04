@@ -3,7 +3,9 @@
  *
  * A mirror-symmetric pixel grid with a seeded hue to generate  a simple recognisable default avatar.
  */
-export function identicon(seed: string, { size = 5 } = { size: 5 }): string {
+export function identicon(seed: string, { size = 5 } = {}): string {
+  if ((!Number.isInteger(size)) || (size <= 0))
+    throw new RangeError(`Invalid identicon size: ${size}`)
   // FNV-1a 32-bit hash of the seed
   let h = 0x811c9dc5
   for (let i = 0; i < seed.length; i++) {

@@ -61,6 +61,12 @@ Deno.test("`identicon()` derives a deterministic foreground and background colou
   expect(svg).toContain("26% 18%") // background
 })
 
+Deno.test("`identicon()` throws on invalid sizes", () => {
+  expect(() => identicon("alice", { size: 0 })).toThrow(RangeError)
+  expect(() => identicon("alice", { size: -1 })).toThrow(RangeError)
+  expect(() => identicon("alice", { size: 2.5 })).toThrow(RangeError)
+})
+
 Deno.test("`identicon()` handles an empty seed deterministically", () => {
   expect(identicon("")).toBe(identicon(""))
   expect(decode(identicon(""))).toContain('viewBox="0 0 5 5"')
