@@ -22,10 +22,11 @@ import { cyan, gray, green } from "@std/fmt/colors"
 /** Publish a package on npm registries. */
 export async function publish({ package: pkg = Deno.cwd(), scope = "@", private: restricted = false, dryrun = false }: Options = {}): Promise<{ name: string; version: string; directory: string }> {
   // Create npm-compatible tarball and extract it
+  const env = Deno.env.toObject()
   const directory = await Deno.makeTempDir()
   console.error(`packing ${pkg} to ${directory}`)
-  await command("deno", ["pack", "--allow-dirty", "--quiet", "--output", `${directory}/package.tgz`], { cwd: pkg, throw: true })
-  await command("tar", ["--extract", "--gzip", `--file=${directory}/package.tgz`, `--directory=${directory}`], { throw: true })
+  await command("deno", ["pack", "--allow-dirty", "--quiet", "--output", `${directory}/package.tgz`], { env, cwd: pkg, throw: true })
+  await command("tar", ["--extract", "--gzip", `--file=${directory}/package.tgz`, `--directory=${directory}`], { env, throw: true })
 
   // Rewrite package scope and register workspace dependencies
   const manifest = JSON.parse(await Deno.readTextFile(`${directory}/package/package.json`)) as { name: string; version: string; dependencies?: Record<string, string> }
@@ -58,7 +59,7 @@ export async function publish({ package: pkg = Deno.cwd(), scope = "@", private:
 
   // Publish extracted package
   console.error(cyan(`publishing ${manifest.name}@${manifest.version}${dryrun ? " (dryrun)" : ""}`))
-  await command("npm", ["publish", `${directory}/package`, "--access", restricted ? "restricted" : "public", ...(dryrun ? ["--dry-run"] : [])], { throw: true })
+  await command("npm", ["publish", `${directory}/package`, "--access", restricted ? "restricted" : "public", ...(dryrun ? ["--dry-run"] : [])], { env, throw: true })
   console.error(green(`published ${manifest.name}@${manifest.version}`))
   return { name: manifest.name, version: manifest.version, directory }
 }
