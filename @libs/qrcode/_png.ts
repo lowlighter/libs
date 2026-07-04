@@ -83,14 +83,14 @@ function adler32(bytes: Uint8Array): number {
   return ((b << 16) | a) >>> 0
 }
 
-/** Wraps the given bytes in a zlib stream using uncompressed (stored) DEFLATE blocks, avoiding any compression dependency. */
+/** Wraps the given (non-empty) bytes in a zlib stream using uncompressed (stored) DEFLATE blocks, avoiding any compression dependency. */
 function zlib(bytes: Uint8Array): Uint8Array {
-  const blocks = Math.ceil(bytes.length / 0xFFFF) || 1
+  const blocks = Math.ceil(bytes.length / 0xFFFF)
   const result = new Uint8Array(2 + bytes.length + blocks * 5 + 4)
   let offset = 0
   result[offset++] = 0x78 // CMF: DEFLATE compression with a 32K window
   result[offset++] = 0x01 // FLG: no preset dictionary (0x7801 is a multiple of 31, as required)
-  for (let i = 0; i < bytes.length || offset === 2; i += 0xFFFF) {
+  for (let i = 0; i < bytes.length; i += 0xFFFF) {
     const length = Math.min(0xFFFF, bytes.length - i)
     result[offset++] = i + length >= bytes.length ? 1 : 0 // BFINAL on the last block, BTYPE = 00 (stored)
     result[offset++] = length & 0xFF
