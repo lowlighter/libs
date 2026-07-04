@@ -7,9 +7,6 @@
   },
   "workspace": [
     "@libs/*",
-    "git",
-    "testing",
-    "toolbox",
     "xml"
   ],
   "nodeModulesDir": "auto",
