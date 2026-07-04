@@ -31,7 +31,7 @@ export type ChromiumOptions = {
 
 /** Download Chromium binary for AWS Lambda environment. */
 export function chromium({ version = "141.0.0", path = "/tmp/chromium", arch = Deno.build.arch, force = false, env = true, debug = false }: ChromiumOptions = {}): Promise<string> {
-  // Install browseer
+  // Install browser
   path = resolve(path)
   if (!locks.has(path)) {
     locks.set(
@@ -43,7 +43,12 @@ export function chromium({ version = "141.0.0", path = "/tmp/chromium", arch = D
             const url = `https://github.com/Sparticuz/chromium/releases/download/v${version}/chromium-v${version}-pack.${{ x86_64: "x64", aarch64: "arm64" }[arch] ?? "unknown"}.tar`
             if (debug)
               console.debug(`Downloading Chromium v${version} from ${url}`)
-            await extract(await fetch(url).then((response) => response.body!), { path: dirname(path), debug })
+            const response = await fetch(url)
+            if (!response.ok) {
+              await response.body?.cancel()
+              throw new Error(`Failed to download Chromium: ${response.status} ${url}`)
+            }
+            await extract(response.body!, { path: dirname(path), debug })
           }
           resolve(path)
         } catch (error) {
@@ -111,7 +116,7 @@ Options:
   -d, --debug         Enable debug logging
   -h, --help          Show this help message
 `)
-    Deno.exit(0)
+    Deno.exit(2)
   }
   const path = await chromium({ version: args.version, path: args.path, arch: args.arch as typeof Deno.build.arch, env: args.env, force: args.force, debug: args.debug })
   console.log(path)
