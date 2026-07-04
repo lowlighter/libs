@@ -1,9 +1,9 @@
-import { parse, type parse_options } from "./parse.ts"
-import { cdata, comment, stringify, type stringify_options } from "./stringify.ts"
+import { parse, type ParseOptions } from "./parse.ts"
+import { cdata, comment, stringify, type StringifyOptions } from "./stringify.ts"
 import { expect } from "@libs/testing"
 
 // This operation ensure that reforming a parsed XML will still yield same data
-const check = (xml: string, options?: parse_options & stringify_options) => {
+const check = (xml: string, options?: ParseOptions & StringifyOptions) => {
   expect(stringify(parse(xml, options), options), xml)
   return parse(stringify(parse(xml, options), options), options)
 }
@@ -351,12 +351,10 @@ Deno.test("`stringify()` xml replacer", () =>
     stringify({ root: { not: true, yes: true, delete: true, attribute: { "@delete": true } } }, {
       replace: {
         custom: ({ name, key, value }) => {
-          if ((name === "delete") || (key === "@delete")) {
+          if ((name === "delete") || (key === "@delete"))
             return undefined
-          }
-          if ((name === "not") && (key === "#text")) {
+          if ((name === "not") && (key === "#text"))
             return !value
-          }
           return value
         },
       },

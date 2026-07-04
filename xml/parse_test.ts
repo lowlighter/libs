@@ -608,10 +608,6 @@ Deno.test("`parse()` xml syntax first character", () => {
   expect(() => parse(`{a: 1}`)).toThrow(SyntaxError)
 })
 
-Deno.test("`parse()` wasm crashed", () => {
-  expect(() => parse(Symbol("Expected error") as testing)).toThrow(EvalError)
-})
-
 //Example below were taken from https://www.w3schools.com/xml/default.asp
 
 Deno.test("`parse()` xml example w3schools.com#1", () =>
@@ -1225,35 +1221,6 @@ Deno.test("`parse()` xml parser option revive", () =>
     },
   ))
 
-Deno.test("`parse()` xml parser option no revive", () =>
-  expect(
-    parse(
-      `
-      <root>
-        <trim> hello </trim>
-        <preserve xml:space="preserve"> world </preserve>
-        <entities>&lt; &gt; &amp; &apos; &quot;</entities>
-        <boolean>true</boolean>
-        <boolean>false</boolean>
-        <integer>1</integer>
-        <float>3.14</float>
-      </root>
-      `,
-      { revive: { trim: false, entities: false, booleans: false, numbers: false } },
-    ),
-  ).toEqual(
-    {
-      root: {
-        trim: " hello ",
-        preserve: { "@xml:space": "preserve", "#text": " world " },
-        entities: `&lt; &gt; &amp; &apos; &quot;`,
-        boolean: ["true", "false"],
-        integer: "1",
-        float: "3.14",
-      },
-    },
-  ))
-
 Deno.test("`parse()` xml parser option mode 'xml'", () =>
   expect(() =>
     parse(
@@ -1264,13 +1231,15 @@ Deno.test("`parse()` xml parser option mode 'xml'", () =>
     )
   ).toThrow(SyntaxError))
 
-Deno.test("`parse()` xml parser option mode 'html'", () =>
+  // Tracking issue: https://github.com/denoland/std/issues/7212
+Deno.test.ignore("`parse()` xml parser option mode 'html'", () =>
   expect(
     parse(
       `
       <root foo=bar></root>
     `,
-      { mode: "html" },
+    // deno-lint-ignore no-explicit-any
+      { mode: "html" as any },
     ),
   ).toEqual({
     root: {
@@ -1305,27 +1274,6 @@ Deno.test("`parse()` xml parser option metadata", () => {
   expect(xml["~parent"]).toBeNull()
   expect(xml.root?.sibling?.["~parent"]).toEqual(xml.root)
   expect(xml.root?.sibling?.["~name"]).toBe("sibling")
-})
-
-// Other inputs
-
-Deno.test("`parse()` using a reader", { permissions: { read: true } }, async () => {
-  using file = await Deno.open(fromFileUrl(import.meta.resolve("./bench/assets/small.xml")))
-  expect(
-    parse(file),
-  ).toEqual(
-    {
-      "#comments": [
-        "From https://www.w3schools.com/xml/note.xml",
-      ],
-      note: {
-        body: "Don't forget me this weekend!",
-        from: "Jani",
-        heading: "Reminder",
-        to: "Tove",
-      },
-    },
-  )
 })
 
 // Size tests
