@@ -231,9 +231,8 @@ export class Context<T extends Record<PropertyKey, unknown> = Record<PropertyKey
    * Handlers are different depending on whether the target is a function or an object at root path.
    */
   #trap(target: target, path: PropertyKey[] = []) {
-    if (typeof target === "function") {
+    if (typeof target === "function")
       return { apply: this.#trap_apply.bind(this, path) }
-    }
     const traps = {
       get: this.#trap_get.bind(this, path),
       set: this.#trap_set.bind(this, path),
@@ -258,9 +257,8 @@ export class Context<T extends Record<PropertyKey, unknown> = Record<PropertyKey
     try {
       return Reflect.apply(callable, target, args)
     } finally {
-      if (Context.mutable(target, path.at(-1)!.toString())) {
+      if (Context.mutable(target, path.at(-1)!.toString()))
         this.#dispatch("set", { path: path.slice(0, -2), target, property: path.at(-2)!, value: null })
-      }
       this.#dispatch("call", { path: path.slice(0, -1), target, property: path.at(-1)!, args })
     }
   }
@@ -268,43 +266,37 @@ export class Context<T extends Record<PropertyKey, unknown> = Record<PropertyKey
   /** Trap property access. */
   #trap_get(path: PropertyKey[], target: trap<"get", 0>, property: trap<"get", 1>) {
     // Reflect on parent root property if current context does not own it
-    if ((this.#parent) && (!path.length) && (!this.#own.has(property)) && (!Reflect.has(target, property))) {
+    if ((this.#parent) && (!path.length) && (!this.#own.has(property)) && (!Reflect.has(target, property)))
       return Reflect.get(this.#parent.target, property)
-    }
 
     // Reflect on target property
     const value = Reflect.get(target, property)
     try {
       if (value) {
         const proxify = (typeof value === "object") || (typeof value === "function")
-        if (proxify && (Context.#unproxyable(value))) {
+        if (proxify && (Context.#unproxyable(value)))
           return value
-        }
         if (proxify) {
-          if (!this.#cache.has(value)) {
+          if (!this.#cache.has(value))
             this.#cache.set(value, new Map())
-          }
           const keypath = [...path, property].map(String).join(".")
-          if (!this.#cache.get(value)?.has(keypath)) {
+          if (!this.#cache.get(value)?.has(keypath))
             this.#cache.get(value).set(keypath, this.#proxify(value, { path: [...path, property] }))
-          }
           return this.#cache.get(value).get(keypath)
         }
       }
       return value
     } finally {
-      if (Reflect.has(target, property)) {
+      if (Reflect.has(target, property))
         this.#dispatch("get", { path, target, property, value })
-      }
     }
   }
 
   /** Trap property assignment. */
   #trap_set(path: PropertyKey[], target: trap<"set", 0>, property: trap<"set", 1>, value: trap<"set", 2>) {
     // Reflect on parent root property if current context does not own it
-    if ((this.#parent) && (!path.length) && (!Reflect.has(this.#target, property)) && (Reflect.has(this.#parent.target, property)) && (!this.#own.has(property))) {
+    if ((this.#parent) && (!path.length) && (!Reflect.has(this.#target, property)) && (Reflect.has(this.#parent.target, property)) && (!this.#own.has(property)))
       return Reflect.set(this.#parent.target, property, value)
-    }
 
     // Reflect on target property
     const old = Reflect.get(target, property)
@@ -312,18 +304,16 @@ export class Context<T extends Record<PropertyKey, unknown> = Record<PropertyKey
     try {
       return Reflect.set(target, property, value)
     } finally {
-      if (created) {
+      if (created)
         this.#own.add(property)
-      }
       this.#dispatch("set", { path, target, property, value: { old, new: value } })
     }
   }
 
   /** Trap property deletion. */
   #trap_delete(path: PropertyKey[], target: trap<"deleteProperty", 0>, property: trap<"deleteProperty", 1>) {
-    if ((this.#parent) && (!path.length) && (!Reflect.has(this.#target, property)) && (Reflect.has(this.#parent.target, property)) && (!this.#own.has(property))) {
+    if ((this.#parent) && (!path.length) && (!Reflect.has(this.#target, property)) && (Reflect.has(this.#parent.target, property)) && (!this.#own.has(property)))
       return Reflect.deleteProperty(this.#parent.target, property)
-    }
 
     // Reflect on target property
     const deleted = Reflect.get(target, property)
@@ -362,14 +352,12 @@ export class Context<T extends Record<PropertyKey, unknown> = Record<PropertyKey
   #dispatch(type: string, detail: Omit<detail, "type">) {
     Object.assign(detail, { type })
     this.dispatchEvent(new Context.Event(type, { detail }))
-    if (((type === "set") && (detail.value !== null)) || (type === "delete") || (type === "call")) {
+    if (((type === "set") && (detail.value !== null)) || (type === "delete") || (type === "call"))
       this.dispatchEvent(new Context.Event("change", { detail }))
-    }
     for (const child of this.#children) {
       const property = detail.path[0] ?? detail.property
-      if ((!child.#own.has(property)) && (!Reflect.has(child.#target, property))) {
+      if ((!child.#own.has(property)) && (!Reflect.has(child.#target, property)))
         child.#dispatch(type, detail)
-      }
     }
   }
 
@@ -445,21 +433,16 @@ export class Context<T extends Record<PropertyKey, unknown> = Record<PropertyKey
    * It is used to track inplace changes to objects like `Array`, `Map`, `Set`, `Date`.
    */
   static mutable(object: unknown, property: string): boolean {
-    if (typeof object !== "object") {
+    if (typeof object !== "object")
       return false
-    }
-    if (Array.isArray(object)) {
+    if (Array.isArray(object))
       return ["push", "pop", "shift", "unshift", "splice", "sort", "reverse", "fill", "copyWithin"].includes(property)
-    }
-    if (object instanceof Map) {
+    if (object instanceof Map)
       return ["set", "delete", "clear"].includes(property)
-    }
-    if (object instanceof Set) {
+    if (object instanceof Set)
       return ["add", "delete", "clear"].includes(property)
-    }
-    if (object instanceof Date) {
+    if (object instanceof Date)
       return /^set(?:(?:(?:UTC)?(Date|FullYear|Month|Hours|Minutes|Seconds|Milliseconds))|(?:Year|Time|UTCDate))$/.test(property)
-    }
     return false
   }
 

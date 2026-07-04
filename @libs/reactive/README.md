@@ -37,8 +37,8 @@ context.target.bar() // Triggers the "call" and "change" events
 
 ### `DeepMerge` type export removed
 
-`Context.with()` never deep-merged properties at runtime: properties specified in `Context.with()` are overridden at the property level and isolated from the parent context.
-Its return type is now `Context<Merge<T, U>>` (a shallow merge where properties of `U` supersede properties of `T`) to accurately reflect this behavior, and the `DeepMerge` type is no longer exported.
+`Context.with()` never deep-merged properties at runtime: properties specified in `Context.with()` are overridden at the property level and isolated from the parent context. Its return type is now `Context<Merge<T, U>>` (a shallow merge where properties of `U` supersede
+properties of `T`) to accurately reflect this behavior, and the `DeepMerge` type is no longer exported.
 
 ```diff
 - import type { DeepMerge } from "@libs/reactive"
@@ -47,15 +47,14 @@ Its return type is now `Context<Merge<T, U>>` (a shallow merge where properties 
 
 ### Newly created properties on child contexts are now registered as isolated
 
-Setting a new property on a child context now correctly registers it as owned by that context, making it visible to `in`, `Object.keys()`, `JSON.stringify()`, and `Object.getOwnPropertyDescriptor()`.
-Like properties defined through `Context.with()`, these properties are isolated from ancestor and sibling contexts.
+Setting a new property on a child context now correctly registers it as owned by that context, making it visible to `in`, `Object.keys()`, `JSON.stringify()`, and `Object.getOwnPropertyDescriptor()`. Like properties defined through `Context.with()`, these properties are isolated
+from ancestor and sibling contexts.
 
 ## 🕊️ Migrating from `4.x.x` to `5.x.x`
 
 ### `Context.unproxyable` default value
 
-`Map`, `Set` and `Date` are not in `Context.unproxyable` by default anymore.
-To restore the previous behavior, you can add them back:
+`Map`, `Set` and `Date` are not in `Context.unproxyable` by default anymore. To restore the previous behavior, you can add them back:
 
 ```diff
 + Context.unproxyable.unshift(Map, Set, Date)
@@ -65,7 +64,8 @@ To restore the previous behavior, you can add them back:
 
 When a built-in object is modified in place by a known method (e.g. `Array.prototype.push`, `Array.prototype.pop`, etc.), a `"set"` event is now also emitted, in addition to the `"change"` and `"call"` events.
 
-This event has the same properties as if the object was set entirely, with the only difference being that the `value` property is `null` rather than a `{ old, new }` object (since the object has been changed inplace, creating this diff would cause a significant performance and memory overhead).
+This event has the same properties as if the object was set entirely, with the only difference being that the `value` property is `null` rather than a `{ old, new }` object (since the object has been changed inplace, creating this diff would cause a significant performance and
+memory overhead).
 
 ```ts ignore
 const context = new Context({ foo: ["a", "b"] })

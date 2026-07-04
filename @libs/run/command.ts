@@ -244,22 +244,19 @@ export function command(
   args: string[],
   { logger: category = ["run"], stdin = null, stdout = "piped", stderr = "piped", env, cwd, raw, callback, buffering, signal, sync, background, throw: _throw, dryrun, winext = "", os = Deno.build.os } = {} as Options,
 ): Promisable<Result> | Background {
-  if (os === "windows") {
+  if (os === "windows")
     bin = `${bin}${winext}`
-  }
   const log = getLogger(category).with({ bin })
-  if (callback && (handle(stdin) !== "piped")) {
+  if (callback && (handle(stdin) !== "piped"))
     stdin = "piped"
-  }
   const command = new Deno.Command(bin, { args, stdin: !sync ? handle(stdin) : "null", stdout: handle(stdout), stderr: handle(stderr), clearEnv: true, env, cwd, windowsRawArguments: raw, signal, detached: background })
   if (dryrun) {
     log.warn("dryrun: {bin} not executed", { bin })
     const result = { success: true, code: 0, stdio: [], stdin: "", stdout: "", stderr: "" }
     return sync ? result : Promise.resolve(result)
   }
-  if (sync) {
+  if (sync)
     return exec(command, { bin, log, throw: _throw, stdout, stderr })
-  }
   return spawn(command, { bin, log, callback, buffering, throw: _throw, background, stdin, stdout, stderr })
 }
 
@@ -283,13 +280,11 @@ function exec(command: Deno.Command, { bin, log, throw: _throw, stdout, stderr }
     stderr: handle(stderr) === "piped" ? decoder.decode(output.stderr) : "",
   } as Snapshot & Pick<Result, "stdio">
   for (const { channel, mode } of [{ channel: "stdout", mode: stdout }, { channel: "stderr", mode: stderr }] as const) {
-    if ((handle(mode) === "piped") && (stdio[channel])) {
+    if ((handle(mode) === "piped") && (stdio[channel]))
       logged(log, channel, t, stdio[channel])
-    }
   }
-  if ((!success) && _throw) {
+  if ((!success) && _throw)
     throw new EvalError(`${bin} exited with non-zero code ${code}:\n${stdio.stdout}\n${stdio.stderr}`)
-  }
   return { success, code, ...stdio }
 }
 
@@ -360,9 +355,8 @@ function spawn(
             yield stdio as Snapshot
             continue
           }
-          if (ended) {
+          if (ended)
             return
-          }
           await new Promise<void>((resolve) => notify = resolve)
         }
       },
@@ -402,9 +396,8 @@ function spawn(
         logged(log, channel, t, line)
         if ((stdio.stdio.length) && (last === channel)) {
           const previous = stdio.stdio.at(-1)!
-          if (previous[1] === stdi) {
+          if (previous[1] === stdi)
             previous[2] += `\n${line}`
-          }
         } else {
           stdio.stdio.push([t, stdi, line])
         }
@@ -420,12 +413,10 @@ function spawn(
     const [output, interacted] = await Promise.allSettled([outputs, interaction])
     debounced.clear()
     const { success, code } = await process.status
-    if ((output.status === "rejected") || (interacted.status === "rejected")) {
+    if ((output.status === "rejected") || (interacted.status === "rejected"))
       throw ((output as { reason?: unknown }).reason ?? (interacted as { reason?: unknown }).reason)
-    }
-    if ((!success) && _throw) {
+    if ((!success) && _throw)
       throw new EvalError(`${bin} exited with non-zero code ${code}:\n${stdio.stdout}\n${stdio.stderr}`)
-    }
     return { success, code, ...stdio }
   })()
   const terminate = async (signal: Deno.Signal = "SIGTERM") => {

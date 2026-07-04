@@ -19,9 +19,8 @@ Deno.test("`color()` parses hexadecimal notations", () => {
 })
 
 Deno.test("`color()` throws on unsupported values without a DOM", () => {
-  for (const value of ["cornflowerblue", "rgb(0,0,0)", "", "#", "#12", "#12345", "#1234567", "#123456789", "#xyzxyz"]) {
+  for (const value of ["cornflowerblue", "rgb(0,0,0)", "", "#", "#12", "#12345", "#1234567", "#123456789", "#xyzxyz"])
     expect(() => color(value)).toThrow(`Unsupported color for png output: "${value}"`)
-  }
 })
 
 Deno.test("`color()` resolves CSS colors and custom properties in a browser environment", () => {

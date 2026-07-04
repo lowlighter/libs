@@ -36,9 +36,8 @@ const { stdout } = await command("deno", ["repl"], {
   // `yield` to write to stdin (verbatim — add your own newlines), and `return` to close it.
   callback: async function* ({ stdio }) {
     for await (const { stdout } of stdio) {
-      if (!stdout.includes("exit using")) {
+      if (!stdout.includes("exit using"))
         continue
-      }
       yield "console.log('hello')\n"
       return
     }

@@ -206,9 +206,8 @@ class QrCode {
         const paths = [] as string[]
         for (let y = 0; y < qr.size; y++) {
           for (let x = 0; x < qr.size; x++) {
-            if (qr.get({ x, y })) {
+            if (qr.get({ x, y }))
               paths.push(`M${x + border},${y + border}h1v1h-1z`)
-            }
           }
         }
         return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 ${size} ${size}" stroke="none"><rect width="100%" height="100%" fill="${escape(light)}"/><path d="${paths.join(" ")}" fill="${escape(dark)}"/></svg>`
@@ -220,9 +219,8 @@ class QrCode {
         for (let y = 0; y < size; y++) {
           const line = "%c\u2588\u2588".repeat(size)
           const colors = [] as string[]
-          for (let x = 0; x < size; x++) {
+          for (let x = 0; x < size; x++)
             colors.push(`color: ${qr.get({ x: x - border, y: y - border }) ? dark : light}`)
-          }
           console.log(line, ...colors)
         }
         return
@@ -231,9 +229,8 @@ class QrCode {
         const data = [] as boolean[][]
         for (let y = 0; y < size; y++) {
           data[y] = new Array(size).fill(false)
-          for (let x = 0; x < size; x++) {
+          for (let x = 0; x < size; x++)
             data[y][x] = qr.get({ x: x - border, y: y - border })
-          }
         }
         return data
       }
@@ -257,26 +254,23 @@ class QrCode {
       let used = 0
       for (const segment of segments) {
         const width = segment.width(version)
-        if (segment.length >= (1 << width)) {
+        if (segment.length >= (1 << width))
           used = Infinity
-        }
         used += 4 + width + segment.data.length
       }
       if (used <= capacity) {
         databits = used
         break
       }
-      if (version >= QrCode.#VERSION_MAX) {
+      if (version >= QrCode.#VERSION_MAX)
         throw new RangeError("Data too long")
-      }
     }
 
     // Increase the error correction level while the data still fits in the current version number
     for (const level of ["MEDIUM", "QUARTILE", "HIGH"] as const) {
       const ECL = QrCode.ERROR_CORRECTION_LEVEL[level]
-      if (databits <= 8 * (Math.floor(QrCode.#DATA_BITS[version] / 8) - ECL.ECC_PER_BLOCK[version] * ECL.ECC_BLOCKS[version])) {
+      if (databits <= 8 * (Math.floor(QrCode.#DATA_BITS[version] / 8) - ECL.ECC_PER_BLOCK[version] * ECL.ECC_BLOCKS[version]))
         ecl = level
-      }
     }
 
     // Concatenate all segments to create the data bit string
@@ -293,15 +287,13 @@ class QrCode {
     append({ bits, length: (8 - bits.length % 8) % 8, value: 0 })
 
     // Pad with alternating bytes until data capacity is reached
-    for (let padding = 0xEC; bits.length < capacity; padding ^= 0xEC ^ 0x11) {
+    for (let padding = 0xEC; bits.length < capacity; padding ^= 0xEC ^ 0x11)
       append({ bits, length: 8, value: padding })
-    }
 
     // Pack bits into bytes in big endian
     const data = [] as number[]
-    while (data.length * 8 < bits.length) {
+    while (data.length * 8 < bits.length)
       data.push(0)
-    }
     bits.forEach((b, i) => data[i >>> 3] |= b << (7 - (i & 7)))
 
     // Create the QR Code object
@@ -413,9 +405,8 @@ class QrCode {
     const alignments = QrCode.#ALIGNEMENTS[this.version]
     for (let i = 0; i < alignments.length; i++) {
       for (let j = 0; j < alignments.length; j++) {
-        if (!(((i === 0) && (j === 0)) || ((i === 0) && (j === alignments.length - 1)) || ((i === alignments.length - 1) && (j === 0)))) {
+        if (!(((i === 0) && (j === 0)) || ((i === 0) && (j === alignments.length - 1)) || ((i === alignments.length - 1) && (j === 0))))
           this.#drawAlignment({ x: alignments[i], y: alignments[j] })
-        }
       }
     }
 
@@ -431,9 +422,8 @@ class QrCode {
         const d = Math.max(Math.abs(dx), Math.abs(dy))
         const x = ox + dx
         const y = oy + dy
-        if ((0 <= x) && (x < this.size) && (0 <= y) && (y < this.size)) {
+        if ((0 <= x) && (x < this.size) && (0 <= y) && (y < this.size))
           this.#set({ x: x, y: y, color: (d !== 2) && (d !== 4) })
-        }
       }
     }
   }
@@ -441,9 +431,8 @@ class QrCode {
   /** Draws a 5*5 alignment pattern with the center module at (x, y). */
   #drawAlignment({ x, y }: { x: number; y: number }) {
     for (let dy = -2; dy <= 2; dy++) {
-      for (let dx = -2; dx <= 2; dx++) {
+      for (let dx = -2; dx <= 2; dx++)
         this.#set({ x: x + dx, y: y + dy, color: Math.max(Math.abs(dx), Math.abs(dy)) !== 1 })
-      }
     }
   }
 
@@ -452,43 +441,36 @@ class QrCode {
     // Calculate error correction code and pack bits
     const data = this.#ecl.format << 3 | mask
     let rem = data
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++)
       rem = (rem << 1) ^ ((rem >>> 9) * 0x537)
-    }
     const bits = (data << 10 | rem) ^ 0x5412
 
     // Draw first copy
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 0; i <= 5; i++)
       this.#set({ x: 8, y: i, color: bit(bits, i) })
-    }
     this.#set({ x: 8, y: 7, color: bit(bits, 6) })
     this.#set({ x: 8, y: 8, color: bit(bits, 7) })
     this.#set({ x: 7, y: 8, color: bit(bits, 8) })
-    for (let i = 9; i < 15; i++) {
+    for (let i = 9; i < 15; i++)
       this.#set({ x: 14 - i, y: 8, color: bit(bits, i) })
-    }
 
     // Draw second copy
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 8; i++)
       this.#set({ x: this.size - 1 - i, y: 8, color: bit(bits, i) })
-    }
-    for (let i = 8; i < 15; i++) {
+    for (let i = 8; i < 15; i++)
       this.#set({ x: 8, y: this.size - 15 + i, color: bit(bits, i) })
-    }
     this.#set({ x: 8, y: this.size - 8, color: true })
   }
 
   /** Draws two copies of the version bits (with its own error correction code) based on this object's version field, iff 7 <= version <= 40. */
   #drawVersion() {
-    if (this.version < 7) {
+    if (this.version < 7)
       return
-    }
 
     // Calculate error correction code and pack bits
     let rem = this.version
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 12; i++)
       rem = (rem << 1) ^ ((rem >>> 11) * 0x1F25)
-    }
     const bits = this.version << 12 | rem
 
     // Draw copies
@@ -517,9 +499,8 @@ class QrCode {
       const block = data.slice(k, k + short.length - ecc.length + (i < short.blocks ? 0 : 1))
       k += block.length
       const remainder = remainderReedSolomon(block, divisor)
-      if (i < short.blocks) {
+      if (i < short.blocks)
         block.push(0)
-      }
       blocks.push(block.concat(remainder))
     }
 
@@ -527,9 +508,8 @@ class QrCode {
     const result = [] as number[]
     for (let i = 0; i < blocks[0].length; i++) {
       blocks.forEach((block, j) => {
-        if ((i !== short.length - ecc.length) || (j >= short.blocks)) {
+        if ((i !== short.length - ecc.length) || (j >= short.blocks))
           result.push(block[i])
-        }
       })
     }
     return result
@@ -541,9 +521,8 @@ class QrCode {
    */
   #drawData(data: Readonly<number[]>) {
     for (let i = 0, h = this.size - 1; h >= 1; h -= 2) {
-      if (h === 6) {
+      if (h === 6)
         h = 5
-      }
       for (let v = 0; v < this.size; v++) {
         for (let j = 0; j < 2; j++) {
           const x = h - j
@@ -592,9 +571,8 @@ class QrCode {
             invert = !(((x + y) % 2 + x * y % 3) % 2)
             break
         }
-        if (invert && (!this.#functions[y][x])) {
+        if (invert && (!this.#functions[y][x]))
           this.#modules[y][x] = !this.#modules[y][x]
-        }
       }
     }
   }
@@ -614,16 +592,14 @@ class QrCode {
       for (let x = 0; x < this.size; x++) {
         if (this.#modules[y][x] === color) {
           xy++
-          if (xy === 5) {
+          if (xy === 5)
             result += QrCode.#PENALTY[0]
-          } else if (xy > 5) {
+          else if (xy > 5)
             result++
-          }
         } else {
           this.#penaltyRegister({ xy, history })
-          if (!color) {
+          if (!color)
             result += this.#penaltyPatterns({ history }) * QrCode.#PENALTY[2]
-          }
           color = this.#modules[y][x]
           xy = 1
         }
@@ -639,16 +615,14 @@ class QrCode {
       for (let y = 0; y < this.size; y++) {
         if (this.#modules[y][x] === color) {
           xy++
-          if (xy === 5) {
+          if (xy === 5)
             result += QrCode.#PENALTY[0]
-          } else if (xy > 5) {
+          else if (xy > 5)
             result++
-          }
         } else {
           this.#penaltyRegister({ xy, history })
-          if (!color) {
+          if (!color)
             result += this.#penaltyPatterns({ history }) * QrCode.#PENALTY[2]
-          }
           color = this.#modules[y][x]
           xy = 1
         }
@@ -660,17 +634,15 @@ class QrCode {
     for (let y = 0; y < this.size - 1; y++) {
       for (let x = 0; x < this.size - 1; x++) {
         const color = this.#modules[y][x]
-        if ((color === this.#modules[y][x + 1]) && (color === this.#modules[y + 1][x]) && (color === this.#modules[y + 1][x + 1])) {
+        if ((color === this.#modules[y][x + 1]) && (color === this.#modules[y + 1][x]) && (color === this.#modules[y + 1][x + 1]))
           result += QrCode.#PENALTY[1]
-        }
       }
     }
 
     // Balance of dark and light modules
     let dark = 0
-    for (const row of this.#modules) {
+    for (const row of this.#modules)
       dark = row.reduce((sum, color) => sum + (color ? 1 : 0), dark)
-    }
     const total = this.size * this.size
     const k = Math.ceil(Math.abs(dark * 20 - total * 10) / total) - 1
     result += k * QrCode.#PENALTY[3]
@@ -697,9 +669,8 @@ class QrCode {
 
   /** Pushes the given value to the front and drops the last value. */
   #penaltyRegister({ xy, history }: { xy: number; history: number[] }) {
-    if (history[0] === 0) {
+    if (history[0] === 0)
       xy += this.size
-    }
     history.pop()
     history.unshift(xy)
   }
@@ -866,12 +837,10 @@ class Segment {
     const charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
     const bits = [] as number[]
     let i
-    for (i = 0; i + 2 <= content.length; i += 2) {
+    for (i = 0; i + 2 <= content.length; i += 2)
       append({ bits, length: 11, value: charset.indexOf(content.charAt(i)) * 45 + charset.indexOf(content.charAt(i + 1)) })
-    }
-    if (i < content.length) {
+    if (i < content.length)
       append({ bits, length: 6, value: charset.indexOf(content.charAt(i)) })
-    }
     return new Segment({ mode: { id: 0x2, widths: [9, 11, 13] }, length: content.length, bits })
   }
 
@@ -888,9 +857,8 @@ class Segment {
    */
   static #bytes(content: Uint8Array) {
     const bits = [] as number[]
-    for (const byte of content) {
+    for (const byte of content)
       append({ bits, length: 8, value: byte })
-    }
     return new Segment({ mode: { id: 0x4, widths: [8, 16, 16] }, length: content.length, bits })
   }
 
@@ -899,9 +867,8 @@ class Segment {
    * The result may use various segment modes and switch modes to optimize the length of the bit stream.
    */
   static from(content: string | Uint8Array) {
-    if (content instanceof Uint8Array) {
+    if (content instanceof Uint8Array)
       return [Segment.#bytes(content)]
-    }
     switch (true) {
       case !content.length:
         return []
@@ -956,9 +923,8 @@ function divisorReedSolomon(degree: number) {
   for (let i = 0, root = 1; i < degree; i++) {
     for (let j = 0; j < result.length; j++) {
       result[j] = productReedSolomon(result[j], root)
-      if (j + 1 < result.length) {
+      if (j + 1 < result.length)
         result[j] ^= result[j + 1]
-      }
     }
     root = productReedSolomon(root, 0x02)
   }
@@ -1008,7 +974,6 @@ function escape(value: string): string {
  * Requires 0 <= len <= 31 and 0 <= val < 2^len.
  */
 function append({ bits, length, value }: { bits: number[]; length: number; value: number }) {
-  for (let i = length - 1; i >= 0; i--) {
+  for (let i = length - 1; i >= 0; i--)
     bits.push((value >>> i) & 1)
-  }
 }

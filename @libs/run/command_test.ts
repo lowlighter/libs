@@ -36,9 +36,8 @@ Deno.test("`command()` writes to stdin and closes it through the callback genera
     env: { NO_COLOR: "true" },
     callback: async function* ({ stdio }) {
       for await (const { stdout } of stdio) {
-        if (!stdout.includes("exit using")) {
+        if (!stdout.includes("exit using"))
           continue
-        }
         yield "console.log('hello')\n"
         return
       }
@@ -54,9 +53,8 @@ Deno.test("`command()` writes to stdin multiple times through the callback gener
     env: { NO_COLOR: "true" },
     callback: async function* ({ stdio }) {
       for await (const { stdout } of stdio) {
-        if (!stdout.includes("exit using")) {
+        if (!stdout.includes("exit using"))
           continue
-        }
         yield "const a = 1\n"
         yield "console.log(a + 1)\n"
         return
@@ -105,7 +103,9 @@ Deno.test("`command()` ends the interaction when the process exits while the gen
     env: { NO_COLOR: "true" },
     // deno-lint-ignore require-yield
     callback: async function* ({ stdio }) {
-      for await (const _ of stdio) { /* wait for the process to exit */ }
+      for await (const _ of stdio) {
+        /* wait for the process to exit */
+      }
     },
   })
   expect(result).toMatchObject({ success: true, code: 0 })
@@ -118,7 +118,9 @@ Deno.test("`command()` kills and rejects when the generator throws after the pro
     env: { NO_COLOR: "true" },
     // deno-lint-ignore require-yield
     callback: async function* ({ stdio }) {
-      for await (const _ of stdio) { /* wait for the process to exit */ }
+      for await (const _ of stdio) {
+        /* wait for the process to exit */
+      }
       throw new Error("late failure")
     },
   })).rejects.toThrow("late failure")
@@ -129,7 +131,9 @@ Deno.test("`command()` handles a stdin write after the process exited", { permis
     stdin: "piped",
     env: { NO_COLOR: "true" },
     callback: async function* ({ stdio }) {
-      for await (const _ of stdio) { /* wait for the process to exit */ }
+      for await (const _ of stdio) {
+        /* wait for the process to exit */
+      }
       yield "too late\n"
     },
   })).rejects.toThrow()

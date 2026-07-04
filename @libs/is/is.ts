@@ -18,9 +18,8 @@ export function coerce<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   return is.preprocess((value) => {
     if (typeof value === "string") {
       const coerced = Number(value)
-      if ((!Number.isNaN(coerced)) || (value === "NaN")) {
+      if ((!Number.isNaN(coerced)) || (value === "NaN"))
         return coerced
-      }
     }
     return value
   }, schema)
@@ -46,9 +45,8 @@ export function clonable<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
 /** Transforms a parsed value into an array if it is not already one. */
 export function arrayable<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   return is.preprocess((value) => {
-    if (!Array.isArray(value)) {
+    if (!Array.isArray(value))
       return [value]
-    }
     return value
   }, schema)
 }
@@ -95,9 +93,8 @@ export function cliable<T extends is.ZodType>(schema: T, options?: ParseArgsOpti
         context.addIssue(`Unclosed quote: ${quoted}${current}`)
         return value
       }
-      if (current || quotes) {
+      if (current || quotes)
         args.push(current)
-      }
       return options ? parseArgs(args, options) : args
     }
     return value
@@ -128,9 +125,8 @@ export function date<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   return is.preprocess((value) => {
     if (typeof value === "string") {
       const date = new Date(value)
-      if (!Number.isNaN(date.getTime())) {
+      if (!Number.isNaN(date.getTime()))
         return date
-      }
     }
     return value
   }, schema)
@@ -241,20 +237,16 @@ const sysflags = ["hostname", "osRelease", "osUptime", "loadavg", "networkInterf
 /** Type alias factory for permission descriptors. */
 function permission({ expand = false, urls = false, sys = false } = {}) {
   return is.preprocess((value) => {
-    if (value === "inherit") {
+    if (value === "inherit")
       return value
-    }
-    if (typeof value === "string") {
+    if (typeof value === "string")
       value = [value]
-    }
     if (expand) {
-      if ((value === undefined) || (value === false)) {
+      if ((value === undefined) || (value === false))
         value = []
-      }
     }
-    if (urls && Array.isArray(value)) {
+    if (urls && Array.isArray(value))
       value = value.map((value) => value instanceof URL ? value.href : value)
-    }
     return value
   }, is.union([is.literal("inherit"), is.boolean(), is.array(sys ? is.enum(sysflags) : is.string())]))
 }
@@ -280,19 +272,15 @@ export function permissions<T extends keyof Deno.PermissionOptionsObject>({ set 
   }).pick<any>(Object.fromEntries(set.map((key) => [key, true]))).strict()
 
   // Return either the compact or expanded version
-  if (!expand) {
+  if (!expand)
     return validator.partial().or(is.union([is.literal("inherit"), is.literal("none")]))
-  }
   return is.preprocess((value) => {
-    if ((value === "inherit") || (value === "none")) {
+    if ((value === "inherit") || (value === "none"))
       return Object.fromEntries(set.map((key) => [key, value === "none" ? [] : value]))
-    }
-    if (typeof value === "string") {
+    if (typeof value === "string")
       value = [value]
-    }
-    if (Array.isArray(value)) {
+    if (Array.isArray(value))
       return { ...Object.fromEntries(set.map((permission) => [permission, false])), ...Object.fromEntries(value.map((permission) => [permission, "inherit"])) }
-    }
     return value
   }, validator) as unknown
 }
@@ -316,13 +304,12 @@ type ZodErrorLike = { path?: PropertyKey[]; message: string; errors?: ZodErrorLi
 function toPath(path: PropertyKey[] = []): string {
   const segments = []
   for (const segment of path) {
-    if (typeof segment === "number") {
+    if (typeof segment === "number")
       segments.push(`[${segment}]`)
-    } else if (typeof segment === "symbol" || /[^\w$]/.test(String(segment))) {
+    else if (typeof segment === "symbol" || /[^\w$]/.test(String(segment)))
       segments.push(`[${JSON.stringify(String(segment))}]`)
-    } else {
+    else
       segments.push(`.${segment}`)
-    }
   }
   return segments.join("")
 }
@@ -333,14 +320,12 @@ function prettifyIssue(errors: ZodErrorLike[], { indent = "" } = {}): string {
   errors = [...errors].sort((a, b) => (a.path ?? []).length - (b.path ?? []).length)
   for (const error of errors) {
     lines.push(`${indent}✘ ${error.message}`)
-    if (error.path?.length) {
+    if (error.path?.length)
       lines.push(`${indent}  → at ${toPath(error.path)}`)
-    }
     if (error.errors?.length) {
       lines.push(`${indent}  → tried to fit into one of the allowed types:`)
-      for (const suberror of error.errors) {
+      for (const suberror of error.errors)
         lines.push(prettifyIssue(suberror, { indent: `${indent}      ` }).replace("  ✘", "- ✘"))
-      }
     }
   }
   return lines.join("\n")
@@ -362,16 +347,14 @@ export function parse<T extends is.ZodType>(schema: T, values: unknown, { async 
   try {
     return async
       ? schema.parseAsync(values).catch((error) => {
-        if ((!(error instanceof is.ZodError)) || zodError) {
+        if ((!(error instanceof is.ZodError)) || zodError)
           throw error
-        }
         throw new TypeError(`Validation failed: \n${prettifyIssue(error.issues)}`)
       })
       : schema.parse(values)
   } catch (error) {
-    if ((!(error instanceof is.ZodError)) || zodError) {
+    if ((!(error instanceof is.ZodError)) || zodError)
       throw error
-    }
     throw new TypeError(`Validation failed: \n${prettifyIssue(error.issues)}`)
   }
 }

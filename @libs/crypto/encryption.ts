@@ -47,9 +47,8 @@ const decoder = new TextDecoder()
  * ```
  */
 export function hex(bytes: Uint8Array | number): string {
-  if (typeof bytes === "number") {
+  if (typeof bytes === "number")
     return bytes.toString(16).padStart(2, "0")
-  }
   return Array.from(bytes).map((byte) => hex(byte)).join("")
 }
 
@@ -114,17 +113,15 @@ export async function hash(message: string, { algorithm = "SHA-256" as Algorithm
  * @license MIT
  */
 export async function encrypt(message: string, { key, length = 512 }: { key: CryptoKey | string; length?: 0 | 256 | 512 }): Promise<string> {
-  if (typeof key === "string") {
+  if (typeof key === "string")
     key = await importKey(key)
-  }
   const size = hex(Math.min(encoder.encode(message).length, 2 ** 8 - 1))
   message = `${size}${message}`
   message = `${await hash(message)}${message}`
   const [iv, value] = [crypto.getRandomValues(new Uint8Array(16)), encoder.encode(message)]
   const unused = (length - 2 * (iv.length + 16 + value.length)) / 2
-  if (length && (unused < 0)) {
+  if (length && (unused < 0))
     throw new RangeError(`Message too long for length: ${length}`)
-  }
   const padding = crypto.getRandomValues(new Uint8Array(Math.max(0, unused)))
   const encoded = new Uint8Array([...value, ...padding])
   const encrypted = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, encoded))
@@ -145,17 +142,15 @@ export async function encrypt(message: string, { key, length = 512 }: { key: Cry
  * @license MIT
  */
 export async function decrypt(message: string, { key }: { key: CryptoKey | string }): Promise<string> {
-  if (typeof key === "string") {
+  if (typeof key === "string")
     key = await importKey(key)
-  }
   const content = bytes(message)
   const [iv, encoded] = [content.slice(0, 16), content.slice(16)]
   const decrypted = decoder.decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, encoded))
   const [checksum, size, body] = [decrypted.slice(0, 64), decrypted.slice(64, 64 + 2), decrypted.slice(64 + 2)]
   const value = decoder.decode(encoder.encode(body).slice(0, size === "ff" ? Infinity : Number.parseInt(size, 16)))
-  if (await hash(`${size}${value}`) !== checksum) {
+  if (await hash(`${size}${value}`) !== checksum)
     throw new RangeError(`Hash mismatch: expected ${checksum} but got ${await hash(`${size}${value}`)}`)
-  }
   return value
 }
 

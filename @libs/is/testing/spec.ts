@@ -20,17 +20,14 @@ export type SpecOptions = {
 /** Specification check helper. */
 export const spec = Object.assign(
   function (name: string, schema: is.ZodType, testsuites: Array<testcase> | Record<PropertyKey, Array<testcase>>, { prefault = true, strict = true, setup }: SpecOptions = {}): void {
-    if (Array.isArray(testsuites)) {
+    if (Array.isArray(testsuites))
       testsuites = { "*": testsuites }
-    }
     // Prefault check
-    if (prefault) {
+    if (prefault)
       test(`\`${name}.parse()\` has prefault`, () => expect(schema.parse(undefined)).toMatchObject({}))
-    }
     // Strictness check
-    if (strict) {
+    if (strict)
       test(`\`${name}.parse()\` is strict`, () => expect(() => schema.parse({ __strictness_test__: true })).toThrow())
-    }
     // Parsing checks
     for (const [key, testcases] of Object.entries(testsuites)) {
       for (const testcase of testcases) {
@@ -44,16 +41,15 @@ export const spec = Object.assign(
             // Apply environment variables
             if (testcase.env) {
               for (const [key, value] of Object.entries(testcase.env)) {
-                if (Deno.env.has(key)) {
+                if (Deno.env.has(key))
                   env[key] = Deno.env.get(key)!
-                }
                 Deno.env.set(key, value)
               }
             }
             // Apply test
-            if (b === Error) {
+            if (b === Error)
               expect(() => schema.parse(a)).toThrow()
-            } else {
+            else {
               if ((key === "*") && ((typeof b !== "object") || (b === null))) {
                 expect(schema.parse(a)).toEqual(b as Record<PropertyKey, unknown>)
                 return
@@ -66,9 +62,8 @@ export const spec = Object.assign(
               expect(schema.parse(a)).toMatchObject(key === "*" ? b as Record<PropertyKey, unknown> : { [key]: b })
             }
           } finally {
-            for (const [key, value] of Object.entries(env)) {
+            for (const [key, value] of Object.entries(env))
               Deno.env.set(key, value)
-            }
           }
         }, { permissions: { env: testcase.env ? true : false } })
       }

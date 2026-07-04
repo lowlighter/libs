@@ -92,14 +92,12 @@ export function otpsecret(length = 20): string {
  * ```
  */
 export function otpauth({ issuer, account, secret = otpsecret(), image }: { issuer: string; account: string; secret?: string; image?: string }): URL {
-  if ((issuer.includes(":")) || (account.includes(":"))) {
+  if ((issuer.includes(":")) || (account.includes(":")))
     throw new RangeError("Label may not contain a colon character")
-  }
   const label = encodeURIComponent(`${issuer}:${account}`)
   const params = new URLSearchParams({ secret, issuer, algorithm: "SHA1", digits: "6", period: "30" })
-  if (image) {
+  if (image)
     params.set("image", image)
-  }
   const url = new URL(`otpauth://totp/${label}?${params}`)
   return url
 }
@@ -107,9 +105,8 @@ export function otpauth({ issuer, account, secret = otpsecret(), image }: { issu
 /** Constant-time comparison of two 6-digit token strings (both are always the same length by construction). */
 function timingSafeEqual(a: string, b: string): boolean {
   let diff = 0
-  for (let i = 0; i < a.length; i++) {
+  for (let i = 0; i < a.length; i++)
     diff |= a.charCodeAt(i) ^ b.charCodeAt(i)
-  }
   return diff === 0
 }
 
@@ -127,15 +124,13 @@ function timingSafeEqual(a: string, b: string): boolean {
  */
 export async function verify({ secret, token, t = Date.now(), tolerance = 1 }: { secret: string; token: string | number; t?: number; tolerance?: number }): Promise<boolean> {
   const input = `${token}`
-  if (!/^\d{1,6}$/.test(input)) {
+  if (!/^\d{1,6}$/.test(input))
     return false
-  }
   const expected = input.padStart(6, "0")
   let valid = false
   for (let dt = -tolerance; dt <= tolerance; dt++) {
-    if (timingSafeEqual(await totp(secret, { t, dt }), expected)) {
+    if (timingSafeEqual(await totp(secret, { t, dt }), expected))
       valid = true
-    }
   }
   return valid
 }

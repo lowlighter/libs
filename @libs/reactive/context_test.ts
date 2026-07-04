@@ -29,9 +29,8 @@ function fn() {
 // The `observe` function creates a context object around the target and attaches . These listeners allow us to observe changes.
 function observe(target: target, context = new Context(target)) {
   const listeners = { get: fn(), set: fn(), delete: fn(), call: fn() }
-  for (const event of Object.keys(listeners) as (keyof typeof listeners)[]) {
+  for (const event of Object.keys(listeners) as (keyof typeof listeners)[])
     context.addEventListener(event, listeners[event])
-  }
   return { context, observable: context.target, target, listeners }
 }
 
@@ -492,9 +491,8 @@ Deno.test("`Context.target` skips proxification of `Context.unproxyable` objects
     t_string: "foo",
   })
 
-  for (const [key, value] of Object.entries(target)) {
+  for (const [key, value] of Object.entries(target))
     expect(observable[key]).toBe(value)
-  }
 
   messagechannel?.port1?.close?.()
   messagechannel?.port2?.close?.()

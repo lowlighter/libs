@@ -195,9 +195,8 @@ Deno.test("`qrcode()` svg output accepts `Uint8Array` content", () => {
 
 Deno.test("`qrcode()` honors the `ecl` option", () => {
   const content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-  for (const ecl of ["LOW", "MEDIUM", "QUARTILE", "HIGH"] as const) {
+  for (const ecl of ["LOW", "MEDIUM", "QUARTILE", "HIGH"] as const)
     expect(qrcode(content, { ecl })).toBeInstanceOf(Array)
-  }
   expect(qrcode(content, { ecl: "HIGH" }).length).toBeGreaterThan(qrcode(content, { ecl: "LOW" }).length)
 })
 
@@ -223,9 +222,8 @@ Deno.test("`qrcode()` png output pixels match the module matrix", async () => {
   const { width, pixel } = await PNG.decode(qrcode("https://example.com", { output: "png", border: 2, scale: 1 }))
   expect(width).toBe(matrix.length)
   for (let y = 0; y < matrix.length; y++) {
-    for (let x = 0; x < matrix.length; x++) {
+    for (let x = 0; x < matrix.length; x++)
       expect(pixel(x, y)).toEqual(matrix[y][x] ? [0, 0, 0, 255] : [255, 255, 255, 255])
-    }
   }
 })
 
@@ -260,9 +258,8 @@ Deno.test("`qrcode()` sanitizes options", async () => {
       [Infinity, 0], // non-finite falls back to 0
       [-Infinity, 0], // non-finite falls back to 0
     ] as const
-    for (const [border, sanitized] of cases) {
+    for (const [border, sanitized] of cases)
       expect(side(qrcode("foo", { output: "svg", border }))).toBe(21 + sanitized * 2)
-    }
   }
   {
     const cases = [
@@ -276,8 +273,7 @@ Deno.test("`qrcode()` sanitizes options", async () => {
       [Infinity, 1], // non-finite falls back to 1
       [-Infinity, 1], // non-finite falls back to 1
     ] as const
-    for (const [scale, sanitized] of cases) {
+    for (const [scale, sanitized] of cases)
       await expect(PNG.decode(qrcode("foo", { output: "png", border: 0, scale }))).resolves.toHaveProperty("width", 21 * sanitized)
-    }
   }
 })

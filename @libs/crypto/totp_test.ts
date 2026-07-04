@@ -47,7 +47,6 @@ Deno.test("`verify()` returns false if token is invalid", async () => {
 })
 
 Deno.test("`verify()` rejects malformed tokens", async () => {
-  for (const token of ["", " ", "abc", "1234567", "15212a"]) {
+  for (const token of ["", " ", "abc", "1234567", "15212a"])
     await expect(verify({ secret: "JBSWY3DPEHPK3PXP", token, t: 1708671725109 })).resolves.toBe(false)
-  }
 })

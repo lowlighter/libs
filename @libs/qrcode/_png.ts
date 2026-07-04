@@ -59,9 +59,8 @@ export function color(value: string): rgba {
       element.remove()
       const channels = computed.match(/[\d.]+/g)?.map((value, channel) => channel === 3 ? Math.round(Number(value) * 0xFF) : Math.round(Number(value)))
       if (channels) {
-        if (channels.length === 3) {
+        if (channels.length === 3)
           channels.push(0xFF)
-        }
         return channels as rgba
       }
     }
@@ -72,18 +71,16 @@ export function color(value: string): rgba {
 /** Precomputed CRC-32 lookup table (IEEE 802.3 polynomial), used for PNG chunk checksums. */
 const CRC_TABLE = Array.from({ length: 256 }, (_, n) => {
   let c = n
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 8; i++)
     c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1)
-  }
   return c >>> 0
 })
 
 /** Computes the CRC-32 checksum of the given bytes. */
 function crc32(bytes: Uint8Array): number {
   let crc = 0xFFFFFFFF
-  for (let i = 0; i < bytes.length; i++) {
+  for (let i = 0; i < bytes.length; i++)
     crc = CRC_TABLE[(crc ^ bytes[i]) & 0xFF] ^ (crc >>> 8)
-  }
   return (crc ^ 0xFFFFFFFF) >>> 0
 }
 
@@ -133,9 +130,8 @@ function chunk(type: string, data: Uint8Array): Uint8Array {
   const result = new Uint8Array(12 + data.length)
   const view = new DataView(result.buffer)
   view.setUint32(0, data.length)
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 4; i++)
     result[4 + i] = type.charCodeAt(i)
-  }
   result.set(data, 8)
   view.setUint32(8 + data.length, crc32(result.subarray(4, 8 + data.length)))
   return result
@@ -164,9 +160,8 @@ export function png({ get, size, light, dark, scale }: { get: (x: number, y: num
         scanline[offset + 3] = a
       }
     }
-    for (let s = 0; s < scale; s++) {
+    for (let s = 0; s < scale; s++)
       raw.set(scanline, (y * scale + s) * stride)
-    }
   }
 
   // IHDR: width, height, bit depth (8), color type (6 = RGBA), compression (0), filter (0), interlace (0)
@@ -189,9 +184,8 @@ export function png({ get, size, light, dark, scale }: { get: (x: number, y: num
 
 /** Decodes a PNG produced into its dimensions and RGBA pixels. */
 export async function decode(png: Uint8Array): Promise<{ width: number; height: number; colorType: number; bitDepth: number; pixel: (x: number, y: number) => number[] }> {
-  if (!signature.every((byte, i) => png[i] === byte)) {
+  if (!signature.every((byte, i) => png[i] === byte))
     throw new TypeError("Invalid PNG signature")
-  }
   const view = new DataView(png.buffer, png.byteOffset, png.byteLength)
   let offset = 8
   let width = 0
@@ -208,9 +202,8 @@ export async function decode(png: Uint8Array): Promise<{ width: number; height: 
       bitDepth = png[offset + 16]
       colorType = png[offset + 17]
     }
-    if (type === "IDAT") {
+    if (type === "IDAT")
       idat.push(png.slice(offset + 8, offset + 8 + length))
-    }
     offset += 12 + length
   }
   const compressed = new Uint8Array(idat.reduce((sum, part) => sum + part.length, 0))
