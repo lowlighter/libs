@@ -54,6 +54,7 @@ console.assert(stdout.includes("hello"))
 - Auto-detects os and can automatically append an extension when running on Windows.
 - Supports both `sync` and `async` modes in a single function.
   - Optionally decide to throw an error when the process exits with a non-zero code.
+- Background processes support `await using` for automatic cleanup (killed and awaited on scope exit).
 - Generates a `stdio` history that contains timestamped entries with configurable buffering
 - Integrates with [`LogTape`](https://logtape.org): each piped channel is mirrored to a sub-logger (`stdin`/`stdout`/`stderr`).
   - Logging defaults to the `["run"]` category, leaving output configuration to the host application.

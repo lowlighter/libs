@@ -99,6 +99,8 @@ export type Background = {
   pid: number
   /** Process result (resolves once the process exits). */
   result: Promise<Result>
+  /** Kill the process and wait for it to fully terminate. */
+  [Symbol.asyncDispose]: () => Promise<void>
 }
 
 /** Snapshot of the accumulated process stdio content. */
@@ -108,7 +110,7 @@ export type Snapshot = Pick<Result, "stdin" | "stdout" | "stderr">
  * Stdin interaction callback.
  *
  * It is an async generator that lets you drive an interactive process with plain language constructs:
- * ```ts
+ * ```ts ignore
  * // Iterate over process output to react to new data.
  * // (one iteration per buffered event)
  * for await (const { stdout } of stdio) {
@@ -337,17 +339,12 @@ function spawn(
   let interaction = Promise.resolve()
   if (handle(channels.stdin) === "piped") {
     const writer = process.stdin.getWriter()
-    let closed = false
     const close = async () => {
-      if (closed) {
-        return
-      }
-      closed = true
       try {
         await writer.close()
         log.with({ t: Date.now() - start }).trace("closed stdin")
       } catch {
-        // Ignore
+        // Ignore (stdin may already be closed if the process exited)
       }
     }
     release = () => {
@@ -383,11 +380,7 @@ function spawn(
         await close()
       } catch (error) {
         await close()
-        try {
-          process.kill("SIGTERM")
-        } catch {
-          // Already exited
-        }
+        abort(process)
         await process.status
         throw error
       }
@@ -427,28 +420,36 @@ function spawn(
     const [output, interacted] = await Promise.allSettled([outputs, interaction])
     debounced.clear()
     const { success, code } = await process.status
-    if (interacted.status === "rejected") {
-      throw interacted.reason
-    }
-    if (output.status === "rejected") {
-      throw output.reason
+    if ((output.status === "rejected") || (interacted.status === "rejected")) {
+      throw ((output as { reason?: unknown }).reason ?? (interacted as { reason?: unknown }).reason)
     }
     if ((!success) && _throw) {
       throw new EvalError(`${bin} exited with non-zero code ${code}:\n${stdio.stdout}\n${stdio.stderr}`)
     }
     return { success, code, ...stdio }
   })()
+  const terminate = async (signal: Deno.Signal = "SIGTERM") => {
+    abort(process, signal)
+    await result.catch(() => {})
+  }
   return background
     ? {
-      kill: async (signal: Deno.Signal = "SIGTERM") => {
-        process.kill(signal)
-        await process.status
-      },
+      kill: terminate,
       unref: () => process.unref(),
       pid: process.pid,
       result,
+      [Symbol.asyncDispose]: () => terminate(),
     }
     : result
+}
+
+/** Send a signal to a process, ignoring the error raised when it has already terminated. */
+function abort(process: Deno.ChildProcess, signal: Deno.Signal = "SIGTERM") {
+  try {
+    process.kill(signal)
+  } catch {
+    // Already terminated
+  }
 }
 
 /** Mirror a stdio line through the channel's sub-logger. */

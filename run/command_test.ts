@@ -99,6 +99,62 @@ Deno.test("`command()` kills the process and rejects when the callback generator
   })).rejects.toThrow(TypeError)
 })
 
+Deno.test("`command()` ends the interaction when the process exits while the generator awaits output", { permissions: { run: ["deno"] } }, async () => {
+  const result = await command("deno", ["eval", "console.log('bye')"], {
+    stdin: "piped",
+    env: { NO_COLOR: "true" },
+    // deno-lint-ignore require-yield
+    callback: async function* ({ stdio }) {
+      for await (const _ of stdio) { /* wait for the process to exit */ }
+    },
+  })
+  expect(result).toMatchObject({ success: true, code: 0 })
+  expect(result.stdout).toMatch(/bye/)
+})
+
+Deno.test("`command()` kills and rejects when the generator throws after the process already exited", { permissions: { run: ["deno"] } }, async () => {
+  await expect(command("deno", ["eval", "Deno.exit(0)"], {
+    stdin: "piped",
+    env: { NO_COLOR: "true" },
+    // deno-lint-ignore require-yield
+    callback: async function* ({ stdio }) {
+      for await (const _ of stdio) { /* wait for the process to exit */ }
+      throw new Error("late failure")
+    },
+  })).rejects.toThrow("late failure")
+})
+
+Deno.test("`command()` handles a stdin write after the process exited", { permissions: { run: ["deno"] } }, async () => {
+  await expect(command("deno", ["eval", "Deno.exit(0)"], {
+    stdin: "piped",
+    env: { NO_COLOR: "true" },
+    callback: async function* ({ stdio }) {
+      for await (const _ of stdio) { /* wait for the process to exit */ }
+      yield "too late\n"
+    },
+  })).rejects.toThrow()
+})
+
+Deno.test("`command()` supports `await using` disposal for background processes", { permissions: { run: ["deno"] } }, async () => {
+  let pid = 0
+  {
+    await using process = command("deno", ["repl"], { env: { NO_COLOR: "true" }, background: true })
+    pid = process.pid
+    expect(process).toHaveProperty("pid")
+    expect(typeof process[Symbol.asyncDispose]).toBe("function")
+  }
+  expect(pid).toBeGreaterThan(0)
+})
+
+Deno.test("`command()` disposal is safe when the process already exited", { permissions: { run: ["deno"] } }, async () => {
+  let result
+  {
+    await using process = command("deno", ["eval", "Deno.exit(0)"], { env: { NO_COLOR: "true" }, background: true })
+    result = await process.result
+  }
+  expect(result).toMatchObject({ success: true, code: 0 })
+})
+
 for (const sync of [false, true]) {
   for (const mode of ["inherit", "piped", null] as const) {
     Deno.test(`\`command()\` supports stdio set to \`"${mode}"\` in ${sync ? "sync" : "async"} mode`, { permissions: { run: ["deno"] } }, async () => {
