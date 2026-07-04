@@ -2,12 +2,6 @@
   "icon": "⏯️",
   "name": "@libs/run",
   "version": "4.0.0",
-  "npm": true,
-  "playground": "https://libs.lecoq.io/run",
-  "tasks": {
-    "test:node": "sleep 0",
-    "test:bun": "sleep 0"
-  },
   "imports": {
     "@logtape/logtape": "jsr:@logtape/logtape@^2.2.0",
     "@std/async": "jsr:@std/async@^1.2.0",
@@ -17,13 +11,5 @@
   "exports": {
     ".": "./mod.ts",
     "./command": "./command.ts"
-  },
-  "test:permissions": {
-    "run": [
-      "deno"
-    ]
-  },
-  "supported": {
-    "deno": true
   }
 }
