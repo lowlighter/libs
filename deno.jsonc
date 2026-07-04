@@ -2,7 +2,7 @@
   "tasks": {
     "qa": {
       "description": "Test and lint code",
-      "command": "deno run --allow-all toolbox/code_quality.ts --cwd $INIT_CWD"
+      "command": "deno run --allow-all toolbox/scripts/code_quality.ts --cwd $INIT_CWD"
     }
   },
   "workspace": [
