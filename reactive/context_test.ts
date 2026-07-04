@@ -1,5 +1,5 @@
 import { Context, type target } from "./context.ts"
-import { expect, fn as _fn, type Nullable, test, type testing } from "@libs/testing"
+import { expect, fn as _fn, type Nullable, type testing } from "@libs/testing"
 
 /**
  * Listens for `CustomEvent` and stores the event's `detail` value in the `event` property.
@@ -35,7 +35,7 @@ function observe(target: target, context = new Context(target)) {
   return { context, observable: context.target, target, listeners }
 }
 
-test("`Context.target` reacts to `read` operations", () => {
+Deno.test("`Context.target` reacts to `read` operations", () => {
   const { observable, target, listeners } = observe({ property: false, nested: { property: false }, [Symbol.for("test")]: false })
 
   listeners.get.clear()
@@ -66,7 +66,7 @@ test("`Context.target` reacts to `read` operations", () => {
   expect(listeners.get.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: false })
 })
 
-test("`Context.target` reacts to `read` operations (child context)", () => {
+Deno.test("`Context.target` reacts to `read` operations (child context)", () => {
   const { context: a, listeners: a_listeners } = observe({ foo: false })
   const { context: b, listeners: b_listeners } = observe(null, a.with({ bar: false }))
   const { context: c, listeners: c_listeners } = observe(null, b.with({ baz: false }))
@@ -87,7 +87,7 @@ test("`Context.target` reacts to `read` operations (child context)", () => {
   expect(c_listeners.get).toBeCalledTimes(3)
 })
 
-test("`Context.target` reacts to `write` operations", () => {
+Deno.test("`Context.target` reacts to `write` operations", () => {
   const { observable, target, listeners } = observe({ property: false, nested: { property: false }, [Symbol.for("test")]: false })
 
   listeners.set.clear()
@@ -124,7 +124,7 @@ test("`Context.target` reacts to `write` operations", () => {
   expect(listeners.set.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: { old: false, new: true } })
 })
 
-test("`Context.target` reacts to `write` operations (child context)", () => {
+Deno.test("`Context.target` reacts to `write` operations (child context)", () => {
   const { context: a, listeners: a_listeners } = observe({ foo: "" })
   const { context: b, listeners: b_listeners } = observe(null, a.with({ bar: "" }))
   const { context: c, listeners: c_listeners } = observe(null, b.with({ baz: "" }))
@@ -169,7 +169,7 @@ test("`Context.target` reacts to `write` operations (child context)", () => {
   expect(c.target.xbaz).toBe(true)
 })
 
-test("`Context.target` reacts to `delete` operations", () => {
+Deno.test("`Context.target` reacts to `delete` operations", () => {
   const { observable, target, listeners } = observe({ property: false, nested: { property: false }, [Symbol.for("test")]: false })
 
   listeners.delete.clear()
@@ -206,7 +206,7 @@ test("`Context.target` reacts to `delete` operations", () => {
   expect(listeners.delete.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "property", value: false })
 })
 
-test("`Context.target` reacts to `delete` operations (child context)", () => {
+Deno.test("`Context.target` reacts to `delete` operations (child context)", () => {
   const { context: a, listeners: a_listeners } = observe({ foo: false })
   const { context: b, listeners: b_listeners } = observe(null, a.with({ bar: false }))
   const { context: c, listeners: c_listeners } = observe(null, b.with({ baz: false }))
@@ -227,7 +227,7 @@ test("`Context.target` reacts to `delete` operations (child context)", () => {
   expect(c_listeners.delete).toBeCalledTimes(3)
 })
 
-test("`Context.target` manages delete operations cleanly with correct property descriptors and presence", () => {
+Deno.test("`Context.target` manages delete operations cleanly with correct property descriptors and presence", () => {
   const a = new Context({ a: "a", b: "a" })
   const b = a.with({ b: "b", c: "b" })
   const c = b.with({ c: "c", d: "c" })
@@ -320,7 +320,7 @@ test("`Context.target` manages delete operations cleanly with correct property d
   expect(Object.keys(c.target).sort()).toEqual(["b", "d"])
 })
 
-test("`Context.target` keeps new properties created on child contexts visible to reflection operations", () => {
+Deno.test("`Context.target` keeps new properties created on child contexts visible to reflection operations", () => {
   const a = new Context({ foo: 1 } as Record<PropertyKey, unknown>)
   const b = a.with({ bar: 2 } as Record<PropertyKey, unknown>)
 
@@ -348,7 +348,7 @@ test("`Context.target` keeps new properties created on child contexts visible to
   expect(b.target).toHaveDescribedProperty(symbol, { value: true, writable: true, enumerable: true, configurable: true })
 })
 
-test("`Context.target` manages delete operations cleanly with correct property descriptors and presence (nested)", () => {
+Deno.test("`Context.target` manages delete operations cleanly with correct property descriptors and presence (nested)", () => {
   const a = new Context({ nested: { a: "a", b: "a" } })
   const b = a.with({})
   const c = b.with({ nested: { c: "c" } })
@@ -401,7 +401,7 @@ test("`Context.target` manages delete operations cleanly with correct property d
   expect(Object.keys(b.target.nested).sort()).toEqual(["a", "b"])
 })
 
-test("`Context.target` reacts to `call` operations", () => {
+Deno.test("`Context.target` reacts to `call` operations", () => {
   const { observable, target, listeners } = observe({ function: () => null, nested: { function: () => null } })
 
   listeners.call.clear()
@@ -424,7 +424,7 @@ test("`Context.target` reacts to `call` operations", () => {
   expect(listeners.call.event).toMatchObject({ path: ["recursive", "recursive", "recursive"], target: target.recursive.recursive.recursive, property: "function", args: ["foo"] })
 })
 
-test("`Context.target` reacts to `call` operations (child context)", () => {
+Deno.test("`Context.target` reacts to `call` operations (child context)", () => {
   const { context: a, target, listeners: a_listeners } = observe({ function: () => null })
   const { context: b, listeners: b_listeners } = observe(null, a.with({}))
   const { context: c, listeners: c_listeners } = observe(null, b.with({}))
@@ -437,7 +437,7 @@ test("`Context.target` reacts to `call` operations (child context)", () => {
   expect(c_listeners.call.event).toMatchObject({ path: [], target, property: "function", args: [] })
 })
 
-test("`Context.target` reacts to `change` operations", () => {
+Deno.test("`Context.target` reacts to `change` operations", () => {
   const { context, observable } = observe({ property: false, function: () => null })
   const listener = fn()
   context.addEventListener("change", listener)
@@ -451,7 +451,7 @@ test("`Context.target` reacts to `change` operations", () => {
   expect(listener).toHaveBeenCalledTimes(3)
 })
 
-test("`Context.target` works as expected when run within a `with` context", () => {
+Deno.test("`Context.target` works as expected when run within a `with` context", () => {
   const { observable, listeners } = observe({ foo: false, bar: () => true })
   expect(() => new Function("observable", "with (observable) { foo = bar() }")(observable)).not.toThrow()
   expect(listeners.set).toHaveBeenCalledTimes(1)
@@ -459,7 +459,7 @@ test("`Context.target` works as expected when run within a `with` context", () =
   expect(observable.foo).toBe(true)
 })
 
-test("`Context.target` skips proxification of `Context.unproxyable` objects", async () => {
+Deno.test("`Context.target` skips proxification of `Context.unproxyable` objects", async () => {
   const uint8 = new TextEncoder().encode("foo")
   const messagechannel = new MessageChannel()
   const _worker = URL.createObjectURL(new Blob([""], { type: "text/javascript" }))
@@ -502,7 +502,7 @@ test("`Context.target` skips proxification of `Context.unproxyable` objects", as
   URL?.revokeObjectURL?.(_worker)
 })
 
-test("`Context.with()` returns a new context that inherits parent context", () => {
+Deno.test("`Context.with()` returns a new context that inherits parent context", () => {
   const a = new Context({ a: "a", b: "a" })
   const b = a.with({ b: "b", c: "b" })
   const c = b.with({ c: "c", d: "c" })
@@ -514,7 +514,7 @@ test("`Context.with()` returns a new context that inherits parent context", () =
   expect(Object.keys(c.target).sort()).toEqual(["a", "b", "c", "d"])
 })
 
-test("`Context.with()` overrides properties at the property level (without deep merging)", () => {
+Deno.test("`Context.with()` overrides properties at the property level (without deep merging)", () => {
   const a = new Context({ nested: { a: 1 }, foo: "" })
   const b = a.with({ nested: { b: 2 } })
   expect(b.target.nested).toEqual({ b: 2 })
@@ -522,14 +522,14 @@ test("`Context.with()` overrides properties at the property level (without deep 
   expect(b.target.foo).toBe("")
 })
 
-test("`Context.with()` contexts support nullish values", () => {
+Deno.test("`Context.with()` contexts support nullish values", () => {
   const a = new Context({ a: undefined, b: null })
   const b = a.with({ c: undefined, d: null })
   expect(a.target).toEqual({ a: undefined, b: null })
   expect(b.target).toEqual({ a: undefined, b: null, c: undefined, d: null })
 })
 
-test("`Context.with()` contexts operates bidirectionaly when value is inherited from parent", () => {
+Deno.test("`Context.with()` contexts operates bidirectionaly when value is inherited from parent", () => {
   const a = new Context({ foo: null as Nullable<boolean> })
   const b = a.with({})
   const listeners = { a: fn(), b: fn() }
@@ -547,7 +547,7 @@ test("`Context.with()` contexts operates bidirectionaly when value is inherited 
   expect(listeners.b).toHaveBeenCalledTimes(2)
 })
 
-test("`Context.with()` contexts operates unidirectionaly when value is overidden from parent", () => {
+Deno.test("`Context.with()` contexts operates unidirectionaly when value is overidden from parent", () => {
   const a = new Context({ foo: null as Nullable<boolean> })
   const b = a.with({ foo: null as Nullable<boolean> })
   const listeners = { a: fn(), b: fn() }
@@ -565,7 +565,7 @@ test("`Context.with()` contexts operates unidirectionaly when value is overidden
   expect(listeners.b).toHaveBeenCalledTimes(1)
 })
 
-test("`Context.with()` contexts operates unidirectionaly when value is not present in parent", () => {
+Deno.test("`Context.with()` contexts operates unidirectionaly when value is not present in parent", () => {
   const a = new Context({})
   const b = a.with({ bar: null as Nullable<boolean> })
   const listeners = { a: fn(), b: fn() }
@@ -578,7 +578,7 @@ test("`Context.with()` contexts operates unidirectionaly when value is not prese
   expect(listeners.b).toHaveBeenCalledTimes(1)
 })
 
-test("`Context.with()` contexts supports `Set()` instance methods", () => {
+Deno.test("`Context.with()` contexts supports `Set()` instance methods", () => {
   const { context: a } = observe({ foo: new Set<number>([0]) })
   const { context: b } = observe(null, a.with({}))
 
@@ -591,7 +591,7 @@ test("`Context.with()` contexts supports `Set()` instance methods", () => {
   expect([...b.target.foo]).toEqual([0, 1, 2])
 })
 
-test("`Context.with()` contexts supports `Map()` instance methods", () => {
+Deno.test("`Context.with()` contexts supports `Map()` instance methods", () => {
   const { context: a } = observe({ foo: new Map<string, number>([["foo", 0]]) })
   const { context: b } = observe(null, a.with({}))
 
@@ -604,7 +604,7 @@ test("`Context.with()` contexts supports `Map()` instance methods", () => {
   expect([...b.target.foo]).toEqual([["foo", 0], ["bar", 1], ["baz", 2]])
 })
 
-test('`Context.with()` is able to track mutable functions of `Array`-like objects and dispatch a `"set"` event', () => {
+Deno.test('`Context.with()` is able to track mutable functions of `Array`-like objects and dispatch a `"set"` event', () => {
   const { observable, target, listeners } = observe({ foo: ["a", "b"] })
 
   expect(target.foo).toEqual(["a", "b"])
@@ -619,7 +619,7 @@ test('`Context.with()` is able to track mutable functions of `Array`-like object
   expect(listeners.set.event).toMatchObject({ path: [], target: target.foo, property: "foo", value: null })
 })
 
-test('`Context.with()` is able to track mutable functions of collections-like objects and dispatch a `"set"` event', () => {
+Deno.test('`Context.with()` is able to track mutable functions of collections-like objects and dispatch a `"set"` event', () => {
   const { observable, target, listeners } = observe({ foo: new Set(["a", "b"]) })
 
   expect(target.foo).toEqual(new Set(["a", "b"]))
@@ -634,11 +634,10 @@ test('`Context.with()` is able to track mutable functions of collections-like ob
   expect(listeners.set.event).toMatchObject({ path: [], target: target.foo, property: "foo", value: null })
 })
 
-test("`Context.Event` polyfills `CustomEvent` on runtimes where it is unavailable", async () => {
+Deno.test("`Context.Event` polyfills `CustomEvent` on runtimes where it is unavailable", async () => {
   const CustomEvent = globalThis.CustomEvent
   try {
     delete (globalThis as testing).CustomEvent
-    // Force a module re-evaluation without `CustomEvent` support using a cache-busting query string
     const { Context: Polyfilled } = await import("./context.ts?polyfill")
     const event = new Polyfilled.Event("change", { detail: { foo: true } })
     expect(event).toBeInstanceOf(Event)
@@ -649,7 +648,7 @@ test("`Context.Event` polyfills `CustomEvent` on runtimes where it is unavailabl
   }
 })
 
-test("`Context.mutable()` returns `true` for methods that changes target inplace", () => {
+Deno.test("`Context.mutable()` returns `true` for methods that changes target inplace", () => {
   expect(Context.mutable(1, "foo")).toBe(false)
   expect(Context.mutable({}, "foo")).toBe(false)
 

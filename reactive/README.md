@@ -32,7 +32,6 @@ context.target.bar() // Triggers the "call" and "change" events
 - Support `change` event for convenience.
 - Applies recursively!
 - Supports inherited context.
-- Child contexts can be released with `Context.detach()`.
 
 ## 🕊️ Migrating from `5.x.x` to `6.x.x`
 
