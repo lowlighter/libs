@@ -17,6 +17,8 @@
     "./scripts/download-lambda-chromium": "./scripts/download_lambda_chromium.ts",
     "./scripts/code-quality": "./scripts/code_quality.ts",
     "./env": "./env.ts",
+    "./evaluate": "./evaluate.ts",
+    "./events": "./events.ts",
     "./filesystem": "./filesystem.ts",
     "./format": "./format.ts",
     "./identicon": "./identicon.ts",
