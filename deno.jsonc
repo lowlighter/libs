@@ -6,8 +6,7 @@
     }
   },
   "workspace": [
-    "@libs/*",
-    "xml"
+    "@libs/*"
   ],
   "nodeModulesDir": "auto",
   "fmt": {
