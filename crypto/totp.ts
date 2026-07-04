@@ -44,7 +44,7 @@ import crypto from "node:crypto"
 /**
  * Returns a HMAC-based OTP.
  */
-async function htop(secret: string, counter: bigint): Promise<string> {
+async function hotp(secret: string, counter: bigint): Promise<string> {
   const buffer = new DataView(new ArrayBuffer(8))
   buffer.setBigUint64(0, counter, false)
   const key = await crypto.subtle.importKey("raw", decodeBase32(`${secret}${"=".repeat((8 - (secret.length % 8)) % 8)}`), { name: "HMAC", hash: "SHA-1" }, false, ["sign"])
@@ -64,7 +64,7 @@ async function htop(secret: string, counter: bigint): Promise<string> {
  * ```
  */
 export async function totp(secret: string, { t = Date.now(), dt = 0 } = {}): Promise<string> {
-  return await htop(secret, BigInt(Math.floor(t / 1000 / 30) + dt))
+  return await hotp(secret, BigInt(Math.floor(t / 1000 / 30) + dt))
 }
 
 /**
@@ -104,8 +104,20 @@ export function otpauth({ issuer, account, secret = otpsecret(), image }: { issu
   return url
 }
 
+/** Constant-time comparison of two 6-digit token strings (both are always the same length by construction). */
+function timingSafeEqual(a: string, b: string): boolean {
+  let diff = 0
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  }
+  return diff === 0
+}
+
 /**
  * Verify Time-based OTP.
+ *
+ * Tokens are matched against every window within `tolerance` in constant time, and malformed tokens
+ * (empty, non-numeric, or longer than 6 digits) are rejected outright rather than coerced.
  *
  * ```ts
  * import { verify } from "./totp.ts"
@@ -114,10 +126,16 @@ export function otpauth({ issuer, account, secret = otpsecret(), image }: { issu
  * ```
  */
 export async function verify({ secret, token, t = Date.now(), tolerance = 1 }: { secret: string; token: string | number; t?: number; tolerance?: number }): Promise<boolean> {
+  const input = `${token}`
+  if (!/^\d{1,6}$/.test(input)) {
+    return false
+  }
+  const expected = input.padStart(6, "0")
+  let valid = false
   for (let dt = -tolerance; dt <= tolerance; dt++) {
-    if (Number(await totp(secret, { t, dt })) === Number(token)) {
-      return true
+    if (timingSafeEqual(await totp(secret, { t, dt }), expected)) {
+      valid = true
     }
   }
-  return false
+  return valid
 }
