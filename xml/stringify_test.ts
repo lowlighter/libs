@@ -1,6 +1,6 @@
 import { parse, type parse_options } from "./parse.ts"
 import { cdata, comment, stringify, type stringify_options } from "./stringify.ts"
-import { expect, test } from "@libs/testing"
+import { expect } from "@libs/testing"
 
 // This operation ensure that reforming a parsed XML will still yield same data
 const check = (xml: string, options?: parse_options & stringify_options) => {
@@ -8,7 +8,7 @@ const check = (xml: string, options?: parse_options & stringify_options) => {
   return parse(stringify(parse(xml, options), options), options)
 }
 
-test("`stringify()` xml syntax xml prolog", () =>
+Deno.test("`stringify()` xml syntax xml prolog", () =>
   expect(
     check(
       `<?xml version="1.0" encoding="UTF-8"?>
@@ -22,7 +22,7 @@ test("`stringify()` xml syntax xml prolog", () =>
     },
   ))
 
-test("`stringify()` xml syntax xml stylesheet", () =>
+Deno.test("`stringify()` xml syntax xml stylesheet", () =>
   expect(
     check(
       `<?xml version="1.0" encoding="UTF-8"?>
@@ -43,7 +43,7 @@ test("`stringify()` xml syntax xml stylesheet", () =>
     },
   ))
 
-test("`stringify()` xml syntax doctype", () =>
+Deno.test("`stringify()` xml syntax doctype", () =>
   expect(
     check(
       `<!DOCTYPE type "quoted attribute" [
@@ -62,7 +62,7 @@ test("`stringify()` xml syntax doctype", () =>
     },
   ))
 
-test("`stringify()` lume example issue #96", () => {
+Deno.test("`stringify()` lume example issue #96", () => {
   expect(stringify({
     "@version": "1.0",
     "@encoding": "UTF-8",
@@ -132,7 +132,7 @@ test("`stringify()` lume example issue #96", () => {
 })
 
 for (const indent of ["  ", ""]) {
-  test(`\`stringify()\` xml example w3schools.com#3 (indent = "${indent}")`, () =>
+  Deno.test(`\`stringify()\` xml example w3schools.com#3 (indent = "${indent}")`, () =>
     expect(
       check(
         `
@@ -236,7 +236,7 @@ for (const indent of ["  ", ""]) {
     ))
 }
 
-test("`stringify()` xml types", () =>
+Deno.test("`stringify()` xml types", () =>
   expect(
     check(
       `<types>
@@ -256,7 +256,7 @@ test("`stringify()` xml types", () =>
     },
   ))
 
-test("`stringify()` xml entities", () =>
+Deno.test("`stringify()` xml entities", () =>
   expect(
     check(`<string>&quot; &lt; &gt; &amp; &apos;</string>`),
   ).toEqual(
@@ -265,7 +265,7 @@ test("`stringify()` xml entities", () =>
     },
   ))
 
-test(
+Deno.test(
   "`stringify()` xml entities are escaped only where needed",
   () =>
     expect(stringify({
@@ -283,7 +283,7 @@ test(
     ),
 )
 
-test(
+Deno.test(
   "`stringify()` xml entiries are always escaped when escapeAllEntities is true",
   () =>
     expect(stringify({
@@ -301,7 +301,7 @@ test(
     ),
 )
 
-test("`stringify()` xml space preserve", () =>
+Deno.test("`stringify()` xml space preserve", () =>
   expect(
     check(`<text xml:space="preserve"> hello world </text>`),
   ).toEqual(
@@ -313,12 +313,12 @@ test("`stringify()` xml space preserve", () =>
     },
   ))
 
-test("`stringify()` cdata is preserved on root nodes", () =>
+Deno.test("`stringify()` cdata is preserved on root nodes", () =>
   expect(
     stringify({ string: cdata(`hello <world>`) }),
   ).toBe("<string><![CDATA[hello <world>]]></string>"))
 
-test("`stringify()` cdata is preserved on child nodes", () =>
+Deno.test("`stringify()` cdata is preserved on child nodes", () =>
   expect(
     stringify({ nested: { string: cdata(`hello <world>`) } }),
   ).toBe(`
@@ -326,12 +326,12 @@ test("`stringify()` cdata is preserved on child nodes", () =>
   <string><![CDATA[hello <world>]]></string>
 </nested>`.trim()))
 
-test("`stringify()` comments is preserved on root nodes", () =>
+Deno.test("`stringify()` comments is preserved on root nodes", () =>
   expect(
     stringify({ string: comment(`hello world`) }),
   ).toBe("<string><!--hello world--></string>"))
 
-test("`stringify()` comments is preserved on child nodes", () =>
+Deno.test("`stringify()` comments is preserved on child nodes", () =>
   expect(
     stringify({ nested: { string: comment(`hello world`) } }),
   ).toBe(`
@@ -339,14 +339,14 @@ test("`stringify()` comments is preserved on child nodes", () =>
   <string><!--hello world--></string>
 </nested>`.trim()))
 
-test("`stringify()` does not edit argument", () => {
+Deno.test("`stringify()` does not edit argument", () => {
   const document = Object.freeze({ foo: Object.freeze({ bar: "baz" }) })
   expect(stringify(document, { format: { indent: "" } })).toEqual("<foo><bar>baz</bar></foo>")
 })
 
 // Custom replacer
 
-test("`stringify()` xml replacer", () =>
+Deno.test("`stringify()` xml replacer", () =>
   expect(
     stringify({ root: { not: true, yes: true, delete: true, attribute: { "@delete": true } } }, {
       replace: {
@@ -372,6 +372,6 @@ test("`stringify()` xml replacer", () =>
 
 //Errors checks
 
-test("`stringify()` xml syntax no root node", () => expect(() => stringify({})).toThrow(SyntaxError))
+Deno.test("`stringify()` xml syntax no root node", () => expect(() => stringify({})).toThrow(SyntaxError))
 
-test("`stringify()` xml syntax multiple root nodes", () => expect(() => stringify({ root: null, garbage: null })).toThrow(SyntaxError))
+Deno.test("`stringify()` xml syntax multiple root nodes", () => expect(() => stringify({ root: null, garbage: null })).toThrow(SyntaxError))

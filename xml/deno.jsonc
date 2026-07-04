@@ -2,15 +2,6 @@
   "icon": "📃",
   "name": "@libs/xml",
   "version": "7.0.4",
-  "deno.land/x": true,
-  "playground": "https://libs.lecoq.io/xml",
-  "tasks": {
-    "build": {
-      "description": "Build WASM parser",
-      "command": "deno run --allow-read --allow-net --allow-env --allow-write --allow-run jsr:@libs/bundle/wasm/cli/build --auto-install --banner='https://github.com/lowlighter/libs' wasm_xml_parser"
-    },
-    "test:bun": "sleep 0"
-  },
   "imports": {
     "@std/path": "jsr:@std/path@^1.1.4"
   },
@@ -18,25 +9,5 @@
     ".": "./mod.ts",
     "./parse": "./parse.ts",
     "./stringify": "./stringify.ts"
-  },
-  "test:permissions": {
-    "read": true,
-    "sys": [
-      "uid"
-    ],
-    "env": [
-      "CI"
-    ],
-    "write": [
-      "bench",
-      "xml/bench"
-    ]
-  },
-  "supported": {
-    "deno": true,
-    "node": true,
-    "bun": true,
-    "cloudflare-workers": true,
-    "browsers": true
   }
 }
