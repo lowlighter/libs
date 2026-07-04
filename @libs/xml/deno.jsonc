@@ -1,7 +1,7 @@
 {
   "icon": "📃",
   "name": "@libs/xml",
-  "version": "7.0.4",
+  "version": "8.0.0",
   "imports": {
     "@std/path": "jsr:@std/path@^1.1.4",
     "@std/xml": "jsr:@std/xml@^0.1.3"
