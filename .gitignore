@@ -1,10 +1,4 @@
-# Deno
-coverage
-
-# NPM packages
-*.mjs
-node_modules
-bun.lockb
-
-# Vercel
+.claude
 .vercel
+coverage
+node_modules

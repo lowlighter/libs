@@ -1,76 +1,30 @@
 {
   "tasks": {
-    "lint": {
-      "description": "Lint code, documentation, package and formatting\n- `--check`: skip actual formatting (check only)",
-      "command": "cd $INIT_CWD && deno lint && deno publish --quiet --dry-run --allow-dirty && deno fmt"
-    },
-    "test": {
-      "description": "Test code and print detailed coverage",
-      "command": "cd $INIT_CWD && deno task --cwd=$INIT_CWD test:deno --doc --clean --coverage && deno task --cwd=$INIT_CWD test:node && deno task --cwd=$INIT_CWD test:bun && deno coverage --detailed --include=$INIT_CWD --exclude='((\\.m?js)|(test\\.ts))$'"
-    },
-    "test:deno": {
-      "description": "Test code (deno)",
-      "command": "cd $INIT_CWD && deno test $(deno task flags)"
-    },
-    "test:node": {
-      "description": "Test code (node)",
-      "command": "cd $INIT_CWD && npx tsx --test *_test.ts"
-    },
-    "test:bun": {
-      "description": "Test code (bun)",
-      "command": "cd $INIT_CWD && bun test"
-    },
-    "bench": {
-      "description": "Run benchmarks",
-      "command": "cd $INIT_CWD && deno bench --allow-read --allow-write=bench || true"
-    },
     "qa": {
       "description": "Test and lint code",
-      "command": "deno task test && deno task lint"
-    },
-    "make:bump": {
-      "description": "Bump package version",
-      "command": "deno run --allow-read --allow-write=. .github/deno_bump.ts"
-    },
-    "make:readme": {
-      "description": "Generate README.md",
-      "command": "deno run --allow-env=LOG_LEVEL --allow-read=. --allow-write=README.md .github/deno_readme.ts && deno fmt README.md"
-    },
-    "make:coverage": {
-      "description": "Generate html coverage",
-      "command": "deno task test:deno --clean --coverage --fail-fast --reporter=dot && deno coverage --exclude=.js --html && sleep 1 && deno run --allow-read --allow-net=img.shields.io --allow-write=coverage jsr:@libs/bundle/ts/cli/coverage --root=coverage"
-    },
-    "jq": {
-      "description": "Query in JSONC",
-      "command": "deno run --allow-read .github/deno_config_parser.ts --cwd=$INIT_CWD"
-    },
-    "flags": {
-      "description": "Compute permissions flags",
-      "command": "deno run --allow-read .github/deno_flags.ts --cwd=$INIT_CWD"
+      "command": "deno run --allow-all toolbox/code_quality.ts --cwd $INIT_CWD"
     }
   },
-  "unstable": [
-    "kv"
+  "workspace": [
+    "@libs/*",
+    "diff",
+    "git",
+    "testing",
+    "toolbox",
+    "xml"
   ],
   "nodeModulesDir": "auto",
-  "imports": {
-    "@std/cli": "jsr:@std/cli@^1.0.28",
-    "@std/fmt": "jsr:@std/fmt@^1.0.9",
-    "@std/jsonc": "jsr:@std/jsonc@^1.0.2",
-    "@std/path": "jsr:@std/path@^1.1.4"
-  },
-  "test:permissions": true,
   "fmt": {
     "semiColons": false,
+    "useBraces": "preferNone",
+    "singleBodyPosition": "nextLine",
     "lineWidth": 280,
-    "proseWrap": "preserve",
     "exclude": [
       "**/node_modules",
       "**/coverage",
       "**/package.json",
       "**/package-lock.json",
-      "**/wasm_*",
-      "**/*.mjs"
+      "**/wasm_*"
     ]
   },
   "lint": {
@@ -91,14 +45,16 @@
     "exclude": [
       "**/node_modules",
       "**/coverage",
-      "**/wasm_*",
-      "**/*.mjs"
+      "**/wasm_*"
     ]
   },
   "publish": {
     "exclude": [
       ".devcontainer/**",
       ".github/**",
+      ".playground/**",
+      "api/**",
+      "coverage/**",
       "**/*_test.ts",
       "CONTRIBUTING.md",
       "vercel.json"
