@@ -1,7 +1,7 @@
 {
   "icon": "🎯",
   "name": "@libs/reactive",
-  "version": "5.0.5",
+  "version": "5.0.6",
   "exports": {
     ".": "./mod.ts",
     "./context": "./context.ts"
