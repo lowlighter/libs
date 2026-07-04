@@ -85,7 +85,6 @@ export function parse(content: string, options?: ParseOptions): XmlDocument
  * ```
  */
 export function parse(content: ReaderSync, options?: ParseOptions): XmlDocument
-
 /**
  * Parse a XML stream into an object.
  *
