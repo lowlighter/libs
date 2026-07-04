@@ -3,15 +3,38 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
+  "postCreateCommand": "deno install",
   "customizations": {
     "vscode": {
+      "extensions": [
+        "denoland.vscode-deno",
+        "redhat.vscode-yaml",
+        "anthropic.claude-code"
+      ],
       "settings": {
-        "editor.defaultFormatter": "denoland.vscode-deno",
+        "deno.enable": true,
         "deno.lint": true,
-        "deno.enable": true
-      },
-      "extensions": ["denoland.vscode-deno"]
-    },
-    "remoteUser": "vscode"
-  }
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "denoland.vscode-deno",
+        "[typescript]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+        "[javascript]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+        "[json]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+        "[jsonc]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+        "[markdown]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+        "files.watcherExclude": {
+          "**/node_modules/**": true,
+          "**/public/**": true,
+          "**/coverage/**": true
+        },
+        "search.exclude": {
+          "**/node_modules": true,
+          "**/public": true,
+          "**/coverage": true
+        }
+      }
+    }
+  },
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ]
 }
