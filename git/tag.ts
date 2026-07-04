@@ -13,6 +13,9 @@ export function tag(name: string, { ref = "", message = "", force = false, cwd }
   command("git", ["tag", ...(force ? ["--force"] : []), ...(message ? ["--message", message] : []), name, ...(ref ? [ref] : [])], { sync: true, throw: true, cwd })
 }
 
+/** Pretty format used by {@linkcode tags()} when `commit` is enabled (NUL-separated fields to avoid ambiguity, annotated tags are dereferenced to their commit). */
+const format = "%(refname:short)%00%(if)%(*objectname)%(then)%(*objectname)%(else)%(objectname)%(end)"
+
 /**
  * Parse the output of `git tag --list`.
  *
@@ -23,12 +26,29 @@ export function tag(name: string, { ref = "", message = "", force = false, cwd }
  * import { tags } from "./tag.ts"
  * const [latest] = tags({ glob: "v*" }).slice(-1)
  * ```
+ *
+ * When `commit` is enabled, a record mapping each tag name to the commit it points to is returned instead (annotated tags are dereferenced to their commit).
+ *
+ * ```ts ignore
+ * import { tags } from "./tag.ts"
+ * const { "v1.0.0": sha } = tags({ commit: true })
+ * ```
  */
-export function tags({ stdout = "", ...options } = {} as TagsOptions): string[] {
+export function tags(options?: TagsOptions & { commit?: false }): string[]
+export function tags(options: TagsOptions & { commit: true }): Record<string, string>
+export function tags({ stdout = "", commit = false, ...options } = {} as TagsOptions): string[] | Record<string, string> {
   if (!stdout) {
-    ;({ stdout } = command("git", ["tag", "--list", `--sort=${options.sort ?? "version:refname"}`, ...(options.glob ? [options.glob] : [])], { sync: true, throw: true, cwd: options.cwd }))
+    ;({ stdout } = command("git", ["tag", "--list", `--sort=${options.sort ?? "version:refname"}`, ...(commit ? [`--format=${format}`] : []), ...(options.glob ? [options.glob] : [])], { sync: true, throw: true, cwd: options.cwd }))
   }
-  return stdout.split("\n").filter(Boolean)
+  const lines = stdout.split("\n").filter(Boolean)
+  if (!commit)
+    return lines
+  return Object.fromEntries(lines.map((line) => {
+    const [name, sha, ...extra] = line.split("\0")
+    if ((extra.length) || (!name) || (!/^[0-9a-f]{40,}$/.test(sha ?? "")))
+      throw new TypeError(`Failed to parse git tag entry: "${line}"`)
+    return [name, sha]
+  }))
 }
 
 /** Options for {@linkcode tag()}. */
@@ -53,6 +73,8 @@ export type TagsOptions = {
   stdout?: string
   /** Restrict the list to tags matching the given glob pattern. */
   glob?: string
+  /** Return a record mapping each tag name to the commit it points to rather than a list of tag names (annotated tags are dereferenced to their commit). */
+  commit?: boolean
   /** Sort order (defaults to `version:refname`). */
   sort?: string
   /** The current working directory from which the `git` command is run. */
