@@ -42,3 +42,12 @@ Deno.test("`clone()` preserves circular references", () => {
   expect(result.self).toBe(result)
   expect(result.array![0]).toBe(result)
 })
+
+Deno.test("`clone()` preserves circular references in arrays", () => {
+  const array = ["foo"] as unknown[]
+  array.push(array)
+  const result = clone(array)
+  expect(result).not.toBe(array)
+  expect(result[0]).toBe("foo")
+  expect(result[1]).toBe(result)
+})

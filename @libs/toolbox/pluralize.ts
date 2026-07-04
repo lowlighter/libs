@@ -19,11 +19,7 @@ const rules: [RegExp, string][] = [
 export function pluralize(noun: string): string {
   if (!noun)
     return noun
-  for (const [regex, replacement] of rules) {
-    if (!regex.test(noun))
-      continue
-    const plural = noun.replace(regex, replacement)
-    return noun === noun.toUpperCase() ? plural.toUpperCase() : plural
-  }
-  return noun
+  const [regex, replacement] = rules.find(([regex]) => regex.test(noun))!
+  const plural = noun.replace(regex, replacement)
+  return noun === noun.toUpperCase() ? plural.toUpperCase() : plural
 }
