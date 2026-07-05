@@ -1,6 +1,9 @@
 {
   "outputDirectory": "playgrounds",
   "functions": {
-    "api/**/*.ts": { "runtime": "@lowlighter/vercel-deno@2.7.12" }
-  }
+    "api/mod.ts": { "runtime": "@lowlighter/vercel-deno@2.7.12" }
+  },
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/mod" }
+  ]
 }

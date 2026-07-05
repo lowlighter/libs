@@ -8,6 +8,9 @@
   "workspace": [
     "@libs/*"
   ],
+  "imports": {
+    "@std/http": "jsr:@std/http@^1.0.25"
+  },
   "nodeModulesDir": "auto",
   "fmt": {
     "semiColons": false,
