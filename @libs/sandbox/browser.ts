@@ -1,4 +1,4 @@
-//Imports
+// Imports
 import type { Optional } from "@libs/typing/types"
 import type { Page, SandboxOptions } from "@astral/astral"
 import { getLogger, type Logger } from "@logtape/logtape"
