@@ -17,7 +17,7 @@ Deno.test("`Browser.constructor()` instantiates a new instance", async () => {
 
 for (
   const { url, title, blocked } of [
-    { url: "https://test.example.app", title: /Example Test/ },
+    { url: "https://test.example.app", title: /Example test/ },
     { url: "https://test.example.app/api" },
     { url: "https://blocked.example.app", blocked: true },
   ]
