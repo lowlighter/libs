@@ -68,8 +68,6 @@
     "jsr:@zip-js/zip-js@^2.7.52": "2.8.26",
     "jsr:@zod/zod@^4.4.3": "4.4.3",
     "npm:@faker-js/faker@^10.3.0": "10.5.0",
-    "npm:@jsr/std__text@^1.0.17": "1.0.19",
-    "npm:@jsr/std__yaml@^1.0.12": "1.1.2",
     "npm:@octokit/plugin-paginate-graphql@6": "6.0.0_@octokit+core@7.0.6",
     "npm:@octokit/plugin-paginate-rest@14": "14.0.0_@octokit+core@7.0.6",
     "npm:@octokit/rest@^22.0.1": "22.0.1",
@@ -280,21 +278,6 @@
   "npm": {
     "@faker-js/faker@10.5.0": {
       "integrity": "sha512-bsxD8WLS5lIj7aaoCx1YJkktqYj5vlBUE6HWzu2Q51ksrGJ0H737ECCKlFU7Yf8Br45z9t99frBp/J7kzbMPAg=="
-    },
-    "@jsr/std__regexp@1.0.2": {
-      "integrity": "sha512-wvJnzBWsPW4YLdAhCSggh4NyNia/qtzsuJr0kSYuqUBtvOU/RsI/WKB5lu7ehlzuZ5Sy+efr0ACyogCCZmw0YQ==",
-      "tarball": "https://npm.jsr.io/~/11/@jsr/std__regexp/1.0.2.tgz"
-    },
-    "@jsr/std__text@1.0.19": {
-      "integrity": "sha512-OIXUoD4gty+GH+ZOpe7LT1jVr+31ctOoIoxBzLN1m3fvAOtqWyEz6Ap3NwDiuEgHpAIMz/O5L2SKDr0F2bChCA==",
-      "dependencies": [
-        "@jsr/std__regexp"
-      ],
-      "tarball": "https://npm.jsr.io/~/11/@jsr/std__text/1.0.19.tgz"
-    },
-    "@jsr/std__yaml@1.1.2": {
-      "integrity": "sha512-R2U09+AG6VgFet8qmVhkFw1eKQKeG54RAejd64G5F0XrzMFmHp6KOMnabOdSowd7kj28wFt/x4XT2ARGZEEeVw==",
-      "tarball": "https://npm.jsr.io/~/11/@jsr/std__yaml/1.1.2.tgz"
     },
     "@octokit/auth-token@6.0.0": {
       "integrity": "sha512-P4YJBPdPSpWTQ1NU4XYdvHvXJJDxM6YwpS0FZHRgP7YFkdVxsWcpWGy/NVqlAA7PcPCnMacXlRm1y2PFZRWL/w=="
@@ -815,17 +798,7 @@
           "npm:markdown-it-emoji@3",
           "npm:markdown-it-footnote@4",
           "npm:markdown-it@^14.1.0"
-        ],
-        "packageJson": {
-          "dependencies": [
-            "npm:@jsr/std__text@^1.0.17",
-            "npm:@jsr/std__yaml@^1.0.12",
-            "npm:highlight.js@^11.11.1",
-            "npm:markdown-it-emoji@3",
-            "npm:markdown-it-footnote@4",
-            "npm:markdown-it@^14.1.0"
-          ]
-        }
+        ]
       },
       "@libs/run": {
         "dependencies": [

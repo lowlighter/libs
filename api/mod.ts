@@ -1,3 +1,4 @@
+#!/usr/bin/env -S deno run --no-lock --allow-run=deno
 import { type Route, route } from "@std/http/unstable-route"
 import denoRun from "./_routes/deno/run.ts"
 import diffDiff from "./_routes/diff/diff.ts"
