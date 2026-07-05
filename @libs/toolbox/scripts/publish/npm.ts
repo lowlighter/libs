@@ -32,6 +32,14 @@ export async function publish({ package: pkg = Deno.cwd(), scope = "@", private:
   const manifest = JSON.parse(await Deno.readTextFile(`${directory}/package/package.json`)) as { name: string; version: string; dependencies?: Record<string, string> }
   if (!manifest.name.startsWith("@"))
     throw new RangeError(`Package name is not scoped: ${manifest.name}`)
+  for (const [dependency, version] of Object.entries(manifest.dependencies ?? {})) {
+    // Alias `@jsr/scope__name` dependencies to their original `@scope/name` specifier (as compiled files keep bare specifiers)
+    const jsr = dependency.match(/^@jsr\/(?<scope>[a-z0-9-]+)__(?<name>[a-z0-9-]+)$/)
+    if (jsr) {
+      delete manifest.dependencies![dependency]
+      manifest.dependencies![`@${jsr.groups!.scope}/${jsr.groups!.name}`] = `npm:${dependency}@${version}`
+    }
+  }
   const from = manifest.name.split("/")[0]
   const to = scope === "@" ? from : scope
   const rename = (name: string) => to ? name.replace(from, to) : name.replace(`${from}/`, "")
