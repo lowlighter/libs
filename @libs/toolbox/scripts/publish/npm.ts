@@ -60,6 +60,7 @@ export async function publish({ package: pkg = Deno.cwd(), scope = "@", private:
   // Publish extracted package
   console.error(cyan(`publishing ${manifest.name}@${manifest.version}${dryrun ? " (dryrun)" : ""}`))
   const result = await command("npm", ["publish", `${directory}/package`, "--access", restricted ? "restricted" : "public", ...(dryrun ? ["--dry-run"] : [])], { env })
+  console.error(result.stdio.join("\n"))
   if (result.success)
     console.error(green(`published ${manifest.name}@${manifest.version}`))
   else if (result.stderr.includes("cannot publish over the previously published versions"))
