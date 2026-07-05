@@ -311,6 +311,7 @@ function spawn(
   },
 ) {
   const process = command.spawn()
+  const status = process.status
   const start = Date.now()
   const stdio = {
     stdio: [],
@@ -331,6 +332,7 @@ function spawn(
   let notify = null as Nullable<() => void>
   let pending = true
   let ended = false
+  let exited = false
   let interaction = Promise.resolve()
   if (handle(channels.stdin) === "piped") {
     const writer = process.stdin.getWriter()
@@ -365,6 +367,8 @@ function spawn(
       const generator = callback({ stdio: input })
       try {
         for await (const content of generator) {
+          if (exited)
+            throw new EvalError("Cannot write to stdin: process already exited")
           const t = Date.now() - start
           logged(log, "stdin", t, `${content}`)
           stdio.stdio.push([t, 0, `${content}`])
@@ -375,7 +379,7 @@ function spawn(
       } catch (error) {
         await close()
         abort(process)
-        await process.status
+        await status
         throw error
       }
     })()
@@ -406,13 +410,17 @@ function spawn(
       }
     }),
   )
-  void outputs.then(release, release)
+  const settle = () => {
+    exited = true
+    release()
+  }
+  void status.then(settle, settle)
 
   // Compute result
   const result = (async () => {
     const [output, interacted] = await Promise.allSettled([outputs, interaction])
     debounced.clear()
-    const { success, code } = await process.status
+    const { success, code } = await status
     if ((output.status === "rejected") || (interacted.status === "rejected"))
       throw ((output as { reason?: unknown }).reason ?? (interacted as { reason?: unknown }).reason)
     if ((!success) && _throw)
