@@ -17,7 +17,7 @@ import { parseArgs } from "@std/cli"
 import { expandGlob } from "@std/fs"
 import { command } from "@libs/run/command"
 import { rescope, workspaceImports } from "./_utils.ts"
-import { cyan, gray, green } from "@std/fmt/colors"
+import { cyan, gray, green, yellow } from "@std/fmt/colors"
 
 /** Publish a package on npm registries. */
 export async function publish({ package: pkg = Deno.cwd(), scope = "@", private: restricted = false, dryrun = false }: Options = {}): Promise<{ name: string; version: string; directory: string }> {
@@ -59,8 +59,13 @@ export async function publish({ package: pkg = Deno.cwd(), scope = "@", private:
 
   // Publish extracted package
   console.error(cyan(`publishing ${manifest.name}@${manifest.version}${dryrun ? " (dryrun)" : ""}`))
-  await command("npm", ["publish", `${directory}/package`, "--access", restricted ? "restricted" : "public", ...(dryrun ? ["--dry-run"] : [])], { env, throw: true })
-  console.error(green(`published ${manifest.name}@${manifest.version}`))
+  const result = await command("npm", ["publish", `${directory}/package`, "--access", restricted ? "restricted" : "public", ...(dryrun ? ["--dry-run"] : [])], { env })
+  if (result.success)
+    console.error(green(`published ${manifest.name}@${manifest.version}`))
+  else if (result.stdout.includes("cannot publish over the previously published versions"))
+    console.error(yellow(`version ${manifest.version} already published, skipping`))
+  else
+    throw new Error(`Failed to publish ${manifest.name}@${manifest.version}`)
   return { name: manifest.name, version: manifest.version, directory }
 }
 
