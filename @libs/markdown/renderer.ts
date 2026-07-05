@@ -1,6 +1,6 @@
 // Imports
-// @ts-types="@types/markdown-it"
-import MarkdownIt from "markdown-it"
+import untyped from "markdown-it"
+import type { MarkdownIt, MarkdownItConstructor } from "./types.ts"
 import anchors from "./plugins/anchors.ts"
 import callouts from "./plugins/callouts.ts"
 import directives, { type DirectivesOptions } from "./plugins/directives.ts"
@@ -14,6 +14,9 @@ import mermaid from "./plugins/mermaid.ts"
 import ruby from "./plugins/ruby.ts"
 import uncomments from "./plugins/uncomments.ts"
 import wikilinks, { type WikilinksOptions } from "./plugins/wikilinks.ts"
+
+/** markdown-it engine (untyped npm package, see ./types.ts). */
+const MarkdownItEngine = untyped as unknown as MarkdownItConstructor
 
 /** Renderer options. */
 export type RendererOptions = {
@@ -69,7 +72,7 @@ export class Renderer {
   constructor(options = {} as RendererOptions) {
     this.options = Object.freeze({ ...options })
     const { gfm: flavored = true, html = false, breaks = false, hooks } = options
-    this.#engine = new MarkdownIt({ html, breaks, linkify: flavored })
+    this.#engine = new MarkdownItEngine({ html, breaks, linkify: flavored })
     if (flavored)
       this.#engine.use(gfm)
     else

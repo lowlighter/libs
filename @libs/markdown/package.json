@@ -13,7 +13,6 @@
   "dependencies": {
     "@std/text": "npm:@jsr/std__text@^1.0.17",
     "@std/yaml": "npm:@jsr/std__yaml@^1.0.12",
-    "@types/markdown-it": "^14.1.2",
     "markdown-it": "^14.1.0",
     "markdown-it-emoji": "^3.0.0",
     "markdown-it-footnote": "^4.0.0",

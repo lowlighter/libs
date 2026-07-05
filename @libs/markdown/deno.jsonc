@@ -7,7 +7,6 @@
     "@std/text": "jsr:@std/text@^1.0.17",
     "@std/yaml": "jsr:@std/yaml@^1.0.12",
     "markdown-it": "npm:markdown-it@^14.1.0",
-    "@types/markdown-it": "npm:@types/markdown-it@^14.1.2",
     "markdown-it-emoji": "npm:markdown-it-emoji@^3.0.0",
     "markdown-it-footnote": "npm:markdown-it-footnote@^4.0.0",
     "highlight.js/lib/common": "npm:highlight.js@^11.11.1/lib/common"
@@ -15,6 +14,7 @@
   "exports": {
     ".": "./mod.ts",
     "./renderer": "./renderer.ts",
+    "./types": "./types.ts",
     "./plugins": "./plugins/mod.ts",
     "./plugins/anchors": "./plugins/anchors.ts",
     "./plugins/callouts": "./plugins/callouts.ts",

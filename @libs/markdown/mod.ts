@@ -2,6 +2,7 @@
 import { Renderer, type RendererOptions } from "./renderer.ts"
 export { Renderer }
 export type * from "./renderer.ts"
+export type * from "./types.ts"
 
 /** Cached renderer instances. */
 const cache = new Map<string, Renderer>()

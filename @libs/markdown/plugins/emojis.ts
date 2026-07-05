@@ -1,6 +1,5 @@
 // Imports
-// @ts-types="@types/markdown-it"
-import type MarkdownIt from "markdown-it"
+import type { MarkdownIt } from "../types.ts"
 import { full } from "markdown-it-emoji"
 
 /**
