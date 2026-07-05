@@ -1,4 +1,5 @@
-#!/usr/bin/env -S deno run --no-lock --allow-run=deno
+#!/usr/bin/env -S deno run --no-lock --allow-read=. --allow-run=deno
+//@vercel: --include=@libs/*/deno.jsonc
 import { type Route, route } from "@std/http/unstable-route"
 import denoRun from "./_routes/deno/run.ts"
 import diffDiff from "./_routes/diff/diff.ts"

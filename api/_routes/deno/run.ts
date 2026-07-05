@@ -15,7 +15,7 @@ export default async function (request: Request): Promise<Response> {
   try {
     // Spawn deno process
     const script = await request.text()
-    const command = new Deno.Command("deno", { args: ["run", "--no-check", "--no-prompt", "--quiet", "-"], stdin: "piped", stdout: "piped", stderr: "piped", env: { DENO_DIR: "/tmp/.deno" } })
+    const command = new Deno.Command("deno", { args: ["run", "--no-lock", "--no-check", "--no-prompt", "--quiet", "-"], cwd: "/tmp", stdin: "piped", stdout: "piped", stderr: "piped", env: { DENO_DIR: "/tmp/.deno" } })
     await using process = command.spawn()
     const writer = process.stdin.getWriter()
     await writer.write(encoder.encode(script))

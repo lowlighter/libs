@@ -10,6 +10,7 @@
     "jsr:@libs/typing@2": "2.9.0",
     "jsr:@libs/xml@5.0.2": "5.0.2",
     "jsr:@libs/xml@6.0.8": "6.0.8",
+    "jsr:@libs/xml@7.0.4": "7.0.4",
     "jsr:@logtape/logtape@^2.2.0": "2.2.3",
     "jsr:@logtape/logtape@^2.2.3": "2.2.3",
     "jsr:@lowlighter/std-expect@1.0.18-rc.1": "1.0.18-rc.1",
@@ -131,6 +132,9 @@
     },
     "@libs/xml@6.0.8": {
       "integrity": "7aac7438ddd460fede488d6420e4973438919b54b8e882e851ed9a234716baa3"
+    },
+    "@libs/xml@7.0.4": {
+      "integrity": "eed219cf6258a0b28b60c094c89563a1cd63a023ac515517d6b74a99873d6c02"
     },
     "@logtape/logtape@2.2.3": {
       "integrity": "73911ec91d87bd7367ea5690d1dc438c0c73d27ef5d8d7565644f6bb4fa8be24"
