@@ -187,12 +187,10 @@ jobs:
           '
       # Publish to jsr.io
       - name: Run deno publish
-        if: steps.bump.outputs.tag
         working-directory: ${{ inputs.package }}
         run: deno publish
       # Publish to npm
       - name: Run deno pack and npm publish
-        if: steps.bump.outputs.tag
         working-directory: ${{ inputs.package }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -202,11 +200,14 @@ jobs:
       # Publish to deno.land/x
       - name: Check deno.land/x registration
         id: x
-        if: steps.bump.outputs.tag
         working-directory: ${{ inputs.package }}
         run: |
-          echo "registered=$(deno eval --quiet 'import { parse } from "jsr:@std/jsonc"; console.log(parse(Deno.readTextFileSync("deno.jsonc"))["deno.land/x"] ? "true" : "")')" >> "$GITHUB_OUTPUT"
+          X_PACKAGE=$(deno eval --quiet 'import { parse } from "jsr:@std/jsonc"; console.log(parse(Deno.readTextFileSync("deno.jsonc"))["deno.land/x"] ? "true" : "")')
+          if [ ! -z "$X_PACKAGE" ]; then
+            echo "Package is registered on deno.land/x: $X_PACKAGE"
+          fi
+          echo "registered=$X_PACKAGE" >> "$GITHUB_OUTPUT"
       - name: Run deno.land/x publish
-        if: steps.bump.outputs.tag && steps.x.outputs.registered
+        if: steps.x.outputs.registered
         working-directory: ${{ inputs.package }}
         run: deno run --allow-all "$(git rev-parse --show-toplevel)/@libs/toolbox/scripts/publish/x.ts" --repository '${{ github.repository }}' --token '${{ secrets.GH_TOKEN }}' --directory "$(git rev-parse --show-prefix)" --map deno.jsonc --reactive --remove
