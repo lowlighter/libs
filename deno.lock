@@ -73,6 +73,7 @@
     "npm:@octokit/plugin-paginate-rest@14": "14.0.0_@octokit+core@7.0.6",
     "npm:@octokit/rest@^22.0.1": "22.0.1",
     "npm:@octokit/types@16": "16.0.0",
+    "npm:@primer/octicons@^19.29.2": "19.29.2",
     "npm:@types/node@*": "24.2.0",
     "npm:d3@^7.9.0": "7.9.0",
     "npm:highlight.js@11": "11.11.1",
@@ -372,6 +373,12 @@
       "integrity": "sha512-sKq+9r1Mm4efXW1FCk7hFSeJo4QKreL/tTbR0rz/qx/r1Oa2VV83LTA/H/MuCOX7uCIJmQVRKBcbmWoySjAnSg==",
       "dependencies": [
         "@octokit/openapi-types"
+      ]
+    },
+    "@primer/octicons@19.29.2": {
+      "integrity": "sha512-n7zuEgzTz70m5dmBqpYuE8zpeLKxgf73OeDudQWByNzIwWLb0I/UlxqdCLkk6Qb338O7em0aNuhVfExNBVCfTQ==",
+      "dependencies": [
+        "object-assign"
       ]
     },
     "@types/node@24.2.0": {
@@ -721,6 +728,9 @@
         "boolbase"
       ]
     },
+    "object-assign@4.1.1": {
+      "integrity": "sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg=="
+    },
     "punycode.js@2.3.1": {
       "integrity": "sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA=="
     },
@@ -802,6 +812,14 @@
           "npm:markdown-it-emoji@3",
           "npm:markdown-it-footnote@4",
           "npm:markdown-it@^14.1.0"
+        ]
+      },
+      "@libs/octicons": {
+        "dependencies": [
+          "jsr:@std/cli@^1.0.28",
+          "jsr:@std/collections@^1.1.6",
+          "jsr:@zod/zod@^4.4.3",
+          "npm:@primer/octicons@^19.29.2"
         ]
       },
       "@libs/run": {
