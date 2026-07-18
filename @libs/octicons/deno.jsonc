@@ -1,0 +1,14 @@
+{
+  "icon": "㊗️",
+  "name": "@libs/octicons",
+  "version": "0.1.0",
+  "imports": {
+    "@primer/octicons": "npm:@primer/octicons@^19.29.2",
+    "@std/cli": "jsr:@std/cli@^1.0.28",
+    "@std/collections": "jsr:@std/collections@^1.1.6",
+    "@zod/zod": "jsr:@zod/zod@^4.4.3"
+  },
+  "exports": {
+    ".": "./mod.ts"
+  }
+}
