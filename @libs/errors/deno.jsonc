@@ -1,0 +1,8 @@
+{
+  "icon": "🛑",
+  "name": "@libs/errors",
+  "version": "0.0.1",
+  "exports": {
+    ".": "./mod.ts"
+  }
+}
