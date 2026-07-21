@@ -23,6 +23,14 @@ Deno.test("`I18n.get()` interpolates `${placeholders}` from the context", () => 
   expect(i18n.for("en").get("cats", { n: 2 })).toBe("2 cats")
 })
 
+Deno.test("`I18n.md()` renders the translation as markdown", () => {
+  i18n.for("en").set("welcome", "hello **${name}**")
+  expect(i18n.for("en").md("welcome", { name: "john" })).toBe("<p>hello <strong>john</strong></p>")
+  i18n.for("en").set("heading", "# ${title}")
+  expect(i18n.for("en").md("heading", { title: "Title" })).toBe("<h1>Title</h1>")
+  expect(i18n.for("en").md("unknownkey")).toBe("<p>unknownkey</p>")
+})
+
 Deno.test("`I18n.get()` uses the fallback language for missing keys and returns unresolved keys as-is", () => {
   i18n.for(I18n.fallback).set("onlyfallback", "fallback")
   expect(i18n.for("fr").get("onlyfallback")).toBe("fallback")

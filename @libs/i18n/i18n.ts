@@ -4,6 +4,7 @@ import * as YAML from "@std/yaml/parse"
 import { pluralize } from "@libs/toolbox/pluralize"
 import { timezone as tz } from "@libs/toolbox/timezone"
 import { evaluate, EvaluationReturn } from "@libs/toolbox/evaluate"
+import { markdown } from "@libs/markdown"
 import { getLogger, type Logger } from "@logtape/logtape"
 
 /**
@@ -41,6 +42,11 @@ export class I18n {
   /** Returns the translation for a given key. */
   get(key: string, context?: Record<string, unknown>): string {
     return this.#translate(key, context)
+  }
+
+  /** Returns the translation for a given key, rendered as markdown. */
+  md(key: string, context?: Record<string, unknown>): string {
+    return markdown(this.#translate(key, context))
   }
 
   /** Register a new translation. */
