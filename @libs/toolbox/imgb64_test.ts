@@ -21,3 +21,7 @@ Deno.test("`imgb64()` fallbacks on an empty image when the response is not ok", 
     await server.shutdown()
   }
 })
+
+Deno.test("`imgb64()` synchronously encodes a buffer as a base64 data URL", () => {
+  expect(imgb64(new ArrayBuffer(1))).toBe("data:image/png;base64,AA==")
+})
