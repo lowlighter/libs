@@ -1,7 +1,7 @@
 {
   "icon": "🌐",
   "name": "@libs/i18n",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "imports": {
     "@logtape/logtape": "jsr:@logtape/logtape@^2.2.3",
     "@std/http": "jsr:@std/http@^1.0.25",
