@@ -2,3 +2,4 @@
 .vercel
 coverage
 node_modules
+@libs/toolbox/fixtures/build

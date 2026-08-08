@@ -13,6 +13,7 @@
     "@std/jsonc": "jsr:@std/jsonc@^1.0.2"
   },
   "exports": {
+    "./build": "./build.ts",
     "./clone": "./clone.ts",
     "./colors": "./colors.ts",
     "./scripts/download-lambda-chromium": "./scripts/download_lambda_chromium.ts",
