@@ -33,13 +33,22 @@ export interface MarkdownIt {
   /** Inline-level tokenizer. */
   inline: { ruler: Ruler<InlineRule> }
   /** Renderer. */
-  renderer: { rules: Partial<Record<string, RenderRule>> }
+  renderer: {
+    /** Renderer rules. */
+    rules: Partial<Record<string, RenderRule>>
+    /** Render a token stream into an HTML string. */
+    render(tokens: Token[], options: MarkdownItOptions, env: Record<PropertyKey, unknown>): string
+    /** Render the children of an inline token into an inline HTML string. */
+    renderInline(tokens: Token[], options: MarkdownItOptions, env: Record<PropertyKey, unknown>): string
+  }
   /** Utilities. */
   utils: { escapeHtml(html: string): string }
   /** Load a plugin. */
   use<Options extends unknown[]>(plugin: (engine: MarkdownIt, ...options: Options) => void, ...options: Options): MarkdownIt
   /** Disable rules. */
   disable(rules: string | string[], ignoreInvalid?: boolean): MarkdownIt
+  /** Parse markdown content into a token stream. */
+  parse(content: string, env: Record<PropertyKey, unknown>): Token[]
   /** Render markdown content into an HTML string. */
   render(content: string, env?: Record<PropertyKey, unknown>): string
 }

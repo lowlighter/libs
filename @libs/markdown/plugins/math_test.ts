@@ -9,9 +9,9 @@ Deno.test("`Plugin.math` renders display math expressions", () => {
 })
 
 Deno.test("`Plugin.math` renders inline math expressions", () => {
-  expect(markdown.render("foo $x^2$ bar")).toBe(`<p>foo <span class="math math-inline">x^2</span> bar</p>`)
+  expect(markdown.render("foo $x^2$ bar")).toBe(`foo <span class="math math-inline">x^2</span> bar`)
 })
 
 Deno.test("`Plugin.math` ignores non-math dollar signs", () => {
-  expect(markdown.render("$5 and $10")).toBe("<p>$5 and $10</p>")
+  expect(markdown.render("$5 and $10")).toBe("$5 and $10")
 })

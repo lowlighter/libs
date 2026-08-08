@@ -5,7 +5,7 @@ const markdown = new Renderer({ frontmatter: true })
 
 Deno.test("`Plugin.frontmatter` removes frontmatter and parses it as metadata", () => {
   const { value, metadata } = markdown.render("---\nfoo: bar\n---\n\ncontent", { metadata: true })
-  expect(value).toBe("<p>content</p>")
+  expect(value).toBe("content")
   expect(metadata).toEqual({ frontmatter: { foo: "bar" } })
 })
 

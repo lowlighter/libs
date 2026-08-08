@@ -11,6 +11,8 @@ const cache = new Map<string, Renderer>()
 export type MarkdownOptions = RendererOptions & {
   /** Return parsed metadata (e.g. frontmatter) along with the rendered value. */
   metadata?: boolean
+  /** Inline content that renders to a single lone paragraph (defaults to `true`). */
+  inline?: boolean
 }
 
 /**
@@ -24,7 +26,7 @@ export type MarkdownOptions = RendererOptions & {
  * markdown("$\\pi$ is ==irrational==", { math: true, markers: true })
  * ```
  */
-export function markdown(content: string, options?: MarkdownOptions & { metadata?: false }): string
+export function markdown(content: string, options?: MarkdownOptions & { metadata?: false; inline?: boolean }): string
 /**
  * Render markdown content into an HTML string with parsed metadata.
  *
@@ -39,7 +41,7 @@ export function markdown(content: string, options: MarkdownOptions & { metadata:
  * Render markdown content.
  */
 export function markdown(content: string, options = {} as MarkdownOptions): string | { value: string; metadata: Record<PropertyKey, unknown> } {
-  const { metadata = false, ...rest } = options
+  const { metadata = false, inline = true, ...rest } = options
   let renderer = new Renderer(rest)
   if (Object.values(rest).every((value) => typeof value === "boolean")) {
     const key = JSON.stringify(rest, Object.keys(rest).sort())
@@ -50,5 +52,5 @@ export function markdown(content: string, options = {} as MarkdownOptions): stri
     }
     renderer = cache.get(key)!
   }
-  return renderer.render(content, { metadata: metadata as true })
+  return renderer.render(content, { metadata: metadata as true, inline })
 }

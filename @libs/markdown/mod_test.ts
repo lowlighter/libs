@@ -6,18 +6,24 @@ Deno.test("`markdown()` renders markdown", () => {
 })
 
 Deno.test("`markdown()` escapes raw html unless the `html` option is enabled", () => {
-  expect(markdown("<b>foo</b>")).toBe("<p>&lt;b&gt;foo&lt;/b&gt;</p>")
+  expect(markdown("<b>foo</b>")).toBe("&lt;b&gt;foo&lt;/b&gt;")
   expect(markdown("<script>alert('foo')</script>")).not.toContain("<script>")
-  expect(markdown("<b>foo</b>", { html: true })).toBe("<p><b>foo</b></p>")
+  expect(markdown("<b>foo</b>", { html: true })).toBe("<b>foo</b>")
 })
 
 Deno.test("`markdown()` supports toggling features", () => {
-  expect(markdown("==foo==")).toBe("<p>==foo==</p>")
-  expect(markdown("==foo==", { markers: true })).toBe("<p><mark>foo</mark></p>")
+  expect(markdown("==foo==")).toBe("==foo==")
+  expect(markdown("==foo==", { markers: true })).toBe("<mark>foo</mark>")
+})
+
+Deno.test("`markdown()` unwraps lone paragraphs inline by default and keeps the wrapper when inline is disabled", () => {
+  expect(markdown("hello **world**")).toBe("hello <strong>world</strong>")
+  expect(markdown("hello **world**", { inline: false })).toBe("<p>hello <strong>world</strong></p>")
+  expect(markdown("a\n\nb")).toBe("<p>a</p>\n<p>b</p>")
 })
 
 Deno.test("`markdown()` returns metadata when asked", () => {
-  expect(markdown("---\ntitle: foo\n---\nbar", { frontmatter: true, metadata: true })).toEqual({ value: "<p>bar</p>", metadata: { frontmatter: { title: "foo" } } })
+  expect(markdown("---\ntitle: foo\n---\nbar", { frontmatter: true, metadata: true })).toEqual({ value: "bar", metadata: { frontmatter: { title: "foo" } } })
 })
 
 Deno.test("`markdown()` reuses cached renderers for serializable options", () => {

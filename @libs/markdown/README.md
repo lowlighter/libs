@@ -24,7 +24,7 @@ markdown("<b>trusted</b>", { html: true })
 
 // Retrieve frontmatter metadata
 const { value, metadata } = markdown("---\ntitle: foo\n---\nbar", { frontmatter: true, metadata: true })
-console.log(value, metadata.frontmatter) // "<p>bar</p>" { title: "foo" }
+console.log(value, metadata.frontmatter) // "bar" { title: "foo" }
 ```
 
 ### Reusing a renderer and hooking custom rules

@@ -12,5 +12,5 @@ Deno.test("`Plugin.markers` renders attributed markers", () => {
 })
 
 Deno.test("`Plugin.markers` ignores unbalanced markers", () => {
-  expect(markdown.render("a == b == c")).toBe("<p>a == b == c</p>")
+  expect(markdown.render("a == b == c")).toBe("a == b == c")
 })

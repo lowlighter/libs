@@ -118,7 +118,7 @@ export class Renderer {
    * new Renderer().render("# Hello, world!")
    * ```
    */
-  render(content: string, options?: { metadata?: false }): string
+  render(content: string, options?: { metadata?: false; inline?: boolean }): string
   /**
    * Render markdown content into an HTML string with parsed metadata.
    *
@@ -129,13 +129,12 @@ export class Renderer {
    * console.log(metadata.frontmatter) // { title: "foo" }
    * ```
    */
-  render(content: string, options: { metadata: true }): { value: string; metadata: Record<PropertyKey, unknown> }
-  /**
-   * Render markdown content.
-   */
-  render(content: string, { metadata = false } = {} as { metadata?: boolean }): string | { value: string; metadata: Record<PropertyKey, unknown> } {
+  render(content: string, options: { metadata: true; inline?: boolean }): { value: string; metadata: Record<PropertyKey, unknown> }
+  render(content: string, { metadata = false, inline = true } = {} as { metadata?: boolean; inline?: boolean }): string | { value: string; metadata: Record<PropertyKey, unknown> } {
     const env = { metadata: {} as Record<PropertyKey, unknown> }
-    const value = this.#engine.render(content, env).trimEnd()
+    const tokens = this.#engine.parse(content, env)
+    const lone = inline && (tokens.length === 3) && (tokens[0].type === "paragraph_open") && (tokens[2].type === "paragraph_close")
+    const value = (lone ? this.#engine.renderer.renderInline(tokens[1].children ?? [], this.#engine.options, env) : this.#engine.renderer.render(tokens, this.#engine.options, env)).trimEnd()
     return metadata ? { value, metadata: env.metadata } : value
   }
 }
