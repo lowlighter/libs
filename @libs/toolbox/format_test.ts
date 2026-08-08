@@ -1,5 +1,5 @@
 import { expect } from "@libs/testing"
-import { countryFlag, lnfd, stripEmojis, unfd } from "./format.ts"
+import { countryFlag, duration, lnfd, stripEmojis, unfd } from "./format.ts"
 
 Deno.test("`countryFlag()` formats country code as a flag emoji", () => {
   expect(countryFlag("US")).toBe("🇺🇸")
@@ -28,4 +28,23 @@ Deno.test("`stripEmojis()` removes emojis from a string", () => {
 Deno.test("`stripEmojis()` converts keycaps and flags back to characters", () => {
   expect(stripEmojis("Press 1️⃣ then #️⃣")).toBe("Press 1 then #")
   expect(stripEmojis("From 🇫🇷 to 🇯🇵")).toBe("From FR to JP")
+})
+
+Deno.test("`duration()` formats duration as `m:ss`", () => {
+  expect(duration(0)).toBe("0:00")
+  expect(duration(999)).toBe("0:00")
+  expect(duration(1_000)).toBe("0:01")
+  expect(duration(61_000)).toBe("1:01")
+  expect(duration(3_600_000)).toBe("60:00")
+  expect(duration(0, { unit: "s" })).toBe("0:00")
+  expect(duration(59, { unit: "s" })).toBe("0:59")
+  expect(duration(90, { unit: "s" })).toBe("1:30")
+  expect(duration(90.9, { unit: "s" })).toBe("1:30")
+})
+
+Deno.test("`duration()` handles negative and non-finite values", () => {
+  expect(duration(-1_000)).toBe("0:00")
+  expect(duration(NaN)).toBe("∞")
+  expect(duration(Infinity)).toBe("∞")
+  expect(duration(-Infinity)).toBe("∞")
 })

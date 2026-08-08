@@ -29,3 +29,14 @@ export function stripEmojis(string: string): string {
     .replace(/\p{Regional_Indicator}/gu, (char) => String.fromCharCode(char.codePointAt(0)! - 0x1f1e6 + 65))
     .replace(/\p{Extended_Pictographic}(?:\uFE0F|\p{Emoji_Modifier}|\u200D\p{Extended_Pictographic})*/gu, "")
 }
+
+/** Format duration as `s`. */
+export function duration(value: number, options: { unit: "s" }): string
+/** Format duration as `m:ss`. */
+export function duration(value: number, options?: { unit?: "ms" }): string
+export function duration(value: number, { unit = "ms" }: { unit?: "ms" | "s" } = {}) {
+  if (!Number.isFinite(value))
+    return "∞"
+  const seconds = Math.max(0, Math.floor(unit === "s" ? value : value / 1_000))
+  return `${Math.floor(seconds / 60)}:${`${seconds % 60}`.padStart(2, "0")}`
+}
