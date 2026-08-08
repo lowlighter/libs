@@ -18,70 +18,103 @@ import { getLogger, type Logger } from "@logtape/logtape"
  */
 export class I18n {
   /** Constructor. */
-  constructor({ language = globalThis.navigator?.language, timezone = tz }: { language?: string; timezone?: string } = {}) {
-    this.language = language ?? I18n.fallback
+  constructor({ language, timezone = tz, missing = "key" }: I18nOptions = {}) {
+    this.#language = language
     this.timezone = timezone
+    this.#missing = missing
     this.#log = getLogger(["i18n", this.language])
   }
 
   /** Logger. */
   readonly #log: Logger
 
-  /** Registered translations, indexed by language and by key. */
+  /** Registered translations, indexed by language and by normalized key. */
   static readonly #storage = new Map<string, Map<string, string>>()
+
+  /** Memoized resolutions, keyed by their resolution inputs and cleared whenever translations change. */
+  static readonly #cache = new Map<string, string>()
 
   /** Fallback language used when a key is missing in the requested language. */
   static fallback = "en"
 
-  /** Configured language. */
-  readonly language: string
+  /** Ambient current language, readable and writable at runtime, used by instances that were not scoped to an explicit language. */
+  static current: string = globalThis.navigator?.language ?? I18n.fallback
+
+  /** Explicit language this instance was scoped to, if any. */
+  readonly #language?: string
+
+  /** Default policy applied when a key resolves to nothing. */
+  readonly #missing: I18nMissing
 
   /** Timezone. */
   readonly timezone: string
 
-  /** Returns the translation for a given key. */
-  get(key: string, context?: Record<string, unknown>): string {
-    return this.#translate(key, context)
+  /** Configured language, falling back to {@linkcode I18n.current} when this instance was not scoped to an explicit language. */
+  get language(): string {
+    return this.#language ?? I18n.current
   }
 
-  /** Returns the translation for a given key, rendered as markdown. */
-  md(key: string, context?: Record<string, unknown>): string {
-    return markdown(this.#translate(key, context))
+  /** Returns the translation for a given key, interpolating `${placeholders}` from the context. */
+  get(key: string, context?: Record<string, unknown>, { language = this.language, missing }: I18nGetOptions = {}): string {
+    const id = I18n.#normalize(key)
+    const value = this.#lookup(id, language)
+    if (value === undefined)
+      return this.#miss(key, language, missing)
+    const cached = this.#key("get", language, id, false, context)
+    if (cached && I18n.#cache.has(cached))
+      return I18n.#cache.get(cached)!
+    const result = this.#interpolate(value, context)
+    if (cached)
+      this.#memoize(cached, result)
+    return result
   }
 
-  /** Register a new translation. */
-  set(key: string, value: string): this {
-    const translations = I18n.#storage.getOrInsert(this.language, new Map())
-    translations.set(key, value)
-    this.#log.trace(`registered translation "${key}":\n${value}`)
+  /** Returns the translation for a given key, rendered as markdown (inline by default, or as block-level content when `inline` is set to `false`). */
+  md(key: string, context?: Record<string, unknown>, { language = this.language, missing, inline = true }: I18nMarkdownOptions = {}): string {
+    const id = I18n.#normalize(key)
+    const value = this.#lookup(id, language)
+    if (value === undefined)
+      return this.#render(this.#miss(key, language, missing), inline)
+    const cached = this.#key("md", language, id, inline, context)
+    if (cached && I18n.#cache.has(cached))
+      return I18n.#cache.get(cached)!
+    const result = this.#render(this.#interpolate(value, context), inline)
+    if (cached)
+      this.#memoize(cached, result)
+    return result
+  }
+
+  /** Register a single translation for the configured language. */
+  set(key: string, value: string): this
+  /** Register a whole record of translations at once for the configured language, merging with (and overwriting) any already registered. */
+  set(translations: Record<string, string>): this
+  set(key: string | Record<string, string>, value?: string): this {
+    const translations = this.#translations()
+    const entries = typeof key === "string" ? [[key, value] as [string, string]] : Object.entries(key)
+    for (const [id, text] of entries)
+      translations.set(I18n.#normalize(id), `${text}`)
+    I18n.#cache.clear()
+    this.#log.trace(`registered ${entries.length} translation(s) for "${this.language}"`)
     return this
   }
 
-  /** Loads translations from a YAML file. */
+  /** Loads translations from a YAML (or JSON) source and registers them for the configured language. */
   async load(source: string | URL): Promise<this> {
     this.#log.debug(`loading translations from: ${source}`)
     const response = await fetch(source)
     if (!response.ok)
       throw new Error(`Failed to load translations from "${source}" (HTTP ${response.status})`)
-    const content = await response.text()
-    const parsed = YAML.parse(content) as Record<string, unknown>
+    const parsed = YAML.parse(await response.text())
     if ((!parsed) || (typeof parsed !== "object") || (Array.isArray(parsed)))
       throw new Error(`Failed to parse translations from "${source}" (not a valid YAML object)`)
-    for (const [key, value] of Object.entries(parsed))
-      this.set(key, `${value}`)
+    this.set(parsed as Record<string, string>)
     this.#log.info(`loaded ${Object.keys(parsed).length} translations from: ${source}`)
     return this
   }
 
-  /** Resolve a key against a language. */
-  #translate(key: string, context: Record<string, unknown> = {}, { language = this.language } = {}): string {
-    for (const lang of new Set([language, this.language, I18n.fallback].filter(Boolean))) {
-      const value = I18n.#storage.get(lang)?.get(key)
-      if (value !== undefined)
-        return evaluate(value, context, { sync: true, return: EvaluationReturn.String })
-    }
-    this.#log.warn(`missing translation for key "${key}" (${language})`)
-    return key
+  /** Returns whether any translations are registered for a language (defaults to the configured language). */
+  loaded(language: string = this.language): boolean {
+    return (I18n.#storage.get(language)?.size ?? 0) > 0
   }
 
   /**
@@ -181,9 +214,104 @@ export class I18n {
   for(language: string | Request, { timezone }: { timezone?: string } = {}): I18n {
     if (language instanceof Request)
       language = acceptsLanguages(language, ...I18n.#storage.keys()) ?? I18n.fallback
-    return new I18n({ language: language as string, timezone: timezone ?? this.timezone })
+    return new I18n({ language: language as string, timezone: timezone ?? this.timezone, missing: this.#missing })
+  }
+
+  /** Returns the translations map for the configured language, creating it if necessary. */
+  #translations(): Map<string, string> {
+    let translations = I18n.#storage.get(this.language)
+    if (!translations)
+      I18n.#storage.set(this.language, translations = new Map())
+    return translations
+  }
+
+  /** Resolves a normalized key against the requested language, then the configured language, then the fallback. */
+  #lookup(id: string, language: string): string | undefined {
+    for (const lang of new Set([language, this.language, I18n.fallback].filter(Boolean))) {
+      const value = I18n.#storage.get(lang)?.get(id)
+      if (value !== undefined)
+        return value
+    }
+    return undefined
+  }
+
+  /** Interpolates a translation value against a context, degrading to the raw value when evaluation fails. */
+  #interpolate(value: string, context: Record<string, unknown> = {}): string {
+    try {
+      return evaluate(value, context, { sync: true, return: EvaluationReturn.String })
+    } catch (error) {
+      this.#log.warn(`failed to interpolate translation, returning it verbatim:\n${value}\n${error}`)
+      return value
+    }
+  }
+
+  /** Renders a string as markdown, degrading to the raw string when rendering fails. */
+  #render(value: string, inline: boolean): string {
+    try {
+      return markdown(value, { inline })
+    } catch (error) {
+      this.#log.warn(`failed to render markdown, returning it verbatim:\n${value}\n${error}`)
+      return value
+    }
+  }
+
+  /** Applies the miss policy for an unresolved key. */
+  #miss(key: string, language: string, missing?: I18nMissing): string {
+    const policy = missing ?? this.#missing
+    this.#log.debug(`missing translation for key "${key}" (${language})`)
+    if (typeof policy === "function")
+      return policy(key, language)
+    return policy === "empty" ? "" : key
+  }
+
+  /** Builds a memo key for a resolution, or `null` when the context cannot be serialized. */
+  #key(mode: string, language: string, id: string, inline: boolean, context?: Record<string, unknown>): string | null {
+    try {
+      return `${mode} ${language} ${this.language} ${I18n.fallback} ${inline} ${id} ${JSON.stringify(context ?? {})}`
+    } catch {
+      return null
+    }
+  }
+
+  /** Stores a resolved value in the memo, clearing it first when it has grown too large. */
+  #memoize(key: string, value: string): void {
+    if (I18n.#cache.size > 1024)
+      I18n.#cache.clear()
+    I18n.#cache.set(key, value)
+  }
+
+  /** Normalizes a key so that lookups are case-insensitive. */
+  static #normalize(key: string): string {
+    return `${key}`.toLowerCase()
   }
 }
 
 /** Default {@linkcode I18n} instance. */
 export const i18n = new I18n() as I18n
+
+/** Policy applied when a translation key resolves to nothing: return the key as-is (`"key"`, the default), return an empty string (`"empty"`), or compute a replacement from the key and language. */
+export type I18nMissing = "key" | "empty" | ((key: string, language: string) => string)
+
+/** Options for {@linkcode I18n}. */
+export type I18nOptions = {
+  /** Language to scope the instance to. Defaults to {@linkcode I18n.current}. */
+  language?: string
+  /** Timezone used by date and time formatting. */
+  timezone?: string
+  /** Default policy applied when a key resolves to nothing. */
+  missing?: I18nMissing
+}
+
+/** Options for {@linkcode I18n.get}. */
+export type I18nGetOptions = {
+  /** Resolve the key in this language instead of the configured one. */
+  language?: string
+  /** Override the miss policy for this lookup. */
+  missing?: I18nMissing
+}
+
+/** Options for {@linkcode I18n.md}. */
+export type I18nMarkdownOptions = I18nGetOptions & {
+  /** Render inline-level markdown only (the default), omitting the surrounding block-level wrapper (e.g. `<p>`); set to `false` for block-level content. */
+  inline?: boolean
+}

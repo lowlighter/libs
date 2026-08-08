@@ -15,6 +15,15 @@ Deno.test("`I18n.set()` registers translations and is chainable", () => {
   expect(i18n.for("en").get("saygoodbye")).toBe("bye")
 })
 
+Deno.test("`I18n.set()` seeds a whole language at once from a record and re-seeding merges", () => {
+  i18n.for("en").set({ fruit: "apple", drink: "water" })
+  expect(i18n.for("en").get("fruit")).toBe("apple")
+  expect(i18n.for("en").get("drink")).toBe("water")
+  i18n.for("en").set({ fruit: "banana" })
+  expect(i18n.for("en").get("fruit")).toBe("banana")
+  expect(i18n.for("en").get("drink")).toBe("water")
+})
+
 Deno.test("`I18n.get()` interpolates `${placeholders}` from the context", () => {
   i18n.for("en").set("greeting", "hello ${name}")
   expect(i18n.for("en").get("greeting", { name: "john" })).toBe("hello john")
@@ -23,12 +32,88 @@ Deno.test("`I18n.get()` interpolates `${placeholders}` from the context", () => 
   expect(i18n.for("en").get("cats", { n: 2 })).toBe("2 cats")
 })
 
-Deno.test("`I18n.md()` renders the translation as markdown", () => {
+Deno.test("`I18n.get()` memoizes resolutions and invalidates them on re-seeding", () => {
+  i18n.for("en").set("motto", "old ${who}")
+  expect(i18n.for("en").get("motto", { who: "world" })).toBe("old world")
+  expect(i18n.for("en").get("motto", { who: "world" })).toBe("old world")
+  i18n.for("en").set("motto", "new ${who}")
+  expect(i18n.for("en").get("motto", { who: "world" })).toBe("new world")
+})
+
+Deno.test("`I18n.get()` resolves keys case-insensitively", () => {
+  i18n.for("en").set("MixedCase", "value")
+  expect(i18n.for("en").get("mixedcase")).toBe("value")
+  expect(i18n.for("en").get("MIXEDCASE")).toBe("value")
+})
+
+Deno.test("`I18n.get()` resolves in an arbitrary language per lookup", () => {
+  i18n.for("en").set("color", "color")
+  i18n.for("fr").set("color", "couleur")
+  expect(i18n.for("en").get("color", {}, { language: "fr" })).toBe("couleur")
+  expect(i18n.for("fr").get("color", {}, { language: "en" })).toBe("color")
+})
+
+Deno.test("`I18n.get()` never throws and degrades to the raw value on interpolation failure", () => {
+  i18n.for("en").set("broken", "${1 +}")
+  expect(i18n.for("en").get("broken")).toBe("${1 +}")
+})
+
+Deno.test("`I18n.get()` tolerates a context that cannot be serialized for memoization", () => {
+  i18n.for("en").set("plain", "hello")
+  const circular = {} as testing
+  circular.self = circular
+  expect(i18n.for("en").get("plain", circular)).toBe("hello")
+})
+
+Deno.test("`I18n.get()` reports misses through a configurable policy with per-lookup override", () => {
+  expect(i18n.for("en").get("unknownkey")).toBe("unknownkey")
+  expect(i18n.for("en").get("unknownkey", {}, { missing: "empty" })).toBe("")
+  expect(i18n.for("en").get("unknownkey", {}, { missing: (key) => key.toUpperCase() })).toBe("UNKNOWNKEY")
+  expect(new I18n({ language: "en", missing: "empty" }).get("unknownkey")).toBe("")
+  expect(new I18n({ language: "en", missing: (key) => `[${key}]` }).get("unknownkey")).toBe("[unknownkey]")
+})
+
+Deno.test("`I18n.get()` supports optimistic probing through the empty miss policy", () => {
+  i18n.for("en").set("sigil_men", "men")
+  const probe = (key: string) => i18n.for("en").get(key, {}, { missing: "empty" }) || i18n.for("en").get("sigil_men")
+  expect(probe("sigil_men_naginata")).toBe("men")
+  i18n.for("en").set("sigil_men_naginata", "men (naginata)")
+  expect(probe("sigil_men_naginata")).toBe("men (naginata)")
+})
+
+Deno.test("`I18n.md()` renders the translation as inline markdown by default", () => {
   i18n.for("en").set("welcome", "hello **${name}**")
-  expect(i18n.for("en").md("welcome", { name: "john" })).toBe("<p>hello <strong>john</strong></p>")
+  expect(i18n.for("en").md("welcome", { name: "john" })).toBe("hello <strong>john</strong>")
+  expect(i18n.for("en").md("welcome", { name: "john" })).toBe("hello <strong>john</strong>")
+  expect(i18n.for("en").md("unknownkey")).toBe("unknownkey")
+  expect(i18n.for("en").md("unknownkey", {}, { missing: "empty" })).toBe("")
+})
+
+Deno.test("`I18n.md()` renders block-level markdown when inline is disabled", () => {
+  i18n.for("en").set("welcome", "hello **${name}**")
+  expect(i18n.for("en").md("welcome", { name: "john" }, { inline: false })).toBe("<p>hello <strong>john</strong></p>")
   i18n.for("en").set("heading", "# ${title}")
-  expect(i18n.for("en").md("heading", { title: "Title" })).toBe("<h1>Title</h1>")
-  expect(i18n.for("en").md("unknownkey")).toBe("<p>unknownkey</p>")
+  expect(i18n.for("en").md("heading", { title: "Title" }, { inline: false })).toBe("<h1>Title</h1>")
+  expect(i18n.for("en").md("unknownkey", {}, { inline: false })).toBe("<p>unknownkey</p>")
+})
+
+Deno.test("`I18n.loaded()` reports whether translations are registered for a language", () => {
+  i18n.for("en").set("anything", "value")
+  expect(i18n.for("en").loaded()).toBe(true)
+  expect(i18n.loaded("en")).toBe(true)
+  expect(i18n.loaded("zz")).toBe(false)
+})
+
+Deno.test("`I18n.current` is a readable and writable ambient language for unscoped instances", () => {
+  const original = I18n.current
+  try {
+    I18n.current = "fr"
+    expect(i18n.language).toBe("fr")
+    expect(new I18n().language).toBe("fr")
+    expect(new I18n({ language: "de" }).language).toBe("de")
+  } finally {
+    I18n.current = original
+  }
 })
 
 Deno.test("`I18n.get()` uses the fallback language for missing keys and returns unresolved keys as-is", () => {
@@ -43,6 +128,7 @@ Deno.test("`I18n.load()` loads translations from yaml files", async () => {
   expect(instance.get("sayhello", { name: "john" })).toBe("hello john")
   expect(instance.get("saygoodbye")).toBe("bye")
   expect(instance.get("1")).toBe("one")
+  expect(instance.loaded()).toBe(true)
 })
 
 Deno.test("`I18n.load()` rejects yaml files without a flat mapping of keys to values", async () => {
@@ -108,11 +194,12 @@ Deno.test("`I18n.percentage()` formats percentages", () => {
   expect(i18n.for("fr").percentage(0.1234)).toBe("12,34%")
 })
 
-Deno.test("`I18n.for()` returns an instance scoped to the specified language and inherits timezone", () => {
-  const base = new I18n({ language: "en", timezone: "UTC" })
+Deno.test("`I18n.for()` returns an instance scoped to the specified language and inherits timezone and miss policy", () => {
+  const base = new I18n({ language: "en", timezone: "UTC", missing: "empty" })
   expect(base.for("fr").language).toBe("fr")
   expect(base.for("fr").timezone).toBe("UTC")
   expect(base.for("fr", { timezone: "Europe/Paris" }).timezone).toBe("Europe/Paris")
+  expect(base.for("fr").get("unknownkey")).toBe("")
 })
 
 Deno.test("`I18n.for()` negotiates language from `Request` objects", () => {
@@ -123,4 +210,10 @@ Deno.test("`I18n.for()` negotiates language from `Request` objects", () => {
   expect(i18n.for(request).get("greet")).toBe("bonjour")
   const unmatched = new Request("https://example.com", { headers: { "Accept-Language": "de" } })
   expect(i18n.for(unmatched).language).toBe(I18n.fallback)
+})
+
+Deno.test("`I18n` memoization stays bounded under many distinct contexts", () => {
+  i18n.for("en").set("counter", "value ${n}")
+  for (let n = 0; n < 1100; n++)
+    expect(i18n.for("en").get("counter", { n })).toBe(`value ${n}`)
 })
