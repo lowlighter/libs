@@ -1,0 +1,2 @@
+-- invalid(): string
+SELECT 'unterminated

@@ -1,0 +1,23 @@
+{
+  "name": "@libs/database",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./mod.ts",
+    "./generate": "./generate/mod.ts"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1.0.19",
+    "postgres": "npm:postgres@3.4.7",
+    "typescript": "npm:typescript@5.9.3",
+    "@std/expect": "jsr:@std/expect@^1.0.17",
+    "@std/cli": "jsr:@std/cli@^1.0.28",
+    "@std/path": "jsr:@std/path@^1.1.4",
+    "@std/fmt": "jsr:@std/fmt@^1.0.10"
+  },
+  "tasks": {
+    "build": {
+      "description": "Generate all valid SQL fixtures",
+      "command": "deno run --allow-read --allow-write --ignore-env generate/mod.ts --ignore-errors fixtures/**/*.sql"
+    }
+  }
+}
