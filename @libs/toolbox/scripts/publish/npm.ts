@@ -7,7 +7,10 @@
  * 3. Add `dependencies` entries for workspace members imported by the package (which `deno pack` leaves as bare specifiers)
  * 4. Run `npm publish` on the extracted package
  *
- * Authentication is expected to be configured beforehand (e.g. through a `~/.npmrc` file).
+ * Authentication uses npm trusted publishing in supported CI environments, or existing npm credentials locally.
+ *
+ * On GitHub Actions, grant `id-token: write` and `--repository` to set the package repository URL for provenance.
+ * See https://docs.npmjs.com/trusted-publishers/ for provider configuration.
  *
  * @module
  */
@@ -20,7 +23,7 @@ import { rescope, workspaceImports } from "./_utils.ts"
 import { cyan, gray, green, yellow } from "@std/fmt/colors"
 
 /** Publish a package on npm registries. */
-export async function publish({ package: pkg = Deno.cwd(), scope = "@", private: restricted = false, dryrun = false }: Options = {}): Promise<{ name: string; version: string; directory: string }> {
+export async function publish({ package: pkg = Deno.cwd(), scope = "@", repository, private: restricted = false, dryrun = false }: Options = {}): Promise<{ name: string; version: string; directory: string }> {
   // Create npm-compatible tarball and extract it
   const env = Deno.env.toObject()
   const directory = await Deno.makeTempDir()
@@ -29,7 +32,7 @@ export async function publish({ package: pkg = Deno.cwd(), scope = "@", private:
   await command("tar", ["--extract", "--gzip", `--file=${directory}/package.tgz`, `--directory=${directory}`], { env, throw: true })
 
   // Rewrite package scope and register workspace dependencies
-  const manifest = JSON.parse(await Deno.readTextFile(`${directory}/package/package.json`)) as { name: string; version: string; dependencies?: Record<string, string> }
+  const manifest = JSON.parse(await Deno.readTextFile(`${directory}/package/package.json`)) as { name: string; version: string; dependencies?: Record<string, string>; repository?: string | { type?: string; url?: string; directory?: string } }
   if (!manifest.name.startsWith("@"))
     throw new RangeError(`Package name is not scoped: ${manifest.name}`)
   for (const [dependency, version] of Object.entries(manifest.dependencies ?? {})) {
@@ -61,6 +64,8 @@ export async function publish({ package: pkg = Deno.cwd(), scope = "@", private:
     }
     await Deno.writeTextFile(path, rescope(content, { from, to }))
   }
+  if (repository)
+    manifest.repository = { ...(typeof manifest.repository === "object" ? manifest.repository : {}), type: "git", url: repository }
   const manifestJson = JSON.stringify(manifest, null, 2)
   console.error(gray(manifestJson))
   await Deno.writeTextFile(`${directory}/package/package.json`, `${manifestJson}\n`)
@@ -84,6 +89,8 @@ export type Options = {
   package?: string
   /** Scope to publish under: `"@"` keeps the original scope (default), `""` removes the scope, any other value replaces it. */
   scope?: string
+  /** Repository URL for provenance (defaults to the repository metadata produced by `deno pack`). */
+  repository?: string
   /** Whether to publish with private (restricted) registry access (defaults to `false`). */
   private?: boolean
   /** Do not actually publish (the package is packed and rewritten, but `npm publish` is run with `--dry-run`). */
@@ -92,16 +99,17 @@ export type Options = {
 
 // Entry point
 if (import.meta.main) {
-  const args = parseArgs(Deno.args, { string: ["package", "scope"], boolean: ["private", "dryrun", "help"], default: { scope: "@" } })
+  const args = parseArgs(Deno.args, { string: ["package", "scope", "repository"], boolean: ["private", "dryrun", "help"], default: { scope: "@" } })
   if (args.help) {
     console.error("Usage: deno run --allow-all jsr:@libs/toolbox/scripts/publish/npm [options]")
     console.error("")
     console.error("Options:")
     console.error("  --package [package]  Path to the package to publish (defaults to the current working directory)")
     console.error("  --scope [scope=@]    Scope to publish under (`@` keeps the original scope, an empty value removes it, any other value replaces it)")
+    console.error("  --repository [url]   Repository URL for npm provenance (must match the publishing GitHub repository)")
     console.error("  --private            Publish with private (restricted) registry access (default: public)")
     console.error("  --dryrun             Do not actually publish")
     Deno.exit(2)
   }
-  await publish({ package: args.package, scope: args.scope, private: args.private, dryrun: args.dryrun })
+  await publish({ package: args.package, scope: args.scope, repository: args.repository, private: args.private, dryrun: args.dryrun })
 }

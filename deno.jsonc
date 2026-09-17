@@ -1,8 +1,9 @@
 {
   "tasks": {
+    "build": "sleep 0",
     "qa": {
       "description": "Test and lint code",
-      "command": "deno run --allow-all @libs/toolbox/scripts/code_quality.ts --cwd $INIT_CWD"
+      "command": "deno task --cwd $INIT_CWD build && deno run --allow-all @libs/toolbox/scripts/code_quality.ts --cwd $INIT_CWD"
     }
   },
   "workspace": [

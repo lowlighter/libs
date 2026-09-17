@@ -43,9 +43,6 @@ on:
         default: false
         type: boolean
     secrets:
-      NPM_TOKEN:
-        description: NPM token
-        required: true
       GH_TOKEN:
         description: GitHub token
         required: true
@@ -102,6 +99,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: denoland/setup-deno@v2
+      - run: deno task build
       - run: deno test --allow-all
 
   publish:
@@ -193,10 +191,9 @@ jobs:
       - name: Run deno pack and npm publish
         working-directory: ${{ inputs.package }}
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          REPOSITORY: https://github.com/${{ github.repository }}
         run: |
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > "$HOME/.npmrc"
-          deno run --allow-all "$(git rev-parse --show-toplevel)/@libs/toolbox/scripts/publish/npm.ts" --scope '@lowlighter'
+          deno run --allow-all "$(git rev-parse --show-toplevel)/@libs/toolbox/scripts/publish/npm.ts" --scope '@lowlighter' --repository "$REPOSITORY"
       # Publish to deno.land/x
       - name: Check deno.land/x registration
         id: x

@@ -57,7 +57,6 @@ jobs:
       package: ${{ matrix.package }}
       publish: ${{ github.event_name == 'push' }}
     secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
   coverage:
@@ -81,6 +80,7 @@ jobs:
       - uses: denoland/setup-deno@v2
       - name: Run deno test --coverage
         run: |
+          deno task --recursive build
           deno test --allow-all --coverage
           deno coverage --html
           deno run --allow-read --allow-write=coverage @libs/toolbox/scripts/highlight_coverage.ts --root=coverage/html
