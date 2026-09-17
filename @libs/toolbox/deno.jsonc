@@ -35,6 +35,7 @@
     "./scripts/publish/npm": "./scripts/publish/npm.ts",
     "./scripts/publish/x": "./scripts/publish/x.ts",
     "./resolve": "./resolve.ts",
-    "./timezone": "./timezone.ts"
+    "./timezone": "./timezone.ts",
+    "./uuid": "./uuid.ts"
   }
 }
