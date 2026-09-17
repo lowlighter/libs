@@ -27,3 +27,6 @@ SELECT ${bar} AS value WHERE ${1} = ${bar};
 
 -- braces(bar: string): {value: string}
 SELECT {bar} AS value;
+
+-- syntax(entrée = /x/ instanceof RegExp ? `${1 + 2}` : "fallback"): {value: string}
+SELECT ${entrée} AS value;

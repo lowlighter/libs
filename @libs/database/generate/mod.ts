@@ -6,9 +6,9 @@ import { basename, dirname, extname, join, relative, resolve } from "@std/path"
 import { generate } from "./generator.ts"
 import { assert } from "@std/assert"
 
-const args = parseArgs(Deno.args, { string: ["output", "_"], boolean: ["help", "ignore-errors"], alias: { o: "output", h: "help" } })
+const args = parseArgs(Deno.args, { string: ["output", "_"], boolean: ["help", "ignore-errors", "check"], alias: { o: "output", h: "help" } })
 if (args.help) {
-  console.error(`Usage: deno run --allow-read --allow-write jsr:@libs/database/generate [options] file.sql [file.sql ...]`)
+  console.error(`Usage: deno run --allow-read --allow-write --ignore-env [--allow-run=deno] jsr:@libs/database/generate [options] file.sql [file.sql ...]`)
   console.error(``)
   console.error(`Generates typed database queries from annotated SQL files.`)
   console.error(`Each input produces an adjacent .gen.ts file.`)
@@ -17,6 +17,7 @@ if (args.help) {
   console.error(`Options:`)
   console.error(`  -o, --output=FILE    Combine all inputs into a single .gen.ts file`)
   console.error(`  -h, --help           Show this help message`)
+  console.error(`      --check          Type-check generated files (requires run permission for Deno)`)
   console.error(`      --ignore-errors  Continue processing other files if an error occurs`)
   console.error(``)
   console.error(`Examples:`)
@@ -37,6 +38,7 @@ if (args.output) {
 }
 
 // Generate the output files
+const outputs = [] as string[]
 for (const [files, output] of queue) {
   if (files.some((file) => resolve(file) === resolve(output)))
     throw new TypeError("The generated output must not overwrite an SQL input file")
@@ -50,6 +52,7 @@ for (const [files, output] of queue) {
   }))
   try {
     await Deno.writeTextFile(output, generate(sources))
+    outputs.push(output)
     console.error(green(`✓ ${output}`))
   } catch (error) {
     if (args["ignore-errors"]) {
@@ -58,5 +61,18 @@ for (const [files, output] of queue) {
     }
     console.error(red(`✗ ${output}`))
     throw error
+  }
+}
+
+// Check generated modules
+if (args.check && outputs.length) {
+  const command = Deno.execPath()
+  const permission = await Deno.permissions.query({ name: "run", command })
+  if (permission.state !== "denied") {
+    const result = await new Deno.Command(command, { args: ["check", ...outputs], stdout: "inherit", stderr: "inherit" }).output()
+    if (!result.success)
+      throw new TypeError("Generated database queries failed type checking")
+  } else {
+    console.error(yellow("⚠ Skipping --check: rerun with --allow-run=deno"))
   }
 }
