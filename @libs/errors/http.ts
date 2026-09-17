@@ -7,6 +7,9 @@ export class HttpError extends Error {
   /** The HTTP status code associated with this error. */
   readonly code = STATUS_CODE.InternalServerError as (typeof STATUS_CODE)[keyof typeof STATUS_CODE]
 
+  /** Optional translator used when serializing error messages. */
+  static i18n?: i18n
+
   /** Convert this error to a Response object. */
   toResponse(request?: Request): Response {
     const [accepted] = request ? accepts(request) : ["*/*"]
@@ -14,26 +17,32 @@ export class HttpError extends Error {
       case "application/json":
         return new Response(JSON.stringify(this), { status: this.code, headers: { "Content-Type": "application/json" } })
       case "text/html":
-        return new Response((this.constructor as typeof HttpError).html.replace("{{code}}", this.code.toString()).replace("{{name}}", STATUS_TEXT[this.code]).replace("{{message}}", this.message), { status: this.code, headers: { "Content-Type": "text/html" } })
+        return new Response((this.constructor as typeof HttpError).html.replace("{{code}}", this.code.toString()).replace("{{name}}", STATUS_TEXT[this.code]).replace("{{message}}", this.#message()), { status: this.code, headers: { "Content-Type": "text/html" } })
       case "text/plain":
       default:
-        return new Response(this.message, { status: this.code, headers: { "Content-Type": "text/plain" } })
+        return new Response(this.#message(), { status: this.code, headers: { "Content-Type": "text/plain" } })
     }
   }
 
   /** Convert this error to a JSON object. */
   toJSON(): Record<string, unknown> {
+    const message = this.message && this.#message()
     return {
       error: {
         name: STATUS_TEXT[this.code],
         code: this.code,
-        ...(this.message ? { details: this.message } : {}),
+        ...(message ? { details: message } : {}),
       },
     }
   }
 
   /** The HTML template for this error. */
   static html = `<!DOCTYPE html><html><head><title>{{code}} {{name}}</title></head><body><h1>{{code}} {{name}}</h1><p>{{message}}</p></body></html>`
+
+  /** Resolve the message through the configured translator. */
+  #message(): string {
+    return HttpError.i18n?.get(this.message) ?? this.message
+  }
 }
 
 /** A 400 Bad Request error. */
@@ -148,4 +157,10 @@ export class NotImplementedError extends HttpError {
 export class InsufficientStorageError extends HttpError {
   /** The HTTP status code associated with this error. */
   override readonly code = STATUS_CODE.InsufficientStorage
+}
+
+/** An i18n provider used to translate an error message. */
+export interface i18n {
+  /** Return the translation for a message key. */
+  get(key: string): string
 }

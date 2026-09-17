@@ -65,3 +65,18 @@ Deno.test("TooManyRequestsError has the correct status code", () => expect(new T
 Deno.test("InternalServerError has the correct status code", () => expect(new InternalServerError().code).toBe(500))
 Deno.test("NotImplementedError has the correct status code", () => expect(new NotImplementedError().code).toBe(501))
 Deno.test("InsufficientStorageError has the correct status code", () => expect(new InsufficientStorageError().code).toBe(507))
+
+Deno.test("HttpError translates messages in JSON, HTML, and plain text responses", async () => {
+  const previous = HttpError.i18n
+  HttpError.i18n = { get: (key) => key === "conflict.key" ? "Translated conflict" : key }
+  try {
+    const error = new ConflictError("conflict.key")
+    expect(error.message).toBe("conflict.key")
+    expect(error.toJSON()).toEqual({ error: { name: "Conflict", code: 409, details: "Translated conflict" } })
+    expect(await error.toResponse(new Request("https://example.com", { headers: { Accept: "application/json" } })).json()).toEqual(error.toJSON())
+    expect(await error.toResponse(new Request("https://example.com", { headers: { Accept: "text/html" } })).text()).toContain("<p>Translated conflict</p>")
+    expect(await error.toResponse(new Request("https://example.com", { headers: { Accept: "text/plain" } })).text()).toBe("Translated conflict")
+  } finally {
+    HttpError.i18n = previous
+  }
+})
