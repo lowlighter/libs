@@ -1,4 +1,6 @@
-import { expect, type testing } from "@libs/testing"
+// Imports
+import { expect } from "@libs/testing"
+import type { testing } from "@libs/testing"
 import { I18n, i18n } from "./i18n.ts"
 
 Deno.test("`I18n.constructor()` defaults language and timezone from the runtime", () => {
@@ -122,18 +124,26 @@ Deno.test("`I18n.get()` uses the fallback language for missing keys and returns 
   expect(i18n.for("fr").get("unknownkey")).toBe("unknownkey")
 })
 
-Deno.test("`I18n.load()` loads translations from yaml files", async () => {
-  const instance = await i18n.for("xa").load(import.meta.resolve("./testing/test_i18n.yaml"))
-  expect(instance).toBeInstanceOf(I18n)
-  expect(instance.get("sayhello", { name: "john" })).toBe("hello john")
-  expect(instance.get("saygoodbye")).toBe("bye")
-  expect(instance.get("1")).toBe("one")
-  expect(instance.loaded()).toBe(true)
+Deno.test({
+  name: "`I18n.load()` loads translations from yaml files",
+  permissions: { read: true },
+  fn: async () => {
+    const instance = await i18n.for("xa").load(import.meta.resolve("./testing/test_i18n.yaml"))
+    expect(instance).toBeInstanceOf(I18n)
+    expect(instance.get("sayhello", { name: "john" })).toBe("hello john")
+    expect(instance.get("saygoodbye")).toBe("bye")
+    expect(instance.get("1")).toBe("one")
+    expect(instance.loaded()).toBe(true)
+  },
 })
 
-Deno.test("`I18n.load()` rejects yaml files without a flat mapping of keys to values", async () => {
-  await expect(i18n.for("xb").load(import.meta.resolve("./testing/test_invalid.yaml"))).rejects.toThrow("not a valid YAML object")
-  await expect(i18n.for("xb").load("data:text/plain,foo")).rejects.toThrow("not a valid YAML object")
+Deno.test({
+  name: "`I18n.load()` rejects yaml files without a flat mapping of keys to values",
+  permissions: { read: true },
+  fn: async () => {
+    await expect(i18n.for("xb").load(import.meta.resolve("./testing/test_invalid.yaml"))).rejects.toThrow("not a valid YAML object")
+    await expect(i18n.for("xb").load("data:text/plain,foo")).rejects.toThrow("not a valid YAML object")
+  },
 })
 
 Deno.test("`I18n.load()` rejects unreachable sources", async () => {
@@ -216,4 +226,48 @@ Deno.test("`I18n` memoization stays bounded under many distinct contexts", () =>
   i18n.for("en").set("counter", "value ${n}")
   for (let n = 0; n < 1100; n++)
     expect(i18n.for("en").get("counter", { n })).toBe(`value ${n}`)
+})
+
+Deno.test("`I18n.load()` parses inline YAML and JSON and infers the language", async () => {
+  const original = globalThis.fetch
+  globalThis.fetch = () => Promise.reject(new Error("Inline content must not be fetched"))
+  try {
+    const instance = await I18n.load("_: xd\na: foo\nb: bar")
+    expect(instance.language).toBe("xd")
+    expect(i18n.for("xd").get("a")).toBe("foo")
+    expect(instance.get("b")).toBe("bar")
+    expect(instance.get("_", {}, { missing: "empty" })).toBe("")
+    expect((await I18n.load("_: xe\ra: carriage")).get("a")).toBe("carriage")
+    expect((await I18n.load('{\n"_": "xf", "a": "json"\n}')).get("a")).toBe("json")
+    await expect(I18n.load("null\n")).rejects.toThrow("not a valid YAML object")
+  } finally {
+    globalThis.fetch = original
+  }
+})
+
+Deno.test("`I18n.load()` honors explicit and instance languages", async () => {
+  const instance = await I18n.load("_: xh\na: explicit", { language: "xg" })
+  expect(instance.language).toBe("xg")
+  expect(instance.get("a")).toBe("explicit")
+  const scoped = new I18n({ language: "xg" })
+  expect(await scoped.load("_: xh\na: instance")).toBe(scoped)
+  expect(scoped.get("a")).toBe("instance")
+  expect(i18n.loaded("xh")).toBe(false)
+})
+
+Deno.test("`I18n.load()` defaults to the current language and supports fetched content", async () => {
+  const original = I18n.current
+  I18n.current = "xi"
+  try {
+    const instance = await I18n.load("a: ambient\n")
+    expect(instance.language).toBe("xi")
+    expect(instance.get("a")).toBe("ambient")
+    const source = new URL("data:application/json,%7B%22a%22:%22fetched%22%7D")
+    expect((await I18n.load(source)).get("a")).toBe("fetched")
+    const inferred = await I18n.load("data:text/plain,_%3A%20xj%0Aa%3A%20remote")
+    expect(inferred.language).toBe("xj")
+    expect(inferred.get("a")).toBe("remote")
+  } finally {
+    I18n.current = original
+  }
 })

@@ -98,17 +98,34 @@ export class I18n {
     return this
   }
 
-  /** Loads translations from a YAML (or JSON) source and registers them for the configured language. */
-  async load(source: string | URL): Promise<this> {
-    this.#log.debug(`loading translations from: ${source}`)
-    const response = await fetch(source)
-    if (!response.ok)
-      throw new Error(`Failed to load translations from "${source}" (HTTP ${response.status})`)
-    const parsed = YAML.parse(await response.text())
+  /** Loads YAML (or JSON) translations from a raw string or a file/URL. */
+  static async load(source: string | URL, { language }: I18nLoadOptions = {}): Promise<I18n> {
+    const provided = (typeof source === "string") && /[\r\n]/.test(source)
+    const origin = provided ? "from provided content" : `from: ${source}`
+    const log = getLogger(["i18n", language ?? I18n.current])
+    log.debug(`loading translations ${origin}`)
+    let content = `${source}`
+    if (!provided) {
+      const response = await fetch(source)
+      if (!response.ok)
+        throw new Error(`Failed to load translations from "${source}" (HTTP ${response.status})`)
+      content = await response.text()
+    }
+    const parsed = YAML.parse(content)
     if ((!parsed) || (typeof parsed !== "object") || (Array.isArray(parsed)))
-      throw new Error(`Failed to parse translations from "${source}" (not a valid YAML object)`)
-    this.set(parsed as Record<string, string>)
-    this.#log.info(`loaded ${Object.keys(parsed).length} translations from: ${source}`)
+      throw new Error(`Failed to parse translations ${origin} (not a valid YAML object)`)
+    const { _: country, ...translations } = parsed as Record<string, string>
+    const instance = new I18n({ language: language ?? country ?? I18n.current })
+    if ((country !== undefined) && (country !== instance.language))
+      instance.#log.warn(`translation language "${country}" does not match target language "${instance.language}"`)
+    instance.set(translations)
+    instance.#log.info(`loaded ${Object.keys(translations).length} translations ${origin}`)
+    return instance
+  }
+
+  /** Loads YAML (or JSON) translations from a raw string or a file/URL. */
+  async load(source: string | URL): Promise<this> {
+    await I18n.load(source, { language: this.language })
     return this
   }
 
@@ -300,6 +317,12 @@ export type I18nOptions = {
   timezone?: string
   /** Default policy applied when a key resolves to nothing. */
   missing?: I18nMissing
+}
+
+/** Options for {@linkcode I18n.load}. */
+export type I18nLoadOptions = {
+  /** Target language, overriding `_` metadata. Defaults to that metadata or {@linkcode I18n.current}. */
+  language?: string
 }
 
 /** Options for {@linkcode I18n.get}. */
