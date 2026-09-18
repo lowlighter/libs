@@ -121,7 +121,7 @@ export class Database implements AsyncDisposable {
   query<T, A extends unknown[]>(query: Query<T, T, A>): Promise<T>
   /** Execute a query whose post-hooks change its result type. */
   query<T, R, A extends unknown[]>(query: Query<T, R, A>): Promise<T>
-  /** Prepend a typed context to every hook invocation. */
+  /** Provide typed context to query hooks. */
   query<C extends Record<string, unknown>, T, A extends unknown[]>(context: C, query: Query<T, T, A>): Promise<T>
   /** Execute transforming hooks with a typed context. */
   query<C extends Record<string, unknown>, T, R, A extends unknown[]>(context: C, query: Query<T, R, A>): Promise<T>
@@ -135,7 +135,7 @@ export class Database implements AsyncDisposable {
         this.#hook(hook.name)
       for (let index = 0; index < (operation.hooks?.pre?.length ?? 0); index++) {
         const hook = operation.hooks!.pre![index]
-        const next = await Reflect.apply(this.#hook(hook.name), this, [...metadata, ...operation.inputs, ...hook.args])
+        const next = await Reflect.apply(this.#hook(hook.name), this, [{ context: metadata[0] }, ...operation.inputs, ...hook.args])
         if (next !== undefined) {
           if (!Array.isArray(next))
             throw new TypeError(`Pre-hook "${hook.name}" must return an argument tuple or undefined`)
@@ -151,7 +151,7 @@ export class Database implements AsyncDisposable {
         try {
           let result: unknown = await operation.execute(this, metadata[0] ?? null)
           for (const { hook, args } of hooks) {
-            const next = await Reflect.apply(hook, this, [...metadata, result, ...args])
+            const next = await Reflect.apply(hook, this, [{ context: metadata[0], result }, ...args])
             if (next !== undefined)
               result = next
           }
@@ -230,8 +230,11 @@ export enum Type {
   PostgreSQL,
 }
 
-/** An awaited hook, optionally receiving a typed context before its arguments. */
-export type Hook<A extends unknown[], R, C extends Record<string, unknown> | undefined = undefined> = (this: Database, ...args: C extends undefined ? [...args: A, ...extra: unknown[]] : [context: C, ...args: A, ...extra: unknown[]]) => R | void | Promise<R | void>
+/** An awaited post-hook receiving stable context and result fields. */
+export type PostHook<T, R, C extends Record<string, unknown> | undefined = undefined> = (this: Database, event: { context?: C; result: T }, ...args: unknown[]) => R | void | Promise<R | void>
+
+/** An awaited pre-hook receiving a stable context object before its inputs. */
+export type Hook<A extends unknown[], R, C extends Record<string, unknown> | undefined = undefined> = (this: Database, event: { context?: C }, ...args: [...inputs: A, ...extra: unknown[]]) => R | void | Promise<R | void>
 
 /** A reusable statement owned by one database. */
 export interface Statement<T = Record<string, unknown>> {

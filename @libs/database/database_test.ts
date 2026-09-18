@@ -1,4 +1,5 @@
 // Imports
+import type { Hooks as QueryHooks } from "./fixtures/test_queries/queries.gen.ts"
 import Prefault from "./fixtures/test_prefault/queries.gen.ts"
 import Backends from "./fixtures/test_backends/queries.gen.ts"
 import { expect } from "@libs/testing"
@@ -49,7 +50,7 @@ for (
           expect(await database.query(Prefault.nested(undefined))).toEqual({ value: 1 })
           expect(await database.query(Prefault.explicit())).toEqual({ value: 1 })
           expect(await database.query(Prefault.converted({ value: "hello" }))).toEqual({ value: 5 })
-          database.register("supply", (options) => {
+          database.register("supply", (_event, options) => {
             expect(options).toBeUndefined()
             return Promise.resolve([{ value: 9 }])
           })
@@ -125,7 +126,7 @@ for (
             calls++
             return [{ name: "x", active: true }]
           })
-          database.register("shorten", (result) => {
+          database.register("shorten", ({ result }) => {
             calls++
             expect(result).toEqual({ name: "x", active: true })
             return { name: "", active: true }
@@ -217,8 +218,8 @@ for (
         async run(database: Database) {
           const input = await setupSchema(database)
           await database.query(SchemaQuery.insert(input))
-          const normalize: SchemaHooks["pre"]["normalize"] = (id, name) => Promise.resolve([id, name?.trim().toUpperCase()])
-          const summarize: SchemaHooks["post"]["summarize"] = (user) => {
+          const normalize: SchemaHooks["pre"]["normalize"] = (_event, id, name) => Promise.resolve([id, name?.trim().toUpperCase()])
+          const summarize: SchemaHooks["post"]["summarize"] = ({ result: user }) => {
             expect(user.created).toBeInstanceOf(Date)
             expect(typeof user.active).toBe("boolean")
             return Promise.resolve({ name: user.name, active: user.active })
@@ -311,9 +312,9 @@ for (
       {
         name: "test_bindings: hook type transitions",
         async run(database: Database) {
-          const text: Hooks["post"]["text"] = (row) => Promise.resolve(row.value)
-          const length: Hooks["post"]["length"] = (value) => Promise.resolve(value.length)
-          const observe: Hooks["post"]["observe"] = (value) => {
+          const text: Hooks["post"]["text"] = ({ result: row }) => Promise.resolve(row.value)
+          const length: Hooks["post"]["length"] = ({ result: value }) => Promise.resolve(value.length)
+          const observe: Hooks["post"]["observe"] = ({ result: value }) => {
             expect(value).toBe(5)
             return Promise.resolve()
           }
@@ -333,7 +334,7 @@ for (
           expect(await database.query(Backends.common("common"))).toEqual({ value: "common" })
           expect(await database.query(Backends.quoted())).toEqual({ value: "-- <postgres>\n-- </sqlite>" })
           let calls = 0
-          database.register("trim", (value) => Promise.resolve([String(value).trim()]))
+          database.register("trim", (_event, value) => Promise.resolve([String(value).trim()]))
           database.register("observe", () => {
             calls++
             return Promise.resolve()
@@ -361,11 +362,12 @@ for (
       {
         name: "test_hooks: calls without context retain their argument order",
         async run(database: Database) {
-          const normalize: AdvancedHooks["pre"]["normalize"] = (name, mode) => {
+          const normalize: AdvancedHooks["pre"]["normalize"] = ({ context }, name, mode) => {
+            expect(context).toBeUndefined()
             expect(mode).toBe("trim")
             return Promise.resolve([name.trim()])
           }
-          const censor: AdvancedHooks["post"]["censor"] = (row) => Promise.resolve(row.message)
+          const censor: AdvancedHooks["post"]["censor"] = ({ result: row }) => Promise.resolve(row.message)
           database.register("normalize", normalize)
           database.register("censor", censor)
           expect(await database.query(Advanced.greet(" world "))).toBe("world")
@@ -378,15 +380,16 @@ for (
           database.register("censor", censor)
           const query = Advanced.greet("world")
           expect(await Promise.all([database.query({ prefix: "A ", censor: false }, query), database.query({ prefix: "B ", censor: false }, query)])).toEqual(["A world", "B world"])
+          expect(await database.query(query)).toBe("world")
           expect(query.inputs).toEqual(["world"])
         },
       },
       {
         name: "test_hooks: pre-hooks chain and refresh post-hook arguments",
         async run(database: Database) {
-          database.register("first", (name: string) => [name + "1"])
-          database.register("second", (name: string) => [name + "2"])
-          database.register("observe", (row: { message: string }, name: string) => {
+          database.register("first", (_event, name: string) => [name + "1"])
+          database.register("second", (_event, name: string) => [name + "2"])
+          database.register("observe", ({ result: row }: { result: { message: string } }, name: string) => {
             expect(row.message).toBe(name)
           })
           expect(await database.query(Advanced.chained("value"))).toEqual({ message: "value12" })
@@ -430,7 +433,7 @@ for (
         name: "test_hooks: pre-hook writes are outside the post-hook transaction",
         async run(database: Database) {
           await setup(database)
-          database.register("before", async function (id: string, event: string) {
+          database.register("before", async function (_event, id: string, event: string) {
             await this.query(Query.recordAudit(id, event))
             return [id]
           })
@@ -446,7 +449,7 @@ for (
         name: "test_hooks: nested pre-hooks see uncommitted parent changes",
         async run(database: Database) {
           await setup(database)
-          database.register("prepare", async function (name: string) {
+          database.register("prepare", async function (_event, name: string) {
             expect(await this.query(Query.user("1"))).toBeNull()
             return [name.toUpperCase()]
           })
@@ -461,11 +464,11 @@ for (
         name: "test_hooks: nested pre-hook writes roll back with the parent",
         async run(database: Database) {
           await setup(database)
-          database.register("normalize", async function (name: string) {
+          database.register("normalize", async function (_event, name: string) {
             await this.query(Query.recordAudit("1", "NESTED"))
             return [name.trim()]
           })
-          database.register("censor", (row: { message: string }) => row.message)
+          database.register("censor", ({ result: row }: { result: { message: string } }) => row.message)
           database.register("audit", async function () {
             expect(await this.query(Advanced.greet(" nested "))).toBe("nested")
             expect(await this.query(Query.events())).toEqual([{ user_id: "1", event: "NESTED" }])
@@ -534,6 +537,33 @@ for (
         },
       },
       {
+        name: "post-hook arguments stay stable with and without context",
+        async run(database: Database) {
+          await setup(database)
+          await database.run("INSERT INTO users VALUES('2', 'example.org')")
+          let expected: { actor: string } | undefined = undefined
+          let calls = 0
+          const audit: QueryHooks<{ actor: string }>["post"]["audit"] = function ({ context, result }, event) {
+            expect(this).toBe(database)
+            expect(context).toBe(expected)
+            expect(result.domain).toBe("example.org")
+            expect(event).toBe("USER_DELETE")
+            calls++
+            return Promise.resolve()
+          }
+          const identifier: QueryHooks<{ actor: string }>["post"]["identifier"] = ({ context, result }) => {
+            expect(context).toBe(expected)
+            return Promise.resolve(result.id)
+          }
+          database.register("audit", audit)
+          database.register("identifier", identifier)
+          expect(await database.query(Query.deleteUser("1"))).toBe("1")
+          expected = { actor: "admin" }
+          expect(await database.query(expected, Query.deleteUser("2"))).toBe("2")
+          expect(calls).toBe(2)
+        },
+      },
+      {
         name: "awaits a hook and returns its declared replacement type",
         async run(database: Database) {
           database.register("message", hooks.post.message)
@@ -577,7 +607,7 @@ for (
         name: "rolls back SQL and hook writes when a hook fails",
         async run(database: Database) {
           await setup(database)
-          database.register("audit", async function (user: User) {
+          database.register("audit", async function ({ result: user }: { result: User }) {
             await this.query(Query.recordAudit(user.id, "FAILED"))
             throw new Error("audit failed")
           })
@@ -591,7 +621,7 @@ for (
         async run(database: Database) {
           await setup(database)
           await database.run("INSERT INTO users(id, domain) VALUES ('2', 'example.org')")
-          database.register("audit", (user: User) => {
+          database.register("audit", ({ result: user }: { result: User }) => {
             if (user.id === "1")
               throw new Error("first failed")
           })
@@ -708,7 +738,7 @@ Deno.test("test_hooks: generated context and input types reject incompatible hoo
   // @ts-expect-error A pre-hook must return the original input tuple type.
   const input: AdvancedHooks<Context>["pre"]["normalize"] = () => Promise.resolve([123])
   // @ts-expect-error The generated context type includes a boolean censor field.
-  const context: AdvancedHooks<Context>["post"]["censor"] = (_context: { censor: number }, row: { message: string }) => row.message
+  const context: AdvancedHooks<Context>["post"]["censor"] = ({ result: row }: { context?: { censor: number }; result: { message: string } }) => row.message
   void [input, context]
   return Promise.resolve()
 })
