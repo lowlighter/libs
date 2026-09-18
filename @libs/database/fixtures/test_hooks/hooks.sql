@@ -1,4 +1,4 @@
--- @import { User } from "../test_queries/types.ts"
+-- @import type { User } from "../test_queries/types.ts"
 
 -- greet(name: string): {message: string}
 -- #normalize("trim")

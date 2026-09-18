@@ -1,7 +1,16 @@
 // Imports
 import { expect } from "@libs/testing"
 import { inspect } from "@libs/testing/highlight"
-import { generate } from "./generate/generator.ts"
+import { generate, generateTables } from "./generate/generator.ts"
+import * as Models from "./fixtures/test_schema/models.ts"
+import Expressions from "./fixtures/test_schema/expressions.gen.ts"
+import { ddl } from "./schema/_ddl.ts"
+import { is as schema } from "./schema/mod.ts"
+import SchemaQuery from "./fixtures/test_schema/queries.gen.ts"
+import Table from "./fixtures/test_schema/models.gen.ts"
+import type { Summary, User as Model } from "./fixtures/test_schema/models.ts"
+import type { is } from "./schema/mod.ts"
+import type { Hooks as SchemaHooks } from "./fixtures/test_schema/queries.gen.ts"
 import { Database, Type } from "./database.ts"
 import Query from "./fixtures/test_queries/queries.gen.ts"
 import { hooks } from "./fixtures/test_queries/hooks.ts"
@@ -28,6 +37,106 @@ for (
 ) {
   for (
     const { name, run } of [
+      {
+        name: "schema expressions preserve binding and return types",
+        async run(database: Database) {
+          const id = "123e4567-e89b-42d3-a456-426614174000"
+          expect(await database.query(Expressions.primitive({ id, count: 1, active: true, big: 1n, choice: "one" }))).toEqual({ id })
+          expect(await database.query(Expressions.optional(undefined))).toEqual({ id })
+          expect(await database.query(Expressions.nullable(null))).toEqual({ id })
+          expect(await database.query(Expressions.readonly([id]))).toEqual([{ id }])
+          expect(await database.query(Expressions.rest(id))).toEqual([{ id }])
+          expect(await database.query(Expressions.arrayable({ id }))).toEqual([{ id }])
+          expect(await database.query(Expressions.promised({ id }))).toEqual({ id })
+          expect(await database.query(Expressions.parenthesized(id))).toEqual({ id })
+          expect(await database.query(Expressions.dates({ id, date: new Date(0) }))).toEqual({ id, date: new Date(0) })
+          expect(await database.query(Expressions.arrayPattern([id]))).toEqual({ id })
+          expect(await database.query(Expressions.readonlyObject({ id }))).toEqual({ id })
+          expect(await database.query(Expressions.readonlyRows(id))).toEqual([{ id }])
+          const generic = await database.query(Expressions.generic({ id, extra: "kept" }))
+          const extra: string = generic.extra
+          expect(extra).toBe("kept")
+          expect(generic).toEqual({ id, extra: "kept" })
+          expect(await database.query(Expressions.objectRest({ id, active: true }))).toEqual({ id, active: true })
+          expect(await database.query(Expressions.arrayRest([id, id]))).toEqual({ id })
+          await expect(database.query(Expressions.objectRest({ id: "bad", active: true }))).rejects.toThrow()
+        },
+      },
+      {
+        name: "schema queries apply defaults and round-trip typed storage",
+        async run(database: Database) {
+          const input = await setupSchema(database)
+          const expected = { ...input, name: "Default", active: true }
+          const result: is.output<typeof Model> = await database.query(SchemaQuery.insert(input))
+          expect(result).toEqual(expected)
+          expect(await database.query(SchemaQuery.find(input.id))).toEqual(expected)
+          expect(await database.query(SchemaQuery.list())).toEqual([expected])
+          expect(await database.query(SchemaQuery.find("123e4567-e89b-42d3-a456-426614174001"))).toBeNull()
+        },
+      },
+      {
+        name: "schema queries decode projections, aliases, and intersections",
+        async run(database: Database) {
+          const input = await setupSchema(database)
+          const { id, ...rest } = await database.query(SchemaQuery.insert(input))
+          expect(await database.query(SchemaQuery.renamed(id))).toEqual({ ...rest, my_id: id })
+          expect(await database.query(SchemaQuery.partial(id))).toEqual({ name: "Default", active: true })
+          expect(await database.query(SchemaQuery.destructured(input))).toEqual({ id, theme: "dark" })
+          expect(await database.query(SchemaQuery.restObject(input))).toEqual({ id, ...rest })
+          expect(await database.query(SchemaQuery.readonlyModel(input))).toEqual({ id, ...rest })
+          const generic = await database.query(SchemaQuery.generic({ ...input, extra: "kept" }))
+          const extra: string = generic.extra
+          expect(extra).toBe("kept")
+          expect(generic).toEqual({ id, ...rest, extra: "kept" })
+        },
+      },
+      {
+        name: "composite primary keys enforce pair uniqueness and non-null columns",
+        async run(database: Database) {
+          const table = schema.table("schema_composite", { first: schema.int(), second: schema.int().optional() }).primary(["first", "second"])
+          try {
+            await database.run(ddl(table, database.type).join("\n"))
+            await database.run("INSERT INTO schema_composite VALUES (1, 1), (1, 2), (2, 1)")
+            await expect(database.run("INSERT INTO schema_composite VALUES (1, 1)")).rejects.toThrow()
+            await expect(database.run("INSERT INTO schema_composite VALUES (3, NULL)")).rejects.toThrow()
+          } finally {
+            await database.run("DROP TABLE IF EXISTS schema_composite")
+          }
+        },
+      },
+      {
+        name: "schema DDL enforces primary, unique, and foreign keys",
+        async run(database: Database) {
+          const input = await setupSchema(database)
+          await database.query(SchemaQuery.insert(input))
+          await expect(database.query(SchemaQuery.insert({ ...input, id: "invalid" }))).rejects.toThrow()
+          await expect(database.query(SchemaQuery.insert(input))).rejects.toThrow()
+          await expect(database.query(SchemaQuery.insert({ ...input, id: "123e4567-e89b-42d3-a456-426614174002" }))).rejects.toThrow()
+          await expect(database.query(SchemaQuery.insert({ ...input, id: "123e4567-e89b-42d3-a456-426614174002", name: "Other", team: 999 }))).rejects.toThrow()
+          await database.run("DELETE FROM schema_teams")
+          expect((await database.query(SchemaQuery.find(input.id)))?.team).toBeNull()
+        },
+      },
+      {
+        name: "precheck runs after hooks and postcheck rolls back invalid results",
+        async run(database: Database) {
+          const input = await setupSchema(database)
+          await database.query(SchemaQuery.insert(input))
+          const normalize: SchemaHooks["pre"]["normalize"] = (id, name) => Promise.resolve([id, name?.trim().toUpperCase()])
+          const summarize: SchemaHooks["post"]["summarize"] = (user) => {
+            expect(user.created).toBeInstanceOf(Date)
+            expect(typeof user.active).toBe("boolean")
+            return Promise.resolve({ name: user.name, active: user.active })
+          }
+          database.register("normalize", normalize)
+          database.register("summarize", summarize)
+          const summary: is.output<typeof Summary> = await database.query(SchemaQuery.update(input.id, " updated "))
+          expect(summary).toEqual({ name: "UPDATED", active: true })
+          database.register("summarize", () => ({ name: "x", active: true }))
+          await expect(database.query(SchemaQuery.update(input.id, " rollback "))).rejects.toThrow()
+          expect((await database.query(SchemaQuery.find(input.id)))?.name).toBe("UPDATED")
+        },
+      },
       {
         name: "generated defaults preserve regular expressions and template literals",
         async run(database: Database) {
@@ -441,7 +550,12 @@ for (
       ignore: !backend.url,
       async fn() {
         await using database = new Database(backend.url!)
-        await run(database)
+        try {
+          await run(database)
+        } finally {
+          if (["schema queries", "schema DDL", "precheck runs"].some((prefix) => name.startsWith(prefix)))
+            await database.run('DROP TABLE IF EXISTS "schema_users"; DROP TABLE IF EXISTS "schema_teams";')
+        }
       },
     })
   }
@@ -517,7 +631,7 @@ Deno.test({
 })
 
 // Invalid annotations are read directly rather than launching the CLI
-for (const name of ["index", "path", "duplicate", "hook", "quote", "pre_return"]) {
+for (const name of ["index", "path", "duplicate", "hook", "quote", "pre_return", "schema_expression", "schema_import", "schema_keys"]) {
   Deno.test({
     name: `\`generate(${name}.sql)\` rejects invalid annotations`,
     permissions: { read: true },
@@ -542,3 +656,57 @@ Deno.test({
     expect(source).toContain('import{Type as _Type}from"@libs/database";')
   },
 })
+
+/** Create generated schema fixtures and return a valid input without application defaults. */
+async function setupSchema(database: Database): Promise<is.input<typeof Model>> {
+  await database.run('DROP TABLE IF EXISTS "schema_users"; DROP TABLE IF EXISTS "schema_teams";')
+  await database.query(Table.create())
+  const [team] = await database.prepare<{ id: number }>("INSERT INTO schema_teams(name) VALUES ('Team') RETURNING id").run()
+  return {
+    id: "123e4567-e89b-42d3-a456-426614174000",
+    team: team.id,
+    created: new Date("2020-01-01T00:00:00Z"),
+    settings: { theme: "dark", dates: [new Date(0)], count: 999999999999999999999999n },
+    tags: ["one", "two"],
+    flags: { test: true },
+    payload: "a JSON string",
+    count: 9007199254740993n,
+  }
+}
+
+// Compare source fixtures to build artifacts without invoking the CLI
+for (const name of ["example/example", "test_queries/queries", "test_bindings/bindings", "test_hooks/hooks", "test_literals/literals", "test_literals/postgres", "test_types/types", "test_schema/queries", "test_schema/expressions"]) {
+  Deno.test({
+    name: `generate preserves the built ${name} fixture`,
+    permissions: { read: true },
+    async fn() {
+      const source = await Deno.readTextFile(new URL(`./fixtures/${name}.sql`, import.meta.url))
+      const built = await Deno.readTextFile(new URL(`./fixtures/${name}.gen.ts`, import.meta.url))
+      const timestamp = /Last generated: [^\n]+/g
+      expect(generate([source]).replace(timestamp, "Last generated:")).toBe(built.replace(timestamp, "Last generated:"))
+    },
+  })
+}
+
+Deno.test({
+  name: "generateTables preserves the built dependency-ordered DDL fixture",
+  permissions: { read: true },
+  async fn() {
+    const built = await Deno.readTextFile(new URL("./fixtures/test_schema/models.gen.ts", import.meta.url))
+    const timestamp = /Last generated: [^\n]+/g
+    expect(generateTables(Models).replace(timestamp, "Last generated:")).toBe(built.replace(timestamp, "Last generated:"))
+  },
+})
+
+for (
+  const { name, declarations } of [
+    { name: "no table exports", declarations: { Value: schema.string() } },
+    { name: "reserved export", declarations: { create: schema.table("items", { id: schema.int() }) } },
+    { name: "duplicate table", declarations: { One: schema.table("items", { id: schema.int() }), Two: schema.table("items", { id: schema.int() }) } },
+    { name: "cyclic references", declarations: { One: schema.table("one", { id: schema.int().references("two", "id") }), Two: schema.table("two", { id: schema.int().references("one", "id") }) } },
+  ]
+) {
+  Deno.test(`generateTables rejects ${name}`, () => {
+    expect(() => generateTables(declarations)).toThrow()
+  })
+}

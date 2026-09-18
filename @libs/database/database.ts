@@ -100,7 +100,10 @@ export class Database implements AsyncDisposable {
         this.#schedule(async () => {
           if (this.#sqlite) {
             native ??= this.#sqlite.prepare(statement)
-            return native.all(...parameters.map(sqlite)) as unknown as T[]
+            native.setReadBigInts(true)
+            return native.all(...parameters.map(sqlite)).map((row) =>
+              Object.fromEntries(Object.entries(row).map(([key, value]) => [key, typeof value === "bigint" && value >= BigInt(Number.MIN_SAFE_INTEGER) && value <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(value) : value]))
+            ) as unknown as T[]
           }
           return Array.from(await (this.#context.getStore()?.connection ?? this.#postgres)?.unsafe(statement, parameters as never[], { prepare: true }) ?? []) as T[]
         }),
@@ -134,6 +137,9 @@ export class Database implements AsyncDisposable {
           operation = operation.bind(next as A)
         }
       }
+      // Validate hook-transformed inputs before opening a top-level transaction
+      if (operation.precheck)
+        operation = await operation.precheck()
       const hooks = (operation.hooks?.post ?? []).map(({ name, args }) => ({ hook: this.#hook(name), args }))
       // Execute SQL and apply post-hooks
       const execute = async () => {
@@ -143,7 +149,7 @@ export class Database implements AsyncDisposable {
           if (next !== undefined)
             result = next
         }
-        return result as T
+        return operation.postcheck ? await operation.postcheck(result) : result as T
       }
       if ((!hooks.length) || context.transaction)
         return await execute()
@@ -231,6 +237,10 @@ export interface Query<T, R = T, A extends unknown[] = unknown[]> {
   bind(inputs: A): Query<T, R, A>
   /** Execute query against the selected database. */
   execute(database: Database, context: Record<string, unknown> | null): Promise<R>
+  /** Validate final pre-hook inputs and rebuild bindings. */
+  precheck?(): Promise<Query<T, R, A>>
+  /** Validate the final post-hook result within the active transaction. */
+  postcheck?(value: unknown): Promise<T>
   /** Hooks. */
   hooks?: {
     /** Hooks that may replace the query argument tuple. */

@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "exports": {
     ".": "./mod.ts",
-    "./generate": "./generate/mod.ts"
+    "./generate": "./generate/mod.ts",
+    "./schema": "./schema/mod.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.19",
@@ -17,7 +18,7 @@
   "tasks": {
     "build": {
       "description": "Generate all valid SQL fixtures",
-      "command": "deno run --allow-env=CI --allow-run=sudo fixtures/_github_ci.ts && deno run --allow-read --allow-write --allow-run=deno --ignore-env generate/mod.ts --check --ignore-errors fixtures/**/*.sql"
+      "command": "deno run --allow-env=CI --allow-run=sudo fixtures/_github_ci.ts && deno run --allow-read --allow-write --allow-run=deno --ignore-env generate/mod.ts --table --check fixtures/test_schema/models.ts && deno run --allow-read --allow-write --allow-run=deno --ignore-env generate/mod.ts --check --ignore-errors fixtures/**/*.sql"
     }
   }
 }

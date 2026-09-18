@@ -1,4 +1,4 @@
--- @import { Greeting } from "./example.ts"
+-- @import type { Greeting } from "./example.ts"
 
 -- hello(name: string): Greeting
 SELECT 'Hello, ' || ${1} AS message;

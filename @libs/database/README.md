@@ -16,7 +16,7 @@ const users = await database.query(Query.getUsers("example.org"))
 Define your SQL queries and the corresponding TypeScript signatures in comments. Custom types can be imported using the `@import` directive.
 
 ```sql
--- @import { User } from "./types.ts"
+-- @import type { User } from "./types.ts"
 
 -- getUsers(domain: string): User[]
 SELECT * FROM users WHERE domain=${1} ORDER BY id;
@@ -37,9 +37,37 @@ deno run --allow-read --allow-write @libs/database/generate users.sql
 
 ### Special syntax
 
-#### `@import`
+#### `@import type`
 
 Used to import custom types from other TypeScript files.
+
+```sql
+-- @import type { User } from "./types.ts"
+```
+
+#### `@import`
+
+Used to import schema definitions created with `@libs/database/schema`. Unlike `@import type`, this directive add validation hooks based on the provided signature.
+
+```sql
+-- @import { User } from "./types.ts"
+
+-- getUser(id: User["id"]): Nullable<User>
+SELECT * FROM users WHERE id=${1};
+
+-- renamed(id: User["id"]): Omit<User, "id"> & { my_id: User["id"] }
+SELECT id AS my_id, name, active, created, settings FROM users WHERE id=${id};
+```
+
+In the above example, the `id` parameter would be validated against what the `User` schema allows for that field. Output rows are also validated against the declared result type.
+
+More complex type expressions can be used (using unions, intersections, `Pick`, `Omit`, `Partial`, etc.) but very complex expressions may not be fully supported and could lead to generation errors. If you encounter such issues, consider implementing your own validation hooks.
+
+The validation hook for inputs is performed after all user pre-hook functions have been executed. The validation hook for output is performed after all user post-hook functions have been executed.
+
+A decoding hook is executed right after the SQL execution so the post-hook functions receive the decoded result.
+
+This feature can be disabled per query using the `-- *typeonly` directive.
 
 #### Function signatures
 

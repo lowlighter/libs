@@ -2,11 +2,11 @@
 // Imports
 import { parseArgs } from "@std/cli"
 import { gray, green, red, yellow } from "@std/fmt/colors"
-import { basename, dirname, extname, join, relative, resolve } from "@std/path"
-import { generate } from "./generator.ts"
+import { basename, dirname, extname, join, relative, resolve, toFileUrl } from "@std/path"
+import { generate, generateTables } from "./generator.ts"
 import { assert } from "@std/assert"
 
-const args = parseArgs(Deno.args, { string: ["output", "_"], boolean: ["help", "ignore-errors", "check"], alias: { o: "output", h: "help" } })
+const args = parseArgs(Deno.args, { string: ["output", "_"], boolean: ["help", "ignore-errors", "check", "table"], alias: { o: "output", h: "help" } })
 if (args.help) {
   console.error(`Usage: deno run --allow-read --allow-write --ignore-env [--allow-run=deno] jsr:@libs/database/generate [options] file.sql [file.sql ...]`)
   console.error(``)
@@ -17,6 +17,7 @@ if (args.help) {
   console.error(`Options:`)
   console.error(`  -o, --output=FILE    Combine all inputs into a single .gen.ts file`)
   console.error(`  -h, --help           Show this help message`)
+  console.error(`      --table          Generate table/index creation queries from exported TypeScript schemas`)
   console.error(`      --check          Type-check generated files (requires run permission for Deno)`)
   console.error(`      --ignore-errors  Continue processing other files if an error occurs`)
   console.error(``)
@@ -42,7 +43,7 @@ const outputs = [] as string[]
 for (const [files, output] of queue) {
   if (files.some((file) => resolve(file) === resolve(output)))
     throw new TypeError("The generated output must not overwrite an SQL input file")
-  const sources = await Promise.all(files.map(async (file) => {
+  const sources = args.table ? [] : await Promise.all(files.map(async (file) => {
     console.error(gray(`→ ${file}`))
     const source = await Deno.readTextFile(file)
     return source.replace(/^(\s*--\s*@import\s+.+?\s+from\s+)(["'])(\.[^"']+)\2/gm, (_match, prefix: string, quote: string, path: string) => {
@@ -51,7 +52,19 @@ for (const [files, output] of queue) {
     })
   }))
   try {
-    await Deno.writeTextFile(output, generate(sources))
+    const declarations = {} as Record<string, unknown>
+    if (args.table) {
+      for (const file of files) {
+        console.error(gray(`→ ${file}`))
+        const exports = await import(toFileUrl(resolve(file)).href)
+        for (const [name, schema] of Object.entries(exports)) {
+          if (Object.hasOwn(declarations, name))
+            throw new SyntaxError(`Duplicate schema export: ${name}`)
+          declarations[name] = schema
+        }
+      }
+    }
+    await Deno.writeTextFile(output, args.table ? generateTables(declarations) : generate(sources))
     outputs.push(output)
     console.error(green(`✓ ${output}`))
   } catch (error) {
