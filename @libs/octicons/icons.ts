@@ -208,6 +208,26 @@ export function calendar(options?: SVGOptions): string {
   return octicons["calendar"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/chat-16 | chat icon}. */
+export function chat(options?: SVGOptions): string {
+  return octicons["chat"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/chat-add-16 | chat-add icon}. */
+export function chatAdd(options?: SVGOptions): string {
+  return octicons["chat-add"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/chat-locked-16 | chat-locked icon}. */
+export function chatLocked(options?: SVGOptions): string {
+  return octicons["chat-locked"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/chat-question-16 | chat-question icon}. */
+export function chatQuestion(options?: SVGOptions): string {
+  return octicons["chat-question"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/check-16 | check icon}. */
 export function check(options?: SVGOptions): string {
   return octicons["check"].toSVG(options)
@@ -346,6 +366,11 @@ export function commentAi(options?: SVGOptions): string {
 /** {@link https://primer.style/octicons/icon/comment-discussion-16 | comment-discussion icon}. */
 export function commentDiscussion(options?: SVGOptions): string {
   return octicons["comment-discussion"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/comment-fill-16 | comment-fill icon}. */
+export function commentFill(options?: SVGOptions): string {
+  return octicons["comment-fill"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/comment-locked-16 | comment-locked icon}. */
@@ -833,6 +858,11 @@ export function gitPullRequestLocked(options?: SVGOptions): string {
   return octicons["git-pull-request-locked"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/git-pull-request-unlisted-16 | git-pull-request-unlisted icon}. */
+export function gitPullRequestUnlisted(options?: SVGOptions): string {
+  return octicons["git-pull-request-unlisted"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/globe-16 | globe icon}. */
 export function globe(options?: SVGOptions): string {
   return octicons["globe"].toSVG(options)
@@ -968,6 +998,11 @@ export function issueOpened(options?: SVGOptions): string {
   return octicons["issue-opened"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/issue-relates-to-16 | issue-relates-to icon}. */
+export function issueRelatesTo(options?: SVGOptions): string {
+  return octicons["issue-relates-to"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/issue-reopened-16 | issue-reopened icon}. */
 export function issueReopened(options?: SVGOptions): string {
   return octicons["issue-reopened"].toSVG(options)
@@ -1011,6 +1046,11 @@ export function keyAsterisk(options?: SVGOptions): string {
 /** {@link https://primer.style/octicons/icon/law-16 | law icon}. */
 export function law(options?: SVGOptions): string {
   return octicons["law"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/library-16 | library icon}. */
+export function library(options?: SVGOptions): string {
+  return octicons["library"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/light-bulb-16 | light-bulb icon}. */
@@ -1347,6 +1387,11 @@ export function pulse(options?: SVGOptions): string {
 /** {@link https://primer.style/octicons/icon/question-16 | question icon}. */
 export function question(options?: SVGOptions): string {
   return octicons["question"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/question-bubble-16 | question-bubble icon}. */
+export function questionBubble(options?: SVGOptions): string {
+  return octicons["question-bubble"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/quote-16 | quote icon}. */
@@ -1744,6 +1789,11 @@ export function terminal(options?: SVGOptions): string {
   return octicons["terminal"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/terminal-locked-16 | terminal-locked icon}. */
+export function terminalLocked(options?: SVGOptions): string {
+  return octicons["terminal-locked"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/three-bars-16 | three-bars icon}. */
 export function threeBars(options?: SVGOptions): string {
   return octicons["three-bars"].toSVG(options)
@@ -1779,9 +1829,24 @@ export function trash(options?: SVGOptions): string {
   return octicons["trash"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/triangle-16 | triangle icon}. */
+export function triangle(options?: SVGOptions): string {
+  return octicons["triangle"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/triangle-circle-16 | triangle-circle icon}. */
+export function triangleCircle(options?: SVGOptions): string {
+  return octicons["triangle-circle"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/triangle-down-16 | triangle-down icon}. */
 export function triangleDown(options?: SVGOptions): string {
   return octicons["triangle-down"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/triangle-fill-16 | triangle-fill icon}. */
+export function triangleFill(options?: SVGOptions): string {
+  return octicons["triangle-fill"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/triangle-left-16 | triangle-left icon}. */
