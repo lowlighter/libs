@@ -10,7 +10,7 @@ if (import.meta.main)
 
 /** Generate query or DDL modules from command-line inputs. */
 async function main(): Promise<void> {
-  const args = parseArgs(Deno.args, { string: ["output", "_"], boolean: ["help", "ignore-errors", "check", "table"], alias: { o: "output", h: "help" } })
+  const args = parseArgs(Deno.args, { string: ["output", "license", "_"], boolean: ["help", "ignore-errors", "check", "table"], alias: { o: "output", h: "help" } })
   if (args.help) {
     console.error(`Usage: deno run --allow-read --allow-write --allow-run --ignore-env jsr:@libs/database/generate [options] file.sql [file.sql ...]`)
     console.error(``)
@@ -22,6 +22,7 @@ async function main(): Promise<void> {
     console.error(`  -o, --output=FILE    Combine all inputs into a single .gen.ts file`)
     console.error(`  -h, --help           Show this help message`)
     console.error(`      --table          Generate table/index creation queries from exported TypeScript schemas`)
+    console.error(`      --license=TEXT   Prepend a complete license comment verbatim`)
     console.error(`      --check          Type-check generated files (requires run permission for Deno)`)
     console.error(`      --ignore-errors  Continue processing other files if an error occurs`)
     console.error(``)
@@ -71,7 +72,9 @@ async function main(): Promise<void> {
           }
         }
       }
-      await Deno.writeTextFile(output, args.table ? await generateTables(declarations) : await generate(sources))
+      const generated = args.table ? await generateTables(declarations) : await generate(sources)
+      const license = args.license ? args.license + (args.license.endsWith("\n") ? "" : "\n") : ""
+      await Deno.writeTextFile(output, license + generated)
       outputs.push(output)
       console.error(green(`✓ ${output}`))
     } catch (error) {

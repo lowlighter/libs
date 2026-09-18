@@ -138,3 +138,21 @@ Post-hooks can be chained, with each hook receiving the result of the previous o
 ```
 
 Hooks must be registered within the database instance before executing any queries that rely on them. When using a regular function, the `this` context refers to the database instance, allowing you to execute and await further database operations within the same transaction.
+
+### Backend-specific SQL
+
+SQL must be supported by the backend you are targeting.
+
+It is however possible to write specific SQL fragments for different backends using the standalone comment tags.
+
+```sql
+-- search(user: string): { user: string }[]
+SELECT value AS user
+-- <sqlite>
+FROM json_each('["alice","bob"]')
+-- </sqlite>
+-- <postgres>
+FROM jsonb_array_elements_text('["alice","bob"]'::jsonb) AS targets(value)
+-- </postgres>
+WHERE value = ${1};
+```
