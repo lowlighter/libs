@@ -118,6 +118,18 @@ jobs:
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - name: Prepare npm trusted publishing
+        run: |
+          npm install --global npm@11
+          node --version
+          npm --version
+          if [[ -z "$ACTIONS_ID_TOKEN_REQUEST_URL" || -z "$ACTIONS_ID_TOKEN_REQUEST_TOKEN" ]]; then
+            echo "::error::GitHub OIDC credentials are missing. Grant id-token: write in both the calling workflow and the publishing job."
+            exit 1
+          fi
       - uses: denoland/setup-deno@v2
       - name: Run deno bump-version
         id: bump
@@ -191,7 +203,7 @@ jobs:
       - name: Run deno pack and npm publish
         working-directory: ${{ inputs.package }}
         env:
-          REPOSITORY: https://github.com/${{ github.repository }}
+          REPOSITORY: git+https://github.com/${{ github.repository }}.git
         run: |
           deno run --allow-all "$(git rev-parse --show-toplevel)/@libs/toolbox/scripts/publish/npm.ts" --scope '@lowlighter' --repository "$REPOSITORY"
       # Publish to deno.land/x
