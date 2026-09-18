@@ -138,3 +138,46 @@ Deno.test("server schemas remain compatible with shared class static schemas", (
   const invalid: is.output<typeof refined> = "other"
   void invalid
 })
+
+Deno.test("tables inherit shared columns, checks, defaults, and strictness", () => {
+  const shared = z.strictObject({
+    id: z.int().positive().optional(),
+    name: z.string().min(2),
+    active: z.boolean().default(true),
+  }).refine((value) => value.name !== "reserved")
+  const table = is.table("shared", shared, { id: is.inherit.primary(), name: is.inherit.unique() })
+  const input: is.input<typeof table> = { name: "user" }
+  const output: is.output<typeof shared> = table.parse(input)
+  expect(output).toEqual({ name: "user", active: true })
+  expect(table.shape.active.index().parse(undefined)).toBe(true)
+  expect(metadata.get(table.shape.id)?.primary).toEqual({})
+  expect(metadata.get(shared.shape.id)).toBeUndefined()
+  expect(() => table.parse({ name: "reserved" })).toThrow()
+  expect(() => table.parse({ name: "x" })).toThrow()
+  expect(() => table.parse({ name: "user", extra: true })).toThrow()
+  expect(() => table.parse({ name: "user", id: -1 })).toThrow()
+  expect(is.table("copy", shared, {}).parse(input)).toEqual(output)
+  // @ts-expect-error Defaults remain required in the parsed output.
+  const invalid: is.output<typeof table> = { name: "user" }
+  void invalid
+})
+
+Deno.test("tables support explicit replacements, additions, and bare inheritance", () => {
+  const shared = z.object({ id: z.int().optional(), name: z.string() }).catchall(z.boolean())
+  const table = is.table("shared", shared, {
+    id: is.column(shared.shape.id).primary(),
+    name: z.literal("fixed"),
+    extra: is.string().default("server"),
+  })
+  expect(table.parse({ name: "fixed", other: true })).toEqual({ name: "fixed", extra: "server", other: true })
+  expect(metadata.get(table.shape.id)?.primary).toEqual({})
+  expect(() => table.parse({ name: "fixed", other: 1 })).toThrow()
+  const output: "fixed" = table.shape.name.parse("fixed")
+  expect(output).toBe("fixed")
+  expect(is.table("bare", shared, { name: is.inherit }).shape.name.parse("name")).toBe("name")
+  expect(shared.parse({ name: "original" })).toEqual({ name: "original" })
+  // @ts-expect-error Inheritance requires a column present in the shared schema.
+  expect(() => is.table("invalid", shared, { absent: is.inherit })).toThrow("Cannot inherit unknown column invalid.absent")
+  // @ts-expect-error Inheritance is only available with a shared object argument.
+  expect(() => is.table("invalid", { id: is.inherit }).parse({ id: 1 })).toThrow()
+})

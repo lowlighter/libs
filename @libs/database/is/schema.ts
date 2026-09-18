@@ -1,14 +1,40 @@
 // Imports
 import { is as z } from "@libs/is"
+import { Inheritance, resolve } from "./_inherit.ts"
+export type { Inheritance } from "./_inherit.ts"
 import { decorate } from "./_metadata.ts"
 import type { Schema } from "./_metadata.ts"
 export type { Checks, Modifiers, ObjectModifiers, Primary, References, Schema } from "./_metadata.ts"
 
+/** Inherit a shared column and optionally attach database constraints. */
+export const inherit: Inheritance = new Inheritance()
+
 /** Declare a database table and its column schemas. */
-export function table<S extends z.ZodRawShape>(name: string, shape: S): Schema<z.ZodObject<S>> {
+export function table<S extends z.ZodRawShape>(name: string, shape: S): Schema<z.ZodObject<S>>
+/** Extend a shared object schema with column overrides and inherited constraints. */
+export function table<S extends z.ZodRawShape, C extends z.core.$ZodObjectConfig, O extends Record<string, z.ZodType | Inheritance>>(
+  name: string,
+  schema: z.ZodObject<S, C>,
+  overrides: O & { [K in keyof O]: O[K] extends Inheritance ? K extends keyof S ? O[K] : never : O[K] },
+): Schema<z.ZodObject<inherited<S, O>, C>>
+export function table(name: string, source: z.ZodRawShape | z.ZodObject, overrides?: Record<string, z.ZodType | Inheritance>): Schema<z.ZodObject> {
   if (!name || name.includes("\0"))
-    throw new TypeError(`Invalid table name ${JSON.stringify(name)}`)
-  return decorate(z.object(shape), { table: name })
+    throw new TypeError("Invalid table name " + JSON.stringify(name))
+  // Keep shared object checks and policies while resolving each column independently
+  if (source instanceof z.ZodObject) {
+    const shape: Record<string, z.ZodType> = Object.fromEntries(Object.entries(source.shape).map(([key, value]) => [key, column(value as z.ZodType)]))
+    for (const [key, value] of Object.entries(overrides ?? {})) {
+      if (value instanceof Inheritance) {
+        if (!Object.hasOwn(source.shape, key))
+          throw new TypeError("Cannot inherit unknown column " + name + "." + key)
+        shape[key] = resolve(source.shape[key], value)
+      } else {
+        shape[key] = value
+      }
+    }
+    return decorate(source.safeExtend(shape), { table: name })
+  }
+  return decorate(z.object(source), { table: name })
 }
 
 /** Wrap an existing Zod schema with database modifiers without changing the original. */
@@ -125,3 +151,9 @@ export const iso: {
 export type input<T extends z.core.$ZodType> = z.input<T>
 /** Output produced by a schema after defaults and validation. */
 export type output<T extends z.core.$ZodType> = z.output<T>
+
+/** Resolve inherited fields and explicit overrides without widening column types. */
+type inherited<S extends z.ZodRawShape, O extends Record<string, z.ZodType | Inheritance>> = {
+  [K in keyof S | keyof O]: K extends keyof O ? O[K] extends Inheritance ? K extends keyof S ? S[K] extends z.ZodType ? Schema<S[K]> : S[K] : never : O[K] extends z.ZodType ? O[K] : never : K extends keyof S ? S[K] extends z.ZodType ? Schema<S[K]> : S[K]
+  : never
+}

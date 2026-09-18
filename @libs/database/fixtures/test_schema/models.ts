@@ -1,10 +1,11 @@
 // Imports
+import { is as z } from "@libs/is"
 import { is } from "@libs/database/is"
 
 /** Parent table for referential action checks. */
-export const Team = is.table("schema_teams", {
-  id: is.int().primary({ identity: true }),
-  name: is.string().min(1).unique(),
+export const Team = is.table("schema_teams", z.object({ id: z.int(), name: z.string().min(1) }), {
+  id: is.inherit.primary({ identity: true }),
+  name: is.inherit.unique(),
 })
 
 /** Application model with portable storage and constraints. */
