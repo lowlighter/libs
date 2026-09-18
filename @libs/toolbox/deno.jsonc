@@ -4,12 +4,12 @@
   "version": "1.6.0",
   "imports": {
     "@std/fmt": "jsr:@std/fmt@^1.0.10",
-    "@std/fs": "jsr:@std/fs@^1.0.23",
-    "@std/path": "jsr:@std/path@^1.1.4",
+    "@std/fs": "jsr:@std/fs@^1.0.24",
+    "@std/path": "jsr:@std/path@^1.1.6",
     "@std/tar": "jsr:@std/tar@0.1.10",
-    "@std/streams": "jsr:@std/streams@^1.0.17",
-    "@std/cli": "jsr:@std/cli@^1.0.28",
-    "@std/encoding": "jsr:@std/encoding@^1.0.10",
+    "@std/streams": "jsr:@std/streams@^1.1.2",
+    "@std/cli": "jsr:@std/cli@^1.0.32",
+    "@std/encoding": "jsr:@std/encoding@^1.0.11",
     "@std/jsonc": "jsr:@std/jsonc@^1.0.2"
   },
   "exports": {
