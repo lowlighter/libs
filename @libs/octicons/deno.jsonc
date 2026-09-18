@@ -2,6 +2,7 @@
   "icon": "㊗️",
   "name": "@libs/octicons",
   "version": "0.1.0",
+  "license": "SEE LICENSE IN LICENSE",
   "imports": {
     "@primer/octicons": "npm:@primer/octicons@^19.37.0"
   },
