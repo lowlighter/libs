@@ -104,6 +104,8 @@ function nullable(schema: z.core.$ZodType): boolean {
 /** Detect SQL columns that must accept missing application values. */
 function optional(schema: z.core.$ZodType): boolean {
   const definition = schema._zod.def as { type: string; innerType?: z.core.$ZodType }
+  if (["default", "nonoptional"].includes(definition.type))
+    return nullable(definition.innerType!)
   return ["optional", "nullable", "null"].includes(definition.type) || Boolean(definition.innerType && optional(definition.innerType))
 }
 

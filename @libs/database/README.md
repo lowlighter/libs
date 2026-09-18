@@ -22,7 +22,7 @@ Define your SQL queries and the corresponding TypeScript signatures in comments.
 SELECT * FROM users WHERE domain=${1} ORDER BY id;
 
 -- getUser(id: string): Nullable<User>
-SELECT * FROM users WHERE id={id};
+SELECT * FROM users WHERE id=${id};
 
 -- deleteUser(id: string): User
 -- @audit("USER_DELETE")
@@ -32,7 +32,7 @@ DELETE FROM users WHERE id=${1} RETURNING *;
 Generate the TypeScript code from your SQL definitions using the provided CLI.
 
 ```sh
-deno run --allow-read --allow-write @libs/database/generate users.sql
+deno run --allow-read --allow-write --allow-run --ignore-env @libs/database/generate users.sql
 ```
 
 ### Special syntax

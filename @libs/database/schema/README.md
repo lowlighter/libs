@@ -21,7 +21,7 @@ Most of Zod features are preserved, including modifiers and metadata.
 SQL tables queries can be automatically created from the schema definitions:
 
 ```sh
-deno run --allow-read --allow-write --ignore-env @libs/database/generate --table models.ts
+deno run --allow-read --allow-write --allow-run --ignore-env @libs/database/generate --table models.ts
 ```
 
 ```ts
@@ -64,3 +64,22 @@ However, typing information is preserved to offer a transparent mapping between 
 | Number (`is.number()`)               | REAL    | DOUBLE PRECISION |
 | Unix milliseconds (`is.timestamp()`) | INTEGER | BIGINT           |
 | Uint8Array                           | BLOB    | BYTEA            |
+
+## Shared application schemas
+
+Keep common validation in a module importing only `@libs/is`. In a server-only module, wrap existing fields with `is.column(schema)` to add database constraints:
+
+```ts
+import { is } from "@libs/database/schema"
+import { User } from "../shared/user.ts"
+
+export const UserTable = is.table("users", {
+  ...User.shape,
+  id: is.column(User.shape.id).primary(),
+  name: is.column(User.shape.name).unique(),
+})
+```
+
+The wrapper clones the schema, preserving its validation, defaults, and input/output types without modifying the shared original. Keep database imports out of client modules and shared barrels. Wrapping a schema does not add support for otherwise unsupported storage types.
+
+Spreading an object's shape preserves field validation, but does not copy the parent object's refinements or unknown-property policy. Wrapping a whole object as a JSON column preserves those checks.

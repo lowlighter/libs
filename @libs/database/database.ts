@@ -58,18 +58,23 @@ export class Database implements AsyncDisposable {
   /** Serialize independent operations while allowing awaited hook re-entry. */
   async #schedule<T>(callback: () => Promise<T>): Promise<T> {
     const current = this.#context.getStore()
-    if (current?.active)
-      return await callback()
-    this.#assertOpen()
-    const operation = this.#queue.then(async () => {
-      const context = { active: true, transaction: false }
+    const parent = current?.active ? current : undefined
+    if (!parent)
+      this.#assertOpen()
+    const operation = (parent?.queue ?? this.#queue).then(async () => {
+      const context: context = { active: true, transaction: parent?.transaction ?? false, connection: parent?.connection, queue: Promise.resolve() }
       try {
         return await this.#context.run(context, callback)
       } finally {
+        await context.queue
         context.active = false
       }
     })
-    this.#queue = operation.then(() => {}, () => {})
+    const settled = operation.then(() => {}, () => {})
+    if (parent)
+      parent.queue = settled
+    else
+      this.#queue = settled
     return await operation
   }
 
@@ -143,15 +148,20 @@ export class Database implements AsyncDisposable {
       const hooks = (operation.hooks?.post ?? []).map(({ name, args }) => ({ hook: this.#hook(name), args }))
       // Execute SQL and apply post-hooks
       const execute = async () => {
-        let result: unknown = await operation.execute(this, metadata[0] ?? null)
-        for (const { hook, args } of hooks) {
-          const next = await Reflect.apply(hook, this, [...metadata, result, ...args])
-          if (next !== undefined)
-            result = next
+        try {
+          let result: unknown = await operation.execute(this, metadata[0] ?? null)
+          for (const { hook, args } of hooks) {
+            const next = await Reflect.apply(hook, this, [...metadata, result, ...args])
+            if (next !== undefined)
+              result = next
+          }
+          return operation.postcheck ? await operation.postcheck(result) : result as T
+        } finally {
+          // Drain sibling operations before committing or rolling back their transaction
+          await context.queue
         }
-        return operation.postcheck ? await operation.postcheck(result) : result as T
       }
-      if ((!hooks.length) || context.transaction)
+      if ((!hooks.length && !operation.postcheck) || context.transaction)
         return await execute()
       context.transaction = true
       try {
@@ -263,7 +273,7 @@ export interface Invocation<T = unknown, R = unknown> {
 }
 
 /** Context for the current database operation. */
-type context = { active: boolean; transaction: boolean; connection?: postgres.TransactionSql }
+type context = { active: boolean; transaction: boolean; connection?: postgres.TransactionSql; queue: Promise<void> }
 
 /** Normalize input values for SQLite. */
 function sqlite(value: unknown): SQLInputValue {

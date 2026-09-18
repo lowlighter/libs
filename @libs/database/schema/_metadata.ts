@@ -34,9 +34,9 @@ export function decorate<T extends z.ZodType>(schema: T, options: Metadata = {})
 
 /** A Zod schema with chainable database constraints. */
 export type Schema<T extends z.ZodType> =
-  & Omit<T, keyof Modifiers<T> | "partial" | "pick" | "omit" | "extend" | "required" | "strict" | "strip" | "passthrough" | "loose" | chain>
+  & Omit<T, keyof Modifiers<T> | "partial" | "pick" | "omit" | "extend" | "required" | "strict" | "strip" | "passthrough" | "loose" | Checks>
   & Modifiers<T>
-  & { [K in Extract<keyof T, chain>]: T[K] extends (...args: infer A) => unknown ? (...args: A) => Schema<T> : T[K] }
+  & { [K in Extract<keyof T, Checks>]: T[K] extends (...args: infer A) => unknown ? (...args: A) => Schema<T> : T[K] }
   & (T extends { shape: infer S extends z.ZodRawShape } ? ObjectModifiers<S> : unknown)
 
 /** Database modifiers shared by column schemas. */
@@ -127,4 +127,5 @@ export interface Metadata {
   references?: References & { table: string; column: string }
 }
 
-type chain = "min" | "max" | "length" | "regex" | "trim" | "toLowerCase" | "toUpperCase" | "refine" | "superRefine" | "check" | "describe" | "positive" | "negative" | "nonnegative" | "nonpositive" | "multipleOf" | "int" | "safe"
+/** Zod validation methods that preserve database modifiers when chained. */
+export type Checks = "min" | "max" | "length" | "regex" | "trim" | "toLowerCase" | "toUpperCase" | "refine" | "superRefine" | "check" | "describe" | "positive" | "negative" | "nonnegative" | "nonpositive" | "multipleOf" | "int" | "safe"

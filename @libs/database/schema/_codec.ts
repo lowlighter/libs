@@ -158,9 +158,8 @@ export function storage(schema: z.core.$ZodType): string {
 
 /** Convert structured values recursively without applying validation twice. */
 function convert(schema: z.core.$ZodType, value: unknown, reading: boolean, column = true, type = Type.SQLite, document = false): unknown {
-  const original = schema._zod.def as definition
   if ((value === null) || (value === undefined)) {
-    if (reading && value === null && original.type === "optional" && !nullable(original.innerType!))
+    if (reading && value === null && optional(schema) && !nullable(schema))
       return undefined
     return value
   }
@@ -228,6 +227,12 @@ function convert(schema: z.core.$ZodType, value: unknown, reading: boolean, colu
 function nullable(schema: z.core.$ZodType): boolean {
   const definition = schema._zod.def as definition
   return definition.type === "nullable" || definition.type === "null" || Boolean(definition.innerType && nullable(definition.innerType))
+}
+
+/** Detect optional inputs beneath readonly and default wrappers. */
+function optional(schema: z.core.$ZodType): boolean {
+  const definition = schema._zod.def as definition
+  return definition.type === "optional" || Boolean(definition.innerType && optional(definition.innerType))
 }
 
 /** Collect fields of composed object schemas for unambiguous result decoding. */

@@ -1,4 +1,6 @@
 // Imports
+import { is as z } from "@libs/is"
+import { metadata } from "./_metadata.ts"
 import { expect } from "@libs/testing"
 import { Status } from "../fixtures/test_schema/models.ts"
 import * as is from "./schema.ts"
@@ -84,4 +86,33 @@ Deno.test("native TypeScript enums retain their type and reject reverse mapping 
   // @ts-expect-error Numeric enum schemas do not accept reverse mapping names.
   const invalid: is.input<typeof schema> = "Enabled"
   void invalid
+})
+
+Deno.test("is.column preserves shared validation and types without changing the source", () => {
+  const shared = z.string().trim().min(2).default("guest").meta({ description: "Shared name" })
+  const column = is.column(shared).unique()
+  const input: is.input<typeof column> = undefined
+  const output: string = column.parse(input)
+  expect(output).toBe("guest")
+  expect(column.parse(" name ")).toBe("name")
+  expect(() => column.parse(" x ")).toThrow()
+  expect(column.meta()).toEqual({ description: "Shared name" })
+  expect(column).not.toBe(shared)
+  expect("unique" in shared).toBe(false)
+  expect(metadata.has(shared)).toBe(false)
+  expect(metadata.get(column)?.indexes).toEqual([{ columns: undefined, unique: true }])
+  expect(metadata.get(is.column(shared))?.indexes).toBeUndefined()
+  expect(shared.parse(undefined)).toBe("guest")
+  // @ts-expect-error Shared string schemas still reject numeric inputs.
+  const invalid: is.input<typeof column> = 1
+  void invalid
+})
+
+Deno.test("is.column preserves whole-object checks for JSON columns", () => {
+  const shared = z.strictObject({ minimum: z.int(), maximum: z.int() }).refine((value) => value.minimum <= value.maximum)
+  const column = is.column(shared).nullable()
+  expect(column.parse({ minimum: 1, maximum: 2 })).toEqual({ minimum: 1, maximum: 2 })
+  expect(column.parse(null)).toBeNull()
+  expect(() => column.parse({ minimum: 2, maximum: 1 })).toThrow()
+  expect(() => column.parse({ minimum: 1, maximum: 2, extra: true })).toThrow()
 })

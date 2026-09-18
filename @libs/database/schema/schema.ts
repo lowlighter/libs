@@ -2,13 +2,18 @@
 import { is as z } from "@libs/is"
 import { decorate } from "./_metadata.ts"
 import type { Schema } from "./_metadata.ts"
-export type { Primary, References, Schema } from "./_metadata.ts"
+export type { Checks, Modifiers, ObjectModifiers, Primary, References, Schema } from "./_metadata.ts"
 
 /** Declare a database table and its column schemas. */
 export function table<S extends z.ZodRawShape>(name: string, shape: S): Schema<z.ZodObject<S>> {
   if (!name || name.includes("\0"))
     throw new TypeError(`Invalid table name ${JSON.stringify(name)}`)
   return decorate(z.object(shape), { table: name })
+}
+
+/** Wrap an existing Zod schema with database modifiers without changing the original. */
+export function column<T extends z.ZodType>(schema: T): Schema<T> {
+  return decorate(schema.clone())
 }
 
 /** Validate an object stored as JSON when used as a column. */

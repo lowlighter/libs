@@ -105,3 +105,10 @@ Deno.test("generic bounds preserve additional fields while validating known prop
   const both = loose(z.intersection(z.object({ id: z.string() }), z.object({ active: z.boolean() })))
   expect(await validate(both, { id: "ok", active: true, extra: 1 })).toEqual({ id: "ok", active: true, extra: 1 })
 })
+
+Deno.test("optional storage decoding survives readonly and default wrappers", async () => {
+  const optional = is.string().optional().readonly()
+  expect(await validate(optional, decode(optional, null))).toBeUndefined()
+  const fallback = is.string().optional().default("fallback")
+  expect(await validate(fallback, decode(fallback, null))).toBe("fallback")
+})

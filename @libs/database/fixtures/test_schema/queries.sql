@@ -32,3 +32,8 @@ SELECT * FROM schema_users WHERE id=${id} AND active=${rest.active};
 
 -- readonlyModel(input: Readonly<User>): Readonly<User>
 SELECT * FROM schema_users WHERE id=${input.id};
+
+-- invalidOutput(user: User): User
+INSERT INTO schema_users(id, team, name, active, created, settings, tags, flags, payload, count)
+VALUES (${user.id}, ${user.team}, ${user.name}, ${user.active}, ${user.created}, ${user.settings}, ${user.tags}, ${user.flags}, ${user.payload}, ${user.count})
+RETURNING id, team, 'invalid' AS name, active, created, settings, tags, flags, payload, count;

@@ -53,6 +53,8 @@ for (
           expect(await database.query(Expressions.arrayPattern([id]))).toEqual({ id })
           expect(await database.query(Expressions.readonlyObject({ id }))).toEqual({ id })
           expect(await database.query(Expressions.readonlyRows(id))).toEqual([{ id }])
+          expect(await database.query(Expressions.nullableRows())).toEqual([{ id }, { id }])
+          expect(await database.query(Expressions.optionalRows())).toEqual([])
           const generic = await database.query(Expressions.generic({ id, extra: "kept" }))
           const extra: string = generic.extra
           expect(extra).toBe("kept")
@@ -181,6 +183,14 @@ for (
           await expect(database.query(SchemaQuery.insert({ ...input, id: "123e4567-e89b-42d3-a456-426614174002", name: "Other", team: 999 }))).rejects.toThrow()
           await database.run("DELETE FROM schema_teams")
           expect((await database.query(SchemaQuery.find(input.id)))?.team).toBeNull()
+        },
+      },
+      {
+        name: "schema queries roll back failed postchecks without user hooks",
+        async run(database: Database) {
+          const input = await setupSchema(database)
+          await expect(database.query(SchemaQuery.invalidOutput(input))).rejects.toThrow()
+          expect(await database.query(SchemaQuery.find(input.id))).toBeNull()
         },
       },
       {
@@ -540,6 +550,36 @@ for (
         },
       },
       {
+        name: "concurrent nested pre-hook queries keep independent transactions",
+        async run(database: Database) {
+          await setup(database)
+          await database.run("INSERT INTO users(id, domain) VALUES ('2', 'example.org')")
+          database.register("audit", (user: User) => {
+            if (user.id === "1")
+              throw new Error("first failed")
+          })
+          database.register("prepare", async function () {
+            const results = await Promise.allSettled([this.query(Query.deleteUser("1")), this.query(Query.deleteUser("2"))])
+            expect(results.map((result) => result.status)).toEqual(["rejected", "fulfilled"])
+          })
+          await database.query(Advanced.plain("outer"))
+          expect(await database.query(Query.user("1"))).toEqual({ id: "1", domain: "example.org" })
+          expect(await database.query(Query.user("2"))).toBeNull()
+        },
+      },
+      {
+        name: "rollback waits for all concurrently started nested queries",
+        async run(database: Database) {
+          await setup(database)
+          database.register("audit", async function () {
+            await Promise.all([this.query(Query.requiredUser({ id: "missing" })), this.query(Query.recordAudit("nested", "ROLLBACK"))])
+          })
+          await expect(database.query(Query.deleteUser("1"))).rejects.toThrow()
+          expect(await database.query(Query.user("1"))).toEqual({ id: "1", domain: "example.org" })
+          expect(await database.query(Query.events())).toEqual([])
+        },
+      },
+      {
         name: "allows nested hook queries within the transaction",
         async run(database: Database) {
           await setup(database)
@@ -700,10 +740,10 @@ Deno.test({
 for (const name of ["index", "path", "duplicate", "hook", "quote", "pre_return", "typeonly", "raw", "schema_expression", "schema_import", "schema_keys"]) {
   Deno.test({
     name: `\`generate(${name}.sql)\` rejects invalid annotations`,
-    permissions: { read: true },
+    permissions: { read: true, run: true, env: true },
     async fn() {
       const source = await Deno.readTextFile(new URL(`./fixtures/test_invalid/${name}.sql`, import.meta.url))
-      expect(() => generate([source])).toThrow(SyntaxError)
+      await expect(generate([source])).rejects.toThrow(SyntaxError)
     },
   })
 }
@@ -744,23 +784,23 @@ async function setupSchema(database: Database): Promise<is.input<typeof Model>> 
 for (const name of ["example/example", "test_queries/queries", "test_bindings/bindings", "test_hooks/hooks", "test_literals/literals", "test_literals/postgres", "test_types/types", "test_schema/queries", "test_schema/expressions"]) {
   Deno.test({
     name: `generate preserves the built ${name} fixture`,
-    permissions: { read: true },
+    permissions: { read: true, run: true, env: true },
     async fn() {
       const source = await Deno.readTextFile(new URL(`./fixtures/${name}.sql`, import.meta.url))
       const built = await Deno.readTextFile(new URL(`./fixtures/${name}.gen.ts`, import.meta.url))
       const timestamp = /Last generated: [^\n]+/g
-      expect(generate([source]).replace(timestamp, "Last generated:")).toBe(built.replace(timestamp, "Last generated:"))
+      expect((await generate([source])).replace(timestamp, "Last generated:")).toBe(built.replace(timestamp, "Last generated:"))
     },
   })
 }
 
 Deno.test({
   name: "generateTables preserves the built dependency-ordered DDL fixture",
-  permissions: { read: true },
+  permissions: { read: true, run: true, env: true },
   async fn() {
     const built = await Deno.readTextFile(new URL("./fixtures/test_schema/models.gen.ts", import.meta.url))
     const timestamp = /Last generated: [^\n]+/g
-    expect(generateTables(Models).replace(timestamp, "Last generated:")).toBe(built.replace(timestamp, "Last generated:"))
+    expect((await generateTables(Models)).replace(timestamp, "Last generated:")).toBe(built.replace(timestamp, "Last generated:"))
   },
 })
 
@@ -772,7 +812,7 @@ for (
     { name: "cyclic references", declarations: { One: schema.table("one", { id: schema.int().references("two", "id") }), Two: schema.table("two", { id: schema.int().references("one", "id") }) } },
   ]
 ) {
-  Deno.test(`generateTables rejects ${name}`, () => {
-    expect(() => generateTables(declarations)).toThrow()
+  Deno.test(`generateTables rejects ${name}`, async () => {
+    await expect(generateTables(declarations)).rejects.toThrow()
   })
 }
