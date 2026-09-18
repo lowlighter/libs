@@ -3,8 +3,8 @@
   "name": "@libs/xml",
   "version": "8.0.0",
   "imports": {
-    "@std/path": "jsr:@std/path@^1.1.4",
-    "@std/xml": "jsr:@std/xml@^0.1.3"
+    "@std/path": "jsr:@std/path@^1.1.6",
+    "@std/xml": "jsr:@std/xml@^0.2.0"
   },
   "exports": {
     ".": "./mod.ts",
