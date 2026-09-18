@@ -3,7 +3,7 @@
 A subset of the `@libs/is` ([Zod based](https://zod.dev) validation) expanded to support database modifiers.
 
 ```ts
-import { is } from "@libs/database/schema"
+import { is } from "@libs/database/is"
 
 export const User = is.table("users", {
   id: is.uuid().primary(),
@@ -70,7 +70,7 @@ However, typing information is preserved to offer a transparent mapping between 
 Keep common validation in a module importing only `@libs/is`. In a server-only module, wrap existing fields with `is.column(schema)` to add database constraints:
 
 ```ts
-import { is } from "@libs/database/schema"
+import { is } from "@libs/database/is"
 import { User } from "../shared/user.ts"
 
 export const UserTable = is.table("users", {

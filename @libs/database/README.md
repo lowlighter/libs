@@ -47,7 +47,7 @@ Used to import custom types from other TypeScript files.
 
 #### `@import`
 
-Used to import schema definitions created with `@libs/database/schema`. Unlike `@import type`, this directive add validation hooks based on the provided signature.
+Used to import schema definitions created with `@libs/database/is`. Unlike `@import type`, this directive add validation hooks based on the provided signature.
 
 ```sql
 -- @import { User } from "./types.ts"

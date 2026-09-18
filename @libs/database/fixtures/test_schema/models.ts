@@ -1,5 +1,5 @@
 // Imports
-import { is } from "@libs/database/schema"
+import { is } from "@libs/database/is"
 
 /** Parent table for referential action checks. */
 export const Team = is.table("schema_teams", {

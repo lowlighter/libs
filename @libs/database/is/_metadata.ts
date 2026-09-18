@@ -34,13 +34,15 @@ export function decorate<T extends z.ZodType>(schema: T, options: Metadata = {})
 
 /** A Zod schema with chainable database constraints. */
 export type Schema<T extends z.ZodType> =
-  & Omit<T, keyof Modifiers<T> | "partial" | "pick" | "omit" | "extend" | "required" | "strict" | "strip" | "passthrough" | "loose" | Checks>
   & Modifiers<T>
-  & { [K in Extract<keyof T, Checks>]: T[K] extends (...args: infer A) => unknown ? (...args: A) => Schema<T> : T[K] }
+  & { [K in Exclude<Extract<keyof T, Checks>, "refine">]: T[K] extends (...args: infer A) => unknown ? (...args: A) => Schema<T> : T[K] }
   & (T extends { shape: infer S extends z.ZodRawShape } ? ObjectModifiers<S> : unknown)
+  & T
 
 /** Database modifiers shared by column schemas. */
 export interface Modifiers<T extends z.ZodType> {
+  /** Refine validation while preserving type predicates and database modifiers. */
+  refine<C extends (value: z.output<T>) => unknown>(check: C, params?: Parameters<T["refine"]>[1]): C extends ((value: z.output<T>) => value is infer R extends z.output<T>) ? Schema<T & z.ZodType<R, z.input<T>>> : Schema<T>
   /** Index this column, or a table's named columns. */
   index(columns?: T extends { shape: z.ZodRawShape } ? (keyof z.output<T> & string)[] : never): Schema<T>
   /** Require uniqueness for this column or a table's named columns. */

@@ -116,3 +116,25 @@ Deno.test("is.column preserves whole-object checks for JSON columns", () => {
   expect(() => column.parse({ minimum: 2, maximum: 1 })).toThrow()
   expect(() => column.parse({ minimum: 1, maximum: 2, extra: true })).toThrow()
 })
+
+Deno.test("server schemas remain compatible with shared class static schemas", () => {
+  class Shared {
+    static schema = z.object({ name: z.string(), active: z.boolean().default(true) })
+  }
+  class Server extends Shared {
+    static override schema = is.table("users", {
+      name: is.column(Shared.schema.shape.name).unique(),
+      active: is.column(Shared.schema.shape.active),
+    })
+  }
+  const schema: typeof Shared.schema = Server.schema
+  expect(schema.parse({ name: "user" })).toEqual({ name: "user", active: true })
+  const refined = Server.schema.shape.name.refine((value): value is "user" => value === "user").index()
+  const value: "user" = refined.parse("user")
+  expect(value).toBe("user")
+  expect(() => refined.parse("other")).toThrow()
+  expect(metadata.get(refined)?.indexes).toHaveLength(2)
+  // @ts-expect-error Refinements preserve the narrowed output type.
+  const invalid: is.output<typeof refined> = "other"
+  void invalid
+})
