@@ -1,4 +1,5 @@
 // Imports
+import Prefault from "./fixtures/test_prefault/queries.gen.ts"
 import Backends from "./fixtures/test_backends/queries.gen.ts"
 import { expect } from "@libs/testing"
 import { inspect } from "@libs/testing/highlight"
@@ -38,6 +39,23 @@ for (
 ) {
   for (
     const { name, run } of [
+      {
+        name: "prefault inputs remain optional while SQL uses validated output values",
+        async run(database: Database) {
+          expect(await database.query(Prefault.readValue(undefined))).toEqual({ value: 1 })
+          expect(await database.query(Prefault.readValue({}))).toEqual({ value: 1 })
+          expect(await database.query(Prefault.readValue({ value: 7 }))).toEqual({ value: 7 })
+          expect(await database.query(Prefault.named(undefined))).toEqual({ value: 1 })
+          expect(await database.query(Prefault.nested(undefined))).toEqual({ value: 1 })
+          expect(await database.query(Prefault.explicit())).toEqual({ value: 1 })
+          expect(await database.query(Prefault.converted({ value: "hello" }))).toEqual({ value: 5 })
+          database.register("supply", (options) => {
+            expect(options).toBeUndefined()
+            return Promise.resolve([{ value: 9 }])
+          })
+          expect(await database.query(Prefault.hooked(undefined))).toEqual({ value: 9 })
+        },
+      },
       {
         name: "schema expressions preserve binding and return types",
         async run(database: Database) {
@@ -804,7 +822,9 @@ async function setupSchema(database: Database): Promise<is.input<typeof Model>> 
 }
 
 // Compare source fixtures to build artifacts without invoking the CLI
-for (const name of ["test_backends/queries", "example/example", "test_queries/queries", "test_bindings/bindings", "test_hooks/hooks", "test_literals/literals", "test_literals/postgres", "test_types/types", "test_schema/queries", "test_schema/expressions"]) {
+for (
+  const name of ["test_prefault/queries", "test_backends/queries", "example/example", "test_queries/queries", "test_bindings/bindings", "test_hooks/hooks", "test_literals/literals", "test_literals/postgres", "test_types/types", "test_schema/queries", "test_schema/expressions"]
+) {
   Deno.test({
     name: `generate preserves the built ${name} fixture`,
     permissions: { read: true, run: true, env: true },

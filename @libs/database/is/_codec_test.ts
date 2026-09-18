@@ -1,6 +1,6 @@
 // Imports
 import { expect } from "@libs/testing"
-import { is as z } from "@libs/is"
+import { is as z, nullable } from "@libs/is"
 import * as is from "./schema.ts"
 import { absent, decode, encode, field, intersect, loose, project, storage, unchecked, union, unwrap, validate } from "./_codec.ts"
 import { Type } from "../database.ts"
@@ -112,3 +112,22 @@ Deno.test("optional storage decoding survives readonly and default wrappers", as
   const fallback = is.string().optional().default("fallback")
   expect(await validate(fallback, decode(fallback, null))).toBe("fallback")
 })
+
+for (const type of [Type.SQLite, Type.PostgreSQL]) {
+  Deno.test(`${Type[type]} native nullable JSON retains defaults and portable storage`, async () => {
+    const shared = z.object({ details: nullable(z.json()) })
+    const table = is.table("native_json", shared, {})
+    const column = table.shape.details
+    expect(storage(column)).toBe("json")
+    expect(await validate(table, {})).toEqual({ details: null })
+    for (const value of [null, "text", 1, true, ["a", null, { nested: [1, false] }], { key: "value" }]) {
+      const encoded = encode(column, value, type)
+      expect(encoded).toEqual(type === Type.SQLite && value !== null ? JSON.stringify(value) : value)
+      expect(decode(table, { details: encoded }, type)).toEqual({ details: value })
+    }
+    expect(storage(z.json())).toBe("json")
+    expect(storage(z.json().clone())).toBe("json")
+    expect(() => storage(z.lazy(() => z.string()))).toThrow(TypeError)
+    expect(() => storage(z.lazy(() => z.union([z.string(), z.number(), z.boolean(), z.null(), z.array(z.string()), z.record(z.string(), z.string())])))).toThrow(TypeError)
+  })
+}

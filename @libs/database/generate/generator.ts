@@ -262,6 +262,7 @@ async function compile(
   })
   // Capture positional arguments while preserving defaults and destructuring
   const captures = [] as string[]
+  const execution = [] as string[]
   const parameters = declaration.parameters.map((parameter, index) => {
     if (parameter.name.getText(source) === "this")
       throw new SyntaxError("Query signatures cannot declare a this parameter")
@@ -271,6 +272,12 @@ async function compile(
     if (schemas[index])
       bindings.set(variable, schemas[index]!)
     captures.push(`const ${variable} = ${resolved}`)
+    // SQL runs only after precheck, so model-backed values have their output types
+    if (!typeonly && schemas[index]) {
+      execution.push(`const ${variable} = (${resolved}) as unknown as ${annotation(parameter.type!, models, "output")}`)
+      if (!ts.isIdentifier(parameter.name))
+        execution.push(`const ${parameter.name.getText(source)} = ${variable}`)
+    }
     if (!ts.isIdentifier(parameter.name))
       captures.push(`const ${parameter.name.getText(source)} = ${variable}`)
     return variable
@@ -385,7 +392,7 @@ async function compile(
       hooks.length ? ` & { hooks: { pre: [${transitions.pre.join(", ")}]; post: [${transitions.post.join(", ")}] } }` : ""
     } {\n    ${captures.join("\n    ")}\n    return {\n      ${precheck}${postcheck}\n      inputs: [${normalized}] as ${inputs},\n      \n      bind(inputs) { return Query.${name}${arguments_}(...inputs) },\n      hooks: { pre: [${invocations.pre.join(", ")}], post: [${
       invocations.post.join(", ")
-    }] },\n      \n      async execute(${prefix}, ${prefix}context): Promise<Awaited<${type}>> {\n        const ${prefix}rows = ${prefix}.type === _Type.SQLite ? await ${prefix}.prepare(${JSON.stringify(sql.sqlite)}).run(${
+    }] },\n      \n      async execute(${prefix}, ${prefix}context): Promise<Awaited<${type}>> {\n        ${execution.join("\n        ")}\n        const ${prefix}rows = ${prefix}.type === _Type.SQLite ? await ${prefix}.prepare(${JSON.stringify(sql.sqlite)}).run(${
       sql.parameters.sqlite.join(", ")
     }) : await ${prefix}.prepare(${JSON.stringify(sql.postgres)}).run(${sql.parameters.postgres.join(", ")})\n        ${mode === "one" ? `if (!${prefix}rows.length) throw new ReferenceError(${JSON.stringify(`Query ${name} returned no rows`)})` : ""}\n        return (${
       decoding ? `_schema.decode(${decoding},${result},${prefix}.type)` : result

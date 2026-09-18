@@ -127,7 +127,7 @@ export function storage(schema: z.core.$ZodType): string {
   if (metadata.get(schema)?.json)
     return "json"
   const current = unwrap(schema)
-  if (metadata.get(current)?.json)
+  if (metadata.get(current)?.json || json(current))
     return "json"
   if (metadata.get(schema)?.timestamp || metadata.get(current)?.timestamp)
     return "timestamp"
@@ -165,7 +165,7 @@ function convert(schema: z.core.$ZodType, value: unknown, reading: boolean, colu
   }
   const current = unwrap(schema)
   const definition = current._zod.def as definition
-  if (metadata.get(schema)?.json || metadata.get(current)?.json)
+  if (metadata.get(schema)?.json || metadata.get(current)?.json || json(current))
     return reading && column && !document && type === Type.SQLite && typeof value === "string" ? JSON.parse(value) : value
   if (definition.type === "union") {
     const candidate = definition.options!.find((schema) => {
@@ -223,6 +223,32 @@ function convert(schema: z.core.$ZodType, value: unknown, reading: boolean, colu
   return value
 }
 
+/** Recognize native Zod JSON without treating arbitrary lazy schemas as JSON. */
+function json(schema: z.core.$ZodType): boolean {
+  if (schema._zod.def.type !== "lazy")
+    return false
+  const cached = jsons.get(schema)
+  if (cached !== undefined)
+    return cached
+  // Native JSON is a recursive union of primitives, arrays, and string-keyed records
+  const getter = (schema._zod.def as definition).getter!
+  const definition = getter()._zod.def as definition
+  const options = definition.options ?? []
+  const kinds = new Set<string>(options.map((option) => option._zod.def.type))
+  const result = definition.type === "union" && options.length === 6 && ["string", "number", "boolean", "null", "array", "record"].every((kind) => kinds.has(kind)) && options.every((option) => {
+    const child = option._zod.def as definition
+    if (child.type === "array")
+      return (child.element!._zod.def as definition).getter === getter
+    if (child.type === "record")
+      return child.keyType!._zod.def.type === "string" && (child.valueType!._zod.def as definition).getter === getter
+    return true
+  })
+  jsons.set(schema, result)
+  return result
+}
+
+/** Cache JSON recognition for immutable schema instances. */
+const jsons = new WeakMap<object, boolean>()
 /** Determine whether null is an explicitly accepted storage value. */
 function nullable(schema: z.core.$ZodType): boolean {
   const definition = schema._zod.def as definition
@@ -251,6 +277,8 @@ function properties(schema: z.core.$ZodType): Set<string> | undefined {
 /** The structural schema definitions used for storage traversal. */
 type definition = {
   type: string
+  getter?: () => z.core.$ZodType
+  keyType?: z.core.$ZodType
   innerType?: z.core.$ZodType
   shape?: Record<string, z.core.$ZodType>
   catchall?: z.core.$ZodType

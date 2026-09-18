@@ -1,5 +1,5 @@
 // Imports
-import { is as z } from "@libs/is"
+import { is as z, nullable } from "@libs/is"
 import { is } from "@libs/database/is"
 
 /** Parent table for referential action checks. */
@@ -18,7 +18,7 @@ export const User = is.table("schema_users", {
   settings: is.object({ theme: is.enum(["light", "dark"]), dates: is.array(is.date()), count: is.bigint() }),
   tags: is.array(is.string()),
   flags: is.record(is.string(), is.boolean()),
-  payload: is.json(),
+  payload: nullable(z.json()),
   count: is.bigint(),
 }).index(["created", "active"]).unique(["name", "team"])
 
