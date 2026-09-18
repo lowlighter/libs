@@ -1,4 +1,4 @@
--- @import { User as Model } from "./models.ts"
+-- @import { User as Model, Timestamp, Summary, State, Mixed } from "./models.ts"
 
 -- primitive(input: {id: Model["id"]; name?: string; count: number; active: boolean; big: bigint; choice: "one"}): {id: Model["id"]}
 SELECT CAST(${input.id} AS TEXT) AS id;
@@ -44,3 +44,37 @@ SELECT CAST(${id} AS TEXT) AS id, ${rest.active} AS active;
 
 -- arrayRest([first, ...rest]: Model["id"][]): Pick<Model, "id">
 SELECT CAST(${rest[0]} AS TEXT) AS id;
+
+-- timestamp(input: Timestamp): {time: Timestamp}
+SELECT CAST(${input} AS BIGINT) AS time;
+
+-- typeonly(input: Pick<Model, "id" | "active" | "created" | "name">): Pick<Model, "id" | "active" | "created" | "name">
+-- *typeonly
+SELECT CAST(${input.id} AS TEXT) AS id, ${input.active} AS active, CAST(${input.created} AS TEXT) AS created, CAST(${input.name} AS TEXT) AS name;
+
+-- uncheckedHooks(input: Summary): Summary
+-- *typeonly
+-- #supply()
+-- @shorten(): Summary
+SELECT CAST(${input.name} AS TEXT) AS name, ${input.active} AS active;
+
+-- checked(input: Summary): Summary
+SELECT CAST(${input.name} AS TEXT) AS name, ${input.active} AS active;
+
+-- raw(input: Model["settings"]): {value: Model["settings"]}
+-- *raw
+-- *typeonly
+SELECT CAST(${input} AS TEXT) AS value;
+
+-- rawChecked(input: Summary): Summary
+-- *raw
+SELECT CAST(${input.name} AS TEXT) AS name, 1 AS active;
+
+-- afterRaw(input: Pick<Model, "active">): Pick<Model, "active">
+SELECT ${input.active} AS active;
+
+-- enumInteger(input: State): {value: State}
+SELECT CAST(${input} AS INTEGER) AS value;
+
+-- enumMixed(input: Mixed): {value: Mixed}
+SELECT CAST(${input} AS TEXT) AS value;

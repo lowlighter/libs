@@ -63,6 +63,72 @@ for (
         },
       },
       {
+        name: "binary parameters round-trip as Uint8Array",
+        async run(database: Database) {
+          const input = new Uint8Array([0, 127, 128, 255])
+          const statement = database.prepare<{ value: Uint8Array }>(database.type === Type.SQLite ? "SELECT CAST(? AS BLOB) AS value" : "SELECT CAST($1 AS BYTEA) AS value")
+          const [result] = await statement.run(input)
+          expect(result.value).toBeInstanceOf(Uint8Array)
+          expect([...result.value]).toEqual([...input])
+        },
+      },
+      {
+        name: "enum codecs preserve numeric and mixed values",
+        async run(database: Database) {
+          const input: is.input<typeof Models.State> = Models.Status.Enabled
+          const result: { value: Models.Status } = await database.query(Expressions.enumInteger(input))
+          expect(result).toEqual({ value: Models.Status.Enabled })
+          expect(await database.query(Expressions.enumInteger(Models.Status.Disabled))).toEqual({ value: 0 })
+          expect(await database.query(Expressions.enumMixed(1))).toEqual({ value: 1 })
+          expect(await database.query(Expressions.enumMixed("1"))).toEqual({ value: "1" })
+        },
+      },
+      {
+        name: "timestamp codecs retain integer milliseconds",
+        async run(database: Database) {
+          for (const time of [0, -1720000000123, 1720000000123, Number.MAX_SAFE_INTEGER])
+            expect(await database.query(Expressions.timestamp(time))).toEqual({ time })
+          await expect(database.query(Expressions.timestamp(1.5))).rejects.toThrow()
+        },
+      },
+      {
+        name: "typeonly skips checks and defaults but retains codecs and hooks",
+        async run(database: Database) {
+          const input = { id: "invalid UUID", active: true, created: new Date(0) }
+          const query = Expressions.typeonly(input)
+          expect(query.precheck).toBeUndefined()
+          expect(query.postcheck).toBeUndefined()
+          expect(await database.query(query)).toEqual({ ...input, name: null })
+          let calls = 0
+          database.register("supply", () => {
+            calls++
+            return [{ name: "x", active: true }]
+          })
+          database.register("shorten", (result) => {
+            calls++
+            expect(result).toEqual({ name: "x", active: true })
+            return { name: "", active: true }
+          })
+          expect(await database.query(Expressions.uncheckedHooks({ name: "", active: true }))).toEqual({ name: "", active: true })
+          expect(calls).toBe(2)
+          await expect(database.query(Expressions.checked({ name: "", active: true }))).rejects.toThrow()
+        },
+      },
+      {
+        name: "raw skips codecs independently of validation",
+        async run(database: Database) {
+          const value = '{"theme":"dark","dates":[],"count":"1"}'
+          const input = value as unknown as is.input<typeof Model>["settings"]
+          expect(await database.query(Expressions.raw(input))).toEqual({ value })
+          const query = Expressions.rawChecked({ name: "Valid", active: true })
+          expect(query.precheck).toBeDefined()
+          expect(query.postcheck).toBeDefined()
+          await expect(database.query(query)).rejects.toThrow()
+          await expect(database.query(Expressions.rawChecked({ name: "", active: true }))).rejects.toThrow()
+          expect(await database.query(Expressions.afterRaw({ active: true }))).toEqual({ active: true })
+        },
+      },
+      {
         name: "schema queries apply defaults and round-trip typed storage",
         async run(database: Database) {
           const input = await setupSchema(database)
@@ -631,7 +697,7 @@ Deno.test({
 })
 
 // Invalid annotations are read directly rather than launching the CLI
-for (const name of ["index", "path", "duplicate", "hook", "quote", "pre_return", "schema_expression", "schema_import", "schema_keys"]) {
+for (const name of ["index", "path", "duplicate", "hook", "quote", "pre_return", "typeonly", "raw", "schema_expression", "schema_import", "schema_keys"]) {
   Deno.test({
     name: `\`generate(${name}.sql)\` rejects invalid annotations`,
     permissions: { read: true },

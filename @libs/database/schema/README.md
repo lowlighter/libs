@@ -47,10 +47,20 @@ Modifiers are usually ignored (for example `.default()` does not generate a `DEF
 
 However, typing information is preserved to offer a transparent mapping between application-level types and database columns.
 
-| Application value                         | SQLite                      | PostgreSQL  |
-| ----------------------------------------- | --------------------------- | ----------- |
-| Boolean                                   | INTEGER, revived as boolean | BOOLEAN     |
-| Date                                      | ISO text                    | TIMESTAMPTZ |
-| Object / array / record / JSON            | JSON text                   | JSONB       |
-| Bigint column                             | BIGINT                      | BIGINT      |
-| String / UUID / enum / URL / ISO datetime | TEXT                        | TEXT        |
+| Application value                    | SQLite  | PostgreSQL       |
+| ------------------------------------ | ------- | ---------------- |
+| Boolean                              | INTEGER | BOOLEAN          |
+| Date                                 | TEXT    | TIMESTAMPTZ      |
+| Object                               | TEXT    | JSONB            |
+| Array                                | TEXT    | JSONB            |
+| JSON                                 | TEXT    | JSONB            |
+| BigInt                               | BIGINT  | BIGINT           |
+| String                               | TEXT    | TEXT             |
+| UUID                                 | TEXT    | TEXT             |
+| URL                                  | TEXT    | TEXT             |
+| Enum                                 | TEXT    | TEXT             |
+| Enum (finite integers only)          | INTEGER | INTEGER          |
+| Integer (`is.int()`)                 | INTEGER | INTEGER          |
+| Number (`is.number()`)               | REAL    | DOUBLE PRECISION |
+| Unix milliseconds (`is.timestamp()`) | INTEGER | BIGINT           |
+| Uint8Array                           | BLOB    | BYTEA            |

@@ -100,7 +100,7 @@ export interface ObjectModifiers<S extends z.ZodRawShape> {
 /** Primary-key configuration. */
 export interface Primary {
   /** Generate an integer identity when the column is omitted from an insert. */
-  autoincrement?: boolean
+  identity?: boolean
 }
 
 /** Referential actions supported by both backends. */
@@ -117,6 +117,8 @@ export interface Metadata {
   table?: string
   /** Application-defined JSON values. */
   json?: boolean
+  /** Store integer Unix milliseconds without losing PostgreSQL precision. */
+  timestamp?: boolean
   /** Index declarations. */
   indexes?: { columns?: string[]; unique: boolean }[]
   /** Primary key declaration. */

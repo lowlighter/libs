@@ -61,6 +61,11 @@ export function date(): Schema<z.ZodDate> {
   return decorate(z.date())
 }
 
+/** Validate a safe integer Unix timestamp in milliseconds. */
+export function timestamp(): Schema<z.ZodNumberFormat> {
+  return decorate(z.int(), { timestamp: true })
+}
+
 /** Validate an array stored as JSON when used as a column. */
 export function array<T extends z.core.$ZodType>(element: T): Schema<z.ZodArray<T>> {
   return decorate(z.array(element))
@@ -81,9 +86,16 @@ export function literal<const T extends z.core.util.Literal>(value: T): Schema<z
   return decorate(z.literal(value))
 }
 
-/** Validate a string enumeration. */
-function _enum<const T extends readonly string[]>(values: T): Schema<z.ZodEnum<{ [K in T[number]]: K }>> {
-  return decorate(z.enum(values))
+/** Validate a string enumeration with named entries. */
+function _enum<const T extends readonly string[]>(values: T): Schema<z.ZodEnum<{ [K in T[number]]: K }>>
+/** Validate an enumeration of string or number values. */
+function _enum<const T extends readonly (string | number)[]>(values: T): Schema<z.ZodEnum<Record<string, T[number]>>>
+/** Validate an enum object, including native TypeScript enums. */
+function _enum<const T extends Record<string, string | number>>(values: T): Schema<z.ZodEnum<T>>
+function _enum(values: readonly (string | number)[] | Record<string, string | number>): Schema<z.ZodEnum<Record<string, string | number>>> {
+  if (Array.isArray(values) && values.every((value) => typeof value === "string"))
+    return decorate(z.enum(values as string[]))
+  return decorate(z.enum(Array.isArray(values) ? Object.fromEntries(values.map((value, index) => [`value${index}`, value])) : values as Record<string, string | number>))
 }
 
 /** Validate null. */

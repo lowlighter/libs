@@ -8,11 +8,13 @@
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.19",
-    "postgres": "npm:postgres@3.4.7",
-    "typescript": "npm:typescript@5.9.3",
-    "@std/expect": "jsr:@std/expect@^1.0.17",
-    "@std/cli": "jsr:@std/cli@^1.0.28",
-    "@std/path": "jsr:@std/path@^1.1.4",
+    "postgres": "npm:postgres@3.4.9",
+    "typescript": "npm:typescript@7.0.2",
+    "typescript/unstable/ast": "npm:typescript@7.0.2/unstable/ast",
+    "typescript/unstable/async": "npm:typescript@7.0.2/unstable/async",
+    "@std/expect": "jsr:@std/expect@^1.0.20",
+    "@std/cli": "jsr:@std/cli@^1.0.32",
+    "@std/path": "jsr:@std/path@^1.1.6",
     "@std/fmt": "jsr:@std/fmt@^1.0.10"
   },
   "tasks": {

@@ -64,7 +64,7 @@ for (const [files, output] of queue) {
         }
       }
     }
-    await Deno.writeTextFile(output, args.table ? generateTables(declarations) : generate(sources))
+    await Deno.writeTextFile(output, args.table ? await generateTables(declarations) : await generate(sources))
     outputs.push(output)
     console.error(green(`✓ ${output}`))
   } catch (error) {

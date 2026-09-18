@@ -78,6 +78,7 @@
     "npm:markdown-it-footnote@4": "4.0.0",
     "npm:markdown-it@^15.0.2": "15.0.2",
     "npm:postgres@3.4.9": "3.4.9",
+    "npm:typescript@5.9.3": "5.9.3",
     "npm:typescript@7.0.2": "7.0.2"
   },
   "jsr": {
@@ -904,6 +905,10 @@
     },
     "safer-buffer@2.1.2": {
       "integrity": "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg=="
+    },
+    "typescript@5.9.3": {
+      "integrity": "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==",
+      "bin": true
     },
     "typescript@7.0.2": {
       "integrity": "sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==",

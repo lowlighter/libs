@@ -3,7 +3,7 @@ import { is } from "@libs/database/schema"
 
 /** Parent table for referential action checks. */
 export const Team = is.table("schema_teams", {
-  id: is.int().primary({ autoincrement: true }),
+  id: is.int().primary({ identity: true }),
   name: is.string().min(1).unique(),
 })
 
@@ -23,3 +23,19 @@ export const User = is.table("schema_users", {
 
 /** Post-hook output schema, independent of the SQL row shape. */
 export const Summary = is.object({ name: is.string().min(2), active: is.boolean() })
+
+/** Millisecond timestamp for codec fixtures. */
+export const Timestamp = is.timestamp()
+
+/** Native numeric enum, including TypeScript's generated reverse mappings. */
+export enum Status {
+  /** Disabled state. */
+  Disabled,
+  /** Enabled state. */
+  Enabled,
+}
+
+/** Native TypeScript enum storage fixture. */
+export const State = is.enum(Status)
+/** Mixed values remain distinct in text storage. */
+export const Mixed = is.enum([1, "1"])
