@@ -3,6 +3,12 @@ import { expect } from "@libs/testing"
 import type { testing } from "@libs/testing"
 import { I18n, i18n } from "./i18n.ts"
 
+Deno.test("`I18n.serve()` returns language metadata when no translations are loaded", async () => {
+  const response = I18n.serve(new Request("https://example.com/i18n"))
+  expect(response.status).toBe(200)
+  expect(await response.json()).toEqual({ _: I18n.fallback })
+})
+
 Deno.test("`I18n.constructor()` defaults language and timezone from the runtime", () => {
   const instance = new I18n()
   expect(instance.language).toBe(navigator.language ?? I18n.fallback)
@@ -269,5 +275,29 @@ Deno.test("`I18n.load()` defaults to the current language and supports fetched c
     expect(inferred.get("a")).toBe("remote")
   } finally {
     I18n.current = original
+  }
+})
+
+Deno.test("`I18n.serve()` negotiates a language and dumps raw translations as JSON", async () => {
+  i18n.for("pt").set({ Greeting: "Olá ${name}", title: "**Título**" })
+  const request = new Request("https://example.com/i18n", { headers: { "Accept-Language": "pt-PT, pt;q=0.9, en;q=0.8" } })
+  const response = I18n.serve(request)
+  expect(response.headers.get("Content-Type")).toBe("application/json")
+  expect(response.headers.get("Content-Language")).toBe("pt")
+  expect(response.headers.get("Vary")).toBe("Accept-Language")
+  expect(await response.json()).toEqual({ _: "pt", greeting: "Olá ${name}", title: "**Título**" })
+})
+
+Deno.test("`I18n.serve()` uses the fallback when no language matches", async () => {
+  const original = I18n.fallback
+  I18n.fallback = "it"
+  try {
+    i18n.for("it").set("greeting", "Ciao")
+    const request = new Request("https://example.com/i18n", { headers: { "Accept-Language": "zz" } })
+    const response = I18n.serve(request)
+    expect(response.headers.get("Content-Language")).toBe("it")
+    expect(await response.json()).toEqual({ _: "it", greeting: "Ciao" })
+  } finally {
+    I18n.fallback = original
   }
 })

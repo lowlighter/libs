@@ -3,9 +3,9 @@
   "name": "@libs/i18n",
   "version": "0.3.0",
   "imports": {
-    "@logtape/logtape": "jsr:@logtape/logtape@^2.2.3",
-    "@std/http": "jsr:@std/http@^1.0.25",
-    "@std/yaml": "jsr:@std/yaml@^1.0.12"
+    "@logtape/logtape": "jsr:@logtape/logtape@^2.3.4",
+    "@std/http": "jsr:@std/http@^1.1.3",
+    "@std/yaml": "jsr:@std/yaml@^1.2.0"
   },
   "exports": {
     ".": "./mod.ts",

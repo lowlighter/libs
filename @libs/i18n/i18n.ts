@@ -129,6 +129,13 @@ export class I18n {
     return this
   }
 
+  /** Returns loaded translations as JSON for the appropriate language based on the request. */
+  static serve(request: Request): Response {
+    const language = (I18n.#storage.size ? acceptsLanguages(request, ...I18n.#storage.keys()) : undefined) ?? I18n.fallback
+    const translations = Object.fromEntries(I18n.#storage.get(language) ?? [])
+    return Response.json({ ...translations, _: language }, { headers: { "Content-Language": language, "Vary": "Accept-Language" } })
+  }
+
   /** Returns whether any translations are registered for a language (defaults to the configured language). */
   loaded(language: string = this.language): boolean {
     return (I18n.#storage.get(language)?.size ?? 0) > 0
