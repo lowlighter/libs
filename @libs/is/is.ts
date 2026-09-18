@@ -150,6 +150,16 @@ export function duration<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
   }, schema)
 }
 
+/** Type alias for timestamp. */
+export function timestamp(options?: { default?: true }): is.ZodDefault<is.ZodNumberFormat>
+/** Type alias for timestamp (without a default). */
+export function timestamp(options: { default: false }): is.ZodNumberFormat
+/** Type alias for timestamp. */
+export function timestamp(options?: { default?: true } | { default: false }): is.ZodNumberFormat | is.ZodDefault<is.ZodNumberFormat>
+export function timestamp({ default: defaults = true } = {}): is.ZodNumberFormat | is.ZodDefault<is.ZodNumberFormat> {
+  return defaults ? is.int().min(0).default(() => Date.now()) : is.int().min(0)
+}
+
 /** Type alias for primitive values. */
 export const primitive = is.union([is.string(), is.number(), is.bigint(), is.boolean(), is.undefined(), is.null(), is.date(), is.instanceof(Error)]) as is.ZodUnion<
   readonly [is.ZodString, is.ZodNumber, is.ZodBigInt, is.ZodBoolean, is.ZodUndefined, is.ZodNull, is.ZodDate, is.ZodCustom<Error, Error>]

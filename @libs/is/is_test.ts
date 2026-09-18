@@ -1,5 +1,5 @@
 import { spec } from "./testing/mod.ts"
-import { arrayable, bodyInit, callable, cliable, clonable, coalesce, coerce, date, duration, expression, is, nullable, parse, parser, permissions, primitive, regex, typedArray, url } from "./is.ts"
+import { arrayable, bodyInit, callable, cliable, clonable, coalesce, coerce, date, duration, expression, is, nullable, parse, parser, permissions, primitive, regex, timestamp, typedArray, url } from "./is.ts"
 import { expect } from "@libs/testing"
 
 spec("coalesce", coalesce(is.unknown()), [
@@ -103,6 +103,54 @@ spec("date", date(is.date()), [
   // Spec
   ...spec.date,
 ], { strict: false, prefault: false })
+
+spec("timestamp", timestamp({ default: false }), [
+  // Valid milliseconds
+  { a: 0 },
+  { a: 1720000000000 },
+  { a: Number.MAX_SAFE_INTEGER },
+  // Errors
+  { a: -1, b: Error },
+  { a: Number.MIN_SAFE_INTEGER, b: Error },
+  { a: undefined, b: Error },
+  { a: null, b: Error },
+  { a: "123", b: Error },
+  { a: new Date("2024-01-01T00:00:00.000Z"), b: Error },
+  { a: 1.5, b: Error },
+  { a: NaN, b: Error },
+  { a: Infinity, b: Error },
+  { a: Number.MAX_SAFE_INTEGER + 1, b: Error },
+], { strict: false, prefault: false })
+
+for (
+  const [name, schema] of [
+    ["timestamp()", timestamp()],
+    ["timestamp({})", timestamp({})],
+    ["timestamp({ default: true })", timestamp({ default: true })],
+  ] as const
+) {
+  spec(name, schema, [
+    // Explicit values remain unchanged
+    { a: 0 },
+    { a: 123 },
+    // Errors
+    { a: null, b: Error },
+    { a: 1.5, b: Error },
+  ], { strict: false, prefault: false })
+
+  let before = 0
+  spec(name + ".default", schema.transform((value) => value >= before && value <= Date.now()), [
+    // Resolve the current time for each parse
+    ...spec.default(true),
+    ...spec.default(true),
+  ], {
+    strict: false,
+    prefault: false,
+    setup: () => {
+      before = Date.now()
+    },
+  })
+}
 
 spec("duration", duration(is.number().min(0)), [
   // Single units
