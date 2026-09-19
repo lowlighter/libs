@@ -114,7 +114,8 @@ SELECT * FROM users WHERE name = ${name};
 
 Used to define pre-hooks that are executed before the corresponding SQL query. These hooks are executed before the SQL is run and before the transaction is opened (they may run inside a transaction in case of nested queries).
 
-Its first argument is always `{ context }`, where `context` is undefined when omitted. Query inputs follow, then any declared hook arguments; their positions never depend on whether context was provided. If it returns a defined value, it replaces the original query parameters with the returned tuple (note that types cannot be changed).
+Its first argument is always `{ context }`, where `context` is undefined when omitted. Query inputs follow, then any declared hook arguments; their positions never depend on whether context was provided. If it returns a defined value, it replaces the original query parameters
+with the returned tuple (note that types cannot be changed).
 
 Pre-hooks can be chained, with each hook receiving the updated query parameters from the previous one. Pre-hooks cannot have a return-type annotation.
 
