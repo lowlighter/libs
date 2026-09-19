@@ -123,7 +123,7 @@ export async function generate(sources: readonly string[]): Promise<string> {
     models.size ? 'import * as _schema from "@libs/database/is";\n' : ""
   }// Imports\nimport { Type as _Type } from "@libs/database"\nimport type { Query as _Query${registered ? ", Hook as _Hook, PostHook as _PostHook, Invocation as _Invocation" : ""} } from "@libs/database"\n${
     helpers.length ? `import type { ${helpers.join(", ")} } from "@libs/typing"\n` : ""
-  }${[...imports].join("\n")}\n\n\nexport default class Query {\n${code}\n}\n\n\nexport interface Hooks<${registered ? "C" : "_C"} extends Record<string, unknown> | undefined = undefined> {\n${registry}\n}\n\n${declarations}\n`
+  }${[...imports].join("\n")}\n\n\nexport default class Query {\n${code}\n}\n\n\nexport interface Hooks<${registered ? "C" : "_C"} extends Record<string, unknown> = Record<string, unknown>> {\n${registry}\n}\n\n${declarations}\n`
   // Compact executable code while retaining the header and SQL documentation
   return await compact(compiler, generated)
 }
@@ -284,6 +284,7 @@ async function compile(
   })
   // Resolve positional, named, and context bindings to safe property accesses
   const sql = await bind(statement, async (expression) => {
+    expression = expression.replace(/^_(?=\.|\[|$)/, "0")
     const positional = /^(\d+)(?=\.|\[|$)/.exec(expression)
     if (positional) {
       const index = Number(positional[1])
@@ -307,7 +308,9 @@ async function compile(
     if ((!validate(value)) || (value.getText() !== expression))
       throw new SyntaxError(`Invalid parameter path "${expression}"`)
     if (positional && Number(positional[1]) === 0) {
-      // Resolve context paths while preserving null for an absent context
+      // Serialize the whole record and preserve null for missing context properties
+      if (ts.isIdentifier(value))
+        return `JSON.stringify(${prefix}context)`
       const access = (value: ts.Expression): string => {
         if (ts.isPropertyAccessExpression(value))
           return `(${access(value.expression)} as Record<PropertyKey, unknown> | null)?.[${JSON.stringify(value.name.text)}]`

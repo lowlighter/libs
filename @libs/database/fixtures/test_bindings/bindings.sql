@@ -30,3 +30,13 @@ SELECT {bar} AS value;
 
 -- syntax(entrée = /x/ instanceof RegExp ? `${1 + 2}` : "fallback"): {value: string}
 SELECT ${entrée} AS value;
+
+-- enriched(): { zero: string; named: string; record: string; alias: string }
+-- #enrich()
+-- #inspect()
+-- @inspectResult()
+SELECT CAST(${0.actor} AS TEXT) AS zero,
+CAST(${_.actor} AS TEXT) AS named, CAST(${0} AS TEXT) AS record, CAST(${_} AS TEXT) AS alias;
+
+-- missingAlias(): { value: Nullable<string> }
+SELECT CAST(${_.missing[0]["id"]} AS TEXT) AS value;

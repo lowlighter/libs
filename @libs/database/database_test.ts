@@ -285,9 +285,42 @@ for (
         },
       },
       {
-        name: "test_bindings: context defaults to null",
+        name: "hooks enrich one context shared with all SQL aliases",
         async run(database: Database) {
-          expect(await database.query(Bindings.context())).toEqual({ value: null })
+          const contexts: Record<string, unknown>[] = []
+          const enrich: Hooks["pre"]["enrich"] = ({ context }) => {
+            expect(context).toEqual({})
+            contexts.push(context)
+            context.actor = "actor" + contexts.length
+          }
+          const inspect: Hooks["pre"]["inspect"] = ({ context }) => {
+            expect(context).toBe(contexts.at(-1))
+          }
+          const inspectResult: Hooks["post"]["inspectResult"] = ({ context, result }) => {
+            expect(context).toBe(contexts.at(-1))
+            expect(result.zero).toBe(context.actor)
+            context.finished = true
+          }
+          database.register("enrich", enrich)
+          database.register("inspect", inspect)
+          database.register("inspectResult", inspectResult)
+          const query = Bindings.enriched()
+          for (const actor of ["actor1", "actor2"]) {
+            const record = JSON.stringify({ actor })
+            expect(await database.query(query)).toEqual({ zero: actor, named: actor, record, alias: record })
+          }
+          expect(contexts[0]).not.toBe(contexts[1])
+          const provided = {}
+          await database.query(provided, query)
+          expect(contexts[2]).toBe(provided)
+          expect(provided).toEqual({ actor: "actor3", finished: true })
+          expect(await database.query(Bindings.missingAlias())).toEqual({ value: null })
+        },
+      },
+      {
+        name: "test_bindings: context defaults to an empty record",
+        async run(database: Database) {
+          expect(await database.query(Bindings.context())).toEqual({ value: "{}" })
           expect(await database.query(Bindings.scoped())).toEqual({ value: null })
         },
       },
@@ -369,7 +402,7 @@ for (
         name: "test_hooks: calls without context retain their argument order",
         async run(database: Database) {
           const normalize: AdvancedHooks["pre"]["normalize"] = ({ context }, name, mode) => {
-            expect(context).toBeUndefined()
+            expect(context).toEqual({})
             expect(mode).toBe("trim")
             return Promise.resolve([name.trim()])
           }
@@ -547,18 +580,18 @@ for (
         async run(database: Database) {
           await setup(database)
           await database.run("INSERT INTO users VALUES('2', 'example.org')")
-          let expected: { actor: string } | undefined = undefined
+          let expected: { actor?: string } = {}
           let calls = 0
-          const audit: QueryHooks<{ actor: string }>["post"]["audit"] = function ({ context, result }, event) {
+          const audit: QueryHooks<{ actor?: string }>["post"]["audit"] = function ({ context, result }, event) {
             expect(this).toBe(database)
-            expect(context).toBe(expected)
+            expect(context).toEqual(expected)
             expect(result.domain).toBe("example.org")
             expect(event).toBe("USER_DELETE")
             calls++
             return Promise.resolve()
           }
-          const identifier: QueryHooks<{ actor: string }>["post"]["identifier"] = ({ context, result }) => {
-            expect(context).toBe(expected)
+          const identifier: QueryHooks<{ actor?: string }>["post"]["identifier"] = ({ context, result }) => {
+            expect(context).toEqual(expected)
             return Promise.resolve(result.id)
           }
           database.register("audit", audit)

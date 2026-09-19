@@ -1,6 +1,6 @@
 {
   "name": "@libs/database",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "exports": {
     ".": "./mod.ts",
     "./generate": "./generate/mod.ts",
