@@ -437,6 +437,53 @@ for (
         },
       },
       {
+        name: "test_hooks: clone inputs per execution while retaining context identity",
+        async run(database: Database) {
+          const input = { nested: { value: "value" }, values: ["!"], created: new Date(0) }
+          const context = { calls: 0 }
+          const mutate: AdvancedHooks<typeof context>["pre"]["mutate"] = ({ context: current }, value, extra) => {
+            expect(current).toBe(context)
+            expect(value).not.toBe(input)
+            expect(extra).toBe(value)
+            expect(value.nested.value).toBe("value")
+            expect(value.created.getTime()).toBe(0)
+            value.nested.value += " changed"
+            value.values[0] = "?"
+            value.created.setTime(1000)
+            current.calls++
+          }
+          const inspect: AdvancedHooks<typeof context>["pre"]["inspect"] = ({ context: current }, value) => {
+            expect(current).toBe(context)
+            expect(value.created.getTime()).toBe(1000)
+          }
+          database.register("mutate", mutate)
+          database.register("inspect", inspect)
+          const query = Advanced.mutate(input)
+          const results = await Promise.all([database.query(context, query), database.query(context, query)])
+          expect(results).toEqual([{ message: "value changed?" }, { message: "value changed?" }])
+          expect(input).toEqual({ nested: { value: "value" }, values: ["!"], created: new Date(0) })
+          expect(query.inputs[0]).toBe(input)
+          expect(context.calls).toBe(2)
+          database.register("inspect", () => {
+            throw new Error("hook failed")
+          })
+          await expect(database.query(context, query)).rejects.toThrow("hook failed")
+          expect(input.nested.value).toBe("value")
+          expect(context.calls).toBe(3)
+        },
+      },
+      {
+        name: "test_hooks: non-cloneable inputs fail before hook execution",
+        async run(database: Database) {
+          let called = false
+          database.register("prepare", () => {
+            called = true
+          })
+          await expect(database.query(Advanced.plain((() => {}) as never))).rejects.toThrow(DOMException)
+          expect(called).toBe(false)
+        },
+      },
+      {
         name: "test_hooks: pre-hooks chain and refresh post-hook arguments",
         async run(database: Database) {
           database.register("first", (_event, name: string) => [name + "1"])

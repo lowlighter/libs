@@ -23,3 +23,8 @@ SELECT ${key} || ${suffix} || ${3[0]} AS message;
 -- plain(name: string): {message: string}
 -- #prepare()
 SELECT ${name} AS message;
+
+-- mutate(input: {nested: {value: string}; values: string[]; created: Date}): {message: string}
+-- #mutate(input)
+-- #inspect()
+SELECT ${1.nested.value} || ${1.values[0]} AS message;

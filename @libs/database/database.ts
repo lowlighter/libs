@@ -129,6 +129,8 @@ export class Database implements AsyncDisposable {
     const metadata: Record<string, unknown> = query === undefined ? {} : value as C
     let operation = query ?? value as Query<T, R, A>
     return this.#schedule(async () => {
+      // Isolate caller-owned inputs while retaining the supplied context reference
+      operation = operation.bind(structuredClone(operation.inputs))
       const context = this.#context.getStore() as context
       // Resolve registrations before allowing hooks or SQL to have side effects
       for (const hook of [...operation.hooks?.pre ?? [], ...operation.hooks?.post ?? []])
