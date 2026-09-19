@@ -6,7 +6,7 @@ import { env } from "./env.ts"
  * Returns the path to the user's cache directory, optionally appending a path.
  *
  * The returned value depends on the operating system and is either a string,
- * containing a value from the following table, or `null`.
+ * containing a value from the following table, or the configured fallback.
  *
  * |Platform | Value                               | Example                          |
  * | ------- | ----------------------------------- | -------------------------------- |
@@ -20,13 +20,13 @@ export function cache(path?: string, { os = Deno.build.os, fallback = "" } = {})
 
   switch (os) {
     case "linux":
-      cache = env("XDG_CACHE_HOME") || (home && `${home}/.cache`)
+      cache = env("XDG_CACHE_HOME") || (home && `${home}/.cache`) || fallback
       break
     case "darwin":
-      cache = home && `${home}/Library/Caches`
+      cache = (home && `${home}/Library/Caches`) || fallback
       break
     case "windows":
-      cache = env("LOCALAPPDATA")
+      cache = env("LOCALAPPDATA") || fallback
   }
 
   return path ? join(cache, path) : cache
