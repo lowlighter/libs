@@ -58,6 +58,19 @@ for (
         },
       },
       {
+        name: "NonNullable schema expressions reject nullish values and preserve row cardinality",
+        async run(database: Database) {
+          const id = "123e4567-e89b-42d3-a456-426614174000"
+          expect(await database.query(Expressions.nonnullable(id))).toEqual({ id })
+          expect(await database.query(Expressions.nonnullableTeam(1))).toEqual({ team: 1 })
+          await expect(database.query(Expressions.nonnullableTeam(null as never))).rejects.toThrow()
+          await expect(database.query(Expressions.nonnullableTeam(undefined as never))).rejects.toThrow()
+          await expect(database.query(Expressions.nonnullableNull())).rejects.toThrow()
+          await expect(database.query(Expressions.nonnullableMissing())).rejects.toThrow(ReferenceError)
+          expect(await database.query(Expressions.nonnullableRows())).toEqual([])
+        },
+      },
+      {
         name: "schema expressions preserve binding and return types",
         async run(database: Database) {
           const id = "123e4567-e89b-42d3-a456-426614174000"

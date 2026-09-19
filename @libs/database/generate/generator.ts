@@ -430,6 +430,8 @@ function shape(type: ts.TypeNode): "array" | "one" | "optional" | "nullable" | "
       return type.typeArguments?.length && shape(type.typeArguments[0]) === "array" ? "array" : "optional"
     if (name === "Nullable")
       return type.typeArguments?.length && shape(type.typeArguments[0]) === "array" ? "array" : "nullable"
+    if (name === "NonNullable" && type.typeArguments?.length)
+      return shape(type.typeArguments[0]) === "array" ? "array" : "one"
     if (["Promise", "Promisable", "Awaited", "NonVoid", "Readonly"].includes(name) && type.typeArguments?.length)
       return shape(type.typeArguments[0])
   }
@@ -684,6 +686,8 @@ function expression(node: ts.TypeNode, models: ReadonlySet<string>, bounds: Read
     const args = node.typeArguments ?? []
     if (name === "Date")
       return "_schema.is.date()"
+    if (name === "NonNullable" && args.length)
+      return `${expression(args[0], models, bounds)}.nonoptional().refine((value) => value !== null)`
     if (name === "Readonly" && args.length)
       return `${expression(args[0], models, bounds)}.readonly()`
     if (["Pick", "Omit", "Partial"].includes(name) && args.length) {

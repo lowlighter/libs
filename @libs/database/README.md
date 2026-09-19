@@ -61,7 +61,7 @@ SELECT id AS my_id, name, active, created, settings FROM users WHERE id=${id};
 
 In the above example, the `id` parameter would be validated against what the `User` schema allows for that field. Output rows are also validated against the declared result type.
 
-More complex type expressions can be used (using unions, intersections, `Pick`, `Omit`, `Partial`, etc.) but very complex expressions may not be fully supported and could lead to generation errors. If you encounter such issues, consider implementing your own validation hooks.
+More complex type expressions can be used (using unions, intersections, `Pick`, `Omit`, `Partial`, `NonNullable`, etc.) but very complex expressions may not be fully supported and could lead to generation errors. If you encounter such issues, consider implementing your own validation hooks.
 
 The validation hook for inputs is performed after all user pre-hook functions have been executed. The validation hook for output is performed after all user post-hook functions have been executed.
 

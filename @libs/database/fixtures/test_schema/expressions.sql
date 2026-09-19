@@ -88,3 +88,18 @@ SELECT '123e4567-e89b-42d3-a456-426614174000' AS id WHERE 1=0;
 
 -- sharedTimestamp(input: SharedTimestamp): {time: SharedTimestamp}
 SELECT CAST(${input} AS BIGINT) AS time;
+
+-- nonnullable(input: NonNullable<Model["id"]>): {id: NonNullable<Model["id"]>}
+SELECT CAST(${input} AS TEXT) AS id;
+
+-- nonnullableTeam(input: NonNullable<Model["team"]>): {team: NonNullable<Model["team"]>}
+SELECT CAST(${input} AS INTEGER) AS team;
+
+-- nonnullableMissing(): NonNullable<Nullable<Pick<Model, "id">>>
+SELECT '123e4567-e89b-42d3-a456-426614174000' AS id WHERE 1=0;
+
+-- nonnullableRows(): NonNullable<Nullable<Pick<Model, "id">[]>>
+SELECT '123e4567-e89b-42d3-a456-426614174000' AS id WHERE 1=0;
+
+-- nonnullableNull(): {team: NonNullable<Model["team"]>}
+SELECT NULL AS team;
