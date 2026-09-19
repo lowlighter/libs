@@ -17,6 +17,7 @@
     "./cache": "./cache.ts",
     "./clone": "./clone.ts",
     "./colors": "./colors.ts",
+    "./deep-freeze": "./deep_freeze.ts",
     "./scripts/download-lambda-chromium": "./scripts/download_lambda_chromium.ts",
     "./scripts/code-quality": "./scripts/code_quality.ts",
     "./scripts/highlight-coverage": "./scripts/highlight_coverage.ts",
