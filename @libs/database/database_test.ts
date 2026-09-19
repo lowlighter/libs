@@ -111,6 +111,12 @@ for (
           for (const time of [0, -1720000000123, 1720000000123, Number.MAX_SAFE_INTEGER])
             expect(await database.query(Expressions.timestamp(time))).toEqual({ time })
           await expect(database.query(Expressions.timestamp(1.5))).rejects.toThrow()
+          for (const time of [0, 1720000000123, Number.MAX_SAFE_INTEGER])
+            expect(await database.query(Expressions.sharedTimestamp(time))).toEqual({ time })
+          const before = Date.now()
+          const { time } = await database.query(Expressions.sharedTimestamp(undefined))
+          expect(time).toBeGreaterThanOrEqual(before)
+          expect(time).toBeLessThanOrEqual(Date.now())
         },
       },
       {

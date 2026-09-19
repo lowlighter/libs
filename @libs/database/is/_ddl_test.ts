@@ -1,5 +1,5 @@
 // Imports
-import { is as z } from "@libs/is"
+import { is as z, timestamp } from "@libs/is"
 import { expect } from "@libs/testing"
 import { ddl } from "./_ddl.ts"
 import * as is from "./schema.ts"
@@ -141,4 +141,24 @@ Deno.test("inherited columns generate primary, foreign, and unique constraints",
     expect(statements[1]).toContain("CREATE INDEX")
     expect(statements[2]).toContain("CREATE UNIQUE INDEX")
   }
+})
+
+Deno.test("shared timestamps retain BIGINT storage through column and table inheritance", () => {
+  const client = z.object({
+    created: timestamp(),
+    updated: timestamp({ default: false }).min(1).meta({ description: "Updated" }).optional(),
+    count: z.int(),
+  })
+  const table = is.table("shared_timestamps", client, { updated: is.inherit.index() })
+  const wrapped = is.table("wrapped_timestamps", { created: is.column(client.shape.created).index() })
+  for (const type of [Type.SQLite, Type.PostgreSQL]) {
+    const kind = type === Type.SQLite ? "INTEGER" : "BIGINT"
+    expect(ddl(table, type)[0]).toContain('"created" ' + kind + " NOT NULL")
+    expect(ddl(table, type)[0]).toContain('"updated" ' + kind)
+    expect(ddl(table, type)[0]).toContain('"count" INTEGER NOT NULL')
+    expect(ddl(wrapped, type)[0]).toContain('"created" ' + kind)
+  }
+  expect(client.shape.created.parse(1720000000123)).toBe(1720000000123)
+  expect(() => client.shape.created.parse(-1)).toThrow()
+  expect(table.shape.created.parse(undefined)).toBeGreaterThan(0)
 })

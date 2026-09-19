@@ -1,6 +1,6 @@
 // Imports
 import { expect } from "@libs/testing"
-import { is as z, nullable } from "@libs/is"
+import { is as z, nullable, timestamp } from "@libs/is"
 import * as is from "./schema.ts"
 import { absent, decode, encode, field, intersect, loose, project, storage, unchecked, union, unwrap, validate } from "./_codec.ts"
 import { Type } from "../database.ts"
@@ -12,6 +12,8 @@ for (const type of [Type.SQLite, Type.PostgreSQL]) {
       { schema: is.boolean(), value: false },
       { schema: is.date(), value: new Date(0) },
       { schema: is.timestamp(), value: 1720000000123 },
+      { schema: timestamp(), value: 1720000000123 },
+      { schema: timestamp({ default: false }).min(1).meta({ description: "Time" }).optional().readonly(), value: Number.MAX_SAFE_INTEGER },
       { schema: is.timestamp().optional(), value: -1720000000123 },
       { schema: is.object({ time: is.timestamp() }), value: { time: 1720000000123 } },
       { schema: is.bigint(), value: 9007199254740993n },

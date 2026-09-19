@@ -1,5 +1,5 @@
 // Imports
-import { is as z, nullable } from "@libs/is"
+import { is as z, nullable, timestamp } from "@libs/is"
 import { is } from "@libs/database/is"
 
 /** Parent table for referential action checks. */
@@ -40,3 +40,6 @@ export enum Status {
 export const State = is.enum(Status)
 /** Mixed values remain distinct in text storage. */
 export const Mixed = is.enum([1, "1"])
+
+/** Shared application timestamp retains its Unix millisecond storage semantics. */
+export const SharedTimestamp = timestamp()

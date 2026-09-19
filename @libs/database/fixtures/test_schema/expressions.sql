@@ -1,4 +1,4 @@
--- @import { User as Model, Timestamp, Summary, State, Mixed } from "./models.ts"
+-- @import { User as Model, Timestamp, SharedTimestamp, Summary, State, Mixed } from "./models.ts"
 
 -- primitive(input: {id: Model["id"]; name?: string; count: number; active: boolean; big: bigint; choice: "one"}): {id: Model["id"]}
 SELECT CAST(${input.id} AS TEXT) AS id;
@@ -85,3 +85,6 @@ UNION ALL SELECT '123e4567-e89b-42d3-a456-426614174000' AS id;
 
 -- optionalRows(): Pick<Model, "id">[] | undefined
 SELECT '123e4567-e89b-42d3-a456-426614174000' AS id WHERE 1=0;
+
+-- sharedTimestamp(input: SharedTimestamp): {time: SharedTimestamp}
+SELECT CAST(${input} AS BIGINT) AS time;

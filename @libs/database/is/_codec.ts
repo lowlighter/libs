@@ -1,5 +1,5 @@
 // Imports
-import { is as z } from "@libs/is"
+import { $timestamp, is as z } from "@libs/is"
 import { Type } from "../database.ts"
 import { metadata } from "./_metadata.ts"
 
@@ -129,7 +129,7 @@ export function storage(schema: z.core.$ZodType): string {
   const current = unwrap(schema)
   if (metadata.get(current)?.json || json(current))
     return "json"
-  if (metadata.get(schema)?.timestamp || metadata.get(current)?.timestamp)
+  if (metadata.get(schema)?.timestamp || metadata.get(current)?.timestamp || Reflect.get(current._zod.def, $timestamp) === true)
     return "timestamp"
   const definition = current._zod.def as definition
   if (["object", "array", "record"].includes(definition.type))
