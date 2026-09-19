@@ -1,7 +1,7 @@
 // Imports
 import { join } from "@std/path"
 import { expect } from "@libs/testing"
-import cache from "./cache.ts"
+import { cache } from "./cache.ts"
 
 Deno.test("cache resolves each platform and appends optional paths", { permissions: { env: ["HOME", "XDG_CACHE_HOME", "LOCALAPPDATA"] } }, () => {
   const keys = ["HOME", "XDG_CACHE_HOME", "LOCALAPPDATA"] as const
