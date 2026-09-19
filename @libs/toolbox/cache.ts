@@ -14,7 +14,7 @@ import { env } from "./env.ts"
  * | macOS   | `$HOME`/Library/Caches              | /Users/user/Library/Caches  |
  * | Windows | `$LOCALAPPDATA`                     | C:\Users\user\AppData\Local |
  */
-export default function cache(path?: string, { os = Deno.build.os } = {}): string | null {
+export function cache(path?: string, { os = Deno.build.os } = {}): string | null {
   const home = env("HOME")
   let cache = ""
 
