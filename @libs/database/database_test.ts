@@ -878,6 +878,22 @@ Deno.test({
   },
 })
 
+Deno.test({
+  name: "SQLite: creates missing parent directories",
+  permissions: { read: true, write: true },
+  async fn() {
+    const directory = await Deno.makeTempDir()
+    try {
+      const path = `${directory}/nested/data/database.sqlite`
+      await using database = new Database(path)
+      await database.run("CREATE TABLE items(id INTEGER); INSERT INTO items VALUES(7)")
+      expect(await database.prepare<{ id: number }>("SELECT * FROM items").run()).toEqual([{ id: 7 }])
+    } finally {
+      await Deno.remove(directory, { recursive: true })
+    }
+  },
+})
+
 /** Initialize a fresh connection with the example schema and hooks.post. */
 async function setup(database: Database): Promise<void> {
   await database.run("CREATE TEMP TABLE users(id TEXT, domain TEXT); CREATE TEMP TABLE audit(user_id TEXT, event TEXT); INSERT INTO users VALUES('1', 'example.org')")

@@ -1,7 +1,7 @@
 {
   "icon": "🏦",
   "name": "@libs/database",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "exports": {
     ".": "./mod.ts",
     "./generate": "./generate/mod.ts",
@@ -14,6 +14,7 @@
     "typescript/unstable/ast": "npm:typescript@7.0.2/unstable/ast",
     "typescript/unstable/async": "npm:typescript@7.0.2/unstable/async",
     "@std/expect": "jsr:@std/expect@^1.0.20",
+    "@std/fs": "jsr:@std/fs@^1.0.24",
     "@std/cli": "jsr:@std/cli@^1.0.32",
     "@std/path": "jsr:@std/path@^1.1.6",
     "@std/fmt": "jsr:@std/fmt@^1.0.10"

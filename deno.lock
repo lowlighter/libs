@@ -977,6 +977,7 @@
           "jsr:@std/cli@^1.0.32",
           "jsr:@std/expect@^1.0.20",
           "jsr:@std/fmt@^1.0.10",
+          "jsr:@std/fs@^1.0.24",
           "jsr:@std/path@^1.1.6",
           "npm:postgres@3.4.9",
           "npm:typescript@7.0.2"

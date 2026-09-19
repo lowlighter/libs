@@ -4,6 +4,8 @@ import type { SQLInputValue, StatementSync } from "node:sqlite"
 import postgres from "postgres"
 import { DatabaseSync } from "node:sqlite"
 import { AsyncLocalStorage } from "node:async_hooks"
+import { ensureDirSync } from "@std/fs"
+import { dirname } from "@std/path"
 
 /**
  * A SQLite or PostgreSQL database with connection-local statement caching.
@@ -16,8 +18,11 @@ export class Database implements AsyncDisposable {
   constructor(url: string = ":memory:") {
     if (/^postgres(?:ql)?:\/\//i.test(url))
       this.#postgres = postgres(url)
-    else
+    else {
+      if (url !== ":memory:")
+        ensureDirSync(dirname(url))
       this.#sqlite = new DatabaseSync(url)
+    }
   }
 
   /** SQLite database instance, if using SQLite. */
