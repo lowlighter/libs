@@ -154,12 +154,12 @@ export function duration<T extends is.ZodType>(schema: T): is.ZodPreprocess<T> {
 export const $timestamp = Symbol.for("@libs/is/timestamp")
 
 /** Type alias for timestamp. */
-export function timestamp(options?: { default?: true }): is.ZodDefault<is.ZodNumberFormat>
-/** Type alias for timestamp (without a default). */
-export function timestamp(options: { default: false }): is.ZodNumberFormat
+export function timestamp(options?: { default?: false }): is.ZodNumberFormat
+/** Type alias for timestamp (with default). */
+export function timestamp(options: { default: true }): is.ZodDefault<is.ZodNumberFormat>
 /** Type alias for timestamp. */
-export function timestamp(options?: { default?: true } | { default: false }): is.ZodNumberFormat | is.ZodDefault<is.ZodNumberFormat>
-export function timestamp({ default: defaults = true } = {}): is.ZodNumberFormat | is.ZodDefault<is.ZodNumberFormat> {
+export function timestamp(options?: { default: true } | { default?: false }): is.ZodNumberFormat | is.ZodDefault<is.ZodNumberFormat>
+export function timestamp({ default: defaults = false } = {}): is.ZodNumberFormat | is.ZodDefault<is.ZodNumberFormat> {
   const schema = is.int().min(0)
   Object.assign(schema._zod.def, { [$timestamp]: true })
   return defaults ? schema.default(() => Date.now()) : schema

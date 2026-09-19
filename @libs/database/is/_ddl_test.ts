@@ -145,7 +145,7 @@ Deno.test("inherited columns generate primary, foreign, and unique constraints",
 
 Deno.test("shared timestamps retain BIGINT storage through column and table inheritance", () => {
   const client = z.object({
-    created: timestamp(),
+    created: timestamp({ default: true }),
     updated: timestamp({ default: false }).min(1).meta({ description: "Updated" }).optional(),
     count: z.int(),
   })

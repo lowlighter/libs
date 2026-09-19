@@ -104,31 +104,29 @@ spec("date", date(is.date()), [
   ...spec.date,
 ], { strict: false, prefault: false })
 
-spec("timestamp", timestamp({ default: false }), [
-  // Valid milliseconds
-  { a: 0 },
-  { a: 1720000000000 },
-  { a: Number.MAX_SAFE_INTEGER },
-  // Errors
-  { a: -1, b: Error },
-  { a: Number.MIN_SAFE_INTEGER, b: Error },
-  { a: undefined, b: Error },
-  { a: null, b: Error },
-  { a: "123", b: Error },
-  { a: new Date("2024-01-01T00:00:00.000Z"), b: Error },
-  { a: 1.5, b: Error },
-  { a: NaN, b: Error },
-  { a: Infinity, b: Error },
-  { a: Number.MAX_SAFE_INTEGER + 1, b: Error },
-], { strict: false, prefault: false })
+for (const [name, schema] of [["timestamp()", timestamp()], ["timestamp({})", timestamp({})], ["timestamp({ default: false })", timestamp({ default: false })]] as const) {
+  spec(name, schema, [
+    // Valid milliseconds
+    { a: 0 },
+    { a: 1720000000000 },
+    { a: Number.MAX_SAFE_INTEGER },
+    // Errors
+    { a: -1, b: Error },
+    { a: Number.MIN_SAFE_INTEGER, b: Error },
+    { a: undefined, b: Error },
+    { a: null, b: Error },
+    { a: "123", b: Error },
+    { a: new Date("2024-01-01T00:00:00.000Z"), b: Error },
+    { a: 1.5, b: Error },
+    { a: NaN, b: Error },
+    { a: Infinity, b: Error },
+    { a: Number.MAX_SAFE_INTEGER + 1, b: Error },
+  ], { strict: false, prefault: false })
+}
 
-for (
-  const [name, schema] of [
-    ["timestamp()", timestamp()],
-    ["timestamp({})", timestamp({})],
-    ["timestamp({ default: true })", timestamp({ default: true })],
-  ] as const
-) {
+{
+  const name = "timestamp({ default: true })"
+  const schema = timestamp({ default: true })
   spec(name, schema, [
     // Explicit values remain unchanged
     { a: 0 },

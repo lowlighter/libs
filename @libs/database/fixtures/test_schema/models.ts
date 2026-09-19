@@ -42,4 +42,4 @@ export const State = is.enum(Status)
 export const Mixed = is.enum([1, "1"])
 
 /** Shared application timestamp retains its Unix millisecond storage semantics. */
-export const SharedTimestamp = timestamp()
+export const SharedTimestamp = timestamp({ default: true })
