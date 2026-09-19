@@ -14,9 +14,9 @@ import { env } from "./env.ts"
  * | macOS   | `$HOME`/Library/Caches              | /Users/user/Library/Caches  |
  * | Windows | `$LOCALAPPDATA`                     | C:\Users\user\AppData\Local |
  */
-export function cache(path?: string, { os = Deno.build.os } = {}): string | null {
+export function cache(path?: string, { os = Deno.build.os, fallback = "" } = {}): string {
   const home = env("HOME")
-  let cache = ""
+  let cache = fallback
 
   switch (os) {
     case "linux":
@@ -29,5 +29,5 @@ export function cache(path?: string, { os = Deno.build.os } = {}): string | null
       cache = env("LOCALAPPDATA")
   }
 
-  return cache ? (path ? join(cache, path) : cache) : null
+  return path ? join(cache, path) : cache
 }

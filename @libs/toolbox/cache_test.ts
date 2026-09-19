@@ -9,19 +9,22 @@ Deno.test("cache resolves each platform and appends optional paths", { permissio
 
   try {
     for (
-      const { os, home, xdg, local, path, expected } of [
+      const { os, home, xdg, local, path, fallback, expected } of [
         { os: "linux", home: "/home/user", xdg: "/custom/cache", expected: "/custom/cache" },
         { os: "linux", home: "/home/user", expected: "/home/user/.cache" },
-        { os: "linux", expected: null },
+        { os: "linux", expected: "" },
+        { os: "linux", fallback: "/fallback/cache", expected: "/fallback/cache" },
+        { os: "linux", fallback: "/fallback/cache", path: "app", expected: join("/fallback/cache", "app") },
         { os: "linux", home: "/home/user", xdg: "/custom/cache", path: "app/data", expected: join("/custom/cache", "app/data") },
         { os: "linux", home: "/home/user", path: "", expected: "/home/user/.cache" },
         { os: "darwin", home: "/Users/user", expected: "/Users/user/Library/Caches" },
         { os: "darwin", home: "/Users/user", path: "app", expected: join("/Users/user/Library/Caches", "app") },
-        { os: "darwin", expected: null },
+        { os: "darwin", expected: "" },
         { os: "windows", local: "C:\\Users\\user\\AppData\\Local", expected: "C:\\Users\\user\\AppData\\Local" },
         { os: "windows", local: "C:\\Users\\user\\AppData\\Local", path: "app", expected: join("C:\\Users\\user\\AppData\\Local", "app") },
-        { os: "windows", expected: null },
-        { os: "freebsd", expected: null },
+        { os: "windows", expected: "" },
+        { os: "freebsd", expected: "" },
+        { os: "freebsd", fallback: "/fallback/cache", expected: "/fallback/cache" },
       ] as const
     ) {
       for (const [key, value] of [["HOME", home], ["XDG_CACHE_HOME", xdg], ["LOCALAPPDATA", local]] as const) {
@@ -31,13 +34,13 @@ Deno.test("cache resolves each platform and appends optional paths", { permissio
           Deno.env.set(key, value)
       }
 
-      expect(cache(path, { os: os as typeof Deno.build.os })).toBe(expected)
+      expect(cache(path, { os: os as typeof Deno.build.os, fallback })).toBe(expected)
     }
 
     Deno.env.set("HOME", "/home/user")
     Deno.env.set("XDG_CACHE_HOME", "/custom/cache")
     Deno.env.set("LOCALAPPDATA", "C:\\Users\\user\\AppData\\Local")
-    const expected = Deno.build.os === "linux" ? "/custom/cache" : Deno.build.os === "darwin" ? "/home/user/Library/Caches" : Deno.build.os === "windows" ? "C:\\Users\\user\\AppData\\Local" : null
+    const expected = Deno.build.os === "linux" ? "/custom/cache" : Deno.build.os === "darwin" ? "/home/user/Library/Caches" : Deno.build.os === "windows" ? "C:\\Users\\user\\AppData\\Local" : ""
     expect(cache()).toBe(expected)
   } finally {
     for (const key of keys) {
