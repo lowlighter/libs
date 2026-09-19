@@ -51,3 +51,6 @@ export function resolve<T extends Record<number, unknown>>(models: T, uuid: stri
 function random() {
   return new DataView(crypto.getRandomValues(new Uint8Array(8)).buffer).getBigUint64(0) & ((1n << 62n) - 1n)
 }
+
+/** UUID namespace. */
+export const uuid = { nil, generate, resolve }
