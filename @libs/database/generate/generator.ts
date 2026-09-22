@@ -4,19 +4,28 @@ import { API } from "typescript/unstable/async"
 import type { Project } from "typescript/unstable/async"
 // deno-lint-ignore no-external-import
 import type { ChildProcess } from "node:child_process"
-import { resolve } from "@std/path"
+import { resolve, toFileUrl } from "@std/path"
 import { ddl } from "../is/_ddl.ts"
 import { metadata } from "../is/_metadata.ts"
 import { Type } from "../database.ts"
 import type { is } from "@libs/is"
 
+/** Query generation configuration. */
+export interface Options {
+  /** Generated module URL used to resolve relative enum imports; defaults to a file in the working directory. */
+  base?: URL
+}
+
 /** Compile annotated SQL sources into one typed Query class. */
-export async function generate(sources: readonly string[]): Promise<string> {
+export async function generate(sources: readonly string[], { base = toFileUrl(resolve("queries.gen.ts")) } = {} as Options): Promise<string> {
   await using compiler = new Compiler()
   // Collect imports, query declarations, and hook registrations
   let unused = false
   const imports = new Set<string>()
   const models = new Set<string>()
+  const references = new Map<string, { name: string; path: string }>()
+  const enums = new Map<string, Record<string, unknown>>()
+  const constants = new Map<string, { sqlite: string; postgres: string }>()
   const methods = [] as string[]
   const signatures = [] as string[]
   const names = new Set<string>()
@@ -37,11 +46,37 @@ export async function generate(sources: readonly string[]): Promise<string> {
         if (!bindings || !ts.isNamedImports(bindings) || node.importClause.name)
           throw new SyntaxError("Schema imports require named exports; use @import { Model } from ...")
         for (const binding of bindings.elements) {
-          if (!binding.isTypeOnly)
+          if (!binding.isTypeOnly) {
             models.add(binding.name.text)
+            references.set(binding.name.text, { name: (binding.propertyName ?? binding.name).text, path: (node.moduleSpecifier as ts.StringLiteral).text })
+          }
         }
       }
     }
+  }
+  // Resolve enum references before interpreting imported names as schema annotations
+  for (const source of sources) {
+    if (!source.includes("#{"))
+      continue
+    await bind(source, () => Promise.resolve(""), async (reference) => {
+      if (!constants.has(reference)) {
+        const match = /^([\p{ID_Start}$_][\p{ID_Continue}$]*)\s*\.\s*([\p{ID_Start}$_][\p{ID_Continue}$]*)$/u.exec(reference)
+        if (!match)
+          throw new SyntaxError(`Expected an imported Enum.Member in SQL interpolation: #{${reference}}`)
+        const [, name, member] = match
+        const declaration = references.get(name)
+        if (!declaration)
+          throw new SyntaxError(`SQL enum ${name} requires a named value @import`)
+        if (!enums.has(name))
+          enums.set(name, await enumeration(compiler, declaration, base))
+        const values = enums.get(name)!
+        if (!Object.hasOwn(values, member))
+          throw new SyntaxError(`Unknown enum member ${reference}`)
+        constants.set(reference, literal(values[member], reference))
+        models.delete(name)
+      }
+      return constants.get(reference)!
+    })
   }
   for (const source of sources) {
     let signature = ""
@@ -53,7 +88,7 @@ export async function generate(sources: readonly string[]): Promise<string> {
     const flush = async () => {
       if (!signature)
         return
-      const method = await compile(compiler, signature, sql.join("\n").trim(), hooks, models, typeonly, raw)
+      const method = await compile(compiler, signature, sql.join("\n").trim(), hooks, models, constants, typeonly, raw)
       if (names.has(method.name))
         throw new SyntaxError(`Duplicate query name "${method.name}"`)
       names.add(method.name)
@@ -185,6 +220,7 @@ async function compile(
   statement: string,
   hooks: directive[],
   models: ReadonlySet<string>,
+  constants: ReadonlyMap<string, { sqlite: string; postgres: string }>,
   typeonly: boolean,
   raw: boolean,
 ): Promise<{ name: string; code: string; signature: string; hooks: { pre: string[]; post: string[] }; unused: boolean }> {
@@ -332,7 +368,7 @@ async function compile(
     }
     const resolved = schema(value)
     return !raw && resolved ? `_schema.encode(${resolved},${expression},${prefix}.type)` : expression
-  })
+  }, (reference) => Promise.resolve(constants.get(reference)!))
   // Preserve generic parameters and the declared input tuple
   const type = annotation(declaration.type, models, "output")
   let checked = schemas.some(Boolean) || uses(declaration.type, runtime)
@@ -439,7 +475,7 @@ function shape(type: ts.TypeNode): "array" | "one" | "optional" | "nullable" | "
 }
 
 /** Replace template bindings outside SQL strings, identifiers, and comments. */
-async function bind(source: string, resolve: (expression: string) => Promise<string>): Promise<{ sqlite: string; postgres: string; parameters: { sqlite: string[]; postgres: string[] } }> {
+async function bind(source: string, resolve: (expression: string) => Promise<string>, constant: (reference: string) => Promise<{ sqlite: string; postgres: string }>): Promise<{ sqlite: string; postgres: string; parameters: { sqlite: string[]; postgres: string[] } }> {
   // Track SQL for each backend and its ordered binding expressions
   const parameters = { sqlite: [] as string[], postgres: [] as string[] }
   let backend: "sqlite" | "postgres" | undefined
@@ -515,6 +551,17 @@ async function bind(source: string, resolve: (expression: string) => Promise<str
       }
       if (!closed)
         throw new SyntaxError(`Unterminated SQL quote ${source[index]}`)
+    } else if (rest.startsWith("#{")) {
+      end = source.indexOf("}", index + 2)
+      if (end < 0)
+        throw new SyntaxError("Unterminated SQL enum interpolation")
+      const value = await constant(source.slice(index + 2, end).trim())
+      if (backend !== "postgres")
+        sqlite += value.sqlite
+      if (backend !== "sqlite")
+        postgres += value.postgres
+      index = end + 1
+      continue
     } else if (rest.startsWith("${")) {
       // Extract a binding while respecting quoted property names
       const start = index + 2
@@ -562,6 +609,53 @@ async function bind(source: string, resolve: (expression: string) => Promise<str
 }
 
 const types = ["Optional", "Voidable", "Nullable", "Arrayable", "Promisable", "NonEmptyArray", "NonVoid"]
+
+/** Load a named TypeScript enum, verifying its declaration before reading runtime values. */
+async function enumeration(compiler: Compiler, declaration: { name: string; path: string }, base: URL, seen = new Set<string>()): Promise<Record<string, unknown>> {
+  const url = declaration.path.startsWith(".") ? new URL(declaration.path, base) : new URL(import.meta.resolve(declaration.path))
+  if (url.protocol !== "file:")
+    throw new SyntaxError(`SQL enums require a local TypeScript module: ${url.href}`)
+  const key = `${url.href}#${declaration.name}`
+  if (seen.has(key))
+    throw new SyntaxError(`Cyclic enum export: ${key}`)
+  seen.add(key)
+  const source = await compiler.parse(await Deno.readTextFile(url))
+  let name = declaration.name
+  let exported = false
+  for (const node of source.statements) {
+    if (!ts.isExportDeclaration(node) || node.isTypeOnly || !node.exportClause || !ts.isNamedExports(node.exportClause))
+      continue
+    const member = node.exportClause.elements.find((member) => !member.isTypeOnly && member.name.text === declaration.name)
+    if (!member)
+      continue
+    name = (member.propertyName ?? member.name).text
+    if (node.moduleSpecifier)
+      return await enumeration(compiler, { name, path: (node.moduleSpecifier as ts.StringLiteral).text }, url, seen)
+    exported = true
+  }
+  const node = source.statements.find((node) => ts.isEnumDeclaration(node) && node.name.text === name && (exported || node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword)))
+  if (!node || !ts.isEnumDeclaration(node))
+    throw new SyntaxError(`Expected exported TypeScript enum ${declaration.name} in ${url.href}`)
+  const exports = await import(url.href) as Record<string, Record<string, unknown>>
+  const values = exports[declaration.name]
+  // Only declared members are exposed; numeric enums also contain reverse mappings at runtime
+  return Object.fromEntries(node.members.map((member) => {
+    if (ts.isComputedPropertyName(member.name))
+      throw new SyntaxError(`Computed enum member names are unsupported: ${member.name.getText()}`)
+    return [member.name.text, values[member.name.text]]
+  }))
+}
+
+/** Serialize finite enum values as backend-specific SQL literals. */
+function literal(value: unknown, reference: string): { sqlite: string; postgres: string } {
+  if (typeof value === "number" && Number.isFinite(value))
+    return { sqlite: String(value), postgres: String(value) }
+  if (typeof value === "string" && !value.includes("\0")) {
+    const quoted = value.replaceAll("'", "''")
+    return { sqlite: `'${quoted}'`, postgres: `E'${quoted.replaceAll("\\", "\\\\")}'` }
+  }
+  throw new SyntaxError(`Enum member ${reference} must have a finite numeric or NUL-free string value`)
+}
 
 /** Compact TypeScript tokens without changing literals or automatic semicolon insertion. */
 async function compact(compiler: Compiler, text: string): Promise<string> {

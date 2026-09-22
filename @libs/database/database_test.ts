@@ -23,6 +23,8 @@ import type { Hooks as AdvancedHooks } from "./fixtures/test_hooks/hooks.gen.ts"
 import type { Context } from "./fixtures/test_hooks/types.ts"
 import Bindings from "./fixtures/test_bindings/bindings.gen.ts"
 import Literals from "./fixtures/test_literals/literals.gen.ts"
+import Enums from "./fixtures/test_enums/queries.gen.ts"
+import { Label, Status } from "./fixtures/test_enums/values.ts"
 import Types from "./fixtures/test_types/types.gen.ts"
 import PostgreSQL from "./fixtures/test_literals/postgres.gen.ts"
 import type { Hooks } from "./fixtures/test_bindings/bindings.gen.ts"
@@ -418,6 +420,17 @@ for (
           })
           expect(await database.query(Backends.hooked(" value "))).toEqual({ value: "value" })
           expect(calls).toBe(1)
+        },
+      },
+      {
+        name: "test_enums: imported values become SQL literals without consuming bindings",
+        /** Exercise generated enum literals and typed enum parameters. */
+        async run(database: Database) {
+          expect(await database.query(Enums.values(42))).toEqual({ disabled: Status.Disabled, enabled: Status.Enabled, mask: Status.Mask, quoted: Label.Quoted, path: Label.Path, empty: Label.Empty, injection: Label.Injection, multiline: Label.Multiline, value: 42 })
+          expect(await database.query(Enums.reexported())).toEqual({ state: Status.Mask, alias: "active" })
+          expect(await database.query(Enums.repeated(Status.Mask))).toEqual({ first: Status.Enabled, second: Status.Enabled, value: Status.Mask })
+          expect(await database.query(Enums.quoted())).toEqual({ literal: "#{Missing.Member}", identifier: "identifier" })
+          expect(await database.query(Enums.backends(7))).toEqual({ value: 7, state: database.type === Type.SQLite ? Status.Disabled : Status.Mask })
         },
       },
       {
@@ -993,7 +1006,20 @@ async function setupSchema(database: Database): Promise<is.input<typeof Model>> 
 
 // Compare source fixtures to build artifacts without invoking the CLI
 for (
-  const name of ["test_prefault/queries", "test_backends/queries", "example/example", "test_queries/queries", "test_bindings/bindings", "test_hooks/hooks", "test_literals/literals", "test_literals/postgres", "test_types/types", "test_schema/queries", "test_schema/expressions"]
+  const name of [
+    "test_enums/queries",
+    "test_prefault/queries",
+    "test_backends/queries",
+    "example/example",
+    "test_queries/queries",
+    "test_bindings/bindings",
+    "test_hooks/hooks",
+    "test_literals/literals",
+    "test_literals/postgres",
+    "test_types/types",
+    "test_schema/queries",
+    "test_schema/expressions",
+  ]
 ) {
   Deno.test({
     name: `generate preserves the built ${name} fixture`,
@@ -1002,7 +1028,7 @@ for (
       const source = await Deno.readTextFile(new URL(`./fixtures/${name}.sql`, import.meta.url))
       const built = await Deno.readTextFile(new URL(`./fixtures/${name}.gen.ts`, import.meta.url))
       const timestamp = /Last generated: [^\n]+/g
-      expect((await generate([source])).replace(timestamp, "Last generated:")).toBe(built.replace(timestamp, "Last generated:"))
+      expect((await generate([source], { base: new URL(`./fixtures/${name}.gen.ts`, import.meta.url) })).replace(timestamp, "Last generated:")).toBe(built.replace(timestamp, "Last generated:"))
     },
   })
 }
@@ -1039,5 +1065,70 @@ Deno.test({
     const source = await generateTables({ Pair })
     for (const type of [Type.SQLite, Type.PostgreSQL])
       expect(source.split(JSON.stringify(ddl(Pair, type).join("\n")))).toHaveLength(3)
+  },
+})
+
+for (
+  const { name, imports, sql, error } of [
+    { name: "unknown import", imports: "", sql: "#{Missing.Enabled}", error: "requires a named value @import" },
+    { name: "type-only import", imports: 'type { Status } from "./values.ts"', sql: "#{Status.Enabled}", error: "requires a named value @import" },
+    { name: "inline type-only import", imports: '{ type Status } from "./values.ts"', sql: "#{Status.Enabled}", error: "requires a named value @import" },
+    { name: "missing member", imports: '{ Status } from "./values.ts"', sql: "#{Status.Missing}", error: "Unknown enum member Status.Missing" },
+    { name: "plain object", imports: '{ ObjectValue } from "./values.ts"', sql: "#{ObjectValue.Member}", error: "Expected exported TypeScript enum ObjectValue" },
+    { name: "schema", imports: '{ User } from "../test_schema/models.ts"', sql: "#{User.shape}", error: "Expected exported TypeScript enum User" },
+    { name: "non-finite value", imports: '{ Invalid } from "./values.ts"', sql: "#{Invalid.Infinite}", error: "finite numeric or NUL-free string" },
+    { name: "NUL string", imports: '{ Invalid } from "./values.ts"', sql: "#{Invalid.Null}", error: "finite numeric or NUL-free string" },
+    { name: "arithmetic expression", imports: '{ Status } from "./values.ts"', sql: "#{Status.Enabled + 1}", error: "Expected an imported Enum.Member" },
+    { name: "function call", imports: '{ Status } from "./values.ts"', sql: "#{Status.Enabled()}", error: "Expected an imported Enum.Member" },
+    { name: "bracket expression", imports: '{ Status } from "./values.ts"', sql: '#{Status["Enabled"]}', error: "Expected an imported Enum.Member" },
+    { name: "reverse mapping", imports: '{ Status } from "./values.ts"', sql: "#{Status.0}", error: "Expected an imported Enum.Member" },
+    { name: "nested member", imports: '{ Status } from "./values.ts"', sql: "#{Status.Enabled.value}", error: "Expected an imported Enum.Member" },
+    { name: "empty interpolation", imports: "", sql: "#{}", error: "Expected an imported Enum.Member" },
+    { name: "unterminated interpolation", imports: "", sql: "#{Status.Enabled", error: "Unterminated SQL enum interpolation" },
+    { name: "remote module", imports: '{ Status } from "https://example.com/enums.ts"', sql: "#{Status.Enabled}", error: "local TypeScript module" },
+  ]
+) {
+  Deno.test({
+    name: `enum interpolation rejects ${name}`,
+    permissions: { read: true, run: true, env: true },
+    /** Reject invalid references during generation. */
+    async fn() {
+      const source = `${imports ? `-- @import ${imports}\n` : ""}-- invalid(): {value: unknown}\nSELECT ${sql} AS value;`
+      await expect(generate([source], { base: new URL("./fixtures/test_enums/queries.gen.ts", import.meta.url) })).rejects.toThrow(SyntaxError, error)
+    },
+  })
+}
+
+Deno.test({
+  name: "enum interpolation ignores SQL strings, identifiers, and comments",
+  permissions: { read: true, run: true, env: true },
+  /** Protected SQL tokens must never resolve a template reference. */
+  async fn() {
+    const fragments = ["'#{Missing.Member}'", '"#{Missing.Member}"', "`#{Missing.Member}`", "[#{Missing.Member}]", "$tag$#{Missing.Member}$tag$", "$$#{Missing.Member}$$", "E'#{Missing.Member}'", "1 /* outer /* #{Missing.Member} */ comment */", "1 -- #{Missing.Member}"]
+    for (const fragment of fragments) {
+      const source = await generate([`-- protected(): unknown\nSELECT ${fragment};`])
+      expect(source).toContain("#{Missing.Member}")
+    }
+  },
+})
+
+Deno.test({
+  name: "enum imports resolve when CLI output is relocated",
+  permissions: { read: true, write: true, run: true, env: true },
+  /** The CLI must resolve enum values relative to its rebased output imports. */
+  async fn() {
+    const directory = await Deno.makeTempDir()
+    try {
+      const output = `${directory}/queries.gen.ts`
+      const command = new Deno.Command(Deno.execPath(), {
+        args: ["run", "--allow-read", "--allow-write", "--allow-run", "--ignore-env", new URL("./generate/mod.ts", import.meta.url).pathname, "--check", "--output", output, new URL("./fixtures/test_enums/queries.sql", import.meta.url).pathname],
+      })
+      const result = await command.output()
+      expect(new TextDecoder().decode(result.stderr)).not.toContain("error:")
+      expect(result.success).toBe(true)
+      expect(await Deno.readTextFile(output)).toContain("SELECT -1 AS disabled")
+    } finally {
+      await Deno.remove(directory, { recursive: true })
+    }
   },
 })

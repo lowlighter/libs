@@ -72,7 +72,7 @@ async function main(): Promise<void> {
           }
         }
       }
-      const generated = args.table ? await generateTables(declarations) : await generate(sources)
+      const generated = args.table ? await generateTables(declarations) : await generate(sources, { base: toFileUrl(resolve(output)) })
       const license = args.license ? args.license + (args.license.endsWith("\n") ? "" : "\n") : ""
       await Deno.writeTextFile(output, license + generated)
       outputs.push(output)
