@@ -4,7 +4,7 @@ import { Inheritance, resolve } from "./_inherit.ts"
 export type { Inheritance } from "./_inherit.ts"
 import { decorate } from "./_metadata.ts"
 import type { Schema } from "./_metadata.ts"
-export type { Checks, Modifiers, ObjectModifiers, Primary, References, Schema } from "./_metadata.ts"
+export type { Checks, Modifiers, ObjectModifiers, Primary, References, Schema, Unique } from "./_metadata.ts"
 
 /** Inherit a shared column and optionally attach database constraints. */
 export const inherit: Inheritance = new Inheritance()

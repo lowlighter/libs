@@ -20,7 +20,12 @@ export function ddl(schema: z.core.$ZodType, type: Type): string[] {
   const declaration = parse(
     z.object({
       primary: z.strictObject({ columns: keys }).optional().refine((value) => !value || !marked.length, "Use either table-level or column-level primary declarations"),
-      indexes: z.array(z.strictObject({ columns: keys, unique: z.boolean() })).optional(),
+      indexes: z.array(
+        z.strictObject({ columns: keys, unique: z.boolean(), unordered: z.boolean().optional() }).refine(
+          (index) => !index.unordered || (index.unique && index.columns.length === 2),
+          "Unordered uniqueness requires exactly two distinct columns on a unique index",
+        ),
+      ).optional(),
     }),
     options,
   )
@@ -83,8 +88,12 @@ export function ddl(schema: z.core.$ZodType, type: Type): string[] {
     definitions.push(`PRIMARY KEY (${primary.map(quote).join(", ")})`)
   const statements = [`CREATE TABLE IF NOT EXISTS ${quote(table)} (${definitions.join(", ")});`]
   for (const [index, entry] of indexes.entries()) {
-    const name = `${table}_${entry.columns.join("_")}_${index}_${entry.unique ? "unique" : "index"}`
-    statements.push(`CREATE ${entry.unique ? "UNIQUE " : ""}INDEX IF NOT EXISTS ${quote(name)} ON ${quote(table)} (${entry.columns.map(quote).join(", ")});`)
+    const name = `${table}_${entry.columns.join("_")}_${index}_${entry.unordered ? "unordered_unique" : entry.unique ? "unique" : "index"}`
+    const columns = entry.columns.map(quote).join(", ")
+    if (entry.unordered && entry.columns.some((name) => !primary.includes(name) && (optional(shape[name]) || storage(shape[name]) === "null")))
+      throw new TypeError(`Unordered unique pair ${table} (${columns}) requires non-null columns`)
+    const expressions = entry.unordered ? (type === Type.SQLite ? `min(${columns}), max(${columns})` : `(LEAST(${columns})), (GREATEST(${columns}))`) : columns
+    statements.push(`CREATE ${entry.unique ? "UNIQUE " : ""}INDEX IF NOT EXISTS ${quote(name)} ON ${quote(table)} (${expressions});`)
   }
   return statements
 }

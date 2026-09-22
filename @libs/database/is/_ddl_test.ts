@@ -2,6 +2,7 @@
 import { is as z, timestamp } from "@libs/is"
 import { expect } from "@libs/testing"
 import { ddl } from "./_ddl.ts"
+import { decorate } from "./_metadata.ts"
 import * as is from "./schema.ts"
 import { Status } from "../fixtures/test_schema/models.ts"
 import { Type } from "../database.ts"
@@ -161,4 +162,36 @@ Deno.test("shared timestamps retain BIGINT storage through column and table inhe
   expect(client.shape.created.parse(1720000000123)).toBe(1720000000123)
   expect(() => client.shape.created.parse(-1)).toThrow()
   expect(table.shape.created.parse(undefined)).toBeGreaterThan(0)
+})
+
+for (const type of [Type.SQLite, Type.PostgreSQL]) {
+  Deno.test(`${Type[type]} DDL generates unordered unique expression indexes`, () => {
+    const table = is.table('odd"pairs', { 'first"id': is.int(), second: is.int(), value: is.string() })
+      .unique(['first"id', "second"], { unordered: true }).unique(['first"id', "second"]).index(["value"])
+    const statements = ddl(table, type)
+    const expressions = type === Type.SQLite ? 'min("first""id", "second"), max("first""id", "second")' : '(LEAST("first""id", "second")), (GREATEST("first""id", "second"))'
+    expect(statements[1]).toBe(`CREATE UNIQUE INDEX IF NOT EXISTS "odd""pairs_first""id_second_0_unordered_unique" ON "odd""pairs" (${expressions});`)
+    expect(statements[2]).toBe('CREATE UNIQUE INDEX IF NOT EXISTS "odd""pairs_first""id_second_1_unique" ON "odd""pairs" ("first""id", "second");')
+    expect(statements[3]).toContain('("value")')
+    const primary = is.table("pairs", { first: is.int().optional(), second: is.int().default(1) }).primary(["first", "second"]).unique(["first", "second"], { unordered: true })
+    expect(ddl(primary, type)).toHaveLength(2)
+  })
+  for (const columns of [[], ["first"], ["first", "second", "third"], ["first", "first"], ["first", "missing"]]) {
+    Deno.test(`${Type[type]} rejects invalid unordered pair ${JSON.stringify(columns)}`, () => {
+      const table = is.table("pairs", { first: is.int(), second: is.int(), third: is.int() })
+      const schema = Reflect.apply(table.unique, table, [columns, { unordered: true }])
+      expect(() => ddl(schema, type)).toThrow(TypeError)
+    })
+  }
+  for (const column of [is.int().nullable(), is.int().optional(), is.int().optional().readonly(), is.null()]) {
+    Deno.test(`${Type[type]} rejects nullable unordered pair ${column.type}`, () => {
+      const table = is.table("pairs", { first: column, second: is.int() }).unique(["first", "second"], { unordered: true })
+      expect(() => ddl(table, type)).toThrow("requires non-null columns")
+    })
+  }
+}
+
+Deno.test("DDL rejects unordered metadata on a non-unique index", () => {
+  const table = decorate(z.object({ first: z.int(), second: z.int() }), { table: "pairs", indexes: [{ columns: ["first", "second"], unique: false, unordered: true }] })
+  expect(() => ddl(table, Type.SQLite)).toThrow("Unordered uniqueness requires exactly two distinct columns on a unique index")
 })

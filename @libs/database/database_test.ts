@@ -198,6 +198,31 @@ for (
         },
       },
       {
+        name: "unordered unique pairs reject reversals and support expression upserts",
+        /** Verify generated constraints against the selected SQL backend. */
+        async run(database: Database) {
+          for (const column of [schema.int(), schema.string()]) {
+            const table = schema.table("schema_pairs", { user_id: column, target_id: column, value: schema.int() }).unique(["user_id", "target_id"], { unordered: true })
+            try {
+              const statements = ddl(table, database.type).join("\n")
+              await database.run(statements)
+              await database.run(statements)
+              await database.run("INSERT INTO schema_pairs VALUES ('1', '2', 1), ('1', '3', 1), ('2', '2', 1)")
+              for (const pair of ["'1', '2'", "'2', '1'", "'2', '2'"])
+                await expect(database.run(`INSERT INTO schema_pairs VALUES (${pair}, 2)`)).rejects.toThrow()
+              await expect(database.run("UPDATE schema_pairs SET target_id = '2' WHERE target_id = '3'")).rejects.toThrow()
+              const expressions = database.type === Type.SQLite ? "min(user_id, target_id), max(user_id, target_id)" : "(LEAST(user_id, target_id)), (GREATEST(user_id, target_id))"
+              await database.run(`INSERT INTO schema_pairs VALUES ('2', '1', 9) ON CONFLICT (${expressions}) DO UPDATE SET value = excluded.value`)
+              expect(await database.prepare("SELECT value FROM schema_pairs WHERE user_id = '1' AND target_id = '2'").run()).toEqual([{ value: 9 }])
+              await database.run(`INSERT INTO schema_pairs VALUES ('2', '1', 10) ON CONFLICT (${expressions}) DO NOTHING`)
+              expect(await database.prepare("SELECT value FROM schema_pairs ORDER BY value").run()).toEqual([{ value: 1 }, { value: 1 }, { value: 9 }])
+            } finally {
+              await database.run("DROP TABLE IF EXISTS schema_pairs")
+            }
+          }
+        },
+      },
+      {
         name: "composite primary keys enforce pair uniqueness and non-null columns",
         async run(database: Database) {
           const table = schema.table("schema_composite", { first: schema.int(), second: schema.int().optional() }).primary(["first", "second"])
@@ -1004,3 +1029,15 @@ for (
     await expect(generateTables(declarations)).rejects.toThrow()
   })
 }
+
+Deno.test({
+  name: "generateTables includes unordered expression indexes in table creation",
+  permissions: { read: true, run: true, env: true },
+  /** Check both backend branches of generated table and aggregate creation methods. */
+  async fn() {
+    const Pair = schema.table("pairs", { first: schema.int(), second: schema.int() }).unique(["first", "second"], { unordered: true })
+    const source = await generateTables({ Pair })
+    for (const type of [Type.SQLite, Type.PostgreSQL])
+      expect(source.split(JSON.stringify(ddl(Pair, type).join("\n")))).toHaveLength(3)
+  },
+})

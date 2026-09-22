@@ -9,10 +9,12 @@ export function decorate<T extends z.ZodType>(schema: T, options: Metadata = {})
   const proxy = new Proxy(schema, {
     get(target, key) {
       if (key === "index" || key === "unique") {
-        return (columns?: string[]) => {
+        return (columns?: string[], { unordered = false } = {} as Unique) => {
           if (columns && !options.table)
             throw new TypeError(`${String(key)} column lists require is.table()`)
-          return decorate(target.clone(), { ...options, indexes: [...options.indexes ?? [], { columns, unique: key === "unique" }] })
+          if (unordered && (!options.table || key !== "unique"))
+            throw new TypeError("Unordered uniqueness requires a table-level unique column pair")
+          return decorate(target.clone(), { ...options, indexes: [...options.indexes ?? [], { columns: columns?.slice(), unique: key === "unique", ...(unordered ? { unordered } : {}) }] })
         }
       }
       if (key === "primary")
@@ -47,6 +49,8 @@ export interface Modifiers<T extends z.ZodType> {
   index(columns?: T extends { shape: z.ZodRawShape } ? (keyof z.output<T> & string)[] : never): Schema<T>
   /** Require uniqueness for this column or a table's named columns. */
   unique(columns?: T extends { shape: z.ZodRawShape } ? (keyof z.output<T> & string)[] : never): Schema<T>
+  /** Require uniqueness for a pair regardless of its order. */
+  unique(columns: T extends { shape: z.ZodRawShape } ? [keyof z.output<T> & string, keyof z.output<T> & string] : never, options: Unique): Schema<T>
   /** Declare this column as the primary key. */
   primary(options?: Primary): Schema<T>
   /** Declare a composite primary key on a table. */
@@ -99,6 +103,12 @@ export interface ObjectModifiers<S extends z.ZodRawShape> {
   extend<A extends z.ZodRawShape>(shape: A): Schema<z.ZodObject<Omit<S, keyof A> & A>>
 }
 
+/** Pair uniqueness configuration. */
+export interface Unique {
+  /** Treat the two required columns as an unordered pair using a unique expression index. */
+  unordered?: boolean
+}
+
 /** Primary-key configuration. */
 export interface Primary {
   /** Generate an integer identity when the column is omitted from an insert. */
@@ -122,7 +132,7 @@ export interface Metadata {
   /** Store integer Unix milliseconds without losing PostgreSQL precision. */
   timestamp?: boolean
   /** Index declarations. */
-  indexes?: { columns?: string[]; unique: boolean }[]
+  indexes?: { columns?: string[]; unique: boolean; unordered?: boolean }[]
   /** Primary key declaration. */
   primary?: Primary & { columns?: string[] }
   /** Foreign key declaration. */

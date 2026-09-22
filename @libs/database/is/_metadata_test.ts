@@ -26,3 +26,21 @@ Deno.test("table metadata survives object operations", () => {
   expect(metadata.get(table)).toEqual({ table: "items" })
   expect(metadata.get(next)?.indexes).toEqual([{ columns: ["id"], unique: true }, { columns: ["value"], unique: false }])
 })
+
+Deno.test("unordered uniqueness is immutable and survives object chaining", () => {
+  const table = decorate(z.object({ first: z.int(), second: z.int() }), { table: "pairs" })
+  const columns: ["first", "second"] = ["first", "second"]
+  const next = table.unique(columns, { unordered: true }).describe("Pairs").extend({ value: z.string() })
+  columns.reverse()
+  expect(metadata.get(table)).toEqual({ table: "pairs" })
+  expect(metadata.get(next)?.indexes).toEqual([{ columns: ["first", "second"], unique: true, unordered: true }])
+  expect(metadata.get(table.unique(["first", "second"], { unordered: false }))?.indexes).toEqual([{ columns: ["first", "second"], unique: true }])
+  expect(() => Reflect.apply(decorate(z.int()).unique, null, [undefined, { unordered: true }])).toThrow(TypeError)
+  expect(() => Reflect.apply(table.index, null, [["first", "second"], { unordered: true }])).toThrow(TypeError)
+  // @ts-expect-error Unordered uniqueness is only available on tables.
+  expect(() => decorate(z.int()).unique(["first", "second"], { unordered: true })).toThrow(TypeError)
+  // @ts-expect-error Unordered pairs require two columns.
+  table.unique(["first"], { unordered: true })
+  // @ts-expect-error Unordered pairs must name existing columns.
+  table.unique(["first", "missing"], { unordered: true })
+})
