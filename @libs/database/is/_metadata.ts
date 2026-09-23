@@ -9,12 +9,12 @@ export function decorate<T extends z.ZodType>(schema: T, options: Metadata = {})
   const proxy = new Proxy(schema, {
     get(target, key) {
       if (key === "index" || key === "unique") {
-        return (columns?: string[], { unordered = false } = {} as Unique) => {
-          if (columns && !options.table)
+        return (columns?: readonly string[], ...tuples: readonly string[][]) => {
+          if ((columns || tuples.length) && (!options.table))
             throw new TypeError(`${String(key)} column lists require is.table()`)
-          if (unordered && (!options.table || key !== "unique"))
-            throw new TypeError("Unordered uniqueness requires a table-level unique column pair")
-          return decorate(target.clone(), { ...options, indexes: [...options.indexes ?? [], { columns: columns?.slice(), unique: key === "unique", ...(unordered ? { unordered } : {}) }] })
+          if (((columns !== undefined) && (!Array.isArray(columns))) || tuples.some((tuple) => !Array.isArray(tuple)))
+            throw new TypeError(`${String(key)} expects column tuples, received ${JSON.stringify([columns, ...tuples])}`)
+          return decorate(target.clone(), { ...options, indexes: [...options.indexes ?? [], { columns: columns?.slice(), unique: key === "unique", ...(tuples.length ? { tuples: tuples.map((tuple) => tuple.slice()) } : {}) }] })
         }
       }
       if (key === "primary")
@@ -46,11 +46,13 @@ export interface Modifiers<T extends z.ZodType> {
   /** Refine validation while preserving type predicates and database modifiers. */
   refine<C extends (value: z.output<T>) => unknown>(check: C, params?: Parameters<T["refine"]>[1]): C extends ((value: z.output<T>) => value is infer R extends z.output<T>) ? Schema<T & z.ZodType<R, z.input<T>>> : Schema<T>
   /** Index this column, or a table's named columns. */
-  index(columns?: T extends { shape: z.ZodRawShape } ? (keyof z.output<T> & string)[] : never): Schema<T>
+  index(columns?: columns<T>): Schema<T>
+  /** Index equivalent arrangements of a table's columns. */
+  index<const C extends columns<T>>(columns: C, tuple: arrangement<NoInfer<C>>, ...tuples: arrangement<NoInfer<C>>[]): Schema<T>
   /** Require uniqueness for this column or a table's named columns. */
-  unique(columns?: T extends { shape: z.ZodRawShape } ? (keyof z.output<T> & string)[] : never): Schema<T>
-  /** Require uniqueness for a pair regardless of its order. */
-  unique(columns: T extends { shape: z.ZodRawShape } ? [keyof z.output<T> & string, keyof z.output<T> & string] : never, options: Unique): Schema<T>
+  unique(columns?: columns<T>): Schema<T>
+  /** Require uniqueness across equivalent arrangements of a table's columns. */
+  unique<const C extends columns<T>>(columns: C, tuple: arrangement<NoInfer<C>>, ...tuples: arrangement<NoInfer<C>>[]): Schema<T>
   /** Declare this column as the primary key. */
   primary(options?: Primary): Schema<T>
   /** Declare a composite primary key on a table. */
@@ -103,12 +105,6 @@ export interface ObjectModifiers<S extends z.ZodRawShape> {
   extend<A extends z.ZodRawShape>(shape: A): Schema<z.ZodObject<Omit<S, keyof A> & A>>
 }
 
-/** Pair uniqueness configuration. */
-export interface Unique {
-  /** Treat the two required columns as an unordered pair using a unique expression index. */
-  unordered?: boolean
-}
-
 /** Primary-key configuration. */
 export interface Primary {
   /** Generate an integer identity when the column is omitted from an insert. */
@@ -132,7 +128,7 @@ export interface Metadata {
   /** Store integer Unix milliseconds without losing PostgreSQL precision. */
   timestamp?: boolean
   /** Index declarations. */
-  indexes?: { columns?: string[]; unique: boolean; unordered?: boolean }[]
+  indexes?: { columns?: string[]; unique: boolean; tuples?: string[][] }[]
   /** Primary key declaration. */
   primary?: Primary & { columns?: string[] }
   /** Foreign key declaration. */
@@ -141,3 +137,9 @@ export interface Metadata {
 
 /** Zod validation methods that preserve database modifiers when chained. */
 export type Checks = "min" | "max" | "length" | "regex" | "trim" | "toLowerCase" | "toUpperCase" | "refine" | "superRefine" | "check" | "describe" | "positive" | "negative" | "nonnegative" | "nonpositive" | "multipleOf" | "int" | "safe"
+
+/** Column names available to table-level index modifiers. */
+type columns<T extends z.ZodType> = T extends { shape: z.ZodRawShape } ? readonly (keyof z.output<T> & string)[] : never
+
+/** A tuple of equal length drawn from the first tuple's columns. */
+type arrangement<T extends readonly string[]> = { readonly [K in keyof T]: T[number] }

@@ -2,6 +2,7 @@
 import { is as z, parse } from "@libs/is"
 import { Type } from "../database.ts"
 import { metadata } from "./_metadata.ts"
+import { expressions } from "./_index.ts"
 import { storage, unwrap } from "./_codec.ts"
 
 /** Generate table and index creation statements without application validation checks or defaults. */
@@ -20,12 +21,7 @@ export function ddl(schema: z.core.$ZodType, type: Type): string[] {
   const declaration = parse(
     z.object({
       primary: z.strictObject({ columns: keys }).optional().refine((value) => !value || !marked.length, "Use either table-level or column-level primary declarations"),
-      indexes: z.array(
-        z.strictObject({ columns: keys, unique: z.boolean(), unordered: z.boolean().optional() }).refine(
-          (index) => !index.unordered || (index.unique && index.columns.length === 2),
-          "Unordered uniqueness requires exactly two distinct columns on a unique index",
-        ),
-      ).optional(),
+      indexes: z.array(z.strictObject({ columns: keys, unique: z.boolean(), tuples: z.array(keys).min(1).optional() })).optional(),
     }),
     options,
   )
@@ -88,12 +84,11 @@ export function ddl(schema: z.core.$ZodType, type: Type): string[] {
     definitions.push(`PRIMARY KEY (${primary.map(quote).join(", ")})`)
   const statements = [`CREATE TABLE IF NOT EXISTS ${quote(table)} (${definitions.join(", ")});`]
   for (const [index, entry] of indexes.entries()) {
-    const name = `${table}_${entry.columns.join("_")}_${index}_${entry.unordered ? "unordered_unique" : entry.unique ? "unique" : "index"}`
-    const columns = entry.columns.map(quote).join(", ")
-    if (entry.unordered && entry.columns.some((name) => !primary.includes(name) && (optional(shape[name]) || storage(shape[name]) === "null")))
-      throw new TypeError(`Unordered unique pair ${table} (${columns}) requires non-null columns`)
-    const expressions = entry.unordered ? (type === Type.SQLite ? `min(${columns}), max(${columns})` : `(LEAST(${columns})), (GREATEST(${columns}))`) : columns
-    statements.push(`CREATE ${entry.unique ? "UNIQUE " : ""}INDEX IF NOT EXISTS ${quote(name)} ON ${quote(table)} (${expressions});`)
+    const name = `${table}_${entry.columns.join("_")}_${index}_${entry.tuples ? "equivalent_" : ""}${entry.unique ? "unique" : "index"}`
+    if (entry.tuples && entry.columns.some((name) => !primary.includes(name) && (optional(shape[name]) || storage(shape[name]) === "null")))
+      throw new TypeError(`Equivalent index ${table} (${entry.columns.map(quote).join(", ")}) requires non-null columns`)
+    const columns = entry.tuples ? expressions([entry.columns, ...entry.tuples], type) : entry.columns.map(quote)
+    statements.push(`CREATE ${entry.unique ? "UNIQUE " : ""}INDEX IF NOT EXISTS ${quote(name)} ON ${quote(table)} (${columns.join(", ")});`)
   }
   return statements
 }

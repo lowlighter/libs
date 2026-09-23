@@ -200,11 +200,11 @@ for (
         },
       },
       {
-        name: "unordered unique pairs reject reversals and support expression upserts",
+        name: "equivalent unique tuples reject reversals and support expression upserts",
         /** Verify generated constraints against the selected SQL backend. */
         async run(database: Database) {
           for (const column of [schema.int(), schema.string()]) {
-            const table = schema.table("schema_pairs", { user_id: column, target_id: column, value: schema.int() }).unique(["user_id", "target_id"], { unordered: true })
+            const table = schema.table("schema_pairs", { user_id: column, target_id: column, value: schema.int() }).unique(["user_id", "target_id"], ["target_id", "user_id"])
             try {
               const statements = ddl(table, database.type).join("\n")
               await database.run(statements)
@@ -220,6 +220,62 @@ for (
               expect(await database.prepare("SELECT value FROM schema_pairs ORDER BY value").run()).toEqual([{ value: 1 }, { value: 1 }, { value: 9 }])
             } finally {
               await database.run("DROP TABLE IF EXISTS schema_pairs")
+            }
+          }
+        },
+      },
+      {
+        name: "equivalent indexes preserve scopes and distinguish non-unique declarations",
+        /** Scoped pairs share an expression key only within the same scope. */
+        async run(database: Database) {
+          const base = schema.table("schema_scoped", { scope: schema.string(), a: schema.int(), b: schema.int(), value: schema.int() })
+          for (const method of ["unique", "index"] as const) {
+            const table = base[method](["scope", "a", "b"], ["scope", "b", "a"])
+            try {
+              await database.run(ddl(table, database.type).join("\n"))
+              await database.run("INSERT INTO schema_scoped VALUES ('one', 1, 2, 1), ('two', 2, 1, 2)")
+              if (method === "unique") {
+                await expect(database.run("INSERT INTO schema_scoped VALUES ('one', 2, 1, 3)")).rejects.toThrow()
+                const target = database.type === Type.SQLite ? "scope, min(a, b), max(a, b)" : "scope, (LEAST(a, b)), (GREATEST(a, b))"
+                await database.run(`INSERT INTO schema_scoped VALUES ('one', 2, 1, 9) ON CONFLICT (${target}) DO UPDATE SET value = excluded.value`)
+                expect(await database.prepare("SELECT value FROM schema_scoped ORDER BY scope").run()).toEqual([{ value: 9 }, { value: 2 }])
+              } else {
+                await database.run("INSERT INTO schema_scoped VALUES ('one', 2, 1, 3), ('one', 1, 2, 4)")
+                expect(await database.prepare("SELECT value FROM schema_scoped ORDER BY value").run()).toHaveLength(4)
+              }
+            } finally {
+              await database.run("DROP TABLE IF EXISTS schema_scoped")
+            }
+          }
+        },
+      },
+      {
+        name: "equivalent tuple rotations and permutations enforce canonical keys and upserts",
+        /** Larger tuple indexes preserve middle values, repeated values, and selected arrangements. */
+        async run(database: Database) {
+          const base = schema.table("schema_tuples", { scope: schema.int(), a: schema.int(), b: schema.int(), c: schema.int(), value: schema.int() })
+          const rotations = [["scope", "a", "b", "c"], ["scope", "b", "c", "a"], ["scope", "c", "a", "b"]] as const
+          const permutations = [...rotations, ["scope", "a", "c", "b"], ["scope", "c", "b", "a"], ["scope", "b", "a", "c"]] as const
+          for (const tuples of [rotations, permutations]) {
+            try {
+              const statements = ddl(base.unique(...tuples), database.type)
+              await database.run(statements.join("\n"))
+              await database.run(statements.join("\n"))
+              await database.run("INSERT INTO schema_tuples VALUES (1, 1, 2, 4, 1), (1, 1, 3, 4, 2), (1, 1, 1, 4, 3), (1, 1, 4, 4, 4), (2, 2, 4, 1, 5)")
+              await expect(database.run("INSERT INTO schema_tuples VALUES (1, 2, 4, 1, 6)")).rejects.toThrow()
+              await expect(database.run("UPDATE schema_tuples SET b = 2 WHERE value = 2")).rejects.toThrow()
+              if (tuples === rotations)
+                await database.run("INSERT INTO schema_tuples VALUES (1, 4, 2, 1, 7)")
+              else
+                await expect(database.run("INSERT INTO schema_tuples VALUES (1, 4, 2, 1, 7)")).rejects.toThrow()
+              // Use the expression list emitted in generated index DDL as the conflict target
+              const target = statements[1].split(' ON "schema_tuples" (')[1].slice(0, -2)
+              await database.run(`INSERT INTO schema_tuples VALUES (1, 4, 1, 2, 9) ON CONFLICT (${target}) DO UPDATE SET value = excluded.value`)
+              expect(await database.prepare("SELECT value FROM schema_tuples WHERE scope = 1 AND a = 1 AND b = 2 AND c = 4").run()).toEqual([{ value: 9 }])
+              await database.run(`INSERT INTO schema_tuples VALUES (1, 2, 4, 1, 10) ON CONFLICT (${target}) DO NOTHING`)
+              expect(await database.prepare("SELECT value FROM schema_tuples ORDER BY value").run()).toHaveLength(tuples === rotations ? 6 : 5)
+            } finally {
+              await database.run("DROP TABLE IF EXISTS schema_tuples")
             }
           }
         },
@@ -1057,14 +1113,20 @@ for (
 }
 
 Deno.test({
-  name: "generateTables includes unordered expression indexes in table creation",
+  name: "generateTables includes equivalent expression indexes in table creation",
   permissions: { read: true, run: true, env: true },
   /** Check both backend branches of generated table and aggregate creation methods. */
   async fn() {
-    const Pair = schema.table("pairs", { first: schema.int(), second: schema.int() }).unique(["first", "second"], { unordered: true })
-    const source = await generateTables({ Pair })
-    for (const type of [Type.SQLite, Type.PostgreSQL])
-      expect(source.split(JSON.stringify(ddl(Pair, type).join("\n")))).toHaveLength(3)
+    const Pair = schema.table("pairs", { first: schema.int(), second: schema.int() }).unique(["first", "second"], ["second", "first"])
+    const base = schema.table("scoped", { scope: schema.string(), first: schema.int(), second: schema.int(), third: schema.int() })
+    const Scoped = base.unique(["scope", "first", "second"], ["scope", "second", "first"])
+    const Rotations = schema.table("rotations", { a: schema.int(), b: schema.int(), c: schema.int() }).index(["a", "b", "c"], ["b", "c", "a"], ["c", "a", "b"])
+    for (const table of [Pair, Scoped, Rotations]) {
+      const source = await generateTables({ Table: table })
+      const statements = [Type.SQLite, Type.PostgreSQL].map((type) => JSON.stringify(ddl(table, type).join("\n")))
+      for (const statement of new Set(statements))
+        expect(source.split(statement)).toHaveLength(1 + 2 * statements.filter((value) => value === statement).length)
+    }
   },
 })
 

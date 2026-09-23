@@ -27,20 +27,30 @@ Deno.test("table metadata survives object operations", () => {
   expect(metadata.get(next)?.indexes).toEqual([{ columns: ["id"], unique: true }, { columns: ["value"], unique: false }])
 })
 
-Deno.test("unordered uniqueness is immutable and survives object chaining", () => {
-  const table = decorate(z.object({ first: z.int(), second: z.int() }), { table: "pairs" })
-  const columns: ["first", "second"] = ["first", "second"]
-  const next = table.unique(columns, { unordered: true }).describe("Pairs").extend({ value: z.string() })
-  columns.reverse()
-  expect(metadata.get(table)).toEqual({ table: "pairs" })
-  expect(metadata.get(next)?.indexes).toEqual([{ columns: ["first", "second"], unique: true, unordered: true }])
-  expect(metadata.get(table.unique(["first", "second"], { unordered: false }))?.indexes).toEqual([{ columns: ["first", "second"], unique: true }])
-  expect(() => Reflect.apply(decorate(z.int()).unique, null, [undefined, { unordered: true }])).toThrow(TypeError)
-  expect(() => Reflect.apply(table.index, null, [["first", "second"], { unordered: true }])).toThrow(TypeError)
-  // @ts-expect-error Unordered uniqueness is only available on tables.
-  expect(() => decorate(z.int()).unique(["first", "second"], { unordered: true })).toThrow(TypeError)
-  // @ts-expect-error Unordered pairs require two columns.
-  table.unique(["first"], { unordered: true })
-  // @ts-expect-error Unordered pairs must name existing columns.
-  table.unique(["first", "missing"], { unordered: true })
-})
+for (const method of ["unique", "index"] as const) {
+  Deno.test(`${method} tuple metadata is immutable and survives object chaining`, () => {
+    const table = decorate(z.object({ first: z.int(), second: z.int(), third: z.int() }), { table: "pairs" })
+    const columns: ["first", "second"] = ["first", "second"]
+    const tuple: ["second", "first"] = ["second", "first"]
+    const next = table[method](columns, tuple).describe("Pairs").extend({ value: z.string() })
+    columns.reverse()
+    tuple.reverse()
+    expect(metadata.get(table)).toEqual({ table: "pairs" })
+    expect(metadata.get(next)?.indexes).toEqual([{ columns: ["first", "second"], unique: method === "unique", tuples: [["second", "first"]] }])
+    expect(metadata.get(table[method](["first", "second"], ["second", "first"]))?.indexes).toEqual(metadata.get(next)?.indexes)
+    expect(() => Reflect.apply(table[method], table, ["first"])).toThrow("expects column tuples")
+    // @ts-expect-error Column lists require a table.
+    expect(() => decorate(z.int())[method](["first", "second"], ["second", "first"])).toThrow(TypeError)
+    // @ts-expect-error Options objects were replaced by explicit tuples.
+    expect(() => table[method](["first", "second"], { unordered: true })).toThrow("expects column tuples")
+    // @ts-expect-error Arrangements must have the first tuple's length.
+    table[method](["first", "second"], ["second"])
+    // @ts-expect-error Arrangements must use the first tuple's columns.
+    table[method](["first", "second"], ["third", "first"])
+    // @ts-expect-error Tuples must name existing columns.
+    table[method](["first", "missing"], ["missing", "first"])
+    const triples = table[method](["first", "second", "third"], ["second", "third", "first"], ["third", "first", "second"])
+    expect(metadata.get(triples)?.indexes?.[0].tuples).toHaveLength(2)
+    expect(() => Reflect.apply(decorate(z.int())[method], null, [undefined, ["first"]])).toThrow(TypeError)
+  })
+}
