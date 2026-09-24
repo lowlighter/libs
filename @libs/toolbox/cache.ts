@@ -8,25 +8,35 @@ import { env } from "./env.ts"
  * The returned value depends on the operating system and is either a string,
  * containing a value from the following table, or the configured fallback.
  *
- * |Platform | Value                               | Example                          |
- * | ------- | ----------------------------------- | -------------------------------- |
+ * |Platform | Value                               | Example                     |
+ * | ------- | ----------------------------------- | --------------------------- |
  * | Linux   | `$XDG_CACHE_HOME` or `$HOME`/.cache | /home/user/.cache           |
  * | macOS   | `$HOME`/Library/Caches              | /Users/user/Library/Caches  |
  * | Windows | `$LOCALAPPDATA`                     | C:\Users\user\AppData\Local |
+ *
+ * A fallback value can be provided if none of the platform-specific cache directories are available.
+ *
+ * The name of an environment variable can be provided to force the use of a specific cache directory.
+ * If the specified environment variable is empty or not available, the resolution will resume as usual.
  */
-export function cache(path?: string, { os = Deno.build.os, fallback = "" } = {}): string {
-  const home = env("HOME")
-  let cache = fallback
+export function cache(path?: string, { os = Deno.build.os, fallback = "", env: override = "" } = {}): string {
+  let cache = ""
+  if (override)
+    cache = env(override)
 
-  switch (os) {
-    case "linux":
-      cache = env("XDG_CACHE_HOME") || (home && `${home}/.cache`) || fallback
-      break
-    case "darwin":
-      cache = (home && `${home}/Library/Caches`) || fallback
-      break
-    case "windows":
-      cache = env("LOCALAPPDATA") || fallback
+  if (!cache) {
+    const home = env("HOME")
+    cache = fallback
+    switch (os) {
+      case "linux":
+        cache = env("XDG_CACHE_HOME") || (home && `${home}/.cache`) || fallback
+        break
+      case "darwin":
+        cache = (home && `${home}/Library/Caches`) || fallback
+        break
+      case "windows":
+        cache = env("LOCALAPPDATA") || fallback
+    }
   }
 
   return path ? join(cache, path) : cache
