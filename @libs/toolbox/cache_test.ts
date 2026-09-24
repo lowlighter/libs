@@ -53,7 +53,7 @@ Deno.test("cache resolves each platform and appends optional paths", { permissio
   }
 })
 
-Deno.test("cache prioritizes an override and adjusts appended paths even when the variable is empty or missing", { permissions: { env: ["HOME", "XDG_CACHE_HOME", "LOCALAPPDATA", "LIBS_TEST_CACHE"] } }, () => {
+Deno.test("cache replaces the first path segment only when the override resolves", { permissions: { env: ["HOME", "XDG_CACHE_HOME", "LOCALAPPDATA", "LIBS_TEST_CACHE"] } }, () => {
   const keys = ["HOME", "XDG_CACHE_HOME", "LOCALAPPDATA", "LIBS_TEST_CACHE"] as const
   const previous = Object.fromEntries(keys.map((key) => [key, Deno.env.get(key)]))
 
@@ -62,19 +62,27 @@ Deno.test("cache prioritizes an override and adjusts appended paths even when th
     Deno.env.set("XDG_CACHE_HOME", "/custom/cache")
     Deno.env.set("LOCALAPPDATA", "C:\\Users\\user\\AppData\\Local")
     for (const os of ["linux", "darwin", "windows", "freebsd"] as const) {
-      Deno.env.set("LIBS_TEST_CACHE", "/forced/cache")
-      expect(cache(undefined, { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe("/forced/cache")
-      expect(cache("app/data", { os, env: "LIBS_TEST_CACHE" })).toBe(join("/forced", "app/data"))
-      expect(cache("", { os, env: "LIBS_TEST_CACHE" })).toBe("/forced/cache")
+      Deno.env.set("LIBS_TEST_CACHE", "/data/.my-fixed-cache")
+      expect(cache(undefined, { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe("/data/.my-fixed-cache")
+      expect(cache(".my-cache/hello", { os, env: "LIBS_TEST_CACHE" })).toBe(join("/data/.my-fixed-cache", "hello"))
+      expect(cache(".my-cache/hello/nested", { os, env: "LIBS_TEST_CACHE" })).toBe(join("/data/.my-fixed-cache", "hello/nested"))
+      expect(cache(".my-cache\\hello", { os, env: "LIBS_TEST_CACHE" })).toBe(Deno.build.os === "windows" ? join("/data/.my-fixed-cache", "hello") : join("/data/.my-fixed-cache"))
+      expect(cache(".my cache/hello world", { os, env: "LIBS_TEST_CACHE" })).toBe(join("/data/.my-fixed-cache", "hello world"))
+      expect(cache(".my-cache/hello\\ world", { os, env: "LIBS_TEST_CACHE" })).toBe(join("/data/.my-fixed-cache", "hello\\ world"))
+      expect(cache(".my-cache///hello", { os, env: "LIBS_TEST_CACHE" })).toBe(join("/data/.my-fixed-cache", "hello"))
+      expect(cache(".my-cache", { os, env: "LIBS_TEST_CACHE" })).toBe(join("/data/.my-fixed-cache"))
+      expect(cache(".my-cache/", { os, env: "LIBS_TEST_CACHE" })).toBe(join("/data/.my-fixed-cache"))
+      expect(cache("", { os, env: "LIBS_TEST_CACHE" })).toBe("/data/.my-fixed-cache")
 
       const expected = os === "linux" ? "/custom/cache" : os === "darwin" ? "/home/user/Library/Caches" : os === "windows" ? "C:\\Users\\user\\AppData\\Local" : "/fallback/cache"
+      expect(cache(".my-cache/hello", { os, env: "", fallback: "/fallback/cache" })).toBe(join(expected, ".my-cache/hello"))
       for (const value of ["", undefined]) {
         if (value === undefined)
           Deno.env.delete("LIBS_TEST_CACHE")
         else
           Deno.env.set("LIBS_TEST_CACHE", value)
         expect(cache(undefined, { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(expected)
-        expect(cache("app", { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(join(expected, "..", "app"))
+        expect(cache(".my-cache/hello", { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(join(expected, ".my-cache/hello"))
       }
     }
 
@@ -82,8 +90,8 @@ Deno.test("cache prioritizes an override and adjusts appended paths even when th
       Deno.env.delete(key)
     for (const os of ["linux", "darwin", "windows", "freebsd"] as const) {
       expect(cache(undefined, { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe("/fallback/cache")
-      expect(cache("app/data", { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(join("/fallback", "app/data"))
-      expect(cache("app", { os, env: "LIBS_TEST_CACHE" })).toBe(join("..", "app"))
+      expect(cache("app/data", { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(join("/fallback/cache", "app/data"))
+      expect(cache("app", { os, env: "LIBS_TEST_CACHE" })).toBe("app")
     }
   } finally {
     for (const key of keys) {
@@ -99,7 +107,7 @@ Deno.test("cache prioritizes an override and adjusts appended paths even when th
 Deno.test("cache uses the fallback when environment access is denied", { permissions: { env: false } }, () => {
   for (const os of ["linux", "darwin", "windows", "freebsd"] as const) {
     expect(cache(undefined, { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe("/fallback/cache")
-    expect(cache("app/data", { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(join("/fallback", "app/data"))
+    expect(cache("app/data", { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(join("/fallback/cache", "app/data"))
     expect(cache("app/data", { os, env: "", fallback: "/fallback/cache" })).toBe(join("/fallback/cache", "app/data"))
   }
 })

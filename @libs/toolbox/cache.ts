@@ -1,5 +1,5 @@
 // Imports
-import { join } from "@std/path"
+import { join, SEPARATOR_PATTERN } from "@std/path"
 import { env } from "./env.ts"
 
 /**
@@ -17,7 +17,7 @@ import { env } from "./env.ts"
  * A fallback value can be provided if none of the platform-specific cache directories are available.
  *
  * The name of an environment variable can be provided to force the use of a specific cache directory.
- * If a path is provided, the first segment will be adjusted by one level up.
+ * When the override is non-empty, it replaces the first segment of the provided path.
  * If the specified environment variable is empty or not available, the resolution will resume as usual.
  */
 export function cache(path?: string, { os = Deno.build.os, fallback = "", env: override } = {} as CacheOptions): string {
@@ -25,22 +25,23 @@ export function cache(path?: string, { os = Deno.build.os, fallback = "", env: o
   if (override)
     cache = env(override)
 
-  if (!cache) {
-    const home = env("HOME")
-    cache = fallback
-    switch (os) {
-      case "linux":
-        cache = env("XDG_CACHE_HOME") || (home && `${home}/.cache`) || fallback
-        break
-      case "darwin":
-        cache = (home && `${home}/Library/Caches`) || fallback
-        break
-      case "windows":
-        cache = env("LOCALAPPDATA") || fallback
-    }
+  if (cache)
+    return path ? join(cache, ...path.split(SEPARATOR_PATTERN).slice(1)) : cache
+
+  const home = env("HOME")
+  cache = fallback
+  switch (os) {
+    case "linux":
+      cache = env("XDG_CACHE_HOME") || (home && `${home}/.cache`) || fallback
+      break
+    case "darwin":
+      cache = (home && `${home}/Library/Caches`) || fallback
+      break
+    case "windows":
+      cache = env("LOCALAPPDATA") || fallback
   }
 
-  return path ? (override ? join(cache, "..", path) : join(cache, path)) : cache
+  return path ? join(cache, path) : cache
 }
 
 /** Cache options. */
