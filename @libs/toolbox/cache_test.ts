@@ -34,7 +34,7 @@ Deno.test("cache resolves each platform and appends optional paths", { permissio
           Deno.env.set(key, value)
       }
 
-      expect(cache(path, { os: os as typeof Deno.build.os, fallback })).toBe(expected)
+      expect(cache(path, { os: os as typeof Deno.build.os, fallback, env: "" })).toBe(expected)
     }
 
     Deno.env.set("HOME", "/home/user")
@@ -53,7 +53,7 @@ Deno.test("cache resolves each platform and appends optional paths", { permissio
   }
 })
 
-Deno.test("cache prioritizes a forced environment variable and resumes resolution when empty or missing", { permissions: { env: ["HOME", "XDG_CACHE_HOME", "LOCALAPPDATA", "LIBS_TEST_CACHE"] } }, () => {
+Deno.test("cache prioritizes an override and adjusts appended paths even when the variable is empty or missing", { permissions: { env: ["HOME", "XDG_CACHE_HOME", "LOCALAPPDATA", "LIBS_TEST_CACHE"] } }, () => {
   const keys = ["HOME", "XDG_CACHE_HOME", "LOCALAPPDATA", "LIBS_TEST_CACHE"] as const
   const previous = Object.fromEntries(keys.map((key) => [key, Deno.env.get(key)]))
 
@@ -64,7 +64,7 @@ Deno.test("cache prioritizes a forced environment variable and resumes resolutio
     for (const os of ["linux", "darwin", "windows", "freebsd"] as const) {
       Deno.env.set("LIBS_TEST_CACHE", "/forced/cache")
       expect(cache(undefined, { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe("/forced/cache")
-      expect(cache("app/data", { os, env: "LIBS_TEST_CACHE" })).toBe(join("/forced/cache", "app/data"))
+      expect(cache("app/data", { os, env: "LIBS_TEST_CACHE" })).toBe(join("/forced", "app/data"))
       expect(cache("", { os, env: "LIBS_TEST_CACHE" })).toBe("/forced/cache")
 
       const expected = os === "linux" ? "/custom/cache" : os === "darwin" ? "/home/user/Library/Caches" : os === "windows" ? "C:\\Users\\user\\AppData\\Local" : "/fallback/cache"
@@ -74,14 +74,17 @@ Deno.test("cache prioritizes a forced environment variable and resumes resolutio
         else
           Deno.env.set("LIBS_TEST_CACHE", value)
         expect(cache(undefined, { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(expected)
-        expect(cache("app", { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(join(expected, "app"))
+        expect(cache("app", { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(join(expected, "..", "app"))
       }
     }
 
     for (const key of keys)
       Deno.env.delete(key)
-    for (const os of ["linux", "darwin", "windows", "freebsd"] as const)
+    for (const os of ["linux", "darwin", "windows", "freebsd"] as const) {
       expect(cache(undefined, { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe("/fallback/cache")
+      expect(cache("app/data", { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(join("/fallback", "app/data"))
+      expect(cache("app", { os, env: "LIBS_TEST_CACHE" })).toBe(join("..", "app"))
+    }
   } finally {
     for (const key of keys) {
       const value = previous[key]
@@ -94,6 +97,9 @@ Deno.test("cache prioritizes a forced environment variable and resumes resolutio
 })
 
 Deno.test("cache uses the fallback when environment access is denied", { permissions: { env: false } }, () => {
-  for (const os of ["linux", "darwin", "windows", "freebsd"] as const)
+  for (const os of ["linux", "darwin", "windows", "freebsd"] as const) {
     expect(cache(undefined, { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe("/fallback/cache")
+    expect(cache("app/data", { os, env: "LIBS_TEST_CACHE", fallback: "/fallback/cache" })).toBe(join("/fallback", "app/data"))
+    expect(cache("app/data", { os, env: "", fallback: "/fallback/cache" })).toBe(join("/fallback/cache", "app/data"))
+  }
 })

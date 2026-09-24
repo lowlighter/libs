@@ -17,9 +17,10 @@ import { env } from "./env.ts"
  * A fallback value can be provided if none of the platform-specific cache directories are available.
  *
  * The name of an environment variable can be provided to force the use of a specific cache directory.
+ * If a path is provided, the first segment will be adjusted by one level up.
  * If the specified environment variable is empty or not available, the resolution will resume as usual.
  */
-export function cache(path?: string, { os = Deno.build.os, fallback = "", env: override = "" } = {}): string {
+export function cache(path?: string, { os = Deno.build.os, fallback = "", env: override } = {} as CacheOptions): string {
   let cache = ""
   if (override)
     cache = env(override)
@@ -39,5 +40,15 @@ export function cache(path?: string, { os = Deno.build.os, fallback = "", env: o
     }
   }
 
-  return path ? join(cache, path) : cache
+  return path ? (override ? join(cache, "..", path) : join(cache, path)) : cache
+}
+
+/** Cache options. */
+export type CacheOptions = {
+  /** The operating system to use for determining the cache directory (default is the current OS). */
+  os?: typeof Deno.build.os
+  /** The fallback cache directory to use if resolution fails. */
+  fallback?: string
+  /** The name of the environment variable to lookup to override the resolved cache directory. */
+  env: string
 }
