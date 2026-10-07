@@ -27,7 +27,7 @@ for (const mod_path of args._) {
   if (!mod_path.endsWith("_test.ts"))
     continue
   const mod_test = join(Deno.cwd(), mod_path)
-  const mod = mod_test.replace(/_test\.ts$/, ".ts")
+  const mod = mod_test.replace(/_test\.ts$/, ".ts") || "_"
   console.error(cyan("─".repeat(80)))
   console.error(cyan(`${mod}`))
   console.error(cyan("─".repeat(80)))
