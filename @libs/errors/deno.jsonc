@@ -3,6 +3,7 @@
   "name": "@libs/errors",
   "version": "0.0.2",
   "exports": {
-    ".": "./mod.ts"
+    ".": "./mod.ts",
+    "./throws": "./throws.ts"
   }
 }
