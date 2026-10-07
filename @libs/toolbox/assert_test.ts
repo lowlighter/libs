@@ -28,3 +28,9 @@ Deno.test("assert() rethrows an Error unchanged", () => {
     expect(caught).toBe(error)
   }
 })
+
+Deno.test("assert() constructs a supplied error type", () => {
+  class CustomError extends Error {}
+  expect(() => assert(false, CustomError)).toThrow(CustomError)
+  expect(() => assert(false, CustomError, "expected value")).toThrow(CustomError, "expected value")
+})
