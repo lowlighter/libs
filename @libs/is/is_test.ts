@@ -1,5 +1,5 @@
 import { spec } from "./testing/mod.ts"
-import { arrayable, bodyInit, callable, cliable, clonable, coalesce, coerce, date, duration, expression, is, nullable, parse, parser, permissions, primitive, regex, timestamp, typedArray, url } from "./is.ts"
+import { arrayable, bodyInit, callable, cliable, clonable, coalesce, coerce, date, duration, enumFor, expression, is, nullable, parse, parser, permissions, primitive, regex, timestamp, typedArray, url } from "./is.ts"
 import { expect } from "@libs/testing"
 
 spec("coalesce", coalesce(is.unknown()), [
@@ -399,4 +399,24 @@ Deno.test("parse() prettifies issue paths", () => {
 
 Deno.test("parse() prettifies union issues", () => {
   expect(() => parse(is.object({ foo: is.union([is.string(), is.number()]) }), { foo: true })).toThrow(TypeError, "→ tried to fit into one of the allowed types:")
+})
+
+enum Direction {
+  Up = "up",
+  Down = "down",
+}
+
+enum Status {
+  Pending,
+  Complete,
+}
+
+Deno.test("enumFor codecs enum names and values", () => {
+  const direction = enumFor(Direction)
+  expect(direction.decode("Up")).toBe("up")
+  expect(direction.encode(Direction.Down)).toBe("Down")
+
+  const status = enumFor(Status)
+  expect(status.decode("Complete")).toBe(1)
+  expect(status.encode(0)).toBe("Pending")
 })
