@@ -29,6 +29,7 @@
     "./events": "./events.ts",
     "./filesystem": "./filesystem.ts",
     "./format": "./format.ts",
+    "./hash": "./hash.ts",
     "./identicon": "./identicon.ts",
     "./imgb64": "./imgb64.ts",
     "./noop": "./noop.ts",
