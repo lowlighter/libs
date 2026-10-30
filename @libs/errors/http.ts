@@ -153,6 +153,24 @@ export class NotImplementedError extends HttpError {
   override readonly code = STATUS_CODE.NotImplemented
 }
 
+/** A 502 Bad Gateway error. */
+export class BadGatewayError extends HttpError {
+  /** The HTTP status code associated with this error. */
+  override readonly code = STATUS_CODE.BadGateway
+}
+
+/** A 503 Service Unavailable error. */
+export class ServiceUnavailableError extends HttpError {
+  /** The HTTP status code associated with this error. */
+  override readonly code = STATUS_CODE.ServiceUnavailable
+}
+
+/** A 504 Gateway Timeout error. */
+export class GatewayTimeoutError extends HttpError {
+  /** The HTTP status code associated with this error. */
+  override readonly code = STATUS_CODE.GatewayTimeout
+}
+
 /** A 507 Insufficient Storage error. */
 export class InsufficientStorageError extends HttpError {
   /** The HTTP status code associated with this error. */

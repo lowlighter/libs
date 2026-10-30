@@ -67,7 +67,7 @@
     "npm:@octokit/plugin-paginate-rest@15": "15.0.0_@octokit+core@7.0.8",
     "npm:@octokit/rest@^22.0.1": "22.0.1",
     "npm:@octokit/types@18": "18.0.0",
-    "npm:@primer/octicons@^19.37.0": "19.37.0",
+    "npm:@primer/octicons@^19.42.0": "19.42.0",
     "npm:@types/node@*": "24.2.0",
     "npm:d3@^7.9.0": "7.9.0",
     "npm:highlight.js@11": "11.12.0",
@@ -407,8 +407,8 @@
         "@octokit/openapi-types@29.0.1"
       ]
     },
-    "@primer/octicons@19.37.0": {
-      "integrity": "sha512-y/y+ySY0JWSvWxqNGy5+8Okr5HdMXGRsR+8UehHXlYCX+bVZDYwOPMo7FI6tFwspc66qbcs/NfU+WtSia3QH1g==",
+    "@primer/octicons@19.42.0": {
+      "integrity": "sha512-MEcHxVxNHu1I2Ndk5Mcwp7tfBiDk/EpytDJgKOfE2ldqIczWucVrZNeNU4wtEN5mnNudZ0YL5G0spax3bSMT4w==",
       "dependencies": [
         "object-assign"
       ]
@@ -1021,7 +1021,7 @@
       },
       "@libs/octicons": {
         "dependencies": [
-          "npm:@primer/octicons@^19.37.0"
+          "npm:@primer/octicons@^19.42.0"
         ]
       },
       "@libs/run": {
@@ -1068,6 +1068,11 @@
           "jsr:@std/path@^1.1.6",
           "jsr:@std/streams@^1.1.2",
           "jsr:@std/tar@0.1.10"
+        ]
+      },
+      "@libs/tui": {
+        "dependencies": [
+          "jsr:@std/html@^1.0.5"
         ]
       },
       "@libs/xml": {
