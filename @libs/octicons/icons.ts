@@ -153,11 +153,6 @@ export function bookmarkFill(options?: SVGOptions): string {
   return octicons["bookmark-fill"].toSVG(options)
 }
 
-/** {@link https://primer.style/octicons/icon/bookmark-filled-16 | bookmark-filled icon}. */
-export function bookmarkFilled(options?: SVGOptions): string {
-  return octicons["bookmark-filled"].toSVG(options)
-}
-
 /** {@link https://primer.style/octicons/icon/bookmark-slash-16 | bookmark-slash icon}. */
 export function bookmarkSlash(options?: SVGOptions): string {
   return octicons["bookmark-slash"].toSVG(options)
@@ -231,6 +226,11 @@ export function chatQuestion(options?: SVGOptions): string {
 /** {@link https://primer.style/octicons/icon/check-16 | check icon}. */
 export function check(options?: SVGOptions): string {
   return octicons["check"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/check-agent-16 | check-agent icon}. */
+export function checkAgent(options?: SVGOptions): string {
+  return octicons["check-agent"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/check-circle-16 | check-circle icon}. */
@@ -311,6 +311,11 @@ export function cloudOffline(options?: SVGOptions): string {
 /** {@link https://primer.style/octicons/icon/code-16 | code icon}. */
 export function code(options?: SVGOptions): string {
   return octicons["code"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/code-badge-16 | code-badge icon}. */
+export function codeBadge(options?: SVGOptions): string {
+  return octicons["code-badge"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/code-of-conduct-16 | code-of-conduct icon}. */
@@ -428,9 +433,19 @@ export function crosshairs(options?: SVGOptions): string {
   return octicons["crosshairs"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/cursor-16 | cursor icon}. */
+export function cursor(options?: SVGOptions): string {
+  return octicons["cursor"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/dash-16 | dash icon}. */
 export function dash(options?: SVGOptions): string {
   return octicons["dash"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/dashboard-16 | dashboard icon}. */
+export function dashboard(options?: SVGOptions): string {
+  return octicons["dashboard"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/database-16 | database icon}. */
@@ -818,6 +833,11 @@ export function gitBranchCheck(options?: SVGOptions): string {
   return octicons["git-branch-check"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/git-closed-agent-16 | git-closed-agent icon}. */
+export function gitClosedAgent(options?: SVGOptions): string {
+  return octicons["git-closed-agent"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/git-commit-16 | git-commit icon}. */
 export function gitCommit(options?: SVGOptions): string {
   return octicons["git-commit"].toSVG(options)
@@ -828,9 +848,19 @@ export function gitCompare(options?: SVGOptions): string {
   return octicons["git-compare"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/git-draft-agent-16 | git-draft-agent icon}. */
+export function gitDraftAgent(options?: SVGOptions): string {
+  return octicons["git-draft-agent"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/git-merge-16 | git-merge icon}. */
 export function gitMerge(options?: SVGOptions): string {
   return octicons["git-merge"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/git-merge-agent-16 | git-merge-agent icon}. */
+export function gitMergeAgent(options?: SVGOptions): string {
+  return octicons["git-merge-agent"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/git-merge-queue-16 | git-merge-queue icon}. */
@@ -841,6 +871,11 @@ export function gitMergeQueue(options?: SVGOptions): string {
 /** {@link https://primer.style/octicons/icon/git-pull-request-16 | git-pull-request icon}. */
 export function gitPullRequest(options?: SVGOptions): string {
   return octicons["git-pull-request"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/git-pull-request-agent-16 | git-pull-request-agent icon}. */
+export function gitPullRequestAgent(options?: SVGOptions): string {
+  return octicons["git-pull-request-agent"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/git-pull-request-closed-16 | git-pull-request-closed icon}. */
@@ -861,6 +896,11 @@ export function gitPullRequestLocked(options?: SVGOptions): string {
 /** {@link https://primer.style/octicons/icon/git-pull-request-unlisted-16 | git-pull-request-unlisted icon}. */
 export function gitPullRequestUnlisted(options?: SVGOptions): string {
   return octicons["git-pull-request-unlisted"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/git-que-merge-agent-16 | git-que-merge-agent icon}. */
+export function gitQueMergeAgent(options?: SVGOptions): string {
+  return octicons["git-que-merge-agent"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/globe-16 | globe icon}. */
@@ -1314,6 +1354,11 @@ export function personAdd(options?: SVGOptions): string {
   return octicons["person-add"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/person-cursor-16 | person-cursor icon}. */
+export function personCursor(options?: SVGOptions): string {
+  return octicons["person-cursor"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/person-fill-16 | person-fill icon}. */
 export function personFill(options?: SVGOptions): string {
   return octicons["person-fill"].toSVG(options)
@@ -1332,11 +1377,6 @@ export function pinSlash(options?: SVGOptions): string {
 /** {@link https://primer.style/octicons/icon/pivot-column-16 | pivot-column icon}. */
 export function pivotColumn(options?: SVGOptions): string {
   return octicons["pivot-column"].toSVG(options)
-}
-
-/** {@link https://primer.style/octicons/icon/play-16 | play icon}. */
-export function play(options?: SVGOptions): string {
-  return octicons["play"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/plug-16 | plug icon}. */
@@ -1414,6 +1454,11 @@ export function relFilePath(options?: SVGOptions): string {
   return octicons["rel-file-path"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/release-16 | release icon}. */
+export function release(options?: SVGOptions): string {
+  return octicons["release"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/reply-16 | reply icon}. */
 export function reply(options?: SVGOptions): string {
   return octicons["reply"].toSVG(options)
@@ -1432,11 +1477,6 @@ export function repoClone(options?: SVGOptions): string {
 /** {@link https://primer.style/octicons/icon/repo-delete-16 | repo-delete icon}. */
 export function repoDelete(options?: SVGOptions): string {
   return octicons["repo-delete"].toSVG(options)
-}
-
-/** {@link https://primer.style/octicons/icon/repo-deleted-16 | repo-deleted icon}. */
-export function repoDeleted(options?: SVGOptions): string {
-  return octicons["repo-deleted"].toSVG(options)
 }
 
 /** {@link https://primer.style/octicons/icon/repo-forked-16 | repo-forked icon}. */
@@ -1714,6 +1754,11 @@ export function stackRemove(options?: SVGOptions): string {
   return octicons["stack-remove"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/stack-slash-16 | stack-slash icon}. */
+export function stackSlash(options?: SVGOptions): string {
+  return octicons["stack-slash"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/star-16 | star icon}. */
 export function star(options?: SVGOptions): string {
   return octicons["star"].toSVG(options)
@@ -1944,6 +1989,11 @@ export function vscode(options?: SVGOptions): string {
   return octicons["vscode"].toSVG(options)
 }
 
+/** {@link https://primer.style/octicons/icon/wall-16 | wall icon}. */
+export function wall(options?: SVGOptions): string {
+  return octicons["wall"].toSVG(options)
+}
+
 /** {@link https://primer.style/octicons/icon/webhook-16 | webhook icon}. */
 export function webhook(options?: SVGOptions): string {
   return octicons["webhook"].toSVG(options)
@@ -1987,4 +2037,33 @@ export function zoomIn(options?: SVGOptions): string {
 /** {@link https://primer.style/octicons/icon/zoom-out-16 | zoom-out icon}. */
 export function zoomOut(options?: SVGOptions): string {
   return octicons["zoom-out"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/bookmark-filled-16 | bookmark-filled icon}. */
+export function bookmarkFilled(options?: SVGOptions): string {
+  return octicons["bookmark-filled"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/repo-deleted-16 | repo-deleted icon}. */
+export function repoDeleted(options?: SVGOptions): string {
+  return octicons["repo-deleted"].toSVG(options)
+}
+
+/** {@link https://primer.style/octicons/icon/play-16 | play icon}. */
+export function play(options?: SVGOptions): string {
+  return octicons["play"].toSVG(options)
+}
+
+/** Renders a named Primer Octicon, falling back to {@link empty} when unavailable. */
+export function icon(name: string, options?: SVGOptions): string {
+  const value = octicons[name as keyof typeof octicons]
+  return value === undefined ? empty(options) : value.toSVG(options)
+}
+
+/** Renders an empty SVG icon. */
+export function empty(options?: SVGOptions): string {
+  const { class: className = "", ariaLabel, width = 16, height = 16 } = options ?? {}
+  const classAttribute = `octicon octicon-empty${className ? ` ${className}` : ""}`
+  const aria = ariaLabel === undefined ? "" : ` ariaLabel="${ariaLabel.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}"`
+  return `<svg version="1.1" width="${width}" height="${height}" viewBox="0 0 16 16" class="${classAttribute}" aria-hidden="true" data-component="Octicon"${aria}></svg>`
 }
