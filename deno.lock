@@ -1054,11 +1054,6 @@
           "jsr:@std/tar@0.1.10"
         ]
       },
-      "@libs/tui": {
-        "dependencies": [
-          "jsr:@std/html@^1.0.5"
-        ]
-      },
       "@libs/xml": {
         "dependencies": [
           "jsr:@std/path@^1.1.6",
