@@ -92,6 +92,16 @@ for (const { type, value } of [{ type: 1, value: Map }, { type: 2, value: Set }]
   })
 }
 
+Deno.test("`resolve()` returns the resource type without a mapping", () => {
+  expect(resolve(generate(0xabc, { timestamp: 0, bits: 0 }))).toBe(0xabc)
+})
+
+for (const uuid of [nil, "00000000-0000-7001-8000-000000000000", "00000000-0000-8001-c000-000000000000"]) {
+  Deno.test(`\`resolve(${inspect(uuid)})\` rejects unsupported UUIDs without a mapping`, () => {
+    expect(() => resolve(uuid)).toThrow(SyntaxError, "Unsupported UUID format")
+  })
+}
+
 Deno.test("`resolve()` returns the union of mapped value types", () => {
   const resource = resolve({ 1: Map, 2: Set }, generate(1, { timestamp: 0, bits: 0 }))
   const constructor: MapConstructor | SetConstructor = resource

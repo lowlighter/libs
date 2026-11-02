@@ -21,6 +21,9 @@
 /** The nil UUID. */
 export const nil = "00000000-0000-0000-0000-000000000000"
 
+/** The omni UUID. */
+export const omni = "ffffffff-ffff-ffff-ffff-ffffffffffff"
+
 /** Generate options. */
 export type GenerateOptions = {
   /** Unix timestamp in milliseconds (defaults to the current time). */
@@ -38,13 +41,21 @@ export function generate(type: number, { timestamp = Date.now(), bits = random()
 }
 
 /** Resolve a UUID v8 to its resource mapping. */
-export function resolve<T extends Record<number, unknown>>(models: T, uuid: string): T[keyof T] {
+export function resolve(uuid: string): number
+/** Resolve a UUID v8 to its resource mapping. */
+export function resolve<T extends Record<number, unknown>>(models: T, uuid: string): T[keyof T]
+export function resolve<T extends Record<number, unknown>>(arg0: T | string, arg1?: string) {
+  const uuid = String(arguments.length === 1 ? arg0 : arg1)
   if ((uuid.length !== 36) || (!/^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(uuid)))
     throw new SyntaxError(`Unsupported UUID format: "${uuid}"`)
   const type = Number.parseInt(uuid.slice(15, 18), 16)
-  if (!Object.hasOwn(models, type))
-    throw new RangeError(`No mapping found for resource type ${type}`)
-  return models[type] as T[keyof T]
+  if (arguments.length === 2) {
+    const models = arg0 as T
+    if (!Object.hasOwn(models, type))
+      throw new RangeError(`No mapping found for resource type ${type}`)
+    return models[type] as T[keyof T]
+  }
+  return type
 }
 
 /** Generate a cryptographically random 62-bit value. */
@@ -53,4 +64,4 @@ function random() {
 }
 
 /** UUID namespace. */
-export const uuid = { nil, generate, resolve }
+export const uuid = { nil, omni, generate, resolve }
