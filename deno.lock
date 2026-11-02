@@ -77,7 +77,6 @@
     "npm:markdown-it-emoji@^3.1.0": "3.1.0",
     "npm:markdown-it-footnote@4": "4.0.0",
     "npm:markdown-it@^15.0.2": "15.0.2",
-    "npm:postgres@3.4.9": "3.4.9",
     "npm:typescript@5.9.3": "5.9.3",
     "npm:typescript@7.0.2": "7.0.2"
   },
@@ -891,9 +890,6 @@
     "object-assign@4.1.1": {
       "integrity": "sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg=="
     },
-    "postgres@3.4.9": {
-      "integrity": "sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw=="
-    },
     "punycode.js@2.3.1": {
       "integrity": "sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA=="
     },
@@ -969,18 +965,6 @@
       "@libs/crypto": {
         "dependencies": [
           "jsr:@std/encoding@^1.0.11"
-        ]
-      },
-      "@libs/database": {
-        "dependencies": [
-          "jsr:@std/assert@^1.0.19",
-          "jsr:@std/cli@^1.0.32",
-          "jsr:@std/expect@^1.0.20",
-          "jsr:@std/fmt@^1.0.10",
-          "jsr:@std/fs@^1.0.24",
-          "jsr:@std/path@^1.1.6",
-          "npm:postgres@3.4.9",
-          "npm:typescript@7.0.2"
         ]
       },
       "@libs/diff": {
