@@ -20,8 +20,7 @@ We try to offer high quality packages that are well documented, tested and maint
   - If a dependency is required, it should be justified in the pull request
 
 > [!IMPORTANT]
-> Because this project is relatively huge, maintainers reserve the right to refuse contributions that do not meet these requirements or are deemed out of scope.
-> If you're unsure about a contribution, feel free to open an issue to discuss it first.
+> Because this project is relatively huge, maintainers reserve the right to refuse contributions that do not meet these requirements or are deemed out of scope. If you're unsure about a contribution, feel free to open an issue to discuss it first.
 
 ## Automated releases
 
@@ -37,8 +36,7 @@ The new version will be computed automatically based on the changes introduced i
 > [!WARNING]
 > [deno.land/x/libs] is not published under semantically versioned tags, but under a date-based tag (`YYYY.MM.DD`).
 >
-> This is because it contains multiple packages so it's not possible to determine a single version for the whole repository.
-> Because of this limitation, it also means that only a single release can be made per day on this registry.
+> This is because it contains multiple packages so it's not possible to determine a single version for the whole repository. Because of this limitation, it also means that only a single release can be made per day on this registry.
 
 ## Tasks
 
