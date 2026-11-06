@@ -319,7 +319,7 @@ export type EnumKey<Enum extends Record<string, string | number>> = Extract<keyo
 export type EnumValue<Enum extends Record<string, string | number>> = Enum[EnumKey<Enum>]
 
 /** Create a codec for a TypeScript enum. */
-export function enumFor<Enum extends Record<string, string | number>>(definition: Enum): is.ZodType<EnumValue<Enum>, EnumKey<Enum>> {
+export function enumFor<Enum extends Record<string, string | number>>(definition: Enum): is.ZodCodec<is.ZodEnum<Record<EnumKey<Enum>, EnumKey<Enum>>>, is.ZodEnum<Enum>> {
   const keys = Object.keys(definition).filter((key) => Number.isNaN(Number(key))) as [EnumKey<Enum>, ...EnumKey<Enum>[]]
   const values = Object.fromEntries(keys.map((key) => [definition[key], key])) as Record<string | number, EnumKey<Enum>>
   return is.codec(
@@ -329,7 +329,7 @@ export function enumFor<Enum extends Record<string, string | number>>(definition
       decode: (value) => definition[value] as EnumValue<Enum>,
       encode: (value) => values[value as string | number],
     },
-  ) as unknown as is.ZodType<EnumValue<Enum>, EnumKey<Enum>>
+  ) as is.ZodCodec<is.ZodEnum<Record<EnumKey<Enum>, EnumKey<Enum>>>, is.ZodEnum<Enum>>
 }
 
 /** Object that ressemble a ZodError. */
