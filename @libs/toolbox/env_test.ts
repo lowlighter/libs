@@ -1,3 +1,4 @@
+// Imports
 import type { testing } from "@libs/testing"
 import { expect } from "@libs/testing"
 import { env } from "./env.ts"
@@ -45,6 +46,23 @@ for (
     { name: "LIBS_TEST_ENV_FORBIDDEN", options: { boolean: true }, value: false },
     { name: "LIBS_TEST_ENV_UNDEFINED", options: { boolean: true, default: "y" }, value: true },
     { name: "LIBS_TEST_ENV_FORBIDDEN", options: { boolean: true, default: "y" }, value: true },
+    // Numbers
+    { name: "LIBS_TEST_ENV", set: "12.5", options: { number: true }, value: 12.5 },
+    { name: "LIBS_TEST_ENV", set: "0", options: { number: true }, value: 0 },
+    { name: "LIBS_TEST_ENV", set: "invalid", options: { number: true }, value: NaN },
+    { name: "LIBS_TEST_ENV", set: "invalid", options: { number: true, default: 42 }, value: 42 },
+    { name: "LIBS_TEST_ENV", set: "", options: { number: true, default: 42 }, value: 0 },
+    { name: "LIBS_TEST_ENV", set: "", options: { number: true, default: 42, nullable: true }, value: null },
+    // Enums
+    { name: "LIBS_TEST_ENV", set: "foo", options: { enum: ["foo", "bar"], default: "bar" }, value: "foo" },
+    { name: "LIBS_TEST_ENV", set: "invalid", options: { enum: ["foo", "bar"], default: "bar" }, value: "bar" },
+    // Nullable values
+    { name: "LIBS_TEST_ENV", set: "foo", options: { nullable: true, default: "bar" }, value: "foo" },
+    { name: "LIBS_TEST_ENV_UNDEFINED", options: { nullable: true, default: "bar" }, value: null },
+    { name: "LIBS_TEST_ENV_FORBIDDEN", options: { nullable: true, default: "bar" }, value: null },
+    { name: "LIBS_TEST_ENV_UNDEFINED", options: { boolean: true, nullable: true, default: "y" }, value: null },
+    { name: "LIBS_TEST_ENV_UNDEFINED", options: { number: true, nullable: true, default: 42 }, value: null },
+    { name: "LIBS_TEST_ENV_UNDEFINED", options: { enum: ["foo", "bar"], nullable: true, default: "bar" }, value: null },
   ]
 ) {
   Deno.test(`\`env(${name}, ${JSON.stringify(options)})\` with \`LIBS_TEST_ENV=${set}\` is ${value}`, { permissions: { env: ["LIBS_TEST_ENV", "LIBS_TEST_ENV_UNDEFINED"] } }, () => {
