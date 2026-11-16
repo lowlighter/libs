@@ -333,10 +333,10 @@ export function enumFor<Enum extends Record<string, string | number>>(definition
 }
 
 /** Object that ressemble a ZodError. */
-type ZodErrorLike = { path?: PropertyKey[]; message: string; errors?: ZodErrorLike[][] }
+export type ZodErrorLike = { path?: PropertyKey[]; message: string; errors?: ZodErrorLike[][] }
 
 /** Convert a property key path to a string. */
-function toPath(path: PropertyKey[] = []): string {
+export function toPath(path: PropertyKey[] = []): string {
   const segments = []
   for (const segment of path) {
     if (typeof segment === "number")
@@ -350,7 +350,7 @@ function toPath(path: PropertyKey[] = []): string {
 }
 
 /** Prettify validation issues in a more detailed way. */
-function prettifyIssue(errors: ZodErrorLike[], { indent = "" } = {}): string {
+export function prettifyIssue(errors: ZodErrorLike[], { indent = "" } = {}): string {
   const lines = []
   errors = [...errors].sort((a, b) => (a.path ?? []).length - (b.path ?? []).length)
   for (const error of errors) {
