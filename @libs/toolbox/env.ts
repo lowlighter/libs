@@ -21,7 +21,7 @@ export function env<IsNullable extends boolean = false>(key: string, options?: {
  * env("ENV_VAR", { boolean: true, default: "false" })
  * ```
  */
-export function env<IsNullable extends boolean = false>(key: string, options: { boolean: true; default?: string; nullable?: IsNullable }): IsNullable extends true ? Nullable<boolean, IsNullable> : boolean
+export function env<IsNullable extends boolean = false>(key: string, options: { boolean: true; default?: string | boolean; nullable?: IsNullable }): IsNullable extends true ? Nullable<boolean, IsNullable> : boolean
 /**
  * Reads an environment variable and converts it to a number.
  *
@@ -44,7 +44,7 @@ export function env<IsNullable extends boolean = false>(key: string, options: { 
  */
 export function env<const Values extends readonly string[], IsNullable extends boolean = false>(key: string, options: { enum: Values; default: NoInfer<Values[number]>; nullable?: IsNullable }): Values[number] | (IsNullable extends true ? null : never)
 /** Reads and converts an environment variable, applying the requested fallback. */
-export function env(key: string, { boolean = false, number = false, enum: values, nullable = false, default: _default }: { boolean?: boolean; number?: boolean; enum?: readonly string[]; nullable?: boolean; default?: string | number } = {}) {
+export function env(key: string, { boolean = false, number = false, enum: values, nullable = false, default: _default }: { boolean?: boolean; number?: boolean; enum?: readonly string[]; nullable?: boolean; default?: string | number | boolean } = {}) {
   const fallback = number ? (_default ?? NaN) : values ? _default : (_default ?? "")
   let value
   try {
