@@ -5,24 +5,21 @@
 
 // Imports
 import { tokenize } from "./diff.ts"
+import { stripAnsiCode } from "@std/fmt/colors"
+
+/** Options for {@link apply}. */
+export type ApplyOptions = {
+  /** Preserve literal ANSI sequences. */
+  ansi?: boolean
+  /** Normalize CRLF line endings in the source to LF. */
+  normalizeCarriageReturn?: boolean
+}
 
 /** Hunk header regular expression */
 const HUNK_HEADER = /^@@ -(?<ai>\d+)(?:,(?<aj>\d+))? \+(?<bi>\d+)(?:,(?<bj>\d+))? @@/
 
 /** No newline at end of file marker */
 const NO_NEWLINE = "\\ No newline at end of file"
-
-/**
- * ANSI patterns
- * https://github.com/chalk/ansi-regex/blob/02fa893d619d3da85411acc8fd4e2eea0e95a9d9/index.js
- */
-const ANSI_PATTERN = new RegExp(
-  [
-    "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
-    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TXZcf-nq-uy=><~]))",
-  ].join("|"),
-  "g",
-)
 
 /**
  * Apply back an unified patch to a string.
@@ -40,10 +37,11 @@ const ANSI_PATTERN = new RegExp(
  * @author Simon Lecoq (lowlighter)
  * @license MIT
  */
-export function apply(a: string, patch: string): string {
-  const clean = patch.replace(ANSI_PATTERN, "")
-  const patchable = clean.trim() ? clean.replace(/\n$/, "").split("\n") : []
-  const b = tokenize(a)
+export function apply(a: string, patch: string, { ansi = false, normalizeCarriageReturn = true } = {} as ApplyOptions): string {
+  if (!ansi)
+    patch = stripAnsiCode(patch)
+  const patchable = patch.trim() ? patch.replace(/\n$/, "").split("\n") : []
+  const b = tokenize(normalizeCarriageReturn ? a.replaceAll("\r\n", "\n") : a)
   let offset = 0
   let k = 0
   const errors = []

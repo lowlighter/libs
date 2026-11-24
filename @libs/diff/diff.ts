@@ -37,6 +37,8 @@
 export type DiffOptions = {
   /** Colorize the output using ANSI escape codes. */
   colors?: boolean
+  /** Normalize CRLF line endings to LF. */
+  normalizeCarriageReturn?: boolean
   /** Number of unchanged context lines to display around each change (defaults to `3`). */
   context?: number
   /** Name of the first file, displayed after `--- ` in the patch header (defaults to `"a"`, e.g. `--- a/.github/deno_readme.html`). */
@@ -99,7 +101,11 @@ export type DiffOptions = {
  * @license MIT
  */
 export function diff(a: string, b: string, options: DiffOptions = {}): string {
-  const { colors = false, context = 3, a: nameA = "a", b: nameB = "b", header = "" } = options
+  const { colors = false, normalizeCarriageReturn = true, context = 3, a: nameA = "a", b: nameB = "b", header = "" } = options
+  if (normalizeCarriageReturn) {
+    a = a.replaceAll("\r\n", "\n")
+    b = b.replaceAll("\r\n", "\n")
+  }
   const { lines } = patience(tokenize(a), tokenize(b))
   const patch = render(lines, context, colors)
   return patch ? `${header ? `${header}\n` : ""}--- ${nameA}\n+++ ${nameB}\n${patch}` : ""
@@ -164,6 +170,7 @@ function emit({ line, a, b }: line, colors: boolean): string {
  * Tokenize text into text lines.
  *
  * Each returned line keeps its trailing newline, except the last one when the input does not end with a newline.
+ * Carriage returns and ANSI escape sequences are preserved as literal content.
  * An empty string yields no lines.
  *
  * ```ts
@@ -172,7 +179,7 @@ function emit({ line, a, b }: line, colors: boolean): string {
  * ```
  */
 export function tokenize(text: string): string[] {
-  return text.replace(/\r\n/g, "\n").match(/[^\n]*\n|[^\n]+$/g) ?? []
+  return text.match(/[^\n]*\n|[^\n]+$/g) ?? []
 }
 
 /** Find unique lines between `i` and `j` */

@@ -103,7 +103,7 @@ Deno.test("`blame()` gives each line its own copy of object metadata", () => {
 Deno.test("`blame()` reconstructs the patched text", () => {
   const versions = ["", "foo\nbar\n", "foo\nbaz\nqux\n", "qux\nfoo\nbaz"]
   const patches = versions.slice(1).map((version, i) => diff(versions[i], version))
-  expect(blame(patches).map(([line]) => line).join("")).toStrictEqual(versions.at(-1)!)
+  expect(blame(patches, { ansi: true }).map(([line]) => line).join("")).toStrictEqual(versions.at(-1)!)
 })
 
 Deno.test("`blame()` handles empty context lines", () => {
@@ -134,4 +134,23 @@ Deno.test("`blame()` validates empty context lines", () => {
 Deno.test("`blame()` validates hunk header counts", () => {
   expect(() => throws(trap([diff("", "foo\n"), "--- a\n+++ b\n@@ -1,2 +1 @@\n-foo\n+bar\n"]))).toThrow(SyntaxError, "Patch 1: hunk header text a count mismatch (expected 2, actual 1)")
   expect(() => throws(trap([diff("", "foo\n"), "--- a\n+++ b\n@@ -1 +1,2 @@\n-foo\n+bar\n"]))).toThrow(SyntaxError, "Patch 1: hunk header text b count mismatch (expected 2, actual 1)")
+})
+
+Deno.test("`blame()` preserves special characters across edits", () => {
+  const versions = ["", "same\r\n\x1b[31mold\x1b[0m\r\nlast\r", "same\r\n\x1b[32mnew\x1b[0m\nlast\r", "same\n\x1b]0;title\x07\n", ""]
+  for (let i = 1; i < versions.length; i++) {
+    const patches = versions.slice(1, i + 1).map((version, index) => diff(versions[index], version, { normalizeCarriageReturn: false }))
+    expect(blame(patches, { ansi: true }).map(([line]) => line).join("")).toStrictEqual(versions[i])
+  }
+})
+
+Deno.test("`blame()` strips ANSI by default and preserves it when enabled", () => {
+  const text = "\x1b[31mnew\x1b[0m\n"
+  const metadata = "\x1b[32mauthor\x1b[0m"
+  const patch = diff("", text, { header: metadata })
+  expect(blame([patch])).toStrictEqual([["new\n", "author"]])
+  expect(blame([patch], { ansi: false })).toStrictEqual([["new\n", "author"]])
+  expect(blame([patch], { ansi: true })).toStrictEqual([[text, metadata]])
+  expect(blame([diff("", "new\n", { colors: true })])).toStrictEqual([["new\n", "0"]])
+  expect(blame([patch], { parser: (raw) => raw })).toStrictEqual([["new\n", patch]])
 })

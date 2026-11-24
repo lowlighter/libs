@@ -200,3 +200,24 @@ Deno.test("`diff()`/`apply()` round-trip previously broken edge cases", () => {
       expect(apply(a, diff(a, b, { context }))).toStrictEqual(b)
   }
 })
+
+Deno.test("`apply()` preserves special characters across edits", () => {
+  const versions = ["", "same\r\n\x1b[31mold\x1b[0m\r\nlast\r", "same\r\n\x1b[32mnew\x1b[0m\nlast\r", "same\n\x1b]0;title\x07\n", ""]
+  for (let i = 1; i < versions.length; i++) {
+    for (const context of [0, 1, 3])
+      expect(apply(versions[i - 1], diff(versions[i - 1], versions[i], { context, normalizeCarriageReturn: false }), { ansi: true, normalizeCarriageReturn: false })).toStrictEqual(versions[i])
+  }
+})
+
+Deno.test("`apply()` strips ANSI by default and preserves it when enabled", () => {
+  const patch = diff("", "\x1b[31mnew\x1b[0m\n")
+  expect(apply("", patch)).toStrictEqual("new\n")
+  expect(apply("", patch, { ansi: false })).toStrictEqual("new\n")
+  expect(apply("", patch, { ansi: true })).toStrictEqual("\x1b[31mnew\x1b[0m\n")
+  expect(apply("old\n", diff("old\n", "new\n", { colors: true }))).toStrictEqual("new\n")
+})
+
+Deno.test("`apply()` retains default CRLF normalization", () => {
+  expect(apply("old\r\n", diff("old\r\n", "new\r\n"))).toStrictEqual("new\n")
+  expect(apply("old\r\n", diff("old\r\n", "new\r\n", { normalizeCarriageReturn: false }), { normalizeCarriageReturn: false })).toStrictEqual("new\r\n")
+})

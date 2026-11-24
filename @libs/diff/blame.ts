@@ -3,23 +3,14 @@
  * @module
  */
 
+// Imports
+import { stripAnsiCode } from "@std/fmt/colors"
+
 /** Hunk header regular expression */
 const HUNK_HEADER = /^@@ -(?<ai>\d+)(?:,(?<aj>\d+))? \+(?<bi>\d+)(?:,(?<bj>\d+))? @@/
 
 /** No newline at end of file marker */
 const NO_NEWLINE = "\\ No newline at end of file"
-
-/**
- * ANSI patterns
- * https://github.com/chalk/ansi-regex/blob/02fa893d619d3da85411acc8fd4e2eea0e95a9d9/index.js
- */
-const ANSI_PATTERN = new RegExp(
-  [
-    "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
-    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TXZcf-nq-uy=><~]))",
-  ].join("|"),
-  "g",
-)
 
 /**
  * Compute a blame output from a list of unified patches.
@@ -63,13 +54,13 @@ const ANSI_PATTERN = new RegExp(
  * @license MIT
  */
 export function blame<T = string>(patches: string[], options: BlameOptions<T> = {}): Array<[line: string, meta: T]> {
-  const { parser = header as unknown as NonNullable<BlameOptions<T>["parser"]> } = options
+  const { ansi = false, parser = ((patch, index) => header(ansi ? patch : stripAnsiCode(patch), index)) as NonNullable<BlameOptions<T>["parser"]> } = options
   const entries = [] as Array<[line: string, meta: T]>
   const errors = []
   for (let p = 0; p < patches.length; p++) {
     const meta = parser(patches[p], p)
-    const clean = patches[p].replace(ANSI_PATTERN, "")
-    const patchable = clean.trim() ? clean.replace(/\n$/, "").split("\n") : []
+    const patch = ansi ? patches[p] : stripAnsiCode(patches[p])
+    const patchable = patch.trim() ? patch.replace(/\n$/, "").split("\n") : []
     const removed = new Map<string, T[]>()
     const added = [] as Array<[line: string, meta: T]>
     let offset = 0
@@ -152,7 +143,7 @@ export function blame<T = string>(patches: string[], options: BlameOptions<T> = 
 
 /** Default {@linkcode BlameOptions.parser | parser}, extracting the informative header of a patch and falling back on its index. */
 function header(patch: string, index: number): string {
-  const lines = patch.replace(ANSI_PATTERN, "").split("\n")
+  const lines = patch.split("\n")
   const i = lines.findIndex((line) => line.startsWith("--- "))
   return (~i ? lines.slice(0, i).join("\n").trim() : "") || `${index}`
 }
@@ -174,6 +165,8 @@ function merge<T>(previous: T, meta: T): T {
 
 /** Options for {@linkcode blame()}. */
 export type BlameOptions<T = string> = {
+  /** Preserve literal ANSI sequences. */
+  ansi?: boolean
   /**
    * Parse the metadata attributed to lines introduced by a patch.
    *

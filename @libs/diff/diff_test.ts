@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-external-import
-import { diff } from "./diff.ts"
+import { diff, tokenize } from "./diff.ts"
 import { expect } from "@libs/testing"
 import { readFile } from "node:fs/promises"
 import { stripAnsiCode } from "@std/fmt/colors"
@@ -83,4 +83,20 @@ Deno.test(`\`diff()\` supports colors options`, { permissions: { read: true } },
       expect(diff(a, b, { colors })).not.toMatch(/\x1b\[0m/)
     }
   }
+})
+
+Deno.test("`tokenize()` preserves carriage returns and escape sequences", () => {
+  expect(tokenize("\r\nfoo\r\n\x1b[31mbar\x1b[0m\r")).toStrictEqual(["\r\n", "foo\r\n", "\x1b[31mbar\x1b[0m\r"])
+})
+
+Deno.test("`diff()` detects line ending changes and preserves literal ANSI content", () => {
+  expect(diff("foo\r\n", "foo\n", { normalizeCarriageReturn: false })).toStrictEqual("--- a\n+++ b\n@@ -1 +1 @@\n-foo\r\n+foo\n")
+  expect(diff("\x1b[31mfoo\x1b[0m\n", "\x1b[32mfoo\x1b[0m\n")).toStrictEqual("--- a\n+++ b\n@@ -1 +1 @@\n-\x1b[31mfoo\x1b[0m\n+\x1b[32mfoo\x1b[0m\n")
+})
+
+Deno.test("`diff()` optionally normalizes CRLF line endings", () => {
+  expect(diff("foo\r\n", "foo\n", { normalizeCarriageReturn: true })).toStrictEqual("")
+  expect(diff("foo\r\n", "foo\n")).toStrictEqual("")
+  expect(diff("foo\r\n", "bar\r\n", { normalizeCarriageReturn: true })).toStrictEqual(diff("foo\n", "bar\n"))
+  expect(diff("foo\r", "foo", { normalizeCarriageReturn: true })).toStrictEqual(diff("foo\r", "foo"))
 })
