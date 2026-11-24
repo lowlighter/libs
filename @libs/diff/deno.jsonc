@@ -1,7 +1,7 @@
 {
   "icon": "➕",
   "name": "@libs/diff",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "exports": {
     ".": "./mod.ts",
     "./diff": "./diff.ts",
