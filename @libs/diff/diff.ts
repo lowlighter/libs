@@ -37,6 +37,8 @@
 export type DiffOptions = {
   /** Colorize the output using ANSI escape codes. */
   colors?: boolean
+  /** Limit of line changes before throwing {@linkcode DiffLimitExceededError}. */
+  limit?: number
   /** Normalize CRLF line endings to LF. */
   normalizeCarriageReturn?: boolean
   /** Number of unchanged context lines to display around each change (defaults to `3`). */
@@ -101,14 +103,25 @@ export type DiffOptions = {
  * @license MIT
  */
 export function diff(a: string, b: string, options: DiffOptions = {}): string {
-  const { colors = false, normalizeCarriageReturn = true, context = 3, a: nameA = "a", b: nameB = "b", header = "" } = options
+  const { colors = false, normalizeCarriageReturn = true, limit = Infinity, context = 3, a: nameA = "a", b: nameB = "b", header = "" } = options
+  if (limit < 0)
+    throw new TypeError(`Invalid limit ${limit}: expected a non-negative limit`)
   if (normalizeCarriageReturn) {
     a = a.replaceAll("\r\n", "\n")
     b = b.replaceAll("\r\n", "\n")
   }
-  const { lines } = patience(tokenize(a), tokenize(b))
+  const { lines } = patience(tokenize(a), tokenize(b), limit)
   const patch = render(lines, context, colors)
   return patch ? `${header ? `${header}\n` : ""}--- ${nameA}\n+++ ${nameB}\n${patch}` : ""
+}
+
+/** Thrown when a diff exceeds the configured limit. */
+export class DiffLimitExceededError extends RangeError {
+  /** Constructor. */
+  constructor(limit: number) {
+    super(`Diff exceeds limit ${limit}`)
+    this.name = "DiffLimitExceededError"
+  }
 }
 
 /** Render an edit script into a unified patch (hunk headers, context grouping and "no newline" markers). */
@@ -273,9 +286,13 @@ function myers(result: result, A: operand, B: operand, Ai: number, Aj: number, B
   const b = B.lines
   const n = Aj - Ai + 1
   const m = Bj - Bi + 1
-  const max = n + m
-  const offset = max
-  const v = new Array(2 * max + 1).fill(0)
+  if ((!n) && (!m))
+    return
+  const max = Math.min(n + m, result.limit - result.added - result.deleted)
+  if (Math.abs(n - m) > max)
+    throw new DiffLimitExceededError(result.limit)
+  const offset = max + 1
+  const v = new Array(2 * max + 3).fill(0)
   const trace = [] as number[][]
   // Record the furthest-reaching path for each edit distance `d` until the end is reached
   outer: for (let d = 0; d <= max; d++) {
@@ -291,6 +308,8 @@ function myers(result: result, A: operand, B: operand, Ai: number, Aj: number, B
       if ((x >= n) && (y >= m))
         break outer
     }
+    if (d === max)
+      throw new DiffLimitExceededError(result.limit)
   }
   // Backtrack the recorded trace into an ordered edit script
   const ops = [] as line[]
@@ -321,6 +340,8 @@ function myers(result: result, A: operand, B: operand, Ai: number, Aj: number, B
 
 /** Recurses on each LCS subsequences until there are none available */
 function recurse(result: result, A: operand, B: operand, Ai: number, Aj: number, Bi: number, Bj: number, ab?: ReturnType<typeof common>) {
+  if (Math.abs((Aj - Ai) - (Bj - Bi)) > result.limit - result.added - result.deleted)
+    throw new DiffLimitExceededError(result.limit)
   const x = lcs(ab ?? common(A, B, Ai, Aj, Bi, Bj))
   if (!x.length) {
     submatch(result, A, B, Ai, Aj, Bi, Bj)
@@ -336,16 +357,17 @@ function recurse(result: result, A: operand, B: operand, Ai: number, Aj: number,
 }
 
 /** Bram Cohen's patience diff algorithm */
-function patience(a: string[], b: string[]) {
+function patience(a: string[], b: string[], limit: number) {
   const A = { lines: a } as operand
   const B = { lines: b } as operand
-  const result = { lines: [], added: 0, deleted: 0 } as result
+  const result = { lines: [], added: 0, deleted: 0, limit } as result
   recurse(result, A, B, 0, A.lines.length - 1, 0, B.lines.length - 1)
   return result
 }
 
 /** Result */
 type result = {
+  limit: number
   lines: line[]
   added: number
   deleted: number

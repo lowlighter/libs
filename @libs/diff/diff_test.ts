@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-external-import
-import { diff, tokenize } from "./diff.ts"
+import { diff, DiffLimitExceededError, tokenize } from "./diff.ts"
 import { expect } from "@libs/testing"
 import { readFile } from "node:fs/promises"
 import { stripAnsiCode } from "@std/fmt/colors"
@@ -99,4 +99,47 @@ Deno.test("`diff()` optionally normalizes CRLF line endings", () => {
   expect(diff("foo\r\n", "foo\n")).toStrictEqual("")
   expect(diff("foo\r\n", "bar\r\n", { normalizeCarriageReturn: true })).toStrictEqual(diff("foo\n", "bar\n"))
   expect(diff("foo\r", "foo", { normalizeCarriageReturn: true })).toStrictEqual(diff("foo\r", "foo"))
+})
+
+Deno.test("`diff()` validates maximum edit distances", () => {
+  for (const limit of [-1, -0.5, -Infinity])
+    expect(() => diff("", "", { limit })).toThrow(TypeError, `Invalid limit ${limit}: expected a non-negative limit`)
+})
+
+Deno.test("`diff()` counts inserted and deleted lines against an inclusive limit", () => {
+  for (const [a, b, distance] of [["", "", 0], ["a\n", "a\n", 0], ["", "a\nb\n", 2], ["a\nb\n", "", 2], ["a\n", "b\n", 2], ["a\n", "a", 2]] as const) {
+    expect(diff(a, b, { limit: distance })).toStrictEqual(diff(a, b))
+    if (distance)
+      expect(() => diff(a, b, { limit: distance - 1 })).toThrow(DiffLimitExceededError)
+  }
+  expect(() => diff("a\n", "b\n", { limit: 0 })).toThrow(DiffLimitExceededError, "Diff exceeds limit 0")
+  expect(diff("a\r\n", "a\n", { limit: 0 })).toStrictEqual("")
+})
+
+Deno.test("`diff()` shares the edit budget across recursive regions", () => {
+  const a = "old\nanchor\na\na\nnext\nend\n"
+  const b = "new\nanchor\nb\na\nnext\nfinish\n"
+  expect(diff(a, b, { limit: 6 })).toStrictEqual(diff(a, b))
+  for (const limit of [0, 2, 4, 5])
+    expect(() => diff(a, b, { limit })).toThrow(DiffLimitExceededError)
+})
+
+Deno.test("`diff()` bounds duplicate-line searches with a small remaining budget", () => {
+  const a = "a\n".repeat(20000)
+  const b = "b\n".repeat(20000)
+  expect(() => diff(a, b, { limit: 2 })).toThrow(DiffLimitExceededError)
+  expect(diff("a\na\na\n", "b\na\nb\n", { limit: 4 })).toStrictEqual(diff("a\na\na\n", "b\na\nb\n"))
+})
+
+Deno.test("`diff()` rejects an imbalanced later region before allocating its search trace", () => {
+  const a = "old\nanchor\ntail\n"
+  const b = "new\nanchor\nextra\ntail\n"
+  expect(diff(a, b, { limit: 3 })).toStrictEqual(diff(a, b))
+  expect(() => diff(a, b, { limit: 2 })).toThrow(DiffLimitExceededError)
+})
+
+Deno.test("`diff()` accepts an explicit infinite limit", () => {
+  const a = "old\nanchor\na\na\n"
+  const b = "new\nanchor\nb\na\nextra\n"
+  expect(diff(a, b, { limit: Infinity })).toStrictEqual(diff(a, b))
 })
