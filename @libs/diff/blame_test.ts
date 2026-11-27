@@ -154,3 +154,52 @@ Deno.test("`blame()` strips ANSI by default and preserves it when enabled", () =
   expect(blame([diff("", "new\n", { colors: true })])).toStrictEqual([["new\n", "0"]])
   expect(blame([patch], { parser: (raw) => raw })).toStrictEqual([["new\n", patch]])
 })
+
+Deno.test("`blame()` applies patches to initial attributed lines", () => {
+  const entries: Array<[string, string]> = [["keep\n", "alice"], ["old\n", "bob"], ["tail", "carol"]]
+  const a = "keep\nold\ntail"
+  const b = "keep\nnew\ntail"
+  const c = "keep\nnew\nextra\ntail"
+  expect(blame([diff(a, b, { header: "dave" }), diff(b, c, { header: "eve" })], { entries })).toStrictEqual([
+    ["keep\n", "alice"],
+    ["new\n", "dave"],
+    ["extra\n", "eve"],
+    ["tail", "carol"],
+  ])
+  expect(entries).toStrictEqual([["keep\n", "alice"], ["old\n", "bob"], ["tail", "carol"]])
+})
+
+Deno.test("`blame()` copies initial tuples and object metadata without patches", () => {
+  const entries: Array<[string, { author: string }]> = [["keep\n", { author: "alice" }]]
+  const output = blame([], { entries })
+  expect(output).toStrictEqual(entries)
+  expect(output).not.toBe(entries)
+  expect(output[0]).not.toBe(entries[0])
+  expect(output[0][1]).not.toBe(entries[0][1])
+  output[0][0] = "changed\n"
+  output[0][1].author = "bob"
+  expect(entries).toStrictEqual([["keep\n", { author: "alice" }]])
+  expect(blame([], { entries: [] })).toStrictEqual([])
+})
+
+Deno.test("`blame()` merges moved initial metadata without mutating frozen inputs", () => {
+  const entries: Array<[string, { author: string; revision: number }]> = [
+    ["one\n", { author: "alice", revision: 0 }],
+    ["two\n", { author: "bob", revision: 0 }],
+    ["three\n", { author: "carol", revision: 0 }],
+  ]
+  for (const entry of entries) {
+    Object.freeze(entry[1])
+    Object.freeze(entry)
+  }
+  Object.freeze(entries)
+  const snapshot = structuredClone(entries)
+  expect(blame<{ author?: string; revision: number }>([diff("one\ntwo\nthree\n", "three\none\ntwo\n")], { entries, parser: () => ({ revision: 1 }) })).toStrictEqual([
+    ["three\n", { author: "carol", revision: 1 }],
+    ["one\n", { author: "alice", revision: 0 }],
+    ["two\n", { author: "bob", revision: 0 }],
+  ])
+  expect(entries).toStrictEqual(snapshot)
+  expect(() => blame(["@@ -1 +0,0 @@\n-wrong\n"], { entries })).toThrow(AggregateError)
+  expect(entries).toStrictEqual(snapshot)
+})

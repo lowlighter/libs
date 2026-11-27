@@ -15,7 +15,7 @@ const NO_NEWLINE = "\\ No newline at end of file"
 /**
  * Compute a blame output from a list of unified patches.
  *
- * Patches are applied in order onto an initially empty text, and each resulting line is attributed the metadata of the last patch that introduced it.
+ * Patches are applied in order onto the attributed lines in initial entries (empty by default), and each resulting line is attributed the metadata of the last patch that introduced it.
  * Unchanged context lines keep their attribution, while lines that are moved by a patch (i.e. removed and re-added with the same content) are re-attributed:
  * - if the metadata is a string (or any non-plain object), it is simply replaced by the new patch metadata
  * - if the metadata is a plain object, it is merged with the previous attribution (only the properties present in the new patch metadata are replaced)
@@ -55,7 +55,7 @@ const NO_NEWLINE = "\\ No newline at end of file"
  */
 export function blame<T = string>(patches: string[], options: BlameOptions<T> = {}): Array<[line: string, meta: T]> {
   const { ansi = false, parser = ((patch, index) => header(ansi ? patch : stripAnsiCode(patch), index)) as NonNullable<BlameOptions<T>["parser"]> } = options
-  const entries = [] as Array<[line: string, meta: T]>
+  const entries = (options.entries ?? []).map(([line, meta]) => [line, copy(meta)] as [line: string, meta: T])
   const errors = []
   for (let p = 0; p < patches.length; p++) {
     const meta = parser(patches[p], p)
@@ -165,6 +165,8 @@ function merge<T>(previous: T, meta: T): T {
 
 /** Options for {@linkcode blame()}. */
 export type BlameOptions<T = string> = {
+  /** Initial attributed lines. */
+  entries?: Array<[line: string, meta: T]>
   /** Preserve literal ANSI sequences. */
   ansi?: boolean
   /**
